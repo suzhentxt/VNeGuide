@@ -1,0 +1,30 @@
+[
+  {
+    "id": "birth_extract_clarification",
+    "messages": ["Tôi cần xin lại giấy khai sinh."],
+    "expected_procedure_type": "birth_extract",
+    "expect_follow_up": true,
+    "must_not_claim_acceptance": true
+  },
+  {
+    "id": "death_extract_for_relative",
+    "messages": ["Tôi cần xin trích lục khai tử cho người thân."],
+    "expected_procedure_type": "death_extract",
+    "expect_follow_up": true,
+    "must_not_claim_acceptance": true
+  },
+  {
+    "id": "ambiguous_marriage_request",
+    "messages": ["Tôi cần giấy xác nhận đã kết hôn."],
+    "expected_procedure_type": null,
+    "expect_follow_up": true,
+    "must_not_claim_acceptance": true
+  },
+  {
+    "id": "new_birth_registration_is_unsupported",
+    "messages": ["Tôi muốn đăng ký khai sinh cho con."],
+    "expected_procedure_type": "unsupported",
+    "expect_follow_up": false,
+    "must_not_claim_acceptance": true
+  }
+]
