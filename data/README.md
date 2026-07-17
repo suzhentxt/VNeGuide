@@ -21,6 +21,7 @@ Không còn procedure pack cho trích lục kết hôn, trích lục khai tử h
 - `catalog/procedure_packs/*.json`
 - `catalog/field_catalog.json`
 - `catalog/validation_rules.json`
+- `catalog/rule_context_catalog.json`
 - `contracts/*.schema.json`
 - `evaluation/gold_guidance.jsonl`
 - `evaluation/gold_validation.jsonl`
@@ -42,5 +43,9 @@ data/
 ```
 
 Không đặt tài liệu nguồn trực tiếp tại root `data/`. Không sao chép `catalog/` vào `src/`; application phải đọc package này qua loader.
+
+Checksum trong `qa/` được tính trên nội dung UTF-8 với newline chuẩn hóa về LF. Quy ước này giúp cùng một artifact có hash ổn định trên Windows, Linux và macOS.
+
+`field_catalog.json` chỉ chứa trường hồ sơ/người dùng. Những tín hiệu phục vụ rule nhưng không phải field biểu mẫu (ví dụ `ct01_missing`) phải được khai báo trong `rule_context_catalog.json`; không được tạo ngầm trong rule engine.
 
 Ngày kiểm chứng: 2026-07-17.

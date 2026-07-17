@@ -12,6 +12,7 @@
     "version",
     "status",
     "verified_at",
+    "next_review_at",
     "scope",
     "routing",
     "service_info",

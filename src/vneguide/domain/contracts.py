@@ -1,0 +1,107 @@
+"""Wire-neutral contracts shared by AI, core, rules, and CLI."""
+
+from __future__ import annotations
+
+from collections.abc import Mapping
+from dataclasses import dataclass, field
+from types import MappingProxyType
+
+from .enums import MessageRole, NextAction, ProcedureCode
+from .models import JSONValue, ValidationResult, freeze_mapping
+
+
+@dataclass(frozen=True, slots=True)
+class CaseDraft:
+    """A generic draft that supports all approved procedure packs."""
+
+    procedure_code: ProcedureCode | None = None
+    values: Mapping[str, JSONValue] = field(default_factory=dict)
+    confirmed_fields: frozenset[str] = field(default_factory=frozenset)
+    dirty_fields: frozenset[str] = field(default_factory=frozenset)
+    revision: int = 0
+    pack_version: str | None = None
+
+    def __post_init__(self) -> None:
+        if self.revision < 0:
+            raise ValueError("draft revision must not be negative")
+        value_fields = set(self.values)
+        unknown_confirmed = self.confirmed_fields - value_fields
+        unknown_dirty = self.dirty_fields - value_fields
+        if unknown_confirmed:
+            raise ValueError(f"confirmed fields have no value: {sorted(unknown_confirmed)}")
+        if unknown_dirty:
+            raise ValueError(f"dirty fields have no value: {sorted(unknown_dirty)}")
+        object.__setattr__(self, "values", freeze_mapping(self.values))
+        object.__setattr__(self, "confirmed_fields", frozenset(self.confirmed_fields))
+        object.__setattr__(self, "dirty_fields", frozenset(self.dirty_fields))
+
+
+@dataclass(frozen=True, slots=True)
+class ChatMessage:
+    role: MessageRole
+    content: str
+
+    def __post_init__(self) -> None:
+        if not self.content.strip():
+            raise ValueError("message content must not be empty")
+
+
+@dataclass(frozen=True, slots=True)
+class ConversationState:
+    draft: CaseDraft = field(default_factory=CaseDraft)
+    messages: tuple[ChatMessage, ...] = ()
+    turn_number: int = 0
+    clarification_attempts: Mapping[str, int] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        if self.turn_number < 0:
+            raise ValueError("turn_number must not be negative")
+        if any(attempts < 0 for attempts in self.clarification_attempts.values()):
+            raise ValueError("clarification attempts must not be negative")
+        object.__setattr__(self, "messages", tuple(self.messages))
+        object.__setattr__(
+            self,
+            "clarification_attempts",
+            MappingProxyType(dict(self.clarification_attempts)),
+        )
+
+
+@dataclass(frozen=True, slots=True)
+class ExtractionResult:
+    procedure_code: ProcedureCode | None
+    fields: Mapping[str, JSONValue] = field(default_factory=dict)
+    confidence: float = 0.0
+    needs_clarification: bool = False
+    warnings: tuple[str, ...] = ()
+
+    def __post_init__(self) -> None:
+        if not 0.0 <= self.confidence <= 1.0:
+            raise ValueError("confidence must be between 0 and 1")
+        object.__setattr__(self, "fields", freeze_mapping(self.fields))
+        object.__setattr__(self, "warnings", tuple(self.warnings))
+
+
+@dataclass(frozen=True, slots=True)
+class TurnRequest:
+    message: str
+    state: ConversationState = field(default_factory=ConversationState)
+
+    def __post_init__(self) -> None:
+        if not self.message.strip():
+            raise ValueError("turn message must not be empty")
+
+
+@dataclass(frozen=True, slots=True)
+class TurnResult:
+    reply: str
+    state: ConversationState
+    next_action: NextAction
+    source_ids: tuple[str, ...] = ()
+    missing_fields: tuple[str, ...] = ()
+    validation: ValidationResult | None = None
+
+    def __post_init__(self) -> None:
+        if not self.reply.strip():
+            raise ValueError("turn reply must not be empty")
+        object.__setattr__(self, "source_ids", tuple(self.source_ids))
+        object.__setattr__(self, "missing_fields", tuple(self.missing_fields))

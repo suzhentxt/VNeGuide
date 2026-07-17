@@ -1,0 +1,89 @@
+[
+  {
+    "procedure_code": "2.000635",
+    "input_id": "requested_variant",
+    "label": "Biến thể trích lục được yêu cầu",
+    "type": "string",
+    "origin": "intent_extraction",
+    "source_ids": ["SRC-DVC-2000635"]
+  },
+  {
+    "procedure_code": "2.000635",
+    "input_id": "intent",
+    "label": "Ý định nghiệp vụ đã phân loại",
+    "type": "enum",
+    "origin": "intent_extraction",
+    "values": [
+      "birth_certificate_copy",
+      "new_birth_registration",
+      "birth_reregistration",
+      "birth_correction"
+    ],
+    "source_ids": ["SRC-DVC-2000635"]
+  },
+  {
+    "procedure_code": "2.000635",
+    "input_id": "authorization_document_missing",
+    "label": "Thiếu văn bản ủy quyền",
+    "type": "boolean",
+    "origin": "document_check",
+    "source_ids": ["SRC-DVC-2000635"]
+  },
+  {
+    "procedure_code": "2.000635",
+    "input_id": "certified_copies_missing",
+    "label": "Thiếu bản sao có chứng thực cho hồ sơ bưu chính",
+    "type": "boolean",
+    "origin": "document_check",
+    "source_ids": ["SRC-DVC-2000635"]
+  },
+  {
+    "procedure_code": "2.000635",
+    "input_id": "uploaded_document_quality",
+    "label": "Chất lượng tài liệu tải lên",
+    "type": "enum",
+    "origin": "document_check",
+    "values": ["clear_complete_intact", "unclear_or_incomplete"],
+    "source_ids": ["SRC-DVC-2000635"]
+  },
+  {
+    "procedure_code": "2.000635",
+    "input_id": "foreign_issued_document_present",
+    "label": "Có giấy tờ do cơ quan nước ngoài cấp",
+    "type": "boolean",
+    "origin": "document_check",
+    "source_ids": ["SRC-DVC-2000635"]
+  },
+  {
+    "procedure_code": "1.013314",
+    "input_id": "mau_02_missing",
+    "label": "Thiếu Mẫu số 02",
+    "type": "boolean",
+    "origin": "document_check",
+    "source_ids": ["SRC-DVC-1013314", "SRC-FORM-M02"]
+  },
+  {
+    "procedure_code": "1.004194",
+    "input_id": "ct01_missing",
+    "label": "Thiếu Tờ khai CT01",
+    "type": "boolean",
+    "origin": "document_check",
+    "source_ids": ["SRC-DVC-1004194"]
+  },
+  {
+    "procedure_code": "1.004194",
+    "input_id": "document_marked_not_notarized",
+    "label": "Giấy tờ chỗ ở chưa được công chứng hoặc chứng thực",
+    "type": "boolean",
+    "origin": "document_check",
+    "source_ids": ["SRC-DVC-1004194", "SRC-LAW-154-2024"]
+  },
+  {
+    "procedure_code": "1.004194",
+    "input_id": "newly_naturalized_or_restored_citizenship",
+    "label": "Trường hợp mới nhập hoặc trở lại quốc tịch Việt Nam",
+    "type": "boolean",
+    "origin": "user_declaration",
+    "source_ids": ["SRC-CIRC-54-2025"]
+  }
+]
