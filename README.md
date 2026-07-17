@@ -36,7 +36,8 @@ python -m pip install -e '.[dev]'
 cp .env.example .env
 ```
 
-`.env` đã được Git bỏ qua. Project không tự động đọc file này; hãy export các biến cần dùng trong shell hoặc dùng công cụ nạp `.env` của môi trường phát triển.
+`.env` đã được Git bỏ qua. Runtime không đọc secret lúc import. Lệnh smoke provider bên dưới chỉ
+đọc file được chỉ định rõ bằng `--env-file`; các luồng khác vẫn nhận cấu hình từ environment.
 
 ## Chạy chatbot
 
@@ -63,14 +64,24 @@ Nếu hook `vneguide.core:create_session` chưa được triển khai, CLI dừn
 Các biến mẫu nằm trong `.env.example`:
 
 ```text
-VNEGUIDE_LLM_PROVIDER=mock
-VNEGUIDE_MODEL=
+VNEGUIDE_LLM_PROVIDER=litellm
+VNEGUIDE_MODEL=Qwen/Qwen3.5-9B
+VNEGUIDE_LITELLM_BASE_URL=http://127.0.0.1:9207
+VNEGUIDE_LITELLM_API_KEY=
+VNEGUIDE_LITELLM_ALLOW_INSECURE_HTTP=0
+VNEGUIDE_LITELLM_DISABLE_THINKING=1
 VNEGUIDE_API_KEY=
 VNEGUIDE_SESSION_FACTORY=vneguide.core:create_session
 VNEGUIDE_RUN_LIVE_SMOKE=0
 ```
 
 Không commit `.env`, API key, dữ liệu cá nhân thật hoặc transcript chứa số định danh đầy đủ. Dữ liệu test trong repo phải là dữ liệu giả.
+
+`VNEGUIDE_LLM_PROVIDER` là tên provider (`mock`, `openai` hoặc `litellm`), không phải URL.
+`openai` tiếp tục dùng endpoint HTTPS chính thức đã khóa cứng. `litellm` dùng base URL riêng và
+tự nối `/v1/chat/completions`. HTTP bị từ chối mặc định; chỉ bật
+`VNEGUIDE_LITELLM_ALLOW_INSECURE_HTTP=1` cho gateway dev tin cậy và dữ liệu tổng hợp. Bearer key,
+prompt và phản hồi đều không được mã hóa khi đi qua HTTP; dữ liệu hành chính thật phải dùng HTTPS.
 
 ## Quality gates
 
@@ -87,11 +98,22 @@ Chạy coverage:
 python -m pytest --cov=vneguide --cov-report=term-missing
 ```
 
-Smoke test provider thật mặc định bị skip. Chỉ chạy khi đã cấu hình provider, model và key trong môi trường:
+Smoke trực tiếp provider, không phụ thuộc `core` hoặc CLI, bằng đúng một câu tổng hợp không có PII:
+
+```powershell
+python -m vneguide.ai.smoke --env-file .env --confirm-live
+```
+
+Kết quả thành công có prefix `MODEL_SMOKE_OK`; lệnh không in prompt, raw response, evidence hoặc
+API key. `--confirm-live` là bắt buộc để tránh vô tình gửi request mạng.
+
+Live session test cũ vẫn là gate end-to-end và chỉ dùng được sau khi
+`vneguide.core:create_session` được triển khai. Khi đó cấu hình provider, model và key trong
+environment rồi chạy:
 
 ```powershell
 $env:VNEGUIDE_RUN_LIVE_SMOKE="1"
-$env:VNEGUIDE_API_KEY="<secret>"
+$env:VNEGUIDE_LITELLM_API_KEY="<secret>" # hoặc VNEGUIDE_API_KEY với provider openai
 python -m pytest tests/integration/test_live_smoke.py -m live
 ```
 

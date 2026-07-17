@@ -3,9 +3,10 @@
 ## Trạng thái đã xác minh hiện tại
 
 - Repository hiện tại: `D:\VAIC_UET`.
-- Nhánh: `dev`, đang hợp nhất `main` vào foundation của Người 1.
+- Nhánh: `dev`.
 - Phạm vi nghiệp vụ: ba procedure pack trong `data/README.md`.
-- Domain/data foundation, structured extraction và CLI/integration harness đã có source.
+- Domain/data foundation, structured extraction, LiteLLM provider và CLI/integration harness đã có
+  source.
 - Bootstrap: `pyproject.toml` đã khai báo dev dependencies và quality tools.
 - CLI: `python -m vneguide.cli` đã có entry point nhưng còn chờ `vneguide.core:create_session`.
 - Rule engine và conversation orchestrator chưa được triển khai.
@@ -16,6 +17,13 @@
   - Compile toàn bộ 42 file Python thành công.
   - Unittest discovery chạy 63 test: `62 passed, 1 skipped` (live provider smoke test là opt-in).
   - Ruff, formatter, Mypy và Pytest chưa chạy lại vì runtime tạm không cài dev dependencies.
+- Xác minh LiteLLM ngày 2026-07-17 bằng Python 3.11.9:
+  - Pytest: `74 passed, 1 skipped`.
+  - Ruff, formatter và Mypy đều pass trên `src/vneguide/ai/` cùng test LiteLLM liên quan.
+  - Provider smoke gọi thật `Qwen/Qwen3.5-9B` và trả
+    `MODEL_SMOKE_OK ... structured_output=true`; request chỉ dùng schema tổng hợp `{ok: boolean}`.
+  - Full-repo Ruff còn một import-order lỗi và 10 file format cũ; full-repo Mypy còn 27 lỗi trong
+    `data/repository.py`, `test_domain_contracts.py` và `test_data_repository.py`.
 
 ## Ưu tiên tiếp theo
 
@@ -24,6 +32,18 @@ Người 3 triển khai deterministic rule handlers và conversation orchestrato
 bằng adapter rõ ràng sang shared domain contract; không định nghĩa lại procedure code hoặc field.
 
 ## Nhật ký phiên
+
+### 2026-07-17 — LiteLLM self-hosted provider
+
+- Thêm `LiteLLMChatCompletionsProvider` với strict JSON Schema, response-size/timeout gate, typed
+  error, chặn redirect và Qwen `enable_thinking=false`.
+- Tách provider selector `litellm` khỏi `VNEGUIDE_LITELLM_BASE_URL`; HTTP bị từ chối nếu chưa bật
+  opt-in rõ ràng.
+- Thêm loader `.env` có chỉ định, giới hạn kích thước/key và không thay đổi process environment.
+- Thêm `python -m vneguide.ai.smoke --env-file .env --confirm-live`; lệnh không phụ thuộc core,
+  không gửi catalog/PII và không in prompt, raw response hoặc key.
+- Xác minh live với endpoint self-hosted: model `Qwen/Qwen3.5-9B` trả structured output hợp lệ.
+- Giới hạn: endpoint hiện dùng HTTP public IP; chỉ dùng dữ liệu giả cho tới khi có HTTPS.
 
 ### 2026-07-17 — Chuẩn hóa repository
 

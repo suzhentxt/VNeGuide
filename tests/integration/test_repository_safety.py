@@ -16,6 +16,9 @@ SECRET_PATTERNS = {
     "OpenAI key": re.compile(r"sk-[A-Za-z0-9_-]{20,}"),
     "GitHub token": re.compile(r"gh[oprsu]_[A-Za-z0-9]{20,}"),
     "assigned API key": re.compile(r"(?im)^[ \t]*VNEGUIDE_API_KEY[ \t]*=[ \t]*(?![<\s#])\S+"),
+    "assigned LiteLLM key": re.compile(
+        r"(?im)^[ \t]*VNEGUIDE_LITELLM_API_KEY[ \t]*=[ \t]*(?![<\s#])\S+"
+    ),
 }
 
 

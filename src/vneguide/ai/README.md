@@ -10,7 +10,7 @@ config.py          # Đọc cấu hình provider khi được gọi; không đ�
 extractor.py       # Retry có giới hạn và fallback kỹ thuật an toàn
 schemas.py         # Sinh/validate schema output từ data package đã review
 prompts/           # Prompt contract thuần routing và extraction
-providers/         # Interface, mock và adapter OpenAI Responses API
+providers/         # Interface, mock, OpenAI Responses và LiteLLM Chat Completions
 ```
 
 ## Contract
@@ -43,8 +43,20 @@ provider = build_llm_provider(load_llm_config())
 extractor = StructuredExtractor(provider, catalog)
 ```
 
-Adapter OpenAI dùng Responses API qua thư viện chuẩn. Chỉ khởi tạo adapter khi
-`VNEGUIDE_MODEL` và `VNEGUIDE_API_KEY` đã được cấu hình; không log prompt, raw output hoặc key.
+Adapter OpenAI dùng Responses API chính thức qua HTTPS và giữ allowlist
+`api.openai.com/v1/responses`. Adapter LiteLLM dùng base URL do operator cấu hình, tự nối
+`/v1/chat/completions`, gửi strict JSON Schema và có thể tắt Qwen thinking bằng
+`chat_template_kwargs.enable_thinking=false`. Cả hai dùng thư viện chuẩn, chặn redirect và không
+log prompt, raw output hoặc key.
+
+Smoke trực tiếp AI layer bằng một input tổng hợp, không cần `vneguide.core:create_session`:
+
+```powershell
+python -m vneguide.ai.smoke --env-file .env --confirm-live
+```
+
+HTTP custom endpoint bị từ chối nếu chưa bật `VNEGUIDE_LITELLM_ALLOW_INSECURE_HTTP=1`. Cờ này chỉ
+dành cho gateway dev tin cậy; terminal chứa dữ liệu người dùng thật phải đi qua HTTPS.
 
 ## Giới hạn tích hợp hiện tại
 

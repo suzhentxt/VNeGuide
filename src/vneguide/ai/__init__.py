@@ -3,6 +3,7 @@
 from .config import LLMConfig, build_llm_provider, load_llm_config
 from .extractor import ExtractionOutcome, StructuredExtractor
 from .providers import (
+    LiteLLMChatCompletionsProvider,
     LLMProvider,
     MockLLMProvider,
     OpenAIResponsesProvider,
@@ -20,6 +21,7 @@ __all__ = [
     "ExtractionSchemaError",
     "LLMConfig",
     "LLMProvider",
+    "LiteLLMChatCompletionsProvider",
     "MockLLMProvider",
     "OpenAIResponsesProvider",
     "ProviderConfigurationError",
