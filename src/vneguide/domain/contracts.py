@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 from types import MappingProxyType
 
 from .enums import MessageRole, NextAction, ProcedureCode
-from .models import JSONValue, ValidationResult, freeze_mapping
+from .models import FieldSuggestion, JSONValue, ValidationResult, freeze_mapping
 
 
 @dataclass(frozen=True, slots=True)
@@ -52,6 +52,7 @@ class ConversationState:
     messages: tuple[ChatMessage, ...] = ()
     turn_number: int = 0
     clarification_attempts: Mapping[str, int] = field(default_factory=dict)
+    suggestions: tuple[FieldSuggestion, ...] = ()
 
     def __post_init__(self) -> None:
         if self.turn_number < 0:
@@ -64,6 +65,7 @@ class ConversationState:
             "clarification_attempts",
             MappingProxyType(dict(self.clarification_attempts)),
         )
+        object.__setattr__(self, "suggestions", tuple(self.suggestions))
 
 
 @dataclass(frozen=True, slots=True)
@@ -99,9 +101,34 @@ class TurnResult:
     source_ids: tuple[str, ...] = ()
     missing_fields: tuple[str, ...] = ()
     validation: ValidationResult | None = None
+    extracted_fields: Mapping[str, JSONValue] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         if not self.reply.strip():
             raise ValueError("turn reply must not be empty")
         object.__setattr__(self, "source_ids", tuple(self.source_ids))
         object.__setattr__(self, "missing_fields", tuple(self.missing_fields))
+        object.__setattr__(self, "extracted_fields", freeze_mapping(self.extracted_fields))
+
+    @property
+    def procedure_type(self) -> str:
+        code = self.state.draft.procedure_code
+        if code is not None:
+            return code.value
+        if self.validation is not None:
+            return self.validation.status.value
+        if self.next_action is NextAction.OUT_OF_SCOPE:
+            return "out_of_scope"
+        return "chưa xác định"
+
+    @property
+    def draft(self) -> Mapping[str, JSONValue]:
+        return self.state.draft.values
+
+    @property
+    def validation_issues(self) -> tuple[object, ...]:
+        return () if self.validation is None else self.validation.issues
+
+    @property
+    def suggestions(self) -> tuple[FieldSuggestion, ...]:
+        return self.state.suggestions

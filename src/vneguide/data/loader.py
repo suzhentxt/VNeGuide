@@ -62,9 +62,7 @@ class DataPackagePaths:
                     continue
                 visited.add(candidate)
                 for data_root in (candidate, candidate / "data"):
-                    if (data_root / "catalog").is_dir() and (
-                        data_root / "contracts"
-                    ).is_dir():
+                    if (data_root / "catalog").is_dir() and (data_root / "contracts").is_dir():
                         return cls.from_root(data_root)
 
         raise DataPackageNotFoundError(

@@ -2,39 +2,53 @@
 
 ## Trạng thái đã xác minh hiện tại
 
-- Repository: `D:\VAIC_UET`.
-- Giai đoạn: domain/data foundation hoàn thành; chuẩn bị AI extraction cho Terminal MVP.
 - Phạm vi nghiệp vụ: ba procedure pack trong `data/README.md`.
-- Bootstrap chuẩn: chưa được triển khai.
-- Lệnh chạy chatbot: chưa được triển khai.
-- Runtime Python cài trên host: chưa có interpreter khả dụng.
-- Xác minh gần nhất: compile 21 file Python và chạy 25 unit test bằng Python 3.11.9 embeddable; tất cả pass.
-- Data check gần nhất: ba pack, 44 field, 10 rule-context input, 27 rule, 13 source và 12 checksum đều pass audit.
-- Blocker chính: AI extraction, rule engine, conversation orchestrator và CLI chưa được triển khai.
+- Domain/data foundation, CLI/integration harness và LLM structured extraction đã được triển khai.
+- `vneguide.domain` cung cấp enum, model và contract dùng chung.
+- `ProcedureRepository` load/audit pack, catalog, source, rule context và checksum.
+- CLI có entry point `python -m vneguide.cli` và đã nạp được `vneguide.core:create_session`.
+- Structured extraction có mock/OpenAI adapter, strict schema, bounded retry và safe fallback.
+- Baseline trước khi tích hợp domain/data: Pytest `37 passed, 1 skipped`.
+- Rule engine và suggestion-aware conversation orchestrator đã được triển khai.
 
 ## Ưu tiên tiếp theo
 
-Triển khai `LLMProvider` và structured extraction trong `src/vneguide/ai/` dựa trên contract chung, bắt đầu bằng mock provider và không gọi model thật trong unit test.
+Người 4 nối hành động Accept/Reject/Edit vào UI/web adapter và cấu hình provider cho demo thật.
+
+### 2026-07-17 — Conversation engine, rules và validation (Người 3)
+
+- Tích hợp domain/data foundation từ commit Người 1 trước khi triển khai core.
+- Thêm handler xác định cho toàn bộ 27 rule, field validation, missing-field resolver và question selector.
+- Thêm state machine suggestion `pending/accepted/rejected/edited`, revision guard và retry cap.
+- Cung cấp `vneguide.core:create_session`; CLI smoke chạy và trả fallback an toàn với mock rỗng.
+- Xác minh Python 3.11.9: Ruff pass, Mypy strict pass, Pytest `75 passed, 1 skipped`, coverage `82.64%`.
 
 ## Nhật ký phiên
 
 ### 2026-07-17 — Chuẩn hóa repository
 
 - Tạo cấu trúc `src/vneguide/` và `tests/` theo ranh giới bốn người.
-- Chuyển dữ liệu runtime từ `data/data/` sang `data/catalog/`.
-- Gom tài liệu nguồn vào `data/references/` và loại bỏ hai bản sao trùng byte-for-byte.
-- Thêm registry cho nguồn context `1.004222` và cập nhật checksum.
-- Commit nền gần nhất: `013d2be chore: reorganize repository data layout`.
-- Chưa xác minh Python package vì môi trường không có Python interpreter.
+- Chuyển dữ liệu runtime sang `data/catalog/` và gom tài liệu nguồn vào `data/references/`.
+- Thêm registry nguồn và checksum cho data package.
+
+### 2026-07-17 — CLI, integration harness và quality gate
+
+- Thêm entry point, các lệnh `/status`, `/reset`, `/quit` và integration port cho core.
+- Renderer che field định danh nhạy cảm và hiển thị trạng thái hồ sơ.
+- Thêm integration/eval fixtures, secret scan và live smoke test opt-in.
+
+### 2026-07-17 — LLM và structured extraction
+
+- Thêm provider-neutral interface, scripted mock, OpenAI Responses adapter và strict structured output.
+- Schema lấy procedure code và field constraint từ data package v2; LLM không quyết định business rule.
+- Thêm bounded retry, safe fallback và 16 intent/slot contract cases.
+- Chưa chạy live model eval vì không sử dụng API key.
 
 ### 2026-07-17 — Domain và data foundation (Người 1)
 
-- Nhánh: `hautt`.
-- Thêm enum/model/contract dùng chung cho đúng ba mã thủ tục data package v2.
-- Thêm loader, dependency-free JSON Schema validator và `ProcedureRepository`.
-- Repository audit deep-compare catalog, kiểm nguồn approved, chống path traversal, kiểm guidance step, rule input và checksum chuẩn LF.
-- Thêm `rule_context_catalog.json` để khai báo 10 tín hiệu rule không phải field biểu mẫu.
-- Siết validation-result schema và semantic validation cho procedure/rule/field/source.
-- Ghi quyết định OD-004: MVP dùng handler xác định theo `rule_id`, không `eval/exec` chuỗi condition.
-- Bằng chứng: compile 21 file và chạy 25 unit test bằng Python 3.11.9; kết quả `OK` trong 0,032 giây.
-- Python embeddable và ZIP tạm đã được xóa sau kiểm thử.
+- Thêm enum/model/contract dùng chung cho ba mã thủ tục data package v2.
+- Thêm loader, JSON Schema validator và `ProcedureRepository`.
+- Repository audit catalog, nguồn approved, local path, rule input và checksum.
+- Thêm `rule_context_catalog.json` cho 10 tín hiệu rule không phải field biểu mẫu.
+- Khóa quyết định OD-004: rule engine dùng handler theo `rule_id`, không `eval/exec` condition.
+- Bằng chứng trên nhánh Người 1: 25 unit test pass.

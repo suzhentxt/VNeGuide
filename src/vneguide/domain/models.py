@@ -14,15 +14,13 @@ from .enums import (
     ProcedureCode,
     RuleInputOrigin,
     SourceStatus,
+    SuggestionStatus,
     ValidationStatus,
 )
 
 JSONScalar: TypeAlias = str | int | float | bool | None
 JSONValue: TypeAlias = (
-    JSONScalar
-    | list["JSONValue"]
-    | tuple["JSONValue", ...]
-    | Mapping[str, "JSONValue"]
+    JSONScalar | list["JSONValue"] | tuple["JSONValue", ...] | Mapping[str, "JSONValue"]
 )
 
 
@@ -122,8 +120,7 @@ class ValidationRuleDefinition:
         _require_source_ids(self.source_ids, self.rule_id)
         if self.procedure_code is not self.applies_to:
             raise ValueError(
-                f"rule {self.rule_id} applies to {self.applies_to}, "
-                f"not {self.procedure_code}"
+                f"rule {self.rule_id} applies to {self.applies_to}, not {self.procedure_code}"
             )
 
 
@@ -252,3 +249,20 @@ class ValidationResult:
         if self.readiness_score is not None and not 0 <= self.readiness_score <= 100:
             raise ValueError("readiness_score must be between 0 and 100")
         _require_source_ids(self.source_ids, f"validation result {self.procedure_code}")
+
+
+@dataclass(frozen=True, slots=True)
+class FieldSuggestion:
+    suggestion_id: str
+    field_id: str
+    current_value: JSONValue
+    suggested_value: JSONValue
+    evidence: str
+    status: SuggestionStatus
+    revision: int
+
+    def __post_init__(self) -> None:
+        _require_text(self.suggestion_id, "suggestion_id")
+        _require_text(self.field_id, "field_id")
+        if self.revision < 0:
+            raise ValueError("suggestion revision must not be negative")
