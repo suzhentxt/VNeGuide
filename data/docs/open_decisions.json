@@ -22,5 +22,13 @@
     "deadline": "Trước khi demo tính phí",
     "default_for_mvp": "Hiển thị “phí tham chiếu 8.000 đồng; xác nhận tại bước nộp”, không nhân tự động theo số bản.",
     "impact": "Tránh tính sai nghĩa vụ tài chính."
+  },
+  {
+    "decision_id": "OD-004",
+    "question": "Điều kiện trong validation_rules sẽ được thực thi bằng DSL chính thức hay handler xác định theo rule_id?",
+    "owner": "Domain & Data Lead + Rule Engine Lead",
+    "deadline": "Trước khi triển khai Rule Engine",
+    "default_for_mvp": "Dùng handler Python xác định theo rule_id; condition chỉ là mô tả có thể audit identifier. Không dùng eval/exec trên chuỗi condition.",
+    "impact": "Ngăn thực thi biểu thức không an toàn và tránh hai người tự xây hai parser khác nhau."
   }
 ]

@@ -3,6 +3,7 @@
   "$id": "https://vneguide.local/schemas/validation-result-v2.json",
   "title": "VNeGuide Validation Result v2",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "procedure_code",
     "status",
@@ -12,7 +13,11 @@
   ],
   "properties": {
     "procedure_code": {
-      "type": "string"
+      "enum": [
+        "2.000635",
+        "1.013314",
+        "1.004194"
+      ]
     },
     "status": {
       "enum": [
@@ -31,6 +36,7 @@
       "type": "array",
       "items": {
         "type": "object",
+        "additionalProperties": false,
         "required": [
           "rule_id",
           "severity",
