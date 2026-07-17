@@ -1,0 +1,378 @@
+{
+  "pack_id": "PROC-1.013314-HOUSING-CONFIRMATION",
+  "procedure_code": "1.013314",
+  "procedure_name": "Xác nhận về điều kiện diện tích bình quân nhà ở để đăng ký thường trú vào chỗ ở do thuê, mượn, ở nhờ; nhà ở, đất ở không có tranh chấp quyền sở hữu nhà ở, quyền sử dụng đất ở, không thuộc địa điểm không được đăng ký thường trú mới",
+  "jurisdiction": "Hà Nội pilot",
+  "version": "2.0.0",
+  "status": "approved",
+  "effective_from": null,
+  "verified_at": "2026-07-17",
+  "next_review_at": "2026-08-17",
+  "scope": {
+    "in_scope": [
+      "Công dân Việt Nam đề nghị UBND cấp xã xác nhận Mẫu số 02",
+      "Kiểm tra tính đầy đủ của tờ khai và phép tính diện tích bình quân theo ngưỡng Hà Nội",
+      "Nộp trực tuyến, trực tiếp hoặc bưu chính"
+    ],
+    "out_of_scope": [
+      "Tự kết luận nhà/đất không tranh chấp",
+      "Tự xác minh quyền sở hữu hoặc quyền sử dụng đất",
+      "Tự kết luận địa điểm không thuộc Điều 23 Luật Cư trú",
+      "Thay UBND cấp xã ký/xác nhận",
+      "Thực hiện thủ tục đăng ký thường trú 1.004222"
+    ]
+  },
+  "routing": {
+    "aliases": [
+      "xin xác nhận diện tích nhà ở",
+      "xác nhận nhà thuê đủ diện tích nhập khẩu",
+      "Mẫu số 02 chỗ ở",
+      "xác nhận nhà đất không tranh chấp để đăng ký thường trú"
+    ],
+    "confirmation_message": "Bạn cần UBND cấp xã xác nhận Mẫu số 02 về tình trạng chỗ ở và diện tích để đăng ký thường trú vào nhà thuê, mượn hoặc ở nhờ, đúng không?",
+    "required_clarifications": [
+      "legal_dwelling_address",
+      "hanoi_zone",
+      "new_residents_count",
+      "allocated_area_m2"
+    ]
+  },
+  "service_info": {
+    "authority": "Ủy ban nhân dân cấp xã nơi cư trú",
+    "channels": [
+      "online",
+      "direct",
+      "postal"
+    ],
+    "processing_time_display": "02 ngày làm việc kể từ ngày nhận Tờ khai",
+    "fee": {
+      "amount_vnd": 0,
+      "display": "Không thu phí"
+    },
+    "result": "Xác nhận tình trạng chỗ ở hợp pháp, diện tích nhà ở tối thiểu để đăng ký thường trú, đăng ký tạm trú"
+  },
+  "forms": [
+    {
+      "form_id": "M02",
+      "name": "Mẫu số 02 – Tờ khai xác nhận tình trạng chỗ ở hợp pháp, diện tích nhà ở tối thiểu",
+      "channel": "all",
+      "source_ids": [
+        "SRC-FORM-M02",
+        "SRC-DVC-1013314"
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "item_id": "HOUSE-DOC-001",
+      "name": "Mẫu số 02 – Tờ khai xác nhận tình trạng chỗ ở hợp pháp, diện tích nhà ở tối thiểu",
+      "requirement": "required",
+      "condition": "Một bản chính hoặc biểu mẫu điện tử tương tác.",
+      "source_ids": [
+        "SRC-DVC-1013314",
+        "SRC-FORM-M02"
+      ]
+    }
+  ],
+  "fields": [
+    {
+      "field_id": "requester_full_name",
+      "label": "Họ tên người đề nghị",
+      "type": "string",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ]
+    },
+    {
+      "field_id": "requester_date_of_birth",
+      "label": "Ngày sinh người đề nghị",
+      "type": "date",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ]
+    },
+    {
+      "field_id": "requester_personal_id",
+      "label": "Số định danh cá nhân",
+      "type": "string",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ],
+      "pattern": "^\\d{12}$"
+    },
+    {
+      "field_id": "requester_residence",
+      "label": "Nơi cư trú",
+      "type": "string",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ]
+    },
+    {
+      "field_id": "legal_dwelling_address",
+      "label": "Địa chỉ chỗ ở hợp pháp",
+      "type": "string",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ]
+    },
+    {
+      "field_id": "land_area_m2",
+      "label": "Diện tích thửa đất",
+      "type": "number",
+      "requirement": "optional",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ],
+      "minimum": 0
+    },
+    {
+      "field_id": "construction_area_m2",
+      "label": "Diện tích xây dựng",
+      "type": "number",
+      "requirement": "optional",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ],
+      "minimum": 0
+    },
+    {
+      "field_id": "floor_area_m2",
+      "label": "Diện tích sàn",
+      "type": "number",
+      "requirement": "required_for_area_check",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ],
+      "minimum": 0
+    },
+    {
+      "field_id": "current_permanent_residents",
+      "label": "Tổng số người đang đăng ký thường trú",
+      "type": "integer",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ],
+      "minimum": 0
+    },
+    {
+      "field_id": "remaining_floor_area_m2",
+      "label": "Diện tích sàn còn lại có thể đăng ký thường trú",
+      "type": "number",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ],
+      "minimum": 0
+    },
+    {
+      "field_id": "new_residents_count",
+      "label": "Số người thuê, mượn, ở nhờ đề nghị đăng ký",
+      "type": "integer",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ],
+      "minimum": 1
+    },
+    {
+      "field_id": "allocated_area_m2",
+      "label": "Tổng diện tích chỗ ở dành cho người thuê, mượn, ở nhờ",
+      "type": "number",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ],
+      "minimum": 0
+    },
+    {
+      "field_id": "hanoi_zone",
+      "label": "Khu vực Hà Nội",
+      "type": "enum",
+      "requirement": "required_for_threshold",
+      "source_ids": [
+        "SRC-HN-AREA-2023"
+      ],
+      "values": [
+        "inner_city",
+        "suburban"
+      ]
+    },
+    {
+      "field_id": "declared_stable_use",
+      "label": "Người dùng khai chỗ ở đang sử dụng ổn định",
+      "type": "boolean",
+      "requirement": "required_declaration",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ]
+    },
+    {
+      "field_id": "declared_no_dispute",
+      "label": "Người dùng khai nhà/đất không có tranh chấp",
+      "type": "boolean",
+      "requirement": "required_declaration",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ]
+    },
+    {
+      "field_id": "declared_not_prohibited_location",
+      "label": "Người dùng khai không thuộc địa điểm cấm đăng ký thường trú mới",
+      "type": "boolean",
+      "requirement": "required_declaration",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ]
+    }
+  ],
+  "validation_rules": [
+    {
+      "rule_id": "HOUSE-REQ-001",
+      "applies_to": "1.013314",
+      "condition": "mau_02_missing",
+      "severity": "error",
+      "message": "Thiếu Mẫu số 02.",
+      "suggestion": "Hoàn thành Tờ khai Mẫu số 02 hoặc biểu mẫu điện tử tương ứng.",
+      "source_ids": [
+        "SRC-DVC-1013314",
+        "SRC-FORM-M02"
+      ]
+    },
+    {
+      "rule_id": "HOUSE-ID-001",
+      "applies_to": "1.013314",
+      "condition": "requester_personal_id does not match 12 digits",
+      "severity": "error",
+      "message": "Số định danh cá nhân chưa đúng định dạng.",
+      "suggestion": "Nhập đủ 12 chữ số.",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ]
+    },
+    {
+      "rule_id": "HOUSE-AREA-001",
+      "applies_to": "1.013314",
+      "condition": "new_residents_count <= 0 or allocated_area_m2 <= 0",
+      "severity": "error",
+      "message": "Thiếu số người hoặc diện tích dùng để tính bình quân.",
+      "suggestion": "Nhập số người và tổng diện tích chỗ ở dành cho họ.",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ]
+    },
+    {
+      "rule_id": "HOUSE-ZONE-001",
+      "applies_to": "1.013314",
+      "condition": "hanoi_zone is empty",
+      "severity": "needs_review",
+      "message": "Chưa xác định khu vực nội thành hay ngoại thành để áp dụng ngưỡng Hà Nội.",
+      "suggestion": "Chọn đúng khu vực; không để hệ thống tự suy đoán từ địa chỉ.",
+      "source_ids": [
+        "SRC-HN-AREA-2023"
+      ]
+    },
+    {
+      "rule_id": "HOUSE-THRESHOLD-INNER",
+      "applies_to": "1.013314",
+      "condition": "hanoi_zone == 'inner_city' and allocated_area_m2 / new_residents_count < 15",
+      "severity": "error",
+      "message": "Diện tích kê khai thấp hơn ngưỡng 15 m² sàn/người của khu vực nội thành Hà Nội.",
+      "suggestion": "Kiểm tra lại diện tích, số người hoặc điều kiện đăng ký.",
+      "source_ids": [
+        "SRC-HN-AREA-2023"
+      ]
+    },
+    {
+      "rule_id": "HOUSE-THRESHOLD-SUBURBAN",
+      "applies_to": "1.013314",
+      "condition": "hanoi_zone == 'suburban' and allocated_area_m2 / new_residents_count < 8",
+      "severity": "error",
+      "message": "Diện tích kê khai thấp hơn ngưỡng 8 m² sàn/người của khu vực ngoại thành Hà Nội.",
+      "suggestion": "Kiểm tra lại diện tích, số người hoặc điều kiện đăng ký.",
+      "source_ids": [
+        "SRC-HN-AREA-2023"
+      ]
+    },
+    {
+      "rule_id": "HOUSE-CONFIRM-001",
+      "applies_to": "1.013314",
+      "condition": "always",
+      "severity": "needs_review",
+      "message": "Tình trạng sử dụng ổn định, không tranh chấp và không thuộc địa điểm cấm phải do UBND cấp xã xác nhận.",
+      "suggestion": "VNeGuide chỉ kiểm tra tờ khai; không tự xác nhận các nội dung thuộc thẩm quyền UBND.",
+      "source_ids": [
+        "SRC-FORM-M02",
+        "SRC-DVC-1013314"
+      ]
+    },
+    {
+      "rule_id": "HOUSE-CONSIST-001",
+      "applies_to": "1.013314",
+      "condition": "remaining_floor_area_m2 > floor_area_m2",
+      "severity": "error",
+      "message": "Diện tích sàn còn lại không thể lớn hơn tổng diện tích sàn.",
+      "suggestion": "Kiểm tra lại các số liệu diện tích.",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ]
+    }
+  ],
+  "guidance_steps": [
+    {
+      "step": 1,
+      "text": "Xác nhận người dùng đang đề nghị thủ tục xác nhận Mẫu số 02, không phải đăng ký thường trú.",
+      "source_ids": [
+        "SRC-DVC-1013314"
+      ]
+    },
+    {
+      "step": 2,
+      "text": "Kê khai thông tin người đề nghị, địa chỉ chỗ ở và các số liệu diện tích.",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ]
+    },
+    {
+      "step": 3,
+      "text": "Tính diện tích bình quân theo khu vực Hà Nội: nội thành 15 m²/người, ngoại thành 8 m²/người.",
+      "source_ids": [
+        "SRC-HN-AREA-2023"
+      ]
+    },
+    {
+      "step": 4,
+      "text": "Cảnh báo rằng nội dung không tranh chấp, sử dụng ổn định và không thuộc địa điểm cấm phải do UBND xác nhận.",
+      "source_ids": [
+        "SRC-FORM-M02"
+      ]
+    },
+    {
+      "step": 5,
+      "text": "Nộp Mẫu số 02 tới UBND cấp xã hoặc gửi cùng hồ sơ cư trú để cơ quan đăng ký cư trú chuyển xử lý.",
+      "source_ids": [
+        "SRC-DVC-1013314"
+      ]
+    }
+  ],
+  "source_ids": [
+    "SRC-DVC-1013314",
+    "SRC-FORM-M02",
+    "SRC-LAW-154-2024",
+    "SRC-HN-AREA-2023"
+  ],
+  "approval": {
+    "owner": "Domain & Data Lead",
+    "reviewers": [
+      "Product & UX Lead",
+      "AI & Evaluation Lead"
+    ],
+    "approved_at": "2026-07-17"
+  }
+}

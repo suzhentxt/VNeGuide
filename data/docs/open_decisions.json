@@ -1,0 +1,26 @@
+[
+  {
+    "decision_id": "OD-001",
+    "question": "Bảng ánh xạ phường/xã Hà Nội sang khu vực nội thành/ngoại thành sẽ do ai duyệt?",
+    "owner": "Domain & Data Lead",
+    "deadline": "Trước khi bật tự động xác định khu vực",
+    "default_for_mvp": "Người dùng tự chọn nội thành/ngoại thành; hệ thống không tự suy đoán từ địa chỉ.",
+    "impact": "Không ảnh hưởng demo nếu dùng lựa chọn rõ ràng."
+  },
+  {
+    "decision_id": "OD-002",
+    "question": "Có mở rộng đăng ký tạm trú theo danh sách và lực lượng vũ trang trong MVP không?",
+    "owner": "Product & UX Lead + Domain & Data Lead",
+    "deadline": "Trước freeze scope",
+    "default_for_mvp": "Không; chuyển needs_official_review.",
+    "impact": "Giảm đáng kể số form và rule cần triển khai."
+  },
+  {
+    "decision_id": "OD-003",
+    "question": "Phí 8.000 đồng của thủ tục 2.000635 hiển thị theo bản hay theo hồ sơ?",
+    "owner": "Domain & Data Lead",
+    "deadline": "Trước khi demo tính phí",
+    "default_for_mvp": "Hiển thị “phí tham chiếu 8.000 đồng; xác nhận tại bước nộp”, không nhân tự động theo số bản.",
+    "impact": "Tránh tính sai nghĩa vụ tài chính."
+  }
+]
