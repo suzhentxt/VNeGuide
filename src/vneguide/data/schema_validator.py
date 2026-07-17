@@ -60,9 +60,7 @@ def validate_json_schema(
         else:
             expected_types = ()
         if expected_types and not any(_matches_type(instance, item) for item in expected_types):
-            violations.append(
-                SchemaViolation(path, f"expected type {' or '.join(expected_types)}")
-            )
+            violations.append(SchemaViolation(path, f"expected type {' or '.join(expected_types)}"))
             return tuple(violations)
 
     enum_values = schema.get("enum")
@@ -81,13 +79,9 @@ def validate_json_schema(
             for name, value in instance.items():
                 child_schema = properties.get(name)
                 if isinstance(child_schema, Mapping):
-                    violations.extend(
-                        validate_json_schema(value, child_schema, f"{path}.{name}")
-                    )
+                    violations.extend(validate_json_schema(value, child_schema, f"{path}.{name}"))
                 elif schema.get("additionalProperties") is False:
-                    violations.append(
-                        SchemaViolation(path, f"unexpected property {name!r}")
-                    )
+                    violations.append(SchemaViolation(path, f"unexpected property {name!r}"))
 
     if isinstance(instance, list):
         item_schema = schema.get("items")

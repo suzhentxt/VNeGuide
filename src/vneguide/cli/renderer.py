@@ -78,7 +78,11 @@ def _render_issues(issues: Any) -> str:
 
     lines: list[str] = []
     for issue in issues:
-        field = _read(issue, "field", _read(issue, "field_path", "toàn hồ sơ"))
+        field = _read(
+            issue,
+            "field",
+            _read(issue, "field_path", _read(issue, "field_id", "toàn hồ sơ")),
+        )
         severity = _read(issue, "severity", "issue")
         reason = _read(issue, "reason", _read(issue, "message", "Cần kiểm tra lại."))
         fix = _read(issue, "suggested_fix", _read(issue, "suggestion", None))
