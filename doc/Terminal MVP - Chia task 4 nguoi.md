@@ -1,5 +1,7 @@
 # VNeGuide Terminal MVP — Chia task cho 4 người
 
+> **Trạng thái:** Kế hoạch kỹ thuật ban đầu. Phạm vi ba loại trích lục trong tài liệu này đã cũ so với Domain & Data Package v2. Khi code, dùng danh sách thủ tục và enum được phê duyệt trong [`../data/README.md`](../data/README.md), đồng thời giữ nguyên ranh giới module và quy trình merge mô tả bên dưới.
+
 ## 1. Mục tiêu giai đoạn hiện tại
 
 Xây dựng chatbot VNeGuide chạy được trong terminal và trả lời đúng nghiệp vụ tối thiểu trước khi tích hợp vào web.
@@ -384,4 +386,3 @@ Trong implementation, áp dụng quy định của tài liệu Product:
 
 - Đăng ký khai sinh mới là `unsupported`.
 - VNeGuide chỉ hỗ trợ cấp bản sao trích lục khai sinh trong giai đoạn này.
-

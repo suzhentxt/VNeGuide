@@ -17,14 +17,30 @@ Không còn procedure pack cho trích lục kết hôn, trích lục khai tử h
 - Trạng thái cuối: `ready_to_submit`, `needs_correction`, `needs_official_review`, `out_of_scope`.
 
 ## Tệp chính
-- `data/source_register.json`
-- `data/procedure_packs/*.json`
-- `data/field_catalog.json`
-- `data/validation_rules.json`
+- `catalog/source_register.json`
+- `catalog/procedure_packs/*.json`
+- `catalog/field_catalog.json`
+- `catalog/validation_rules.json`
 - `contracts/*.schema.json`
 - `evaluation/gold_guidance.jsonl`
 - `evaluation/gold_validation.jsonl`
 - `docs/review_workflow.md`
 - `docs/open_decisions.json`
+
+## Cấu trúc
+
+```text
+data/
+├── catalog/          # Dữ liệu runtime đã chuẩn hóa
+├── contracts/        # JSON Schema
+├── evaluation/       # Ground-truth cases
+├── qa/               # SHA-256 checksums
+├── references/       # Bản lưu tài liệu nguồn
+├── docs/             # Review workflow và quyết định
+├── dichvucong/       # Dataset discovery/RAG seed
+└── thutuchanhchinh/  # Dataset discovery/RAG seed
+```
+
+Không đặt tài liệu nguồn trực tiếp tại root `data/`. Không sao chép `catalog/` vào `src/`; application phải đọc package này qua loader.
 
 Ngày kiểm chứng: 2026-07-17.
