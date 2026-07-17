@@ -1,0 +1,332 @@
+[
+  {
+    "procedure_code": "2.000635",
+    "rule_id": "BIRTH-SCOPE-001",
+    "applies_to": "2.000635",
+    "condition": "requested_variant != 'birth_certificate_copy'",
+    "severity": "error",
+    "message": "VNeGuide hiện chỉ hỗ trợ bản sao Giấy khai sinh.",
+    "suggestion": "Chuyển sang nguồn chính thức hoặc cán bộ đối với loại trích lục khác.",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "rule_id": "BIRTH-SCOPE-002",
+    "applies_to": "2.000635",
+    "condition": "intent in ['new_birth_registration','birth_reregistration','birth_correction']",
+    "severity": "error",
+    "message": "Yêu cầu này không phải cấp bản sao Giấy khai sinh.",
+    "suggestion": "Chọn đúng thủ tục trên Cổng Dịch vụ công.",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "rule_id": "BIRTH-REQ-001",
+    "applies_to": "2.000635",
+    "condition": "requester_full_name is empty",
+    "severity": "error",
+    "message": "Thiếu họ tên người yêu cầu.",
+    "suggestion": "Điền đầy đủ họ, chữ đệm và tên.",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "rule_id": "BIRTH-ID-001",
+    "applies_to": "2.000635",
+    "condition": "requester_personal_id is present and does not match 12 digits",
+    "severity": "error",
+    "message": "Số định danh cá nhân chưa đúng định dạng.",
+    "suggestion": "Kiểm tra và nhập đủ 12 chữ số.",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "rule_id": "BIRTH-LOOKUP-001",
+    "applies_to": "2.000635",
+    "condition": "subject_full_name is empty or subject_date_of_birth is empty",
+    "severity": "error",
+    "message": "Thông tin người có sự kiện khai sinh chưa đủ để tra cứu.",
+    "suggestion": "Bổ sung họ tên và ngày sinh; thêm nơi/năm đăng ký nếu biết.",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "rule_id": "BIRTH-AUTH-001",
+    "applies_to": "2.000635",
+    "condition": "requester_type == 'authorized_person' and authorization_document_missing",
+    "severity": "error",
+    "message": "Thiếu văn bản ủy quyền.",
+    "suggestion": "Tải lên hoặc chuẩn bị văn bản ủy quyền theo quy định.",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "rule_id": "BIRTH-POST-001",
+    "applies_to": "2.000635",
+    "condition": "submission_channel == 'postal' and certified_copies_missing",
+    "severity": "error",
+    "message": "Hồ sơ bưu chính thiếu bản sao có chứng thực của giấy tờ phải xuất trình.",
+    "suggestion": "Bổ sung bản sao có chứng thực trước khi gửi.",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "rule_id": "BIRTH-FILE-001",
+    "applies_to": "2.000635",
+    "condition": "submission_channel == 'online' and uploaded_document_quality != 'clear_complete_intact'",
+    "severity": "error",
+    "message": "Bản chụp/tệp chưa rõ nét, đầy đủ hoặc toàn vẹn.",
+    "suggestion": "Chụp hoặc quét lại toàn bộ giấy tờ từ bản còn giá trị sử dụng.",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "rule_id": "BIRTH-FOREIGN-001",
+    "applies_to": "2.000635",
+    "condition": "foreign_issued_document_present",
+    "severity": "needs_review",
+    "message": "Giấy tờ do cơ quan nước ngoài cấp cần kiểm tra hợp pháp hóa lãnh sự hoặc miễn hợp pháp hóa.",
+    "suggestion": "Chuyển cán bộ/nguồn chính thức kiểm tra trước khi kết luận.",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ]
+  },
+  {
+    "procedure_code": "1.013314",
+    "rule_id": "HOUSE-REQ-001",
+    "applies_to": "1.013314",
+    "condition": "mau_02_missing",
+    "severity": "error",
+    "message": "Thiếu Mẫu số 02.",
+    "suggestion": "Hoàn thành Tờ khai Mẫu số 02 hoặc biểu mẫu điện tử tương ứng.",
+    "source_ids": [
+      "SRC-DVC-1013314",
+      "SRC-FORM-M02"
+    ]
+  },
+  {
+    "procedure_code": "1.013314",
+    "rule_id": "HOUSE-ID-001",
+    "applies_to": "1.013314",
+    "condition": "requester_personal_id does not match 12 digits",
+    "severity": "error",
+    "message": "Số định danh cá nhân chưa đúng định dạng.",
+    "suggestion": "Nhập đủ 12 chữ số.",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ]
+  },
+  {
+    "procedure_code": "1.013314",
+    "rule_id": "HOUSE-AREA-001",
+    "applies_to": "1.013314",
+    "condition": "new_residents_count <= 0 or allocated_area_m2 <= 0",
+    "severity": "error",
+    "message": "Thiếu số người hoặc diện tích dùng để tính bình quân.",
+    "suggestion": "Nhập số người và tổng diện tích chỗ ở dành cho họ.",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ]
+  },
+  {
+    "procedure_code": "1.013314",
+    "rule_id": "HOUSE-ZONE-001",
+    "applies_to": "1.013314",
+    "condition": "hanoi_zone is empty",
+    "severity": "needs_review",
+    "message": "Chưa xác định khu vực nội thành hay ngoại thành để áp dụng ngưỡng Hà Nội.",
+    "suggestion": "Chọn đúng khu vực; không để hệ thống tự suy đoán từ địa chỉ.",
+    "source_ids": [
+      "SRC-HN-AREA-2023"
+    ]
+  },
+  {
+    "procedure_code": "1.013314",
+    "rule_id": "HOUSE-THRESHOLD-INNER",
+    "applies_to": "1.013314",
+    "condition": "hanoi_zone == 'inner_city' and allocated_area_m2 / new_residents_count < 15",
+    "severity": "error",
+    "message": "Diện tích kê khai thấp hơn ngưỡng 15 m² sàn/người của khu vực nội thành Hà Nội.",
+    "suggestion": "Kiểm tra lại diện tích, số người hoặc điều kiện đăng ký.",
+    "source_ids": [
+      "SRC-HN-AREA-2023"
+    ]
+  },
+  {
+    "procedure_code": "1.013314",
+    "rule_id": "HOUSE-THRESHOLD-SUBURBAN",
+    "applies_to": "1.013314",
+    "condition": "hanoi_zone == 'suburban' and allocated_area_m2 / new_residents_count < 8",
+    "severity": "error",
+    "message": "Diện tích kê khai thấp hơn ngưỡng 8 m² sàn/người của khu vực ngoại thành Hà Nội.",
+    "suggestion": "Kiểm tra lại diện tích, số người hoặc điều kiện đăng ký.",
+    "source_ids": [
+      "SRC-HN-AREA-2023"
+    ]
+  },
+  {
+    "procedure_code": "1.013314",
+    "rule_id": "HOUSE-CONFIRM-001",
+    "applies_to": "1.013314",
+    "condition": "always",
+    "severity": "needs_review",
+    "message": "Tình trạng sử dụng ổn định, không tranh chấp và không thuộc địa điểm cấm phải do UBND cấp xã xác nhận.",
+    "suggestion": "VNeGuide chỉ kiểm tra tờ khai; không tự xác nhận các nội dung thuộc thẩm quyền UBND.",
+    "source_ids": [
+      "SRC-FORM-M02",
+      "SRC-DVC-1013314"
+    ]
+  },
+  {
+    "procedure_code": "1.013314",
+    "rule_id": "HOUSE-CONSIST-001",
+    "applies_to": "1.013314",
+    "condition": "remaining_floor_area_m2 > floor_area_m2",
+    "severity": "error",
+    "message": "Diện tích sàn còn lại không thể lớn hơn tổng diện tích sàn.",
+    "suggestion": "Kiểm tra lại các số liệu diện tích.",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "rule_id": "TEMP-SCOPE-001",
+    "applies_to": "1.004194",
+    "condition": "registration_mode in ['by_list','armed_forces']",
+    "severity": "needs_review",
+    "message": "Trường hợp đăng ký theo danh sách hoặc tại đơn vị lực lượng vũ trang chưa được kiểm tra tự động trong MVP.",
+    "suggestion": "Chuyển sang hướng dẫn chính thức/cán bộ để chuẩn bị hồ sơ chuyên biệt.",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "rule_id": "TEMP-FORM-001",
+    "applies_to": "1.004194",
+    "condition": "ct01_missing",
+    "severity": "error",
+    "message": "Thiếu Tờ khai CT01.",
+    "suggestion": "Hoàn thành Mẫu CT01 hiện hành.",
+    "source_ids": [
+      "SRC-DVC-1004194",
+      "SRC-CIRC-53-2025"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "rule_id": "TEMP-ID-001",
+    "applies_to": "1.004194",
+    "condition": "applicant_personal_id does not match 12 digits",
+    "severity": "error",
+    "message": "Số định danh cá nhân chưa đúng định dạng.",
+    "suggestion": "Nhập đủ 12 chữ số.",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "rule_id": "TEMP-MINOR-001",
+    "applies_to": "1.004194",
+    "condition": "applicant_is_minor and not minor_consent_present",
+    "severity": "error",
+    "message": "Thiếu ý kiến đồng ý của cha, mẹ hoặc người giám hộ.",
+    "suggestion": "Ghi ý kiến trong CT01 hoặc đính kèm văn bản đồng ý.",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "rule_id": "TEMP-DATE-001",
+    "applies_to": "1.004194",
+    "condition": "temporary_end_date <= temporary_start_date",
+    "severity": "error",
+    "message": "Thời gian tạm trú chưa hợp lệ.",
+    "suggestion": "Ngày kết thúc phải sau ngày bắt đầu.",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "rule_id": "TEMP-HOUSE-001",
+    "applies_to": "1.004194",
+    "condition": "not legal_dwelling_data_retrievable and not legal_dwelling_document_present",
+    "severity": "error",
+    "message": "Chưa có thông tin hoặc giấy tờ chứng minh chỗ ở hợp pháp.",
+    "suggestion": "Bổ sung giấy tờ khi cơ sở dữ liệu không khai thác được.",
+    "source_ids": [
+      "SRC-DVC-1004194",
+      "SRC-LAW-154-2024"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "rule_id": "TEMP-RENT-001",
+    "applies_to": "1.004194",
+    "condition": "dwelling_basis in ['rented','borrowed','accommodated'] and document_marked_not_notarized",
+    "severity": "info",
+    "message": "Văn bản cho thuê, cho mượn, cho ở nhờ không bắt buộc công chứng hoặc chứng thực đối với hồ sơ tạm trú.",
+    "suggestion": "Không yêu cầu thêm công chứng chỉ vì lý do này.",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "rule_id": "TEMP-FEE-ONLINE",
+    "applies_to": "1.004194",
+    "condition": "submission_channel == 'online' and registration_mode == 'individual_or_household' and not fee_exemption_claimed",
+    "severity": "info",
+    "message": "Lệ phí dự kiến 7.000 đồng/lần đăng ký.",
+    "suggestion": "Xác nhận mức phí tại bước nộp chính thức.",
+    "source_ids": [
+      "SRC-DVC-1004194",
+      "SRC-FEE-75-2022"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "rule_id": "TEMP-FEE-DIRECT",
+    "applies_to": "1.004194",
+    "condition": "submission_channel == 'direct' and registration_mode == 'individual_or_household' and not fee_exemption_claimed",
+    "severity": "info",
+    "message": "Lệ phí dự kiến 15.000 đồng/lần đăng ký.",
+    "suggestion": "Xác nhận mức phí tại bước nộp chính thức.",
+    "source_ids": [
+      "SRC-DVC-1004194",
+      "SRC-FEE-75-2022"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "rule_id": "TEMP-CITIZENSHIP-001",
+    "applies_to": "1.004194",
+    "condition": "newly_naturalized_or_restored_citizenship",
+    "severity": "needs_review",
+    "message": "Trường hợp quốc tịch đặc biệt cần giấy tờ và kiểm tra chuyên biệt.",
+    "suggestion": "Chuyển cán bộ/nguồn chính thức.",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ]
+  }
+]

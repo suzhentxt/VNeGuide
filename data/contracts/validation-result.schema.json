@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vneguide.local/schemas/validation-result-v2.json",
+  "title": "VNeGuide Validation Result v2",
+  "type": "object",
+  "required": [
+    "procedure_code",
+    "status",
+    "issues",
+    "passed_checks",
+    "source_ids"
+  ],
+  "properties": {
+    "procedure_code": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "ready_to_submit",
+        "needs_correction",
+        "needs_official_review",
+        "out_of_scope"
+      ]
+    },
+    "readiness_score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "rule_id",
+          "severity",
+          "message",
+          "source_ids"
+        ],
+        "properties": {
+          "rule_id": {
+            "type": "string"
+          },
+          "field_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "severity": {
+            "enum": [
+              "error",
+              "warning",
+              "needs_review",
+              "info"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "suggestion": {
+            "type": "string"
+          },
+          "source_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "passed_checks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "source_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

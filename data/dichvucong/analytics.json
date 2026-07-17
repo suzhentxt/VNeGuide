@@ -1,0 +1,708 @@
+{
+  "host": "dichvucong.gov.vn",
+  "corpus": {
+    "procedures": 3927,
+    "distinct_codes": 3927,
+    "distinct_categories": 235,
+    "distinct_departments": 47,
+    "with_detail_body": 3927,
+    "content_chars": {
+      "n": 3927,
+      "min": 565.0,
+      "max": 129155.0,
+      "median": 3719.0,
+      "mean": 5156.4,
+      "p90": 9430.0,
+      "p99": 26142.0
+    },
+    "by_target_type": [
+      {
+        "target_type": "VIETNAMESE_CITIZEN",
+        "count": 2252
+      },
+      {
+        "target_type": "ENTERPRISE",
+        "count": 1675
+      }
+    ]
+  },
+  "governance_tier": {
+    "ministry": 1715,
+    "province": 2169,
+    "ward": 718,
+    "vertical": 673,
+    "full_process_online": 1901
+  },
+  "governance_tier_share": {
+    "ministry": 0.4367,
+    "province": 0.5523,
+    "ward": 0.1828,
+    "vertical": 0.1714,
+    "full_process_online": 0.4841
+  },
+  "digital_delivery": {
+    "online": 3466,
+    "direct": 3803,
+    "postal": 3580,
+    "online_only": 109
+  },
+  "digital_delivery_share": {
+    "online": 0.8826,
+    "direct": 0.9684,
+    "postal": 0.9116,
+    "online_only": 0.0278
+  },
+  "fees": {
+    "free_procedures": 2580,
+    "free_share": 0.657,
+    "paid_procedures": 548,
+    "fee_value_vnd": {
+      "n": 548,
+      "min": 50.0,
+      "max": 17500000000.0,
+      "median": 800000.0,
+      "mean": 41632885.7,
+      "p90": 30000000.0,
+      "p99": 100000000.0
+    }
+  },
+  "processing_time_days": {
+    "measured": 3463,
+    "n": 3463,
+    "min": 1.0,
+    "max": 420.0,
+    "median": 10.0,
+    "mean": 17.2,
+    "p90": 35.0,
+    "p99": 107.0
+  },
+  "dossier_components": {
+    "n": 3927,
+    "min": 0.0,
+    "max": 70.0,
+    "median": 3.0,
+    "mean": 4.7,
+    "p90": 9.0,
+    "p99": 27.0
+  },
+  "legal_foundations": {
+    "by_type": [
+      {
+        "type": "Nghị định",
+        "count": 3745
+      },
+      {
+        "type": "Thông tư",
+        "count": 3504
+      },
+      {
+        "type": "Luật",
+        "count": 3100
+      },
+      {
+        "type": "Nghị quyết",
+        "count": 1051
+      },
+      {
+        "type": "Quyết định",
+        "count": 254
+      },
+      {
+        "type": "Thông tư liên tịch",
+        "count": 37
+      },
+      {
+        "type": "Pháp lệnh",
+        "count": 13
+      }
+    ],
+    "top_documents": [
+      {
+        "document": "Nghị quyết số 66.7/2025/NQ-CP của Chính phủ: Quy định cắt giảm, đơn giản hóa thủ tục hành chính dựa trên dữ liệu",
+        "count": 242
+      },
+      {
+        "document": "Thông tư quy định mức thu, miễn một số khoản phí, lệ phí nhằm hỗ trợ cho doanh nghiệp, người dân",
+        "count": 194
+      },
+      {
+        "document": "Nghị quyết số 190/2025/QH15 của Quốc hội: Quy định về xử lý một số vấn đề liên quan đến sắp xếp tổ chức bộ máy nhà nước",
+        "count": 137
+      },
+      {
+        "document": "Luật Quản lý thuế",
+        "count": 122
+      },
+      {
+        "document": "Nghị quyết số 19/2026/NQ-CP ngày 29 tháng 4 năm 2026 của Chính phủ về cắt giảm, phân cấp, đơn giản hoá thủ tục hành chính, điều kiện kinh doanh thuộc quản lý của Bộ Công Thương",
+        "count": 111
+      },
+      {
+        "document": "Nghị định số 25/2025/NĐ-CP ngày 21 tháng 02 năm 2025 của Chính phủ quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Nội vụ",
+        "count": 103
+      },
+      {
+        "document": "Thông tư số 08/2025/TT-BTP ngày 12/6/2025 của Bộ trưởng Bộ Tư pháp quy định về phân định thẩm quyền của chính quyền địa phương 02 cấp và phân cấp trong lĩnh vực quản lý nhà nước của Bộ Tư pháp",
+        "count": 100
+      },
+      {
+        "document": "Thông tư số 19/2021/TT-BTC ngày 18/3/2021 của Bộ Tài chính hướng dẫn Giao dịch điện tử trong lĩnh vực thuế",
+        "count": 98
+      },
+      {
+        "document": "LUẬT  HÀNG KHÔNG DÂN DỤNG VIỆT NAM",
+        "count": 97
+      },
+      {
+        "document": "Luật 61/2014/QH13",
+        "count": 94
+      },
+      {
+        "document": "Nghị quyết số 66.18/2026/NQ-CP ngày 18 tháng 5 năm 2026 của Chính phủ về việc phân quyền, cắt giảm, đơn giản hóa thủ tục hành chính, điều kiện kinh doanh",
+        "count": 90
+      },
+      {
+        "document": "Nghị định số 118/2025/NĐ-CP của Chính phủ: Về thực hiện thủ tục hành chính theo cơ chế một cửa, một cửa liên thông tại Bộ phận Một cửa và Cổng Dịch vụ công quốc gia",
+        "count": 89
+      },
+      {
+        "document": "Luật số 93/2025/QH15 của Quốc hội: Luật Khoa học, công nghệ và đổi mới sáng tạo",
+        "count": 88
+      },
+      {
+        "document": "Sửa đổi, bổ sung một số điều của các Nghị định để cắt giảm, đơn giản hóa thủ tục hành chính liên quan đến hoạt động sản xuất, kinh doanh thuộc phạm vi quân lý nhà nước của Bộ Khoa học và Công nghệ",
+        "count": 88
+      },
+      {
+        "document": "Nghị định sửa đổi, bổ sung một số nghị định để cắt giảm, đơn giản hóa thủ tục hành chính, điều kiện kinh doanh  thuộc phạm vi quản lý của Bộ Tư pháp",
+        "count": 87
+      },
+      {
+        "document": "Luật sửa đổi, bổ sung một số điều của 15 luật trong lĩnh vực nông nghiệp và môi trường",
+        "count": 87
+      },
+      {
+        "document": "Thông tư 80/2021/TT-BTC",
+        "count": 83
+      },
+      {
+        "document": "Luật Đất đai ngày 18/01/2024",
+        "count": 81
+      },
+      {
+        "document": "Thông tư số 26/2026/TT-BCT ngày 20 tháng 5 năm 2026 của Bộ trưởng Bộ Công Thương sửa đổi bổ sung một số quy định về phân cấp, cắt giảm, đơn giản hóa thủ tục hành chính trong các lĩnh vực thuộc phạm vi quản lý của Bộ Công Thương.",
+        "count": 79
+      },
+      {
+        "document": "Nghị định 126/2020/NĐ-CP",
+        "count": 78
+      },
+      {
+        "document": "Nghị định số 146/2025/NĐ-CP",
+        "count": 77
+      },
+      {
+        "document": "Luật Địa chất và Khoáng sản",
+        "count": 76
+      },
+      {
+        "document": "sửa đổi một số điều của Thông tư 19/2021/TT-BTC ngày 18/3/2021 của Bộ trưởng Bộ Tài chính hướng dẫn giao dịch điện tử trong lĩnh vực thuế",
+        "count": 75
+      },
+      {
+        "document": "193/2025/NĐ-CP",
+        "count": 75
+      },
+      {
+        "document": "Nghị định số 45/2025/NĐ-CP ngày 28/02/2025 của Chính phủ quy định tổ chức các cơ quan chuyên môn thuộc Ủy ban nhân dân tỉnh, thành phố trực thuộc trung ương và Ủy ban nhân dân huyện, quận, thị xã, thành phố thuộc tỉnh, thành phố thuộc thành phố trực thuộc trung ương",
+        "count": 74
+      }
+    ],
+    "distinct_documents": 2060
+  },
+  "by_category": [
+    {
+      "category_name": "Hoạt động khoa học và công nghệ",
+      "count": 160,
+      "share": 0.0407
+    },
+    {
+      "category_name": "Thuế",
+      "count": 136,
+      "share": 0.0346
+    },
+    {
+      "category_name": "Hàng hải và đường thủy nội địa",
+      "count": 129,
+      "share": 0.0328
+    },
+    {
+      "category_name": "Đường bộ",
+      "count": 95,
+      "share": 0.0242
+    },
+    {
+      "category_name": "Xuất nhập khẩu",
+      "count": 93,
+      "share": 0.0237
+    },
+    {
+      "category_name": "Hàng không",
+      "count": 84,
+      "share": 0.0214
+    },
+    {
+      "category_name": "Viễn thông và Internet",
+      "count": 68,
+      "share": 0.0173
+    },
+    {
+      "category_name": "Tần số vô tuyến điện",
+      "count": 68,
+      "share": 0.0173
+    },
+    {
+      "category_name": "Chứng khoán",
+      "count": 68,
+      "share": 0.0173
+    },
+    {
+      "category_name": "Địa chất và khoáng sản",
+      "count": 68,
+      "share": 0.0173
+    },
+    {
+      "category_name": "Hải quan",
+      "count": 67,
+      "share": 0.0171
+    },
+    {
+      "category_name": "Người có công",
+      "count": 62,
+      "share": 0.0158
+    },
+    {
+      "category_name": "Tiêu chuẩn đo lường chất lượng",
+      "count": 59,
+      "share": 0.015
+    },
+    {
+      "category_name": "Du lịch",
+      "count": 58,
+      "share": 0.0148
+    },
+    {
+      "category_name": "Thú y",
+      "count": 58,
+      "share": 0.0148
+    },
+    {
+      "category_name": "Tín ngưỡng, tôn giáo",
+      "count": 56,
+      "share": 0.0143
+    },
+    {
+      "category_name": "Đất đai",
+      "count": 54,
+      "share": 0.0138
+    },
+    {
+      "category_name": "Thủy sản",
+      "count": 51,
+      "share": 0.013
+    },
+    {
+      "category_name": "Sở hữu trí tuệ",
+      "count": 46,
+      "share": 0.0117
+    },
+    {
+      "category_name": "Phòng bệnh",
+      "count": 46,
+      "share": 0.0117
+    },
+    {
+      "category_name": "Hóa chất",
+      "count": 41,
+      "share": 0.0104
+    },
+    {
+      "category_name": "Quản lý nhà nước về hội, quỹ",
+      "count": 41,
+      "share": 0.0104
+    },
+    {
+      "category_name": "Hộ tịch",
+      "count": 40,
+      "share": 0.0102
+    },
+    {
+      "category_name": "Phát thanh, truyền hình và thông tin điện tử",
+      "count": 39,
+      "share": 0.0099
+    },
+    {
+      "category_name": "Di sản văn hóa",
+      "count": 38,
+      "share": 0.0097
+    },
+    {
+      "category_name": "Thủy lợi",
+      "count": 37,
+      "share": 0.0094
+    },
+    {
+      "category_name": "Dược phẩm",
+      "count": 37,
+      "share": 0.0094
+    },
+    {
+      "category_name": "Quản lý xuất nhập cảnh",
+      "count": 36,
+      "share": 0.0092
+    },
+    {
+      "category_name": "Chăn nuôi",
+      "count": 35,
+      "share": 0.0089
+    },
+    {
+      "category_name": "Báo chí",
+      "count": 35,
+      "share": 0.0089
+    },
+    {
+      "category_name": "Luật sư",
+      "count": 34,
+      "share": 0.0087
+    },
+    {
+      "category_name": "Thành lập và hoạt động của doanh nghiệp",
+      "count": 34,
+      "share": 0.0087
+    },
+    {
+      "category_name": "Vật liệu nổ công nghiệp, tiền chất thuốc nổ",
+      "count": 34,
+      "share": 0.0087
+    },
+    {
+      "category_name": "Khám bệnh, chữa bệnh",
+      "count": 33,
+      "share": 0.0084
+    },
+    {
+      "category_name": "Trồng trọt",
+      "count": 32,
+      "share": 0.0081
+    },
+    {
+      "category_name": "Quản lý vũ khí, vật liệu nổ, công cụ hỗ trợ và pháo",
+      "count": 30,
+      "share": 0.0076
+    },
+    {
+      "category_name": "Đầu tư tại Việt nam",
+      "count": 30,
+      "share": 0.0076
+    },
+    {
+      "category_name": "An toàn bức xạ và hạt nhân",
+      "count": 30,
+      "share": 0.0076
+    },
+    {
+      "category_name": "Hoạt động xây dựng",
+      "count": 29,
+      "share": 0.0074
+    },
+    {
+      "category_name": "Tài nguyên nước",
+      "count": 29,
+      "share": 0.0074
+    }
+  ],
+  "by_department": [
+    {
+      "department": "Bộ Nông nghiệp và Môi trường",
+      "count": 533
+    },
+    {
+      "department": "Bộ Tài chính",
+      "count": 445
+    },
+    {
+      "department": "Bộ Khoa học và Công nghệ",
+      "count": 419
+    },
+    {
+      "department": "Bộ Công thương",
+      "count": 399
+    },
+    {
+      "department": "Bộ xây dựng (Giao thông vận tải cũ)",
+      "count": 334
+    },
+    {
+      "department": "Bộ Văn hóa, Thể thao và Du lịch",
+      "count": 263
+    },
+    {
+      "department": "Bộ Tư pháp",
+      "count": 239
+    },
+    {
+      "department": "Bộ Y tế",
+      "count": 224
+    },
+    {
+      "department": "Bộ Nội vụ",
+      "count": 192
+    },
+    {
+      "department": "Bộ Công an",
+      "count": 169
+    },
+    {
+      "department": "Bộ Giáo dục và Đào tạo",
+      "count": 119
+    },
+    {
+      "department": "Bộ Quốc phòng",
+      "count": 104
+    },
+    {
+      "department": "UBND Thành phố Đà Nẵng",
+      "count": 58
+    },
+    {
+      "department": "Bộ Dân tộc và Tôn giáo",
+      "count": 58
+    },
+    {
+      "department": "UBND tỉnh Bắc Ninh",
+      "count": 49
+    },
+    {
+      "department": "Ngân hàng Nhà nước Việt Nam",
+      "count": 44
+    },
+    {
+      "department": "Bộ Xây dựng",
+      "count": 43
+    },
+    {
+      "department": "UBND Thành phố Huế",
+      "count": 35
+    },
+    {
+      "department": "UBND tỉnh Tuyên Quang",
+      "count": 30
+    },
+    {
+      "department": "Bộ Ngoại giao",
+      "count": 30
+    },
+    {
+      "department": "UBND Thành phố Hải Phòng",
+      "count": 17
+    },
+    {
+      "department": "UBND tỉnh Ninh Bình",
+      "count": 13
+    },
+    {
+      "department": "Tập đoàn Điện lực Việt Nam",
+      "count": 12
+    },
+    {
+      "department": "UBND tỉnh Lào Cai",
+      "count": 10
+    },
+    {
+      "department": "UBND tỉnh Nghệ An",
+      "count": 8
+    },
+    {
+      "department": "UBND Thành phố Hồ Chí Minh",
+      "count": 7
+    },
+    {
+      "department": "UBND tỉnh Hà Tĩnh",
+      "count": 7
+    },
+    {
+      "department": "Trung tâm phục vụ hành chính công Thành phố Hà Nội",
+      "count": 7
+    },
+    {
+      "department": "UBND tỉnh Thái Nguyên",
+      "count": 6
+    },
+    {
+      "department": "UBND tỉnh Quảng Ninh",
+      "count": 5
+    },
+    {
+      "department": "UBND tỉnh Lâm Đồng",
+      "count": 5
+    },
+    {
+      "department": "UBND tỉnh Lai Châu",
+      "count": 5
+    },
+    {
+      "department": "UBND tỉnh Đồng Tháp",
+      "count": 5
+    },
+    {
+      "department": "UBND tỉnh Cao Bằng",
+      "count": 4
+    },
+    {
+      "department": "UBND tỉnh Gia Lai",
+      "count": 4
+    },
+    {
+      "department": "UBND tỉnh Sơn La",
+      "count": 3
+    },
+    {
+      "department": "UBND tỉnh Đắk Lắk",
+      "count": 3
+    },
+    {
+      "department": "UBND tỉnh Thanh Hóa",
+      "count": 3
+    },
+    {
+      "department": "UBND tỉnh Vĩnh Long",
+      "count": 3
+    },
+    {
+      "department": "UBND tỉnh An Giang",
+      "count": 3
+    }
+  ],
+  "by_code_prefix": [
+    {
+      "code_prefix": " ",
+      "count": 2
+    },
+    {
+      "code_prefix": "1",
+      "count": 3196
+    },
+    {
+      "code_prefix": "2",
+      "count": 567
+    },
+    {
+      "code_prefix": "3",
+      "count": 162
+    }
+  ],
+  "content_char_distribution": [
+    {
+      "range": "0-499",
+      "count": 0
+    },
+    {
+      "range": "500-1499",
+      "count": 202
+    },
+    {
+      "range": "1500-2999",
+      "count": 1220
+    },
+    {
+      "range": "3000-5999",
+      "count": 1536
+    },
+    {
+      "range": "6000-11999",
+      "count": 738
+    },
+    {
+      "range": "12000+",
+      "count": 231
+    }
+  ],
+  "examples": [
+    {
+      "category_name": "Hoạt động khoa học và công nghệ",
+      "code": "1.014597",
+      "procedure_name": "Thủ tục xét, công nhận hiệu quả áp dụng, khả năng nhân rộng, phạm vi ảnh hưởng của sáng kiến, đề tài khoa học, đề án khoa học trong toàn quốc",
+      "department": "UBND tỉnh Nghệ An",
+      "source_url": "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019e0236-92f3-725b-8049-6742994ff30a&formalityCaseId=019e1473-67f6-70ee-bd64-c23e6d019caa"
+    },
+    {
+      "category_name": "Thuế",
+      "code": "1.009825",
+      "procedure_name": "Thông báo/thay đổi thông tin số tài khoản/số hiệu ví điện tử",
+      "department": "Bộ Tài chính",
+      "source_url": "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019e5e4f-6ea7-7038-aeed-2498e3c3bf59&formalityCaseId=019e937f-3009-7352-b644-35c3d6342ec8"
+    },
+    {
+      "category_name": "Hàng hải và đường thủy nội địa",
+      "code": "1.003570",
+      "procedure_name": "Phê duyệt kế hoạch an ninh và cấp giấy chứng nhận phù hợp an ninh cảng thủy nội địa tiếp nhận phương tiện thủy nước ngoài",
+      "department": "Bộ xây dựng (Giao thông vận tải cũ)",
+      "source_url": "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bfe-32cc-75e7-acd7-2065d436851f&formalityCaseId=019dda0e-bc2a-75ac-947e-ff48a104bca2"
+    },
+    {
+      "category_name": "Đường bộ",
+      "code": "3.000557",
+      "procedure_name": "Chấp thuận thiết kế nút giao đấu nối với đường địa phương đang khai thác",
+      "department": "UBND tỉnh Ninh Bình",
+      "source_url": "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019df276-f028-75be-9e8e-37c57732cd66&formalityCaseId=019e1775-5c0b-710b-92d9-5214f7dc5032"
+    },
+    {
+      "category_name": "Xuất nhập khẩu",
+      "code": "2.001282",
+      "procedure_name": "Thủ tục cấp Giấy phép xuất khẩu, nhập khẩu hàng hóa đã có quyết định tạm ngừng xuất khẩu, tạm ngừng nhập khẩu nhằm phục vụ mục đích đặc dụng, bảo hành, phân tích, kiểm nghiệm, nghiên cứu khoa học, y tế, sản xuất dược phẩm, bảo vệ quốc phòng, an ninh",
+      "department": "Bộ Công thương",
+      "source_url": "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bf8-3b15-73fc-b34a-f19ba3db39df&formalityCaseId=019dc0f7-3439-708f-9e6b-7ad405641c45"
+    },
+    {
+      "category_name": "Hàng không",
+      "code": "1.002886",
+      "procedure_name": "Thủ tục đóng tạm thời cảng hàng không, sân bay trong trường hợp thiên tai, dịch bệnh, ô nhiễm môi trường, sự cố, tai nạn hàng không và các tình huống bất thường khác uy hiếp đến an toàn hàng không, an ninh hàng không",
+      "department": "Bộ xây dựng (Giao thông vận tải cũ)",
+      "source_url": "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bfe-2ac4-756a-b881-da68feae4214&formalityCaseId=019dbb31-d57a-77f5-9e0b-cfcb9ad54f35"
+    },
+    {
+      "category_name": "Viễn thông và Internet",
+      "code": "1.013353",
+      "procedure_name": "Báo cáo đăng ký chuyển giao tên miền New gTLD",
+      "department": "Bộ Khoa học và Công nghệ",
+      "source_url": "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bf9-5cb5-748c-a84a-c0381a89fb80&formalityCaseId=019dc45f-b96e-7660-bbb5-4448c846c3da"
+    },
+    {
+      "category_name": "Tần số vô tuyến điện",
+      "code": "1.011892",
+      "procedure_name": "Cấp đổi giấy phép sử dụng tần số và thiết bị vô tuyến điện đối với đài vô tuyến điện thuộc nghiệp vụ di động hàng không và nghiệp vụ vô tuyến dẫn đường hàng không",
+      "department": "Bộ Khoa học và Công nghệ",
+      "source_url": "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bf9-4d4a-7628-987e-5f3386af6aa0&formalityCaseId=019dc08a-df7f-700f-97c6-7c2a7517a75a"
+    },
+    {
+      "category_name": "Chứng khoán",
+      "code": "1.009543",
+      "procedure_name": "Cấp, cấp lại chứng chỉ hành nghề chứng khoán",
+      "department": "Bộ Tài chính",
+      "source_url": "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bfc-8bc3-70ce-ad58-23930a5a2e89&formalityCaseId=019db9bd-ac65-77dc-b542-5f6c21a45c8d"
+    },
+    {
+      "category_name": "Địa chất và khoáng sản",
+      "code": "1.014346",
+      "procedure_name": "Giao nộp, thu nhận thông tin, dữ liệu địa chất, khoáng sản (cấp tỉnh)",
+      "department": "Bộ Nông nghiệp và Môi trường",
+      "source_url": "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bfa-9636-708f-9e3e-867d3cd053f8&formalityCaseId=019db947-72e3-766c-94b4-c59a53c125e2"
+    }
+  ],
+  "projection": {
+    "with_pca": 3927,
+    "with_umap": 3927,
+    "with_tsne": 3927
+  }
+}

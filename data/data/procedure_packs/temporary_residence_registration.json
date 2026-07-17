@@ -1,0 +1,433 @@
+{
+  "pack_id": "PROC-1.004194-TEMP-RESIDENCE",
+  "procedure_code": "1.004194",
+  "procedure_name": "Đăng ký tạm trú",
+  "jurisdiction": "Toàn quốc; pilot Hà Nội",
+  "version": "2.0.0",
+  "status": "approved",
+  "effective_from": null,
+  "verified_at": "2026-07-17",
+  "next_review_at": "2026-08-17",
+  "scope": {
+    "in_scope": [
+      "Công dân Việt Nam đăng ký tạm trú theo cá nhân hoặc hộ gia đình",
+      "Người chưa thành niên có ý kiến đồng ý phù hợp",
+      "Chỗ ở thuộc sở hữu, thuê, mượn, ở nhờ hoặc về với hộ gia đình",
+      "Nộp trực tuyến hoặc trực tiếp"
+    ],
+    "needs_official_review": [
+      "Đăng ký tạm trú theo danh sách",
+      "Đăng ký tại nơi đơn vị Công an/Quân đội đóng quân",
+      "Người mới nhập hoặc trở lại quốc tịch Việt Nam",
+      "Trường hợp dữ liệu chỗ ở hoặc sự đồng ý không thể xác minh"
+    ],
+    "out_of_scope": [
+      "Tự nộp hồ sơ vào CSDL cư trú",
+      "Phê duyệt đăng ký tạm trú"
+    ]
+  },
+  "routing": {
+    "aliases": [
+      "đăng ký tạm trú",
+      "khai báo tạm trú",
+      "làm tạm trú nhà thuê",
+      "đăng ký tạm trú cho con"
+    ],
+    "confirmation_message": "Bạn muốn đăng ký tạm trú tại nơi đang sinh sống ngoài nơi thường trú, đúng không?",
+    "required_clarifications": [
+      "registration_mode",
+      "applicant_is_minor",
+      "dwelling_basis",
+      "submission_channel"
+    ]
+  },
+  "service_info": {
+    "authority": "Công an cấp xã",
+    "channels": [
+      "online",
+      "direct"
+    ],
+    "processing_time_display": "03 ngày làm việc",
+    "fee": {
+      "individual_or_household": {
+        "online_vnd": 7000,
+        "direct_vnd": 15000
+      },
+      "by_list": {
+        "online_vnd_per_person": 5000,
+        "direct_vnd_per_person": 10000
+      },
+      "exemption": "Miễn phí nếu thuộc diện miễn theo quy định và có thể chứng minh/tra cứu"
+    },
+    "result": "Cập nhật thông tin cư trú và thông báo kết quả giải quyết thủ tục về cư trú"
+  },
+  "forms": [
+    {
+      "form_id": "CT01",
+      "name": "Tờ khai thay đổi thông tin cư trú – Mẫu CT01",
+      "channel": "all",
+      "source_ids": [
+        "SRC-DVC-1004194",
+        "SRC-CIRC-53-2025"
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "item_id": "TEMP-DOC-001",
+      "name": "Tờ khai thay đổi thông tin cư trú – Mẫu CT01",
+      "requirement": "required",
+      "condition": "Một bản chính; người chưa thành niên phải có ý kiến đồng ý của cha, mẹ hoặc người giám hộ trong tờ khai hoặc bằng văn bản.",
+      "source_ids": [
+        "SRC-DVC-1004194",
+        "SRC-CIRC-53-2025"
+      ]
+    },
+    {
+      "item_id": "TEMP-DOC-002",
+      "name": "Thông tin chứng minh chỗ ở hợp pháp",
+      "requirement": "conditional_fallback",
+      "condition": "Hệ thống/cơ quan ưu tiên khai thác từ cơ sở dữ liệu; chỉ xuất trình khi không khai thác được.",
+      "source_ids": [
+        "SRC-DVC-1004194",
+        "SRC-LAW-154-2024"
+      ]
+    },
+    {
+      "item_id": "TEMP-DOC-003",
+      "name": "Ý kiến đồng ý của cha, mẹ hoặc người giám hộ",
+      "requirement": "conditional_minor",
+      "condition": "Áp dụng với người đăng ký tạm trú là người chưa thành niên.",
+      "source_ids": [
+        "SRC-DVC-1004194",
+        "SRC-CIRC-53-2025"
+      ]
+    }
+  ],
+  "fields": [
+    {
+      "field_id": "registration_mode",
+      "label": "Hình thức đăng ký",
+      "type": "enum",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ],
+      "values": [
+        "individual_or_household",
+        "by_list",
+        "armed_forces"
+      ]
+    },
+    {
+      "field_id": "applicant_full_name",
+      "label": "Họ tên người đăng ký",
+      "type": "string",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    },
+    {
+      "field_id": "applicant_date_of_birth",
+      "label": "Ngày sinh",
+      "type": "date",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    },
+    {
+      "field_id": "applicant_personal_id",
+      "label": "Số định danh cá nhân",
+      "type": "string",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ],
+      "pattern": "^\\d{12}$"
+    },
+    {
+      "field_id": "applicant_is_minor",
+      "label": "Người đăng ký chưa thành niên",
+      "type": "boolean",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    },
+    {
+      "field_id": "minor_consent_present",
+      "label": "Có ý kiến đồng ý của cha/mẹ/người giám hộ",
+      "type": "boolean",
+      "requirement": "conditional_minor",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    },
+    {
+      "field_id": "temporary_address",
+      "label": "Địa chỉ tạm trú",
+      "type": "string",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    },
+    {
+      "field_id": "temporary_start_date",
+      "label": "Ngày bắt đầu tạm trú",
+      "type": "date",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    },
+    {
+      "field_id": "temporary_end_date",
+      "label": "Ngày kết thúc dự kiến",
+      "type": "date",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    },
+    {
+      "field_id": "legal_dwelling_data_retrievable",
+      "label": "Thông tin chỗ ở hợp pháp có thể khai thác từ CSDL",
+      "type": "boolean",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    },
+    {
+      "field_id": "legal_dwelling_document_present",
+      "label": "Có giấy tờ chứng minh chỗ ở hợp pháp",
+      "type": "boolean",
+      "requirement": "conditional_fallback",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    },
+    {
+      "field_id": "dwelling_basis",
+      "label": "Căn cứ sử dụng chỗ ở",
+      "type": "enum",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ],
+      "values": [
+        "owned",
+        "rented",
+        "borrowed",
+        "accommodated",
+        "join_family_household",
+        "other"
+      ]
+    },
+    {
+      "field_id": "owner_or_householder_consent",
+      "label": "Có sự đồng ý của chủ hộ/chủ sở hữu khi cần",
+      "type": "boolean",
+      "requirement": "conditional",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    },
+    {
+      "field_id": "submission_channel",
+      "label": "Kênh nộp",
+      "type": "enum",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ],
+      "values": [
+        "online",
+        "direct"
+      ]
+    },
+    {
+      "field_id": "fee_exemption_claimed",
+      "label": "Đề nghị miễn lệ phí",
+      "type": "boolean",
+      "requirement": "optional",
+      "source_ids": [
+        "SRC-FEE-75-2022"
+      ]
+    }
+  ],
+  "validation_rules": [
+    {
+      "rule_id": "TEMP-SCOPE-001",
+      "applies_to": "1.004194",
+      "condition": "registration_mode in ['by_list','armed_forces']",
+      "severity": "needs_review",
+      "message": "Trường hợp đăng ký theo danh sách hoặc tại đơn vị lực lượng vũ trang chưa được kiểm tra tự động trong MVP.",
+      "suggestion": "Chuyển sang hướng dẫn chính thức/cán bộ để chuẩn bị hồ sơ chuyên biệt.",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    },
+    {
+      "rule_id": "TEMP-FORM-001",
+      "applies_to": "1.004194",
+      "condition": "ct01_missing",
+      "severity": "error",
+      "message": "Thiếu Tờ khai CT01.",
+      "suggestion": "Hoàn thành Mẫu CT01 hiện hành.",
+      "source_ids": [
+        "SRC-DVC-1004194",
+        "SRC-CIRC-53-2025"
+      ]
+    },
+    {
+      "rule_id": "TEMP-ID-001",
+      "applies_to": "1.004194",
+      "condition": "applicant_personal_id does not match 12 digits",
+      "severity": "error",
+      "message": "Số định danh cá nhân chưa đúng định dạng.",
+      "suggestion": "Nhập đủ 12 chữ số.",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    },
+    {
+      "rule_id": "TEMP-MINOR-001",
+      "applies_to": "1.004194",
+      "condition": "applicant_is_minor and not minor_consent_present",
+      "severity": "error",
+      "message": "Thiếu ý kiến đồng ý của cha, mẹ hoặc người giám hộ.",
+      "suggestion": "Ghi ý kiến trong CT01 hoặc đính kèm văn bản đồng ý.",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    },
+    {
+      "rule_id": "TEMP-DATE-001",
+      "applies_to": "1.004194",
+      "condition": "temporary_end_date <= temporary_start_date",
+      "severity": "error",
+      "message": "Thời gian tạm trú chưa hợp lệ.",
+      "suggestion": "Ngày kết thúc phải sau ngày bắt đầu.",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    },
+    {
+      "rule_id": "TEMP-HOUSE-001",
+      "applies_to": "1.004194",
+      "condition": "not legal_dwelling_data_retrievable and not legal_dwelling_document_present",
+      "severity": "error",
+      "message": "Chưa có thông tin hoặc giấy tờ chứng minh chỗ ở hợp pháp.",
+      "suggestion": "Bổ sung giấy tờ khi cơ sở dữ liệu không khai thác được.",
+      "source_ids": [
+        "SRC-DVC-1004194",
+        "SRC-LAW-154-2024"
+      ]
+    },
+    {
+      "rule_id": "TEMP-RENT-001",
+      "applies_to": "1.004194",
+      "condition": "dwelling_basis in ['rented','borrowed','accommodated'] and document_marked_not_notarized",
+      "severity": "info",
+      "message": "Văn bản cho thuê, cho mượn, cho ở nhờ không bắt buộc công chứng hoặc chứng thực đối với hồ sơ tạm trú.",
+      "suggestion": "Không yêu cầu thêm công chứng chỉ vì lý do này.",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    },
+    {
+      "rule_id": "TEMP-FEE-ONLINE",
+      "applies_to": "1.004194",
+      "condition": "submission_channel == 'online' and registration_mode == 'individual_or_household' and not fee_exemption_claimed",
+      "severity": "info",
+      "message": "Lệ phí dự kiến 7.000 đồng/lần đăng ký.",
+      "suggestion": "Xác nhận mức phí tại bước nộp chính thức.",
+      "source_ids": [
+        "SRC-DVC-1004194",
+        "SRC-FEE-75-2022"
+      ]
+    },
+    {
+      "rule_id": "TEMP-FEE-DIRECT",
+      "applies_to": "1.004194",
+      "condition": "submission_channel == 'direct' and registration_mode == 'individual_or_household' and not fee_exemption_claimed",
+      "severity": "info",
+      "message": "Lệ phí dự kiến 15.000 đồng/lần đăng ký.",
+      "suggestion": "Xác nhận mức phí tại bước nộp chính thức.",
+      "source_ids": [
+        "SRC-DVC-1004194",
+        "SRC-FEE-75-2022"
+      ]
+    },
+    {
+      "rule_id": "TEMP-CITIZENSHIP-001",
+      "applies_to": "1.004194",
+      "condition": "newly_naturalized_or_restored_citizenship",
+      "severity": "needs_review",
+      "message": "Trường hợp quốc tịch đặc biệt cần giấy tờ và kiểm tra chuyên biệt.",
+      "suggestion": "Chuyển cán bộ/nguồn chính thức.",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    }
+  ],
+  "guidance_steps": [
+    {
+      "step": 1,
+      "text": "Xác định hình thức đăng ký cá nhân/hộ gia đình và trường hợp người chưa thành niên.",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    },
+    {
+      "step": 2,
+      "text": "Hoàn thành CT01 và khai địa chỉ, thời hạn tạm trú.",
+      "source_ids": [
+        "SRC-DVC-1004194",
+        "SRC-CIRC-53-2025"
+      ]
+    },
+    {
+      "step": 3,
+      "text": "Kiểm tra thông tin chỗ ở hợp pháp; chỉ yêu cầu tải giấy tờ khi hệ thống không khai thác được.",
+      "source_ids": [
+        "SRC-DVC-1004194",
+        "SRC-LAW-154-2024"
+      ]
+    },
+    {
+      "step": 4,
+      "text": "Kiểm tra ý kiến cha mẹ/người giám hộ, sự đồng ý của chủ hộ/chủ sở hữu khi áp dụng.",
+      "source_ids": [
+        "SRC-DVC-1004194"
+      ]
+    },
+    {
+      "step": 5,
+      "text": "Hiển thị lệ phí theo kênh nộp và chuyển sang Công an cấp xã/Cổng dịch vụ công để nộp.",
+      "source_ids": [
+        "SRC-DVC-1004194",
+        "SRC-FEE-75-2022"
+      ]
+    }
+  ],
+  "source_ids": [
+    "SRC-DVC-1004194",
+    "SRC-LAW-154-2024",
+    "SRC-CIRC-53-2025",
+    "SRC-CIRC-54-2025",
+    "SRC-FEE-75-2022"
+  ],
+  "approval": {
+    "owner": "Domain & Data Lead",
+    "reviewers": [
+      "Product & UX Lead",
+      "AI & Evaluation Lead"
+    ],
+    "approved_at": "2026-07-17"
+  }
+}

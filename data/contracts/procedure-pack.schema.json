@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vneguide.local/schemas/procedure-pack-v2.json",
+  "title": "VNeGuide Procedure Pack v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "pack_id",
+    "procedure_code",
+    "procedure_name",
+    "jurisdiction",
+    "version",
+    "status",
+    "verified_at",
+    "scope",
+    "routing",
+    "service_info",
+    "forms",
+    "checklist",
+    "fields",
+    "validation_rules",
+    "guidance_steps",
+    "source_ids",
+    "approval"
+  ],
+  "properties": {
+    "pack_id": {
+      "type": "string"
+    },
+    "procedure_code": {
+      "type": "string"
+    },
+    "procedure_name": {
+      "type": "string"
+    },
+    "jurisdiction": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "needs_review",
+        "approved",
+        "stale",
+        "retired"
+      ]
+    },
+    "effective_from": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "verified_at": {
+      "type": "string"
+    },
+    "next_review_at": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "object"
+    },
+    "routing": {
+      "type": "object"
+    },
+    "service_info": {
+      "type": "object"
+    },
+    "forms": {
+      "type": "array"
+    },
+    "checklist": {
+      "type": "array"
+    },
+    "fields": {
+      "type": "array"
+    },
+    "validation_rules": {
+      "type": "array"
+    },
+    "guidance_steps": {
+      "type": "array"
+    },
+    "source_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "approval": {
+      "type": "object"
+    }
+  }
+}

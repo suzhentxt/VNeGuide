@@ -1,0 +1,260 @@
+[
+  {
+    "source_id": "SRC-DVC-2000635",
+    "title": "Cấp bản sao Trích lục hộ tịch, bản sao Giấy khai sinh",
+    "procedure_code": "2.000635",
+    "publisher": "Cổng Dịch vụ công Quốc gia / Bộ Tư pháp",
+    "jurisdiction": "Toàn quốc; VNeGuide giới hạn biến thể bản sao Giấy khai sinh",
+    "effective_from": "Theo bản ghi thủ tục hiện hành",
+    "verified_at": "2026-07-17",
+    "authority_tier": "A1",
+    "status": "approved",
+    "url": "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bfd-867c-72db-b6a7-dcbd8c763807&formalityCaseId=019d62ec-f5f3-7429-afd0-1d8765b43722",
+    "local_file": "references/chi-tiet-thu-tuc-2.000635.pdf",
+    "used_for": [
+      "tên và mã thủ tục",
+      "đối tượng",
+      "cơ quan thực hiện",
+      "kênh nộp",
+      "mẫu/tờ khai",
+      "ủy quyền",
+      "giấy tờ tùy thân",
+      "ảnh/tệp trực tuyến",
+      "phí tham chiếu",
+      "kết quả thực hiện",
+      "escalation khi không thể tra cứu"
+    ],
+    "notes": "Tên thủ tục chính thức rộng hơn phạm vi MVP. Runtime chỉ route tới bản sao Giấy khai sinh; trích lục kết hôn/khai tử là out_of_scope."
+  },
+  {
+    "source_id": "SRC-DVC-1013314",
+    "title": "Xác nhận về điều kiện diện tích bình quân nhà ở để đăng ký thường trú vào chỗ ở do thuê, mượn, ở nhờ; nhà ở, đất ở không có tranh chấp quyền sở hữu nhà ở, quyền sử dụng đất ở, không thuộc địa điểm không được đăng ký thường trú mới",
+    "procedure_code": "1.013314",
+    "publisher": "Cổng Dịch vụ công Quốc gia / Bộ Công an",
+    "jurisdiction": "Toàn quốc; áp dụng ngưỡng Hà Nội trong pilot",
+    "effective_from": "Theo bản ghi thủ tục hiện hành",
+    "verified_at": "2026-07-17",
+    "authority_tier": "A1",
+    "status": "approved",
+    "url": "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bf7-9660-707e-97b1-ef8876f54d3b&formalityCaseId=019edee8-c4c2-74ba-9e0d-41483a0bb28f",
+    "local_file": "references/source_excerpt_1.013314.md",
+    "used_for": [
+      "tên và mã thủ tục",
+      "cơ quan tiếp nhận",
+      "trình tự",
+      "thời hạn",
+      "kênh nộp",
+      "Mẫu số 02",
+      "phí",
+      "kết quả"
+    ],
+    "notes": "Hệ thống chỉ pre-check dữ liệu và phép tính diện tích. Tranh chấp, quyền sở hữu/quyền sử dụng và địa điểm cấm phải do UBND cấp xã xác nhận."
+  },
+  {
+    "source_id": "SRC-DVC-1004194",
+    "title": "Đăng ký tạm trú",
+    "procedure_code": "1.004194",
+    "publisher": "Cổng Dịch vụ công Quốc gia / Bộ Công an",
+    "jurisdiction": "Toàn quốc; pilot Hà Nội",
+    "effective_from": "Theo bản ghi thủ tục hiện hành",
+    "verified_at": "2026-07-17",
+    "authority_tier": "A1",
+    "status": "approved",
+    "url": "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bf7-770b-734d-b7fb-5e1995f194f4&formalityCaseId=019de978-41a0-7389-aafd-fba726512779",
+    "local_file": "references/ChiTietTTHC_1.004194.doc",
+    "used_for": [
+      "tên và mã thủ tục",
+      "cơ quan tiếp nhận",
+      "CT01",
+      "chỗ ở hợp pháp",
+      "người chưa thành niên",
+      "kênh nộp",
+      "thời hạn",
+      "lệ phí",
+      "trường hợp đặc biệt"
+    ],
+    "notes": "MVP tự động kiểm tra trường hợp cá nhân/hộ gia đình thông thường. Đăng ký theo danh sách, lực lượng vũ trang và trường hợp quốc tịch đặc biệt chuyển needs_official_review."
+  },
+  {
+    "source_id": "SRC-FORM-M02",
+    "title": "Mẫu số 02 – Tờ khai xác nhận tình trạng chỗ ở hợp pháp, diện tích nhà ở tối thiểu để đăng ký thường trú, đăng ký tạm trú",
+    "procedure_code": "1.013314",
+    "publisher": "Phụ lục Nghị định 154/2024/NĐ-CP",
+    "jurisdiction": "Toàn quốc",
+    "effective_from": "2025-01-10",
+    "verified_at": "2026-07-17",
+    "authority_tier": "A2",
+    "status": "approved",
+    "url": "https://vanban.chinhphu.vn/?docid=211821&pageid=27160",
+    "local_file": "references/mau_so_02_xac_nhan_cho_o.docx",
+    "used_for": [
+      "schema biểu mẫu",
+      "các trường diện tích",
+      "số người",
+      "nội dung UBND cần xác nhận"
+    ],
+    "notes": "Các nội dung “không tranh chấp” và “không thuộc địa điểm cấm đăng ký thường trú mới” là nội dung xác nhận của UBND, không phải kết luận của AI."
+  },
+  {
+    "source_id": "SRC-LAW-154-2024",
+    "title": "Nghị định 154/2024/NĐ-CP quy định chi tiết một số điều và biện pháp thi hành Luật Cư trú",
+    "procedure_code": null,
+    "publisher": "Chính phủ",
+    "jurisdiction": "Toàn quốc",
+    "effective_from": "2025-01-10",
+    "verified_at": "2026-07-17",
+    "authority_tier": "A2",
+    "status": "approved",
+    "url": "https://vanban.chinhphu.vn/?docid=211821&pageid=27160",
+    "local_file": null,
+    "used_for": [
+      "chỗ ở hợp pháp",
+      "giấy tờ fallback",
+      "Mẫu số 02",
+      "điều kiện dữ liệu cư trú"
+    ],
+    "notes": "Nguồn quy phạm chính cho biểu mẫu và giấy tờ chứng minh chỗ ở."
+  },
+  {
+    "source_id": "SRC-HN-AREA-2023",
+    "title": "Nghị quyết 10/2023/NQ-HĐND của HĐND thành phố Hà Nội về diện tích nhà ở tối thiểu khi đăng ký thường trú tại chỗ ở thuê, mượn, ở nhờ",
+    "procedure_code": "1.013314",
+    "publisher": "HĐND thành phố Hà Nội / Cổng thông tin Hà Nội",
+    "jurisdiction": "Hà Nội",
+    "effective_from": "2023-07-16",
+    "verified_at": "2026-07-17",
+    "authority_tier": "A1-LOCAL",
+    "status": "approved",
+    "url": "https://hanoi.gov.vn/hoat-dong-cua-hdnd-thanh-pho-ha-noi/nghi-quyet-quy-dinh-dien-tich-nha-o-toi-thieu-de-dang-ky-thuong-tru-vao-cho-o-hop-phap-do-thue-muon-o-nho-tai-thanh-pho-ha-noi-42858584.htm",
+    "local_file": null,
+    "used_for": [
+      "ngưỡng diện tích Hà Nội: nội thành 15 m2 sàn/người, ngoại thành 8 m2 sàn/người"
+    ],
+    "notes": "MVP yêu cầu người dùng chọn khu vực nội thành/ngoại thành; không tự suy đoán từ địa chỉ nếu chưa có bảng ánh xạ địa giới đã duyệt."
+  },
+  {
+    "source_id": "SRC-LAW-68-2020",
+    "title": "Luật Cư trú 68/2020/QH14",
+    "procedure_code": null,
+    "publisher": "Quốc hội",
+    "jurisdiction": "Toàn quốc",
+    "effective_from": "2021-07-01",
+    "verified_at": "2026-07-17",
+    "authority_tier": "A2",
+    "status": "approved",
+    "url": "https://vanban.chinhphu.vn/?docid=202010&pageid=27160",
+    "local_file": null,
+    "used_for": [
+      "điều kiện cư trú",
+      "đăng ký tạm trú",
+      "địa điểm không được đăng ký thường trú mới"
+    ],
+    "notes": "Không dùng LLM để diễn giải thành điều kiện mới ngoài procedure pack đã duyệt."
+  },
+  {
+    "source_id": "SRC-CIRC-53-2025",
+    "title": "Thông tư 53/2025/TT-BCA sửa đổi quy định và biểu mẫu cư trú",
+    "procedure_code": "1.004194",
+    "publisher": "Bộ Công an",
+    "jurisdiction": "Toàn quốc",
+    "effective_from": "2025-07-01",
+    "verified_at": "2026-07-17",
+    "authority_tier": "A2",
+    "status": "approved",
+    "url": "",
+    "local_file": null,
+    "used_for": [
+      "Mẫu CT01 hiện hành",
+      "ý kiến cha mẹ/người giám hộ đối với người chưa thành niên"
+    ],
+    "notes": "Biểu mẫu triển khai phải lấy đúng bản kèm Thông tư 53/2025/TT-BCA."
+  },
+  {
+    "source_id": "SRC-CIRC-54-2025",
+    "title": "Thông tư 54/2025/TT-BCA quy định quy trình đăng ký cư trú",
+    "procedure_code": "1.004194",
+    "publisher": "Bộ Công an",
+    "jurisdiction": "Toàn quốc",
+    "effective_from": "2025-07-01",
+    "verified_at": "2026-07-17",
+    "authority_tier": "A2",
+    "status": "approved",
+    "url": "",
+    "local_file": null,
+    "used_for": [
+      "quy trình tiếp nhận và xử lý đăng ký tạm trú"
+    ],
+    "notes": ""
+  },
+  {
+    "source_id": "SRC-FEE-75-2022",
+    "title": "Thông tư 75/2022/TT-BTC về lệ phí đăng ký cư trú",
+    "procedure_code": "1.004194",
+    "publisher": "Bộ Tài chính",
+    "jurisdiction": "Toàn quốc",
+    "effective_from": "Theo văn bản hiện hành",
+    "verified_at": "2026-07-17",
+    "authority_tier": "A2",
+    "status": "approved",
+    "url": "",
+    "local_file": null,
+    "used_for": [
+      "mức lệ phí trực tiếp/trực tuyến và trường hợp miễn"
+    ],
+    "notes": "UI phải tính theo kênh và loại đăng ký; trường hợp miễn chỉ đánh dấu dự kiến nếu không tra cứu được dữ liệu chứng minh."
+  },
+  {
+    "source_id": "SRC-CONTEXT-1004222",
+    "title": "Đăng ký thường trú – trường hợp chỗ ở hợp pháp do thuê, mượn, ở nhờ",
+    "procedure_code": "1.004222",
+    "publisher": "Cổng Dịch vụ công Quốc gia / Bộ Công an",
+    "jurisdiction": "Toàn quốc",
+    "effective_from": "Theo bản ghi thủ tục hiện hành",
+    "verified_at": "2026-07-17",
+    "authority_tier": "B-CONTEXT",
+    "status": "context_only",
+    "url": "",
+    "local_file": null,
+    "used_for": [
+      "xác nhận vai trò của Mẫu số 02 như giấy tờ fallback khi dữ liệu diện tích không khai thác được"
+    ],
+    "notes": "VNeGuide không hỗ trợ thủ tục đăng ký thường trú 1.004222 trong phiên bản này."
+  },
+  {
+    "source_id": "SRC-DATA-TMQUAN",
+    "title": "tmquan/dichvucong-gov-vn",
+    "procedure_code": null,
+    "publisher": "Hugging Face; dữ liệu từ Cổng DVCQG",
+    "jurisdiction": "Toàn quốc",
+    "effective_from": "Snapshot dữ liệu",
+    "verified_at": "2026-07-17",
+    "authority_tier": "C1",
+    "status": "discovery_only",
+    "url": "https://huggingface.co/datasets/tmquan/dichvucong-gov-vn",
+    "local_file": null,
+    "used_for": [
+      "discovery",
+      "RAG seed",
+      "đối chiếu trường cấu trúc"
+    ],
+    "notes": "Không dùng trực tiếp để quyết định checklist, phí, thời hạn hoặc điều kiện nếu chưa truy về nguồn chính thức."
+  },
+  {
+    "source_id": "SRC-DATA-HIRINE",
+    "title": "hirine/dataset-thu-tuc-hanh-chinh-5733-samples",
+    "procedure_code": null,
+    "publisher": "Hugging Face",
+    "jurisdiction": "Nhiều nguồn hành chính",
+    "effective_from": "Snapshot dữ liệu",
+    "verified_at": "2026-07-17",
+    "authority_tier": "C2",
+    "status": "discovery_only",
+    "url": "https://huggingface.co/datasets/hirine/dataset-thu-tuc-hanh-chinh-5733-samples",
+    "local_file": null,
+    "used_for": [
+      "tăng recall",
+      "alias và truy vấn ngôn ngữ đời thường"
+    ],
+    "notes": "Không phải nguồn quy tắc runtime."
+  }
+]
