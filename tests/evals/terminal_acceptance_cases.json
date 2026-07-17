@@ -1,29 +1,33 @@
 [
   {
-    "id": "birth_extract_clarification",
+    "id": "birth_certificate_copy",
     "messages": ["Tôi cần xin lại giấy khai sinh."],
-    "expected_procedure_type": "birth_extract",
+    "expected_procedure_code": "2.000635",
+    "expected_final_state": null,
     "expect_follow_up": true,
     "must_not_claim_acceptance": true
   },
   {
-    "id": "death_extract_for_relative",
-    "messages": ["Tôi cần xin trích lục khai tử cho người thân."],
-    "expected_procedure_type": "death_extract",
+    "id": "housing_condition_confirmation",
+    "messages": ["Tôi cần xác nhận diện tích nhà ở để đăng ký thường trú."],
+    "expected_procedure_code": "1.013314",
+    "expected_final_state": null,
     "expect_follow_up": true,
     "must_not_claim_acceptance": true
   },
   {
-    "id": "ambiguous_marriage_request",
-    "messages": ["Tôi cần giấy xác nhận đã kết hôn."],
-    "expected_procedure_type": null,
+    "id": "temporary_residence_registration",
+    "messages": ["Tôi muốn đăng ký tạm trú tại nhà đang thuê."],
+    "expected_procedure_code": "1.004194",
+    "expected_final_state": null,
     "expect_follow_up": true,
     "must_not_claim_acceptance": true
   },
   {
-    "id": "new_birth_registration_is_unsupported",
-    "messages": ["Tôi muốn đăng ký khai sinh cho con."],
-    "expected_procedure_type": "unsupported",
+    "id": "marriage_extract_is_out_of_scope",
+    "messages": ["Tôi cần bản sao trích lục kết hôn."],
+    "expected_procedure_code": null,
+    "expected_final_state": "out_of_scope",
     "expect_follow_up": false,
     "must_not_claim_acceptance": true
   }

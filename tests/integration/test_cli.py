@@ -3,15 +3,9 @@ from __future__ import annotations
 import unittest
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from enum import StrEnum
 from typing import Any
 
 from vneguide.cli.app import DISCLAIMER, TerminalApp
-
-
-class ProcedureType(StrEnum):
-    BIRTH_EXTRACT = "birth_extract"
-    UNSUPPORTED = "unsupported"
 
 
 @dataclass
@@ -25,7 +19,7 @@ class FakeIssue:
 @dataclass
 class FakeTurnResult:
     reply: str
-    procedure_type: ProcedureType
+    procedure_type: str
     extracted_fields: dict[str, Any] = field(default_factory=dict)
     draft: dict[str, Any] = field(default_factory=dict)
     missing_fields: list[str] = field(default_factory=list)
@@ -57,7 +51,7 @@ class TerminalAppIntegrationTest(unittest.TestCase):
     def test_turn_status_and_quit_render_documented_contract(self) -> None:
         result = FakeTurnResult(
             reply="Tôi sẽ giúp bạn làm rõ yêu cầu cấp bản sao trích lục khai sinh.",
-            procedure_type=ProcedureType.BIRTH_EXTRACT,
+            procedure_type="2.000635",
             extracted_fields={"subject.full_name": "Nguyễn Văn A"},
             draft={"applicant": {"cccd": "012345678901"}},
             missing_fields=["registration_place"],
@@ -69,7 +63,7 @@ class TerminalAppIntegrationTest(unittest.TestCase):
                     suggested_fix="Nhập cơ quan hoặc địa phương đã đăng ký.",
                 )
             ],
-            source_ids=["source-birth-extract"],
+            source_ids=["SRC-DVC-2000635"],
         )
         session = FakeSession(result)
         output: list[str] = []
@@ -82,9 +76,9 @@ class TerminalAppIntegrationTest(unittest.TestCase):
         self.assertEqual(app.run(), 0)
         transcript = "\n".join(output)
         self.assertIn(DISCLAIMER, transcript)
-        self.assertIn("birth_extract", transcript)
+        self.assertIn("2.000635", transcript)
         self.assertIn("registration_place", transcript)
-        self.assertIn("source-birth-extract", transcript)
+        self.assertIn("SRC-DVC-2000635", transcript)
         self.assertIn("********8901", transcript)
         self.assertNotIn("012345678901", transcript)
         self.assertEqual(session.messages, ["Tôi cần xin lại giấy khai sinh."])
@@ -92,7 +86,7 @@ class TerminalAppIntegrationTest(unittest.TestCase):
         self.assertEqual(transcript.count("Trợ lý:"), 1)
 
     def test_reset_replaces_session_and_clears_status(self) -> None:
-        result = FakeTurnResult("Đã nhận.", ProcedureType.BIRTH_EXTRACT)
+        result = FakeTurnResult("Đã nhận.", "2.000635")
         sessions: list[FakeSession] = []
 
         def factory() -> FakeSession:
@@ -116,7 +110,7 @@ class TerminalAppIntegrationTest(unittest.TestCase):
     def test_unsupported_result_does_not_populate_draft(self) -> None:
         result = FakeTurnResult(
             reply="MVP chỉ hỗ trợ cấp bản sao trích lục hộ tịch.",
-            procedure_type=ProcedureType.UNSUPPORTED,
+            procedure_type="out_of_scope",
             draft={},
             missing_fields=[],
             next_action="redirect_safely",
@@ -124,14 +118,14 @@ class TerminalAppIntegrationTest(unittest.TestCase):
         output: list[str] = []
         app = TerminalApp(
             lambda: FakeSession(result),
-            input_fn=input_from(["Tôi muốn đăng ký khai sinh cho con.", "/quit"]),
+            input_fn=input_from(["Tôi cần bản sao trích lục kết hôn.", "/quit"]),
             output_fn=output.append,
         )
 
         app.run()
         transcript = "\n".join(output)
 
-        self.assertIn("unsupported", transcript)
+        self.assertIn("out_of_scope", transcript)
         self.assertIn("Hồ sơ nháp:\n{}", transcript)
         self.assertIn("redirect_safely", transcript)
 

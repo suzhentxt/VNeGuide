@@ -1,8 +1,12 @@
 # VNeGuide Terminal MVP
 
-VNeGuide là chatbot tiếng Việt hỗ trợ người dân chuẩn bị hồ sơ **cấp bản sao trích lục hộ tịch** cho ba loại sự kiện: khai sinh, kết hôn và khai tử. MVP hiện tại chạy trong terminal; đăng ký sự kiện hộ tịch mới, nộp hồ sơ thật, VNeID, OTP và thanh toán đều nằm ngoài phạm vi.
+VNeGuide là chatbot hỗ trợ người dân chuẩn bị và kiểm tra trước hồ sơ dịch vụ công. Phạm vi runtime hiện hành được khóa bởi [`data/README.md`](data/README.md) và gồm:
 
-VNeGuide chỉ hỗ trợ hướng dẫn, kiểm tra và chuẩn bị hồ sơ. Kết quả không phải quyết định hành chính và không thay thế việc kiểm tra của cơ quan có thẩm quyền.
+- `2.000635`: Cấp bản sao Trích lục hộ tịch — bản sao Giấy khai sinh.
+- `1.013314`: Xác nhận điều kiện diện tích bình quân nhà ở và tình trạng chỗ ở.
+- `1.004194`: Đăng ký tạm trú.
+
+Các tài liệu sản phẩm cũ trong `doc/` phải được đối chiếu với data package trước khi dùng để code. VNeGuide chỉ hỗ trợ hướng dẫn, kiểm tra và chuẩn bị hồ sơ; kết quả không phải quyết định hành chính.
 
 ## Yêu cầu
 
@@ -42,7 +46,7 @@ Lệnh thống nhất:
 python -m vneguide.cli
 ```
 
-CLI nạp session factory từ `VNEGUIDE_SESSION_FACTORY`, mặc định là `vneguide.core:create_session`. Factory này do lớp tích hợp core cung cấp và phải trả về một session có phương thức `send(message) -> TurnResult`. Thiết kế này giữ CLI độc lập với implementation của LLM, rule engine và state machine.
+CLI nạp session factory từ `VNEGUIDE_SESSION_FACTORY`, mặc định là `vneguide.core:create_session`. Factory do lớp tích hợp core cung cấp và phải trả về session có phương thức `send(message) -> TurnResult`. Thiết kế này giữ CLI độc lập với LLM, rule engine và state machine.
 
 Các lệnh trong phiên:
 
@@ -50,9 +54,9 @@ Các lệnh trong phiên:
 - `/reset`: hủy state hiện tại và tạo session mới.
 - `/quit`: đóng session và thoát.
 
-Mỗi lượt hiển thị câu trả lời, thủ tục nhận diện, dữ liệu trích xuất, hồ sơ nháp, trường còn thiếu, lỗi validation, nguồn tham khảo và bước tiếp theo. Giá trị của các field định danh phổ biến như `cccd` được che trước khi hiển thị.
+Mỗi lượt hiển thị câu trả lời, thủ tục nhận diện, dữ liệu trích xuất, hồ sơ nháp, trường còn thiếu, lỗi validation, nguồn tham khảo và bước tiếp theo. Các field định danh phổ biến như `cccd` được che trước khi hiển thị.
 
-Ở trạng thái repo nền, nếu hook `vneguide.core:create_session` chưa được merge, CLI sẽ dừng với thông báo cấu hình rõ ràng thay vì traceback. Không thêm business logic tạm vào CLI để thay thế core.
+Nếu hook `vneguide.core:create_session` chưa được triển khai, CLI dừng với thông báo cấu hình an toàn thay vì traceback. CLI không chứa business logic tạm để thay thế core.
 
 ## Cấu hình provider
 
@@ -91,12 +95,29 @@ $env:VNEGUIDE_API_KEY="<secret>"
 python -m pytest tests/integration/test_live_smoke.py -m live
 ```
 
-## Kiến trúc source
+## Cấu trúc repository
+
+```text
+data/
+├── catalog/       # Procedure packs, field catalog, rules và source register
+├── contracts/     # JSON Schema dùng để validate data package
+├── evaluation/    # Bộ dữ liệu đánh giá có ground truth
+├── references/    # Tài liệu nguồn được lưu cục bộ
+├── qa/            # Checksum kiểm tra tính toàn vẹn
+├── docs/          # Quy trình review và quyết định của data package
+└── */             # Dataset discovery/RAG seed
+
+doc/               # Requirement, product, architecture và tài liệu vận hành
+src/vneguide/      # Source code ứng dụng
+tests/             # Unit, integration và evaluation tests
+```
+
+## Cấu trúc source code
 
 ```text
 src/vneguide/
 ├── domain/     # Contract, enum và model dùng chung — Người 1
-├── data/       # Dữ liệu thủ tục và nguồn — Người 1
+├── data/       # Loader/repository truy cập data package — Người 1
 ├── ai/         # Provider và structured extraction — Người 2
 ├── core/       # Conversation orchestrator và state — Người 3
 ├── rules/      # Required fields và validation — Người 3
@@ -108,4 +129,12 @@ tests/
 └── evals/
 ```
 
-CLI chỉ gọi public integration port, không chứa business rule và không định nghĩa lại domain model. Xem [phân công Terminal MVP](doc/Terminal%20MVP%20-%20Chia%20task%204%20nguoi.md) để biết contract và kịch bản nghiệm thu.
+CLI chỉ gọi public integration port, không chứa business rule và không định nghĩa lại domain model.
+
+## Quy ước dữ liệu
+
+- `data/catalog/` là nguồn dữ liệu runtime đã chuẩn hóa; không tạo bản sao trong `src/`.
+- `src/vneguide/data/` chỉ chứa code đọc và kiểm tra data package.
+- Tài liệu nguồn chỉ lưu tại `data/references/`.
+- Dataset discovery không được dùng trực tiếp để kết luận nghiệp vụ.
+- Không commit `.env`, API key, cache, log hoặc dữ liệu cá nhân thật.

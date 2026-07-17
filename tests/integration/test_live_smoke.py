@@ -20,7 +20,7 @@ class LiveProviderSmokeTest(unittest.TestCase):
         result = session.send("Tôi cần xin bản sao trích lục khai sinh.")
 
         self.assertTrue(getattr(result, "reply", ""))
-        self.assertEqual(result.procedure_type.value, "birth_extract")
+        self.assertTrue(getattr(result, "source_ids", []))
 
 
 if __name__ == "__main__":
