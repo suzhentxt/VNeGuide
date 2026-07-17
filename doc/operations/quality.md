@@ -13,10 +13,10 @@ Thang điểm:
 | --- | --- | --- | --- |
 | Procedure catalog | B | JSON parse được, có schema và checksum | Chưa có loader/runtime test |
 | Source grounding | B | Source register và local references tồn tại | Chưa kiểm tra freshness tự động |
-| Structured extraction | D | Chưa có implementation | Thiếu provider adapter và contract test |
+| Structured extraction | B | Mock/OpenAI adapter, strict schema và 28 unit test pass | Chưa có domain adapter và live model accuracy |
 | Conversation flow | D | Chưa có implementation | Thiếu state machine nhiều lượt |
 | Rule validation | C | Có rule catalog và gold validation | Chưa có Python rule engine |
-| Terminal chatbot | D | Chưa có entrypoint | Chưa chạy được hội thoại end-to-end |
+| Terminal chatbot | C | Có entrypoint, renderer và integration test | Chưa chạy được hội thoại end-to-end vì thiếu core |
 
 ## Module kiến trúc
 
@@ -24,10 +24,10 @@ Thang điểm:
 | --- | --- | --- |
 | `domain` | D | Mới có package skeleton |
 | `data` | C | Data package có sẵn, loader chưa có |
-| `ai` | D | Mới có package skeleton |
+| `ai` | B | Provider, prompt, schema validator và safe fallback đã test |
 | `core` | D | Mới có package skeleton |
 | `rules` | D | Mới có package skeleton |
-| `cli` | D | Mới có package skeleton |
-| `tests` | D | Mới có cấu trúc thư mục |
+| `cli` | B | Shell, renderer, runtime port và lệnh terminal đã test |
+| `tests` | B | 37 test pass, 1 live smoke skip; có unit/integration/eval fixture | Chưa có live model eval |
 
 Chỉ nâng điểm khi có lệnh xác minh và artifact cụ thể; không nâng điểm dựa trên code chưa chạy.
