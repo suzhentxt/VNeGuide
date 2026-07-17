@@ -48,8 +48,9 @@ Adapter OpenAI dùng Responses API qua thư viện chuẩn. Chỉ khởi tạo a
 
 ## Giới hạn tích hợp hiện tại
 
-- `src/vneguide/data/` chưa có loader nên catalog đang được đọc trực tiếp từ data package root.
-  Khi Người 1 hoàn tất loader, module AI phải nhận catalog qua lớp truy cập đó.
+- `src/vneguide/data/` đã có `ProcedureRepository`. Composition root của core dùng repository để
+  khám phá data root; adapter extraction hiện vẫn dựng schema bằng `ExtractionCatalog` từ cùng data
+  package đã audit, không duy trì bản sao field list trong source.
 - Catalog chưa có metadata alias/evidence semantics đã review. Validator hiện bảo đảm evidence là
   đoạn xuất hiện trong message và kiểm type/enum/pattern/bounds cục bộ; nó chưa thể chứng minh tổng
   quát ý nghĩa enum/boolean hoặc xử lý phủ định. Không hard-code từ điển nghiệp vụ song song trong AI.

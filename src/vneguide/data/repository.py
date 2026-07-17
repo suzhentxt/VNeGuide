@@ -51,6 +51,13 @@ def _optional_text(raw: Mapping[str, Any], name: str, context: str) -> str | Non
     return value
 
 
+def _integer(raw: Mapping[str, Any], name: str, context: str) -> int:
+    value = raw.get(name)
+    if not isinstance(value, int) or isinstance(value, bool):
+        raise DataIntegrityError(f"{context}.{name} must be an integer")
+    return value
+
+
 def _mapping(raw: Mapping[str, Any], name: str, context: str) -> dict[str, Any]:
     value = raw.get(name)
     if not isinstance(value, dict):
@@ -71,9 +78,7 @@ def _parse_field(raw: Mapping[str, Any], procedure_code: ProcedureCode) -> Field
     if not isinstance(raw_values, list):
         raise DataIntegrityError(f"{context}.values must be an array")
     minimum = raw.get("minimum")
-    if minimum is not None and (
-        not isinstance(minimum, (int, float)) or isinstance(minimum, bool)
-    ):
+    if minimum is not None and (not isinstance(minimum, (int, float)) or isinstance(minimum, bool)):
         raise DataIntegrityError(f"{context}.minimum must be a number")
     pattern = raw.get("pattern")
     if pattern is not None and not isinstance(pattern, str):
@@ -91,9 +96,7 @@ def _parse_field(raw: Mapping[str, Any], procedure_code: ProcedureCode) -> Field
     )
 
 
-def _parse_rule(
-    raw: Mapping[str, Any], procedure_code: ProcedureCode
-) -> ValidationRuleDefinition:
+def _parse_rule(raw: Mapping[str, Any], procedure_code: ProcedureCode) -> ValidationRuleDefinition:
     context = f"rule[{raw.get('rule_id', '?')}]"
     return ValidationRuleDefinition(
         procedure_code=procedure_code,
@@ -146,20 +149,15 @@ def _parse_pack(raw: Mapping[str, Any]) -> ProcedurePack:
         )
         for item in _records(raw, "checklist", context)
     )
-    fields = tuple(
-        _parse_field(item, procedure_code) for item in _records(raw, "fields", context)
-    )
+    fields = tuple(_parse_field(item, procedure_code) for item in _records(raw, "fields", context))
     rules = tuple(
-        _parse_rule(item, procedure_code)
-        for item in _records(raw, "validation_rules", context)
+        _parse_rule(item, procedure_code) for item in _records(raw, "validation_rules", context)
     )
     steps = tuple(
         GuidanceStep(
-            step=item.get("step"),
+            step=_integer(item, "step", context),
             text=_text(item, "text", context),
-            source_ids=_strings(
-                item.get("source_ids"), f"{context}.guidance_steps.source_ids"
-            ),
+            source_ids=_strings(item.get("source_ids"), f"{context}.guidance_steps.source_ids"),
         )
         for item in _records(raw, "guidance_steps", context)
     )
@@ -167,9 +165,7 @@ def _parse_pack(raw: Mapping[str, Any]) -> ProcedurePack:
     approval_raw = _mapping(raw, "approval", context)
     approval = Approval(
         owner=_text(approval_raw, "owner", f"{context}.approval"),
-        reviewers=_strings(
-            approval_raw.get("reviewers"), f"{context}.approval.reviewers"
-        ),
+        reviewers=_strings(approval_raw.get("reviewers"), f"{context}.approval.reviewers"),
         approved_at=_text(approval_raw, "approved_at", f"{context}.approval"),
     )
 
@@ -309,12 +305,8 @@ class ProcedureRepository:
                 _parse_rule(raw, ProcedureCode(_text(raw, "procedure_code", "validation_rules")))
                 for raw in load_json_array(self.paths.catalog / "validation_rules.json")
             )
-            raw_rule_inputs = load_json_array(
-                self.paths.catalog / "rule_context_catalog.json"
-            )
-            rule_input_schema = load_json_object(
-                self.paths.contracts / "rule-context.schema.json"
-            )
+            raw_rule_inputs = load_json_array(self.paths.catalog / "rule_context_catalog.json")
+            rule_input_schema = load_json_object(self.paths.contracts / "rule-context.schema.json")
             assert_json_schema(raw_rule_inputs, rule_input_schema)
             self._rule_inputs = tuple(_parse_rule_input(raw) for raw in raw_rule_inputs)
         except (TypeError, ValueError) as exc:
@@ -343,9 +335,7 @@ class ProcedureRepository:
         rule_keys = [(rule.procedure_code, rule.rule_id) for rule in self._rules]
         duplicate_fields = _duplicates(f"{code}:{field_id}" for code, field_id in field_keys)
         duplicate_rules = _duplicates(f"{code}:{rule_id}" for code, rule_id in rule_keys)
-        rule_input_keys = [
-            (item.procedure_code, item.input_id) for item in self._rule_inputs
-        ]
+        rule_input_keys = [(item.procedure_code, item.input_id) for item in self._rule_inputs]
         duplicate_rule_inputs = _duplicates(
             f"{code}:{input_id}" for code, input_id in rule_input_keys
         )
@@ -354,9 +344,7 @@ class ProcedureRepository:
         if duplicate_rules:
             problems.append(f"duplicate catalog rules: {sorted(duplicate_rules)}")
         if duplicate_rule_inputs:
-            problems.append(
-                f"duplicate rule context inputs: {sorted(duplicate_rule_inputs)}"
-            )
+            problems.append(f"duplicate rule context inputs: {sorted(duplicate_rule_inputs)}")
 
         pack_fields_by_key = {
             (pack.procedure_code, field.field_id): field
@@ -371,9 +359,7 @@ class ProcedureRepository:
         catalog_fields_by_key = {
             (field.procedure_code, field.field_id): field for field in self._fields
         }
-        catalog_rules_by_key = {
-            (rule.procedure_code, rule.rule_id): rule for rule in self._rules
-        }
+        catalog_rules_by_key = {(rule.procedure_code, rule.rule_id): rule for rule in self._rules}
         if catalog_fields_by_key.keys() != pack_fields_by_key.keys():
             problems.append("field_catalog does not mirror procedure pack fields")
         else:
@@ -457,8 +443,7 @@ class ProcedureRepository:
         sourced_items.extend((item.field_id, item.source_ids) for item in pack.fields)
         sourced_items.extend((item.rule_id, item.source_ids) for item in pack.validation_rules)
         sourced_items.extend(
-            (f"{pack.pack_id}:step:{item.step}", item.source_ids)
-            for item in pack.guidance_steps
+            (f"{pack.pack_id}:step:{item.step}", item.source_ids) for item in pack.guidance_steps
         )
         for owner, source_ids in sourced_items:
             problems.extend(self._source_problems(owner, source_ids, pack.procedure_code))
@@ -559,9 +544,7 @@ class ProcedureRepository:
         code = self.get_by_code(procedure_code).procedure_code
         return tuple(rule for rule in self._rules if rule.procedure_code is code)
 
-    def rule_inputs_for(
-        self, procedure_code: ProcedureCode | str
-    ) -> tuple[RuleContextInput, ...]:
+    def rule_inputs_for(self, procedure_code: ProcedureCode | str) -> tuple[RuleContextInput, ...]:
         code = self.get_by_code(procedure_code).procedure_code
         return tuple(item for item in self._rule_inputs if item.procedure_code is code)
 

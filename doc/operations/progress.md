@@ -6,14 +6,22 @@
 - Domain/data foundation, CLI/integration harness và LLM structured extraction đã được triển khai.
 - `vneguide.domain` cung cấp enum, model và contract dùng chung.
 - `ProcedureRepository` load/audit pack, catalog, source, rule context và checksum.
-- CLI có entry point `python -m vneguide.cli`; còn chờ `vneguide.core:create_session` để chạy end-to-end.
+- CLI có entry point `python -m vneguide.cli` và đã nạp được `vneguide.core:create_session`.
 - Structured extraction có mock/OpenAI adapter, strict schema, bounded retry và safe fallback.
 - Baseline trước khi tích hợp domain/data: Pytest `37 passed, 1 skipped`.
-- Blocker còn lại: rule engine và conversation orchestrator chưa được triển khai.
+- Rule engine và suggestion-aware conversation orchestrator đã được triển khai.
 
 ## Ưu tiên tiếp theo
 
-Người 3 triển khai deterministic rule engine, suggestion-aware conversation state và public session factory trên contract domain/data đã merge.
+Người 4 nối hành động Accept/Reject/Edit vào UI/web adapter và cấu hình provider cho demo thật.
+
+### 2026-07-17 — Conversation engine, rules và validation (Người 3)
+
+- Tích hợp domain/data foundation từ commit Người 1 trước khi triển khai core.
+- Thêm handler xác định cho toàn bộ 27 rule, field validation, missing-field resolver và question selector.
+- Thêm state machine suggestion `pending/accepted/rejected/edited`, revision guard và retry cap.
+- Cung cấp `vneguide.core:create_session`; CLI smoke chạy và trả fallback an toàn với mock rỗng.
+- Xác minh Python 3.11.9: Ruff pass, Mypy strict pass, Pytest `75 passed, 1 skipped`, coverage `82.64%`.
 
 ## Nhật ký phiên
 

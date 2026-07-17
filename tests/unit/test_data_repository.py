@@ -12,11 +12,13 @@ from vneguide.data import (
 )
 from vneguide.domain import PackStatus, ProcedureCode, SourceStatus
 
-
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 
 
 class ProcedureRepositoryTests(unittest.TestCase):
+    paths: DataPackagePaths
+    repository: ProcedureRepository
+
     @classmethod
     def setUpClass(cls) -> None:
         cls.paths = DataPackagePaths.from_root(REPOSITORY_ROOT / "data")
@@ -110,17 +112,11 @@ class ProcedureRepositoryTests(unittest.TestCase):
             "source_ids": ["SRC-DVC-2000635"],
         }
         with self.assertRaisesRegex(SchemaValidationError, "procedure_code"):
-            self.repository.validate_result_document(
-                {**base, "procedure_code": "marriage_extract"}
-            )
+            self.repository.validate_result_document({**base, "procedure_code": "marriage_extract"})
         with self.assertRaisesRegex(DataIntegrityError, "unknown rule_id"):
-            self.repository.validate_result_document(
-                {**base, "passed_checks": ["UNKNOWN-RULE"]}
-            )
+            self.repository.validate_result_document({**base, "passed_checks": ["UNKNOWN-RULE"]})
         with self.assertRaisesRegex(DataIntegrityError, "unknown source_id"):
-            self.repository.validate_result_document(
-                {**base, "source_ids": ["UNKNOWN-SOURCE"]}
-            )
+            self.repository.validate_result_document({**base, "source_ids": ["UNKNOWN-SOURCE"]})
         with self.assertRaisesRegex(DataIntegrityError, "at least one source_id"):
             self.repository.validate_result_document({**base, "source_ids": []})
         with self.assertRaisesRegex(DataIntegrityError, "unknown field_id"):

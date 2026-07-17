@@ -2,13 +2,13 @@
 
 Owner: Người 3.
 
-Chứa rule engine và validation xác định trường bắt buộc, dữ liệu thiếu, định dạng sai và mâu thuẫn. Không đặt business rule trong prompt.
+Rule engine thực thi deterministic handler theo `rule_id` đã review. Chuỗi `condition` trong catalog chỉ là mô tả và không được đưa vào `eval/exec`.
 
-Dự kiến:
+Module cung cấp:
 
-```text
-engine.py
-validators.py
-questions.py
-```
+- `RuleEngine.validate`: chạy 27 rule và trả `ValidationResult` có source.
+- `RuleEngine.missing_fields`: xác định required/conditional field theo thứ tự catalog.
+- `RuleEngine.validate_field_value`: kiểm type, enum, pattern, minimum và ngày.
+- `QuestionSelector`: tạo câu hỏi tiếp theo từ label đã review.
 
+Trạng thái ưu tiên: `out_of_scope` → `needs_correction` → `needs_official_review` → `ready_to_submit`. Issue `info` không chặn hồ sơ.

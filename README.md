@@ -56,7 +56,7 @@ Các lệnh trong phiên:
 
 Mỗi lượt hiển thị câu trả lời, thủ tục nhận diện, dữ liệu trích xuất, hồ sơ nháp, trường còn thiếu, lỗi validation, nguồn tham khảo và bước tiếp theo. Các field định danh phổ biến như `cccd` được che trước khi hiển thị.
 
-Nếu hook `vneguide.core:create_session` chưa được triển khai, CLI dừng với thông báo cấu hình an toàn thay vì traceback. CLI không chứa business logic tạm để thay thế core.
+Hook mặc định `vneguide.core:create_session` đã được triển khai. Với mock provider không có response dựng sẵn, core trả fallback an toàn; để hội thoại bằng model thật cần cấu hình provider/model/key theo phần bên dưới. CLI không chứa business logic của core.
 
 ## Cấu hình provider
 

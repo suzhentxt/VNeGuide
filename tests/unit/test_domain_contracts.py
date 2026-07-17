@@ -1,11 +1,13 @@
 """Unit tests for the contracts owned by the Domain & Data Lead."""
 
 import unittest
+from typing import Any, cast
 
 from vneguide.domain import (
     CaseDraft,
     ConversationState,
     ExtractionResult,
+    JSONValue,
     ProcedureCode,
     TurnRequest,
     ValidationResult,
@@ -39,7 +41,10 @@ class DraftContractTests(unittest.TestCase):
             CaseDraft(dirty_fields=frozenset({"missing"}))
 
     def test_valid_draft_supports_generic_procedure_fields(self) -> None:
-        mutable_values = {"allocated_area_m2": 30, "details": {"zone": "inner_city"}}
+        mutable_values: dict[str, JSONValue] = {
+            "allocated_area_m2": 30,
+            "details": {"zone": "inner_city"},
+        }
         draft = CaseDraft(
             procedure_code=ProcedureCode.HOUSING_CONDITION_CONFIRMATION,
             values=mutable_values,
@@ -52,7 +57,7 @@ class DraftContractTests(unittest.TestCase):
         with self.assertRaises(TypeError):
             draft.values["allocated_area_m2"] = 1  # type: ignore[index]
         with self.assertRaises(TypeError):
-            draft.values["details"]["zone"] = "suburban"  # type: ignore[index]
+            cast(Any, draft.values["details"])["zone"] = "suburban"
 
 
 class TurnContractTests(unittest.TestCase):
