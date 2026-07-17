@@ -1,0 +1,421 @@
+{
+  "pack_id": "PROC-2.000635-BIRTH-COPY",
+  "procedure_code": "2.000635",
+  "procedure_name": "Cấp bản sao Trích lục hộ tịch (bản sao Giấy khai sinh)",
+  "jurisdiction": "Toàn quốc; pilot Hà Nội",
+  "version": "2.0.0",
+  "status": "approved",
+  "effective_from": null,
+  "verified_at": "2026-07-17",
+  "next_review_at": "2026-08-17",
+  "scope": {
+    "in_scope": [
+      "Cá nhân xin bản sao Giấy khai sinh của sự kiện đã đăng ký trước đó",
+      "Người được ủy quyền xin bản sao Giấy khai sinh",
+      "Nộp trực tuyến, trực tiếp hoặc bưu chính"
+    ],
+    "out_of_scope": [
+      "Đăng ký khai sinh mới hoặc đăng ký lại",
+      "Cải chính/thay đổi/bổ sung hộ tịch",
+      "Bản sao trích lục kết hôn hoặc khai tử",
+      "Kết luận hồ sơ được cơ quan chấp thuận"
+    ]
+  },
+  "routing": {
+    "aliases": [
+      "xin lại giấy khai sinh",
+      "xin bản sao giấy khai sinh",
+      "mất giấy khai sinh",
+      "cấp trích lục khai sinh"
+    ],
+    "confirmation_message": "Bạn đang cần bản sao Giấy khai sinh của một sự kiện đã đăng ký trước đó, đúng không?",
+    "required_clarifications": [
+      "requester_type",
+      "subject_identity",
+      "submission_channel"
+    ]
+  },
+  "service_info": {
+    "authority": "Cơ quan quản lý Cơ sở dữ liệu hộ tịch điện tử / Trung tâm Phục vụ hành chính công có thẩm quyền",
+    "channels": [
+      "online",
+      "direct",
+      "postal"
+    ],
+    "processing_time_display": "Theo phiếu hẹn; hồ sơ tiếp nhận sau 15:00 có thể trả vào ngày làm việc tiếp theo",
+    "fee": {
+      "amount_vnd": 8000,
+      "display": "8.000 đồng theo bản ghi TTHC; hiển thị là phí tham chiếu và kiểm chứng lại tại bước nộp"
+    },
+    "result": "Bản sao Trích lục hộ tịch, bản sao Giấy khai sinh"
+  },
+  "forms": [
+    {
+      "form_id": "BIRTH-FORM-ONLINE",
+      "name": "Mẫu điện tử tương tác yêu cầu cấp bản sao Giấy khai sinh",
+      "channel": "online",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "form_id": "BIRTH-FORM-PAPER",
+      "name": "Tờ khai đề nghị cấp bản sao Trích lục hộ tịch",
+      "channel": "direct",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "item_id": "BIRTH-DOC-001",
+      "name": "Mẫu điện tử tương tác hoặc Tờ khai đề nghị cấp bản sao Trích lục hộ tịch",
+      "requirement": "required_by_channel",
+      "condition": "Trực tuyến dùng biểu mẫu điện tử; trực tiếp dùng tờ khai giấy.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "item_id": "BIRTH-DOC-002",
+      "name": "Thông tin số định danh hoặc giấy tờ tùy thân còn giá trị của người yêu cầu",
+      "requirement": "required",
+      "condition": "Trực tiếp phải xuất trình; trực tuyến không tải lại nếu hệ thống đã khai thác được.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "item_id": "BIRTH-DOC-003",
+      "name": "Thông tin sự kiện khai sinh đủ để tra cứu",
+      "requirement": "required_for_lookup",
+      "condition": "Tối thiểu phải có thông tin nhận dạng người được cấp và dữ liệu sự kiện mà cơ quan có thể tra cứu.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "item_id": "BIRTH-DOC-004",
+      "name": "Văn bản ủy quyền",
+      "requirement": "conditional",
+      "condition": "Bắt buộc nếu người yêu cầu thực hiện theo ủy quyền. Người thân thuộc nhóm được nêu trong nguồn không phải chứng thực văn bản ủy quyền.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "item_id": "BIRTH-DOC-005",
+      "name": "Giấy tờ chứng minh cư trú",
+      "requirement": "conditional_fallback",
+      "condition": "Chỉ khi cơ quan không khai thác được thông tin nơi cư trú từ cơ sở dữ liệu.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "item_id": "BIRTH-DOC-006",
+      "name": "Bản sao có chứng thực các giấy tờ phải xuất trình",
+      "requirement": "conditional_postal",
+      "condition": "Áp dụng khi gửi hồ sơ qua bưu chính.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    }
+  ],
+  "fields": [
+    {
+      "field_id": "requester_type",
+      "label": "Loại người yêu cầu",
+      "type": "enum",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ],
+      "values": [
+        "self",
+        "authorized_person",
+        "organization"
+      ]
+    },
+    {
+      "field_id": "requester_full_name",
+      "label": "Họ tên người yêu cầu",
+      "type": "string",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "field_id": "requester_personal_id",
+      "label": "Số định danh cá nhân",
+      "type": "string",
+      "requirement": "required_or_identity_document",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ],
+      "pattern": "^\\d{12}$"
+    },
+    {
+      "field_id": "requester_id_document_type",
+      "label": "Loại giấy tờ tùy thân",
+      "type": "enum",
+      "requirement": "conditional",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ],
+      "values": [
+        "citizen_id",
+        "identity_card",
+        "passport",
+        "identity_certificate",
+        "electronic_identity"
+      ]
+    },
+    {
+      "field_id": "requester_residence",
+      "label": "Nơi cư trú người yêu cầu",
+      "type": "string",
+      "requirement": "conditional_fallback",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "field_id": "subject_full_name",
+      "label": "Họ tên người có sự kiện khai sinh",
+      "type": "string",
+      "requirement": "required_for_lookup",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "field_id": "subject_date_of_birth",
+      "label": "Ngày sinh",
+      "type": "date",
+      "requirement": "required_for_lookup",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "field_id": "birth_registration_place",
+      "label": "Nơi đã đăng ký khai sinh",
+      "type": "string",
+      "requirement": "recommended_for_lookup",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "field_id": "birth_registration_year",
+      "label": "Năm đăng ký khai sinh",
+      "type": "integer",
+      "requirement": "recommended_for_lookup",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "field_id": "birth_book_number",
+      "label": "Số quyển/số đăng ký hộ tịch",
+      "type": "string",
+      "requirement": "optional_lookup",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "field_id": "copies_requested",
+      "label": "Số bản sao yêu cầu",
+      "type": "integer",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ],
+      "minimum": 1
+    },
+    {
+      "field_id": "submission_channel",
+      "label": "Kênh nộp",
+      "type": "enum",
+      "requirement": "required",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ],
+      "values": [
+        "online",
+        "direct",
+        "postal"
+      ]
+    },
+    {
+      "field_id": "authorization_relationship",
+      "label": "Quan hệ với người ủy quyền",
+      "type": "enum",
+      "requirement": "conditional",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ],
+      "values": [
+        "grandparent",
+        "parent",
+        "child",
+        "spouse",
+        "sibling",
+        "other"
+      ]
+    }
+  ],
+  "validation_rules": [
+    {
+      "rule_id": "BIRTH-SCOPE-001",
+      "applies_to": "2.000635",
+      "condition": "requested_variant != 'birth_certificate_copy'",
+      "severity": "error",
+      "message": "VNeGuide hiện chỉ hỗ trợ bản sao Giấy khai sinh.",
+      "suggestion": "Chuyển sang nguồn chính thức hoặc cán bộ đối với loại trích lục khác.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "rule_id": "BIRTH-SCOPE-002",
+      "applies_to": "2.000635",
+      "condition": "intent in ['new_birth_registration','birth_reregistration','birth_correction']",
+      "severity": "error",
+      "message": "Yêu cầu này không phải cấp bản sao Giấy khai sinh.",
+      "suggestion": "Chọn đúng thủ tục trên Cổng Dịch vụ công.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "rule_id": "BIRTH-REQ-001",
+      "applies_to": "2.000635",
+      "condition": "requester_full_name is empty",
+      "severity": "error",
+      "message": "Thiếu họ tên người yêu cầu.",
+      "suggestion": "Điền đầy đủ họ, chữ đệm và tên.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "rule_id": "BIRTH-ID-001",
+      "applies_to": "2.000635",
+      "condition": "requester_personal_id is present and does not match 12 digits",
+      "severity": "error",
+      "message": "Số định danh cá nhân chưa đúng định dạng.",
+      "suggestion": "Kiểm tra và nhập đủ 12 chữ số.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "rule_id": "BIRTH-LOOKUP-001",
+      "applies_to": "2.000635",
+      "condition": "subject_full_name is empty or subject_date_of_birth is empty",
+      "severity": "error",
+      "message": "Thông tin người có sự kiện khai sinh chưa đủ để tra cứu.",
+      "suggestion": "Bổ sung họ tên và ngày sinh; thêm nơi/năm đăng ký nếu biết.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "rule_id": "BIRTH-AUTH-001",
+      "applies_to": "2.000635",
+      "condition": "requester_type == 'authorized_person' and authorization_document_missing",
+      "severity": "error",
+      "message": "Thiếu văn bản ủy quyền.",
+      "suggestion": "Tải lên hoặc chuẩn bị văn bản ủy quyền theo quy định.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "rule_id": "BIRTH-POST-001",
+      "applies_to": "2.000635",
+      "condition": "submission_channel == 'postal' and certified_copies_missing",
+      "severity": "error",
+      "message": "Hồ sơ bưu chính thiếu bản sao có chứng thực của giấy tờ phải xuất trình.",
+      "suggestion": "Bổ sung bản sao có chứng thực trước khi gửi.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "rule_id": "BIRTH-FILE-001",
+      "applies_to": "2.000635",
+      "condition": "submission_channel == 'online' and uploaded_document_quality != 'clear_complete_intact'",
+      "severity": "error",
+      "message": "Bản chụp/tệp chưa rõ nét, đầy đủ hoặc toàn vẹn.",
+      "suggestion": "Chụp hoặc quét lại toàn bộ giấy tờ từ bản còn giá trị sử dụng.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "rule_id": "BIRTH-FOREIGN-001",
+      "applies_to": "2.000635",
+      "condition": "foreign_issued_document_present",
+      "severity": "needs_review",
+      "message": "Giấy tờ do cơ quan nước ngoài cấp cần kiểm tra hợp pháp hóa lãnh sự hoặc miễn hợp pháp hóa.",
+      "suggestion": "Chuyển cán bộ/nguồn chính thức kiểm tra trước khi kết luận.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    }
+  ],
+  "guidance_steps": [
+    {
+      "step": 1,
+      "text": "Xác nhận đây là yêu cầu cấp bản sao Giấy khai sinh, không phải đăng ký khai sinh mới.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "step": 2,
+      "text": "Chọn kênh nộp và kê khai thông tin người yêu cầu, người có sự kiện khai sinh.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "step": 3,
+      "text": "Chuẩn bị giấy tờ tùy thân và văn bản ủy quyền nếu thực hiện thay người khác.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "step": 4,
+      "text": "Kiểm tra thông tin tra cứu, chất lượng tệp và yêu cầu riêng theo kênh nộp.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    },
+    {
+      "step": 5,
+      "text": "Chuyển sang Cổng Dịch vụ công/Trung tâm Phục vụ hành chính công để nộp chính thức.",
+      "source_ids": [
+        "SRC-DVC-2000635"
+      ]
+    }
+  ],
+  "source_ids": [
+    "SRC-DVC-2000635"
+  ],
+  "approval": {
+    "owner": "Domain & Data Lead",
+    "reviewers": [
+      "Product & UX Lead",
+      "AI & Evaluation Lead"
+    ],
+    "approved_at": "2026-07-17"
+  }
+}

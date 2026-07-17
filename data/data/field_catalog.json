@@ -1,0 +1,499 @@
+[
+  {
+    "procedure_code": "2.000635",
+    "field_id": "requester_type",
+    "label": "Loại người yêu cầu",
+    "type": "enum",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ],
+    "values": [
+      "self",
+      "authorized_person",
+      "organization"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "field_id": "requester_full_name",
+    "label": "Họ tên người yêu cầu",
+    "type": "string",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "field_id": "requester_personal_id",
+    "label": "Số định danh cá nhân",
+    "type": "string",
+    "requirement": "required_or_identity_document",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ],
+    "pattern": "^\\d{12}$"
+  },
+  {
+    "procedure_code": "2.000635",
+    "field_id": "requester_id_document_type",
+    "label": "Loại giấy tờ tùy thân",
+    "type": "enum",
+    "requirement": "conditional",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ],
+    "values": [
+      "citizen_id",
+      "identity_card",
+      "passport",
+      "identity_certificate",
+      "electronic_identity"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "field_id": "requester_residence",
+    "label": "Nơi cư trú người yêu cầu",
+    "type": "string",
+    "requirement": "conditional_fallback",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "field_id": "subject_full_name",
+    "label": "Họ tên người có sự kiện khai sinh",
+    "type": "string",
+    "requirement": "required_for_lookup",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "field_id": "subject_date_of_birth",
+    "label": "Ngày sinh",
+    "type": "date",
+    "requirement": "required_for_lookup",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "field_id": "birth_registration_place",
+    "label": "Nơi đã đăng ký khai sinh",
+    "type": "string",
+    "requirement": "recommended_for_lookup",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "field_id": "birth_registration_year",
+    "label": "Năm đăng ký khai sinh",
+    "type": "integer",
+    "requirement": "recommended_for_lookup",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "field_id": "birth_book_number",
+    "label": "Số quyển/số đăng ký hộ tịch",
+    "type": "string",
+    "requirement": "optional_lookup",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "field_id": "copies_requested",
+    "label": "Số bản sao yêu cầu",
+    "type": "integer",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ],
+    "minimum": 1
+  },
+  {
+    "procedure_code": "2.000635",
+    "field_id": "submission_channel",
+    "label": "Kênh nộp",
+    "type": "enum",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ],
+    "values": [
+      "online",
+      "direct",
+      "postal"
+    ]
+  },
+  {
+    "procedure_code": "2.000635",
+    "field_id": "authorization_relationship",
+    "label": "Quan hệ với người ủy quyền",
+    "type": "enum",
+    "requirement": "conditional",
+    "source_ids": [
+      "SRC-DVC-2000635"
+    ],
+    "values": [
+      "grandparent",
+      "parent",
+      "child",
+      "spouse",
+      "sibling",
+      "other"
+    ]
+  },
+  {
+    "procedure_code": "1.013314",
+    "field_id": "requester_full_name",
+    "label": "Họ tên người đề nghị",
+    "type": "string",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ]
+  },
+  {
+    "procedure_code": "1.013314",
+    "field_id": "requester_date_of_birth",
+    "label": "Ngày sinh người đề nghị",
+    "type": "date",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ]
+  },
+  {
+    "procedure_code": "1.013314",
+    "field_id": "requester_personal_id",
+    "label": "Số định danh cá nhân",
+    "type": "string",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ],
+    "pattern": "^\\d{12}$"
+  },
+  {
+    "procedure_code": "1.013314",
+    "field_id": "requester_residence",
+    "label": "Nơi cư trú",
+    "type": "string",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ]
+  },
+  {
+    "procedure_code": "1.013314",
+    "field_id": "legal_dwelling_address",
+    "label": "Địa chỉ chỗ ở hợp pháp",
+    "type": "string",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ]
+  },
+  {
+    "procedure_code": "1.013314",
+    "field_id": "land_area_m2",
+    "label": "Diện tích thửa đất",
+    "type": "number",
+    "requirement": "optional",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ],
+    "minimum": 0
+  },
+  {
+    "procedure_code": "1.013314",
+    "field_id": "construction_area_m2",
+    "label": "Diện tích xây dựng",
+    "type": "number",
+    "requirement": "optional",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ],
+    "minimum": 0
+  },
+  {
+    "procedure_code": "1.013314",
+    "field_id": "floor_area_m2",
+    "label": "Diện tích sàn",
+    "type": "number",
+    "requirement": "required_for_area_check",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ],
+    "minimum": 0
+  },
+  {
+    "procedure_code": "1.013314",
+    "field_id": "current_permanent_residents",
+    "label": "Tổng số người đang đăng ký thường trú",
+    "type": "integer",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ],
+    "minimum": 0
+  },
+  {
+    "procedure_code": "1.013314",
+    "field_id": "remaining_floor_area_m2",
+    "label": "Diện tích sàn còn lại có thể đăng ký thường trú",
+    "type": "number",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ],
+    "minimum": 0
+  },
+  {
+    "procedure_code": "1.013314",
+    "field_id": "new_residents_count",
+    "label": "Số người thuê, mượn, ở nhờ đề nghị đăng ký",
+    "type": "integer",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ],
+    "minimum": 1
+  },
+  {
+    "procedure_code": "1.013314",
+    "field_id": "allocated_area_m2",
+    "label": "Tổng diện tích chỗ ở dành cho người thuê, mượn, ở nhờ",
+    "type": "number",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ],
+    "minimum": 0
+  },
+  {
+    "procedure_code": "1.013314",
+    "field_id": "hanoi_zone",
+    "label": "Khu vực Hà Nội",
+    "type": "enum",
+    "requirement": "required_for_threshold",
+    "source_ids": [
+      "SRC-HN-AREA-2023"
+    ],
+    "values": [
+      "inner_city",
+      "suburban"
+    ]
+  },
+  {
+    "procedure_code": "1.013314",
+    "field_id": "declared_stable_use",
+    "label": "Người dùng khai chỗ ở đang sử dụng ổn định",
+    "type": "boolean",
+    "requirement": "required_declaration",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ]
+  },
+  {
+    "procedure_code": "1.013314",
+    "field_id": "declared_no_dispute",
+    "label": "Người dùng khai nhà/đất không có tranh chấp",
+    "type": "boolean",
+    "requirement": "required_declaration",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ]
+  },
+  {
+    "procedure_code": "1.013314",
+    "field_id": "declared_not_prohibited_location",
+    "label": "Người dùng khai không thuộc địa điểm cấm đăng ký thường trú mới",
+    "type": "boolean",
+    "requirement": "required_declaration",
+    "source_ids": [
+      "SRC-FORM-M02"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "field_id": "registration_mode",
+    "label": "Hình thức đăng ký",
+    "type": "enum",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ],
+    "values": [
+      "individual_or_household",
+      "by_list",
+      "armed_forces"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "field_id": "applicant_full_name",
+    "label": "Họ tên người đăng ký",
+    "type": "string",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "field_id": "applicant_date_of_birth",
+    "label": "Ngày sinh",
+    "type": "date",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "field_id": "applicant_personal_id",
+    "label": "Số định danh cá nhân",
+    "type": "string",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ],
+    "pattern": "^\\d{12}$"
+  },
+  {
+    "procedure_code": "1.004194",
+    "field_id": "applicant_is_minor",
+    "label": "Người đăng ký chưa thành niên",
+    "type": "boolean",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "field_id": "minor_consent_present",
+    "label": "Có ý kiến đồng ý của cha/mẹ/người giám hộ",
+    "type": "boolean",
+    "requirement": "conditional_minor",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "field_id": "temporary_address",
+    "label": "Địa chỉ tạm trú",
+    "type": "string",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "field_id": "temporary_start_date",
+    "label": "Ngày bắt đầu tạm trú",
+    "type": "date",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "field_id": "temporary_end_date",
+    "label": "Ngày kết thúc dự kiến",
+    "type": "date",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "field_id": "legal_dwelling_data_retrievable",
+    "label": "Thông tin chỗ ở hợp pháp có thể khai thác từ CSDL",
+    "type": "boolean",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "field_id": "legal_dwelling_document_present",
+    "label": "Có giấy tờ chứng minh chỗ ở hợp pháp",
+    "type": "boolean",
+    "requirement": "conditional_fallback",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "field_id": "dwelling_basis",
+    "label": "Căn cứ sử dụng chỗ ở",
+    "type": "enum",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ],
+    "values": [
+      "owned",
+      "rented",
+      "borrowed",
+      "accommodated",
+      "join_family_household",
+      "other"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "field_id": "owner_or_householder_consent",
+    "label": "Có sự đồng ý của chủ hộ/chủ sở hữu khi cần",
+    "type": "boolean",
+    "requirement": "conditional",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "field_id": "submission_channel",
+    "label": "Kênh nộp",
+    "type": "enum",
+    "requirement": "required",
+    "source_ids": [
+      "SRC-DVC-1004194"
+    ],
+    "values": [
+      "online",
+      "direct"
+    ]
+  },
+  {
+    "procedure_code": "1.004194",
+    "field_id": "fee_exemption_claimed",
+    "label": "Đề nghị miễn lệ phí",
+    "type": "boolean",
+    "requirement": "optional",
+    "source_ids": [
+      "SRC-FEE-75-2022"
+    ]
+  }
+]
