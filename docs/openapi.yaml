@@ -1,0 +1,416 @@
+openapi: 3.1.0
+info:
+  title: Hành Chính Dễ API
+  version: 0.1.0
+  description: >-
+    API guided intake và pre-submission checking cho ba thủ tục pilot tại Hà Nội.
+    Kết quả kiểm tra không phải quyết định chấp thuận của cơ quan nhà nước.
+servers:
+  - url: https://PUBLIC_URL/v1
+    description: Public demo
+tags:
+  - name: Procedures
+  - name: Intake
+  - name: Checking
+paths:
+  /procedures:
+    get:
+      tags: [Procedures]
+      operationId: listProcedures
+      summary: Danh sách thủ tục đang được hỗ trợ
+      responses:
+        "200":
+          description: Danh sách thủ tục cùng phiên bản dữ liệu
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ProcedureSummary"
+        default:
+          $ref: "#/components/responses/Error"
+  /intake:
+    post:
+      tags: [Intake]
+      operationId: routeIntake
+      summary: Nhận diện thủ tục và tạo câu hỏi làm rõ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IntakeRequest"
+      responses:
+        "200":
+          description: Kết quả nhận diện nhu cầu
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IntakeResponse"
+        "429":
+          $ref: "#/components/responses/Error"
+        default:
+          $ref: "#/components/responses/Error"
+  /guidance:
+    post:
+      tags: [Intake]
+      operationId: createGuidance
+      summary: Tạo checklist và hướng dẫn đã được dẫn nguồn
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [procedureId, jurisdiction, answers]
+              properties:
+                procedureId:
+                  $ref: "#/components/schemas/ProcedureId"
+                jurisdiction:
+                  type: string
+                  const: HN
+                answers:
+                  type: object
+                  additionalProperties: true
+      responses:
+        "200":
+          description: Hướng dẫn theo trường hợp người dùng
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProcedureGuide"
+        default:
+          $ref: "#/components/responses/Error"
+  /check/extract:
+    post:
+      tags: [Checking]
+      operationId: extractDocument
+      summary: Trích xuất trường từ một ảnh hoặc PDF
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [procedureId, file]
+              properties:
+                procedureId:
+                  $ref: "#/components/schemas/ProcedureId"
+                file:
+                  type: string
+                  format: binary
+                  description: JPEG, PNG hoặc PDF; tối đa 10 MB và 10 trang
+      responses:
+        "200":
+          description: Dữ liệu cần người dùng xác nhận
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExtractionResult"
+        "413":
+          $ref: "#/components/responses/Error"
+        "415":
+          $ref: "#/components/responses/Error"
+        default:
+          $ref: "#/components/responses/Error"
+  /check/validate:
+    post:
+      tags: [Checking]
+      operationId: validateApplication
+      summary: Kiểm tra dữ liệu người dùng đã xác nhận
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ValidationRequest"
+      responses:
+        "200":
+          description: Báo cáo kiểm tra trước khi nộp
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CheckReport"
+        default:
+          $ref: "#/components/responses/Error"
+  /healthz:
+    get:
+      operationId: healthCheck
+      summary: Health check không gọi model inference
+      responses:
+        "200":
+          description: Service sẵn sàng
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, procedurePackVersion]
+                properties:
+                  status:
+                    type: string
+                    const: ok
+                  procedurePackVersion:
+                    type: string
+components:
+  responses:
+    Error:
+      description: Lỗi chuẩn hóa; nội dung không chứa PII
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  schemas:
+    ProcedureId:
+      type: string
+      enum:
+        - birth-registration
+        - permanent-residence
+        - new-private-house-building-permit
+    ProcedureSummary:
+      type: object
+      additionalProperties: false
+      required: [procedureId, title, jurisdiction, sourceVersion, lastVerifiedAt]
+      properties:
+        procedureId:
+          $ref: "#/components/schemas/ProcedureId"
+        title:
+          type: string
+        jurisdiction:
+          type: string
+          const: HN
+        sourceVersion:
+          type: string
+        lastVerifiedAt:
+          type: string
+          format: date
+    IntakeRequest:
+      type: object
+      additionalProperties: false
+      required: [message, jurisdiction, answers]
+      properties:
+        message:
+          type: string
+          minLength: 1
+          maxLength: 2000
+        jurisdiction:
+          type: string
+          const: HN
+        answers:
+          type: object
+          additionalProperties: true
+    IntakeResponse:
+      type: object
+      additionalProperties: false
+      required: [procedureId, confidence, needsConfirmation, questions]
+      properties:
+        procedureId:
+          oneOf:
+            - $ref: "#/components/schemas/ProcedureId"
+            - type: string
+              const: unsupported
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+        needsConfirmation:
+          type: boolean
+        questions:
+          type: array
+          maxItems: 2
+          items:
+            $ref: "#/components/schemas/ClarifyingQuestion"
+        unsupportedReason:
+          type: [string, "null"]
+    ClarifyingQuestion:
+      type: object
+      additionalProperties: false
+      required: [id, text, reason]
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+        reason:
+          type: string
+        options:
+          type: array
+          items:
+            type: object
+            required: [value, label]
+            properties:
+              value:
+                type: string
+              label:
+                type: string
+    ProcedureGuide:
+      type: object
+      required:
+        - procedureId
+        - procedureCode
+        - jurisdiction
+        - title
+        - requiredDocuments
+        - steps
+        - warnings
+        - sourceVersion
+        - lastVerifiedAt
+        - sources
+      properties:
+        procedureId:
+          $ref: "#/components/schemas/ProcedureId"
+        procedureCode:
+          type: string
+        jurisdiction:
+          type: string
+          const: HN
+        title:
+          type: string
+        eligibility:
+          type: array
+          items: {type: string}
+        requiredDocuments:
+          type: array
+          items:
+            type: object
+            required: [id, title, required, ruleId, sourceId]
+            properties:
+              id: {type: string}
+              title: {type: string}
+              required: {type: boolean}
+              condition: {type: [string, "null"]}
+              example: {type: [string, "null"]}
+              ruleId: {type: string}
+              sourceId: {type: string}
+        steps:
+          type: array
+          items:
+            type: object
+            required: [order, title, description]
+            properties:
+              order: {type: integer, minimum: 1}
+              title: {type: string}
+              description: {type: string}
+              example: {type: [string, "null"]}
+        authority: {type: string}
+        channels:
+          type: array
+          items: {type: string}
+        processingTime: {type: string}
+        fees:
+          type: array
+          items: {type: string}
+        warnings:
+          type: array
+          items: {type: string}
+        sourceVersion: {type: string}
+        lastVerifiedAt: {type: string, format: date}
+        sources:
+          type: array
+          items:
+            $ref: "#/components/schemas/SourceRef"
+    SourceRef:
+      type: object
+      required: [id, title, url, authority, jurisdiction, retrievedAt, contentHash]
+      properties:
+        id: {type: string}
+        title: {type: string}
+        url: {type: string, format: uri}
+        authority: {type: string}
+        jurisdiction: {type: string, enum: [HN, VN]}
+        retrievedAt: {type: string, format: date-time}
+        contentHash: {type: string}
+    ExtractionResult:
+      type: object
+      required: [documentType, fields, warnings]
+      properties:
+        documentType: {type: string}
+        fields:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/ExtractedField"
+        warnings:
+          type: array
+          items: {type: string}
+    ExtractedField:
+      type: object
+      required: [value, evidence, page, confidence]
+      properties:
+        value:
+          type: [string, number, boolean, "null"]
+        evidence:
+          type: [string, "null"]
+        page:
+          type: [integer, "null"]
+          minimum: 1
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+    ValidationRequest:
+      type: object
+      additionalProperties: false
+      required: [procedureId, jurisdiction, answers, confirmedFields]
+      properties:
+        procedureId:
+          $ref: "#/components/schemas/ProcedureId"
+        jurisdiction:
+          type: string
+          const: HN
+        answers:
+          type: object
+          additionalProperties: true
+        confirmedFields:
+          type: object
+          additionalProperties: true
+    CheckReport:
+      type: object
+      additionalProperties: false
+      required: [status, issues, unknowns, ruleVersion, sourceVersion, disclaimer]
+      properties:
+        status:
+          type: string
+          enum: [pass, needs_fix, needs_review]
+        issues:
+          type: array
+          items:
+            $ref: "#/components/schemas/CheckIssue"
+        unknowns:
+          type: array
+          items: {type: string}
+        ruleVersion: {type: string}
+        sourceVersion: {type: string}
+        disclaimer: {type: string}
+    CheckIssue:
+      type: object
+      additionalProperties: false
+      required: [severity, code, message, suggestedFix, ruleId, sourceId, confidence]
+      properties:
+        severity:
+          type: string
+          enum: [error, warning, review]
+        code: {type: string}
+        field: {type: [string, "null"]}
+        document: {type: [string, "null"]}
+        message: {type: string}
+        evidence: {type: [string, "null"]}
+        suggestedFix: {type: string}
+        ruleId: {type: string}
+        sourceId: {type: string}
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+    Error:
+      type: object
+      additionalProperties: false
+      required: [code, message, requestId]
+      properties:
+        code: {type: string}
+        message: {type: string}
+        requestId: {type: string}
