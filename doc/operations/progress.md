@@ -51,3 +51,11 @@ quality gate được chạy lại trên `integration/release-dev`.
 - Thêm 27 deterministic rule handler, question selector, suggestion lifecycle và revision guard.
 - Thêm LiteLLM provider, smoke command, giới hạn timeout/response và insecure-HTTP opt-in.
 - LLM chỉ phân loại/trích xuất; required field, rule, phí, thời hạn và nguồn do code xác định xử lý.
+
+### 2026-07-17 — Đồng bộ phạm vi Product & UX
+
+- Cập nhật `doc/Product and UX.md` để chỉ hỗ trợ ba thủ tục trong data package v2: `2.000635`,
+  `1.013314` và `1.004194`.
+- Thay các persona, demo, field mẫu, chỉ số đánh giá và delivery output còn mô tả trích lục kết hôn/
+  khai tử bằng nội dung tương ứng của xác nhận Mẫu số 02 và đăng ký tạm trú.
+- Ghi rõ hệ thống không thay UBND cấp xã xác nhận tình trạng nhà/đất và không tự phê duyệt thủ tục cư trú.

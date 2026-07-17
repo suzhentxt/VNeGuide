@@ -1,12 +1,12 @@
 # **VNeGuide MVP**
 
-## **Trợ lý AI hướng dẫn và điền trước hồ sơ cấp bản sao trích lục hộ tịch**
+## **Trợ lý AI hướng dẫn và điền trước hồ sơ cho ba thủ tục dịch vụ công**
 
 ## **Tóm tắt sản phẩm**
 
-**VNeGuide là trợ lý AI được tích hợp vào luồng làm thủ tục dịch vụ công, giúp người dân xin bản sao trích lục khai sinh, kết hôn hoặc khai tử.**
+**VNeGuide là trợ lý AI được tích hợp vào luồng làm thủ tục dịch vụ công, chỉ hỗ trợ ba thủ tục: cấp bản sao Giấy khai sinh, xác nhận điều kiện diện tích và tình trạng chỗ ở để đăng ký thường trú, và đăng ký tạm trú.**
 
-**Người dùng chỉ cần mô tả nhu cầu và trả lời một số câu hỏi đơn giản. VNeGuide sẽ xác định đúng loại trích lục, thu thập thông tin, kiểm tra lỗi và tự động điền trước biểu mẫu. Người dùng kiểm tra lại nội dung, chỉnh sửa nếu cần và chủ động chuyển sang bước tiếp theo.**
+**Người dùng chỉ cần mô tả nhu cầu và trả lời một số câu hỏi đơn giản. VNeGuide sẽ xác định đúng thủ tục trong phạm vi, thu thập thông tin, kiểm tra lỗi và tự động điền trước biểu mẫu tương ứng. Người dùng kiểm tra lại nội dung, chỉnh sửa nếu cần và chủ động chuyển sang bước tiếp theo.**
 
 **Trong MVP, quy trình được triển khai trên một giao diện mô phỏng Cổng Dịch vụ công vì chưa có API tích hợp chính thức.**
 
@@ -16,10 +16,10 @@
 
 ## **Vấn đề**
 
-**Khi xin bản sao trích lục hộ tịch, người dân thường gặp các khó khăn:**
+**Khi thực hiện ba thủ tục trong phạm vi MVP, người dân thường gặp các khó khăn:**
 
 * **Không biết nhu cầu của mình tương ứng với thủ tục nào.**  
-* **Không phân biệt được cấp bản sao trích lục với đăng ký mới hoặc đăng ký lại.**  
+* **Không phân biệt được thủ tục cần làm với các thủ tục có tên hoặc mục đích gần giống.**
 * **Không biết cần chuẩn bị thông tin và giấy tờ gì.**  
 * **Gặp khó khăn khi đọc và điền biểu mẫu hành chính.**  
 * **Phải nhập thủ công nhiều trường và dễ sai sót.**  
@@ -29,7 +29,7 @@
 
 **VNeGuide giúp người dân:**
 
-1. **Xác định đúng loại trích lục cần xin.**  
+1. **Xác định đúng một trong ba thủ tục được hỗ trợ.**
 2. **Hiểu rõ thông tin và giấy tờ cần chuẩn bị.**  
 3. **Cung cấp thông tin qua giao diện hội thoại đơn giản.**  
 4. **Phát hiện trường còn thiếu hoặc sai định dạng.**  
@@ -44,29 +44,25 @@
 
 ## **Người dùng chính**
 
-* **Người cần xin bản sao trích lục khai sinh.**  
-* **Người cần xin bản sao trích lục kết hôn.**  
-* **Người cần xin bản sao trích lục khai tử.**  
+* **Người cần xin bản sao Giấy khai sinh của sự kiện đã đăng ký trước đó.**
+* **Người cần UBND cấp xã xác nhận Mẫu số 02 về điều kiện diện tích và tình trạng chỗ ở để đăng ký thường trú vào chỗ thuê, mượn hoặc ở nhờ.**
+* **Người cần đăng ký tạm trú tại nơi đang sinh sống ngoài nơi thường trú.**
 * **Người lần đầu sử dụng dịch vụ công trực tuyến.**  
 * **Người lớn tuổi hoặc không quen với biểu mẫu hành chính.**  
 * **Người thực hiện thủ tục thay cho người thân trong trường hợp được phép.**
 
 ## **Trong phạm vi MVP**
 
-**MVP hỗ trợ một thủ tục chính:**
+**MVP chỉ hỗ trợ đúng ba thủ tục:**
 
-**Cấp bản sao trích lục hộ tịch**
-
-**Với ba loại sự kiện hộ tịch:**
-
-* **Khai sinh.**  
-* **Kết hôn.**  
-* **Khai tử.**
+1. **2.000635 — Cấp bản sao Trích lục hộ tịch (bản sao Giấy khai sinh).**
+2. **1.013314 — Xác nhận về điều kiện diện tích bình quân nhà ở để đăng ký thường trú vào chỗ ở do thuê, mượn, ở nhờ; nhà ở, đất ở không có tranh chấp quyền sở hữu nhà ở, quyền sử dụng đất ở, không thuộc địa điểm không được đăng ký thường trú mới.**
+3. **1.004194 — Đăng ký tạm trú.**
 
 **MVP bao gồm:**
 
 * **Tiếp nhận nhu cầu bằng ngôn ngữ tự nhiên.**  
-* **Xác định loại trích lục phù hợp.**  
+* **Xác định thủ tục phù hợp trong ba thủ tục trên.**
 * **Đặt câu hỏi làm rõ.**  
 * **Cung cấp checklist thông tin và giấy tờ.**  
 * **Kiểm tra trường bắt buộc và định dạng dữ liệu.**  
@@ -84,6 +80,9 @@
 * **Đăng ký kết hôn mới.**  
 * **Đăng ký khai tử mới.**  
 * **Đăng ký lại sự kiện hộ tịch.**  
+* **Cấp bản sao trích lục kết hôn hoặc khai tử.**
+* **Thực hiện thủ tục đăng ký thường trú thay cho thủ tục xác nhận Mẫu số 02.**
+* **Tự xác nhận nhà, đất không tranh chấp; tự xác minh quyền sở hữu, quyền sử dụng hoặc địa điểm cấm đăng ký thường trú mới.**
 * **Gửi hồ sơ thật tới Cổng Dịch vụ công.**  
 * **Đăng nhập hoặc xác thực bằng VNeID.**  
 * **Thu thập mật khẩu, OTP hoặc chữ ký số.**  
@@ -103,7 +102,7 @@
 
         **↓**
 
-**AI xác định loại trích lục**
+**AI xác định một trong ba thủ tục hoặc kết luận ngoài phạm vi**
 
         **↓**
 
@@ -139,35 +138,29 @@
 
 ## **Ba tình huống demo chính**
 
-### **Tình huống 1: Xin trích lục khai sinh cho bản thân**
+### **Tình huống 1: Xin bản sao Giấy khai sinh cho bản thân**
 
 **Người dùng nhập:**
 
 **“Tôi cần xin lại giấy khai sinh.”**
 
-**AI làm rõ đây là yêu cầu cấp bản sao trích lục khai sinh, không phải đăng ký khai sinh mới hoặc đăng ký lại khai sinh.**
+**AI làm rõ đây là yêu cầu cấp bản sao Giấy khai sinh của sự kiện đã đăng ký trước đó, không phải đăng ký khai sinh mới hoặc đăng ký lại khai sinh.**
 
-### **Tình huống 2: Xin trích lục khai tử cho người thân**
-
-**AI cần xác định:**
-
-* **Người được trích lục là ai.**  
-* **Quan hệ giữa người yêu cầu và người đã mất.**  
-* **Thông tin về nơi và thời gian đăng ký khai tử.**  
-* **Có cần bổ sung giấy tờ chứng minh hay không.**
-
-### **Tình huống 3: Yêu cầu chưa rõ về kết hôn**
+### **Tình huống 2: Xin xác nhận Mẫu số 02 về chỗ ở để đăng ký thường trú**
 
 **Người dùng nhập:**
 
-**“Tôi cần giấy xác nhận đã kết hôn.”**
+**“Tôi thuê nhà ở nội thành Hà Nội và cần xác nhận diện tích nhà ở để đăng ký thường trú.”**
 
-**AI phải làm rõ người dùng cần:**
+**Hệ thống xác định thủ tục 1.013314, hỏi địa chỉ chỗ ở hợp pháp, khu vực, số người và các diện tích cần thiết để kiểm tra phép tính. Hệ thống không tự kết luận nhà, đất không tranh chấp và không thay UBND cấp xã ký xác nhận.**
 
-* **Bản sao trích lục kết hôn; hay**  
-* **Một thủ tục khác như xác nhận tình trạng hôn nhân.**
+### **Tình huống 3: Đăng ký tạm trú tại nhà thuê**
 
-**Nếu không thuộc phạm vi MVP, hệ thống chuyển hướng tới thủ tục phù hợp thay vì tự suy đoán.**
+**Người dùng nhập:**
+
+**“Tôi đang thuê phòng và muốn đăng ký tạm trú trực tuyến.”**
+
+**Hệ thống xác định thủ tục 1.004194, hỏi hình thức đăng ký, thông tin người đăng ký, thời hạn tạm trú, căn cứ sử dụng chỗ ở, sự đồng ý khi cần và kênh nộp. Trường hợp đăng ký theo danh sách, tại nơi đơn vị Công an/Quân đội đóng quân hoặc trường hợp đặc biệt được chuyển sang cần kiểm tra chính thức.**
 
 ---
 
@@ -179,9 +172,9 @@
 
 **AI hiểu cách diễn đạt đời thường và xác định người dùng đang cần:**
 
-* **Trích lục khai sinh.**  
-* **Trích lục kết hôn.**  
-* **Trích lục khai tử.**  
+* **Cấp bản sao Trích lục hộ tịch (bản sao Giấy khai sinh) — 2.000635.**
+* **Xác nhận điều kiện diện tích và tình trạng chỗ ở để đăng ký thường trú — 1.013314.**
+* **Đăng ký tạm trú — 1.004194.**
 * **Hoặc một thủ tục khác ngoài phạm vi MVP.**
 
 ## **4.2. Hỏi thông tin có hướng dẫn**
@@ -211,10 +204,12 @@
 * **Trường bắt buộc bị bỏ trống.**  
 * **Sai định dạng ngày tháng.**  
 * **Số định danh không đúng định dạng.**  
-* **Thiếu thông tin về sự kiện hộ tịch.**  
-* **Thiếu thông tin nơi đã đăng ký hộ tịch.**  
+* **Thiếu thông tin tra cứu sự kiện khai sinh hoặc số bản sao yêu cầu.**
+* **Thiếu địa chỉ, số người hoặc số liệu diện tích cần cho Mẫu số 02.**
+* **Sai phép tính diện tích bình quân hoặc không đạt ngưỡng được cấu hình.**
+* **Thiếu thời hạn tạm trú, căn cứ sử dụng chỗ ở hoặc sự đồng ý khi thuộc trường hợp có điều kiện.**
 * **Mâu thuẫn giữa các trường.**  
-* **Trường hợp người yêu cầu và người được trích lục chưa rõ ràng.**
+* **Trường hợp cần cơ quan có thẩm quyền kiểm tra chính thức.**
 
 **Mỗi lỗi phải cho biết:**
 
@@ -226,25 +221,11 @@
 
 **Sau khi đủ thông tin, hệ thống chuyển dữ liệu hội thoại thành dữ liệu có cấu trúc và ánh xạ vào biểu mẫu.**
 
-**Ví dụ:**
+**Ví dụ theo từng thủ tục:**
 
-**Họ tên người yêu cầu**
-
-**Ngày sinh**
-
-**Số định danh**
-
-**Quan hệ với người được trích lục**
-
-**Loại sự kiện hộ tịch**
-
-**Họ tên người được trích lục**
-
-**Nơi đăng ký hộ tịch**
-
-**Năm đăng ký**
-
-**Hình thức nhận kết quả**
+* **Bản sao Giấy khai sinh: thông tin người yêu cầu, người có sự kiện khai sinh, nơi/năm đăng ký, số bản sao và kênh nộp.**
+* **Xác nhận Mẫu số 02: thông tin người đề nghị, địa chỉ chỗ ở hợp pháp, khu vực, số người, diện tích và các nội dung người dùng tự khai.**
+* **Đăng ký tạm trú: thông tin người đăng ký, địa chỉ và thời hạn tạm trú, căn cứ sử dụng chỗ ở, sự đồng ý khi cần và kênh nộp.**
 
 **Người dùng luôn có quyền sửa dữ liệu trước khi chuyển sang bước tiếp theo.**
 
@@ -255,10 +236,11 @@
 **Dữ liệu thủ tục được thu thập và kiểm tra từ các nguồn chính thức:**
 
 * **Cổng Dịch vụ công Quốc gia.**  
-* **Cổng thông tin của Bộ Tư pháp.**  
+* **Cổng thông tin của Bộ Tư pháp và cơ quan quản lý hộ tịch.**
+* **Cổng thông tin của Bộ Công an và nguồn chính thức về cư trú.**
 * **Cổng dịch vụ công của địa phương triển khai thử nghiệm.**  
 * **Quyết định công bố thủ tục hành chính.**  
-* **Biểu mẫu hộ tịch chính thức.**  
+* **Biểu mẫu hộ tịch, cư trú và Mẫu số 02 chính thức.**
 * **Văn bản pháp luật liên quan.**
 
 **Mỗi thủ tục phải lưu tối thiểu:**
@@ -267,7 +249,7 @@
 
 **Tên thủ tục**
 
-**Loại sự kiện hộ tịch**
+**Phạm vi và trường hợp cần kiểm tra chính thức**
 
 **Cơ quan thực hiện**
 
@@ -305,9 +287,10 @@
 
 * **Hiểu câu hỏi tự nhiên.**  
 * **Phân loại nhu cầu ban đầu.**  
+* **Trích xuất dữ liệu người dùng đã nêu sang schema có cấu trúc.**
 * **Đặt câu hỏi làm rõ.**  
 * **Giải thích thủ tục bằng ngôn ngữ dễ hiểu.**  
-* **Diễn giải lỗi cho người dùng.**
+* **Diễn đạt lại lỗi do Rule Engine hoặc Validation Engine xác định.**
 
 ## **RAG**
 
@@ -410,7 +393,7 @@
 
 | Chỉ số | Mục tiêu |
 | ----- | ----- |
-| **Xác định đúng loại trích lục** | **≥ 90% tình huống kiểm thử** |
+| **Xác định đúng một trong ba thủ tục hoặc ngoài phạm vi** | **≥ 90% tình huống kiểm thử** |
 | **Phát hiện trường bắt buộc bị thiếu** | **≥ 95%** |
 | **Phát hiện lỗi định dạng cơ bản** | **≥ 90%** |
 | **Điền đúng trường biểu mẫu** | **≥ 95%** |
@@ -432,7 +415,7 @@
 
 | Giai đoạn | Công việc | Kết quả hoàn thành |
 | ----- | ----- | ----- |
-| **1\. Chuẩn hóa dữ liệu** | **Thu thập nguồn và biểu mẫu** | **Bộ dữ liệu ba loại trích lục** |
+| **1\. Chuẩn hóa dữ liệu** | **Thu thập nguồn và biểu mẫu** | **Bộ dữ liệu ba thủ tục** |
 | **2\. Xây dựng nghiệp vụ** | **Tạo câu hỏi, checklist và rules** | **Luồng nghiệp vụ đã kiểm thử** |
 | **3\. Xây dựng backend AI** | **LLM, RAG, validation và form mapping** | **API hoạt động** |
 | **4\. Xây dựng frontend** | **Hội thoại và biểu mẫu mô phỏng** | **Luồng tự động điền hoạt động** |
@@ -443,5 +426,4 @@
 
 # **Thông điệp sản phẩm**
 
-**VNeGuide biến quá trình xin bản sao trích lục hộ tịch từ việc tự đọc, tự hiểu và tự điền biểu mẫu thành một cuộc hội thoại đơn giản. AI thu thập và kiểm tra thông tin, điền trước hồ sơ, còn người dân là người kiểm tra, xác nhận và quyết định nộp.**
-
+**VNeGuide biến quá trình chuẩn bị hồ sơ cho ba thủ tục được hỗ trợ từ việc tự đọc, tự hiểu và tự điền biểu mẫu thành một cuộc hội thoại đơn giản. AI thu thập và kiểm tra thông tin, điền trước hồ sơ, còn người dân là người kiểm tra, xác nhận và quyết định nộp.**

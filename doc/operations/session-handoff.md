@@ -27,6 +27,11 @@
 - LiteLLM gateway HTTP chỉ được dùng với dữ liệu tổng hợp; production cần HTTPS.
 - In-memory store không phù hợp nhiều API worker; release demo phải chạy một worker.
 - Hai repo đối thủ và các file untracked ở root là tài liệu tham khảo, tuyệt đối không stage/commit.
+- Tài liệu Architecture/Terminal cũ vẫn có phần mô tả bộ thủ tục khác data package v2; Product & UX
+  đã được đồng bộ về đúng ba thủ tục hiện hành.
+- Fixture intent dùng scripted mock nên chỉ kiểm contract/pipeline, không chứng minh accuracy model.
+- Freshness `next_review_at`, source governance và business validation thuộc data/domain/rules,
+  không được chuyển vào extractor.
 
 ## Bước tiếp theo
 
