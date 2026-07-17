@@ -1,0 +1,34 @@
+[
+  {
+    "id": "birth_certificate_copy",
+    "messages": ["Tôi cần xin lại giấy khai sinh."],
+    "expected_procedure_code": "2.000635",
+    "expected_final_state": null,
+    "expect_follow_up": true,
+    "must_not_claim_acceptance": true
+  },
+  {
+    "id": "housing_condition_confirmation",
+    "messages": ["Tôi cần xác nhận diện tích nhà ở để đăng ký thường trú."],
+    "expected_procedure_code": "1.013314",
+    "expected_final_state": null,
+    "expect_follow_up": true,
+    "must_not_claim_acceptance": true
+  },
+  {
+    "id": "temporary_residence_registration",
+    "messages": ["Tôi muốn đăng ký tạm trú tại nhà đang thuê."],
+    "expected_procedure_code": "1.004194",
+    "expected_final_state": null,
+    "expect_follow_up": true,
+    "must_not_claim_acceptance": true
+  },
+  {
+    "id": "marriage_extract_is_out_of_scope",
+    "messages": ["Tôi cần bản sao trích lục kết hôn."],
+    "expected_procedure_code": null,
+    "expected_final_state": "out_of_scope",
+    "expect_follow_up": false,
+    "must_not_claim_acceptance": true
+  }
+]

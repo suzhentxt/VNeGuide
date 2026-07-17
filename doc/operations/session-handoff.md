@@ -2,39 +2,46 @@
 
 ## Trạng thái hiện tại
 
-- Repo đã có cấu trúc module, data package v2 và domain/data runtime foundation.
+- Repo đã có data package v2, shared domain contract, data repository, AI extraction và CLI harness.
 - Scope runtime nằm trong `data/README.md`.
-- `vneguide.domain` đã cung cấp enum, model và contract dùng chung.
-- `ProcedureRepository` đã load/audit pack, catalog, source, rule context và checksum.
-- Chưa có AI provider, rule engine thực thi, orchestrator hoặc CLI chạy được.
-- Host vẫn chưa có Python; lần xác minh gần nhất dùng Python 3.11.9 embeddable tạm và đã xóa sau khi test.
+- `vneguide.domain` cung cấp enum/model/contract dùng chung.
+- `ProcedureRepository` load/audit pack, catalog, source, rule context và checksum.
+- `src/vneguide/ai/` có mock/OpenAI adapter, catalog-derived prompt/schema, bounded retry và fallback.
+- `python -m vneguide.cli` đã có entry point nhưng còn chờ `vneguide.core:create_session`.
+- Deterministic rule handlers và conversation orchestrator chưa được triển khai.
 
-## Việc đã xác minh
+## Việc đã xác minh cho trạng thái hợp nhất hiện tại
 
-- Compile thành công 21 file Python.
-- 25 unit test pass.
-- Ba procedure pack, 44 field, 10 rule-context input, 27 rule và 13 source pass audit.
-- 12 checksum pass theo chuẩn UTF-8/LF.
-- Các nguồn runtime đều ở trạng thái `approved`, đúng procedure và file local nằm trong data root.
-- Repo không còn conflict marker sau lần kiểm tra gần nhất.
+- Domain/data: compile 21 file, 25 unit test pass.
+- Data audit: ba pack, 44 field, 10 rule-context input, 27 rule, 13 source và 12 checksum pass.
+- AI + CLI trên `main`: Ruff/Mypy/compileall pass; Pytest `37 passed, 1 skipped`.
+- OpenAI adapter dùng fake transport; chưa gọi model thật hoặc đo live accuracy.
+- Sau resolve conflict: compile toàn bộ 42 file Python thành công; unittest discovery chạy 63 test,
+  đạt `62 passed, 1 skipped` (live provider smoke test là opt-in).
+- Ruff, formatter, Mypy và Pytest chưa chạy lại vì Python embeddable tạm không có dev dependencies.
 
 ## Rủi ro
 
 - Tài liệu Product/Architecture/Terminal cũ vẫn mô tả bộ thủ tục khác data package v2.
+- AI còn `ExtractionOutcome`/provider-facing models nội bộ; cần adapter rõ ràng sang shared domain.
 - 17/27 validation rule chưa có positive gold case.
-- Rule condition chưa phải DSL thực thi; theo OD-004 phải dùng handler xác định theo `rule_id`, không dùng `eval/exec`.
-- `pytest`/`ruff` chưa nằm trong dependency và host chưa có Python để chạy lại lệnh chuẩn.
-- Git LFS có thể cần quyền ghi `.git/lfs/tmp` trong môi trường sandbox.
+- Rule condition chưa phải DSL; theo OD-004 phải dùng handler theo `rule_id`, không `eval/exec`.
+- Evidence validation cục bộ không chứng minh được toàn bộ ngữ nghĩa phủ định/vai trò.
+- Live provider smoke test đang skip và chưa có bằng chứng gọi model thật.
+- Git LFS có thể cần quyền ghi `.git/lfs/tmp` trong sandbox.
 
 ## Bước tốt nhất tiếp theo
 
-Tạo `LLMProvider` interface, mock provider và structured extraction dùng `ExtractionResult`; không định nghĩa lại `ProcedureCode`, `CaseDraft` hoặc field catalog trong module AI.
+Người 3 triển khai rule handlers và `vneguide.core:create_session`, dùng shared `CaseDraft`,
+`ConversationState`, `TurnRequest` và `TurnResult`. AI output phải đi qua adapter sang
+`ExtractionResult`; không cho CLI hoặc AI sở hữu business rule.
 
-## Lệnh dự kiến
+## Lệnh
 
-- Cài đặt sau khi có Python 3.11+: `py -m pip install -e .`
-- Unit test không cần pytest: `$env:PYTHONPATH='src'; py -m unittest discover -s tests -v`
-- Test pytest sau khi Người 4 bổ sung dev dependency: `py -m pytest`
-- CLI mục tiêu: `py -m vneguide.cli`
-
-Lệnh `unittest` đã được xác minh tương đương bằng Python 3.11.9 embeddable; các lệnh dùng `py` chưa chạy được vì host chưa cài interpreter.
+- Cài dev dependencies: `python -m pip install -e ".[dev]"`
+- Quality gate: `python -m ruff check .`
+- Format check: `python -m ruff format --check .`
+- Type check: `python -m mypy`
+- Test: `python -m pytest`
+- Unit test không cần pytest: `python -m unittest discover -s tests -v`
+- CLI: `python -m vneguide.cli`
