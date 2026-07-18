@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
-import { CivilRecordEForm } from "@/components/justice/CivilRecordEForm";
+import Link from "next/link";
 import { JusticeShell } from "@/components/justice/JusticeShell";
-import { MarriageEForm } from "@/components/justice/MarriageEForm";
+import { TemporaryResidenceForm } from "@/components/forms/TemporaryResidenceForm";
 import {
   additionalProcedureExperiences,
   getProcedureExperience,
@@ -37,7 +37,7 @@ export async function generateMetadata({
 
   return {
     title: `Tờ khai - ${experience.title}`,
-    description: `Mẫu hộ tịch điện tử tương tác cho ${experience.title.toLocaleLowerCase("vi")}.`,
+    description: `Biểu mẫu mô phỏng hỗ trợ chuẩn bị ${experience.title.toLocaleLowerCase("vi")}.`,
   };
 }
 
@@ -66,18 +66,25 @@ export default async function ProcedureEFormPage({
 
   return (
     <JusticeShell activeNav="procedures">
-      {experience.formKind === "marriage" ? (
-        <MarriageEForm
+      {experience.formKind === "temporary-residence" ? (
+        <TemporaryResidenceForm
           experience={experience}
           selectedReceptionUnit={selectedReceptionUnit}
           selectedServiceId={selectedService.id}
         />
       ) : (
-        <CivilRecordEForm
-          experience={experience}
-          selectedReceptionUnit={selectedReceptionUnit}
-          selectedServiceId={selectedService.id}
-        />
+        <main className="min-h-[60vh] bg-[#f3f6f8] px-4 py-12">
+          <section className="mx-auto max-w-3xl rounded-2xl bg-white p-6 shadow-sm sm:p-10">
+            <p className="text-sm font-bold tracking-widest text-[#903938] uppercase">Mã {experience.code}</p>
+            <h1 className="mt-2 text-2xl font-extrabold text-[#1e2f41]">{experience.shortTitle}</h1>
+            <p className="mt-4 leading-7 text-[#52606d]">
+              Luồng này đã nằm trong phạm vi hỗ trợ và có thể trao đổi với chatbox. Biểu mẫu sâu hiện ưu tiên cho thủ tục 1.004194 — Đăng ký tạm trú.
+            </p>
+            <Link className="mt-6 inline-flex min-h-11 items-center rounded-lg bg-[#903938] px-5 font-bold text-white" href={experience.routes.detail}>
+              Xem hướng dẫn thủ tục
+            </Link>
+          </section>
+        </main>
       )}
     </JusticeShell>
   );

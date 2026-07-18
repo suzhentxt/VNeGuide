@@ -15,6 +15,7 @@ import { usePathname } from "next/navigation";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
 import { getChatSessionContext } from "@/data/chat-scope";
+import { useProcedureWorkspace } from "@/components/workspace/ProcedureWorkspaceProvider";
 
 import { SuggestionCard } from "./SuggestionCard";
 import { useChatSession } from "./useChatSession";
@@ -22,6 +23,7 @@ import { useChatSession } from "./useChatSession";
 export function ChatWidget() {
   const pathname = usePathname();
   const context = useMemo(() => getChatSessionContext(pathname), [pathname]);
+  const workspace = useProcedureWorkspace();
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState("");
   const listRef = useRef<HTMLDivElement>(null);
@@ -102,7 +104,7 @@ export function ChatWidget() {
               </span>
               <div className="min-w-0">
                 <h2 className="truncate text-base font-extrabold">Trợ lý VNeGuide</h2>
-                <p className="truncate text-xs text-white/80">Hôn nhân và gia đình · Bản mô phỏng</p>
+                <p className="truncate text-xs text-white/80">3 thủ tục đã xác minh · Bản mô phỏng</p>
               </div>
             </div>
             <div className="flex shrink-0 items-center gap-1">
@@ -162,6 +164,12 @@ export function ChatWidget() {
               </div>
             ) : null}
 
+            {workspace.state.recovery_notice ? (
+              <div className="rounded-lg border border-[#b9cde5] bg-[#f2f7fc] p-3 text-sm text-[#24496f]" role="status">
+                {workspace.state.recovery_notice}
+              </div>
+            ) : null}
+
             {messages.length === 0 ? (
               <div className="max-w-[92%] rounded-2xl rounded-tl-sm border border-[#e2e6ea] bg-white px-4 py-3 text-sm leading-6 text-[#334155] shadow-sm">
                 <p className="font-bold text-[#903938]">Xin chào!</p>
@@ -193,6 +201,7 @@ export function ChatWidget() {
             {pendingSuggestions?.map((suggestion) => (
               <SuggestionCard
                 disabled={busy}
+                fieldLocked={workspace.isDirty(suggestion.field_id)}
                 key={suggestion.id}
                 onResolve={resolveSuggestion}
                 suggestion={suggestion}
@@ -217,6 +226,16 @@ export function ChatWidget() {
                 <p className="font-bold">Trạng thái: {turn.validation.status}</p>
                 {turn.validation.readiness_score !== null ? (
                   <p className="mt-1">Mức độ sẵn sàng: {turn.validation.readiness_score}%</p>
+                ) : null}
+                {turn.validation.issues.length ? (
+                  <ul className="mt-2 list-disc space-y-1 pl-5">
+                    {turn.validation.issues.map((issue) => (
+                      <li key={issue.rule_id}>
+                        {issue.message}
+                        {issue.field_id ? ` — ${issue.field_id}` : ""}
+                      </li>
+                    ))}
+                  </ul>
                 ) : null}
               </div>
             ) : null}

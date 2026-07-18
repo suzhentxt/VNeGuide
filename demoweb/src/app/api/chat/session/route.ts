@@ -31,8 +31,8 @@ export async function POST(request: NextRequest) {
       response.cookies.set(CHAT_SESSION_COOKIE, sessionId, cookieOptions());
     }
     return response;
-  } catch {
-    return unavailableResponse();
+  } catch (error) {
+    return unavailableResponse(error);
   }
 }
 
@@ -59,8 +59,8 @@ export async function GET(request: NextRequest) {
       response.cookies.delete(CHAT_SESSION_COOKIE);
     }
     return response;
-  } catch {
-    return unavailableResponse();
+  } catch (error) {
+    return unavailableResponse(error);
   }
 }
 

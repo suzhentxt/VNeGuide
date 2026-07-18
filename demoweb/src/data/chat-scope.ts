@@ -2,24 +2,19 @@ import type { ChatSessionContext } from "@/types/chat";
 
 const procedureContexts = [
   {
-    slug: "dang-ky-ket-hon-co-yeu-to-nuoc-ngoai",
-    code: "2.000806",
-    title: "Đăng ký kết hôn có yếu tố nước ngoài",
+    slug: "cap-ban-sao-giay-khai-sinh",
+    code: "2.000635",
+    title: "Cấp bản sao Giấy khai sinh",
   },
   {
-    slug: "thay-doi-cai-chinh-ho-tich-co-yeu-to-nuoc-ngoai",
-    code: "2.000748",
-    title: "Thay đổi, cải chính hộ tịch có yếu tố nước ngoài",
+    slug: "xac-nhan-dieu-kien-nha-o",
+    code: "1.013314",
+    title: "Xác nhận điều kiện diện tích bình quân nhà ở",
   },
   {
-    slug: "thay-doi-cai-chinh-ho-tich",
-    code: "1.004859",
-    title: "Thay đổi, cải chính thông tin hộ tịch",
-  },
-  {
-    slug: "dang-ky-ket-hon",
-    code: "1.000894",
-    title: "Đăng ký kết hôn",
+    slug: "dang-ky-tam-tru",
+    code: "1.004194",
+    title: "Đăng ký tạm trú",
   },
 ] as const;
 
@@ -35,6 +30,6 @@ export function getChatSessionContext(pathname: string): ChatSessionContext {
           procedure_code: matched.code,
           procedure_title: matched.title,
         }
-      : { procedure_title: "Hôn nhân và gia đình" }),
+      : { procedure_title: "Ba thủ tục VNeGuide hỗ trợ" }),
   };
 }

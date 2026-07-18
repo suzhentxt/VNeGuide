@@ -2,66 +2,55 @@
 
 ## Trạng thái Git
 
-- Nhánh: `integration/release-dev`.
-- Merge `tuan`: `4865ceb`; tài liệu scope: `ff06998`; release baseline: `a8e182f`.
-- Đã merge `origin/dev` tại `e65b31b` bằng merge commit `44d399f`; thay đổi nối model với web, tăng
-  BFF timeout, tự phục hồi session hết hạn và mang bản format `session_store.py` từ API owner.
-- Conflict được giới hạn và đã resolve ở `.env.example`, `progress.md` và `session-handoff.md`; giữ cả LiteLLM,
-  FastAPI, Next.js và cấu hình Compose.
+- Nhánh hiện tại: `integration/release-dev`.
+- Đã merge `origin/agent/web-three-procedures@7646399`; conflict ở README, chat hook và hai file
+  operations đã được hợp nhất theo baseline Release Captain; merge commit đang chờ chốt.
+- Merge result giữ LiteLLM, FastAPI, Next.js, retry session từ `dev`, shared workspace từ UI branch
+  và dependency đã vá của release branch.
 - Repo đối thủ, DOCX, CSV, `.DS_Store` và `view_parquet.py` không được stage.
-- Chưa merge/push `dev` vì Definition of Done sản phẩm còn blocker.
+- Chưa cập nhật/push `dev`; integration gate đã đạt và còn bước commit/rebuild container.
+
+## Gate sau merge UI
+
+- Ruff lint/format và Mypy pass; Pytest `106 passed, 1 skipped`, coverage `81.93%`.
+- `npm ci` và audit pass với 0 vulnerability.
+- `npm run check` pass: lint, typecheck, 9 reducer test và Next 16.2.10 build 25 route.
+- Ba procedure route trả 200; hero tạm trú đạt 5/5; route đăng ký kết hôn cũ trả 404.
+- Limited staged-text audit pass: 333 index file, 188 text file.
+
+## Thay đổi từ nhánh UI
+
+- Demoweb chỉ còn đúng ba procedure code `2.000635`, `1.013314`, `1.004194`.
+- Route đăng ký kết hôn cũ bị xóa; build phải chỉ generate ba procedure slug mới.
+- Hero `1.004194` có form CT01 và shared workspace với chat.
+- Reducer bảo vệ dirty field, stale response, reset và session recreation; form giữ dữ liệu khi
+  session backend hết hạn.
+- BFF `/api/chat/field` validate field ID/revision và proxy bằng cookie `HttpOnly`.
+
+## Blocker còn lại
+
+1. Backend chưa có `POST /v1/chat/sessions/{session_id}/fields/{field_id}`.
+2. API `DraftResponse` chưa trả `values`, nên form không thể xác minh giá trị server cuối cùng.
+3. Chưa có browser E2E/visual/keyboard QA; reducer test không thay thế thao tác browser.
+4. OCR owner chưa cung cấp adapter/upload/UI và typed OCR failure thật.
+5. Chưa có cloud target/credential hoặc video dự phòng được review.
+6. In-memory session store chỉ phù hợp một worker; cần shared store trước khi scale.
 
 ## Runtime preview
 
-Docker/ngrok hiện phục vụ image đã rebuild sau merge `e65b31b`.
+Preview đang chạy là image trước merge UI và phải rebuild trước demo tiếp theo:
 
-- Docker Compose: API `8000`, web `3000`, gateway `8080`.
-- Ngrok preview: `https://moschate-terri-dereistically.ngrok-free.dev`.
-- Post-commit smoke `2026-07-18T08:50:28.004246Z` trên clean `44d399f`: public `/` và `/health`
-  đều 5/5 HTTP 200.
-- Runtime xác nhận `provider=mock`, `model=mock-scripted`; smoke không gọi model.
-- Image: API `sha256:c72a78e6a5b5...9e4f`, web `sha256:b87a68c910cf...c0b7`.
-- Preview là tunnel tạm, mất khi process/máy dừng và không được ghi là production.
-
-Tắt stack khi không cần demo:
-
-```bash
-docker compose -f deployment/docker-compose.yml down
-```
-
-Ngrok phải được dừng riêng bằng `Ctrl+C` trong terminal đang chạy.
-
-## Thay đổi nhận từ `origin/dev`
-
-- API hỗ trợ opt-in model config bằng `python -m vneguide.api --env-file .env`; không tự đọc secret
-  khi import.
-- Composition root truyền env-file được chỉ định vào provider config.
-- BFF timeout là 60 giây để bao phủ retry provider có giới hạn.
-- Widget tạo session mới và retry đúng một lần khi backend trả 404/410 cho session cũ.
-- Retry 404/410 mới chỉ được source review và compile/build; chưa có component/browser test hành vi.
-- Root layout giảm cảnh báo hydration do extension trình duyệt.
-- Test mới kiểm CLI args/env-file và model config runtime.
-- Bằng chứng live model ở commit nguồn chỉ dùng dữ liệu tổng hợp; phải đo lại nếu cần claim model,
-  version hoặc latency cho artifact release cuối.
-
-## Blocker cần owner khác xử lý
-
-1. UI owner thay luồng Hôn nhân và gia đình bằng route/form cho `2.000635`, `1.013314`, `1.004194`.
-2. API/form contract cần `draft.values` và mutation/policy cho manual edit trực tiếp nếu flow yêu cầu.
-3. OCR owner cung cấp adapter/upload contract/UI và typed failure; test hiện chỉ kiểm generic fallback.
-4. Sau UI merge, mở browser tab để chạy/chụp browser E2E và record video dự phòng.
-5. Chọn cloud target/cấp credential để thay ngrok bằng URL lâu dài.
-6. In-memory session store chỉ phù hợp một API worker; cần shared store trước khi scale.
-7. Workflow đang dùng major action tags; pin action SHA là hardening còn lại trước production.
+- Gateway local `8080`, API `8000`, web `3000`.
+- Ngrok: `https://moschate-terri-dereistically.ngrok-free.dev`.
+- Image cũ: API `sha256:c72a78e6a5b5...9e4f`, web `sha256:b87a68c910cf...c0b7`.
 
 ## Việc Release Captain làm tiếp
 
-1. Sau khi UI/OCR owner giao branch, merge từng branch vào integration và chạy gate sau từng merge.
-2. Viết browser/component test cho retry session 404/410 và test timeout gateway có delay thật.
-3. Rebuild Compose, smoke local/public và cập nhật evidence sau mỗi merge ảnh hưởng runtime.
-4. Chạy limited staged-text audit; xác nhận file cá nhân/untracked không lọt vào commit.
-5. Record/review video; chốt rollback image/tag.
-6. Chỉ merge/push `dev` khi DoD thực sự đạt; không force-push shared branch.
+1. Chạy Python/npm gate, limited staged-text audit và kiểm tra route manifest.
+2. Commit merge UI vào integration nếu gate đạt.
+3. Merge integration vào local `dev`, chạy lại gate và chỉ push khi được yêu cầu rõ.
+4. Sau backend field contract, chạy manual-edit/browser E2E và rebuild/smoke public image.
+5. Record/review video, chốt rollback digest và hosting bền vững.
 
 ## Lệnh gate chuẩn
 
@@ -78,23 +67,4 @@ npm audit --audit-level=moderate
 npm run check
 ```
 
-Chạy API/model có opt-in:
-
-```bash
-python -m vneguide.api --env-file .env
-python -m vneguide.ai.smoke --env-file .env --confirm-live
-```
-
-Metrics/public smoke:
-
-```bash
-python deployment/scripts/smoke.py \
-  --api-url https://<release-host> \
-  --web-url https://<release-host> \
-  --samples 5 \
-  --provider <provider> \
-  --model <model-version>
-```
-
-Rollback bằng `git revert` và image digest theo `doc/operations/rollback.md`; không dùng reset hoặc
-force-push trên branch dùng chung.
+Rollback bằng `git revert`; không dùng reset hoặc force-push trên branch dùng chung.

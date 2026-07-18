@@ -33,6 +33,7 @@ function parseEditedValue(value: string, original: JsonValue): JsonValue {
 interface SuggestionCardProps {
   suggestion: ChatSuggestion;
   disabled: boolean;
+  fieldLocked?: boolean;
   onResolve: (
     suggestion: ChatSuggestion,
     action: "accept" | "reject" | "edit",
@@ -43,6 +44,7 @@ interface SuggestionCardProps {
 export function SuggestionCard({
   suggestion,
   disabled,
+  fieldLocked = false,
   onResolve,
 }: SuggestionCardProps) {
   const [editing, setEditing] = useState(false);
@@ -89,13 +91,19 @@ export function SuggestionCard({
         </p>
       ) : null}
 
+      {fieldLocked && pending ? (
+        <p className="mt-2 rounded-md bg-[#fff4e5] px-3 py-2 text-sm text-[#7a4b00]">
+          Bạn đã sửa field này trực tiếp trên form. Có thể từ chối đề xuất, nhưng AI không được ghi đè giá trị hiện tại.
+        </p>
+      ) : null}
+
       {pending ? (
         <div className="mt-3 flex flex-wrap gap-2">
           {editing ? (
             <>
               <button
                 className="inline-flex min-h-10 items-center gap-1.5 rounded-md bg-[#903938] px-3 text-sm font-bold text-white hover:bg-[#762b2b] disabled:opacity-50"
-                disabled={disabled || !value.trim()}
+                disabled={disabled || fieldLocked || !value.trim()}
                 onClick={() =>
                   void onResolve(
                     suggestion,
@@ -110,7 +118,7 @@ export function SuggestionCard({
               </button>
               <button
                 className="min-h-10 rounded-md border border-[#c9cdcf] bg-white px-3 text-sm font-semibold hover:bg-[#f5f5f5]"
-                disabled={disabled}
+                disabled={disabled || fieldLocked}
                 onClick={() => setEditing(false)}
                 type="button"
               >
@@ -121,7 +129,7 @@ export function SuggestionCard({
             <>
               <button
                 className="inline-flex min-h-10 items-center gap-1.5 rounded-md bg-[#903938] px-3 text-sm font-bold text-white hover:bg-[#762b2b] disabled:opacity-50"
-                disabled={disabled}
+                disabled={disabled || fieldLocked}
                 onClick={() => void onResolve(suggestion, "accept")}
                 type="button"
               >

@@ -83,7 +83,7 @@ function ImplementationTable({
   return (
     <div className="overflow-x-auto rounded-sm border border-[#d1d5db]">
       <table className="w-full min-w-[720px] border-collapse text-left">
-        <caption className="sr-only">Các cách thức thực hiện thủ tục đăng ký kết hôn</caption>
+        <caption className="sr-only">Các cách thức thực hiện thủ tục</caption>
         <thead>
           <tr className="border-b-2 border-[#ce7a58] bg-[#e5e7eb] text-[#1e293b]">
             <th scope="col" className="w-[18%] border-r border-[#d1d5db] px-4 py-3 font-semibold">
@@ -125,7 +125,7 @@ function DossierTable({ items }: { items: readonly DossierItem[] }) {
   return (
     <div className="overflow-x-auto rounded-sm border border-[#d1d5db]">
       <table className="w-full min-w-[620px] border-collapse text-left">
-        <caption className="sr-only">Thành phần hồ sơ đăng ký kết hôn</caption>
+        <caption className="sr-only">Thành phần hồ sơ thủ tục</caption>
         <thead>
           <tr className="border-b-2 border-[#ce7a58] bg-[#e5e7eb]">
             <th scope="col" className="w-16 border-r border-[#d1d5db] px-4 py-3 text-center">

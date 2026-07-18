@@ -87,11 +87,10 @@ npm run dev
 
 Mặc định BFF gọi `http://127.0.0.1:8000`. Có thể đổi bằng `VNEGUIDE_API_BASE_URL` trong `demoweb/.env.local`. Kiểm tra API bằng `GET /health`.
 
-Data package/backend hiện hành chỉ khóa ba thủ tục trong `data/README.md`. Frontend từ nhánh `tuan`
-vẫn mount chatbox dưới `/hon-nhan-va-gia-dinh/**` và hiển thị bốn mã không có procedure pack. Đây là
-release blocker đã ghi trong
-[`doc/operations/release-evidence.md`](doc/operations/release-evidence.md), không phải scope được hỗ
-trợ. Chatbox chỉ cảnh báo phạm vi và không được tự suy đoán checklist hoặc căn cứ nghiệp vụ.
+Demoweb hiện chỉ hiển thị đúng ba thủ tục đã khóa trong `data/README.md`: `2.000635`, `1.013314` và
+`1.004194`. Luồng đăng ký kết hôn cũ đã bị loại khỏi route hỗ trợ. Form sâu của `1.004194` dùng
+shared workspace với chat. BFF `/api/chat/field` đã có contract, nhưng backend chưa có endpoint cập
+nhật field trực tiếp nên manual-edit sync end-to-end vẫn là release blocker.
 
 ## Cấu hình provider
 

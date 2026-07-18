@@ -4,9 +4,9 @@ import { MarriageCategoryLanding } from "@/components/national/MarriageCategoryL
 import { NationalPortalShell } from "@/components/national/NationalPortalShell";
 
 export const metadata: Metadata = {
-  title: "Hôn nhân và gia đình - Cổng Dịch vụ công Quốc gia",
+  title: "Ba thủ tục VNeGuide hỗ trợ",
   description:
-    "Thông tin thủ tục hành chính và dịch vụ công trực tuyến trong lĩnh vực hôn nhân và gia đình.",
+    "Chuẩn bị hồ sơ cho đăng ký tạm trú, bản sao Giấy khai sinh và xác nhận điều kiện nhà ở.",
 };
 
 export default function MarriageCategoryPage() {

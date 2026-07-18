@@ -5,9 +5,6 @@ import {
   ChevronDown,
   Home,
   Landmark,
-  Mail,
-  MapPin,
-  Phone,
   RefreshCw,
 } from "lucide-react";
 
@@ -31,7 +28,7 @@ const navigationItems: ReadonlyArray<{
   {
     key: "procedures",
     label: "Danh sách thủ tục",
-    href: "/hon-nhan-va-gia-dinh/dang-ky-ket-hon/truc-tuyen",
+    href: "/hon-nhan-va-gia-dinh/dang-ky-tam-tru/truc-tuyen",
   },
   {
     key: "payments",
@@ -76,9 +73,9 @@ export function JusticeShell({
 
         <div className="relative mx-auto flex min-h-[138px] w-full max-w-[1440px] items-center justify-between gap-6 px-4 py-5 sm:px-8 lg:px-12">
           <Link
-            aria-label="Hệ thống thông tin giải quyết thủ tục hành chính ngành Tư pháp"
+            aria-label="Hệ thống mô phỏng chuẩn bị thủ tục VNeGuide"
             className="flex min-w-0 items-center gap-3 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ce7a58] sm:gap-6"
-            href="/hon-nhan-va-gia-dinh/dang-ky-ket-hon/truc-tuyen"
+            href="/hon-nhan-va-gia-dinh/dang-ky-tam-tru/truc-tuyen"
           >
             <Image
               alt="Quốc huy Việt Nam"
@@ -89,8 +86,8 @@ export function JusticeShell({
               width={96}
             />
             <span className="min-w-0 text-[15px] leading-[1.3] font-extrabold text-[#903938] uppercase sm:text-[22px] lg:text-[26px]">
-              <span className="block">Hệ thống thông tin giải quyết</span>
-              <span className="block">thủ tục hành chính ngành Tư pháp</span>
+              <span className="block">VNeGuide hỗ trợ chuẩn bị</span>
+              <span className="block">ba thủ tục hành chính</span>
             </span>
           </Link>
 
@@ -109,14 +106,14 @@ export function JusticeShell({
       </header>
 
       <nav
-        aria-label="Điều hướng hệ thống ngành Tư pháp"
+        aria-label="Điều hướng mô phỏng VNeGuide"
         className="border-b border-[#e6e9ee] bg-white shadow-sm"
       >
         <div className="mx-auto flex w-full max-w-[1440px] items-stretch overflow-x-auto px-4 sm:px-8 lg:px-12">
           <Link
             aria-label="Trang chủ danh sách thủ tục"
             className="flex min-h-14 w-14 shrink-0 items-center justify-center text-[#212b36] transition-colors hover:bg-[#f4e7e2] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#ce7a58]"
-            href="/hon-nhan-va-gia-dinh/dang-ky-ket-hon/truc-tuyen"
+            href="/hon-nhan-va-gia-dinh/dang-ky-tam-tru/truc-tuyen"
           >
             <Home aria-hidden="true" className="size-6" strokeWidth={2.4} />
           </Link>
@@ -158,26 +155,9 @@ export function JusticeShell({
         <div className="mx-auto flex w-full max-w-[1440px] flex-wrap items-center justify-center gap-x-8 gap-y-3 px-4 py-5 text-sm sm:px-8 sm:text-base lg:px-12">
           <span className="inline-flex items-center gap-2 font-semibold uppercase">
             <Landmark aria-hidden="true" className="size-4" />
-            Bộ Tư pháp
+            VNeGuide Hackathon
           </span>
-          <span className="inline-flex items-center gap-2">
-            <MapPin aria-hidden="true" className="size-4" />
-            60 Trần Phú, Ba Đình, Hà Nội
-          </span>
-          <a
-            className="inline-flex items-center gap-2 rounded-sm hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            href="mailto:banbientap@moj.gov.vn"
-          >
-            <Mail aria-hidden="true" className="size-4" />
-            banbientap@moj.gov.vn
-          </a>
-          <a
-            className="inline-flex items-center gap-2 rounded-sm hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            href="tel:02462739324"
-          >
-            <Phone aria-hidden="true" className="size-4" />
-            024 6273 9324
-          </a>
+          <span>Không phải website Chính phủ · Không tiếp nhận hồ sơ thật</span>
         </div>
       </footer>
     </div>
