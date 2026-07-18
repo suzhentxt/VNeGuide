@@ -327,7 +327,7 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
 
 ### 2026-07-18 — Chuẩn bị Render FastAPI
 
-- Thêm Blueprint `render.yaml` cho Docker web service `vneguide-api`: Free plan, region Singapore,
+- Thêm Blueprint `render.yaml` cho Python web service `vneguide-api`: Free plan, region Singapore,
   branch `experiment/chat-core-v2`, health check `/health`, auto-deploy sau khi CI pass.
 - Blueprint chỉ khai báo tên secret `VNEGUIDE_API_KEY` với `sync: false`; provider/model công khai là
   `openai`/`gpt-4o-mini`. Không commit `.env`, key hoặc dữ liệu cá nhân.

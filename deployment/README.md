@@ -110,10 +110,12 @@ digest và lệnh rollback thực tế vào `doc/operations/release-evidence.md`
 
 ## Render API preview
 
-`render.yaml` ở repository root khai báo một Docker web service `vneguide-api` tại Singapore. Tạo
+`render.yaml` ở repository root khai báo một Python web service `vneguide-api` tại Singapore. Tạo
 Blueprint từ GitHub branch `experiment/chat-core-v2`, sau đó nhập duy nhất secret
 `VNEGUIDE_API_KEY` trong Render Dashboard. Không dán toàn bộ `.env`: Blueprint đã khóa provider
-`openai`, model `gpt-4o-mini`, host `0.0.0.0`, port `8000` và health check `/health`.
+`openai`, model `gpt-4o-mini`, Python 3.11.14, host `0.0.0.0`, port `10000` và health check
+`/health`. Build dùng constraint lock hiện hành; start một process `python -m vneguide.api` vì
+session store đang nằm trong memory.
 
 Render Free phù hợp preview nhưng không phải hosting bền vững: service sleep sau thời gian idle và
 restart làm mất session in-memory. Khi URL `https://<service>.onrender.com` trả health thành công,

@@ -1,22 +1,25 @@
 services:
   - type: web
     name: vneguide-api
-    runtime: docker
+    runtime: python
     plan: free
     region: singapore
+    repo: https://github.com/suzhentxt/VNeGuide
     branch: experiment/chat-core-v2
-    dockerfilePath: ./deployment/api.Dockerfile
-    dockerContext: .
+    buildCommand: python -m pip install --constraint deployment/requirements-api.lock ".[api]"
+    startCommand: python -m vneguide.api
     healthCheckPath: /health
     autoDeployTrigger: checksPass
     renderSubdomainPolicy: enabled
     envVars:
       - key: PORT
-        value: "8000"
+        value: "10000"
+      - key: PYTHON_VERSION
+        value: 3.11.14
       - key: VNEGUIDE_API_HOST
         value: 0.0.0.0
       - key: VNEGUIDE_API_PORT
-        value: "8000"
+        value: "10000"
       - key: VNEGUIDE_LLM_PROVIDER
         value: openai
       - key: VNEGUIDE_MODEL

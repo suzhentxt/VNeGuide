@@ -168,8 +168,8 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
 
 ## Bàn giao Render API 2026-07-18
 
-- `render.yaml` đã sẵn sàng cho service `vneguide-api` trên Free plan/Singapore, dùng Dockerfile API
-  hiện hành và health check `/health`.
+- `render.yaml` đã sẵn sàng cho Python service `vneguide-api` trên Free plan/Singapore, dùng
+  constraint lock hiện hành, một API process và health check `/health`.
 - Targeted API gate đạt `29 passed`; image local build thành công và container health `200`.
 - Render credential chưa có trong phiên và dashboard browser không khả dụng. Bước tiếp theo: push
   branch `experiment/chat-core-v2`, tạo New Blueprint từ `suzhentxt/VNeGuide`, chọn `render.yaml`,
