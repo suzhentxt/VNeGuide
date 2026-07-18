@@ -22,7 +22,7 @@ Windows PowerShell:
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
-python -m pip install -e ".[dev,api]"
+python -m pip install -e ".[api,dev,ocr]"
 Copy-Item .env.example .env
 ```
 
@@ -32,7 +32,7 @@ macOS/Linux:
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install -e '.[dev,api]'
+python -m pip install -e '.[api,dev,ocr]'
 cp .env.example .env
 ```
 
@@ -89,8 +89,17 @@ Mặc định BFF gọi `http://127.0.0.1:8000`. Có thể đổi bằng `VNEGUI
 
 Demoweb hiện chỉ hiển thị đúng ba thủ tục đã khóa trong `data/README.md`: `2.000635`, `1.013314` và
 `1.004194`. Luồng đăng ký kết hôn cũ đã bị loại khỏi route hỗ trợ. Form sâu của `1.004194` dùng
-shared workspace với chat. BFF `/api/chat/field` đã có contract, nhưng backend chưa có endpoint cập
-nhật field trực tiếp nên manual-edit sync end-to-end vẫn là release blocker.
+shared workspace với chat. BFF `/api/chat/field` gọi endpoint backend revisioned; manual edit được
+kiểm tra stale revision và đánh dấu field đã xác nhận/dirty.
+
+## OCR CT01 (candidate-only)
+
+Module `vneguide.ocr` chỉ xử lý fixture hoặc tài liệu CT01 của thủ tục `1.004194` và chỉ trả candidate;
+chưa có đường upload từ demoweb/API và không tự ghi vào draft. Khi chạy worker, export
+`VNEGUIDE_OCR_ENABLED`, `VNEGUIDE_OCR_WORKER_TOKEN` cùng các giới hạn OCR vào process environment.
+Tùy chọn `--env-file` của worker chỉ nạp provider/model/key LLM, không nạp các biến `VNEGUIDE_OCR_*`.
+Xem contract, giới hạn dữ liệu và lệnh smoke tại
+[`src/vneguide/ocr/README.md`](src/vneguide/ocr/README.md).
 
 ## Cấu hình provider
 
@@ -106,6 +115,8 @@ VNEGUIDE_LITELLM_DISABLE_THINKING=1
 VNEGUIDE_API_KEY=
 VNEGUIDE_SESSION_FACTORY=vneguide.core:create_session
 VNEGUIDE_RUN_LIVE_SMOKE=0
+VNEGUIDE_OCR_ENABLED=0
+VNEGUIDE_OCR_WORKER_TOKEN=
 ```
 
 Không commit `.env`, API key, dữ liệu cá nhân thật hoặc transcript chứa số định danh đầy đủ. Dữ liệu test trong repo phải là dữ liệu giả.

@@ -2,15 +2,13 @@
 
 ## Trạng thái Git
 
-- Nhánh hiện tại: local `dev`, đang tích hợp `origin/agent/rules-ai-eval@4a7aac3` trên nền release
-  hiện hành. Gate trên cây hợp nhất Rules/AI chưa chạy lại nên chưa được tính là bằng chứng release.
-- Integration đã fast-forward lên `dev@9960bf2`, tích hợp
-  `origin/agent/memory-form-sync@83adb18`, rồi merge vào local `dev` bằng `55d13cd`.
+- Nhánh hiện tại: local `dev`, nền `origin/dev@f90b5e2`.
+- Rules/AI đã merge bằng `43ed537` từ `origin/agent/rules-ai-eval@4a7aac3`; OCR đang chốt merge từ
+  `origin/agent/ocr-hero@2a155a0`.
 - Phạm vi runtime vẫn khóa đúng ba mã trong `data/README.md`: `2.000635`, `1.013314` và `1.004194`.
 - BFF được nối sang contract backend bằng
   `PATCH /v1/chat/sessions/{session_id}/draft/fields/{field_id}`.
-- Full Python/npm gate, BFF → backend smoke và release audit đã đạt trên baseline `dev` trước lượt
-  hợp nhất Rules/AI này.
+- Full Python/npm gate và staged release audit đã đạt trên cây hợp nhất Rules/AI + OCR.
 - `.DS_Store`, `procedures.csv` và `view_parquet.py` không thuộc release và không được stage.
 
 ## Thay đổi từ Người 2
@@ -40,33 +38,45 @@
   và chưa promote trusted-adapter `context_signals`. Vì vậy phần signal mới chưa chạy end-to-end trên
   web dù contract extractor/rules đã tồn tại.
 
-## Gate trên baseline `dev` trước merge Rules/AI
+## OCR CT01 đang tích hợp
 
-- Compileall, Ruff lint/format và Mypy strict pass.
-- Pytest `166 passed, 1 skipped`, coverage `82.87%`.
+- Adapter/worker chỉ hỗ trợ CT01 cho thủ tục `1.004194` và chỉ trả candidate
+  `field_id`/`suggested_value`/`confidence`/`evidence` với `source=USER_UPLOAD`.
+- OCR không tự ghi vào draft. `OcrCandidateSink` mới là port contract; core/API/UI chưa có sink để
+  đưa candidate vào suggestion `pending`, nên chưa có OCR end-to-end trên web.
+- Fixture chỉ dùng dữ liệu tổng hợp. Live smoke ba lượt trên CT01 tổng hợp đạt field recall `0.75`
+  (9/12), chưa đủ để tuyên bố accuracy production và vẫn phải giữ fallback nhập tay.
+- `VNEGUIDE_OCR_*` được đọc từ process environment; `--env-file` hiện chỉ nạp cấu hình LLM. Không
+  gửi hồ sơ hoặc PII thật qua gateway HTTP chưa có TLS.
+- Release Captain đã thêm extra `ocr` gồm Pillow/pypdfium2 và cài `.[api,dev,ocr]` trong CI để
+  image/PDF preprocess tests thực sự chạy thay vì bị skip.
+- Upload thiếu `Content-Length` hiện có thể bị buffer toàn bộ bởi `request.body()` trước khi kiểm cap
+  8 MiB. Worker chỉ được bind localhost cho tới khi có đọc stream giới hạn và hardening phù hợp.
+
+## Gate trên merge result Rules/AI + OCR
+
+- Compileall pass; Ruff lint/format pass trên 90 Python file; Mypy strict pass trên 88 source file.
+- Pytest `216 passed, 1 skipped`, coverage `80.44%`; skip duy nhất là live-provider test opt-in.
+- OCR targeted `33 passed`; cả ảnh và PDF preprocess đều thực sự chạy với Pillow/pypdfium2.
 - `npm ci`/audit pass với 0 vulnerability; lint, typecheck, 9 reducer test và Next production build
   25 route pass.
-- Production BFF → backend manual field smoke trả 200, revision `0 → 1`, đúng `draft.values`,
-  confirmed/dirty và `pack_version=2.0.0`.
-- Limited staged-text audit pass: 335 index file, 190 text file; không còn conflict marker.
-- Smoke dùng provider mock và dữ liệu giả; không gọi model ngoài hoặc gửi PII.
-- Đây chỉ là bằng chứng của baseline `dev`. Sau khi giải quyết xong Rules/AI và OCR phải chạy lại
-  targeted Rules/AI tests, full Python gate, web gate và release audit trên đúng merge result trước
-  khi push.
+- Build chỉ generate đúng ba procedure slug. Gate không gọi model ngoài và không gửi PII.
+- Staged release audit pass: 363 index file, 217 text file; không secret, PII ngoài fixture hoặc
+  conflict marker.
 
 ## Việc cần làm tiếp
 
-1. Hoàn tất conflict Rules/AI và OCR, sau đó kiểm tra không còn conflict marker hoặc file ngoài scope.
-2. Chạy targeted tests cho extractor, rules và evaluator; tiếp theo chạy toàn bộ Python/npm gate trên
-   merge result.
-3. Thiết kế state/API nội bộ để persist, confirm và promote `context_signals`; không nhận cờ
+1. Commit merge result và push `dev`, sau đó xác minh SHA remote.
+2. Thiết kế state/API nội bộ để persist, confirm và promote `context_signals`; không nhận cờ
    confirmation/trust trực tiếp từ browser client.
+3. Triển khai `OcrCandidateSink` qua suggestion pending/revision guard và nối upload API/UI; không cho
+   OCR ghi trực tiếp vào draft.
 4. Rebuild Docker; smoke local/public URL và ghi lại image digest, model/version, timestamp.
 
 ## Blocker còn lại
 
-1. Gate Rules/AI và OCR trên merge result chưa chạy lại.
-2. Context signal mới chưa được core persist/confirm/promote nên chưa có runtime E2E.
+1. Context signal mới chưa được core persist/confirm/promote nên chưa có runtime E2E.
+2. OCR chưa có API/UI sink; live recall hiện chỉ `0.75` và chunked upload chưa có streaming cap.
 3. Container/public preview hiện dùng image trước merge mới và phải rebuild.
 4. Chưa có durable cloud target hoặc video dự phòng được hai người review.
 5. In-memory session store chỉ phù hợp một worker; cần shared store trước khi scale.
@@ -74,7 +84,7 @@
 ## Lệnh gate chuẩn
 
 ```bash
-python -m pip install -e ".[api,dev]"
+python -m pip install -e ".[api,dev,ocr]"
 python -m compileall -q src tests
 python -m ruff check src tests deployment
 python -m ruff format --check src tests deployment
