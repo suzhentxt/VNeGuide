@@ -61,7 +61,8 @@ Hook mặc định `vneguide.core:create_session` đã được triển khai. V�
 
 ## Chạy HTTP API và demoweb
 
-Chatbox chỉ được mount trong các route `/hon-nhan-va-gia-dinh/**`. Browser gọi Next.js BFF tại `/api/chat/*`; BFF giữ session ID trong cookie `HttpOnly` và gọi Python API ở phía server. API key model không được đưa vào biến `NEXT_PUBLIC_*`.
+Browser gọi Next.js BFF tại `/api/chat/*`; BFF giữ session ID trong cookie `HttpOnly` và gọi Python
+API ở phía server. API key model không được đưa vào biến `NEXT_PUBLIC_*`.
 
 Terminal 1 — chạy Python Chat API:
 
@@ -84,7 +85,11 @@ npm run dev
 
 Mặc định BFF gọi `http://127.0.0.1:8000`. Có thể đổi bằng `VNEGUIDE_API_BASE_URL` trong `demoweb/.env.local`. Kiểm tra API bằng `GET /health`.
 
-Data package hiện hành vẫn chỉ khóa ba thủ tục trong `data/README.md`. Bốn mã thủ tục đang hiển thị trong mục Hôn nhân và gia đình chưa có procedure pack backend tương ứng; chatbox hiển thị cảnh báo phạm vi thay vì tự suy đoán checklist hoặc căn cứ nghiệp vụ cho các mã này.
+Data package/backend hiện hành chỉ khóa ba thủ tục trong `data/README.md`. Frontend từ nhánh `tuan`
+vẫn mount chatbox dưới `/hon-nhan-va-gia-dinh/**` và hiển thị bốn mã không có procedure pack. Đây là
+release blocker đã ghi trong
+[`doc/operations/release-evidence.md`](doc/operations/release-evidence.md), không phải scope được hỗ
+trợ. Chatbox chỉ cảnh báo phạm vi và không được tự suy đoán checklist hoặc căn cứ nghiệp vụ.
 
 ## Cấu hình provider
 
@@ -93,7 +98,7 @@ Các biến mẫu nằm trong `.env.example`:
 ```text
 VNEGUIDE_LLM_PROVIDER=litellm
 VNEGUIDE_MODEL=Qwen/Qwen3.5-9B
-VNEGUIDE_LITELLM_BASE_URL=http://127.0.0.1:9207
+VNEGUIDE_LITELLM_BASE_URL=https://litellm.example.invalid
 VNEGUIDE_LITELLM_API_KEY=
 VNEGUIDE_LITELLM_ALLOW_INSECURE_HTTP=0
 VNEGUIDE_LITELLM_DISABLE_THINKING=1
@@ -113,10 +118,15 @@ prompt và phản hồi đều không được mã hóa khi đi qua HTTP; dữ l
 ## Quality gates
 
 ```powershell
-python -m ruff check .
-python -m ruff format --check src/vneguide/cli tests/integration tests/evals
+python -m ruff check src tests deployment
+python -m ruff format --check src tests deployment
 python -m mypy
 python -m pytest
+python deployment/scripts/release_audit.py
+Set-Location demoweb
+npm ci
+npm audit --audit-level=moderate
+npm run check
 ```
 
 Chạy coverage:
@@ -134,15 +144,34 @@ python -m vneguide.ai.smoke --env-file .env --confirm-live
 Kết quả thành công có prefix `MODEL_SMOKE_OK`; lệnh không in prompt, raw response, evidence hoặc
 API key. `--confirm-live` là bắt buộc để tránh vô tình gửi request mạng.
 
-Live session test cũ vẫn là gate end-to-end và chỉ dùng được sau khi
-`vneguide.core:create_session` được triển khai. Khi đó cấu hình provider, model và key trong
-environment rồi chạy:
+Live-model integration test là gate chủ động, không chạy mặc định. Hook
+`vneguide.core:create_session` đã được triển khai; cấu hình provider, model và key trong environment
+rồi chạy:
 
 ```powershell
 $env:VNEGUIDE_RUN_LIVE_SMOKE="1"
 $env:VNEGUIDE_LITELLM_API_KEY="<secret>" # hoặc VNEGUIDE_API_KEY với provider openai
 python -m pytest tests/integration/test_live_smoke.py -m live
 ```
+
+## Container, public smoke và rollback
+
+Stack release giữ đồng thời LiteLLM/OpenAI/mock provider, FastAPI, Next.js và một gateway chung:
+
+```powershell
+docker compose -f deployment/docker-compose.yml up --build --detach --wait
+python deployment/scripts/smoke.py `
+  --api-url http://127.0.0.1:8080 `
+  --web-url http://127.0.0.1:8080 `
+  --samples 5 `
+  --provider mock `
+  --model mock-scripted
+```
+
+API demo chạy một worker vì session store nằm trong memory. Hướng dẫn public preview, model secret,
+metrics và deploy bền vững nằm trong [`deployment/README.md`](deployment/README.md). Quy trình phục
+hồi không force-push nằm trong [`doc/operations/rollback.md`](doc/operations/rollback.md); kịch bản
+pitch/video nằm trong [`doc/operations/demo-and-pitch.md`](doc/operations/demo-and-pitch.md).
 
 ## Cấu trúc repository
 

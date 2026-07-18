@@ -1,61 +1,69 @@
 # Nhật ký tiến độ VNeGuide
 
-## Trạng thái hiện tại
+## Trạng thái release
 
-- Phạm vi runtime được khóa bởi `data/README.md` và chỉ gồm `2.000635`, `1.013314`, `1.004194`.
-- Domain/data foundation, structured extraction, deterministic rules, suggestion-aware core và CLI
-  đã có source.
-- AI hỗ trợ mock, OpenAI Responses và LiteLLM Chat Completions.
-- HTTP Chat API cung cấp session TTL/capacity/lock, send, Accept/Reject/Edit và reset.
-- `demoweb/` là Next.js frontend độc lập; BFF giữ session ID trong cookie `HttpOnly`.
-- Nhánh `integration/release-dev` đang hợp nhất LiteLLM từ `dev` với FastAPI/Next.js từ `tuan`.
-- Frontend Hôn nhân và gia đình là phạm vi cũ, không phải nguồn nghiệp vụ; phải thay bằng đúng ba
-  thủ tục trước release.
+- Nhánh tích hợp: `integration/release-dev`, tạo từ `dev` tại `1d3e566`.
+- Đã merge `tuan` bằng `4865ceb` và cherry-pick tài liệu scope `709b795` thành `ff06998`.
+- LiteLLM, FastAPI Chat API và Next.js cùng tồn tại trên cây tích hợp.
+- Backend/data chỉ có đúng `2.000635`, `1.013314`, `1.004194`.
+- Frontend từ `tuan` vẫn chỉ có route Hôn nhân và gia đình ngoài scope; release sản phẩm chưa đạt.
+- Không có branch UI/OCR mới trên origin tại lần fetch `2026-07-18 15:20 +07:00`.
 
-## Ưu tiên release
+## 2026-07-18 — QA, release và deploy
 
-1. Hoàn tất merge `dev` + `tuan` và đưa commit tài liệu phạm vi `709b795` vào nhánh tích hợp.
-2. Cài dependency bằng `.[api,dev]` và `npm ci`, sau đó chạy lại toàn bộ Python/web gates.
-3. Bổ sung E2E cho đúng ba thủ tục, out-of-scope, revision/reset/timeout và OCR fallback.
-4. Deploy public frontend/backend, smoke `/health`, ghi metrics và chuẩn bị rollback/video.
+- Cài Python bằng `python -m pip install -e ".[api,dev]"` và web bằng `npm ci`.
+- Thêm API orchestration/integration test in-process cho đúng ba mã, out-of-scope, hero tạm trú,
+  stale revision, suggestion edit, reset, typed provider timeout và generic OCR safe fallback.
+- Nâng Next `16.2.1 → 16.2.10`, shadcn `4.1.0 → 4.13.1`, đồng bộ eslint config và override
+  PostCSS `8.5.16`; `npm audit` giảm từ 12 vulnerability xuống 0.
+- Thêm GitHub Actions, Dependabot, Dockerfile API/web, Compose, Nginx gateway, smoke metrics và
+  release audit staged text cho secret pattern phổ biến, số định danh 12 chữ số và conflict marker.
+- Thêm release evidence, rollback runbook, pitch và shot list video dự phòng.
+- Build container API/web đạt; Compose chạy API/web/gateway healthy.
+- Public preview tạm thời qua ngrok đạt 5/5 HTTP 200 cho `/` và `/health`.
 
-## Bằng chứng đã có trước nhánh release
+## Quality gate trên cây tích hợp
 
-- Core/rules + LiteLLM: Ruff/format/Mypy pass; Pytest `87 passed, 1 skipped`; coverage `80.82%`.
-- Provider-only smoke đã gọi `Qwen/Qwen3.5-9B` bằng dữ liệu tổng hợp và nhận structured output.
-- Web/API trên nhánh `tuan`: Ruff/Mypy pass; Pytest `79 passed, 1 skipped`; coverage `82.32%`.
-- `demoweb` trên nhánh `tuan`: ESLint, TypeScript và production build pass; local smoke
-  web → BFF → Python API pass bằng mock provider.
+| Gate | Kết quả |
+| --- | --- |
+| `ruff check src tests deployment` | Pass |
+| `ruff format --check src tests deployment` | Fail duy nhất `src/vneguide/api/session_store.py` từ branch `tuan` |
+| `mypy` | Pass, 62 source files |
+| `pytest -q` | 103 passed, 1 skipped |
+| Coverage | 81.60%, đạt ngưỡng 80% |
+| Release API integration | 12 passed, gồm hero 5/5 |
+| `npm ci` | Pass trên host npm 11.6.2 và container npm 11.16.0 |
+| `npm audit --audit-level=moderate` | 0 vulnerability |
+| `npm run check` | Pass: ESLint, TypeScript, Next build 29 page |
+| Docker build/health | Pass cho API, web, gateway |
+| Staged repository audit | Pass: 333 tracked file, 188 text file |
 
-Các số liệu trên là bằng chứng lịch sử của từng nhánh. Trạng thái hợp nhất chỉ được công bố sau khi
-quality gate được chạy lại trên `integration/release-dev`.
+Formatter failure không được che bằng exclude hoặc hạ version. File thuộc API owner nên Release Captain
+đã bỏ thay đổi format tình cờ khỏi commit; cần owner sửa hoặc người dùng cho phép thay đổi ngoài scope.
 
-## Nhật ký phiên
+## Metrics đã đo
 
-### 2026-07-18 — Release integration đang thực hiện
+- Local gateway, `2026-07-18T08:35:44.176021Z`, `mock/mock-scripted`, 5 mẫu: `/health` p95
+  11.68 ms, web p95 12.93 ms.
+- Public gateway, `2026-07-18T08:35:45.553122Z`, `mock/mock-scripted`, 5 mẫu: `/health` p95
+  351.28 ms, web p95 469.29 ms.
+- Image đã smoke: API `sha256:a3e4771015bf...a092`, web `sha256:e8b84b8ea57d...ed1a`.
+- URL preview: `https://moschate-terri-dereistically.ngrok-free.dev`; chỉ hoạt động khi Docker/ngrok
+  trên máy release còn chạy.
 
-- Tạo `integration/release-dev` từ `dev`.
-- Merge `tuan`; source LiteLLM, FastAPI và Next.js hợp nhất tự động, conflict chỉ nằm trong cấu hình
-  mẫu và tài liệu vận hành.
-- Giữ cả cấu hình LiteLLM lẫn HTTP API trong `.env.example`.
-- Chưa công bố release hoàn thành, public URL hoặc metric mới cho tới khi full gate và deploy pass.
+## Definition of Done
 
-### 2026-07-18 — HTTP API và demoweb trên nhánh nguồn
+- [x] Backend/data đúng ba thủ tục.
+- [x] Hero orchestration chạy độc lập 5 lượt bằng scripted extractor.
+- [x] Python lint/type/test/coverage và npm check đạt.
+- [ ] Python formatter còn fail một file API ngoài ownership.
+- [x] npm audit và limited staged-text pattern scan đạt.
+- [x] Infra metrics có lệnh, provider/model label và timestamp; chưa gọi model trong smoke.
+- [x] Public preview và `/health` hoạt động ở tầng hạ tầng.
+- [ ] Frontend route/form đúng ba thủ tục.
+- [ ] Browser E2E và manual edit trực tiếp trên form.
+- [ ] OCR implementation và OCR E2E thật.
+- [ ] Public hosting bền vững thay cho tunnel tạm.
+- [ ] Video dự phòng đã record và được hai người review offline.
 
-- Thêm FastAPI session adapter và Next.js BFF/chatbox với cookie `HttpOnly`.
-- Chatbox có Accept/Sửa/Từ chối, validation, nguồn, reset và cảnh báo không nhập PII thật.
-- Frontend nguồn còn hiển thị bốn mã Hôn nhân và gia đình ngoài data package hiện hành.
-
-### 2026-07-17 — Core, rules và LiteLLM trên nhánh nguồn
-
-- Thêm 27 deterministic rule handler, question selector, suggestion lifecycle và revision guard.
-- Thêm LiteLLM provider, smoke command, giới hạn timeout/response và insecure-HTTP opt-in.
-- LLM chỉ phân loại/trích xuất; required field, rule, phí, thời hạn và nguồn do code xác định xử lý.
-
-### 2026-07-17 — Đồng bộ phạm vi Product & UX
-
-- Cập nhật `doc/Product and UX.md` để chỉ hỗ trợ ba thủ tục trong data package v2: `2.000635`,
-  `1.013314` và `1.004194`.
-- Thay các persona, demo, field mẫu, chỉ số đánh giá và delivery output còn mô tả trích lục kết hôn/
-  khai tử bằng nội dung tương ứng của xác nhận Mẫu số 02 và đăng ký tạm trú.
-- Ghi rõ hệ thống không thay UBND cấp xã xác nhận tình trạng nhà/đất và không tự phê duyệt thủ tục cư trú.
+Không merge release vào `dev` với nhãn hoàn thành cho tới khi các mục chưa đạt được xử lý.
