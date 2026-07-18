@@ -135,7 +135,7 @@ async def test_chat_api_creates_session_and_sends_message() -> None:
 
     assert turn.status_code == 200
     assert repeated.json() == turn.json()
-    assert turn.json()["next_action"] == "ask_clarification"
+    assert turn.json()["next_action"] == "fill_missing_field"
     assert [message["role"] for message in turn.json()["messages"]] == [
         "user",
         "assistant",
@@ -290,10 +290,10 @@ async def test_chat_api_keeps_compact_memory_across_multiple_turns() -> None:
     assert recovered.json()["turn"]["next_action"] == "confirm_procedure"
     assert confirmed.status_code == 200
     assert confirmed.json()["procedure"]["code"] == "1.004194"
-    assert off_topic.json()["next_action"] == "out_of_scope"
+    assert off_topic.json()["next_action"] == "unsupported"
     assert continued.status_code == 200
     assert continued.json()["procedure"]["code"] == "1.004194"
-    assert continued.json()["next_action"] == "confirm_suggestion"
+    assert continued.json()["next_action"] == "review_suggestion"
     assert continued.json()["suggestions"][-1]["field_id"] == "submission_channel"
     assert [call[1] for call in extractor.calls] == [
         None,
@@ -336,7 +336,7 @@ async def test_chat_api_faq_returns_sources_without_mutating_pre_form_draft() ->
 
     assert faq.status_code == 200
     body = faq.json()
-    assert body["next_action"] == "present_guidance"
+    assert body["next_action"] == "confirm_procedure"
     assert body["procedure"] is None
     assert body["draft"] == {
         "values": {},

@@ -31,7 +31,13 @@ suggestion/form phải gửi `expected_revision`; mutation hợp lệ tăng revi
 chat không đổi form revision và dùng `client_turn_id` để chống gửi trùng; reset tạo session ID mới.
 
 Field sửa trực tiếp được đánh dấu đồng thời `confirmed` và `dirty`. Extractor không được tạo đề xuất
-ghi đè field đã confirmed/dirty. `asked_question_ids` ngăn core phát lại cùng câu hỏi; khi field đã
-được hỏi nhưng vẫn thiếu, core chuyển sang `manual_input` để form tiếp tục hoạt động độc lập với AI.
+ghi đè field `dirty`. Field đã confirmed chỉ được mở lại thành suggestion cần review khi câu hiện tại
+có ngôn ngữ correction rõ ràng như “địa chỉ đúng là…” hoặc “đổi thành…”. Core hỏi tối đa hai lần cho
+một field; sau hai câu trả lời không hiểu, lời đáp chuyển sang nhập trực tiếp trên biểu mẫu.
+
+Wire contract tiếp tục dùng một trường string `next_action`. Vocabulary cố định là:
+`confirm_procedure`, `choose_portal`, `fill_missing_field`, `review_suggestion`, `upload_document`,
+`fix_validation`, `ready_to_continue`, `needs_official_review`, `unsupported`. Mỗi lượt chỉ có một
+hành động chính. Các tên enum Python cũ chỉ còn là alias tương thích và không tạo thêm wire value.
 
 Unit test inject extractor/repository; không gọi model thật và không cần API key.

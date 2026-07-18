@@ -26,6 +26,7 @@ from vneguide.rules import ProcedureQAResponder, QuestionSelector, RuleEngine
 
 from ..core.session import ConversationSession, Extractor, Responder
 from ..data import ProcedureRepository
+from ..memory import LongTermMemory
 from .agent import build_agent
 from .tools import ToolContext, build_tools
 
@@ -58,12 +59,14 @@ class DeepAgentSession(ConversationSession):
         *,
         responder: Responder | None = None,
         compactor: Any | None = None,
+        long_term_memory: LongTermMemory | None = None,
     ) -> None:
         super().__init__(
             extractor,
             repository,
             responder=responder,
             compactor=compactor,
+            long_term_memory=long_term_memory,
         )
         self._model = model
         self._ctx = ToolContext(
@@ -80,7 +83,15 @@ class DeepAgentSession(ConversationSession):
 
     def send(self, message: str) -> TurnResult:
         result = super().send(message)
-        if result.next_action in _PRESENTATION_ACTIONS:
+        informational_confirmation = result.next_action is NextAction.CONFIRM_PROCEDURE and bool(
+            result.state.recent_information_topics
+        )
+        attempts = result.state.clarification_attempts
+        fallback_or_manual_input = "__extractor__" in attempts or any(
+            count >= 2 for count in attempts.values()
+        )
+        presentation = result.next_action in _PRESENTATION_ACTIONS and not fallback_or_manual_input
+        if presentation or informational_confirmation:
             return self._recompose_with_agent(message, result)
         return result
 
@@ -123,6 +134,13 @@ class DeepAgentSession(ConversationSession):
         reply_text = _message_text(last).strip()
         if not reply_text:
             return result
+
+        if (
+            result.next_action is NextAction.CONFIRM_PROCEDURE
+            and procedure_code is not None
+            and result.state.recent_information_topics
+        ):
+            reply_text = f"{reply_text}\n\n{self._confirmation_prompt(procedure_code)}"
 
         source_ids = self._collect_source_ids(messages)
         new_state = ConversationState(

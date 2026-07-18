@@ -19,6 +19,13 @@ class SessionContext(StrictModel):
 
 class CreateSessionRequest(StrictModel):
     context: SessionContext | None = None
+    memory_scope_token: str | None = Field(
+        default=None,
+        min_length=32,
+        max_length=128,
+        pattern=r"^[A-Za-z0-9_-]+$",
+        exclude=True,
+    )
 
 
 class MessageRequest(StrictModel):

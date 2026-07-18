@@ -10,5 +10,6 @@ Các tài liệu trong thư mục này lưu trạng thái phát triển và bằ
 - `release-evidence.md`: lệnh, version, timestamp, metrics và blocker của release gần nhất.
 - `rollback.md`: rollback container và shared branch không dùng force-push.
 - `demo-and-pitch.md`: preflight, pitch, shot list và trạng thái video dự phòng.
+- `mem0-memory.md`: kiến trúc, cách bật và giới hạn an toàn của long-term memory Mem0.
 
 `AGENTS.md` phải nằm tại root để công cụ coding-agent tự phát hiện; không di chuyển file đó vào đây.

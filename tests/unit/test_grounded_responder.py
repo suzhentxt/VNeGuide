@@ -189,6 +189,33 @@ def test_recent_turns_appear_in_prompt_for_recall(repository: ProcedureRepositor
     assert "Trợ lý" in call.system_prompt
 
 
+def test_long_term_memory_only_appears_as_style_preference(
+    repository: ProcedureRepository,
+) -> None:
+    provider = MockLLMProvider([{"reply": "Dạ, em sẽ nói ngắn gọn ạ.", "off_domain": False}])
+    responder = GroundedResponder(provider, repository)
+    context = _ctx("xin chào")
+    context = ResponderContext(
+        user_message=context.user_message,
+        classification=context.classification,
+        procedure_code=context.procedure_code,
+        information_request=context.information_request,
+        active_procedure_code=context.active_procedure_code,
+        pending_procedure_code=context.pending_procedure_code,
+        filled_field_labels=context.filled_field_labels,
+        missing_field_labels=context.missing_field_labels,
+        draft_values=context.draft_values,
+        long_term_memories=("Người dùng muốn câu trả lời ngắn gọn.",),
+    )
+
+    result = responder.respond(context)
+
+    assert result.succeeded is True
+    prompt = provider.calls[0].system_prompt
+    assert "Sở thích hỗ trợ dài hạn đã được chuẩn hóa" in prompt
+    assert "chỉ dùng để điều chỉnh độ dài và cách diễn đạt" in prompt
+
+
 def test_recent_turns_rejects_too_many_messages() -> None:
     too_many = tuple(ChatMessage(MessageRole.USER, f"lượt {i}") for i in range(7))
     with pytest.raises(ValueError):

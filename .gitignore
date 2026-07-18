@@ -18,4 +18,5 @@ venv/
 .vscode/
 *.log
 logs/
+.vneguide-memory/
 

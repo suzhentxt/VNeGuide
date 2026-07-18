@@ -34,6 +34,15 @@ class EmptySession:
         return self.closed
 
 
+class ScopedSession(EmptySession):
+    def __init__(self) -> None:
+        super().__init__()
+        self.memory_scope: tuple[str, str] | None = None
+
+    def bind_memory_scope(self, *, user_id: str, run_id: str) -> None:
+        self.memory_scope = (user_id, run_id)
+
+
 class ObservedRLock:
     """Expose when another thread starts waiting for the entry lock."""
 
@@ -77,6 +86,30 @@ def test_session_store_expires_and_closes_sessions() -> None:
     with pytest.raises(SessionExpiredError):
         store.get(session_id)
     assert session.is_closed()
+
+
+def test_session_store_hashes_stable_memory_scope_and_separates_runs() -> None:
+    sessions: list[ScopedSession] = []
+
+    def factory() -> ChatSession:
+        session = ScopedSession()
+        sessions.append(session)
+        return cast(ChatSession, session)
+
+    store = InMemorySessionStore(factory)
+    first_id, _ = store.create(memory_scope_token="a" * 32)
+    second_id, _ = store.create(memory_scope_token="a" * 32)
+
+    assert sessions[0].memory_scope is not None
+    assert sessions[1].memory_scope is not None
+    first_user, first_run = sessions[0].memory_scope
+    second_user, second_run = sessions[1].memory_scope
+    assert first_user == second_user
+    assert first_user.startswith("anon-")
+    assert "a" * 32 not in first_user
+    assert first_run == first_id
+    assert second_run == second_id
+    assert first_run != second_run
 
 
 def test_delete_waits_for_an_acquired_operation_before_closing() -> None:

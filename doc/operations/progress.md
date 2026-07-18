@@ -1,5 +1,63 @@
 # Nhật ký tiến độ VNeGuide
 
+## 2026-07-19 — Mem0 long-term memory opt-in trên nhánh refactor
+
+- Clone shallow source chính thức `mem0ai/mem0` vào `D:\tmp\mem0-reference-20260719`, đối chiếu bản
+  `mem0ai 2.0.12`, rồi tích hợp qua port nhỏ `add/search`; không vendor source Mem0 vào repository.
+- State phiên hiện tại vẫn là nguồn sự thật. Mem0 chỉ được gọi trước GroundedResponder để lấy tối đa ba
+  sở thích hỗ trợ và sau lượt để lưu preference. Memory không đi vào extractor, RuleEngine, draft,
+  revision hoặc fact nghiệp vụ đã review.
+- Chỉ ba preference được chuẩn hóa và allow-list: trả lời ngắn, diễn đạt đơn giản, hướng dẫn từng bước.
+  `add` dùng `infer=False`; raw transcript, tên, địa chỉ, số định danh và field form không được gửi.
+  Kết quả search ngoài allow-list cũng bị loại để chặn prompt injection/memory poisoning.
+- API nhận optional `memory_scope_token` 32–128 ký tự base64url, băm SHA-256 thành anonymous `user_id`;
+  cùng token nhớ qua session, còn `run_id` luôn là session ID riêng. Không token thì không gọi Mem0.
+- Provider mặc định `disabled`; khi bật phải đặt cờ xác nhận external embedding và API key. Mem0
+  telemetry bị ép `False`; Qdrant/history lưu local trong `.vneguide-memory/` đã git-ignore. Lỗi import,
+  khởi tạo, add hoặc search đều fail closed/best-effort và không làm mất draft.
+- Cài optional extra `memory` với `mem0ai>=2,<3`; khóa NumPy `<2.3` để giữ mypy Python 3.11 tương thích.
+  SDK đã khởi tạo thật và smoke `add → search` qua Qdrant embedded bằng local deterministic embedder,
+  không gọi mạng.
+- Gate cuối: targeted `82 passed`; full Pytest `439 passed, 1 skipped`, coverage `81.49%`; compile,
+  Ruff lint/format và Mypy strict (115 source file) pass. Full-index `release_audit.py` tiếp tục không
+  hoàn tất trong timeout 60 giây trên Windows; không sửa hoặc hạ audit để che giới hạn.
+- Giới hạn: `demoweb/**` vẫn ngoài scope nên BFF chưa phát/giữ stable memory token; web hiện vẫn dùng
+  memory theo session. Chưa có UI consent/revoke hoặc scoped delete endpoint, vì vậy production phải
+  giữ Mem0 disabled cho tới khi web owner bổ sung các control này và HTTPS.
+
+## 2026-07-19 — Conversation Core & Guided Q&A trên nhánh refactor
+
+- Nhánh `refactor-code` giữ `ConversationSession` làm nguồn state transition; `DeepAgentSession`
+  tiếp tục chỉ re-compose FAQ đã grounded. FAQ trước form dùng `confirm_procedure` làm hành động chính
+  và Deep Agent luôn giữ lại cầu nối xác nhận; provider/extractor failure không bị agent viết lại.
+- Chuẩn hóa wire `next_action` thành đúng chín string: `confirm_procedure`, `choose_portal`,
+  `fill_missing_field`, `review_suggestion`, `upload_document`, `fix_validation`,
+  `ready_to_continue`, `needs_official_review`, `unsupported`. Wire shape không đổi; tên enum Python
+  cũ chỉ là alias và không tạo thêm value.
+- Core không hỏi field đã confirmed hoặc đang có suggestion pending. Field được hỏi lại đúng một lần
+  sau lần không hiểu đầu tiên; sau lần thất bại thứ hai trả đúng hướng dẫn “Bạn có thể nhập trực tiếp
+  vào biểu mẫu.” FAQ và route ngoài phạm vi không phát lại nguyên câu hỏi field.
+- Một lượt có nhiều field giữ toàn bộ giá trị hợp lệ thành suggestion pending theo contract hiện hành;
+  model không ghi thẳng draft. Correction rõ như “Không, địa chỉ đúng là…” mở lại field confirmed
+  thành suggestion cần review, còn field `dirty` không bao giờ bị extractor ghi đè.
+- Khi không còn missing field, core ngừng hỏi và chuyển `ready_to_continue`, hoặc chuyển
+  `fix_validation`/`needs_official_review` theo RuleEngine. Lời đáp lúc thu thập được rút gọn theo mẫu
+  ghi nhận + một “Bước tiếp theo”. Không thêm Redis; session, transcript, revision và memory compactor
+  hiện có được giữ nguyên.
+- Thêm `tests/integration/test_guided_conversation.py` và regression tests cho fixed action vocabulary,
+  ba field trong một câu, correction, dirty guard, hai lần không hiểu, đủ dữ liệu, route ngoài phạm vi,
+  model response lỗi giữ draft, lời đáp ngắn và golden flow không quá sáu lượt.
+- Baseline trước sửa: targeted conversation/core `88 passed`. Gate cuối trên Python 3.12.7:
+  targeted core/grounded/DeepAgent `99 passed`; Ruff lint/format pass; Mypy strict pass trên 111 source
+  file; full Pytest `429 passed, 1 skipped`, coverage `81.49%`. Warning duy nhất là deprecation từ
+  `fastapi.testclient`; live-model test vẫn skip chủ động. Full-index `release_audit.py` vẫn không
+  hoàn tất trong timeout 184 giây trên Windows; clean-state scan xác nhận diff không có conflict,
+  whitespace error, tracked `.env`/log/key hoặc file ngoài scope, và data checksum hợp lệ. Bounded
+  staged audit trên đúng 13 file thay đổi pass cho secret, PII, conflict và artifact nhạy cảm.
+- Giới hạn bàn giao: `demoweb/**` bị khóa ngoài scope và vẫn map các key cũ; web owner phải cập nhật
+  presentation/quick-reply mapping sang chín key mới trước E2E trình duyệt. Không đọc/sửa `.env`,
+  không gọi provider thật, không sửa OCR hoặc AI provider.
+
 ## 2026-07-18 — Grounded conversational NLG (thay deterministic templates)
 
 - Trước đây mọi câu trả lời assistant đều là template deterministic: lời chào/social talk bị
