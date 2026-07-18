@@ -6,7 +6,7 @@ import json
 import math
 from collections.abc import Mapping
 from copy import deepcopy
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from types import MappingProxyType
 
 from vneguide.ai.prompts import build_extraction_prompt
@@ -28,6 +28,14 @@ from vneguide.ai.schemas import (
 )
 
 
+def _empty_mapping() -> Mapping[str, JsonScalar]:
+    return MappingProxyType({})
+
+
+def _empty_text_mapping() -> Mapping[str, str]:
+    return MappingProxyType({})
+
+
 @dataclass(frozen=True, slots=True)
 class ExtractionOutcome:
     """Safe AI-local extraction result pending the shared domain adapter.
@@ -44,6 +52,9 @@ class ExtractionOutcome:
     clarification_question: str | None
     attempts: int
     error_code: str | None = None
+    context_signals: Mapping[str, JsonScalar] = field(default_factory=_empty_mapping)
+    context_evidence: Mapping[str, str] = field(default_factory=_empty_text_mapping)
+    context_origins: Mapping[str, str] = field(default_factory=_empty_text_mapping)
 
     @property
     def succeeded(self) -> bool:
@@ -129,13 +140,15 @@ class StructuredExtractor:
         if context is not None and not self._context_is_valid(context):
             return self._fallback(attempts=0, error_code="invalid_context")
 
+        user_prompt = self._user_prompt(message, context)
+
         last_error_code = "provider_error"
 
         for attempt in range(1, self._max_attempts + 1):
             try:
                 request = StructuredRequest(
                     system_prompt=self._system_prompt,
-                    user_prompt=self._user_prompt(message, context),
+                    user_prompt=user_prompt,
                     json_schema=deepcopy(self._request_schema),
                     schema_name="vneguide_extraction",
                     timeout_seconds=self._timeout_seconds,
@@ -143,7 +156,9 @@ class StructuredExtractor:
                 raw_payload = self._provider.generate_structured(request)
                 payload = decode_provider_payload(raw_payload)
                 validated = validate_extraction_payload(
-                    payload, message=message, catalog=self._catalog
+                    payload,
+                    message=message,
+                    catalog=self._catalog,
                 )
                 return ExtractionOutcome(
                     status="success",
@@ -151,6 +166,9 @@ class StructuredExtractor:
                     procedure_code=validated.procedure_code,
                     fields=validated.fields,
                     evidence=validated.evidence,
+                    context_signals=validated.context_signals,
+                    context_evidence=validated.context_evidence,
+                    context_origins=validated.context_origins,
                     clarification_question=validated.clarification_question,
                     attempts=attempt,
                 )
@@ -207,7 +225,14 @@ class StructuredExtractor:
             clarification_question=None,
             attempts=attempts,
             error_code=error_code,
+            context_signals=MappingProxyType({}),
+            context_evidence=MappingProxyType({}),
+            context_origins=MappingProxyType({}),
         )
 
 
-__all__ = ["ExtractionOutcome", "ExtractionTurnContext", "StructuredExtractor"]
+__all__ = [
+    "ExtractionOutcome",
+    "ExtractionTurnContext",
+    "StructuredExtractor",
+]

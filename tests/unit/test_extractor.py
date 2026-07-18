@@ -37,6 +37,7 @@ def _payload(
     classification: str = "supported",
     procedure_code: str | None = "2.000635",
     fields: list[dict[str, object]] | None = None,
+    context_signals: list[dict[str, object]] | None = None,
     clarification_question: str | None = None,
 ) -> dict[str, object]:
     return {
@@ -44,6 +45,7 @@ def _payload(
         "procedure_code": procedure_code,
         "clarification_question": clarification_question,
         "fields": [] if fields is None else fields,
+        "context_signals": [] if context_signals is None else context_signals,
     }
 
 
@@ -106,7 +108,13 @@ class StructuredExtractorTests(unittest.TestCase):
         self.assertFalse(request.json_schema["additionalProperties"])
         self.assertEqual(
             set(request.json_schema["required"]),
-            {"classification", "procedure_code", "clarification_question", "fields"},
+            {
+                "classification",
+                "procedure_code",
+                "clarification_question",
+                "fields",
+                "context_signals",
+            },
         )
         self.assertEqual(request.schema_name, "vneguide_extraction")
         self.assertIn("Đăng ký khai sinh mới hoặc đăng ký lại", request.system_prompt)
@@ -304,6 +312,271 @@ class StructuredExtractorTests(unittest.TestCase):
         for invalid_type in (None, 42):
             with self.subTest(value=invalid_type), self.assertRaises(ValueError):
                 ExtractionTurnContext(cast(str, invalid_type))
+
+    def test_catalog_locks_three_codes_and_separates_rule_context_origins(self) -> None:
+        self.assertEqual(
+            set(self.catalog.procedure_codes),
+            {"2.000635", "1.013314", "1.004194"},
+        )
+        self.assertEqual(self.catalog.rule_context_count, 10)
+        birth_extractable = {
+            item.input_id for item in self.catalog.extractable_rule_contexts_for("2.000635")
+        }
+        temp_extractable = {
+            item.input_id for item in self.catalog.extractable_rule_contexts_for("1.004194")
+        }
+        self.assertEqual(birth_extractable, {"intent"})
+        self.assertEqual(
+            temp_extractable,
+            {"newly_naturalized_or_restored_citizenship"},
+        )
+        self.assertNotIn("ct01_missing", temp_extractable)
+        self.assertNotIn("requested_variant", birth_extractable)
+
+    def test_short_answer_uses_context_but_current_message_remains_evidence_source(self) -> None:
+        provider = MockLLMProvider(
+            [
+                _payload(
+                    procedure_code="1.004194",
+                    fields=[
+                        {
+                            "field_id": "registration_mode",
+                            "value": "individual_or_household",
+                            "evidence": "bản thân tôi",
+                        }
+                    ],
+                )
+            ]
+        )
+        extractor = StructuredExtractor(provider, self.catalog)
+
+        outcome = extractor.extract(
+            "Cho bản thân tôi.",
+            context=ExtractionTurnContext(
+                active_procedure_code="1.004194",
+                expected_field_id="registration_mode",
+            ),
+        )
+
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(outcome.fields["registration_mode"], "individual_or_household")
+        envelope = json.loads(provider.calls[0].user_prompt)
+        self.assertEqual(envelope["current_user_message"], "Cho bản thân tôi.")
+        self.assertEqual(
+            envelope["conversation_context"],
+            {
+                "active_procedure_code": "1.004194",
+                "expected_field_id": "registration_mode",
+            },
+        )
+        self.assertNotIn("messages", envelope)
+
+    def test_context_cannot_be_reused_as_field_evidence(self) -> None:
+        unsafe = _payload(
+            procedure_code="1.004194",
+            fields=[
+                {
+                    "field_id": "registration_mode",
+                    "value": "individual_or_household",
+                    "evidence": "registration_mode",
+                }
+            ],
+        )
+        provider = MockLLMProvider([unsafe, unsafe])
+
+        outcome = StructuredExtractor(provider, self.catalog).extract(
+            "Cho bản thân tôi.",
+            context=ExtractionTurnContext(
+                active_procedure_code="1.004194",
+                expected_field_id="registration_mode",
+            ),
+        )
+
+        self.assertFalse(outcome.succeeded)
+        self.assertEqual(outcome.error_code, "malformed_output")
+
+    def test_active_context_allows_new_supported_intent_for_core_to_require_reset(self) -> None:
+        new_procedure = _payload(
+            procedure_code="2.000635",
+            fields=[
+                {
+                    "field_id": "requester_type",
+                    "value": "self",
+                    "evidence": "bản thân tôi",
+                }
+            ],
+        )
+        provider = MockLLMProvider([new_procedure])
+
+        outcome = StructuredExtractor(provider, self.catalog).extract(
+            "Tôi muốn cấp bản sao khai sinh cho bản thân tôi.",
+            context=ExtractionTurnContext(
+                active_procedure_code="1.004194",
+                expected_field_id="registration_mode",
+            ),
+        )
+
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(outcome.procedure_code, "2.000635")
+        self.assertEqual(dict(outcome.fields), {"requester_type": "self"})
+        self.assertEqual(provider.remaining, 0)
+
+    def test_invalid_context_falls_back_before_provider_call(self) -> None:
+        provider = MockLLMProvider([_payload()])
+        extractor = StructuredExtractor(provider, self.catalog)
+        invalid_contexts = (
+            ExtractionTurnContext(active_procedure_code="9.999999"),
+            ExtractionTurnContext(
+                active_procedure_code="1.004194",
+                expected_field_id="copies_requested",
+            ),
+        )
+
+        for context in invalid_contexts:
+            with self.subTest(context=context):
+                outcome = extractor.extract("Câu trả lời ngắn.", context=context)
+                self.assertEqual(outcome.error_code, "invalid_context")
+                self.assertEqual(outcome.attempts, 0)
+        self.assertEqual(provider.calls, [])
+        with self.assertRaises(ValueError):
+            ExtractionTurnContext("1.004194", expected_field_id="")
+
+    def test_extracts_only_reviewed_text_rule_context_signals(self) -> None:
+        message = "Tôi mới nhập quốc tịch Việt Nam và muốn đăng ký tạm trú."
+        provider = MockLLMProvider(
+            [
+                _payload(
+                    procedure_code="1.004194",
+                    context_signals=[
+                        {
+                            "input_id": "newly_naturalized_or_restored_citizenship",
+                            "value": True,
+                            "evidence": "mới nhập quốc tịch Việt Nam",
+                        }
+                    ],
+                )
+            ]
+        )
+
+        outcome = StructuredExtractor(provider, self.catalog).extract(message)
+
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(
+            outcome.context_signals["newly_naturalized_or_restored_citizenship"],
+            True,
+        )
+        self.assertEqual(
+            outcome.context_origins["newly_naturalized_or_restored_citizenship"],
+            "user_declaration",
+        )
+
+        birth_message = "Tôi muốn xin bản sao giấy khai sinh."
+        birth_provider = MockLLMProvider(
+            [
+                _payload(
+                    context_signals=[
+                        {
+                            "input_id": "intent",
+                            "value": "birth_certificate_copy",
+                            "evidence": "bản sao giấy khai sinh",
+                        }
+                    ]
+                )
+            ]
+        )
+        birth_outcome = StructuredExtractor(birth_provider, self.catalog).extract(birth_message)
+        self.assertTrue(birth_outcome.succeeded)
+        self.assertEqual(birth_outcome.context_signals["intent"], "birth_certificate_copy")
+        self.assertEqual(birth_outcome.context_origins["intent"], "intent_extraction")
+
+    def test_boolean_context_signal_checks_full_message_polarity(self) -> None:
+        input_id = "newly_naturalized_or_restored_citizenship"
+        unsafe_cases = (
+            (
+                "Tôi không mới nhập quốc tịch Việt Nam.",
+                "Tôi không mới nhập quốc tịch Việt Nam.",
+            ),
+            (
+                "Tôi không mới nhập quốc tịch Việt Nam.",
+                "mới nhập quốc tịch Việt Nam",
+            ),
+            ("Tôi thích bóng đá.", "Tôi thích bóng đá."),
+            ("Tôi đang ở Việt Nam.", "Tôi đang ở Việt Nam."),
+        )
+        for message, evidence in unsafe_cases:
+            with self.subTest(message=message, evidence=evidence):
+                payload = _payload(
+                    procedure_code="1.004194",
+                    context_signals=[{"input_id": input_id, "value": True, "evidence": evidence}],
+                )
+                provider = MockLLMProvider([payload, payload])
+                outcome = StructuredExtractor(provider, self.catalog).extract(message)
+                self.assertFalse(outcome.succeeded)
+                self.assertEqual(outcome.error_code, "malformed_output")
+
+        negative_payload = _payload(
+            procedure_code="1.004194",
+            context_signals=[
+                {
+                    "input_id": input_id,
+                    "value": False,
+                    "evidence": "không mới nhập quốc tịch Việt Nam",
+                }
+            ],
+        )
+        negative = StructuredExtractor(MockLLMProvider([negative_payload]), self.catalog).extract(
+            "Tôi không mới nhập quốc tịch Việt Nam."
+        )
+        self.assertTrue(negative.succeeded)
+        self.assertIs(negative.context_signals[input_id], False)
+
+        unrelated_negation = _payload(
+            procedure_code="1.004194",
+            context_signals=[
+                {
+                    "input_id": input_id,
+                    "value": False,
+                    "evidence": ("Tôi không sống ở Hà Nội, tôi mới nhập quốc tịch Việt Nam."),
+                }
+            ],
+        )
+        wrong_polarity = StructuredExtractor(
+            MockLLMProvider([unrelated_negation, unrelated_negation]), self.catalog
+        ).extract("Tôi không sống ở Hà Nội, tôi mới nhập quốc tịch Việt Nam.")
+        self.assertFalse(wrong_polarity.succeeded)
+        self.assertEqual(wrong_polarity.error_code, "malformed_output")
+
+    def test_text_model_cannot_emit_document_or_cross_procedure_signals(self) -> None:
+        unsafe_cases: tuple[tuple[str, dict[str, object], str], ...] = (
+            (
+                "1.004194",
+                {
+                    "input_id": "ct01_missing",
+                    "value": True,
+                    "evidence": "thiếu CT01",
+                },
+                "Tôi thiếu CT01.",
+            ),
+            (
+                "1.004194",
+                {
+                    "input_id": "intent",
+                    "value": "birth_certificate_copy",
+                    "evidence": "bản sao khai sinh",
+                },
+                "Tôi cần bản sao khai sinh nhưng đang ở luồng tạm trú.",
+            ),
+        )
+        for procedure_code, signal, message in unsafe_cases:
+            with self.subTest(signal=signal):
+                payload = _payload(
+                    procedure_code=procedure_code,
+                    context_signals=[signal],
+                )
+                provider = MockLLMProvider([payload, payload])
+                outcome = StructuredExtractor(provider, self.catalog).extract(message)
+                self.assertFalse(outcome.succeeded)
+                self.assertEqual(outcome.error_code, "malformed_output")
 
     def test_callers_cannot_mutate_the_extractor_schema(self) -> None:
         provider = MockLLMProvider([_payload()])
@@ -560,6 +833,13 @@ class StructuredExtractorTests(unittest.TestCase):
             classification="unsupported",
             procedure_code="2.000635",
             fields=[{"field_id": "copies_requested", "value": 1, "evidence": "1"}],
+            context_signals=[
+                {
+                    "input_id": "intent",
+                    "value": "birth_certificate_copy",
+                    "evidence": "khai sinh",
+                }
+            ],
         )
         provider = MockLLMProvider([unsafe, unsafe])
 
@@ -567,6 +847,7 @@ class StructuredExtractorTests(unittest.TestCase):
 
         self.assertFalse(outcome.succeeded)
         self.assertEqual(dict(outcome.fields), {})
+        self.assertEqual(dict(outcome.context_signals), {})
         self.assertIsNone(outcome.procedure_code)
 
     def test_empty_input_returns_fallback_without_calling_provider(self) -> None:

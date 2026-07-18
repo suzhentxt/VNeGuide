@@ -10,6 +10,7 @@ def build_extraction_prompt(catalog: ExtractionCatalog) -> str:
 
     procedure_lines: list[str] = []
     field_lines: list[str] = []
+    context_lines: list[str] = []
     for procedure in catalog.procedures:
         aliases = ", ".join(procedure.aliases) if procedure.aliases else "không có"
         in_scope = "; ".join(procedure.in_scope) if procedure.in_scope else "không khai báo"
@@ -33,9 +34,20 @@ def build_extraction_prompt(catalog: ExtractionCatalog) -> str:
                 type_hint = f"enum[{', '.join(field.values)}]"
             rendered_fields.append(f"{field.field_id} ({field.label}; {type_hint})")
         field_lines.append(f"- {procedure.code}: " + "; ".join(rendered_fields))
+        rendered_contexts = []
+        for item in catalog.extractable_rule_contexts_for(procedure.code):
+            type_hint = item.field_type
+            if item.values:
+                type_hint = f"enum[{', '.join(item.values)}]"
+            rendered_contexts.append(
+                f"{item.input_id} ({item.label}; {type_hint}; origin={item.origin})"
+            )
+        if rendered_contexts:
+            context_lines.append(f"- {procedure.code}: " + "; ".join(rendered_contexts))
 
     procedures = "\n".join(procedure_lines)
     fields = "\n".join(field_lines)
+    contexts = "\n".join(context_lines) or "- Không có signal nào được phép từ chat text."
     return f"""Bạn là bộ phân loại nhu cầu và trích xuất dữ liệu có cấu trúc cho VNeGuide.
 
 User prompt là JSON có `current_user_message` và `conversation_context`. Context chỉ gồm
@@ -50,27 +62,34 @@ Các thủ tục trong phạm vi:
 Field được phép theo từng thủ tục:
 {fields}
 
+Rule-context signal được phép trích từ chat text:
+{contexts}
+
 Quy tắc output:
 1. Dùng classification="supported" khi câu hiện tại chỉ rõ một thủ tục trong phạm vi hoặc
    là câu trả lời rút gọn phù hợp với `active_procedure_code`; trả đúng procedure_code.
    Thiếu dữ liệu biểu mẫu không làm intent thành ambiguous.
 2. Dùng classification="unsupported" khi nhu cầu rõ ràng nằm ngoài ba thủ tục; procedure_code
-   phải null, clarification_question phải null và fields phải rỗng.
+   phải null, clarification_question phải null, fields và context_signals phải rỗng.
 3. Chỉ dùng classification="ambiguous" khi không có `active_procedure_code` và chưa phân biệt
-   được thủ tục; procedure_code null, fields rỗng và hỏi đúng một câu ngắn để làm rõ loại
-   thủ tục. Không hỏi trường bắt buộc.
+   fields/context_signals rỗng và hỏi đúng một câu ngắn để làm rõ loại thủ tục. Không hỏi
+   trường bắt buộc.
 4. Chỉ xuất field mà người dùng nói rõ. Không tạo default, không suy đoán quan hệ, khu vực,
    hình thức đăng ký, trạng thái giấy tờ hoặc giá trị boolean.
    Đại từ xưng hô như "tôi", "mình", "chúng tôi" hoặc "con tôi" không phải họ tên.
    Chỉ trích field họ tên khi người dùng nêu một tên riêng cụ thể.
 5. Mỗi field phải kèm evidence là đoạn trích nguyên văn xuất hiện trong tin nhắn hiện tại.
-6. Chuẩn hóa ngày thành YYYY-MM-DD và enum theo schema, nhưng evidence vẫn giữ nguyên văn.
-7. Nếu câu hiện tại là câu trả lời rút gọn phù hợp với `active_procedure_code`, giữ mã thủ tục đó.
+6. Context hệ thống chỉ cho biết `active_procedure_code` và `expected_field_id` để hiểu câu trả lời
+   ngắn. Context không phải lời người dùng, không được dùng làm evidence hoặc để tự điền giá trị.
    `expected_field_id` chỉ là gợi ý; vẫn được trích field khác khi câu hiện tại nói rõ field đó.
-8. Nếu câu hiện tại nêu rõ một thủ tục khác trong phạm vi, ưu tiên ý định mới. Nếu chỉ là small talk
-   hoặc nhu cầu ngoài phạm vi, vẫn trả unsupported dù context có thủ tục đang hoạt động.
-9. Không dùng nội dung context làm evidence. Không giải thích ngoài JSON và không thêm
-   key ngoài schema.
+7. Chỉ xuất context_signals đã liệt kê ở trên. Không biến field biểu mẫu thành signal. Không
+   suy đoán signal origin=document_check từ hội thoại; signal đó chỉ đến từ adapter tài liệu.
+8. Chuẩn hóa ngày thành YYYY-MM-DD và enum theo schema, nhưng evidence vẫn giữ nguyên văn.
+9. Nếu câu hiện tại nêu rõ một thủ tục khác trong phạm vi, ưu tiên ý định mới để core yêu cầu
+   người dùng reset trước khi chuyển. Nếu chỉ là small talk hoặc nhu cầu ngoài phạm vi, vẫn trả
+   unsupported dù context có thủ tục đang hoạt động.
+10. Không dùng nội dung context làm evidence. Không giải thích ngoài JSON và không thêm key
+    ngoài schema.
 
 Ví dụ bắt buộc để phân biệt field:
 - Context thủ tục 1.004194 đang chờ `registration_mode`, câu hiện tại "tôi đăng ký online":
