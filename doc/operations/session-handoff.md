@@ -2,13 +2,14 @@
 
 ## Trạng thái Git
 
-- Nhánh hiện tại: `integration/release-dev`.
+- Nhánh hiện tại: local `dev`; chưa push lên `origin/dev`.
 - Đã merge `origin/agent/web-three-procedures@7646399`; conflict ở README, chat hook và hai file
-  operations đã được hợp nhất theo baseline Release Captain; merge commit đang chờ chốt.
+  operations đã được hợp nhất theo baseline Release Captain bằng `0cb4d6b`.
 - Merge result giữ LiteLLM, FastAPI, Next.js, retry session từ `dev`, shared workspace từ UI branch
   và dependency đã vá của release branch.
 - Repo đối thủ, DOCX, CSV, `.DS_Store` và `view_parquet.py` không được stage.
-- Chưa cập nhật/push `dev`; integration gate đã đạt và còn bước commit/rebuild container.
+- Đã merge `integration/release-dev` vào local `dev` bằng `829c6fa`; chưa push remote và còn bước
+  rebuild container.
 
 ## Gate sau merge UI
 
@@ -46,11 +47,9 @@ Preview đang chạy là image trước merge UI và phải rebuild trước dem
 
 ## Việc Release Captain làm tiếp
 
-1. Chạy Python/npm gate, limited staged-text audit và kiểm tra route manifest.
-2. Commit merge UI vào integration nếu gate đạt.
-3. Merge integration vào local `dev`, chạy lại gate và chỉ push khi được yêu cầu rõ.
-4. Sau backend field contract, chạy manual-edit/browser E2E và rebuild/smoke public image.
-5. Record/review video, chốt rollback digest và hosting bền vững.
+1. Chỉ push local `dev` khi được yêu cầu rõ; merge commit hiện tại là `829c6fa`.
+2. Sau backend field contract, chạy manual-edit/browser E2E và rebuild/smoke public image.
+3. Record/review video, chốt rollback digest và hosting bền vững.
 
 ## Lệnh gate chuẩn
 

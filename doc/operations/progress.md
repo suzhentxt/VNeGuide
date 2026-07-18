@@ -5,7 +5,8 @@
 - Nhánh tích hợp: `integration/release-dev`, tạo từ `dev` tại `1d3e566`.
 - Đã merge `tuan` bằng `4865ceb`, tài liệu scope bằng `ff06998`, release baseline bằng `a8e182f`
   và `origin/dev@e65b31b` bằng `44d399f`.
-- Đã tích hợp `origin/agent/web-three-procedures@7646399`; merge commit đang chờ chốt sau audit.
+- Đã tích hợp `origin/agent/web-three-procedures@7646399` bằng `0cb4d6b`, sau đó merge cây đã kiểm
+  chứng vào local `dev` bằng `829c6fa`; chưa push remote.
 - LiteLLM, FastAPI Chat API và Next.js cùng tồn tại trên cây tích hợp.
 - Backend/data và frontend catalog/route đều chỉ còn đúng `2.000635`, `1.013314`, `1.004194`.
 
