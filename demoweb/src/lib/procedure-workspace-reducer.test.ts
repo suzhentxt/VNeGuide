@@ -57,9 +57,27 @@ test("manual edit becomes confirmed and dirty immediately", () => {
     value: "Địa chỉ do người dùng nhập",
     confirmed: true,
     dirty: true,
+    source: "manual",
     sync_status: "dirty",
     error: null,
   });
+});
+
+test("wallet prefill stays blocked until the user confirms it", () => {
+  const prefilled = procedureWorkspaceReducer(workspace(), {
+    type: "wallet_prefill",
+    values: { applicant_full_name: "NGUYEN VAN A" },
+  });
+
+  assert.equal(prefilled.fields.applicant_full_name.value, "NGUYEN VAN A");
+  assert.equal(prefilled.fields.applicant_full_name.source, "wallet");
+  assert.equal(prefilled.fields.applicant_full_name.confirmed, false);
+
+  const confirmed = procedureWorkspaceReducer(prefilled, {
+    type: "confirm_fields",
+    fieldIds: ["applicant_full_name"],
+  });
+  assert.equal(confirmed.fields.applicant_full_name.confirmed, true);
 });
 
 test("stale response is ignored", () => {

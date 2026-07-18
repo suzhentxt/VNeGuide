@@ -198,7 +198,7 @@ export function JusticeProcedureList({
       withProcedureSelection(experience.routes.submission, {
         receptionUnit: selectedUnit,
         serviceId: service.id,
-      }),
+      }, { confirmed: "1" }),
     );
   };
 

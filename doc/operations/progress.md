@@ -1,5 +1,25 @@
 # Nhật ký tiến độ VNeGuide
 
+## 2026-07-18 — Luồng trợ lý đồng hành hồ sơ bốn bước
+
+- Thay wizard nộp hồ sơ chung bằng luồng dùng trực tiếp field catalog đã review cho cả ba thủ tục:
+  nơi tiếp nhận, kê khai, giấy tờ, kiểm tra/nhận kết quả. Enum/boolean/date/number dùng control dễ
+  hiểu; field bắt buộc do catalog quyết định, không do LLM.
+- Chat phải hiện thẻ tên dịch vụ và nhận xác nhận rõ ràng trước khi điều hướng. URL nộp hồ sơ thiếu
+  `confirmed=1` bị trả `307` về trang chi tiết; xác nhận từ modal hoặc chat mới tạo URL hợp lệ.
+- Shared workspace ghi nguồn dữ liệu `manual`/`assistant`/`wallet`. Người dùng tự nhập được xác nhận
+  ngay; ví thông tin chỉ lưu trong session trình duyệt, autofill ở trạng thái chưa xác nhận và chặn
+  bước tiếp theo cho tới khi người dùng kiểm tra, xác nhận rồi đồng bộ lần lượt về draft API.
+- Mỗi bước có panel trợ lý, nút mở chat kèm câu hỏi theo bước và danh sách mục còn thiếu. Kê khai,
+  giấy tờ bắt buộc và địa chỉ bưu chính đều có gate, thông báo lý do bằng tiếng Việt và control tối
+  thiểu 48 px cho người lớn tuổi/người ít quen công nghệ.
+- `npm` lint/typecheck đạt; 19 unit test đạt, gồm route xác nhận, missing-field gate, wallet confirm
+  và reducer source. Next production build ngoài sandbox đạt 25 route. HTTP production smoke xác
+  nhận ba URL hợp lệ đều `200`, URL bản sao khai sinh chưa xác nhận trả `307` và cả ba trang có đúng
+  nội dung wizard mới.
+- In-app Browser không khả dụng nên chưa có manual click/keyboard/screenshot. Dockerfile đã mang đúng
+  `field_catalog.json` duy nhất vào builder/runner nhưng chưa chạy lại Docker image trong phiên này.
+
 ## 2026-07-18 — Memory nhiều lượt và UX dễ dùng cho người dân
 
 - Tái hiện chuỗi lỗi thật: sau câu mơ hồ “làm giấy khai sinh”, câu trả lời rút gọn “xin bản sao” bị

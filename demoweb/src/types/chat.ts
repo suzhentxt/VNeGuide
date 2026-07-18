@@ -86,6 +86,7 @@ export interface ProcedureFieldState {
   value: JsonValue;
   confirmed: boolean;
   dirty: boolean;
+  source?: "manual" | "assistant" | "wallet";
   sync_status: FieldSyncStatus;
   error: string | null;
 }

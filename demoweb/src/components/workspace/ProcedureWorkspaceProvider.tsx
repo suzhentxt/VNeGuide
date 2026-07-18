@@ -25,6 +25,8 @@ const STORAGE_PREFIX = "vneguide:workspace:v1:";
 interface WorkspaceContextValue {
   state: ProcedureWorkspaceState;
   setField: (fieldId: string, value: JsonValue) => void;
+  prefillFromWallet: (values: Record<string, JsonValue>) => void;
+  confirmFields: (fieldIds: string[]) => void;
   commitField: (fieldId: string, value?: JsonValue) => Promise<void>;
   applyTurn: (turn: ChatTurn, expectedRevision?: number) => boolean;
   applySuggestion: (
@@ -99,6 +101,14 @@ export function ProcedureWorkspaceProvider({ children }: { children: ReactNode }
 
   const setField = useCallback((fieldId: string, value: JsonValue) => {
     dispatchTracked({ type: "manual_change", fieldId, value });
+  }, [dispatchTracked]);
+
+  const prefillFromWallet = useCallback((values: Record<string, JsonValue>) => {
+    dispatchTracked({ type: "wallet_prefill", values });
+  }, [dispatchTracked]);
+
+  const confirmFields = useCallback((fieldIds: string[]) => {
+    dispatchTracked({ type: "confirm_fields", fieldIds });
   }, [dispatchTracked]);
 
   const applyTurn = useCallback((turn: ChatTurn, expectedRevision?: number) => {
@@ -194,6 +204,8 @@ export function ProcedureWorkspaceProvider({ children }: { children: ReactNode }
     () => ({
       state,
       setField,
+      prefillFromWallet,
+      confirmFields,
       commitField,
       applyTurn,
       applySuggestion,
@@ -202,7 +214,7 @@ export function ProcedureWorkspaceProvider({ children }: { children: ReactNode }
       resetWorkspace,
       isDirty,
     }),
-    [applySuggestion, applyTurn, commitField, dispatchTracked, isDirty, resetWorkspace, setField, state],
+    [applySuggestion, applyTurn, commitField, confirmFields, dispatchTracked, isDirty, prefillFromWallet, resetWorkspace, setField, state],
   );
 
   return <WorkspaceContext.Provider value={value}>{children}</WorkspaceContext.Provider>;

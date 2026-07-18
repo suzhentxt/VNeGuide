@@ -3,6 +3,13 @@
 ## Nhánh thử nghiệm chat core
 
 - `experiment/chat-core-v2` đang tách từ `dev@48f9c1f` trong worktree riêng.
+- Working tree hiện có redesign chưa commit của luồng trợ lý đồng hành hồ sơ. Chat xác nhận tên dịch
+  vụ trước khi mở URL có `confirmed=1`; trang nộp hồ sơ mới dùng catalog để render bốn bước cho cả
+  ba thủ tục, giữ source manual/assistant/wallet và chặn dữ liệu autofill chưa được xác nhận.
+- Gate frontend mới nhất: lint/typecheck đạt, 19 unit test đạt, production build 25 route đạt ngoài
+  sandbox. HTTP smoke: ba URL đã xác nhận trả `200`; URL chưa xác nhận trả `307` về trang chi tiết.
+  In-app Browser không khả dụng nên bước kế tiếp cụ thể là chạy browser E2E/manual keyboard cho
+  confirm-service → bước 1 → bước 2, rồi rebuild Docker để kiểm loader catalog trong runner.
 - Chatbot local hiện dùng OpenAI Responses API với `gpt-5.6-luna`; `.env` nằm ở worktree chính, bị
   Git ignore và phải được truyền rõ bằng `--env-file`. Provider/three-procedure/BFF smoke đều đạt;
   case tạm trú trả đúng `submission_channel=online` trong khoảng `1.415 s` qua web.

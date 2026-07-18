@@ -10,6 +10,7 @@ WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY demoweb ./
+COPY data/catalog/field_catalog.json /data/catalog/field_catalog.json
 RUN npm run build
 
 FROM node:24-alpine@sha256:a0b9bf06e4e6193cf7a0f58816cc935ff8c2a908f81e6f1a95432d679c54fbfd AS runner
@@ -26,6 +27,7 @@ RUN addgroup --system --gid 10001 vneguide \
 COPY --from=builder --chown=vneguide:vneguide /app/.next/standalone ./
 COPY --from=builder --chown=vneguide:vneguide /app/.next/static ./.next/static
 COPY --from=builder --chown=vneguide:vneguide /app/public ./public
+COPY --from=builder --chown=vneguide:vneguide /data/catalog/field_catalog.json /data/catalog/field_catalog.json
 
 USER vneguide
 EXPOSE 3000

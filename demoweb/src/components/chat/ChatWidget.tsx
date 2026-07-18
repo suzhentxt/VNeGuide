@@ -11,10 +11,15 @@ import {
   ShieldCheck,
   X,
 } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
-import { getChatSessionContext } from "@/data/chat-scope";
+import {
+  getChatSessionContext,
+  getConfirmedSubmissionRoute,
+  getProcedureContextByCode,
+  procedureContexts,
+} from "@/data/chat-scope";
 import { useProcedureWorkspace } from "@/components/workspace/ProcedureWorkspaceProvider";
 import { getChatValidationPresentation } from "@/lib/chat-presentation";
 import { getChatReplyOptions } from "@/lib/chat-reply-options";
@@ -24,10 +29,13 @@ import { useChatSession } from "./useChatSession";
 
 export function ChatWidget() {
   const pathname = usePathname();
+  const router = useRouter();
   const context = useMemo(() => getChatSessionContext(pathname), [pathname]);
   const workspace = useProcedureWorkspace();
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState("");
+  const [selectedProcedureCode, setSelectedProcedureCode] = useState<string | null>(null);
+  const [choosingProcedure, setChoosingProcedure] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const {
@@ -40,7 +48,18 @@ export function ChatWidget() {
     sendMessage,
     resolveSuggestion,
     resetSession,
+    closeSession,
   } = useChatSession(context);
+
+  const inferredProcedure = turn?.procedure
+    ? getProcedureContextByCode(turn.procedure.code)
+    : undefined;
+  const selectedProcedure = selectedProcedureCode
+    ? getProcedureContextByCode(selectedProcedureCode)
+    : inferredProcedure;
+  const needsServiceConfirmation = Boolean(
+    !choosingProcedure && selectedProcedure && context.procedure_code !== selectedProcedure.code,
+  );
 
   useEffect(() => {
     if (!open) return;
@@ -60,6 +79,27 @@ export function ChatWidget() {
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, []);
+
+  useEffect(() => {
+    const openForStep = (event: Event) => {
+      const detail = (event as CustomEvent<{ prompt?: string }>).detail;
+      setOpen(true);
+      if (detail?.prompt) setDraft(detail.prompt);
+    };
+    window.addEventListener("vneguide:open-assistant", openForStep);
+    return () => window.removeEventListener("vneguide:open-assistant", openForStep);
+  }, []);
+
+  async function confirmProcedure() {
+    if (!selectedProcedure) return;
+    const route = getConfirmedSubmissionRoute(selectedProcedure.code);
+    if (!route) return;
+    setOpen(false);
+    await closeSession();
+    setSelectedProcedureCode(null);
+    setChoosingProcedure(false);
+    router.push(route);
+  }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -208,7 +248,66 @@ export function ChatWidget() {
               ))}
             </div>
 
-            {replyOptions.length ? (
+            {needsServiceConfirmation && selectedProcedure ? (
+              <section
+                aria-labelledby="service-confirmation-title"
+                className="rounded-xl border-2 border-[#ce7a58] bg-[#fff8f5] p-4 shadow-sm"
+              >
+                <p className="text-xs font-extrabold tracking-wide text-[#903938] uppercase">
+                  Cần xác nhận trước khi mở hồ sơ
+                </p>
+                <h3 className="mt-2 text-base font-extrabold text-[#1e2f41]" id="service-confirmation-title">
+                  {selectedProcedure.title}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-[#52606d]">
+                  Đây có đúng là thủ tục bạn muốn thực hiện không? Chỉ sau khi bạn xác nhận, VNeGuide mới mở trang nộp hồ sơ tương ứng.
+                </p>
+                <div className="mt-4 grid gap-2">
+                  <button
+                    className="min-h-12 rounded-lg bg-[#903938] px-4 font-extrabold text-white hover:bg-[#762b2b] focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[#ffc251] disabled:opacity-50"
+                    disabled={busy}
+                    onClick={() => void confirmProcedure()}
+                    type="button"
+                  >
+                    Đúng, mở hồ sơ này
+                  </button>
+                  <button
+                    className="min-h-12 rounded-lg border-2 border-[#cbd5df] bg-white px-4 font-bold text-[#334155] hover:border-[#ce7a58]"
+                    disabled={busy}
+                    onClick={() => {
+                      setSelectedProcedureCode(null);
+                      setChoosingProcedure(true);
+                    }}
+                    type="button"
+                  >
+                    Không đúng, chọn lại
+                  </button>
+                </div>
+              </section>
+            ) : null}
+
+            {choosingProcedure ? (
+              <section className="rounded-xl border border-[#d9e2ec] bg-white p-3" aria-label="Chọn thủ tục khác">
+                <p className="mb-2 font-extrabold text-[#334155]">Bạn muốn làm thủ tục nào?</p>
+                <div className="grid gap-2">
+                  {procedureContexts.map((procedure) => (
+                    <button
+                      className="min-h-12 rounded-lg border-2 border-[#ce7a58] bg-[#fff8f5] px-3 py-2 text-left font-bold text-[#762b2b] hover:bg-[#ffede5]"
+                      key={procedure.code}
+                      onClick={() => {
+                        setSelectedProcedureCode(procedure.code);
+                        setChoosingProcedure(false);
+                      }}
+                      type="button"
+                    >
+                      {procedure.title}
+                    </button>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+
+            {!needsServiceConfirmation && !choosingProcedure && replyOptions.length ? (
               <div
                 aria-label="Câu trả lời gợi ý"
                 className="rounded-xl border border-[#d9e2ec] bg-white p-3"
@@ -233,7 +332,7 @@ export function ChatWidget() {
               </div>
             ) : null}
 
-            {pendingSuggestions?.map((suggestion) => (
+            {!needsServiceConfirmation && !choosingProcedure ? pendingSuggestions?.map((suggestion) => (
               <SuggestionCard
                 disabled={busy}
                 fieldLocked={workspace.isDirty(suggestion.field_id)}
@@ -241,9 +340,9 @@ export function ChatWidget() {
                 onResolve={resolveSuggestion}
                 suggestion={suggestion}
               />
-            ))}
+            )) : null}
 
-            {turn?.missing_fields.length ? (
+            {!needsServiceConfirmation && !choosingProcedure && turn?.missing_fields.length ? (
               <details className="rounded-lg border border-[#d9e2ec] bg-white p-3 text-sm">
                 <summary className="cursor-pointer font-bold text-[#1e2f41]">
                   Còn thiếu {turn.missing_fields.length} thông tin
@@ -256,7 +355,7 @@ export function ChatWidget() {
               </details>
             ) : null}
 
-            {turn?.validation && validationPresentation ? (
+            {!needsServiceConfirmation && !choosingProcedure && turn?.validation && validationPresentation ? (
               <div className={`rounded-lg border p-3 text-sm ${validationToneClass}`}>
                 <p className="font-bold">Trạng thái hồ sơ: {validationPresentation.label}</p>
                 {validationPresentation.showReadinessScore &&
