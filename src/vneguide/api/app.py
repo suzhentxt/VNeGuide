@@ -185,7 +185,10 @@ def create_app(
     )
     def create_chat_session(payload: CreateSessionRequest, response: Response) -> SessionResponse:
         try:
-            session_id, entry = session_store.create(payload.context)
+            session_id, entry = session_store.create(
+                payload.context,
+                memory_scope_token=payload.memory_scope_token,
+            )
         except SessionCapacityError:
             raise HTTPException(status_code=429, detail="session_capacity") from None
         if payload.context is not None and payload.context.procedure_code is not None:

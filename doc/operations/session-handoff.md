@@ -1,5 +1,22 @@
 # Bàn giao phiên release
 
+## 2026-07-19 — Mem0 long-term memory opt-in (`refactor-code`)
+
+- `mem0ai 2.0.12` đã cài trong `.venv`; adapter, local Qdrant, telemetry opt-out, anonymous scope và
+  fail-closed runtime đã hoàn tất. Không có source Mem0 được copy vào Git.
+- Memory chỉ lưu ba normalized accessibility preferences với `infer=False`; không lưu transcript/PII
+  hoặc field form và không ảnh hưởng draft/rule/business fact.
+- Full gate đạt `439 passed, 1 skipped`, coverage `81.49%`, Ruff/Mypy pass; release audit full-index vẫn
+  timeout sau 60 giây theo giới hạn Windows đã biết.
+- Trạng thái chạy chính xác: SDK/local `add/search` đã được smoke; provider runtime mặc định vẫn
+  `disabled`. Muốn gọi embedding thật cần explicit external-consent config, API key và stable
+  `memory_scope_token`. Không đọc hoặc sửa `.env` trong phiên này.
+
+Bước tiếp theo cụ thể cho web owner: đọc `doc/operations/mem0-memory.md`, thêm consent/revoke + stable
+HttpOnly memory token trong BFF, thêm scoped deletion endpoint, chạy browser E2E hai session cùng token,
+rồi mới bật Mem0 trong production. Không dùng IP, User-Agent, email, số điện thoại hoặc số định danh làm
+memory identity.
+
 ## 2026-07-19 — Conversation Core & Guided Q&A (`refactor-code`)
 
 - Core đã hoàn tất fixed `next_action` vocabulary và toàn bộ regression bắt buộc; full Python gate đạt

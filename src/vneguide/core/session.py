@@ -35,6 +35,7 @@ from vneguide.domain import (
     ValidationResult,
     ValidationStatus,
 )
+from vneguide.memory import LongTermMemory, MemoryScope
 from vneguide.rules import ProcedureQAResponder, QuestionSelector, RuleEngine
 
 _AFFIRMATIVE_CONFIRMATIONS = frozenset(
@@ -114,6 +115,7 @@ class ConversationSession:
         *,
         responder: Responder | None = None,
         compactor: MemoryCompactor | None = None,
+        long_term_memory: LongTermMemory | None = None,
     ) -> None:
         self._extractor = extractor
         self._repository = repository
@@ -122,12 +124,23 @@ class ConversationSession:
         self._qa = ProcedureQAResponder(repository)
         self._responder = responder
         self._compactor = compactor
+        self._long_term_memory = long_term_memory
+        self._memory_scope: MemoryScope | None = None
         self._state = ConversationState()
         self._closed = False
 
     @property
     def state(self) -> ConversationState:
         return self._state
+
+    def bind_memory_scope(self, *, user_id: str, run_id: str) -> None:
+        """Bind opaque Mem0 identifiers once, before the first turn."""
+
+        self._ensure_open()
+        scope = MemoryScope(user_id=user_id, run_id=run_id)
+        if self._state.turn_number or self._memory_scope is not None:
+            raise RuntimeError("Memory scope must be bound exactly once before the first turn")
+        self._memory_scope = scope
 
     def initialize_procedure(self, procedure_code: ProcedureCode | str) -> None:
         """Seed a pristine route-scoped session without changing form revision zero."""
@@ -567,6 +580,8 @@ class ConversationSession:
             turn_number=self._state.turn_number + 1,
         )
         self._maybe_compact()
+        if self._long_term_memory is not None and self._memory_scope is not None:
+            self._long_term_memory.remember(self._memory_scope, user_message)
         return self._build_result(
             reply,
             action,
@@ -840,6 +855,9 @@ class ConversationSession:
         pending_code = self._state.pending_procedure_code
         filled_labels, missing_labels = self._form_labels(active_code)
         recent_turns = self._state.messages[-MAX_RESPONDER_HISTORY_TURNS:]
+        long_term_memories: tuple[str, ...] = ()
+        if self._long_term_memory is not None and self._memory_scope is not None:
+            long_term_memories = self._long_term_memory.recall(self._memory_scope)
         try:
             context = ResponderContext(
                 user_message=message,
@@ -853,6 +871,7 @@ class ConversationSession:
                 draft_values={} if draft_values is None else draft_values,
                 recent_turns=recent_turns,
                 memory_summary=self._state.memory_summary,
+                long_term_memories=long_term_memories,
             )
         except ValueError:
             return None

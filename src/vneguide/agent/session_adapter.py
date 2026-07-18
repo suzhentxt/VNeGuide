@@ -26,6 +26,7 @@ from vneguide.rules import ProcedureQAResponder, QuestionSelector, RuleEngine
 
 from ..core.session import ConversationSession, Extractor, Responder
 from ..data import ProcedureRepository
+from ..memory import LongTermMemory
 from .agent import build_agent
 from .tools import ToolContext, build_tools
 
@@ -58,12 +59,14 @@ class DeepAgentSession(ConversationSession):
         *,
         responder: Responder | None = None,
         compactor: Any | None = None,
+        long_term_memory: LongTermMemory | None = None,
     ) -> None:
         super().__init__(
             extractor,
             repository,
             responder=responder,
             compactor=compactor,
+            long_term_memory=long_term_memory,
         )
         self._model = model
         self._ctx = ToolContext(

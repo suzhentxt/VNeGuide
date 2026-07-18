@@ -55,6 +55,8 @@ _REPLY_SCHEMA: Mapping[str, Any] = {
 _MAX_REPLY_CHARS = 800
 _MAX_CONTEXT_CHARS = 4_000
 _MAX_MESSAGE_CHARS = 2_000
+_MAX_LONG_TERM_MEMORIES = 3
+_MAX_LONG_TERM_MEMORY_CHARS = 160
 MAX_RESPONDER_HISTORY_TURNS = 6
 _MAX_HISTORY_TURNS = MAX_RESPONDER_HISTORY_TURNS
 
@@ -74,6 +76,7 @@ class ResponderContext:
     draft_values: Mapping[str, JSONValue]
     recent_turns: tuple[ChatMessage, ...] = ()
     memory_summary: str = ""
+    long_term_memories: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         if not isinstance(self.user_message, str) or not self.user_message.strip():
@@ -110,6 +113,19 @@ class ResponderContext:
             raise ValueError(f"recent_turns must contain at most {_MAX_HISTORY_TURNS} messages")
         if not isinstance(self.memory_summary, str):
             raise ValueError("memory_summary must be a string")
+        if not isinstance(self.long_term_memories, tuple):
+            raise ValueError("long_term_memories must be a tuple")
+        if len(self.long_term_memories) > _MAX_LONG_TERM_MEMORIES:
+            raise ValueError(
+                f"long_term_memories must contain at most {_MAX_LONG_TERM_MEMORIES} values"
+            )
+        if any(
+            not isinstance(memory, str)
+            or not memory.strip()
+            or len(memory) > _MAX_LONG_TERM_MEMORY_CHARS
+            for memory in self.long_term_memories
+        ):
+            raise ValueError("long_term_memories must contain short non-empty strings")
 
 
 @dataclass(frozen=True, slots=True)
@@ -154,6 +170,7 @@ class GroundedResponder:
             conversation_context=conversation_context,
             recent_turns=context.recent_turns,
             memory_summary=context.memory_summary,
+            long_term_memories=context.long_term_memories,
         )
         request = StructuredRequest(
             system_prompt=system_prompt,

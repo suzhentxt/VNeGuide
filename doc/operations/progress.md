@@ -1,5 +1,30 @@
 # Nhật ký tiến độ VNeGuide
 
+## 2026-07-19 — Mem0 long-term memory opt-in trên nhánh refactor
+
+- Clone shallow source chính thức `mem0ai/mem0` vào `D:\tmp\mem0-reference-20260719`, đối chiếu bản
+  `mem0ai 2.0.12`, rồi tích hợp qua port nhỏ `add/search`; không vendor source Mem0 vào repository.
+- State phiên hiện tại vẫn là nguồn sự thật. Mem0 chỉ được gọi trước GroundedResponder để lấy tối đa ba
+  sở thích hỗ trợ và sau lượt để lưu preference. Memory không đi vào extractor, RuleEngine, draft,
+  revision hoặc fact nghiệp vụ đã review.
+- Chỉ ba preference được chuẩn hóa và allow-list: trả lời ngắn, diễn đạt đơn giản, hướng dẫn từng bước.
+  `add` dùng `infer=False`; raw transcript, tên, địa chỉ, số định danh và field form không được gửi.
+  Kết quả search ngoài allow-list cũng bị loại để chặn prompt injection/memory poisoning.
+- API nhận optional `memory_scope_token` 32–128 ký tự base64url, băm SHA-256 thành anonymous `user_id`;
+  cùng token nhớ qua session, còn `run_id` luôn là session ID riêng. Không token thì không gọi Mem0.
+- Provider mặc định `disabled`; khi bật phải đặt cờ xác nhận external embedding và API key. Mem0
+  telemetry bị ép `False`; Qdrant/history lưu local trong `.vneguide-memory/` đã git-ignore. Lỗi import,
+  khởi tạo, add hoặc search đều fail closed/best-effort và không làm mất draft.
+- Cài optional extra `memory` với `mem0ai>=2,<3`; khóa NumPy `<2.3` để giữ mypy Python 3.11 tương thích.
+  SDK đã khởi tạo thật và smoke `add → search` qua Qdrant embedded bằng local deterministic embedder,
+  không gọi mạng.
+- Gate cuối: targeted `82 passed`; full Pytest `439 passed, 1 skipped`, coverage `81.49%`; compile,
+  Ruff lint/format và Mypy strict (115 source file) pass. Full-index `release_audit.py` tiếp tục không
+  hoàn tất trong timeout 60 giây trên Windows; không sửa hoặc hạ audit để che giới hạn.
+- Giới hạn: `demoweb/**` vẫn ngoài scope nên BFF chưa phát/giữ stable memory token; web hiện vẫn dùng
+  memory theo session. Chưa có UI consent/revoke hoặc scoped delete endpoint, vì vậy production phải
+  giữ Mem0 disabled cho tới khi web owner bổ sung các control này và HTTPS.
+
 ## 2026-07-19 — Conversation Core & Guided Q&A trên nhánh refactor
 
 - Nhánh `refactor-code` giữ `ConversationSession` làm nguồn state transition; `DeepAgentSession`

@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
+import hashlib
 import secrets
 import threading
 import time
 from collections.abc import Callable, Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass, field
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 
 from vneguide.domain import ConversationState, JSONValue, ProcedureCode, TurnResult
 
@@ -45,6 +46,11 @@ class ChatSession(Protocol):
     ) -> TurnResult: ...
 
     def close(self) -> None: ...
+
+
+@runtime_checkable
+class MemoryScopeAware(Protocol):
+    def bind_memory_scope(self, *, user_id: str, run_id: str) -> None: ...
 
 
 class SessionStoreError(RuntimeError):
@@ -97,14 +103,25 @@ class InMemorySessionStore:
     def ttl_seconds(self) -> int:
         return self._ttl_seconds
 
-    def create(self, context: SessionContext | None = None) -> tuple[str, SessionEntry]:
+    def create(
+        self,
+        context: SessionContext | None = None,
+        *,
+        memory_scope_token: str | None = None,
+    ) -> tuple[str, SessionEntry]:
         self._remove_expired()
         with self._lock:
             if len(self._entries) >= self._max_active:
                 raise SessionCapacityError("session capacity reached")
             session_id = secrets.token_urlsafe(32)
+            session = self._factory()
+            if memory_scope_token is not None and isinstance(session, MemoryScopeAware):
+                memory_user_id = (
+                    "anon-" + hashlib.sha256(memory_scope_token.encode("utf-8")).hexdigest()
+                )
+                session.bind_memory_scope(user_id=memory_user_id, run_id=session_id)
             entry = SessionEntry(
-                session=self._factory(),
+                session=session,
                 context=context,
                 expires_at=self._clock() + self._ttl_seconds,
             )

@@ -13,6 +13,7 @@ from vneguide.ai import (
     load_llm_config,
 )
 from vneguide.data import ProcedureRepository
+from vneguide.memory import LongTermMemory, build_memory, load_memory_config
 
 from .session import ConversationSession
 
@@ -22,6 +23,7 @@ def _try_build_deep_session(
     extractor: StructuredExtractor,
     responder: GroundedResponder,
     compactor: MemoryCompactor,
+    long_term_memory: LongTermMemory | None,
 ) -> ConversationSession | None:
     """Build a ``DeepAgentSession`` if langchain/deepagents are installed.
 
@@ -44,6 +46,7 @@ def _try_build_deep_session(
         repository,
         responder=responder,
         compactor=compactor,
+        long_term_memory=long_term_memory,
     )
 
 
@@ -54,8 +57,15 @@ def create_session() -> ConversationSession:
     extractor = StructuredExtractor(provider, catalog)
     responder = GroundedResponder(provider, repository)
     compactor = MemoryCompactor(provider)
+    long_term_memory = build_memory(load_memory_config())
 
-    deep = _try_build_deep_session(repository, extractor, responder, compactor)
+    deep = _try_build_deep_session(
+        repository,
+        extractor,
+        responder,
+        compactor,
+        long_term_memory,
+    )
     if deep is not None:
         return deep
     return ConversationSession(
@@ -63,4 +73,5 @@ def create_session() -> ConversationSession:
         repository,
         responder=responder,
         compactor=compactor,
+        long_term_memory=long_term_memory,
     )
