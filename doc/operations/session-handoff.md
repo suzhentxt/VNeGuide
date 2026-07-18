@@ -215,3 +215,12 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
   cùng procedure `2.000635`, không còn false out-of-scope.
 - Bước tiếp theo: chạy browser manual bằng một session mới sau cold start và record video dự phòng;
   không dùng session cũ vì Render restart làm mất memory.
+
+## Bàn giao khóa nhánh Vercel 2026-07-19
+
+- `demoweb/vercel.json` đã khai báo chỉ `dev` được kích hoạt Git deployment; các branch khác khớp
+  wildcard `false` và không còn tạo Preview Deployment sau khi nhận commit cấu hình này.
+- Setting cloud vẫn đang là `link.productionBranch=main`. Bước tiếp theo bắt buộc: mở project
+  `vneguide` trên Vercel, vào `Settings → Environments → Production → Branch Tracking`, nhập `dev`
+  và Save. Sau đó push một commit mới vào `dev` để xác minh deployment có target `production` và
+  alias `vneguide.vercel.app` được cập nhật.

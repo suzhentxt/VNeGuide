@@ -381,3 +381,16 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
 - Public smoke Vercel → Render → OpenAI: health `200`, session `201`; hai lượt đúng transcript lỗi đều
   `200`, trả procedure `2.000635`, `next_action=ask_clarification`, không có error hoặc thông báo ngoài
   phạm vi. Thời gian lần lượt: health `0.239s`, session `1.298s`, turn 1 `3.464s`, turn 2 `2.590s`.
+
+### 2026-07-19 — Khóa Git deployment Vercel theo nhánh dev
+
+- Kiểm tra project `vneguide` cho thấy Git integration đang đặt Production Branch là `main`; vì vậy
+  commit `dev` trước đây tạo Preview Deployment, còn mọi nhánh khác cũng được Vercel build theo mặc
+  định.
+- `demoweb/vercel.json` chỉ cho phép Git deployment khi branch là `dev`; wildcard chặn các nhánh còn
+  lại để tránh tốn build và tạo preview ngoài quy trình release.
+- Frontend gate đạt: ESLint, TypeScript, 21/21 unit test và Next production build 25 route. Build cần
+  chạy ngoài sandbox vì Turbopack bind cổng nội bộ trong bước xử lý CSS.
+- Production Branch là setting cấp project, không nằm trong `vercel.json`. Vercel REST API v9 từ chối
+  trường `productionBranch` với `400`; browser tích hợp không khả dụng trong phiên này. Chủ project
+  cần đổi một lần tại `Settings → Environments → Production → Branch Tracking` từ `main` sang `dev`.
