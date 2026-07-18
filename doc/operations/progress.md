@@ -2,8 +2,8 @@
 
 ## Trạng thái hiện tại
 
-- Repository: `D:\VAIC_UET`, nhánh `dev`; source hiện kết hợp LiteLLM/core/rules với HTTP API và
-  demoweb từ `main`.
+- Repository: `D:\Coding\Hackathon\VAIC_UET`, nhánh `agent/rules-ai-eval`; base `e65b31b` kết hợp
+  LiteLLM/core/rules với HTTP API và demoweb.
 - Phạm vi nghiệp vụ đã review vẫn là ba procedure pack trong `data/README.md`.
 - Domain/data foundation, structured extraction, LiteLLM provider, deterministic rule engine,
   suggestion-aware conversation core và CLI harness đều đã có source.
@@ -35,6 +35,40 @@ liệu hành chính thật qua gateway HTTP; cần HTTPS trước khi dùng tran
   `MODEL_SMOKE_OK ... structured_output=true` với schema tổng hợp `{ok: boolean}`.
 
 ## Nhật ký phiên
+
+### 2026-07-18 — Context-aware extraction, rule signals và evaluation (Người 3)
+
+- Fast-forward branch `agent/rules-ai-eval` lên integration base `e65b31b`, giữ LiteLLM cùng toàn bộ
+  FastAPI/Next.js từ `tuan`; baseline trước sửa đạt Pytest `94 passed, 1 skipped`, Ruff và Mypy pass.
+- Thêm `ExtractionContext(active_procedure_code, target_field_id)` để hiểu câu trả lời ngắn mà không
+  gửi lịch sử; validator vẫn chỉ chấp nhận evidence xuất hiện trong message hiện tại.
+- Mở rộng schema catalog-derived với `context_signals` tách khỏi form field. Text model chỉ được sinh
+  signal có origin `intent_extraction`/`user_declaration`; `document_check` bị chặn và dành cho
+  OCR/document adapter. Signal string chưa có canonical enum (`requested_variant`) cũng chưa mở cho
+  model để tránh chuẩn hóa tùy đoán.
+- `RuleEngine` kiểm type và origin của signal trước khi hợp nhất tạm thời để chạy deterministic
+  handler; form values và signal không thể trùng key. Origin do caller khai không được xem là
+  provenance: signal text phải có ID trong state đã confirm, còn document/derived signal phải được
+  trusted adapter promote. Test audit xác nhận 27/27 rule có handler và mọi rule truy được tới source
+  approved đúng procedure.
+- Siết boolean rule-context theo fail-closed grounding: yêu cầu overlap theo tỷ lệ với label catalog
+  đã review, xác định polarity trên từng mệnh đề của toàn bộ current message, từ chối câu phủ định bị
+  model cắt evidence, câu không liên quan và mệnh đề mâu thuẫn. Không tạo synonym/domain table riêng.
+- Chuyển năm gold-validation case đang trộn document/intent signal trong `input` sang
+  `context_signals` + `context_origins`, giữ nguyên expected status/rule và cập nhật checksum; rules
+  hiện từ chối signal bị nhét vào form values để không mất provenance.
+- Thêm 21 case tổng hợp cho ba thủ tục, multi-turn/câu ngắn, out-of-scope, ambiguous và cách diễn đạt
+  Bắc–Trung–Nam; fixture có checksum LF-normalized. Thêm live evaluator opt-in với intent/procedure
+  accuracy, slot precision/recall/F1, grounding, fallback, latency, model/provider, commit SHA và
+  dataset SHA; report không chứa message, evidence, raw output hoặc secret. Runner khóa cứng fixture
+  synthetic đã commit và verify checksum LF-normalized trước khi tạo provider/gửi request.
+- Khóa OD-005 cho ngữ nghĩa `ValidationResult.source_ids` và OD-006 cho quan hệ giữa
+  `ready_to_submit`/`missing_fields`; chưa sửa ground truth chỉ để khớp runtime.
+- Gate sau sửa trên Python 3.13.3: Pytest `111 passed, 1 skipped`; Ruff lint/format pass; Mypy strict
+  pass; coverage `80.80%` vượt gate `80%`.
+- Giới hạn: môi trường hiện là provider `mock`, chưa cấu hình model nên chưa chạy live metric. Core do
+  Người 2 sở hữu vẫn cần truyền `ExtractionContext`, lưu signal candidate/evidence và chỉ populate
+  promotion IDs từ confirmation/trusted adapter state trước khi runtime web dùng được contract mới.
 
 ### 2026-07-18 — Kết nối lại model thật với chatbot web
 

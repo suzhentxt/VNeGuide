@@ -5,7 +5,7 @@ from __future__ import annotations
 import math
 from collections.abc import Mapping
 from copy import deepcopy
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from types import MappingProxyType
 
 from vneguide.ai.prompts import build_extraction_prompt
@@ -27,6 +27,37 @@ from vneguide.ai.schemas import (
 )
 
 
+def _empty_mapping() -> Mapping[str, JsonScalar]:
+    return MappingProxyType({})
+
+
+def _empty_text_mapping() -> Mapping[str, str]:
+    return MappingProxyType({})
+
+
+@dataclass(frozen=True, slots=True)
+class ExtractionContext:
+    """Minimal system-owned context for interpreting a short current answer.
+
+    This object deliberately carries no transcript or prior value.  It can tell
+    the model which reviewed procedure and form field is being discussed, but
+    it can never satisfy the evidence requirement for the current message.
+    """
+
+    active_procedure_code: str | None = None
+    target_field_id: str | None = None
+
+    def __post_init__(self) -> None:
+        for value, name in (
+            (self.active_procedure_code, "active_procedure_code"),
+            (self.target_field_id, "target_field_id"),
+        ):
+            if value is not None and (not isinstance(value, str) or not value.strip()):
+                raise ValueError(f"{name} must be a non-empty string or null")
+        if self.target_field_id is not None and self.active_procedure_code is None:
+            raise ValueError("target_field_id requires active_procedure_code")
+
+
 @dataclass(frozen=True, slots=True)
 class ExtractionOutcome:
     """Safe AI-local extraction result pending the shared domain adapter.
@@ -43,6 +74,9 @@ class ExtractionOutcome:
     clarification_question: str | None
     attempts: int
     error_code: str | None = None
+    context_signals: Mapping[str, JsonScalar] = field(default_factory=_empty_mapping)
+    context_evidence: Mapping[str, str] = field(default_factory=_empty_text_mapping)
+    context_origins: Mapping[str, str] = field(default_factory=_empty_text_mapping)
 
     @property
     def succeeded(self) -> bool:
@@ -85,7 +119,12 @@ class StructuredExtractor:
 
         return deepcopy(self._request_schema)
 
-    def extract(self, message: str) -> ExtractionOutcome:
+    def extract(
+        self,
+        message: str,
+        *,
+        context: ExtractionContext | None = None,
+    ) -> ExtractionOutcome:
         """Extract one Vietnamese user turn, retrying only safe failure classes."""
 
         if (
@@ -98,6 +137,10 @@ class StructuredExtractor:
             message.encode("utf-8")
         except UnicodeEncodeError:
             return self._fallback(attempts=0, error_code="invalid_input")
+        if context is not None and not self._context_is_valid(context):
+            return self._fallback(attempts=0, error_code="invalid_context")
+
+        user_prompt = self._user_prompt(message, context)
 
         last_error_code = "provider_error"
 
@@ -105,7 +148,7 @@ class StructuredExtractor:
             try:
                 request = StructuredRequest(
                     system_prompt=self._system_prompt,
-                    user_prompt=message,
+                    user_prompt=user_prompt,
                     json_schema=deepcopy(self._request_schema),
                     schema_name="vneguide_extraction",
                     timeout_seconds=self._timeout_seconds,
@@ -113,7 +156,12 @@ class StructuredExtractor:
                 raw_payload = self._provider.generate_structured(request)
                 payload = decode_provider_payload(raw_payload)
                 validated = validate_extraction_payload(
-                    payload, message=message, catalog=self._catalog
+                    payload,
+                    message=message,
+                    catalog=self._catalog,
+                    active_procedure_code=(
+                        context.active_procedure_code if context is not None else None
+                    ),
                 )
                 return ExtractionOutcome(
                     status="success",
@@ -121,6 +169,9 @@ class StructuredExtractor:
                     procedure_code=validated.procedure_code,
                     fields=validated.fields,
                     evidence=validated.evidence,
+                    context_signals=validated.context_signals,
+                    context_evidence=validated.context_evidence,
+                    context_origins=validated.context_origins,
                     clarification_question=validated.clarification_question,
                     attempts=attempt,
                 )
@@ -142,6 +193,37 @@ class StructuredExtractor:
 
         raise AssertionError("bounded extraction loop terminated unexpectedly")
 
+    def _context_is_valid(self, context: ExtractionContext) -> bool:
+        code = context.active_procedure_code
+        if code is None:
+            return context.target_field_id is None
+        if code not in self._catalog.procedure_codes:
+            return False
+        if context.target_field_id is None:
+            return True
+        try:
+            self._catalog.field(code, context.target_field_id)
+        except ExtractionSchemaError:
+            return False
+        return True
+
+    @staticmethod
+    def _user_prompt(message: str, context: ExtractionContext | None) -> str:
+        if context is None or context.active_procedure_code is None:
+            return message
+        target = context.target_field_id or "null"
+        return (
+            "[SYSTEM_CONTEXT — KHÔNG PHẢI EVIDENCE]\n"
+            f"active_procedure_code={context.active_procedure_code}\n"
+            f"target_field_id={target}\n"
+            "Chỉ dùng context để hiểu câu trả lời ngắn. Mọi giá trị vẫn phải có evidence "
+            "trong CURRENT_USER_MESSAGE.\n"
+            "[/SYSTEM_CONTEXT]\n"
+            "[CURRENT_USER_MESSAGE]\n"
+            f"{message}\n"
+            "[/CURRENT_USER_MESSAGE]"
+        )
+
     @staticmethod
     def _fallback(*, attempts: int, error_code: str) -> ExtractionOutcome:
         return ExtractionOutcome(
@@ -153,7 +235,10 @@ class StructuredExtractor:
             clarification_question=None,
             attempts=attempts,
             error_code=error_code,
+            context_signals=MappingProxyType({}),
+            context_evidence=MappingProxyType({}),
+            context_origins=MappingProxyType({}),
         )
 
 
-__all__ = ["ExtractionOutcome", "StructuredExtractor"]
+__all__ = ["ExtractionContext", "ExtractionOutcome", "StructuredExtractor"]

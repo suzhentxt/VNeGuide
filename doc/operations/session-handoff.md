@@ -11,6 +11,10 @@
 - AI hỗ trợ mock, OpenAI Responses và LiteLLM Chat Completions. Provider-only smoke đọc `.env` được
   chỉ định; HTTP API hỗ trợ opt-in `--env-file .env`, còn các luồng khác chỉ đọc process environment
   trừ khi `VNEGUIDE_LLM_ENV_FILE` được đặt tường minh.
+- AI có `ExtractionContext` cho procedure/field đang hỏi và schema riêng cho rule-context signal.
+  Text extractor chỉ nhận signal `intent_extraction`/`user_declaration`; signal `document_check`
+  phải đến từ OCR/document adapter đã validate. Signal text là candidate: rule engine yêu cầu ID đã
+  confirm; document/derived signal yêu cầu ID được trusted adapter promote.
 - Repo có FastAPI Chat API, Next.js BFF và chatbox chỉ mount trong
   `/hon-nhan-va-gia-dinh/**`.
 - Repo có thêm `demoweb/`, một giao diện Next.js độc lập; thư mục này không phụ thuộc tool clone hoặc dữ liệu capture ban đầu.
@@ -33,6 +37,9 @@
   production cho catalog, tìm kiếm, lựa chọn, redirect và API validation đều pass.
 - Live web BFF → Python API → LiteLLM pass bằng dữ liệu giả: session `201`, message `200`, nhận diện
   `1.004194` và có assistant response; không gửi PII hoặc hồ sơ thật.
+- Branch Người 3: Pytest `111 passed, 1 skipped`; Ruff lint/format, Mypy strict pass; coverage
+  `80.80%`. Eval fixture có 21 case tổng hợp; runner live opt-in verify checksum trước provider call,
+  nhưng chưa có metric model thật vì process hiện dùng provider `mock` và chưa cấu hình model.
 
 ## Rủi ro
 
@@ -42,10 +49,19 @@
   liệu giả cho tới khi có HTTPS.
 - CLI chưa ánh xạ câu lệnh người dùng sang `accept_suggestion`, `reject_suggestion` và
   `edit_suggestion`; web/widget adapter cần sở hữu interaction này.
-- AI extraction chưa tạo 10 rule-context signal từ `rule_context_catalog.json`; các handler dùng
-  document/context signal chưa thể nhận đủ dữ liệu từ hội thoại.
+- AI extraction đã có contract riêng cho signal extractable, nhưng core chưa truyền
+  `ExtractionContext` hoặc lưu candidate/evidence/confirmation/trusted-adapter provenance vào
+  conversation state; runtime web vì vậy chưa dùng được phần mới cho đến khi Người 2 nối adapter.
+- Signal `requested_variant` là string chưa có canonical values trong catalog nên bị giữ khỏi text
+  model; dùng enum `intent` cho routing khai sinh cho tới khi Domain/Data review constraint.
 - 17/27 rule chưa có positive/triggering gold case riêng; test hiện chứng minh handler tồn tại và
   12 gold case hiện có pass, không chứng minh đủ hành vi của mọi handler.
+- Sáu case `gold_validation` chưa thống nhất nghĩa `source_ids` với runtime; OD-005 giữ default an
+  toàn và không thay ground truth chỉ để test pass.
+- `ValidationResult.ready_to_submit` hiện chỉ phản ánh rule không kích hoạt; một số gold case vẫn kỳ
+  vọng trạng thái này khi thiếu required field. Core có chặn `NextAction.COMPLETE` bằng
+  `missing_fields`, nhưng web vẫn có thể hiển thị đồng thời READY và danh sách thiếu. OD-006 yêu cầu
+  Domain/Core/API/UI khóa semantics trước khi sửa status/ground truth hoặc hiển thị “sẵn sàng nộp”.
 - Một số rule dùng context/document signal, không được suy đoán từ field biểu mẫu.
 - Git LFS có thể cần quyền ghi `.git/lfs/tmp` trong môi trường sandbox.
 - Danh sách Phường/Xã và Sở phụ thuộc upstream `vpcp.dichvucong.gov.vn`; khi upstream lỗi hoặc quá hạn, UI hiển thị lỗi và cho phép thử lại thay vì dùng dữ liệu giả.
@@ -56,11 +72,13 @@
 
 ## Bước tốt nhất tiếp theo
 
-Trước khi deploy, nâng dependency web để xử lý advisory rồi chạy lại `npm run check` và audit. Tiếp
-theo, review/bổ sung data package cho bốn thủ tục Hôn nhân và gia đình, nối 10 rule-context signal vào
-extraction/core và hoàn thiện CLI để hiển thị suggestion ID, gọi đúng Accept/Reject/Edit. Chạy E2E
-terminal/API/web bằng dữ liệu tổng hợp. Chỉ dùng LiteLLM HTTP cho smoke dữ liệu giả; không gửi PII
-hoặc hồ sơ thật trước khi gateway có HTTPS.
+Người 2 cần đổi extractor protocol để truyền `ExtractionContext` từ procedure/field thực sự đang hỏi,
+đồng thời thêm state riêng cho `context_signals`, evidence và promotion IDs; API không được nhận
+origin/confirmation/trust trực tiếp từ client. Người 1/API serializer cần ẩn hoặc đổi nhãn READY khi
+`missing_fields` chưa rỗng cho tới khi OD-006 được khóa. Sau đó cấu hình provider/model/key cục bộ và
+chạy live evaluator bằng fixture tổng hợp. Trước khi
+deploy Internet vẫn phải nâng dependency web, chạy lại `npm run check`/audit và chỉ dùng LiteLLM HTTP
+cho dữ liệu giả cho tới khi gateway có HTTPS.
 
 ## Lệnh
 
@@ -76,4 +94,5 @@ hoặc hồ sơ thật trước khi gateway có HTTPS.
 - Type check: `python -m mypy`
 - Test: `python -m pytest`
 - Provider smoke: `python -m vneguide.ai.smoke --env-file .env --confirm-live`
+- Live extraction metrics: `python -m tests.evals.run_live_extraction_eval --confirm-live --env-file .env --output C:\tmp\vneguide-extraction-eval.json`
 - CLI: `python -m vneguide.cli`

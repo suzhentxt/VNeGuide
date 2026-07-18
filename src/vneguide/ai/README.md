@@ -1,6 +1,6 @@
 # AI
 
-Owner: Người 2.
+Owner theo kế hoạch `chiaviec.md`: Người 3.
 
 Module này chỉ phân loại ngôn ngữ và trích xuất dữ liệu người dùng đã nêu. Nó không quyết
 định required field, checklist, phí, thời hạn, trạng thái hồ sơ hoặc `source_id`.
@@ -20,6 +20,12 @@ providers/         # Interface, mock, OpenAI Responses và LiteLLM Chat Completi
 - Field/type/enum được nạp từ `data/catalog/field_catalog.json`; không có bản sao field list
   trong source.
 - Mỗi field do model trả về phải có evidence nguyên văn trong tin nhắn hiện tại.
+- `ExtractionContext` chỉ mang `active_procedure_code` và `target_field_id` để hiểu câu trả lời
+  ngắn. Context không chứa lịch sử và không được dùng làm evidence.
+- Rule-context signal được tách khỏi field biểu mẫu. Text model chỉ được sinh signal có origin
+  `intent_extraction` hoặc `user_declaration`; signal `document_check` chỉ đến từ adapter tài liệu.
+  Các signal từ text vẫn là candidate chưa xác nhận: `origin` mô tả loại nguồn theo catalog, không
+  phải bằng chứng tin cậy để kích hoạt rule.
 - `unsupported` là kết luận ngữ nghĩa; timeout/malformed/refusal trả `status="fallback"`,
   `procedure_code=None` và fields rỗng.
 - Mọi call provider nhận JSON Schema strict. Unit test dùng `MockLLMProvider`, không cần key.
@@ -41,6 +47,16 @@ from vneguide.ai import (
 catalog = ExtractionCatalog.from_data_package(Path("data"))
 provider = build_llm_provider(load_llm_config())
 extractor = StructuredExtractor(provider, catalog)
+
+from vneguide.ai import ExtractionContext
+
+outcome = extractor.extract(
+    "Cho bản thân tôi",
+    context=ExtractionContext(
+        active_procedure_code="1.004194",
+        target_field_id="registration_mode",
+    ),
+)
 ```
 
 Adapter OpenAI dùng Responses API chính thức qua HTTPS và giữ allowlist
@@ -63,8 +79,11 @@ dành cho gateway dev tin cậy; terminal chứa dữ liệu người dùng th�
 - `src/vneguide/data/` đã có `ProcedureRepository`. Composition root của core dùng repository để
   khám phá data root; adapter extraction hiện vẫn dựng schema bằng `ExtractionCatalog` từ cùng data
   package đã audit, không duy trì bản sao field list trong source.
-- Catalog chưa có metadata alias/evidence semantics đã review. Validator hiện bảo đảm evidence là
-  đoạn xuất hiện trong message và kiểm type/enum/pattern/bounds cục bộ; nó chưa thể chứng minh tổng
-  quát ý nghĩa enum/boolean hoặc xử lý phủ định. Không hard-code từ điển nghiệp vụ song song trong AI.
-- `tests/evals/intent_cases.jsonl` là ground truth và contract fixture chạy qua scripted mock; chưa
-  phải số đo accuracy của model thật. Live eval cần model/key riêng và không được log dữ liệu cá nhân.
+- Catalog chưa có metadata evidence semantics đầy đủ. Validator bảo đảm evidence là đoạn xuất hiện
+  trong message và kiểm type/enum/pattern/bounds cục bộ. Với boolean rule-context, validator còn
+  đối chiếu từ khóa từ label đã review và kiểm polarity trên cả evidence lẫn mệnh đề trong toàn bộ
+  current message để model không thể cắt bỏ `không/chưa`. Enum/boolean tổng quát vẫn là candidate
+  cần Accept/Edit; không hard-code từ điển nghiệp vụ song song trong AI.
+- `tests/evals/intent_cases.jsonl` là contract fixture chạy qua scripted mock, không phải số đo
+  accuracy. Live evaluator trong `tests/evals/run_live_extraction_eval.py` chỉ chạy khi operator chủ
+  động cấu hình provider/model; báo metric và metadata nhưng không đọc hoặc in API key.
