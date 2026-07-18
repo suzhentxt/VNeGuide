@@ -3,14 +3,20 @@
 from __future__ import annotations
 
 import os
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
+from contextlib import contextmanager
 from typing import cast
 
 from fastapi import FastAPI, HTTPException, Request, Response, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
-from vneguide.core import create_session
+from vneguide.core import (
+    ProcedureConflictError,
+    ProcedureNotSelectedError,
+    RevisionConflictError,
+    create_session,
+)
 from vneguide.data import ProcedureRepository
 from vneguide.domain import JSONValue, ProcedureCode
 
@@ -18,6 +24,7 @@ from .schemas import (
     ChatTurnResponse,
     CreateSessionRequest,
     ErrorResponse,
+    FieldEditRequest,
     HealthResponse,
     MessageRequest,
     SessionResponse,
@@ -52,9 +59,11 @@ def _error(status_code: int, code: str, message: str, *, retryable: bool = False
     )
 
 
-def _lookup(store: InMemorySessionStore, session_id: str) -> SessionEntry:
+@contextmanager
+def _acquire(store: InMemorySessionStore, session_id: str) -> Iterator[SessionEntry]:
     try:
-        return store.get(session_id)
+        with store.acquire(session_id) as entry:
+            yield entry
     except SessionExpiredError as exc:
         raise HTTPException(status_code=410, detail="session_expired") from exc
     except SessionNotFoundError as exc:
@@ -83,6 +92,7 @@ def _session_response(
         context=context,
         context_supported=supported,
         scope_warning=warning,
+        draft=serializer.serialize_draft(entry.session.state.draft),
         turn=None if entry.last_result is None else serializer.serialize(entry.last_result),
     )
 
@@ -133,6 +143,30 @@ def create_app(
                 "invalid_suggestion",
                 "Đề xuất không còn hợp lệ cho bản nháp hiện tại.",
             )
+        if exc.detail == "stale_revision":
+            return _error(
+                409,
+                "stale_revision",
+                "Bản nháp đã thay đổi; vui lòng tải trạng thái mới nhất.",
+            )
+        if exc.detail == "procedure_not_selected":
+            return _error(
+                409,
+                "procedure_not_selected",
+                "Hãy chọn thủ tục trước khi cập nhật biểu mẫu.",
+            )
+        if exc.detail == "procedure_conflict":
+            return _error(
+                409,
+                "procedure_conflict",
+                "Thủ tục đang hoạt động không khớp với phiên hiện tại.",
+            )
+        if exc.detail == "invalid_field_value":
+            return _error(
+                422,
+                "invalid_field_value",
+                "Giá trị biểu mẫu không hợp lệ.",
+            )
         return _error(exc.status_code, "request_failed", "Không thể xử lý yêu cầu.")
 
     @app.exception_handler(RequestValidationError)
@@ -154,6 +188,17 @@ def create_app(
             session_id, entry = session_store.create(payload.context)
         except SessionCapacityError:
             raise HTTPException(status_code=429, detail="session_capacity") from None
+        if payload.context is not None and payload.context.procedure_code is not None:
+            try:
+                code = ProcedureCode(payload.context.procedure_code)
+            except ValueError:
+                pass
+            else:
+                try:
+                    entry.session.initialize_procedure(code)
+                except ProcedureConflictError:
+                    session_store.delete(session_id)
+                    raise HTTPException(status_code=409, detail="procedure_conflict") from None
         response.headers["X-VNeGuide-Session"] = session_id
         response.headers["Cache-Control"] = "no-store"
         return _session_response(entry, session_store, serializer)
@@ -164,8 +209,8 @@ def create_app(
         responses={404: {"model": ErrorResponse}, 410: {"model": ErrorResponse}},
     )
     def get_chat_session(session_id: str) -> SessionResponse:
-        entry = _lookup(session_store, session_id)
-        return _session_response(entry, session_store, serializer)
+        with _acquire(session_store, session_id) as entry:
+            return _session_response(entry, session_store, serializer)
 
     @app.post(
         "/v1/chat/sessions/{session_id}/messages",
@@ -173,8 +218,7 @@ def create_app(
         responses={404: {"model": ErrorResponse}, 410: {"model": ErrorResponse}},
     )
     def send_message(session_id: str, payload: MessageRequest) -> ChatTurnResponse:
-        entry = _lookup(session_store, session_id)
-        with entry.lock:
+        with _acquire(session_store, session_id) as entry:
             if payload.client_turn_id:
                 cached = entry.turn_results.get(payload.client_turn_id)
                 if cached is not None:
@@ -198,22 +242,60 @@ def create_app(
         suggestion_id: str,
         payload: SuggestionActionRequest,
     ) -> ChatTurnResponse:
-        entry = _lookup(session_store, session_id)
-        with entry.lock:
+        with _acquire(session_store, session_id) as entry:
             if entry.session.state.draft.revision != payload.expected_revision:
                 raise HTTPException(status_code=409, detail="stale_suggestion")
             try:
                 if payload.action == "accept":
-                    result = entry.session.accept_suggestion(suggestion_id)
+                    result = entry.session.accept_suggestion(
+                        suggestion_id,
+                        expected_revision=payload.expected_revision,
+                    )
                 elif payload.action == "reject":
-                    result = entry.session.reject_suggestion(suggestion_id)
+                    result = entry.session.reject_suggestion(
+                        suggestion_id,
+                        expected_revision=payload.expected_revision,
+                    )
                 else:
                     result = entry.session.edit_suggestion(
                         suggestion_id,
                         cast(JSONValue, payload.value),
+                        expected_revision=payload.expected_revision,
                     )
+            except RevisionConflictError:
+                raise HTTPException(status_code=409, detail="stale_suggestion") from None
             except ValueError:
                 raise HTTPException(status_code=409, detail="invalid_suggestion") from None
+            entry.last_result = result
+        return serializer.serialize(result)
+
+    @app.patch(
+        "/v1/chat/sessions/{session_id}/draft/fields/{field_id}",
+        response_model=ChatTurnResponse,
+        responses={
+            404: {"model": ErrorResponse},
+            409: {"model": ErrorResponse},
+            422: {"model": ErrorResponse},
+        },
+    )
+    def edit_draft_field(
+        session_id: str,
+        field_id: str,
+        payload: FieldEditRequest,
+    ) -> ChatTurnResponse:
+        with _acquire(session_store, session_id) as entry:
+            try:
+                result = entry.session.edit_field(
+                    field_id,
+                    cast(JSONValue, payload.value),
+                    expected_revision=payload.expected_revision,
+                )
+            except RevisionConflictError:
+                raise HTTPException(status_code=409, detail="stale_revision") from None
+            except ProcedureNotSelectedError:
+                raise HTTPException(status_code=409, detail="procedure_not_selected") from None
+            except ValueError:
+                raise HTTPException(status_code=422, detail="invalid_field_value") from None
             entry.last_result = result
         return serializer.serialize(result)
 

@@ -8,7 +8,7 @@ from typing import cast
 from pydantic import JsonValue as PydanticJsonValue
 
 from vneguide.data import ProcedureRepository
-from vneguide.domain import JSONValue, ProcedureCode, TurnResult
+from vneguide.domain import CaseDraft, JSONValue, ProcedureCode, TurnResult
 
 from .schemas import (
     ChatMessageResponse,
@@ -44,11 +44,7 @@ class TurnResultSerializer:
             reply=result.reply,
             next_action=result.next_action.value,
             procedure=procedure,
-            draft=DraftResponse(
-                revision=result.state.draft.revision,
-                confirmed_fields=sorted(result.state.draft.confirmed_fields),
-                dirty_fields=sorted(result.state.draft.dirty_fields),
-            ),
+            draft=self.serialize_draft(result.state.draft),
             messages=[
                 ChatMessageResponse(role=message.role.value, content=message.content)
                 for message in result.state.messages
@@ -90,6 +86,15 @@ class TurnResultSerializer:
                 )
             ),
             sources=[self._source(source_id) for source_id in result.source_ids],
+        )
+
+    def serialize_draft(self, draft: CaseDraft) -> DraftResponse:
+        return DraftResponse(
+            values={field_id: json_value(value) for field_id, value in draft.values.items()},
+            revision=draft.revision,
+            confirmed_fields=sorted(draft.confirmed_fields),
+            dirty_fields=sorted(draft.dirty_fields),
+            pack_version=draft.pack_version,
         )
 
     def _field_labels(self, code: ProcedureCode | None) -> dict[str, str]:

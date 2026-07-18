@@ -2,59 +2,57 @@
 
 ## Trạng thái Git
 
-- Nhánh hiện tại: local `dev`; chưa push lên `origin/dev`.
-- Đã merge `origin/agent/web-three-procedures@7646399`; conflict ở README, chat hook và hai file
-  operations đã được hợp nhất theo baseline Release Captain bằng `0cb4d6b`.
-- Merge result giữ LiteLLM, FastAPI, Next.js, retry session từ `dev`, shared workspace từ UI branch
-  và dependency đã vá của release branch.
-- Repo đối thủ, DOCX, CSV, `.DS_Store` và `view_parquet.py` không được stage.
-- Đã merge `integration/release-dev` vào local `dev` bằng `829c6fa`; chưa push remote và còn bước
-  rebuild container.
+- Nhánh hiện tại: `integration/release-dev`.
+- Integration đã fast-forward lên `dev@9960bf2` và tích hợp
+  `origin/agent/memory-form-sync@83adb18`.
+- Conflict chỉ có ở `doc/operations/progress.md` và file này; nội dung được hợp nhất theo trạng thái
+  Release Captain hiện tại, không giữ mô tả web bốn thủ tục/dependency cũ của branch nguồn.
+- BFF được nối sang contract backend mới bằng
+  `PATCH /v1/chat/sessions/{session_id}/draft/fields/{field_id}`.
+- Full Python/npm gate, BFF → backend smoke và release audit đã đạt; integration sẵn sàng merge vào
+  `dev` nhưng chưa push/merge tiếp.
+- `.DS_Store`, `procedures.csv` và `view_parquet.py` không thuộc release và không được stage.
 
-## Gate sau merge UI
+## Thay đổi từ Người 2
 
-- Ruff lint/format và Mypy pass; Pytest `106 passed, 1 skipped`, coverage `81.93%`.
-- `npm ci` và audit pass với 0 vulnerability.
-- `npm run check` pass: lint, typecheck, 9 reducer test và Next 16.2.10 build 25 route.
-- Ba procedure route trả 200; hero tạm trú đạt 5/5; route đăng ký kết hôn cũ trả 404.
-- Limited staged-text audit pass: 333 index file, 188 text file.
+- Session context seed procedure ngay khi tạo phiên; create/GET trả top-level draft snapshot.
+- Draft response có `values`, `revision`, `confirmed_fields`, `dirty_fields`, `pack_version`.
+- Manual field edit có optimistic revision, validation theo catalog/rule và response lỗi typed.
+- Accept/Edit/Reject đều kiểm tra revision; manual edit vô hiệu hóa pending suggestion cùng field.
+- Extractor dùng compact turn context, giữ procedure qua small talk nhưng không gửi transcript/draft PII.
+- Core tránh hỏi lặp bằng `asked_question_ids` và chuyển sang manual input khi câu trả lời tiếp tục mơ hồ.
+- Session store khóa xuyên suốt mutation để tránh race với delete/expiry.
 
-## Thay đổi từ nhánh UI
+## Gate trên merge result
 
-- Demoweb chỉ còn đúng ba procedure code `2.000635`, `1.013314`, `1.004194`.
-- Route đăng ký kết hôn cũ bị xóa; build phải chỉ generate ba procedure slug mới.
-- Hero `1.004194` có form CT01 và shared workspace với chat.
-- Reducer bảo vệ dirty field, stale response, reset và session recreation; form giữ dữ liệu khi
-  session backend hết hạn.
-- BFF `/api/chat/field` validate field ID/revision và proxy bằng cookie `HttpOnly`.
+- Compileall, Ruff lint/format và Mypy strict pass.
+- Pytest `166 passed, 1 skipped`, coverage `82.87%`.
+- `npm ci`/audit pass với 0 vulnerability; lint, typecheck, 9 reducer test và Next production build
+  25 route pass.
+- Production BFF → backend manual field smoke trả 200, revision `0 → 1`, đúng `draft.values`,
+  confirmed/dirty và `pack_version=2.0.0`.
+- Limited staged-text audit pass: 335 index file, 190 text file; không còn conflict marker.
+- Smoke dùng provider mock và dữ liệu giả; không gọi model ngoài hoặc gửi PII.
+
+## Việc cần làm tiếp
+
+1. Merge/push integration vào `dev` khi Release Captain được yêu cầu.
+2. Browser manual-edit E2E cho hero tạm trú, gồm stale recovery và session recreation.
+3. Rebuild Docker; smoke local/public URL và ghi lại image digest, model/version, timestamp.
 
 ## Blocker còn lại
 
-1. Backend chưa có `POST /v1/chat/sessions/{session_id}/fields/{field_id}`.
-2. API `DraftResponse` chưa trả `values`, nên form không thể xác minh giá trị server cuối cùng.
-3. Chưa có browser E2E/visual/keyboard QA; reducer test không thay thế thao tác browser.
-4. OCR owner chưa cung cấp adapter/upload/UI và typed OCR failure thật.
-5. Chưa có cloud target/credential hoặc video dự phòng được review.
-6. In-memory session store chỉ phù hợp một worker; cần shared store trước khi scale.
-
-## Runtime preview
-
-Preview đang chạy là image trước merge UI và phải rebuild trước demo tiếp theo:
-
-- Gateway local `8080`, API `8000`, web `3000`.
-- Ngrok: `https://moschate-terri-dereistically.ngrok-free.dev`.
-- Image cũ: API `sha256:c72a78e6a5b5...9e4f`, web `sha256:b87a68c910cf...c0b7`.
-
-## Việc Release Captain làm tiếp
-
-1. Chỉ push local `dev` khi được yêu cầu rõ; merge commit hiện tại là `829c6fa`.
-2. Sau backend field contract, chạy manual-edit/browser E2E và rebuild/smoke public image.
-3. Record/review video, chốt rollback digest và hosting bền vững.
+1. Browser E2E/visual/keyboard QA chưa xác minh form-sync mới.
+2. OCR owner chưa cung cấp adapter/upload/UI và typed OCR failure thật.
+3. Container/public preview hiện dùng image trước merge mới và phải rebuild.
+4. Chưa có durable cloud target hoặc video dự phòng được hai người review.
+5. In-memory session store chỉ phù hợp một worker; cần shared store trước khi scale.
 
 ## Lệnh gate chuẩn
 
 ```bash
 python -m pip install -e ".[api,dev]"
+python -m compileall -q src tests
 python -m ruff check src tests deployment
 python -m ruff format --check src tests deployment
 python -m mypy

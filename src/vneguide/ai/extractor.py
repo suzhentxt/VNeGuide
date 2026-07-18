@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import math
 from collections.abc import Mapping
 from copy import deepcopy
@@ -49,6 +50,28 @@ class ExtractionOutcome:
         return self.status == "success"
 
 
+@dataclass(frozen=True, slots=True)
+class ExtractionTurnContext:
+    """Bounded, non-PII metadata for resolving a follow-up user turn."""
+
+    active_procedure_code: str
+    expected_field_id: str | None = None
+
+    def __post_init__(self) -> None:
+        if (
+            not isinstance(self.active_procedure_code, str)
+            or not self.active_procedure_code.strip()
+            or len(self.active_procedure_code) > 64
+        ):
+            raise ValueError("active_procedure_code must be a short non-empty string")
+        if self.expected_field_id is not None and (
+            not isinstance(self.expected_field_id, str)
+            or not self.expected_field_id.strip()
+            or len(self.expected_field_id) > 128
+        ):
+            raise ValueError("expected_field_id must be a short non-empty string or None")
+
+
 class StructuredExtractor:
     """Call an LLM through a provider and validate every returned value."""
 
@@ -85,7 +108,12 @@ class StructuredExtractor:
 
         return deepcopy(self._request_schema)
 
-    def extract(self, message: str) -> ExtractionOutcome:
+    def extract(
+        self,
+        message: str,
+        *,
+        context: ExtractionTurnContext | None = None,
+    ) -> ExtractionOutcome:
         """Extract one Vietnamese user turn, retrying only safe failure classes."""
 
         if (
@@ -98,6 +126,8 @@ class StructuredExtractor:
             message.encode("utf-8")
         except UnicodeEncodeError:
             return self._fallback(attempts=0, error_code="invalid_input")
+        if context is not None and not self._context_is_valid(context):
+            return self._fallback(attempts=0, error_code="invalid_context")
 
         last_error_code = "provider_error"
 
@@ -105,7 +135,7 @@ class StructuredExtractor:
             try:
                 request = StructuredRequest(
                     system_prompt=self._system_prompt,
-                    user_prompt=message,
+                    user_prompt=self._user_prompt(message, context),
                     json_schema=deepcopy(self._request_schema),
                     schema_name="vneguide_extraction",
                     timeout_seconds=self._timeout_seconds,
@@ -142,6 +172,30 @@ class StructuredExtractor:
 
         raise AssertionError("bounded extraction loop terminated unexpectedly")
 
+    def _context_is_valid(self, context: ExtractionTurnContext) -> bool:
+        if context.active_procedure_code not in self._catalog.procedure_codes:
+            return False
+        if context.expected_field_id is None:
+            return True
+        try:
+            self._catalog.field(context.active_procedure_code, context.expected_field_id)
+        except ExtractionSchemaError:
+            return False
+        return True
+
+    @staticmethod
+    def _user_prompt(message: str, context: ExtractionTurnContext | None) -> str:
+        envelope: dict[str, object] = {
+            "current_user_message": message,
+            "conversation_context": None,
+        }
+        if context is not None:
+            envelope["conversation_context"] = {
+                "active_procedure_code": context.active_procedure_code,
+                "expected_field_id": context.expected_field_id,
+            }
+        return json.dumps(envelope, ensure_ascii=False, separators=(",", ":"))
+
     @staticmethod
     def _fallback(*, attempts: int, error_code: str) -> ExtractionOutcome:
         return ExtractionOutcome(
@@ -156,4 +210,4 @@ class StructuredExtractor:
         )
 
 
-__all__ = ["ExtractionOutcome", "StructuredExtractor"]
+__all__ = ["ExtractionOutcome", "ExtractionTurnContext", "StructuredExtractor"]

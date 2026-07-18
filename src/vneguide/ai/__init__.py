@@ -1,7 +1,7 @@
 """LLM providers, prompt contracts, and structured extraction."""
 
 from .config import LLMConfig, build_llm_provider, load_llm_config
-from .extractor import ExtractionOutcome, StructuredExtractor
+from .extractor import ExtractionOutcome, ExtractionTurnContext, StructuredExtractor
 from .providers import (
     LiteLLMChatCompletionsProvider,
     LLMProvider,
@@ -19,6 +19,7 @@ __all__ = [
     "ExtractionCatalog",
     "ExtractionOutcome",
     "ExtractionSchemaError",
+    "ExtractionTurnContext",
     "LLMConfig",
     "LLMProvider",
     "LiteLLMChatCompletionsProvider",

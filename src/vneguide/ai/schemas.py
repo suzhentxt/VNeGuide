@@ -24,6 +24,16 @@ _CLASSIFICATIONS = frozenset({"supported", "unsupported", "ambiguous"})
 _FIELD_TYPES = frozenset({"string", "date", "enum", "integer", "number", "boolean"})
 _ROOT_KEYS = frozenset({"classification", "procedure_code", "clarification_question", "fields"})
 _FIELD_KEYS = frozenset({"field_id", "value", "evidence"})
+_PRONOUN_ONLY_NAME_VALUES = frozenset(
+    {"tôi", "mình", "chúng tôi", "chúng mình", "tớ", "con tôi", "con của tôi"}
+)
+_UNINFORMATIVE_ENUM_EVIDENCE = frozenset(
+    {"vâng", "dạ", "đồng ý", "tôi đồng ý", "mình đồng ý", "được", "ừ", "ừm", "ok", "okay"}
+)
+_POSSESSIVE_RELATION_REFERENCE = re.compile(
+    r"^(?:cho\s+)?(?:con|bố|ba|cha|mẹ|má|vợ|chồng|ông|bà|anh|chị|em)(?:\s+của)?\s+tôi$"
+)
+_PHRASE_EDGE_CHARACTERS = " \t\r\n.,!?;:…'\"“”‘’()[]{}"
 
 
 class ExtractionSchemaError(ValueError):
@@ -426,6 +436,8 @@ def validate_extraction_payload(
         evidence = raw_field["evidence"]
         if not isinstance(field_id, str) or not field_id:
             raise ExtractionSchemaError("invalid_field", "Field ID must be a non-empty string.")
+        assert procedure_code is not None
+        spec = catalog.field(procedure_code, field_id)
         if field_id in fields:
             raise ExtractionSchemaError("duplicate_field", f"Duplicate field: {field_id!r}.")
         if not isinstance(evidence, str) or not evidence.strip() or len(evidence) > 500:
@@ -437,9 +449,9 @@ def validate_extraction_payload(
                 "unverifiable_evidence", f"Evidence for {field_id!r} is absent from the message."
             )
 
-        assert procedure_code is not None
-        spec = catalog.field(procedure_code, field_id)
         _validate_value(spec, value)
+        if _is_pronoun_only_name(spec, value) or _is_uninformative_enum_evidence(spec, evidence):
+            continue
         if not _evidence_supports_value(spec, value, evidence):
             raise ExtractionSchemaError(
                 "inconsistent_evidence",
@@ -574,6 +586,24 @@ def _contains_evidence(message: str, evidence: str) -> bool:
     return _normalise_text(evidence) in _normalise_text(message)
 
 
+def _is_pronoun_only_name(spec: FieldSpec, value: object) -> bool:
+    return (
+        spec.field_id.endswith("_full_name")
+        and isinstance(value, str)
+        and _normalise_phrase(value) in _PRONOUN_ONLY_NAME_VALUES
+    )
+
+
+def _is_uninformative_enum_evidence(spec: FieldSpec, evidence: str) -> bool:
+    if spec.field_type != "enum":
+        return False
+    phrase = _normalise_phrase(evidence)
+    return (
+        phrase in _UNINFORMATIVE_ENUM_EVIDENCE
+        or _POSSESSIVE_RELATION_REFERENCE.fullmatch(phrase) is not None
+    )
+
+
 def _evidence_supports_value(spec: FieldSpec, value: JsonScalar, evidence: str) -> bool:
     if spec.field_type == "string":
         normalised_value = _normalise_text(str(value))
@@ -628,3 +658,7 @@ def _evidence_supports_value(spec: FieldSpec, value: JsonScalar, evidence: str) 
 def _normalise_text(value: str) -> str:
     normalised = unicodedata.normalize("NFC", value).casefold()
     return " ".join(normalised.split())
+
+
+def _normalise_phrase(value: str) -> str:
+    return _normalise_text(value).strip(_PHRASE_EDGE_CHARACTERS)
