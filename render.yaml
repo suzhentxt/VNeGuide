@@ -5,7 +5,7 @@ services:
     plan: free
     region: singapore
     repo: https://github.com/suzhentxt/VNeGuide
-    branch: experiment/chat-core-v2
+    branch: dev
     buildCommand: python -m pip install --constraint deployment/requirements-api.lock ".[api]"
     startCommand: python -m vneguide.api
     healthCheckPath: /health
