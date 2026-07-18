@@ -36,6 +36,7 @@ def outcome(
     evidence: dict[str, str] | None = None,
     status: str = "success",
     error_code: str | None = None,
+    clarification_question: str | None = None,
 ) -> ExtractionOutcome:
     return ExtractionOutcome(
         status=status,
@@ -43,9 +44,13 @@ def outcome(
         procedure_code=procedure_code if status == "success" else None,
         fields={} if fields is None else fields,  # type: ignore[arg-type]
         evidence={} if evidence is None else evidence,
-        clarification_question="Bạn muốn làm thủ tục nào?"
-        if classification == "ambiguous"
-        else None,
+        clarification_question=(
+            clarification_question
+            if clarification_question is not None
+            else "Bạn muốn làm thủ tục nào?"
+            if classification == "ambiguous"
+            else None
+        ),
         attempts=1,
         error_code=error_code,
     )
@@ -385,6 +390,41 @@ def test_generic_birth_certificate_request_is_clarified_before_extraction(
     assert extractor.calls == []
 
 
+def test_dialect_birth_request_is_normalized_before_scope_clarification(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor()
+    session = ConversationSession(extractor, repository)
+
+    result = session.send("tui ưng mần giấy khai sinh")
+
+    assert result.next_action is NextAction.ASK_CLARIFICATION
+    assert "bản sao Giấy khai sinh" in result.reply
+    assert "đăng ký khai sinh mới" in result.reply
+    assert result.state.draft.procedure_code is None
+    assert extractor.calls == []
+
+
+def test_birth_clarification_can_switch_to_residence_services(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor()
+    session = ConversationSession(extractor, repository)
+
+    birth = session.send("tôi muốn làm giấy khai sinh")
+    housing = session.send("thường trú")
+    temporary = session.send("đổi thành đăng kí tạm trú")
+
+    assert "đăng ký khai sinh mới" in birth.reply
+    assert housing.state.draft.procedure_code is ProcedureCode.HOUSING_CONDITION_CONFIRMATION
+    assert "xác nhận Mẫu số 02" in housing.reply
+    assert temporary.state.draft.procedure_code is ProcedureCode.TEMPORARY_RESIDENCE_REGISTRATION
+    assert "đã chuyển sang yêu cầu mới" in temporary.reply
+    assert "đăng ký tạm trú" in temporary.reply
+    assert temporary.state.draft.revision == 1
+    assert extractor.calls == []
+
+
 def test_birth_scope_clarification_remembers_copy_choice_and_child_context(
     repository: ProcedureRepository,
 ) -> None:
@@ -538,7 +578,7 @@ def test_permanent_residence_clarification_confirms_service_before_asking_fields
     selected = session.send("tôi muốn đăng ký thường trú")
 
     assert unclear.state.draft.procedure_code is None
-    assert "đăng ký tạm trú" in unclear.reply
+    assert unclear.reply == "Bạn muốn làm thủ tục nào?"
     assert selected.state.draft.procedure_code is ProcedureCode.HOUSING_CONDITION_CONFIRMATION
     assert selected.next_action is NextAction.ASK_CLARIFICATION
     assert "xác nhận Mẫu số 02" in selected.reply
@@ -592,6 +632,31 @@ def test_active_ambiguous_turn_uses_the_deterministic_pending_question(
     )
     assert manual.next_action is NextAction.ASK_CLARIFICATION
     assert "hình thức đăng ký" in manual.reply.lower()
+
+
+def test_supported_empty_extraction_uses_natural_model_clarification(
+    repository: ProcedureRepository,
+) -> None:
+    question = (
+        "Tôi hiểu bạn đang tiếp tục hồ sơ tạm trú. "
+        "Bạn muốn đăng ký cho cá nhân, hộ gia đình hay theo danh sách?"
+    )
+    session = ConversationSession(
+        StubExtractor(
+            outcome(
+                procedure_code="1.004194",
+                clarification_question=question,
+            )
+        ),
+        repository,
+    )
+    session.initialize_procedure("1.004194")
+
+    result = session.send("Tôi chưa biết nói thế nào")
+
+    assert result.next_action is NextAction.ASK_CLARIFICATION
+    assert result.reply == question
+    assert result.suggestions == ()
 
 
 def test_birth_copy_follow_ups_keep_the_active_procedure_without_inference(

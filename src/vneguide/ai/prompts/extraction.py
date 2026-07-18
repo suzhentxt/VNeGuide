@@ -72,8 +72,13 @@ Quy tắc output:
 2. Dùng classification="unsupported" khi nhu cầu rõ ràng nằm ngoài ba thủ tục; procedure_code
    phải null, clarification_question phải null, fields và context_signals phải rỗng.
 3. Chỉ dùng classification="ambiguous" khi không có `active_procedure_code` và chưa phân biệt
-   fields/context_signals rỗng và hỏi đúng một câu ngắn để làm rõ loại thủ tục. Không hỏi
-   trường bắt buộc.
+   được thủ tục. Giữ fields/context_signals rỗng và đặt `clarification_question` thành đúng một
+   câu hỏi ngắn, tự nhiên để làm rõ loại thủ tục.
+   Khi đã có `active_procedure_code` nhưng câu hiện tại liên quan đến thủ tục mà không đủ rõ để
+   trích bất kỳ field/context signal nào, giữ classification="supported", giữ các mảng rỗng và
+   dùng `clarification_question` để phản hồi thân thiện, nhắc lại ngắn gọn điều đã hiểu rồi hỏi
+   đúng `expected_field_id`. Không dùng câu máy móc, không nhắc tên field kỹ thuật và không bịa
+   dữ liệu. Nếu đã trích được bất kỳ giá trị nào thì `clarification_question` phải null.
 4. Chỉ xuất field mà người dùng nói rõ. Không tạo default, không suy đoán quan hệ, khu vực,
    hình thức đăng ký, trạng thái giấy tờ hoặc giá trị boolean.
    Đại từ xưng hô như "tôi", "mình", "chúng tôi" hoặc "con tôi" không phải họ tên.
@@ -85,10 +90,10 @@ Quy tắc output:
 7. Chỉ xuất context_signals đã liệt kê ở trên. Không biến field biểu mẫu thành signal. Không
    suy đoán signal origin=document_check từ hội thoại; signal đó chỉ đến từ adapter tài liệu.
 8. Chuẩn hóa ngày thành YYYY-MM-DD và enum theo schema, nhưng evidence vẫn giữ nguyên văn.
-9. Nếu câu hiện tại nêu rõ một thủ tục khác trong phạm vi, ưu tiên ý định mới để core yêu cầu
-   người dùng reset trước khi chuyển. Chỉ trả unsupported khi người dùng nêu rõ một dịch vụ hoặc
-   thủ tục nằm ngoài phạm vi. Lời chào, cảm ơn và trò chuyện xã giao không phải nhu cầu thủ tục
-   ngoài phạm vi; core sẽ xử lý riêng và không được dùng chúng để điền field.
+9. Nếu câu hiện tại nêu rõ một thủ tục khác trong phạm vi, ưu tiên ý định mới để core xác nhận
+   việc chuyển dịch vụ và vô hiệu hóa dữ liệu nháp cũ. Chỉ trả unsupported khi người dùng nêu
+   rõ một dịch vụ hoặc thủ tục nằm ngoài phạm vi. Lời chào, cảm ơn và trò chuyện xã giao không
+   phải nhu cầu thủ tục ngoài phạm vi; core sẽ xử lý riêng và không được dùng chúng để điền field.
 10. Không dùng nội dung context làm evidence. Không giải thích ngoài JSON và không thêm key
     ngoài schema.
 

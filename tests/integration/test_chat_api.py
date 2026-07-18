@@ -394,6 +394,41 @@ async def test_chat_api_remembers_birth_scope_clarification_across_turns() -> No
 
 
 @pytest.mark.anyio
+async def test_chat_api_normalizes_dialect_and_allows_service_switch_during_clarification() -> None:
+    repository = ProcedureRepository.discover()
+    extractor = StubExtractor()
+    app = create_app(
+        session_factory=lambda: ConversationSession(extractor, repository),
+        repository=repository,
+    )
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post("/v1/chat/sessions", json={})
+        session_id = created.headers["X-VNeGuide-Session"]
+        birth = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "tui ưng mần giấy khai sinh"},
+        )
+        housing = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "thường trú"},
+        )
+        temporary = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "đổi thành đăng kí tạm trú"},
+        )
+
+    assert birth.status_code == 200
+    assert "đăng ký khai sinh mới" in birth.json()["reply"]
+    assert housing.json()["procedure"]["code"] == "1.013314"
+    assert "xác nhận Mẫu số 02" in housing.json()["reply"]
+    assert temporary.json()["procedure"]["code"] == "1.004194"
+    assert "đã chuyển sang yêu cầu mới" in temporary.json()["reply"]
+    assert temporary.json()["draft"]["revision"] == 1
+    assert extractor.calls == []
+
+
+@pytest.mark.anyio
 async def test_guided_help_returns_catalog_choices_without_calling_model() -> None:
     repository = ProcedureRepository.discover()
     extractor = StubExtractor()

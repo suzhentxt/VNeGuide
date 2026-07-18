@@ -463,6 +463,45 @@ class StructuredExtractorTests(unittest.TestCase):
         self.assertEqual(dict(outcome.fields), {"requester_type": "self"})
         self.assertEqual(provider.remaining, 0)
 
+    def test_supported_empty_payload_may_return_a_natural_clarification(self) -> None:
+        question = "Bạn muốn đăng ký theo cá nhân, hộ gia đình hay theo danh sách?"
+        provider = MockLLMProvider(
+            [
+                _payload(
+                    procedure_code="1.004194",
+                    clarification_question=question,
+                )
+            ]
+        )
+
+        outcome = StructuredExtractor(provider, self.catalog).extract(
+            "Tôi chưa biết nói thế nào.",
+            context=ExtractionTurnContext("1.004194", "registration_mode"),
+        )
+
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(outcome.clarification_question, question)
+        self.assertEqual(dict(outcome.fields), {})
+
+    def test_supported_payload_cannot_mix_values_and_clarification(self) -> None:
+        unsafe = _payload(
+            procedure_code="1.004194",
+            fields=[
+                {
+                    "field_id": "submission_channel",
+                    "value": "online",
+                    "evidence": "trực tuyến",
+                }
+            ],
+            clarification_question="Bạn muốn nộp thế nào?",
+        )
+        provider = MockLLMProvider([unsafe, unsafe])
+
+        outcome = StructuredExtractor(provider, self.catalog).extract("Tôi nộp trực tuyến.")
+
+        self.assertFalse(outcome.succeeded)
+        self.assertEqual(outcome.error_code, "malformed_output")
+
     def test_invalid_context_falls_back_before_provider_call(self) -> None:
         provider = MockLLMProvider([_payload()])
         extractor = StructuredExtractor(provider, self.catalog)

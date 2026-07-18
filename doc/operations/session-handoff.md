@@ -290,3 +290,19 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
 - Full Python gate đạt `309 passed`, `2 skipped`, coverage `80.61%`; npm gate đạt 22 test và build 25
   route. Bước tiếp theo sau push là chờ CI xanh, chờ Render deploy đúng SHA rồi public smoke bằng
   session mới; in-app Browser không khả dụng trong phiên này.
+
+## Bàn giao natural fallback và chuyển dịch vụ 2026-07-19
+
+- Core chuẩn hóa deterministic trước rule guard, nên “tui ưng mần giấy khai sinh” đi vào clarification
+  an toàn thay vì danh sách ba thủ tục chung. Fixture phương ngữ hiện là 17; workbook nghiên cứu vẫn
+  không được stage.
+- Pending clarification không khóa người dùng: “thường trú” chọn Mẫu 02 và câu explicit “đổi thành
+  đăng kí tạm trú” chuyển sang `1.004194`. Procedure-specific draft/suggestion cũ bị vô hiệu hóa và
+  revision tăng để response cũ không thể ghi đè.
+- Khi rule/catalog không tạo được câu trả lời, model có thể trả `clarification_question` tự nhiên
+  trong structured output. Không được đi kèm field/context signal; core luôn ưu tiên pending
+  suggestion và không giao required field, phí, thời hạn hoặc state transition cho model.
+- Gate đã chạy: Ruff lint/format, mypy strict, full pytest `316 passed`, `2 skipped`, coverage
+  `80.56%`; frontend lint/typecheck, `22/22` unit test và Next build 25 route đạt; release audit
+  `17401/11591` đạt. Bước tiếp theo: review diff, commit/push theo yêu cầu, chờ Render deploy rồi
+  smoke đúng ba lượt qua public API; chưa được ghi artifact hiện tại là production-verified.

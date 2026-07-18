@@ -25,6 +25,7 @@ from vneguide.domain import (
     ValidationResult,
     ValidationStatus,
 )
+from vneguide.language import LanguageNormalizer
 from vneguide.rules import QuestionSelector, RuleEngine
 
 from .replies import GroundedReply, ReplyComposer
@@ -60,12 +61,14 @@ class ConversationSession:
         repository: ProcedureRepository,
         *,
         reply_composer: ReplyComposer | None = None,
+        routing_normalizer: LanguageNormalizer | None = None,
     ) -> None:
         self._extractor = extractor
         self._repository = repository
         self._rules = RuleEngine(repository)
         self._questions = QuestionSelector(repository)
         self._reply_composer = reply_composer
+        self._routing_normalizer = routing_normalizer or LanguageNormalizer()
         self._state = ConversationState()
         self._closed = False
         self._contextual_reference_trusted = False
@@ -105,7 +108,20 @@ class ConversationSession:
             if active_code is not None
             else ()
         )
-        normalized = self._normalize_message(message)
+        routing_result = self._routing_normalizer.normalize(message)
+        normalized = self._normalize_message(routing_result.normalized_text)
+        raw_normalized = self._normalize_message(message)
+
+        switch_target = self._procedure_switch_target(normalized)
+        if self._pending_scope_clarification is not None and switch_target is not None:
+            return self._switch_procedure(message, switch_target)
+        if (
+            active_code is not None
+            and switch_target is not None
+            and switch_target is not active_code
+            and self._is_explicit_switch_request(normalized)
+        ):
+            return self._switch_procedure(message, switch_target)
 
         if active_code is not None and self._is_guided_form_help_request(normalized):
             self._contextual_reference_trusted = True
@@ -139,7 +155,7 @@ class ConversationSession:
                 NextAction.ASK_CLARIFICATION,
             )
 
-        if self._is_typo_birth_copy_request(normalized):
+        if self._is_typo_birth_copy_request(raw_normalized):
             return self._select_birth_copy(message, active_code)
 
         waiting_for_requester_type = (
@@ -166,7 +182,7 @@ class ConversationSession:
                 NextAction.ASK_CLARIFICATION,
             )
 
-        if self._needs_birth_scope_clarification(message):
+        if self._needs_birth_scope_clarification(normalized):
             self._contextual_reference_trusted = False
             self._pending_scope_clarification = "birth"
             active_note = ""
@@ -236,11 +252,7 @@ class ConversationSession:
             return self._unsupported(message)
         if outcome.classification == "ambiguous" or outcome.procedure_code is None:
             self._contextual_reference_trusted = False
-            if (
-                outcome.normalization is not None
-                and outcome.normalization.ambiguities
-                and outcome.clarification_question
-            ):
+            if outcome.clarification_question and active_code is None:
                 return self._reply_without_draft_change(
                     message,
                     outcome.clarification_question,
@@ -268,10 +280,15 @@ class ConversationSession:
         code = ProcedureCode(outcome.procedure_code)
         current_code = self._state.draft.procedure_code
         if current_code is not None and current_code is not code:
+            if self._is_explicit_switch_request(normalized):
+                return self._switch_procedure(message, code)
             self._contextual_reference_trusted = False
             return self._reply_without_draft_change(
                 message,
-                "Yêu cầu mới thuộc thủ tục khác. Hãy dùng /reset trước khi chuyển thủ tục.",
+                "Tôi hiểu bạn đang nhắc tới một thủ tục khác. Nếu muốn đổi, hãy nói rõ "
+                "“chuyển sang đăng ký tạm trú”, “chuyển sang xác nhận nhà ở” hoặc "
+                "“chuyển sang xin bản sao Giấy khai sinh”. Tôi sẽ xác nhận lại dịch vụ "
+                "và xóa dữ liệu nháp không còn phù hợp.",
                 NextAction.ASK_CLARIFICATION,
             )
         self._contextual_reference_trusted = True
@@ -346,6 +363,9 @@ class ConversationSession:
             )
             reply = confirmation
             action = NextAction.CONFIRM_SUGGESTION
+        elif outcome.clarification_question and not valid_fields:
+            reply = outcome.clarification_question
+            action = NextAction.ASK_CLARIFICATION
         else:
             reply, action = self._next_prompt(code)
         return self._finish_turn(
@@ -836,14 +856,7 @@ class ConversationSession:
     ) -> TurnResult:
         code = ProcedureCode.BIRTH_CERTIFICATE_COPY
         if active_code is not None and active_code is not code:
-            active_title = self._repository.get_by_code(active_code).procedure_name
-            return self._reply_without_draft_change(
-                message,
-                f"Tôi đã hiểu bạn muốn xin bản sao Giấy khai sinh, nhưng phiên hiện tại "
-                f"đang là “{active_title}”. Hãy mở đúng trang thủ tục cấp bản sao để bắt đầu "
-                "mà không làm mất dữ liệu đang nhập.",
-                NextAction.ASK_CLARIFICATION,
-            )
+            return self._switch_procedure(message, code)
 
         if active_code is None:
             pack = self._repository.get_by_code(code)
@@ -862,6 +875,53 @@ class ConversationSession:
         if self._birth_for_child:
             reply = f"Tôi đã ghi nhận bạn đang xin bản sao Giấy khai sinh cho con. {reply}"
         return self._finish_turn(message, reply, action)
+
+    def _switch_procedure(self, message: str, code: ProcedureCode) -> TurnResult:
+        """Switch only after an explicit user choice and invalidate procedure-specific state."""
+
+        current = self._state.draft.procedure_code
+        if current is code:
+            self._pending_scope_clarification = None
+            self._contextual_reference_trusted = True
+            pack = self._repository.get_by_code(code)
+            confirmation = pack.routing.get("confirmation_message")
+            reply = (
+                confirmation
+                if isinstance(confirmation, str) and confirmation.strip()
+                else f"Bạn muốn thực hiện thủ tục “{pack.procedure_name}”, đúng không?"
+            )
+            return self._finish_turn(message, reply, NextAction.ASK_CLARIFICATION)
+
+        pack = self._repository.get_by_code(code)
+        discarded = bool(self._state.draft.values or self._state.suggestions)
+        revision = self._state.draft.revision + (1 if current is not None else 0)
+        self._state = replace(
+            self._state,
+            draft=CaseDraft(
+                procedure_code=code,
+                revision=revision,
+                pack_version=pack.version,
+            ),
+            clarification_attempts={},
+            suggestions=(),
+            asked_question_ids=(),
+        )
+        self._pending_scope_clarification = None
+        self._birth_for_child = False
+        self._contextual_reference_trusted = True
+        confirmation = pack.routing.get("confirmation_message")
+        question = (
+            confirmation
+            if isinstance(confirmation, str) and confirmation.strip()
+            else f"Bạn muốn thực hiện thủ tục “{pack.procedure_name}”, đúng không?"
+        )
+        prefix = "Được, tôi đã chuyển sang yêu cầu mới. " if current is not None else ""
+        discarded_note = " Dữ liệu nháp của thủ tục trước đã được xóa." if discarded else ""
+        return self._finish_turn(
+            message,
+            f"{prefix}{question}{discarded_note}",
+            NextAction.ASK_CLARIFICATION,
+        )
 
     @staticmethod
     def _normalize_message(message: str) -> str:
@@ -939,6 +999,39 @@ class ConversationSession:
         }
 
     @staticmethod
+    def _is_explicit_switch_request(normalized: str) -> bool:
+        return any(
+            marker in f" {normalized} "
+            for marker in (
+                " doi thanh ",
+                " doi sang ",
+                " chuyen sang ",
+                " muon chuyen ",
+                " thay bang ",
+            )
+        )
+
+    def _procedure_switch_target(self, normalized: str) -> ProcedureCode | None:
+        reviewed = self._reviewed_procedure_match(normalized)
+        if reviewed is not None:
+            return reviewed
+        compact = normalized.strip()
+        if compact in {"tam tru", "dang ky tam tru"}:
+            return ProcedureCode.TEMPORARY_RESIDENCE_REGISTRATION
+        if compact in {"thuong tru", "dang ky thuong tru", "xac nhan nha o"}:
+            return ProcedureCode.HOUSING_CONDITION_CONFIRMATION
+        if compact in {"ban sao giay khai sinh", "trich luc khai sinh"}:
+            return ProcedureCode.BIRTH_CERTIFICATE_COPY
+        if self._is_explicit_switch_request(normalized):
+            if "tam tru" in normalized:
+                return ProcedureCode.TEMPORARY_RESIDENCE_REGISTRATION
+            if "thuong tru" in normalized or "xac nhan nha o" in normalized:
+                return ProcedureCode.HOUSING_CONDITION_CONFIRMATION
+            if "ban sao" in normalized and "khai sinh" in normalized:
+                return ProcedureCode.BIRTH_CERTIFICATE_COPY
+        return None
+
+    @staticmethod
     def _looks_like_service_request(normalized: str) -> bool:
         return any(
             marker in f" {normalized} "
@@ -981,10 +1074,8 @@ class ConversationSession:
         return next(iter(matches)) if len(matches) == 1 else None
 
     @staticmethod
-    def _needs_birth_scope_clarification(message: str) -> bool:
+    def _needs_birth_scope_clarification(normalized: str) -> bool:
         """Fail closed for the common phrase that names two different services."""
-
-        normalized = ConversationSession._normalize_message(message)
 
         explicit_copy_markers = (
             "ban sao",

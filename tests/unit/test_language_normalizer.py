@@ -26,6 +26,7 @@ ROOT = Path(__file__).resolve().parents[2]
     (
         ("tui muốn làm tạm chú", "tôi muốn đăng ký tạm trú"),
         ("Tui ưng mần tạm trú", "Tôi muốn đăng ký tạm trú"),
+        ("tui ưng mần giấy khai sinh", "tôi muốn làm giấy khai sinh"),
         ("hộ khẩu photo có được hông", "bản sao sổ hộ khẩu có được không"),
         ("Chừ tôi nỏ biết ở mô", "Bây giờ tôi không biết ở đâu"),
         ("Tôi muốn xin bảo sao khai sanh", "Tôi muốn xin bản sao khai sinh"),
@@ -112,7 +113,7 @@ def test_optional_model_tier_supports_text_and_speech_without_exposing_name(
         source=source,
     )
 
-    assert model.calls == ["tôi tên ⟦PROTECTED_0⟧ muốn đăng kí tạm chứ"]
+    assert model.calls == ["tôi tên ⟦PROTECTED_0⟧ muốn đăng ký tạm chứ"]
     assert "Nguyễn Thị Bảy" not in model.calls[0]
     assert result.normalized_text == "tôi tên Nguyễn Thị Bảy muốn đăng ký tạm trú"
     assert result.model_assisted

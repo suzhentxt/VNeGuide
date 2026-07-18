@@ -633,9 +633,10 @@ def validate_extraction_payload(
             raise ExtractionSchemaError(
                 "invalid_procedure", "Supported output requires a catalog procedure code."
             )
-        if clarification_question is not None:
+        if clarification_question is not None and (raw_fields or raw_context_signals):
             raise ExtractionSchemaError(
-                "invalid_clarification", "Supported output cannot ask an intent clarification."
+                "invalid_clarification",
+                "A supported output cannot combine extracted values with a clarification.",
             )
     else:
         if procedure_code is not None or raw_fields or raw_context_signals:
@@ -657,6 +658,10 @@ def validate_extraction_payload(
     if clarification_question is not None and len(clarification_question) > 500:
         raise ExtractionSchemaError(
             "invalid_clarification", "Clarification question exceeds the safe length limit."
+        )
+    if clarification_question is not None and not clarification_question.strip():
+        raise ExtractionSchemaError(
+            "invalid_clarification", "Clarification question must not be blank."
         )
 
     fields: dict[str, JsonScalar] = {}

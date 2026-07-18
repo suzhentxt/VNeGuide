@@ -147,7 +147,7 @@ smoke toàn tuyến trước khi deploy.
 | Dependency | `npm audit --audit-level=moderate` không có vulnerability ở lần release | Xem [release evidence](doc/operations/release-evidence.md) |
 | Data contract | 44 field: tạm trú 15, nhà ở 16, bản sao khai sinh 13 | `jq 'group_by(.procedure_code)' data/catalog/field_catalog.json` |
 | Rule contract | 27 rule: tạm trú 10, nhà ở 8, bản sao khai sinh 9 | `jq 'group_by(.procedure_code)' data/catalog/validation_rules.json` |
-| Evaluation data | 74 ca JSONL tổng hợp, gồm 16 ca phương ngữ/ASR/protected span | [`data/evaluation/`](data/evaluation/), [`tests/evals/`](tests/evals/) |
+| Evaluation data | 75 ca JSONL tổng hợp, gồm 17 ca phương ngữ/ASR/protected span | [`data/evaluation/`](data/evaluation/), [`tests/evals/`](tests/evals/) |
 | CI | Python, web, container smoke và Vercel đều pass trên PR release | [progress 2026-07-19](doc/operations/progress.md) |
 | Public E2E | Tạo session `201`; message qua Vercel → Render → OpenAI `200` | [release evidence](doc/operations/release-evidence.md) |
 
@@ -171,9 +171,10 @@ dữ liệu cuối cùng.
 5. **Grounded guidance không cần model nhớ luật:** bảy nhóm câu hỏi — phí, thời hạn, hồ sơ, trình tự,
    cơ quan, kênh nộp, kết quả — được render trực tiếp từ catalog có `source_id`. Khi model chậm, phần
    hướng dẫn cốt lõi vẫn hoạt động.
-6. **Provider abstraction và graceful degradation:** cùng contract hỗ trợ OpenAI, LiteLLM và mock;
-   timeout/malformed/refusal chuyển fallback an toàn. OCR CT01 tồn tại ở chế độ candidate-only và
-   chưa được mô tả như OCR E2E khi upload UI chưa hoàn thành.
+6. **Deterministic-first, LLM fallback tự nhiên:** rule/catalog trả lời trước cho fact đã review;
+   khi không hiểu được câu hiện tại, structured LLM được phép hỏi lại bằng tiếng Việt tự nhiên.
+   Validator cấm model vừa hỏi làm rõ vừa đề xuất dữ liệu, còn timeout/malformed/refusal vẫn chuyển
+   sang fallback nhập tay an toàn. Cùng contract hỗ trợ OpenAI, LiteLLM và mock.
 7. **Hiểu phương ngữ mà không làm sai định danh:** tầng deterministic chuẩn hóa cách nói Bắc–Trung–
    Nam, viết tắt và lỗi ASR trước extraction. Họ tên, CCCD, ngày sinh, địa chỉ, số điện thoại và mã
    hồ sơ được bảo vệ; evidence sau chuẩn hóa vẫn ánh xạ về đúng lời gốc. Câu mơ hồ tạo lựa chọn làm
@@ -216,8 +217,8 @@ bước làm rõ. Sau extraction, mỗi evidence span trên câu normalized đư
 giải thích được dữ liệu lấy từ câu nào của người dùng. Production không log raw/normalized text vì
 chúng có thể chứa PII.
 
-Evaluation phương ngữ hiện có 16 fixture tổng hợp Bắc/Trung/Nam, lỗi ASR và ambiguity. Reference
-classifier đạt intent accuracy raw `31,25%` và sau normalization `100%`; exact normalization `100%`,
+Evaluation phương ngữ hiện có 17 fixture tổng hợp Bắc/Trung/Nam, lỗi ASR và ambiguity. Reference
+classifier đạt intent accuracy raw `29,41%` và sau normalization `100%`; exact normalization `100%`,
 protected-span preservation `100%`, unsafe inference `0`. Đây là **offline synthetic baseline**, không
 phải kết quả người dùng thật hoặc cam kết accuracy production. Lệnh kiểm tra:
 
