@@ -36,7 +36,10 @@ ALLOWED_ENV_FILES = {".env.example", ".env.local.example"}
 SYNTHETIC_DATA_PREFIXES = ("data/evaluation/", "tests/")
 
 CONFLICT_PATTERN = re.compile(r"(?m)^(?:<{7}(?: .*)?|={7}|>{7}(?: .*)?|\|{7}(?: .*)?)$")
-PERSONAL_ID_PATTERN = re.compile(r"(?<!\d)\d{12}(?!\d)")
+# A Vietnamese personal identifier is a standalone 12-digit token. Machine identifiers in the
+# reviewed data package commonly contain 12 consecutive digits inside UUIDs, SHA-256 values, and
+# dot-delimited government codes; these boundaries keep those values from being reported as PII.
+PERSONAL_ID_PATTERN = re.compile(r"(?<![\w.-])\d{12}(?![\w.-])")
 SECRET_PATTERNS = {
     "private_key": re.compile(r"-----BEGIN (?:[A-Z ]+ )?PRIVATE KEY-----"),
     "github_token": re.compile(r"\bgh[pousr]_[A-Za-z0-9]{30,}\b"),
@@ -46,6 +49,10 @@ SECRET_PATTERNS = {
     "google_api_key": re.compile(r"\bAIza[A-Za-z0-9_-]{35}\b"),
     "slack_token": re.compile(r"\bxox[baprs]-[A-Za-z0-9-]{20,}\b"),
 }
+
+
+def contains_possible_personal_identifier(text: str) -> bool:
+    return any(len(set(match.group())) > 1 for match in PERSONAL_ID_PATTERN.finditer(text))
 
 
 def indexed_files() -> tuple[str, ...]:
@@ -97,7 +104,9 @@ def main() -> int:
         for label, pattern in SECRET_PATTERNS.items():
             if pattern.search(text):
                 findings.append(f"{label}: {relative}")
-        if not relative.startswith(SYNTHETIC_DATA_PREFIXES) and PERSONAL_ID_PATTERN.search(text):
+        if not relative.startswith(SYNTHETIC_DATA_PREFIXES) and (
+            contains_possible_personal_identifier(text)
+        ):
             findings.append(f"possible 12-digit personal identifier outside fixtures: {relative}")
 
     if findings:

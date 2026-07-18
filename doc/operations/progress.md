@@ -340,3 +340,12 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
   đã đổi backend URL sang Render và deployment `8tf1DLcUwfYtJFw18UyALrUn4zEW` đã `READY`.
 - E2E Vercel → Render → OpenAI bằng dữ liệu tổng hợp: create session `201`/1.178 giây, message
   `200`/5.039 giây; reply hỏi đúng `requester_type` và không còn phụ thuộc ngrok.
+
+### 2026-07-19 — Sửa false positive release audit trên PR #5
+
+- GitHub Actions merge result có thêm corpus từ `dev`; regex cũ nhầm 12 chữ số nằm trong UUID,
+  SHA-256, mã thủ tục dạng `TP-G12.000...` và placeholder lặp là số định danh cá nhân.
+- Scanner vẫn kiểm tra toàn bộ data package nhưng chỉ báo token 12 chữ số độc lập, không nằm trong
+  mã máy; regression test xác nhận vẫn bắt số CCCD tổng hợp 12 chữ số đứng độc lập.
+- Gate local đạt: Ruff/format/mypy sạch, `279 passed`, `2 skipped`, coverage `80.55%`. Audit branch
+  đạt `385/239`; audit trên merge result `origin/dev` + candidate đạt `17379/11569` file.

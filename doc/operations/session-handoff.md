@@ -179,3 +179,12 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
   `200`/5.039 giây.
 - Render Free sleep sau 15 phút idle và restart làm mất session in-memory; nâng plan hoặc thêm shared
   store trước demo tải cao. Lần gọi đầu sau sleep có thể cần retry do cold start.
+
+## Bàn giao CI release audit 2026-07-19
+
+- Check `python` của PR #5 từng fail vì regex PII cũ nhận UUID, SHA-256, mã thủ tục dot-delimited và
+  placeholder 12 chữ số trong corpus từ `dev` là CCCD.
+- Bản sửa không allowlist `data/procedures`; scanner tiếp tục quét toàn bộ merge result và regression
+  test vẫn bắt số định danh 12 chữ số đứng độc lập.
+- Xác minh local: Ruff/format/mypy đạt; pytest `279 passed`, `2 skipped`, coverage `80.55%`; branch
+  audit `385/239` và merge-result audit `17379/11569` đều đạt.
