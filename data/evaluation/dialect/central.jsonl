@@ -1,0 +1,3 @@
+{"raw_text":"Tôi nỏ biết đăng ký tạm trú ở mô","expected_intent":"1.004194","expected_normalized_text":"Tôi không biết đăng ký tạm trú ở đâu","protected_values":[],"must_not_infer":["submission_channel","dwelling_basis"]}
+{"raw_text":"Chừ tôi mần chi để xin bản sao khai sanh","expected_intent":"2.000635","expected_normalized_text":"Bây giờ tôi làm gì để xin bản sao khai sinh","protected_values":[],"must_not_infer":["requester_type","copies_requested"]}
+{"raw_text":"Tôi ở tại thôn Chừ, xã Bình An và muốn đăng ký tạm chú","expected_intent":"1.004194","expected_normalized_text":"Tôi ở tại thôn Chừ, xã Bình An và muốn đăng ký tạm trú","protected_values":["thôn Chừ"],"must_not_infer":["registration_mode"]}

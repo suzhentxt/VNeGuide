@@ -1,0 +1,2 @@
+{"raw_text":"Tôi cần giấy nhà","expected_intent":"ambiguous","expected_normalized_text":"Tôi cần giấy nhà","protected_values":[],"must_not_infer":["Giấy chứng nhận quyền sử dụng đất","Giấy xác nhận chỗ ở","1.013314"]}
+{"raw_text":"giấy nhà có được hông","expected_intent":"ambiguous","expected_normalized_text":"giấy nhà có được không","protected_values":[],"must_not_infer":["Giấy chứng nhận quyền sử dụng đất","Giấy xác nhận chỗ ở","1.013314"]}

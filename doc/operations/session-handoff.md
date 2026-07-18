@@ -302,3 +302,145 @@ npm.cmd run check
 Sau gate, chạy một probe synthetic qua `StructuredExtractor` cho các câu “Đăng ký tạm trú cần giấy
 gì và phí bao nhiêu?” và “Theo danh sách tức là gì?”, ghi model/version/timestamp nhưng không ghi raw
 prompt, evidence hoặc secret. Chỉ khi pass mới commit; không push nếu chưa có yêu cầu mới.
+
+## Bàn giao Vercel production 2026-07-18
+
+- Project đã sẵn sàng tại `trinhs-projects-e6e09c31/vneguide`; Root Directory là `demoweb`, framework
+  Next.js và production env `VNEGUIDE_API_BASE_URL` đã được cấu hình.
+- Production deployment `HGBB73U7JGdaQay1V8DcU8tvNKGc` đã `READY` tại
+  `https://vneguide.vercel.app/`; SSO Protection đã tắt theo xác nhận của chủ project.
+
+Không dùng `vercel redeploy` với deployment `dpl_3McXuEUTANRxvYnBLGnQ1n1LXa8U`: source archive đó
+thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit mới là bắt buộc.
+
+- Smoke công khai đạt: trang chủ/ba procedure `200`, backend health `200`, tạo chat session qua BFF
+  `201`; portal-options thiếu query trả `400` đúng thiết kế. Preview vẫn phụ thuộc FastAPI
+  `127.0.0.1:18000` cùng tunnel ngrok; tunnel hoặc máy local dừng thì chatbot trên Vercel cũng dừng.
+- Bằng chứng sau smoke: ngrok `ERR_NGROK_3200` khi process local kết thúc; BFF hiển thị
+  `invalid_backend_response` vì endpoint offline trả HTML thay vì JSON. Phải deploy FastAPI lên host
+  bền vững hoặc giữ đồng thời process API/ngrok trên máy demo.
+
+## Bàn giao Render API 2026-07-18
+
+- `render.yaml` đã sẵn sàng cho Python service `vneguide-api` trên Free plan/Singapore, dùng
+  constraint lock hiện hành, một API process và health check `/health`.
+- Targeted API gate đạt `29 passed`; image local build thành công và container health `200`.
+- Service `srv-d9dqule1a83c73b989s0`, deploy `dep-d9dr0nf41pts73docp7g` đang `live` tại
+  `https://vneguide-api.onrender.com`; direct model smoke đạt health `200`, session `201`, message
+  `200`. Secret chỉ tồn tại trong Render Environment.
+- Vercel production env đã trỏ sang Render; deployment `8tf1DLcUwfYtJFw18UyALrUn4zEW` `READY` và
+  alias `https://vneguide.vercel.app` giữ nguyên. E2E create `201`/1.178 giây, message
+  `200`/5.039 giây.
+- Render Free sleep sau 15 phút idle và restart làm mất session in-memory; nâng plan hoặc thêm shared
+  store trước demo tải cao. Lần gọi đầu sau sleep có thể cần retry do cold start.
+
+## Bàn giao CI release audit 2026-07-19
+
+- Check `python` của PR #5 từng fail vì regex PII cũ nhận UUID, SHA-256, mã thủ tục dot-delimited và
+  placeholder 12 chữ số trong corpus từ `dev` là CCCD.
+- Bản sửa không allowlist `data/procedures`; scanner tiếp tục quét toàn bộ merge result và regression
+  test vẫn bắt số định danh 12 chữ số đứng độc lập.
+- Xác minh local: Ruff/format/mypy đạt; pytest `279 passed`, `2 skipped`, coverage `80.55%`; branch
+  audit `385/239` và merge-result audit `17379/11569` đều đạt.
+- Next tracing root làm Docker artifact nằm tại `/app/app/server.js`; `web.Dockerfile` đã đồng bộ
+  entrypoint và asset path theo artifact này. Compose smoke trên cổng riêng xác nhận ba service
+  healthy, API `3/3` và web `3/3` trả `200`; project test đã được `down --volumes`.
+
+## Bàn giao README cho ban giám khảo 2026-07-19
+
+- Bắt đầu review tại phần “Dành cho ban giám khảo — bản đồ chấm 100 điểm” trong `README.md`; mỗi tiêu
+  chí có code/evidence hoặc nhãn mục tiêu pilot rõ ràng.
+- Không đổi số liệu pilot thành claim thực tế khi chưa có baseline người dùng thật. Các blocker vẫn
+  phải công khai: session chưa durable, preview không có SLA, OCR chưa nối upload UI, browser E2E và
+  video dự phòng chưa hoàn tất.
+- Bước trình bày tiếp theo: chạy preflight public URL, record video theo
+  `doc/operations/demo-and-pitch.md` và để hai người review offline trước giờ chấm.
+
+## Bàn giao lỗi routing alias 2026-07-19
+
+- Local `dev` có fallback routing từ procedure pack: nếu model trả sai `ambiguous`/`unsupported` cho
+  một tên hoặc alias duy nhất đã review, core chọn đúng procedure thay vì báo ngoài phạm vi.
+- Transcript “làm bản sao giấy khai sinh” → “cấp bản sao Giấy khai sinh” được khóa bằng regression;
+  alias của `1.004194` và `1.013314` cũng được kiểm tra. Câu “làm giấy khai sinh” không có từ “bản
+  sao/trích lục” vẫn đi qua clarification an toàn.
+- Full Python gate đạt `284 passed`, `2 skipped`, coverage `80.65%`; Ruff, format và mypy đạt.
+- `origin/dev` đã nhận bản sửa `7ea8ff5d` và cấu hình Render `e341b55a`. Service hiện theo branch
+  `dev`; deploy `dep-d9dt5lvaqgkc73cvj7ug` đã `live` và public smoke đúng transcript đạt `200/200`,
+  cùng procedure `2.000635`, không còn false out-of-scope.
+- Bước tiếp theo: chạy browser manual bằng một session mới sau cold start và record video dự phòng;
+  không dùng session cũ vì Render restart làm mất memory.
+
+## Bàn giao khóa nhánh Vercel 2026-07-19
+
+- `demoweb/vercel.json` đã khai báo chỉ `dev` được kích hoạt Git deployment; các branch khác khớp
+  wildcard `false` và không còn tạo Preview Deployment sau khi nhận commit cấu hình này.
+- Setting cloud vẫn đang là `link.productionBranch=main`. Bước tiếp theo bắt buộc: mở project
+  `vneguide` trên Vercel, vào `Settings → Environments → Production → Branch Tracking`, nhập `dev`
+  và Save. Sau đó push một commit mới vào `dev` để xác minh deployment có target `production` và
+  alias `vneguide.vercel.app` được cập nhật.
+
+## Bàn giao routing thường trú 2026-07-19
+
+- `data/catalog/procedure_packs/housing_condition_confirmation.json` version `2.0.1` coi “đăng ký
+  thường trú” là routing shorthand của `1.013314`; đây không phải việc mở phạm vi sang thủ tục
+  đăng ký thường trú `1.004222`.
+- Regression exact transcript nằm trong `tests/unit/test_conversation.py`; full Python gate đạt
+  `287 passed`, `2 skipped`, coverage `80.60%`.
+- Bước tiếp theo sau khi push/redeploy: tạo session production mới và smoke hai lượt đúng transcript;
+  Render restart làm mất session in-memory nên không tái sử dụng cookie cũ.
+
+## Bàn giao chuẩn hóa phương ngữ 2026-07-19
+
+- Nhánh `feature/vietnamese-dialect-normalization` có module deterministic/model-assisted, protected
+  spans, evidence mapping và 15 fixture tổng hợp. Workbook nguồn được ignore và tuyệt đối không stage.
+- Tầng deterministic mặc định luôn chạy. Model-assisted mặc định tắt; bật bằng
+  `VNEGUIDE_LANGUAGE_MODEL_ASSISTED=1` khi chấp nhận thêm một model call cho câu còn dấu hiệu chưa
+  chuẩn. Production không được log `NormalizationResult` vì chứa raw/normalized text trong memory.
+- Full gate đạt `304 passed`, `2 skipped`, coverage `80.59%`; frontend `npm run check` và release
+  audit đều đạt. Bước tiếp theo sau merge là smoke một session mới với các câu “tui muốn làm tạm
+  chú”, “hộ khẩu photo có được hông” và “Tôi cần giấy nhà”; chỉ bật model-assisted sau khi đo latency,
+  cost và tỉ lệ ambiguity trên traffic tổng hợp.
+
+## Bàn giao audit tiêu chí và browser E2E 2026-07-19
+
+- Browser suite nằm ở `demoweb/e2e/`, chạy production build + FastAPI mock bằng
+  `cd demoweb && npm run test:e2e`. Baseline hiện tại: `15 passed, 1 skipped`; OCR test cố ý `fixme`
+  cho tới khi có upload API/UI thật.
+- BFF field route tự tạo lại session khi backend trả 404/410 hoặc procedure cookie không khớp route;
+  header `X-VNeGuide-Session-Recreated: 1` khiến workspace rebase revision nhưng giữ các local field
+  chưa đồng bộ.
+- Form tạm trú chỉ chặn severity `error`/`needs_review`; severity `info` được render trong “Thông tin
+  tham khảo”. Draft còn missing field không được core báo `ready_to_submit`.
+- Ma trận readiness ở `doc/operations/judging-readiness.md`; không đổi 82/100 evidence coverage thành
+  claim điểm thi. Bốn bằng chứng ngoài code còn thiếu: usability test người dùng mục tiêu, sponsor/LOI
+  pilot, DPIA/security assessment độc lập và video backup được hai người review.
+- Bước tiếp theo cụ thể: commit/push thay đổi này lên `dev`, chờ CI xanh, xác minh Vercel/Render deploy
+  đúng SHA mới rồi append deployment ID/timestamp vào `release-evidence.md`. Sau đó record video; không
+  đưa video, PII hoặc secret vào Git.
+
+## Bàn giao README chi tiết 2026-07-19
+
+- Phần đầu README hiện có executive summary và value flow, trong đó phương ngữ/ASR là năng lực sản
+  phẩm nhìn thấy ngay thay vì chỉ nằm sâu trong mục kiến trúc.
+- Mục AI-Native có pipeline và ví dụ synthetic cho normalization, protected spans, ambiguity và raw
+  evidence mapping. Giữ nguyên nhãn offline baseline, không trình bày `100%` fixture như accuracy
+  production.
+- Sau khi merge/push `dev`, chờ GitHub Actions E2E và Vercel/Render deploy đúng SHA mới; public smoke
+  bằng session mới rồi mới cập nhật evidence deployment.
+- GitHub runner hiện dùng npm 11.16.0; khi đổi Playwright/Next dependency phải regenerate và kiểm
+  `npm ci` bằng cùng major/minor để tránh optional peer bị thiếu trong lockfile.
+
+## Bàn giao OpenAI + routing phương ngữ 2026-07-19
+
+- Local API giờ tự đọc `.env` nếu file tồn tại; không cần nhớ đặt
+  `VNEGUIDE_LLM_ENV_FILE=.env`. Environment của Render vẫn có ưu tiên cao hơn và `.env` không được
+  stage/commit.
+- Live provider smoke và FastAPI transcript đã chứng minh key gọi được OpenAI Responses API với
+  `gpt-4o-mini`. Grounded FAQ/small talk có thể bypass model theo thiết kế; intent và structured field
+  extraction vẫn gọi provider.
+- “Tui ưng mần tạm trú” route tới `1.004194`. “tôi muốn xin giấy tờ thường trú” được hỏi làm rõ;
+  lượt tiếp “tôi muốn đăng ký thường trú” route tới `1.013314` và chỉ trả xác nhận Mẫu số 02, chưa tạo
+  suggestion hoặc hỏi field.
+- Full Python gate đạt `309 passed`, `2 skipped`, coverage `80.61%`; npm gate đạt 22 test và build 25
+  route. Bước tiếp theo sau push là chờ CI xanh, chờ Render deploy đúng SHA rồi public smoke bằng
+  session mới; in-app Browser không khả dụng trong phiên này.

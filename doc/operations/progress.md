@@ -417,8 +417,8 @@ Smoke chỉ dùng dữ liệu giả và provider mock, không gửi PII hoặc g
 - [x] Backend có revisioned form-edit contract và draft snapshot.
 - [x] Full Python/npm gate đạt trên merge result Rules/AI + OCR.
 - [x] BFF gọi đúng revisioned backend field-edit contract bằng production server smoke.
-- [ ] Manual edit sync được browser E2E xác minh qua BFF và backend.
-- [ ] Rebuild/smoke container từ merge result mới.
+- [x] Manual edit sync được browser E2E xác minh qua BFF và backend.
+- [x] Rebuild/smoke API container từ merge result mới.
 - [x] OCR adapter/worker candidate-only và synthetic gate.
 - [ ] OCR API/UI sink và browser E2E thật.
 - [ ] Public hosting bền vững thay tunnel tạm.
@@ -575,3 +575,188 @@ chưa tạo commit follow-up. Không công bố metric accuracy model từ fixtu
   (7.000đ/15.000đ cá nhân, 5.000đ/10.000đ theo danh sách, lưu ý kiểm tra chính thức) mà draft
   revision và procedure không đổi.
 - Chưa push; tạo một commit follow-up trên `agent/senior-conversation-v2`.
+
+### 2026-07-18 — Chuẩn bị Vercel production
+
+- Project Vercel `trinhs-projects-e6e09c31/vneguide` đã được tạo với Root Directory `demoweb`,
+  framework Next.js, Node.js 24, build `npm run build`, install `npm ci` và output `.next`.
+- Frontend import trực tiếp `data/catalog/field_catalog.json`; Next output tracing/Turbopack dùng repo
+  root để không tạo bản sao runtime của data package. `.vercelignore` chỉ cho phép field catalog cần
+  thiết và loại `.env`, cache, dependency local, Python source, test và tài liệu khỏi payload.
+- `VNEGUIDE_API_BASE_URL` production đã trỏ tới API preview ngrok; biến này không chứa secret. API
+  `/health` trả `200 {"status":"ok"}` ngay trước lần deploy.
+- Frontend gate đạt: ESLint, TypeScript, 21/21 test và Next production build 25 route.
+- Lần upload đầu dừng ở bước detect Next.js vì Root Directory còn ở repo root; cấu hình project sau
+  đó đã được sửa và giữ lại như evidence của lần phát hành lỗi.
+- Redeploy source cũ sau khi sửa Root Directory đã nhận đúng Next.js 16.2.10 nhưng thất bại vì archive
+  không có `demoweb/src`: mẫu `.vercelignore` `src` không neo ở root đã loại cả frontend source.
+  Pattern đã đổi thành `/src`; các data directory được loại tường minh để giữ duy nhất
+  `data/catalog/field_catalog.json`. Vercel dry-run xác nhận có frontend app và field catalog, không có
+  `src/vneguide` hoặc catalog khác. Redeploy archive cũ sẽ tiếp tục thất bại.
+- Fresh production deployment `HGBB73U7JGdaQay1V8DcU8tvNKGc` đã `READY`; alias công khai là
+  `https://vneguide.vercel.app/`. SSO Protection đã tắt sau xác nhận rõ của chủ project.
+- Smoke 2026-07-18 23:29 ICT: trang chủ và ba procedure route trả `200`; backend ngrok `/health`
+  trả `200`; tạo phiên qua production BFF trả `201`. `/api/portal-options` thiếu query bắt buộc trả
+  `400` đúng validation contract.
+- Kiểm tra lại 23:34 ICT xác nhận tunnel đã dừng: ngrok trả HTML `404 ERR_NGROK_3200`, production
+  BFF trả JSON `invalid_backend_response`. Vì vậy public frontend đã bền vững nhưng chatbot chưa có
+  backend hosting bền vững; smoke trước đó chỉ hợp lệ trong lúc FastAPI và ngrok cùng chạy.
+
+### 2026-07-18 — Deploy Render FastAPI
+
+- Thêm Blueprint `render.yaml` cho Python web service `vneguide-api`: Free plan, region Singapore,
+  branch `experiment/chat-core-v2`, health check `/health`, auto-deploy sau khi CI pass.
+- Blueprint chỉ khai báo tên secret `VNEGUIDE_API_KEY` với `sync: false`; provider/model công khai là
+  `openai`/`gpt-4o-mini`. Không commit `.env`, key hoặc dữ liệu cá nhân.
+- Render CLI Blueprint validation trả `valid: true` với một create action; API targeted gate
+  `29 passed`. Image `vneguide-api:render-test` build từ
+  `deployment/api.Dockerfile` và container health trả `200 {"status":"ok"}` trên cổng 18001.
+- Render service `srv-d9dqule1a83c73b989s0`, deploy `dep-d9dr0nf41pts73docp7g` đã `live` tại
+  `https://vneguide-api.onrender.com` với secret nhập qua Dashboard; không ghi hoặc in key.
+- Direct live smoke: health `200`, create session `201`, message model thật `200`. Vercel production
+  đã đổi backend URL sang Render và deployment `8tf1DLcUwfYtJFw18UyALrUn4zEW` đã `READY`.
+- E2E Vercel → Render → OpenAI bằng dữ liệu tổng hợp: create session `201`/1.178 giây, message
+  `200`/5.039 giây; reply hỏi đúng `requester_type` và không còn phụ thuộc ngrok.
+
+### 2026-07-19 — Sửa false positive release audit trên PR #5
+
+- GitHub Actions merge result có thêm corpus từ `dev`; regex cũ nhầm 12 chữ số nằm trong UUID,
+  SHA-256, mã thủ tục dạng `TP-G12.000...` và placeholder lặp là số định danh cá nhân.
+- Scanner vẫn kiểm tra toàn bộ data package nhưng chỉ báo token 12 chữ số độc lập, không nằm trong
+  mã máy; regression test xác nhận vẫn bắt số CCCD tổng hợp 12 chữ số đứng độc lập.
+- Gate local đạt: Ruff/format/mypy sạch, `279 passed`, `2 skipped`, coverage `80.55%`. Audit branch
+  đạt `385/239`; audit trên merge result `origin/dev` + candidate đạt `17379/11569` file.
+- Job container sau đó phát hiện Next standalone nằm dưới `/app/app` trong image, trong khi
+  `web.Dockerfile` chạy/copy asset ở `/app`. Dockerfile đã dùng `app/server.js`,
+  `app/.next/static` và `app/public`; Compose local xác nhận API/web/gateway healthy. Smoke mock trên
+  gateway cổng test đạt API `3/3` và web `3/3`, toàn bộ HTTP `200`.
+
+### 2026-07-19 — README theo rubric chấm 100 điểm
+
+- README có bản đồ evidence và nội dung riêng cho sáu tiêu chí: kỹ thuật 20, AI-Native 20, khả thi
+  kinh doanh/pilot 20, UX 15, safety/grounding 15 và pitch 10.
+- Claim kỹ thuật chỉ dùng số liệu đã kiểm chứng: 44 field, 27 rule, 13 source register entry, 58 ca
+  evaluation JSONL, 279 Python test đạt/2 skip, coverage 80,55% và 21 web test.
+- Lộ trình pilot 12 tuần, KPI và mô hình B2G/B2B2G được ghi rõ là đề xuất/mục tiêu; không trình bày
+  như kết quả thị trường đã đạt. README giữ nguyên cảnh báo demo, giới hạn Render Free, session
+  in-memory, OCR candidate-only và browser E2E/video chưa hoàn tất.
+
+### 2026-07-19 — Chặn false out-of-scope cho alias đã review
+
+- Tái hiện production: “tôi muốn làm bản sao giấy khai sinh” bị phân loại mơ hồ; lượt xác nhận
+  “tôi muốn cấp bản sao Giấy khai sinh” bị model phân loại `unsupported` dù mã `2.000635` nằm trong
+  phạm vi.
+- Core vẫn gọi structured extractor trước để giữ khả năng lấy field trong mixed turn. Chỉ khi model
+  trả `ambiguous`/`unsupported` hoặc thiếu procedure code, tên/alias duy nhất từ procedure pack mới
+  được dùng làm routing evidence xác định; không mở rộng ngoài ba pack đã review.
+- Alias bắt đầu bằng “xin” chấp nhận hai cách diễn đạt hành động tương đương “cấp” và “làm”; nếu câu
+  khớp nhiều thủ tục thì không tự chọn. Regression bao phủ đúng transcript lỗi và alias của cả ba
+  thủ tục.
+- Gate đạt: compileall, Ruff lint/format, mypy strict; `284 passed`, `2 skipped`, coverage `80.65%`.
+- Sau khi rebase `origin/dev`, bản sửa là `7ea8ff5d`; cấu hình Render theo `dev` là `e341b55a`.
+  Deploy `dep-d9dt5lvaqgkc73cvj7ug` đã `live` lúc `2026-07-18T19:26:50Z`.
+- Public smoke Vercel → Render → OpenAI: health `200`, session `201`; hai lượt đúng transcript lỗi đều
+  `200`, trả procedure `2.000635`, `next_action=ask_clarification`, không có error hoặc thông báo ngoài
+  phạm vi. Thời gian lần lượt: health `0.239s`, session `1.298s`, turn 1 `3.464s`, turn 2 `2.590s`.
+
+### 2026-07-19 — Khóa Git deployment Vercel theo nhánh dev
+
+- Kiểm tra project `vneguide` cho thấy Git integration đang đặt Production Branch là `main`; vì vậy
+  commit `dev` trước đây tạo Preview Deployment, còn mọi nhánh khác cũng được Vercel build theo mặc
+  định.
+- `demoweb/vercel.json` chỉ cho phép Git deployment khi branch là `dev`; wildcard chặn các nhánh còn
+  lại để tránh tốn build và tạo preview ngoài quy trình release.
+- Frontend gate đạt: ESLint, TypeScript, 21/21 unit test và Next production build 25 route. Build cần
+  chạy ngoài sandbox vì Turbopack bind cổng nội bộ trong bước xử lý CSS.
+- Production Branch là setting cấp project, không nằm trong `vercel.json`. Vercel REST API v9 từ chối
+  trường `productionBranch` với `400`; browser tích hợp không khả dụng trong phiên này. Chủ project
+  cần đổi một lần tại `Settings → Environments → Production → Branch Tracking` từ `main` sang `dev`.
+
+### 2026-07-19 — Routing “đăng ký thường trú” vào xác nhận diện tích nhà ở
+
+- Theo quyết định sản phẩm, cách nói đời thường “đăng ký thường trú” được route tới thủ tục được hỗ
+  trợ `1.013314` về xác nhận Mẫu số 02/điều kiện diện tích nhà ở. Hệ thống vẫn không tuyên bố thực
+  hiện thủ tục đăng ký thường trú `1.004222` và vẫn yêu cầu xác nhận dịch vụ trước khi điều hướng.
+- Procedure pack nhà ở tăng version `2.0.1`, bổ sung hai alias đúng transcript và thông báo xác nhận
+  nêu rõ ranh giới hỗ trợ. Evaluation cũ đánh dấu cụm này unsupported đã được đổi thành supported.
+- Regression bao phủ hai lượt “đăng ký thường trú” → “xác nhận diện tích nhà ở để đăng ký thường
+  trú”; cả hai giữ procedure `1.013314`, không quay lại menu ba thủ tục và không báo ngoài phạm vi.
+- Gate đạt: compileall, Ruff lint/format, mypy 95 source; `287 passed`, `2 skipped`, coverage `80.60%`;
+  checksum procedure pack khớp data package.
+
+### 2026-07-19 — Chuẩn hóa phương ngữ, lỗi ASR và evidence
+
+- Tạo `vneguide.language` với protected span cho họ tên, CCCD, ngày sinh, địa chỉ, mã thủ tục, số
+  điện thoại và mã hồ sơ; deterministic glossary không được sửa bên trong các span này.
+- Tầng model-assisted là tùy chọn qua `VNEGUIDE_LANGUAGE_MODEL_ASSISTED`; chỉ nhận text đã thay dữ
+  liệu định danh bằng placeholder, dùng strict schema và không chứa bảng phương ngữ trong prompt.
+- Structured extractor kiểm tra trên câu normalized rồi remap evidence về câu gốc trước khi tạo
+  suggestion. Cụm mơ hồ “giấy nhà” dừng trước provider và trả ba lựa chọn, không suy luận procedure
+  hay field. Cùng contract nhận `InputSource.TEXT` và `InputSource.SPEECH`.
+- Workbook `data/DIALECT LEXICON_v2 (đã nhóm).xlsx` chỉ là input nghiên cứu cục bộ và đã được
+  `.gitignore` bằng pattern `data/DIALECT LEXICON_v2*.xlsx`; không có workbook hoặc repo tham khảo
+  ngoài scope nào trong Git index.
+- Dataset mới có 15 mẫu tổng hợp Bắc/Trung/Nam, ASR và ambiguity. Reference classifier đạt raw
+  `33.33%` và normalized `100%`; exact normalization `100%`, protected preservation `100%`, unsafe
+  inference `0`. Đây là offline fixture metric, không phải claim người dùng thật.
+- Gate đạt: compileall, Ruff lint/format, mypy 103 source; `304 passed`, `2 skipped`, coverage
+  `80.59%`; release audit `17379/11569` file đạt. Frontend gate đạt ESLint, TypeScript, `21/21` test
+  và Next production build 25 route; lần build sandbox đầu thất bại vì Turbopack không được bind
+  cổng, chạy lại ngoài sandbox đạt.
+
+### 2026-07-19 — Audit readiness theo sáu tiêu chí chấm và browser E2E
+
+- Thêm ma trận [`judging-readiness.md`](judging-readiness.md) phân biệt độ phủ evidence nội bộ với
+  điểm chấm/production readiness. Mức ước lượng nội bộ là 82/100 evidence coverage; repo chưa claim
+  100/100 vì thiếu user validation, đơn vị pilot/LOI, DPIA/pen-test độc lập và video dự phòng.
+- Đưa Playwright vào CI với đúng ba procedure route, hero đăng ký tạm trú 5/5, out-of-scope, manual
+  edit, stale/retry, reset, session bị xóa, đổi procedure và typed timeout. Kết quả local:
+  `15 passed, 1 skipped`; skip được khai báo là OCR upload UI chưa tồn tại, không được tính pass.
+- E2E phát hiện và sửa ba lỗi sản phẩm: session cookie trỏ tới backend session đã mất; đổi thủ tục vẫn
+  dùng session cũ; rule mức `info` về lệ phí bị UI coi như lỗi chặn. BFF nay tạo lại session theo
+  procedure context, form giữ local edit/rebase đúng trạng thái và thông tin không chặn nằm trong
+  vùng “Thông tin tham khảo”.
+- Core không còn trả `ready_to_submit` khi vẫn còn missing field; regression khóa hành vi này.
+- Gate 04:12 ICT đạt: Ruff lint/format, mypy 103 source; Pytest `305 passed, 2 skipped`, coverage
+  `80.58%`; frontend `22/22` unit test, lint/type/build đạt; npm audit 0 vulnerability; Playwright
+  `15 passed, 1 skipped`.
+- Public smoke trên artifact đang deploy trước thay đổi này: `https://vneguide.vercel.app/` và
+  `https://vneguide-api.onrender.com/health` đều HTTP 200; synthetic message phương ngữ đi qua
+  Vercel → Render → OpenAI trả 200 và route đúng `1.004194`. Cần push/redeploy commit mới trước khi
+  dùng public URL làm evidence cho các sửa session/readiness ở trên.
+
+### 2026-07-19 — Mở rộng README và đưa phương ngữ vào tóm tắt
+
+- Thêm phần tóm tắt giải pháp cho ban giám khảo: vấn đề, người dùng mục tiêu, ranh giới AI, đúng ba
+  thủ tục, bằng chứng chạy được và giới hạn pilot/production.
+- Đưa phương ngữ/ASR vào elevator pitch và kịch bản chấm nhanh với ví dụ tổng hợp “tui muốn làm tạm
+  chú”; không biến fixture offline thành claim người dùng thật.
+- Bổ sung pipeline protected spans → deterministic/model-assisted normalization → evidence remap →
+  ambiguity clarification → suggestion. README nêu rõ họ tên/CCCD/ngày sinh/địa chỉ không được sửa,
+  raw/normalized text không được log production và fact nghiệp vụ vẫn do source/rule quyết định.
+- Chỉ thay tài liệu; `git diff --check` và release audit staged là gate bắt buộc trước merge/push.
+
+### 2026-07-19 — Đồng bộ npm lock với GitHub runner
+
+- Quality gate sau merge phát hiện `npm ci` trên npm 11.16.0 yêu cầu hai optional peer
+  `@emnapi/core@1.11.2` và `@emnapi/runtime@1.11.2` chưa được khóa bởi npm 11.6.2 local.
+- Regenerate `demoweb/package-lock.json` bằng đúng npm 11.16.0; clean install cùng phiên bản đạt,
+  595 package và 0 vulnerability. Không đổi dependency trực tiếp hoặc application code.
+
+### 2026-07-19 — OpenAI local wiring, phương ngữ và xác nhận dịch vụ
+
+- Sửa composition root tự đọc `.env` bị Git ignore khi chạy local; process environment vẫn ghi đè,
+  nên Render tiếp tục dùng secret/config managed. Trước thay đổi, chạy API mà không đặt
+  `VNEGUIDE_LLM_ENV_FILE=.env` âm thầm rơi về provider `mock` dù key có trong file.
+- Provider-only live smoke bằng dữ liệu tổng hợp đạt
+  `MODEL_SMOKE_OK provider=openai model=gpt-4o-mini structured_output=true`. FastAPI local được khởi
+  động không truyền env-file và ba lượt transcript tổng hợp đều trả HTTP 200 qua model thật.
+- Glossary deterministic hiểu “Tui ưng mần tạm trú” thành “Tôi muốn đăng ký tạm trú”; dataset tăng
+  lên 16 fixture. Reference classifier raw `31.25%`, normalized `100%`, exact normalization `100%`,
+  protected preservation `100%`, unsafe inference `0`; đây vẫn là offline synthetic baseline.
+- Core không hỏi field ngay ở lượt vừa xác định procedure. Nó trả `confirmation_message` đã review,
+  giữ `suggestions=0`, rồi UI yêu cầu xác nhận trước khi mở trang chọn nơi nộp. Transcript “xin giấy
+  tờ thường trú” → “đăng ký thường trú” chọn `1.013314`, trả xác nhận Mẫu số 02 và không hỏi họ tên.
+- Gate đạt: Ruff lint/format, mypy strict; `309 passed`, `2 skipped`, coverage `80.61%`; frontend
+  ESLint/TypeScript, `22/22` unit test và Next production build 25 route đạt. In-app Browser không có
+  instance trong phiên; manual public click-through và GitHub browser E2E phải kiểm tra sau deploy.

@@ -30,6 +30,7 @@ from vneguide.ai.schemas import (
     decode_provider_payload,
 )
 from vneguide.domain import QATopic
+from vneguide.language import LanguageNormalizer
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 
@@ -131,6 +132,47 @@ class StructuredExtractorTests(unittest.TestCase):
                     )
                 else:
                     self.assertIsNone(outcome.information_request)
+
+    def test_dialect_is_normalized_for_model_and_evidence_returns_to_raw_turn(self) -> None:
+        raw_message = "tui muốn xin 2 bản giấy khai sanh"
+        normalized_message = "tôi muốn xin 2 bản giấy khai sinh"
+        provider = MockLLMProvider(
+            [
+                _payload(
+                    fields=[
+                        {
+                            "field_id": "copies_requested",
+                            "value": 2,
+                            "evidence": normalized_message,
+                        }
+                    ]
+                )
+            ]
+        )
+
+        outcome = StructuredExtractor(
+            provider,
+            self.catalog,
+            normalizer=LanguageNormalizer(),
+        ).extract(raw_message)
+
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(outcome.fields["copies_requested"], 2)
+        self.assertEqual(outcome.evidence["copies_requested"], raw_message)
+        self.assertIsNotNone(outcome.normalization)
+        envelope = json.loads(provider.calls[0].user_prompt)
+        self.assertEqual(envelope["current_user_message"], normalized_message)
+
+    def test_known_language_ambiguity_does_not_call_provider(self) -> None:
+        provider = MockLLMProvider([])
+
+        outcome = StructuredExtractor(provider, self.catalog).extract("Tôi cần giấy nhà")
+
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(outcome.classification, "ambiguous")
+        self.assertEqual(outcome.attempts, 0)
+        self.assertEqual(provider.calls, [])
+        self.assertIn("Giấy chứng nhận quyền sử dụng đất", outcome.clarification_question or "")
 
     def test_every_call_receives_strict_catalog_schema(self) -> None:
         provider = MockLLMProvider([_payload()])

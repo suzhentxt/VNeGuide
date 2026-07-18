@@ -24,12 +24,14 @@
   },
   "routing": {
     "aliases": [
+      "đăng ký thường trú",
       "xin xác nhận diện tích nhà ở",
+      "xác nhận diện tích nhà ở để đăng ký thường trú",
       "xác nhận nhà thuê đủ diện tích nhập khẩu",
       "Mẫu số 02 chỗ ở",
       "xác nhận nhà đất không tranh chấp để đăng ký thường trú"
     ],
-    "confirmation_message": "Bạn cần UBND cấp xã xác nhận Mẫu số 02 về tình trạng chỗ ở và diện tích để đăng ký thường trú vào nhà thuê, mượn hoặc ở nhờ, đúng không?",
+    "confirmation_message": "Bạn muốn làm bước xác nhận Mẫu số 02 về tình trạng chỗ ở và diện tích để đăng ký thường trú vào nhà thuê, mượn hoặc ở nhờ, đúng không? VNeGuide hỗ trợ bước xác nhận này, không thực hiện thủ tục đăng ký thường trú thay bạn.",
     "required_clarifications": [
       "legal_dwelling_address",
       "hanoi_zone",

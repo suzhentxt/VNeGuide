@@ -97,6 +97,24 @@ def test_fields_remain_pending_until_accept_and_edit(repository: ProcedureReposi
     assert edited.state.messages[-1].content == edited.reply
 
 
+def test_incomplete_draft_is_never_reported_ready_to_submit(
+    repository: ProcedureRepository,
+) -> None:
+    session = ConversationSession(
+        StubExtractor(outcome(procedure_code="1.004194")),
+        repository,
+    )
+
+    session.send("Tôi muốn đăng ký tạm trú")
+    result = session.send("Đúng")
+
+    assert result.missing_fields
+    assert result.validation is not None
+    assert result.validation.status.value == "needs_correction"
+    assert result.validation.readiness_score is None
+    assert result.next_action is NextAction.ASK_CLARIFICATION
+
+
 def test_reject_does_not_change_draft_and_caps_retries(
     repository: ProcedureRepository,
 ) -> None:

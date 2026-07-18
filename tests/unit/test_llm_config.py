@@ -36,6 +36,7 @@ class LLMConfigTests(unittest.TestCase):
                         "VNEGUIDE_LITELLM_API_KEY=litellm-test-key",
                         "VNEGUIDE_LITELLM_ALLOW_INSECURE_HTTP=yes",
                         "VNEGUIDE_LITELLM_DISABLE_THINKING=1",
+                        "VNEGUIDE_LANGUAGE_MODEL_ASSISTED=yes",
                         "VNEGUIDE_SESSION_FACTORY=ignored:value",
                     )
                 ),
@@ -50,6 +51,7 @@ class LLMConfigTests(unittest.TestCase):
         self.assertEqual(config.litellm_base_url, "http://127.0.0.1:9207/")
         self.assertTrue(config.litellm_allow_insecure_http)
         self.assertTrue(config.litellm_disable_thinking)
+        self.assertTrue(config.language_model_assisted)
         self.assertNotIn("litellm-test-key", repr(config))
         self.assertIsInstance(build_llm_provider(config), LiteLLMChatCompletionsProvider)
 
@@ -91,6 +93,8 @@ class LLMConfigTests(unittest.TestCase):
     def test_rejects_invalid_boolean_duplicate_env_and_missing_litellm_settings(self) -> None:
         with self.assertRaises(ProviderConfigurationError):
             load_llm_config({"VNEGUIDE_LITELLM_DISABLE_THINKING": "sometimes"})
+        with self.assertRaises(ProviderConfigurationError):
+            load_llm_config({"VNEGUIDE_LANGUAGE_MODEL_ASSISTED": "sometimes"})
 
         with tempfile.TemporaryDirectory() as temporary_directory:
             env_file = Path(temporary_directory) / ".env"

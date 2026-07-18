@@ -20,3 +20,7 @@ venv/
 logs/
 .vneguide-memory/
 
+.vercel
+
+# Local research inputs; never publish source workbooks.
+/data/DIALECT LEXICON_v2*.xlsx

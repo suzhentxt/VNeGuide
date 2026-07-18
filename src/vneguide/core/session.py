@@ -638,6 +638,12 @@ class ConversationSession:
         if code is not None:
             validation = self._rules.validate(code, self._state.draft.values)
             missing = self._rules.missing_fields(code, self._state.draft.values)
+            if missing and validation.status is ValidationStatus.READY_TO_SUBMIT:
+                validation = replace(
+                    validation,
+                    status=ValidationStatus.NEEDS_CORRECTION,
+                    readiness_score=None,
+                )
             resolved_source_ids = self._repository.get_by_code(code).source_ids
         if source_ids is not None:
             resolved_source_ids = tuple(dict.fromkeys(source_ids))

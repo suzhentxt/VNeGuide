@@ -26,6 +26,7 @@ _ENV_FILE_KEYS = frozenset(
         "VNEGUIDE_LITELLM_DISABLE_THINKING",
         "VNEGUIDE_LLM_LOG",
         "VNEGUIDE_LLM_LOG_PATH",
+        "VNEGUIDE_LANGUAGE_MODEL_ASSISTED",
         "VNEGUIDE_LLM_PROVIDER",
         "VNEGUIDE_MODEL",
     }
@@ -46,6 +47,7 @@ class LLMConfig:
     litellm_disable_thinking: bool = True
     llm_log_enabled: bool = False
     llm_log_path: str = _DEFAULT_LLM_LOG_PATH
+    language_model_assisted: bool = False
 
 
 def load_llm_config(
@@ -83,6 +85,11 @@ def load_llm_config(
         default=False,
     )
     llm_log_path = source.get("VNEGUIDE_LLM_LOG_PATH", "").strip() or _DEFAULT_LLM_LOG_PATH
+    language_model_assisted = _read_boolean(
+        source,
+        "VNEGUIDE_LANGUAGE_MODEL_ASSISTED",
+        default=False,
+    )
     return LLMConfig(
         provider=provider,
         model=model,
@@ -92,6 +99,7 @@ def load_llm_config(
         litellm_disable_thinking=disable_thinking,
         llm_log_enabled=llm_log_enabled,
         llm_log_path=llm_log_path,
+        language_model_assisted=language_model_assisted,
     )
 
 

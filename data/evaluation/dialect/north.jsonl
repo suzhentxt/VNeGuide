@@ -1,0 +1,2 @@
+{"raw_text":"Tôi muốn đăng ký tạm trú nhể","expected_intent":"1.004194","expected_normalized_text":"Tôi muốn đăng ký tạm trú nhỉ","protected_values":[],"must_not_infer":["registration_mode","submission_channel"]}
+{"raw_text":"Tôi tên Nguyễn Văn Nhể và muốn xin bản sao giấy khai sinh","expected_intent":"2.000635","expected_normalized_text":"Tôi tên Nguyễn Văn Nhể và muốn xin bản sao giấy khai sinh","protected_values":["Nguyễn Văn Nhể"],"must_not_infer":["requester_type","copies_requested"]}

@@ -35,6 +35,6 @@ demo và ổ chia sẻ của đội. Không commit video lớn hoặc transcript
 
 ## Trạng thái hiện tại
 
-Video chưa được record vì frontend hiện vẫn là Hôn nhân và gia đình ngoài scope và phiên automation
-không có browser tab. Chỉ đánh dấu “video sẵn sàng” sau khi UI branch đúng ba thủ tục được merge,
-browser E2E đạt và hai người trong đội xem lại toàn bộ file offline.
+Frontend hiện đã khóa đúng ba thủ tục; Playwright bao phủ ba route, hero tạm trú 5/5 và các luồng
+phục hồi chính. Video **chưa được record**. Chỉ đánh dấu “video sẵn sàng” sau khi quay bằng dữ liệu
+tổng hợp, hai người trong đội xem lại toàn bộ file và thử phát offline cả tiếng lẫn hình.
