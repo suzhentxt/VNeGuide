@@ -9,6 +9,10 @@ cho thủ tục `1.004194`:
 OCR không xác minh chữ ký, danh tính, quyền sở hữu hay giá trị pháp lý. Kết quả chỉ là `pass`,
 `needs_review` hoặc `fail`; không có raw text và không tự điền draft.
 
+`pass` yêu cầu confidence tổng thể và từng tiêu chí bắt buộc đều đạt ít nhất `0.90`. Web chỉ trình bày
+hai kết quả cuối cho người dùng: `Không hợp lệ` khi không đạt/nghi ngờ/lỗi, hoặc
+`Hợp lệ, tài liệu sẽ cần kiểm tra chính thức` khi đạt ngưỡng nghiêm ngặt. Chỉ kết quả thứ hai mở gate.
+
 ## Chạy local
 
 ```powershell

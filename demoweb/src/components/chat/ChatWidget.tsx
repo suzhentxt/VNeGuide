@@ -386,7 +386,7 @@ export function ChatWidget() {
           ) : null}
 
           <div
-            className="flex-1 space-y-3 overflow-y-auto bg-[#f7f8fa] px-4 py-4"
+            className="min-h-0 flex-1 space-y-3 overflow-y-auto bg-[#f7f8fa] px-4 py-4"
             onScroll={handleListScroll}
             ref={listRef}
           >
@@ -460,7 +460,7 @@ export function ChatWidget() {
               })}
             </div>
 
-            {documentStepActive && context.procedure_code === "1.004194" ? (
+            {!showUploadPanel && documentStepActive && context.procedure_code === "1.004194" ? (
               <section className="space-y-3 rounded-xl border-2 border-[#ce7a58] bg-[#fff8f5] p-3">
                 <div>
                   <p className="font-extrabold text-[#903938]">Kiểm tra giấy tờ ở bước 2</p>
@@ -740,7 +740,7 @@ export function ChatWidget() {
           </div>
 
           {showUploadPanel ? (
-            <section className="border-t border-[#e2e6ea] bg-[#fffdf9] p-3">
+            <section className="max-h-[min(42dvh,360px)] min-h-0 shrink-0 overflow-y-auto overscroll-contain border-t border-[#e2e6ea] bg-[#fffdf9] p-3" aria-label="Tải tài liệu OCR">
               <div className="mb-2 flex items-center justify-between">
                 <p className="flex items-center gap-1.5 text-xs font-extrabold tracking-wide text-[#903938] uppercase">
                   <Paperclip className="size-4 shrink-0" />
@@ -760,7 +760,7 @@ export function ChatWidget() {
                 tải tài liệu demo hoặc đã ẩn danh; OCR chỉ sàng lọc nhẹ và không kết
                 luận giá trị pháp lý.
               </p>
-              <div className="space-y-3">
+              <div className="min-w-0 space-y-3">
                 <DocumentUploadCard compact kind="legal_dwelling" />
                 <DocumentUploadCard compact kind="minor_consent" />
               </div>

@@ -1,5 +1,21 @@
 # Nhật ký tiến độ VNeGuide
 
+## 2026-07-19 — Sửa kích thước panel OCR trong chatbot và siết điều kiện hợp lệ
+
+- Tách nhánh `fix/ocr-chat-upload-ui` từ `integrate/dev-refactor`; không sửa/push trực tiếp nhánh tích hợp.
+- Nguyên nhân oversize là hai bộ `DocumentUploadCard` cùng render khi panel paperclip mở, vùng message
+  thiếu `min-height: 0`, và panel upload không có giới hạn chiều cao. Nay bộ inline được ẩn khi panel mở;
+  panel giới hạn `min(42dvh, 360px)`, tự cuộn/overscroll-contained; card compact không render danh sách
+  tiêu chí sau upload và ẩn xác nhận demo đã hoàn tất nên không thể đẩy form chat khỏi viewport.
+- UI chỉ còn hai kết quả cuối: `Không hợp lệ` cho `fail`/`needs_review`/lỗi, và
+  `Hợp lệ, tài liệu sẽ cần kiểm tra chính thức` cho `pass`. Chỉ `pass` mở gate; không còn cách xác nhận
+  thủ công để biến kết quả chưa rõ thành hợp lệ.
+- Tăng ngưỡng pass từ `0.75` lên `0.90` cho cả confidence tổng thể và toàn bộ tiêu chí bắt buộc. Thêm
+  regression xác nhận `0.89` không pass và test mapping đúng hai trạng thái UI.
+- Xác minh hiện tại: frontend HTTP `200`, full ESLint và typecheck đạt, 37 Node test đạt; OCR targeted
+  `9 passed`, Ruff và Mypy OCR đạt. Browser tích hợp không có phiên khả dụng nên chưa chụp/click UI trực
+  tiếp; không chạy production build để tránh dừng dev server cổng 3000 mà người dùng đang sử dụng.
+
 ## 2026-07-19 — Mem0 long-term memory opt-in trên nhánh refactor
 
 - Clone shallow source chính thức `mem0ai/mem0` vào `D:\tmp\mem0-reference-20260719`, đối chiếu bản

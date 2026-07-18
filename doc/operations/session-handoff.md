@@ -1,5 +1,17 @@
 # Bàn giao phiên release
 
+## 2026-07-19 — OCR chatbot layout/status (`fix/ocr-chat-upload-ui`)
+
+- Panel paperclip OCR đã bị chặn ở tối đa 360px/42dvh và tự cuộn; message list co đúng trong flex layout,
+  không còn render trùng hai bộ card khi panel mở. Card compact sau upload chỉ hiển thị kết quả gọn.
+- UI chỉ có `Không hợp lệ` và `Hợp lệ, tài liệu sẽ cần kiểm tra chính thức`; chỉ backend `pass` mở gate.
+  `needs_review`, provider error và payload không hợp lệ đều không được coi là tài liệu hợp lệ.
+- Ngưỡng pass backend là `0.90` cho overall và từng check bắt buộc; test biên `0.89` trả `needs_review`.
+- Gate đã chạy: frontend HTTP 200, full ESLint, typecheck, 37 Node test, 9 OCR test, Ruff và Mypy OCR
+  đều đạt. Production build không chạy để tránh dừng dev server cổng 3000. Browser tích hợp không khả
+  dụng; bước tiếp theo cụ thể là click paperclip và upload hai fixture ở viewport mobile
+  và desktop khi browser session hoạt động, xác nhận panel tự cuộn và input chat vẫn luôn nhìn thấy.
+
 ## 2026-07-19 — Mem0 long-term memory opt-in (`refactor-code`)
 
 - `mem0ai 2.0.12` đã cài trong `.venv`; adapter, local Qdrant, telemetry opt-out, anonymous scope và

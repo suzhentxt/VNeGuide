@@ -3,8 +3,9 @@ import type { JsonValue } from "@/types/chat";
 export type OcrDocumentKind = "legal_dwelling" | "minor_consent";
 type GateState = {
   status: string;
-  reviewAcknowledged: boolean;
 };
+
+export type DocumentResultPresentation = "invalid" | "valid_official_review";
 
 const labels: Record<OcrDocumentKind, string> = {
   legal_dwelling: "Giấy tờ chứng minh chỗ ở hợp pháp",
@@ -28,12 +29,18 @@ export function documentBlockingMessages(
     const document = documents[kind];
     const label = labels[kind];
     if (document.status === "pass") return [];
-    if (document.status === "needs_review" && document.reviewAcknowledged) return [];
-    if (document.status === "needs_review") return [`${label}: xác nhận chuyển kiểm tra chính thức`];
     if (["queued", "running", "uploading"].includes(document.status)) {
       return [`${label}: đang kiểm tra`];
     }
-    if (document.status === "fail") return [`${label}: cần thay đúng tài liệu`];
+    if (["fail", "needs_review", "error"].includes(document.status)) {
+      return [`${label}: không hợp lệ, cần thay tài liệu`];
+    }
     return [`${label}: chưa có kết quả kiểm tra`];
   });
+}
+
+export function documentResultPresentation(status: string): DocumentResultPresentation | null {
+  if (status === "pass") return "valid_official_review";
+  if (["fail", "needs_review", "error"].includes(status)) return "invalid";
+  return null;
 }
