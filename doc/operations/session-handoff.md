@@ -16,11 +16,16 @@
 - Repo có thêm `demoweb/`, một giao diện Next.js độc lập; thư mục này không phụ thuộc tool clone hoặc dữ liệu capture ban đầu.
 - Luồng Hôn nhân và gia đình trong `demoweb` đã sửa catalog, lựa chọn dịch vụ/đơn vị, form không điền sẵn PII và tải cơ quan có timeout/thử lại.
 - Session web dùng cookie `HttpOnly`; Python store hiện là in-memory single-process với TTL/capacity/per-session lock.
+- Agent giữ compact memory theo session bằng mã thủ tục đang làm và field đang chờ; raw transcript và
+  draft value không được gửi lại sang model ở lượt sau.
+- Branch `agent/memory-form-sync` đã có draft response đầy đủ, manual field-edit API với optimistic
+  revision, route-context seeding và `asked_question_ids`; form edit là `confirmed + dirty`. Create/GET
+  session trả top-level draft snapshot để web hydrate ngay cả trước chat turn.
 
 ## Việc đã xác minh
 
-- Python 3.11.9 trên working tree hợp nhất: Compileall, Ruff lint/format và Mypy strict pass;
-  Pytest `91 passed, 1 skipped`, coverage `80.64%`.
+- Python 3.11.9 trên working tree hiện tại: Compileall, Ruff lint/format và Mypy strict pass;
+  Pytest `154 passed, 1 skipped`, coverage `82.50%`.
 - Terminal mock smoke nạp `vneguide.core:create_session` và `/quit` an toàn, không gọi provider
   ngoài.
 - `demoweb`: `npm run check` pass; ESLint, TypeScript và production build đủ 29 route, gồm ba BFF
@@ -33,6 +38,12 @@
   production cho catalog, tìm kiếm, lựa chọn, redirect và API validation đều pass.
 - Live web BFF → Python API → LiteLLM pass bằng dữ liệu giả: session `201`, message `200`, nhận diện
   `1.004194` và có assistant response; không gửi PII hoặc hồ sơ thật.
+- Live multi-turn API → LiteLLM pass cho cả tạm trú và bản sao khai sinh: context sống qua small talk
+  và câu trả lời ngắn, `submission_channel=online` được map đúng, không suy diễn “tôi/con tôi” thành tên.
+- Test mới gồm 22 case multi-turn, 15 case form-sync API, 2 case race DELETE/TTL, 3 case grounding
+  và 3 case core cho `NaN/Infinity`: stale revision không mutation, GET recovery, reset sạch, invalid
+  field/type/enum/blank/non-finite, pending suggestion bị manual edit vô hiệu hóa và câu mơ hồ không
+  tạo enum/name suy diễn.
 
 ## Rủi ro
 
@@ -51,16 +62,20 @@
 - Danh sách Phường/Xã và Sở phụ thuộc upstream `vpcp.dichvucong.gov.vn`; khi upstream lỗi hoặc quá hạn, UI hiển thị lỗi và cho phép thử lại thay vì dùng dữ liệu giả.
 - Bốn mã đang hoạt động trên web (`1.000894`, `2.000806`, `1.004859`, `2.000748`) chưa có procedure pack backend; chat hiển thị scope warning và chưa thể kết luận nghiệp vụ cho các mã này.
 - In-memory session store chỉ phù hợp một API worker; cần Redis hoặc store dùng chung trước khi scale nhiều worker.
+- Compact memory mất khi API restart hoặc session hết TTL; đây chưa phải long-term/persistent memory.
+- Frontend chưa có BFF/form binding cho endpoint field-edit mới; Người 1 cần thêm proxy dùng cookie
+  `HttpOnly`, đồng bộ `draft.values` và bỏ response có revision thấp hơn state form hiện tại.
+- `draft.revision` chỉ là optimistic token của form/suggestion; message retry dùng `client_turn_id`.
+  Không dùng draft revision làm transcript revision nếu chưa mở rộng contract riêng.
 - `npm audit --omit=dev` hiện báo 12 advisory production, gồm 4 mức high (trong đó có Next.js và
   dependency gián tiếp). Không deploy Internet trước khi nâng dependency có review và chạy lại gate.
 
 ## Bước tốt nhất tiếp theo
 
-Trước khi deploy, nâng dependency web để xử lý advisory rồi chạy lại `npm run check` và audit. Tiếp
-theo, review/bổ sung data package cho bốn thủ tục Hôn nhân và gia đình, nối 10 rule-context signal vào
-extraction/core và hoàn thiện CLI để hiển thị suggestion ID, gọi đúng Accept/Reject/Edit. Chạy E2E
-terminal/API/web bằng dữ liệu tổng hợp. Chỉ dùng LiteLLM HTTP cho smoke dữ liệu giả; không gửi PII
-hoặc hồ sơ thật trước khi gateway có HTTPS.
+Người 1 nối form vào draft contract mới qua BFF, xử lý `stale_revision` bằng GET recovery và chạy hero
+tạm trú 5/5. Sau đó Release Captain chạy E2E, nâng dependency web để xử lý advisory rồi audit/deploy.
+Tiếp tục chỉ dùng LiteLLM HTTP cho smoke dữ liệu giả; không gửi PII hoặc hồ sơ thật trước khi gateway
+có HTTPS.
 
 ## Lệnh
 

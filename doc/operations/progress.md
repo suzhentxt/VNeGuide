@@ -2,8 +2,8 @@
 
 ## Trạng thái hiện tại
 
-- Repository: `D:\VAIC_UET`, nhánh `dev`; source hiện kết hợp LiteLLM/core/rules với HTTP API và
-  demoweb từ `main`.
+- Repository: `D:\VAIC_UET`, nhánh `agent/memory-form-sync`; source hiện kết hợp
+  LiteLLM/core/rules với HTTP API và demoweb từ `main`.
 - Phạm vi nghiệp vụ đã review vẫn là ba procedure pack trong `data/README.md`.
 - Domain/data foundation, structured extraction, LiteLLM provider, deterministic rule engine,
   suggestion-aware conversation core và CLI harness đều đã có source.
@@ -11,6 +11,8 @@
 - Provider trực tiếp hỗ trợ `mock`, OpenAI Responses và LiteLLM Chat Completions.
 - FastAPI Chat API, Next.js BFF và chatbox route-scoped cho mục Hôn nhân và gia đình đã được
   triển khai; API hỗ trợ send/Accept/Reject/Edit/reset.
+- Extractor nhận compact turn context từ session (`active_procedure_code`, `expected_field_id`)
+  để nối nghĩa câu trả lời ngắn mà không gửi transcript hoặc draft chứa PII sang model.
 - Bốn procedure code đang có luồng giao diện trên web chưa thuộc data package backend hiện hành;
   API/UI phải tiếp tục cảnh báo ngoài phạm vi và không tự suy đoán rule hoặc checklist.
 
@@ -35,6 +37,51 @@ liệu hành chính thật qua gateway HTTP; cần HTTPS trước khi dùng tran
   `MODEL_SMOKE_OK ... structured_output=true` với schema tổng hợp `{ok: boolean}`.
 
 ## Nhật ký phiên
+
+### 2026-07-18 — Người 2: conversation memory và form-sync API
+
+- Mở rộng `draft` HTTP với `values`, `revision`, `confirmed_fields`, `dirty_fields` và
+  `pack_version`; procedure hợp lệ trong `SessionContext` khởi tạo core ngay từ khi tạo phiên. Response
+  tạo/GET session luôn có top-level `draft`, kể cả khi chưa có chat turn, để form hydrate revision `0`.
+- Thêm `PATCH /v1/chat/sessions/{session_id}/draft/fields/{field_id}`. Manual edit được validate theo
+  catalog/rule, đánh dấu `confirmed + dirty`, tăng revision đúng một lần và trả `409 stale_revision`
+  mà không mutation khi client dùng state cũ.
+- Accept/Edit/Reject suggestion đều yêu cầu `expected_revision` và tăng revision; manual edit loại
+  pending suggestion cùng field, rebase pending khác. Extractor không thể tạo suggestion ghi đè field
+  đã confirmed/dirty và candidate sai kiểu bị bỏ an toàn thay vì làm API lỗi 500.
+- Thêm `asked_question_ids`; câu hỏi field đã phát không được hỏi lại, core chuyển `manual_input`.
+  Reset bằng session ID mới xóa draft/messages/question memory; provider failure counter được reset sau
+  một lượt extraction thành công.
+- `draft.revision` bảo vệ mọi mutation của draft/suggestion. Chat message không tự sửa draft và tiếp tục
+  dùng `client_turn_id` để idempotent; nếu sau này cần khóa cả transcript thì phải thêm conversation token
+  riêng, không dùng lẫn revision của form.
+- Store giữ entry lock xuyên suốt request và dùng cùng lock order cho delete/TTL cleanup, nên reset hoặc
+  expiry không thể đóng session khi model/form mutation đang chạy.
+- Guard extraction loại enum suy diễn từ evidence mơ hồ như `con tôi`/`tôi đồng ý` và tên chỉ là đại
+  từ có dấu câu; field khác có evidence rõ trong cùng lượt vẫn được giữ.
+- Bổ sung 22 case multi-turn, 15 case form-sync API, 2 case concurrency store, 3 case extraction
+  grounding và 3 case core cho số không hữu hạn. Full gate: Compileall, Ruff lint/format, Mypy strict
+  pass; Pytest `154 passed, 1 skipped`, coverage `82.50%`.
+- Giới hạn tích hợp: BFF `/api/chat/field`, TypeScript draft type và binding form thuộc nhánh Người 1;
+  frontend hiện chưa gọi endpoint mới nhưng response additive không phá contract cũ.
+
+### 2026-07-18 — Thêm memory theo phiên cho agent hội thoại
+
+- Truyền vào extractor đúng hai metadata đã kiểm tra bằng catalog: thủ tục đang hoạt động và field
+  core đang chờ. Evidence của field vẫn bắt buộc nằm trong tin nhắn hiện tại; không gửi lịch sử chat,
+  draft value, tên hoặc mã định danh của các lượt trước qua LiteLLM.
+- Khi có thủ tục đang hoạt động, lượt small talk/out-of-scope không xóa draft; lượt ambiguous dùng
+  câu hỏi xác định từ rule/data thay vì hiển thị `clarification_question` tự do của model. Hai lần trả
+  lời không rõ cho cùng field chuyển sang nhập tay thay vì hỏi vô hạn.
+- Bổ sung ví dụ chống nhầm `registration_mode` với `submission_channel`; field họ tên chỉ chứa đại từ
+  như “tôi”, “mình”, “con tôi” được loại an toàn, không tạo suggestion và không làm hỏng cả lượt route.
+- Live API → LiteLLM bằng dữ liệu giả pass hai chuỗi nhiều lượt. Tạm trú → small talk → “đăng kí
+  online” giữ mã `1.004194` và tạo `submission_channel=online`; bản sao khai sinh → “cho con tôi” →
+  “đăng kí trực tuyến” giữ mã `2.000635`, không suy diễn quan hệ/họ tên và cũng tạo đúng kênh online.
+- Gate cuối: Compileall, Ruff lint/format và Mypy strict pass; Pytest `102 passed, 1 skipped`, coverage
+  `81.18%`, vượt gate `80%`.
+- Giới hạn: memory hiện sống trong session store in-memory. API restart, session hết TTL hoặc chạy nhiều
+  worker không dùng shared store sẽ mất context; cần Redis/shared store nếu muốn memory bền hơn.
 
 ### 2026-07-18 — Kết nối lại model thật với chatbot web
 

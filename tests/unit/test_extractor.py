@@ -11,7 +11,7 @@ from typing import ClassVar, cast
 from urllib.request import Request as HTTPRequest
 
 from vneguide.ai.config import LLMConfig, build_llm_provider, load_llm_config
-from vneguide.ai.extractor import StructuredExtractor
+from vneguide.ai.extractor import ExtractionTurnContext, StructuredExtractor
 from vneguide.ai.providers import (
     MockLLMProvider,
     OpenAIResponsesProvider,
@@ -112,6 +112,198 @@ class StructuredExtractorTests(unittest.TestCase):
         self.assertIn("Đăng ký khai sinh mới hoặc đăng ký lại", request.system_prompt)
         self.assertIn("Thực hiện thủ tục đăng ký thường trú 1.004222", request.system_prompt)
         self.assertIn("Đăng ký tạm trú theo danh sách", request.system_prompt)
+        self.assertIn('Đại từ xưng hô như "tôi"', request.system_prompt)
+        self.assertIn('submission_channel="online"', request.system_prompt)
+        self.assertIn('câu hiện tại "cho con tôi"', request.system_prompt)
+
+    def test_compact_turn_context_is_sent_without_replacing_current_evidence(self) -> None:
+        provider = MockLLMProvider(
+            [
+                _payload(
+                    procedure_code="1.004194",
+                    fields=[
+                        {
+                            "field_id": "submission_channel",
+                            "value": "online",
+                            "evidence": "trực tuyến",
+                        }
+                    ],
+                )
+            ]
+        )
+        message = "Tôi đăng ký trực tuyến"
+
+        outcome = StructuredExtractor(provider, self.catalog).extract(
+            message,
+            context=ExtractionTurnContext("1.004194", "registration_mode"),
+        )
+
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(outcome.procedure_code, "1.004194")
+        self.assertEqual(outcome.fields["submission_channel"], "online")
+        envelope = json.loads(provider.calls[0].user_prompt)
+        self.assertEqual(envelope["current_user_message"], message)
+        self.assertEqual(
+            envelope["conversation_context"],
+            {
+                "active_procedure_code": "1.004194",
+                "expected_field_id": "registration_mode",
+            },
+        )
+        self.assertNotIn("messages", envelope)
+
+    def test_context_cannot_be_used_as_field_evidence(self) -> None:
+        unsafe_payload = _payload(
+            procedure_code="1.004194",
+            fields=[
+                {
+                    "field_id": "registration_mode",
+                    "value": "individual_or_household",
+                    "evidence": "registration_mode",
+                }
+            ],
+        )
+        provider = MockLLMProvider([unsafe_payload, unsafe_payload])
+
+        outcome = StructuredExtractor(provider, self.catalog).extract(
+            "Tôi đồng ý",
+            context=ExtractionTurnContext("1.004194", "registration_mode"),
+        )
+
+        self.assertFalse(outcome.succeeded)
+        self.assertEqual(outcome.error_code, "malformed_output")
+        self.assertEqual(len(provider.calls), 2)
+
+    def test_pronoun_only_person_name_is_safely_discarded(self) -> None:
+        unsafe_payload = _payload(
+            procedure_code="1.004194",
+            fields=[
+                {
+                    "field_id": "applicant_full_name",
+                    "value": "tôi",
+                    "evidence": "tôi",
+                }
+            ],
+        )
+        provider = MockLLMProvider([unsafe_payload])
+
+        outcome = StructuredExtractor(provider, self.catalog).extract("Tôi muốn đăng ký tạm trú")
+
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(outcome.procedure_code, "1.004194")
+        self.assertEqual(dict(outcome.fields), {})
+        self.assertEqual(len(provider.calls), 1)
+
+    def test_child_reference_does_not_infer_requester_or_authorization_fields(self) -> None:
+        payload = _payload(
+            fields=[
+                {
+                    "field_id": "requester_type",
+                    "value": "authorized_person",
+                    "evidence": "con tôi",
+                },
+                {
+                    "field_id": "authorization_relationship",
+                    "value": "parent",
+                    "evidence": "con tôi",
+                },
+                {
+                    "field_id": "copies_requested",
+                    "value": 2,
+                    "evidence": "2 bản",
+                },
+            ],
+        )
+        provider = MockLLMProvider([payload])
+
+        outcome = StructuredExtractor(provider, self.catalog).extract(
+            "Cho con tôi, tôi cần 2 bản.",
+            context=ExtractionTurnContext("2.000635", "requester_type"),
+        )
+
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(outcome.procedure_code, "2.000635")
+        self.assertEqual(dict(outcome.fields), {"copies_requested": 2})
+        self.assertEqual(dict(outcome.evidence), {"copies_requested": "2 bản"})
+
+    def test_generic_agreement_does_not_infer_registration_mode(self) -> None:
+        payload = _payload(
+            procedure_code="1.004194",
+            fields=[
+                {
+                    "field_id": "registration_mode",
+                    "value": "individual_or_household",
+                    "evidence": "Tôi đồng ý.",
+                },
+                {
+                    "field_id": "submission_channel",
+                    "value": "online",
+                    "evidence": "trực tuyến",
+                },
+            ],
+        )
+        provider = MockLLMProvider([payload])
+
+        outcome = StructuredExtractor(provider, self.catalog).extract(
+            "Tôi đồng ý. Tôi đăng ký trực tuyến.",
+            context=ExtractionTurnContext("1.004194", "registration_mode"),
+        )
+
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(outcome.procedure_code, "1.004194")
+        self.assertEqual(dict(outcome.fields), {"submission_channel": "online"})
+        self.assertEqual(dict(outcome.evidence), {"submission_channel": "trực tuyến"})
+
+    def test_punctuated_pronoun_name_is_safely_discarded(self) -> None:
+        payload = _payload(
+            procedure_code="1.004194",
+            fields=[
+                {
+                    "field_id": "applicant_full_name",
+                    "value": "Tôi.",
+                    "evidence": "Tôi.",
+                },
+                {
+                    "field_id": "submission_channel",
+                    "value": "online",
+                    "evidence": "trực tuyến",
+                },
+            ],
+        )
+        provider = MockLLMProvider([payload])
+
+        outcome = StructuredExtractor(provider, self.catalog).extract(
+            "Tôi. Tôi đăng ký trực tuyến.",
+            context=ExtractionTurnContext("1.004194", "applicant_full_name"),
+        )
+
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(outcome.procedure_code, "1.004194")
+        self.assertEqual(dict(outcome.fields), {"submission_channel": "online"})
+        self.assertEqual(dict(outcome.evidence), {"submission_channel": "trực tuyến"})
+
+    def test_invalid_context_is_rejected_before_calling_the_provider(self) -> None:
+        provider = MockLLMProvider([_payload()])
+        extractor = StructuredExtractor(provider, self.catalog)
+        invalid_contexts = (
+            ExtractionTurnContext("9.999999"),
+            ExtractionTurnContext("1.004194", "unknown_field"),
+        )
+
+        for context in invalid_contexts:
+            with self.subTest(context=context):
+                outcome = extractor.extract("Tôi đồng ý", context=context)
+                self.assertEqual(outcome.error_code, "invalid_context")
+                self.assertEqual(outcome.attempts, 0)
+        self.assertEqual(provider.calls, [])
+
+        for invalid_code in ("", "x" * 65):
+            with self.subTest(value=invalid_code), self.assertRaises(ValueError):
+                ExtractionTurnContext(invalid_code)
+
+        for invalid_type in (None, 42):
+            with self.subTest(value=invalid_type), self.assertRaises(ValueError):
+                ExtractionTurnContext(cast(str, invalid_type))
 
     def test_callers_cannot_mutate_the_extractor_schema(self) -> None:
         provider = MockLLMProvider([_payload()])
