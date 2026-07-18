@@ -517,3 +517,13 @@ chưa tạo commit follow-up. Không công bố metric accuracy model từ fixtu
 - Browser E2E chưa chạy vì phiên công cụ không có browser instance. Public `http://IP:9000` không phải
   secure context cho microphone; có thể test mic qua `localhost`/SSH tunnel, còn production cần domain
   HTTPS hợp lệ.
+- App-side release đã deploy lên VPS tại `/opt/vneguide/releases/48c7582e-stt1`; symlink `current` đã
+  chuyển sang release này. Web image là
+  `sha256:52c3598c24c97b76a2f6e1ebc7f88ca33c72459310e92600c6a36290717065bd`.
+- Post-deploy smoke đạt: `/health` 200; STT status 200 và `enabled=false`; POST STT trả typed 503 khi
+  chưa có provider; chat BFF create/get/delete đạt `201/200/204`. API, web, gateway healthy; translator
+  và Caddy không bị recreate.
+- Gateway runtime `nginx -T` có exact STT location, body 10 MiB, rate/concurrency limit và
+  `proxy_request_buffering off`. Cấu hình trước deploy được giữ tại
+  `/opt/vneguide/shared/nginx-http.conf.before-stt-20260719`; web rollback image giữ tag
+  `vneguide-web:rollback-df97f0321f25`. Hai file upload tạm đã xóa khỏi `/tmp`.

@@ -259,6 +259,12 @@ prompt, evidence hoặc secret. Chỉ khi pass mới commit; không push nếu c
 - Gate app-side: Python targeted 7/7, frontend 44/44 + lint/typecheck/build, BFF smoke success/415/400;
   bounded staged audit 18 file đạt sau khi full-index audit timeout 120 giây. Browser interaction chưa
   chạy do không có browser instance trong phiên này.
-- Bước tiếp theo cụ thể: deploy bản app mới với STT vẫn disabled, xác minh gateway/health/chat không
-  regression; sau đó người vận hành cung cấp GPU URL/key và HTTPS domain để bật overlay, chạy audio
-  tiếng Việt tổng hợp, kiểm tra transcript chỉ nằm trong textarea và probe actual-duration >60 giây.
+- App-side release đã deploy tại `/opt/vneguide/releases/48c7582e-stt1`; health đạt, STT status trả
+  `enabled=false`, chat create/get/delete đạt `201/200/204`, translator/Caddy không bị recreate. Web
+  image mới là `sha256:52c3598c24c97b76a2f6e1ebc7f88ca33c72459310e92600c6a36290717065bd`.
+- Rollback: cấu hình gateway cũ ở
+  `/opt/vneguide/shared/nginx-http.conf.before-stt-20260719`, web image cũ có tag
+  `vneguide-web:rollback-df97f0321f25`, release cũ là `/opt/vneguide/releases/df97f0321f25`.
+- Bước tiếp theo cụ thể: người vận hành cung cấp GPU URL/key và HTTPS domain; xác minh GPU ingress tự
+  probe duration/quota, bật overlay STT cùng overlay VPS, chạy audio tiếng Việt tổng hợp, kiểm tra
+  transcript chỉ nằm trong textarea và thử actual-duration trên 60 giây.
