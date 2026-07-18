@@ -3,15 +3,18 @@
 ## Nhánh thử nghiệm chat core
 
 - `experiment/chat-core-v2` đang tách từ `dev@48f9c1f` trong worktree riêng.
+- Chatbot local hiện dùng OpenAI Responses API với `gpt-5.6-luna`; `.env` nằm ở worktree chính, bị
+  Git ignore và phải được truyền rõ bằng `--env-file`. Provider/three-procedure/BFF smoke đều đạt;
+  case tạm trú trả đúng `submission_channel=online` trong khoảng `1.415 s` qua web.
 - Route-scoped pure guidance hiện bypass model bằng whole-message allowlist; mixed/form input vẫn qua
   structured extraction. Context guard chặn dùng nhầm fact của route cũ sau out-of-scope, ambiguous,
   procedure switch hoặc provider failure.
 - Guided reply layer đạt full Python `265 passed, 2 skipped` với coverage `80.27%`, và A/B `12/12`
   fact/topic/source;
   dùng `VNEGUIDE_CHAT_CORE_VARIANT=baseline` để rollback tức thì.
-- Provider smoke đạt trên LiteLLM/Qwen và BFF smoke xác nhận cả guidance lẫn structured field
+- Provider/BFF smoke mới nhất dùng OpenAI/gpt-5.6-luna và xác nhận cả guidance lẫn structured field
   suggestion hoạt động bằng dữ liệu tổng hợp. Local demo đang chạy tại `http://127.0.0.1:13000`, API
-  tại `http://127.0.0.1:18000`; process phải có network egress tới gateway.
+  tại `http://127.0.0.1:18000`; process phải có network egress tới OpenAI API.
 - Npm gate đạt `0 vulnerabilities`, 9 reducer tests và build 25 route. Bước tiếp theo là review nhánh,
   sau đó chỉ cân nhắc merge khi A/B và public deployment được chấp thuận; không thay coverage
   threshold, dataset checksum hoặc source data.
@@ -82,12 +85,14 @@
 
 ## Việc cần làm tiếp
 
-1. Push `dev`, sau đó xác minh SHA remote trỏ tới commit tài liệu bàn giao mới nhất.
-2. Thiết kế state/API nội bộ để persist, confirm và promote `context_signals`; không nhận cờ
+1. Review và tích hợp `experiment/chat-core-v2`; không đưa `.env` hoặc artifact local vào commit.
+2. Tách cấu hình OCR Qwen khỏi provider/model chatbot để hai process có thể chạy đồng thời mà không
+   phải đổi `.env` qua lại.
+3. Thiết kế state/API nội bộ để persist, confirm và promote `context_signals`; không nhận cờ
    confirmation/trust trực tiếp từ browser client.
-3. Triển khai `OcrCandidateSink` qua suggestion pending/revision guard và nối upload API/UI; không cho
+4. Triển khai `OcrCandidateSink` qua suggestion pending/revision guard và nối upload API/UI; không cho
    OCR ghi trực tiếp vào draft.
-4. Rebuild Docker; smoke local/public URL và ghi lại image digest, model/version, timestamp.
+5. Rebuild Docker; smoke local/public URL và ghi lại image digest, model/version, timestamp.
 
 ## Blocker còn lại
 

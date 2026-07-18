@@ -1,5 +1,24 @@
 # Nhật ký tiến độ VNeGuide
 
+## 2026-07-18 — Chuyển chatbot local sang OpenAI
+
+- Tái hiện lỗi cấu hình trước thay đổi: provider vẫn là LiteLLM/Qwen nhưng key mới có định dạng
+  OpenAI nằm dưới biến LiteLLM; provider smoke trả `MODEL_SMOKE_FAILED: provider_error`.
+- `.env` local đã được chuyển sang `provider=openai`, `model=gpt-5.6-luna` và đúng biến
+  `VNEGUIDE_API_KEY`. File vẫn bị Git ignore; secret không xuất hiện trong log, diff hoặc commit.
+- Chọn model bằng cùng một câu synthetic: `gpt-4.1-mini` phản hồi nhanh nhưng gán sai “trực tuyến”
+  thành `direct`; `gpt-5.6-luna` trả đúng `online`. Không giữ cấu hình nhanh nhưng sai nghiệp vụ.
+- Provider smoke cuối đạt `MODEL_SMOKE_OK provider=openai model=gpt-5.6-luna
+  structured_output=true`, timestamp `2026-07-18T12:45:28Z`.
+- Live three-procedure smoke nhận đúng `2.000635`, `1.013314`, `1.004194`; case tạm trú tạo đúng
+  `submission_channel=online`, tổng thời gian ba request khoảng `5.271 s`.
+- BFF smoke cuối trả HTTP `200`, `confirm_suggestion`, `submission_channel=online`, draft revision
+  vẫn `0`; thời gian lượt web khoảng `1.415 s`. Trang hero tạm trú trả HTTP `200`.
+- Targeted config/provider/core/API gate đạt `104 passed`. Browser tab tích hợp không khả dụng trong
+  phiên nên chưa có bằng chứng click/visual; HTTP/BFF smoke không thay thế browser E2E.
+- OCR Qwen hiện dùng chung provider/model config và không thể chạy bằng chat `.env` OpenAI. Giữ OCR
+  tắt hoặc chạy process với env riêng cho tới khi tách cấu hình OCR khỏi chatbot.
+
 ## 2026-07-18 — Khắc phục chatbot web không phản hồi
 
 - Xác định hai nguyên nhân độc lập: mọi câu guidance trên route đã seed vẫn gọi extractor trước, và
