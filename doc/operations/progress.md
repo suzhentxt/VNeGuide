@@ -10,10 +10,11 @@
 - Structured extraction có mock/OpenAI adapter, strict schema, bounded retry và safe fallback.
 - Baseline trước khi tích hợp domain/data: Pytest `37 passed, 1 skipped`.
 - Rule engine và suggestion-aware conversation orchestrator đã được triển khai.
+- HTTP Chat API, Next.js BFF và chatbox route-scoped cho mục Hôn nhân và gia đình đã được triển khai.
 
 ## Ưu tiên tiếp theo
 
-Người 4 nối hành động Accept/Reject/Edit vào UI/web adapter và cấu hình provider cho demo thật.
+Review/bổ sung data package cho bốn mã thủ tục Hôn nhân và gia đình đang hiển thị trên web, sau đó cấu hình provider/model cho demo thật.
 
 ### 2026-07-17 — Conversation engine, rules và validation (Người 3)
 
@@ -24,6 +25,18 @@ Người 4 nối hành động Accept/Reject/Edit vào UI/web adapter và cấu 
 - Xác minh Python 3.11.9: Ruff pass, Mypy strict pass, Pytest `75 passed, 1 skipped`, coverage `82.64%`.
 
 ## Nhật ký phiên
+
+### 2026-07-18 — Nối HTTP API và chatbox demoweb
+
+- Thêm FastAPI adapter với session ID ngẫu nhiên, TTL, capacity limit, per-session lock và endpoint send/Accept/Reject/Edit/reset.
+- Thêm serializer HTTP tường minh cho `TurnResult`; trả field label/source từ data package và không trả raw prompt/model output.
+- Thêm Next.js BFF `/api/chat/*`; session ID nằm trong cookie `HttpOnly`, URL backend và API key không lộ cho browser.
+- Thêm chatbox responsive, accessible, dùng palette hiện hành và chỉ mount trong `/hon-nhan-va-gia-dinh/**`.
+- Chatbox có card Accept/Sửa/Từ chối, field thiếu, validation, nguồn, cảnh báo PII, reset và xử lý chuyển route.
+- Bốn procedure code trên web chưa thuộc data package backend hiện hành; API/UI hiển thị cảnh báo scope, không tự suy đoán rule/checklist.
+- Xác minh end-to-end local trên web `3001` → BFF → API `8001`: tạo session `201`, message `200`; mock rỗng trả safe fallback `retry` đúng thiết kế.
+- Xác minh route scope: trang chủ không có chatbox, `/hon-nhan-va-gia-dinh` có chatbox.
+- Quality gates: Ruff pass, Mypy strict pass, Pytest `79 passed, 1 skipped`, coverage `82.32%`; `npm run check` pass với 29 route build.
 
 ### 2026-07-18 — Bổ sung demoweb Next.js
 

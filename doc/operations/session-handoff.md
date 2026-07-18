@@ -9,6 +9,8 @@
 - `vneguide.domain` cung cấp contract dùng chung; `ProcedureRepository` cung cấp dữ liệu đã audit.
 - `python -m vneguide.cli` nạp được `vneguide.core:create_session`.
 - Core và rules đã hỗ trợ suggestion, Accept/Reject/Edit, validation và question selection.
+- Repo có HTTP Chat API và Next.js BFF; chatbox chỉ xuất hiện trong `/hon-nhan-va-gia-dinh/**`.
+- Session web dùng cookie `HttpOnly`; Python store hiện là in-memory single-process với TTL/capacity/per-session lock.
 
 ## Việc đã xác minh
 
@@ -19,6 +21,9 @@
 - AI tests không cần API key; live provider smoke mặc định skip.
 - Data repository kiểm nguồn approved, local path, rule context và checksum.
 - Python 3.11.9: Ruff và Mypy pass; Pytest `75 passed, 1 skipped`; coverage `82.64%`.
+- Sau tích hợp chat: Ruff và Mypy pass; Pytest `79 passed, 1 skipped`; coverage `82.32%`.
+- `demoweb`: `npm run check` pass, production build có 29 route gồm ba BFF route `/api/chat/*`.
+- Smoke end-to-end local web → BFF → Python API pass; provider mock rỗng trả fallback `retry`.
 
 ## Rủi ro
 
@@ -28,13 +33,17 @@
 - Một số rule dùng context/document signal, không được suy đoán từ field biểu mẫu.
 - Git LFS có thể cần quyền ghi `.git/lfs/tmp` trong môi trường sandbox.
 - Danh sách Phường/Xã và Sở phụ thuộc upstream `vpcp.dichvucong.gov.vn`; khi upstream lỗi hoặc quá hạn, UI hiển thị lỗi và cho phép thử lại thay vì dùng dữ liệu giả.
+- Bốn mã đang hoạt động trên web (`1.000894`, `2.000806`, `1.004859`, `2.000748`) chưa có procedure pack backend; chat hiển thị scope warning và chưa thể kết luận nghiệp vụ cho các mã này.
+- In-memory session store chỉ phù hợp một API worker; cần Redis hoặc store dùng chung trước khi scale nhiều worker.
 
 ## Bước tốt nhất tiếp theo
 
-Người 4 nối session API vào `demoweb`, hiển thị suggestion card và cấu hình provider/model cho demo.
+Review/bổ sung data package cho bốn thủ tục Hôn nhân và gia đình, sau đó cấu hình provider/model và chạy live smoke/E2E trên dữ liệu giả.
 
 ## Lệnh dự kiến
 
+- Cài Python API: `python -m pip install -e ".[dev,api]"`
+- Chạy API: `python -m vneguide.api`
 - Chạy web: `cd demoweb`, `npm ci`, `npm run dev -- --hostname 0.0.0.0 -p 3000`
 - Kiểm tra web: `cd demoweb`, `npm run check`
 - Cài dev dependencies: `python -m pip install -e ".[dev]"`

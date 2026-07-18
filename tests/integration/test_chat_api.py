@@ -1,0 +1,170 @@
+from __future__ import annotations
+
+from collections import deque
+
+import pytest
+from httpx import ASGITransport, AsyncClient
+
+from vneguide.ai import ExtractionOutcome
+from vneguide.api import create_app
+from vneguide.core import ConversationSession
+from vneguide.data import ProcedureRepository
+from vneguide.domain import (
+    ChatMessage,
+    ConversationState,
+    JSONValue,
+    MessageRole,
+    NextAction,
+    TurnResult,
+)
+
+
+class FakeChatSession:
+    def __init__(self) -> None:
+        self._state = ConversationState()
+
+    @property
+    def state(self) -> ConversationState:
+        return self._state
+
+    def send(self, message: str) -> TurnResult:
+        self._state = ConversationState(
+            messages=(
+                ChatMessage(MessageRole.USER, message),
+                ChatMessage(MessageRole.ASSISTANT, "Bạn cần thực hiện thủ tục cụ thể nào?"),
+            ),
+            turn_number=1,
+        )
+        return TurnResult(
+            reply="Bạn cần thực hiện thủ tục cụ thể nào?",
+            state=self._state,
+            next_action=NextAction.ASK_CLARIFICATION,
+        )
+
+    def accept_suggestion(self, _suggestion_id: str) -> TurnResult:
+        raise ValueError("no suggestion")
+
+    def reject_suggestion(self, _suggestion_id: str) -> TurnResult:
+        raise ValueError("no suggestion")
+
+    def edit_suggestion(self, _suggestion_id: str, _value: JSONValue) -> TurnResult:
+        raise ValueError("no suggestion")
+
+    def close(self) -> None:
+        self._state = ConversationState()
+
+
+class StubExtractor:
+    def __init__(self, *outcomes: ExtractionOutcome) -> None:
+        self._outcomes = deque(outcomes)
+
+    def extract(self, _message: str) -> ExtractionOutcome:
+        return self._outcomes.popleft()
+
+
+@pytest.fixture
+def anyio_backend() -> str:
+    return "asyncio"
+
+
+@pytest.mark.anyio
+async def test_chat_api_creates_session_and_sends_message() -> None:
+    app = create_app(
+        session_factory=FakeChatSession,
+        repository=ProcedureRepository.discover(),
+    )
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post(
+            "/v1/chat/sessions",
+            json={
+                "context": {
+                    "procedure_code": "1.000894",
+                    "procedure_title": "Đăng ký kết hôn",
+                    "route": "/hon-nhan-va-gia-dinh/dang-ky-ket-hon",
+                }
+            },
+        )
+
+        assert created.status_code == 201
+        assert created.json()["context_supported"] is False
+        assert created.json()["scope_warning"]
+        session_id = created.headers["X-VNeGuide-Session"]
+
+        turn = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "Tôi cần hỗ trợ", "client_turn_id": "turn-1"},
+        )
+        repeated = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "Tin nhắn gửi lại", "client_turn_id": "turn-1"},
+        )
+
+    assert turn.status_code == 200
+    assert repeated.json() == turn.json()
+    assert turn.json()["next_action"] == "ask_clarification"
+    assert [message["role"] for message in turn.json()["messages"]] == [
+        "user",
+        "assistant",
+    ]
+
+
+@pytest.mark.anyio
+async def test_chat_api_returns_stable_missing_session_error() -> None:
+    app = create_app(
+        session_factory=FakeChatSession,
+        repository=ProcedureRepository.discover(),
+    )
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        response = await client.get("/v1/chat/sessions/not-found")
+
+    assert response.status_code == 404
+    assert response.json() == {
+        "error": {
+            "code": "session_not_found",
+            "message": "Không tìm thấy phiên trò chuyện.",
+            "retryable": False,
+        }
+    }
+
+
+@pytest.mark.anyio
+async def test_chat_api_accepts_a_pending_suggestion() -> None:
+    repository = ProcedureRepository.discover()
+
+    def session_factory() -> ConversationSession:
+        return ConversationSession(
+            StubExtractor(
+                ExtractionOutcome(
+                    status="success",
+                    classification="supported",
+                    procedure_code="2.000635",
+                    fields={"copies_requested": 2},
+                    evidence={"copies_requested": "xin 2 bản"},
+                    clarification_question=None,
+                    attempts=1,
+                    error_code=None,
+                )
+            ),
+            repository,
+        )
+
+    app = create_app(session_factory=session_factory, repository=repository)
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post("/v1/chat/sessions", json={})
+        session_id = created.headers["X-VNeGuide-Session"]
+        turn = (
+            await client.post(
+                f"/v1/chat/sessions/{session_id}/messages",
+                json={"message": "Tôi muốn xin 2 bản"},
+            )
+        ).json()
+        suggestion = turn["suggestions"][0]
+
+        accepted = await client.post(
+            f"/v1/chat/sessions/{session_id}/suggestions/{suggestion['id']}",
+            json={"action": "accept", "expected_revision": suggestion["revision"]},
+        )
+
+    assert accepted.status_code == 200
+    assert accepted.json()["draft"]["revision"] == 1
+    assert accepted.json()["suggestions"][0]["status"] == "accepted"
