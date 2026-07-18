@@ -142,10 +142,13 @@ def test_short_answer_receives_compact_context(
     session = ConversationSession(extractor, repository)
 
     first = session.send(scenario.intro)
+    confirmed = session.send("Đúng")
     result = session.send(scenario.short_answer)
 
-    assert first.next_action is NextAction.ASK_CLARIFICATION
-    assert first.state.asked_question_ids == (scenario.question_id,)
+    assert first.next_action is NextAction.CONFIRM_PROCEDURE
+    assert first.state.asked_question_ids == ()
+    assert confirmed.next_action is NextAction.ASK_CLARIFICATION
+    assert confirmed.state.asked_question_ids == (scenario.question_id,)
     assert extractor.calls == [
         (scenario.intro, None),
         (
@@ -171,6 +174,7 @@ def test_unsupported_turn_preserves_context_without_reasking(
     session = ConversationSession(extractor, repository)
 
     first = session.send(scenario.intro)
+    session.send("Đúng")
     result = session.send("Bạn ăn cơm chưa?")
 
     assert result.next_action is NextAction.OUT_OF_SCOPE
@@ -178,7 +182,8 @@ def test_unsupported_turn_preserves_context_without_reasking(
     assert result.state.draft.procedure_code.value == scenario.code
     assert result.state.asked_question_ids == (scenario.question_id,)
     assert first.reply not in result.reply
-    assert f"nhập trực tiếp trường {scenario.expected_field}" in result.reply.lower()
+    assert "nhập trực tiếp" in result.reply.lower()
+    assert scenario.expected_field not in result.reply
     assert extractor.calls[-1][1] == ExtractionTurnContext(
         scenario.code,
         scenario.expected_field,
@@ -199,12 +204,14 @@ def test_ambiguous_turn_switches_previously_asked_field_to_manual_input(
     )
 
     first = session.send(scenario.intro)
+    session.send("Đúng")
     result = session.send("Tôi chưa rõ.")
 
     assert result.next_action is NextAction.MANUAL_INPUT
     assert result.state.asked_question_ids == (scenario.question_id,)
     assert first.reply not in result.reply
-    assert f"nhập trực tiếp trường {scenario.expected_field}" in result.reply.lower()
+    assert "nhập trực tiếp" in result.reply.lower()
+    assert scenario.expected_field not in result.reply
     assert "Câu hỏi tự do từ model" not in result.reply
 
 
@@ -217,6 +224,7 @@ def test_supported_empty_follow_up_does_not_repeat_question(
     session = ConversationSession(extractor, repository)
 
     first = session.send(scenario.intro)
+    session.send("Đúng")
     result = session.send("Vâng, tiếp tục đi.")
 
     assert result.next_action is NextAction.MANUAL_INPUT
@@ -243,6 +251,7 @@ def test_valid_other_field_becomes_suggestion_without_losing_expected_field(
     session = ConversationSession(extractor, repository)
 
     session.send(scenario.intro)
+    session.send("Đúng")
     result = session.send("Tôi bổ sung một thông tin khác trước.")
 
     assert result.next_action is NextAction.CONFIRM_SUGGESTION
@@ -272,6 +281,7 @@ def test_confirmed_value_is_not_overwritten_by_later_extraction(
         ),
     )
     session = ConversationSession(extractor, repository)
+    session.initialize_procedure(scenario.code)
 
     proposed = session.send("Tôi cung cấp thông tin ban đầu.")
     confirmed = session.accept_suggestion(
@@ -306,6 +316,7 @@ def test_dirty_value_is_not_overwritten_by_later_extraction(
         ),
     )
     session = ConversationSession(extractor, repository)
+    session.initialize_procedure(scenario.code)
 
     selected = session.send(scenario.intro)
     edited = session.edit_field(
@@ -337,7 +348,8 @@ def test_close_clears_conversation_memory_and_blocks_reuse(
 ) -> None:
     session = ConversationSession(StubExtractor(outcome("1.004194")), repository)
     session.send("Tôi muốn đăng ký tạm trú.")
-    assert session.state.asked_question_ids == ("1.004194:registration_mode",)
+    assert session.state.pending_procedure_code is not None
+    assert session.state.asked_question_ids == ()
 
     session.close()
 
@@ -346,5 +358,6 @@ def test_close_clears_conversation_memory_and_blocks_reuse(
     assert closed_state.messages == ()
     assert closed_state.turn_number == 0
     assert closed_state.draft.procedure_code is None
+    assert closed_state.pending_procedure_code is None
     with pytest.raises(RuntimeError, match="closed"):
         session.send("Không được xử lý tiếp.")

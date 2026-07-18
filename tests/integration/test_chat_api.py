@@ -182,7 +182,10 @@ async def test_chat_api_accepts_a_pending_suggestion() -> None:
 
     app = create_app(session_factory=session_factory, repository=repository)
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
-        created = await client.post("/v1/chat/sessions", json={})
+        created = await client.post(
+            "/v1/chat/sessions",
+            json={"context": {"procedure_code": "2.000635"}},
+        )
         session_id = created.headers["X-VNeGuide-Session"]
         turn = (
             await client.post(
@@ -202,8 +205,13 @@ async def test_chat_api_accepts_a_pending_suggestion() -> None:
         )
 
     assert accepted.status_code == 200
-    assert accepted.json()["draft"]["revision"] == 1
-    assert accepted.json()["suggestions"][0]["status"] == "accepted"
+    accepted_body = accepted.json()
+    assert accepted_body["draft"]["revision"] == 1
+    assert accepted_body["suggestions"][0]["status"] == "accepted"
+    assert accepted_body["messages"][-1] == {
+        "role": "assistant",
+        "content": accepted_body["reply"],
+    }
     assert stale.status_code == 409
     assert stale.json()["error"]["code"] == "stale_suggestion"
 
@@ -252,6 +260,11 @@ async def test_chat_api_keeps_compact_memory_across_multiple_turns() -> None:
             f"/v1/chat/sessions/{session_id}/messages",
             json={"message": "Tôi muốn đăng ký tạm trú"},
         )
+        recovered = await client.get(f"/v1/chat/sessions/{session_id}")
+        confirmed = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "Đúng"},
+        )
         off_topic = await client.post(
             f"/v1/chat/sessions/{session_id}/messages",
             json={"message": "Bạn ăn cơm chưa?"},
@@ -262,6 +275,19 @@ async def test_chat_api_keeps_compact_memory_across_multiple_turns() -> None:
         )
 
     assert first.status_code == 200
+    first_body = first.json()
+    assert first_body["next_action"] == "confirm_procedure"
+    assert first_body["procedure"] is None
+    assert first_body["draft"]["values"] == {}
+    assert first_body["draft"]["revision"] == 0
+    assert first_body["messages"][-1] == {
+        "role": "assistant",
+        "content": first_body["reply"],
+    }
+    assert recovered.status_code == 200
+    assert recovered.json()["turn"]["next_action"] == "confirm_procedure"
+    assert confirmed.status_code == 200
+    assert confirmed.json()["procedure"]["code"] == "1.004194"
     assert off_topic.json()["next_action"] == "out_of_scope"
     assert continued.status_code == 200
     assert continued.json()["procedure"]["code"] == "1.004194"

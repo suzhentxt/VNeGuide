@@ -51,7 +51,7 @@ def build_extraction_prompt(catalog: ExtractionCatalog) -> str:
     return f"""Bạn là bộ phân loại nhu cầu và trích xuất dữ liệu có cấu trúc cho VNeGuide.
 
 User prompt là JSON có `current_user_message` và `conversation_context`. Context chỉ gồm
-mã thủ tục đang hoạt động và field mà core đang chờ; đây là metadata tham chiếu,
+mã thủ tục, field mà core đang chờ và cờ `confirmation_required`; đây là metadata tham chiếu,
 không phải evidence. Dùng context để hiểu câu trả lời rút gọn nhưng chỉ điền giá trị
 được nói rõ trong `current_user_message`. Không quyết định trường bắt buộc, tính hợp lệ
 hồ sơ, checklist, phí, thời hạn, source_id hoặc trạng thái nộp hồ sơ.
@@ -68,19 +68,28 @@ Rule-context signal được phép trích từ chat text:
 Quy tắc output:
 1. Dùng classification="supported" khi câu hiện tại chỉ rõ một thủ tục trong phạm vi hoặc
    là câu trả lời rút gọn phù hợp với `active_procedure_code`; trả đúng procedure_code.
+   Nếu `confirmation_required=true`, chỉ giữ procedure hiện tại khi câu hiện tại xác nhận rõ
+   (ví dụ "Đúng", "Vâng, tôi nộp trực tuyến") hoặc nhắc lại đúng nhu cầu. Không xem câu do dự,
+   phủ nhận hay hỏi lại như một xác nhận.
    Thiếu dữ liệu biểu mẫu không làm intent thành ambiguous.
 2. Dùng classification="unsupported" khi nhu cầu rõ ràng nằm ngoài ba thủ tục; procedure_code
-   phải null, clarification_question phải null, fields và context_signals phải rỗng.
-3. Chỉ dùng classification="ambiguous" khi không có `active_procedure_code` và chưa phân biệt
-   fields/context_signals rỗng và hỏi đúng một câu ngắn để làm rõ loại thủ tục. Không hỏi
-   trường bắt buộc.
+   phải null, reply phải null, clarification_question phải null, fields và context_signals
+   phải rỗng.
+3. Dùng classification="ambiguous" khi không có `active_procedure_code` và chưa phân biệt
+   được thủ tục. Khi `confirmation_required=true`, câu phủ nhận thủ tục đang chờ nhưng không nêu
+   thủ tục mới, hoặc câu còn do dự/hỏi lại, cũng phải là ambiguous với procedure_code null.
+   Nếu câu nêu rõ thủ tục khác trong phạm vi thì áp dụng rule 9, không dùng ambiguous. Với output
+   ambiguous, reply phải null, fields/context_signals rỗng và hỏi đúng một câu ngắn để làm rõ loại
+   thủ tục. Không hỏi trường bắt buộc.
 4. Chỉ xuất field mà người dùng nói rõ. Không tạo default, không suy đoán quan hệ, khu vực,
    hình thức đăng ký, trạng thái giấy tờ hoặc giá trị boolean.
    Đại từ xưng hô như "tôi", "mình", "chúng tôi" hoặc "con tôi" không phải họ tên.
    Chỉ trích field họ tên khi người dùng nêu một tên riêng cụ thể.
 5. Mỗi field phải kèm evidence là đoạn trích nguyên văn xuất hiện trong tin nhắn hiện tại.
-6. Context hệ thống chỉ cho biết `active_procedure_code` và `expected_field_id` để hiểu câu trả lời
-   ngắn. Context không phải lời người dùng, không được dùng làm evidence hoặc để tự điền giá trị.
+6. Context hệ thống chỉ cho biết `active_procedure_code`, `expected_field_id` và
+   `confirmation_required` để hiểu câu trả lời ngắn. Khi `confirmation_required=true`, procedure
+   vẫn đang chờ xác nhận, chưa phải draft active. Context không phải lời người dùng, không được dùng
+   làm evidence hoặc để tự điền giá trị.
    `expected_field_id` chỉ là gợi ý; vẫn được trích field khác khi câu hiện tại nói rõ field đó.
 7. Chỉ xuất context_signals đã liệt kê ở trên. Không biến field biểu mẫu thành signal. Không
    suy đoán signal origin=document_check từ hội thoại; signal đó chỉ đến từ adapter tài liệu.
@@ -88,13 +97,25 @@ Quy tắc output:
 9. Nếu câu hiện tại nêu rõ một thủ tục khác trong phạm vi, ưu tiên ý định mới để core yêu cầu
    người dùng reset trước khi chuyển. Nếu chỉ là small talk hoặc nhu cầu ngoài phạm vi, vẫn trả
    unsupported dù context có thủ tục đang hoạt động.
-10. Không dùng nội dung context làm evidence. Không giải thích ngoài JSON và không thêm key
+10. Với classification="supported", `reply` chỉ được là null hoặc đúng một trong ba câu chung:
+    "Dạ, em đã hiểu yêu cầu của anh/chị ạ.",
+    "Dạ, em đã ghi nhận thông tin anh/chị vừa cung cấp ạ.",
+    "Dạ, em hiểu rồi ạ." Không đưa tên, ngày, số định danh, giá trị field, giấy tờ, phí,
+    thời hạn, điều kiện, kết luận pháp lý hoặc câu hỏi vào reply. Core sẽ tự thêm câu hỏi và
+    kết luận deterministic. Với classification khác supported, reply phải null.
+11. Không dùng nội dung context làm evidence. Không giải thích ngoài JSON và không thêm key
     ngoài schema.
 
 Ví dụ bắt buộc để phân biệt field:
+- Câu "Tôi muốn đăng ký tạm trú": classification supported, procedure_code 1.004194,
+  fields rỗng nếu người dùng chưa nói thêm dữ liệu biểu mẫu.
+- Câu "Tôi cần xác nhận điều kiện nhà ở để đăng ký thường trú": classification supported,
+  procedure_code 1.013314, fields rỗng nếu người dùng chưa nói thêm dữ liệu biểu mẫu.
 - Context thủ tục 1.004194 đang chờ `registration_mode`, câu hiện tại "tôi đăng ký online":
   giữ procedure_code 1.004194 và chỉ trích `submission_channel="online"`. Không suy ra
   `registration_mode`; online/trực tuyến là kênh nộp, không phải hình thức cá nhân/danh sách.
+- Context thủ tục 1.004194 đang chờ xác nhận, câu hiện tại "Đúng, tôi nộp trực tuyến":
+  classification supported, giữ procedure_code 1.004194 và trích `submission_channel="online"`.
 - Context thủ tục 2.000635, câu hiện tại "cho con tôi": giữ procedure_code 2.000635,
   fields rỗng. Không suy ra `requester_type`, quan hệ ủy quyền hoặc họ tên.
 - Câu "xin cấp bản sao giấy khai sinh đi": procedure_code 2.000635, fields rỗng.

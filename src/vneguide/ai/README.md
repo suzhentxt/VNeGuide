@@ -20,8 +20,9 @@ providers/         # Interface, mock, OpenAI Responses và LiteLLM Chat Completi
 - Field/type/enum được nạp từ `data/catalog/field_catalog.json`; không có bản sao field list
   trong source.
 - Mỗi field do model trả về phải có evidence nguyên văn trong tin nhắn hiện tại.
-- `ExtractionTurnContext` chỉ mang `active_procedure_code` và `expected_field_id` để hiểu câu trả lời
-  ngắn. Context không chứa lịch sử và không được dùng làm evidence.
+- `ExtractionTurnContext` chỉ mang `active_procedure_code`, `expected_field_id` và cờ
+  `confirmation_required` để hiểu câu trả lời ngắn hoặc một thủ tục đang chờ xác nhận. Context không
+  chứa lịch sử và không được dùng làm evidence.
 - Rule-context signal được tách khỏi field biểu mẫu. Text model chỉ được sinh signal có origin
   `intent_extraction` hoặc `user_declaration`; signal `document_check` chỉ đến từ adapter tài liệu.
   Các signal từ text vẫn là candidate chưa xác nhận: `origin` mô tả loại nguồn theo catalog, không
@@ -62,7 +63,8 @@ outcome = extractor.extract(
 Adapter OpenAI dùng Responses API chính thức qua HTTPS và giữ allowlist
 `api.openai.com/v1/responses`. Adapter LiteLLM dùng base URL do operator cấu hình, tự nối
 `/v1/chat/completions`, gửi strict JSON Schema và có thể tắt Qwen thinking bằng
-`chat_template_kwargs.enable_thinking=false`. Cả hai dùng thư viện chuẩn, chặn redirect và không
+`chat_template_kwargs.enable_thinking=false`; extraction dùng `temperature=0`. Cả hai dùng thư viện
+chuẩn, chặn redirect và không
 log prompt, raw output hoặc key.
 
 Smoke trực tiếp AI layer bằng một input tổng hợp, không cần `vneguide.core:create_session`:

@@ -51,6 +51,7 @@ class ExtractionOutcome:
     evidence: Mapping[str, str]
     clarification_question: str | None
     attempts: int
+    reply: str | None = None
     error_code: str | None = None
     context_signals: Mapping[str, JsonScalar] = field(default_factory=_empty_mapping)
     context_evidence: Mapping[str, str] = field(default_factory=_empty_text_mapping)
@@ -67,6 +68,7 @@ class ExtractionTurnContext:
 
     active_procedure_code: str
     expected_field_id: str | None = None
+    confirmation_required: bool = False
 
     def __post_init__(self) -> None:
         if (
@@ -81,6 +83,10 @@ class ExtractionTurnContext:
             or len(self.expected_field_id) > 128
         ):
             raise ValueError("expected_field_id must be a short non-empty string or None")
+        if type(self.confirmation_required) is not bool:
+            raise ValueError("confirmation_required must be a boolean")
+        if self.confirmation_required and self.expected_field_id is not None:
+            raise ValueError("confirmation_required context cannot include an expected field")
 
 
 class StructuredExtractor:
@@ -171,6 +177,7 @@ class StructuredExtractor:
                     context_origins=validated.context_origins,
                     clarification_question=validated.clarification_question,
                     attempts=attempt,
+                    reply=validated.reply,
                 )
             except ProviderConfigurationError:
                 return self._fallback(attempts=attempt, error_code="provider_configuration")
@@ -211,6 +218,7 @@ class StructuredExtractor:
             envelope["conversation_context"] = {
                 "active_procedure_code": context.active_procedure_code,
                 "expected_field_id": context.expected_field_id,
+                "confirmation_required": context.confirmation_required,
             }
         return json.dumps(envelope, ensure_ascii=False, separators=(",", ":"))
 
@@ -224,6 +232,7 @@ class StructuredExtractor:
             evidence=MappingProxyType({}),
             clarification_question=None,
             attempts=attempts,
+            reply=None,
             error_code=error_code,
             context_signals=MappingProxyType({}),
             context_evidence=MappingProxyType({}),

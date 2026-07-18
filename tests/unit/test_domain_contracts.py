@@ -88,6 +88,13 @@ class TurnContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unique"):
             ConversationState(asked_question_ids=("procedure:field", "procedure:field"))
 
+    def test_pending_and_active_procedure_cannot_coexist(self) -> None:
+        with self.assertRaisesRegex(ValueError, "pending procedure"):
+            ConversationState(
+                draft=CaseDraft(procedure_code=ProcedureCode.TEMPORARY_RESIDENCE_REGISTRATION),
+                pending_procedure_code=ProcedureCode.BIRTH_CERTIFICATE_COPY,
+            )
+
 
 class ValidationResultTests(unittest.TestCase):
     def test_readiness_score_is_bounded(self) -> None:

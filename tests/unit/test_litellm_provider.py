@@ -96,6 +96,7 @@ class LiteLLMChatCompletionsProviderTests(unittest.TestCase):
         self.assertEqual(http_request.get_header("Authorization"), "Bearer test-key")
         sent = json.loads(cast(bytes, http_request.data).decode("utf-8"))
         self.assertEqual(sent["model"], "test-model")
+        self.assertEqual(sent["temperature"], 0)
         self.assertFalse(sent["stream"])
         self.assertFalse(sent["chat_template_kwargs"]["enable_thinking"])
         self.assertEqual(sent["response_format"]["type"], "json_schema")
@@ -122,6 +123,51 @@ class LiteLLMChatCompletionsProviderTests(unittest.TestCase):
         self.assertIsNone(http_request.get_header("Authorization"))
         sent = json.loads(cast(bytes, http_request.data).decode("utf-8"))
         self.assertNotIn("chat_template_kwargs", sent)
+
+    def test_recovers_only_a_leading_thinking_prefix_before_strict_json(self) -> None:
+        for content in (
+            '<think>Phân tích nội bộ.</think>\n{"ok":true}',
+            'Phân tích nội bộ.</think> {"ok":true}',
+        ):
+            with self.subTest(content=content):
+                provider = LiteLLMChatCompletionsProvider(
+                    base_url="https://gateway.example",
+                    model="test-model",
+                    opener=lambda request, timeout, value=content: _FakeHTTPResponse(
+                        _completion(value)
+                    ),
+                )
+                self.assertEqual(provider.generate_structured(_request()), {"ok": True})
+
+        untouched = LiteLLMChatCompletionsProvider(
+            base_url="https://gateway.example",
+            model="test-model",
+            opener=lambda request, timeout: _FakeHTTPResponse(
+                _completion('{"note":"<think>literal</think>"}')
+            ),
+        )
+        self.assertEqual(
+            untouched.generate_structured(_request()),
+            {"note": "<think>literal</think>"},
+        )
+
+    def test_thinking_recovery_keeps_duplicate_and_trailing_content_rejected(self) -> None:
+        malformed_contents = (
+            '<think>chưa đóng {"ok":true}',
+            '<think>x</think>{"ok":true,"ok":false}',
+            '<think>x</think>{"ok":true} trailing prose',
+        )
+        for content in malformed_contents:
+            with self.subTest(content=content):
+                provider = LiteLLMChatCompletionsProvider(
+                    base_url="https://gateway.example",
+                    model="test-model",
+                    opener=lambda request, timeout, value=content: _FakeHTTPResponse(
+                        _completion(value)
+                    ),
+                )
+                with self.assertRaises(ProviderError):
+                    provider.generate_structured(_request())
 
     def test_rejects_unsafe_urls_and_http_without_explicit_opt_in(self) -> None:
         invalid_urls = (

@@ -52,6 +52,7 @@ class ChatMessage:
 @dataclass(frozen=True, slots=True)
 class ConversationState:
     draft: CaseDraft = field(default_factory=CaseDraft)
+    pending_procedure_code: ProcedureCode | None = None
     messages: tuple[ChatMessage, ...] = ()
     turn_number: int = 0
     clarification_attempts: Mapping[str, int] = field(default_factory=dict)
@@ -61,6 +62,8 @@ class ConversationState:
     def __post_init__(self) -> None:
         if self.turn_number < 0:
             raise ValueError("turn_number must not be negative")
+        if self.pending_procedure_code is not None and self.draft.procedure_code is not None:
+            raise ValueError("pending procedure cannot coexist with an active procedure")
         if any(attempts < 0 for attempts in self.clarification_attempts.values()):
             raise ValueError("clarification attempts must not be negative")
         if any(not question_id.strip() for question_id in self.asked_question_ids):

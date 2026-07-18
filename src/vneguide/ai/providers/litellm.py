@@ -23,6 +23,7 @@ _SCHEMA_NAME_PATTERN = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
 _RETRYABLE_HTTP_STATUSES = {408, 409, 425, 429}
 _MAX_RESPONSE_BYTES = 2_000_000
 _CHAT_COMPLETIONS_PATH = "/v1/chat/completions"
+_THINKING_CLOSE_PATTERN = re.compile(r"</think\s*>", flags=re.IGNORECASE)
 
 
 class LiteLLMChatCompletionsProvider:
@@ -64,6 +65,7 @@ class LiteLLMChatCompletionsProvider:
 
         payload: dict[str, Any] = {
             "model": self._model,
+            "temperature": 0,
             "messages": [
                 {"role": "system", "content": request.system_prompt},
                 {"role": "user", "content": request.user_prompt},
@@ -172,14 +174,7 @@ class LiteLLMChatCompletionsProvider:
         if not isinstance(content, str) or not content.strip():
             raise ProviderError("LiteLLM response did not contain content", retryable=True)
 
-        try:
-            structured_output = json.loads(
-                content,
-                parse_constant=_reject_json_constant,
-                object_pairs_hook=_reject_duplicate_pairs,
-            )
-        except (json.JSONDecodeError, RecursionError, ValueError):
-            raise ProviderError("LiteLLM content was not valid JSON", retryable=True) from None
+        structured_output = _decode_structured_content(content)
         if not isinstance(structured_output, Mapping):
             raise ProviderError("LiteLLM structured output was not an object", retryable=True)
         return dict(structured_output)
@@ -198,6 +193,47 @@ class _NoRedirectHandler(HTTPRedirectHandler):
         newurl: str,
     ) -> Request | None:
         return None
+
+
+def _decode_structured_content(content: str) -> object:
+    """Decode strict JSON, retrying only after a leading Qwen thinking block.
+
+    The clean response is always parsed first.  Recovery never searches for an
+    arbitrary JSON fragment: it only accepts content following a closing
+    ``</think>`` marker when that remainder starts with a JSON object.  The
+    second parse stays strict, including duplicate-key and non-finite checks.
+    """
+
+    try:
+        return _strict_json_loads(content)
+    except (json.JSONDecodeError, RecursionError, ValueError):
+        recovered = _content_after_thinking_prefix(content)
+        if recovered is None:
+            raise ProviderError("LiteLLM content was not valid JSON", retryable=True) from None
+    try:
+        return _strict_json_loads(recovered)
+    except (json.JSONDecodeError, RecursionError, ValueError):
+        raise ProviderError("LiteLLM content was not valid JSON", retryable=True) from None
+
+
+def _strict_json_loads(content: str) -> object:
+    return json.loads(
+        content,
+        parse_constant=_reject_json_constant,
+        object_pairs_hook=_reject_duplicate_pairs,
+    )
+
+
+def _content_after_thinking_prefix(content: str) -> str | None:
+    stripped = content.strip()
+    if stripped.startswith("{"):
+        return None
+    matches = tuple(_THINKING_CLOSE_PATTERN.finditer(stripped))
+    for match in reversed(matches):
+        candidate = stripped[match.end() :].strip()
+        if candidate.startswith("{"):
+            return candidate
+    return None
 
 
 def _open_without_redirects(request: Request, *, timeout: float) -> Any:

@@ -6,6 +6,7 @@ import unittest
 import pytest
 
 from vneguide.cli.runtime import load_session_factory
+from vneguide.domain import NextAction
 
 pytestmark = pytest.mark.live
 
@@ -23,8 +24,11 @@ def _live_key_is_configured() -> bool:
 class LiveProviderSmokeTest(unittest.TestCase):
     def test_provider_returns_a_turn_result(self) -> None:
         session = load_session_factory()()
-        result = session.send("Tôi cần xin bản sao trích lục khai sinh.")
+        detected = session.send("Tôi cần xin bản sao trích lục khai sinh.")
+        result = session.send("Đúng")
 
+        self.assertEqual(detected.next_action, NextAction.CONFIRM_PROCEDURE)
+        self.assertIsNone(detected.state.draft.procedure_code)
         self.assertTrue(getattr(result, "reply", ""))
         self.assertTrue(getattr(result, "source_ids", []))
 

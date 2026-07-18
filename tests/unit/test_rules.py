@@ -7,8 +7,8 @@ from pathlib import Path
 import pytest
 
 from vneguide.data import ProcedureRepository
-from vneguide.domain import ProcedureCode, RuleInputOrigin, SourceStatus
-from vneguide.rules import RULE_HANDLERS, RuleEngine
+from vneguide.domain import FieldType, ProcedureCode, RuleInputOrigin, SourceStatus
+from vneguide.rules import RULE_HANDLERS, QuestionSelector, RuleEngine
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -86,6 +86,111 @@ def test_missing_fields_follow_reviewed_order_and_conditions(
     )
     assert "minor_consent_present" in conditional
     assert "legal_dwelling_document_present" in conditional
+
+
+def test_question_selector_explains_catalog_choices_in_plain_vietnamese(
+    repository: ProcedureRepository,
+) -> None:
+    selector = QuestionSelector(repository)
+    expected_enum_labels = {
+        ("2.000635", "requester_type"): (
+            "cá nhân tự yêu cầu",
+            "người được ủy quyền",
+            "đại diện tổ chức",
+        ),
+        ("2.000635", "requester_id_document_type"): (
+            "căn cước công dân",
+            "chứng minh nhân dân",
+            "hộ chiếu",
+            "giấy chứng nhận căn cước",
+            "căn cước điện tử",
+        ),
+        ("2.000635", "submission_channel"): (
+            "trực tuyến",
+            "trực tiếp",
+            "qua bưu chính",
+        ),
+        ("2.000635", "authorization_relationship"): (
+            "ông hoặc bà",
+            "cha hoặc mẹ",
+            "con",
+            "vợ hoặc chồng",
+            "anh, chị hoặc em ruột",
+            "khác",
+        ),
+        ("1.013314", "hanoi_zone"): (
+            "nội thành Hà Nội",
+            "ngoại thành Hà Nội",
+        ),
+        ("1.004194", "registration_mode"): (
+            "cá nhân hoặc hộ gia đình",
+            "theo danh sách",
+            "đơn vị lực lượng vũ trang",
+        ),
+        ("1.004194", "dwelling_basis"): (
+            "sở hữu",
+            "thuê",
+            "mượn",
+            "ở nhờ",
+            "về ở cùng hộ gia đình",
+            "khác",
+        ),
+        ("1.004194", "submission_channel"): ("trực tuyến", "trực tiếp"),
+    }
+
+    registration = selector.question_for("1.004194", "registration_mode")
+    requester = selector.question_for("2.000635", "requester_type")
+    boolean = selector.question_for("1.004194", "applicant_is_minor")
+
+    assert "cá nhân hoặc hộ gia đình" in registration
+    assert "theo danh sách" in registration
+    assert "đơn vị lực lượng vũ trang" in registration
+    assert "cá nhân tự yêu cầu" in requester
+    assert "người được ủy quyền" in requester
+    assert "đại diện tổ chức" in requester
+    assert "Có hoặc Không" in boolean
+
+    seen_enum_fields: set[tuple[str, str]] = set()
+    for procedure in repository.list_procedures():
+        for field in repository.fields_for(procedure.procedure_code):
+            if field.field_type is not FieldType.ENUM:
+                continue
+            question = selector.question_for(procedure.procedure_code, field.field_id)
+            key = (procedure.procedure_code.value, field.field_id)
+            seen_enum_fields.add(key)
+            assert question.startswith("Anh/chị chọn ")
+            assert all(label in question for label in expected_enum_labels[key])
+            assert all(str(value) not in question for value in field.values)
+    assert seen_enum_fields == set(expected_enum_labels)
+
+    boolean_fields = {
+        (procedure.procedure_code, field.field_id)
+        for procedure in repository.list_procedures()
+        for field in repository.fields_for(procedure.procedure_code)
+        if field.field_type is FieldType.BOOLEAN
+    }
+    assert len(boolean_fields) == 9
+    for code, field_id in boolean_fields:
+        question = selector.question_for(code, field_id)
+        assert "Có" in question
+        assert "Không" in question
+        assert field_id not in question
+        assert "xác nhận mục" not in question
+
+
+def test_conversation_procedure_labels_are_short_and_centralized(
+    repository: ProcedureRepository,
+) -> None:
+    selector = QuestionSelector(repository)
+
+    labels = {code: selector.procedure_label(code) for code in ProcedureCode}
+
+    assert labels[ProcedureCode.BIRTH_CERTIFICATE_COPY] == "cấp bản sao Giấy khai sinh"
+    assert labels[ProcedureCode.TEMPORARY_RESIDENCE_REGISTRATION] == "đăng ký tạm trú"
+    assert labels[ProcedureCode.HOUSING_CONDITION_CONFIRMATION] == (
+        "xác nhận điều kiện nhà ở để đăng ký thường trú"
+    )
+    assert all(len(label) < 60 for label in labels.values())
 
 
 def test_field_validation_rejects_bad_identity_and_future_birth_date(

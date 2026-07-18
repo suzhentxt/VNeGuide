@@ -69,6 +69,7 @@ class NextAction(StrEnum):
     REQUEST_OFFICIAL_REVIEW = "request_official_review"
     COMPLETE = "complete"
     OUT_OF_SCOPE = "out_of_scope"
+    CONFIRM_PROCEDURE = "confirm_procedure"
     CONFIRM_SUGGESTION = "confirm_suggestion"
     MANUAL_INPUT = "manual_input"
     RETRY = "retry"

@@ -124,3 +124,38 @@ Rollback bằng `git revert`; không dùng reset hoặc force-push trên branch 
   tạm đã được dừng sau smoke.
 - Việc tiếp theo: chạy browser E2E với backend/model thật cho open/close, general → procedure, A → B,
   manual field blur nhanh, rebind và mobile focus. Multi-tab session identity chưa thuộc phạm vi MVP này.
+
+## Bàn giao hội thoại senior trên `agent/senior-conversation-v2`
+
+- Base là local `dev@7fac2858`. Nhánh này thêm xác nhận thủ tục cho general chat, lời thoại dùng catalog
+  label, phục hồi thinking prefix, soft-drop candidate evidence lỗi và NLG acknowledgement có allowlist.
+- `pending_procedure_code` chỉ là state server nội bộ. API/web nhận `next_action=confirm_procedure`,
+  `procedure=null`, draft revision `0`; assistant message luôn chứa cùng nội dung với top-level `reply`.
+- Route-scoped session tiếp tục active ngay. General session chỉ active sau `Đúng`; `Không phải` xóa pending.
+  Field trích ở lượt intent đầu tiên được cố ý không giữ trước khi xác nhận và sẽ được hỏi lại sau đó.
+- Nếu chính lượt xác nhận còn nêu dữ liệu, ví dụ `Đúng, tôi nộp trực tuyến`, field của lượt đó được giữ
+  dưới dạng suggestion pending; core vẫn không tự ghi vào draft hoặc tăng revision.
+- Guard phủ nhận pending xử lý cả câu dài: phủ nhận không nêu thủ tục mới sẽ xóa pending; nếu extractor
+  nhận diện một thủ tục khác đã review thì chỉ thay pending sang mã mới. Câu hỏi lại như `Đúng không ạ`
+  không bị hiểu là phủ nhận hoặc xác nhận.
+- Reply sau Accept/Reject/Edit và manual form edit được append vào assistant message mà không tăng
+  `turn_number`; transcript web không còn mất câu hỏi vừa được đánh dấu trong `asked_question_ids`.
+- Enum question liệt kê lựa chọn tiếng Việt theo đúng thứ tự value trong catalog. Chín boolean question
+  có template riêng với quy ước `Có=True`; tên thủ tục dài `1.013314` dùng short label tập trung.
+- Provider schema là catalog-derived compact schema dưới 5 KB; server validator vẫn là nguồn quyết định
+  type, bound, procedure ownership và evidence. Không đưa validation nghiệp vụ sang model.
+- LiteLLM extraction khóa `temperature=0` và có direct routing examples cho tạm trú/nhà ở. Live probe
+  `Tôi muốn đăng ký tạm trú` đạt 5/5; flow `Đúng, tôi nộp trực tuyến` tạo đúng pending suggestion
+  `submission_channel`. Core gửi `confirmation_required=true` trong bounded context và chỉ activate
+  procedure sau khi outcome xác nhận cùng mã; câu phủ nhận/do dự không bị activate sớm.
+- Gate cuối: compile/Ruff/Mypy pass; `252 passed, 1 skipped`, coverage `80.62%`; frontend `27/27` test và
+  build 25 route pass. `zai-org/GLM-5.2` đạt provider smoke, route tạm trú 5/5, mixed-confirm và
+  reject/switch regression trên dữ liệu giả.
+- Full-index `release_audit.py` vẫn không hoàn tất trong thời gian hợp lý trên Windows và đã được dừng;
+  bounded diff scan không thấy conflict marker, secret, tracked `.env` hoặc định danh 12 chữ số mới.
+- Bước tiếp theo: merge nhánh này vào `dev`, sau đó chạy browser E2E cho nút mở chat, nhập intent, trả lời
+  `Đúng`/`Không phải` và xác minh form route vẫn đồng bộ. Có thể thêm CTA `Đúng`/`Không phải` sau, nhưng
+  text input hiện đã hoạt động và không cần thay API contract.
+- Không chạy transcript hoặc hồ sơ thật qua gateway HTTP; chỉ dùng dữ liệu tổng hợp cho tới khi có HTTPS.
+- Python `3.11.9` user-level đã được khôi phục đúng đường dẫn trong `.venv/pyvenv.cfg`; không cần tạo lại
+  `.venv` trên máy này.

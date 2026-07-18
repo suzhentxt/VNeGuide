@@ -154,3 +154,58 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
 - HTTP production smoke đạt `200` và đúng một launcher trên `/`, trang danh mục và ba trang procedure.
 - Chưa có visual/browser interaction smoke vì phiên này không có in-app browser khả dụng; cần kiểm tra
   responsive, focus và thao tác chat thật trong browser trước khi merge release.
+
+## 2026-07-18 — Hội thoại xác nhận thủ tục và extraction bền vững
+
+- Tạo nhánh `agent/senior-conversation-v2` từ local `dev@7fac2858`; không sửa data package hoặc mở rộng
+  ngoài ba mã thủ tục đã khóa.
+- Session tổng quát nay giữ `pending_procedure_code`: intent được nhận diện phải qua một lượt xác nhận
+  `Đúng`/`Không phải` trước khi kích hoạt draft. Lượt xác nhận deterministic không gọi model, không tăng
+  revision và không tạo suggestion sớm. Session được khởi tạo từ route thủ tục vẫn bỏ qua bước này.
+- Nếu người dùng nêu rõ thủ tục khác khi đang chờ, core thay lựa chọn pending và hỏi lại. Lượt mơ hồ,
+  ngoài phạm vi hoặc lỗi provider không làm mất lựa chọn pending. `close`/reset tạo state sạch.
+- Câu hỏi, manual fallback, suggestion và kết quả validation dùng tiếng Việt lịch sự. Field label và
+  tập enum value vẫn lấy từ catalog; ba tên thủ tục rút gọn được quản lý tập trung riêng cho hội thoại.
+  Không hiển thị field ID hoặc enum value kỹ thuật cho người dùng.
+- Câu hỏi enum liệt kê rõ phương án tiếng Việt; chín field boolean có câu riêng và luôn giữ quy ước
+  `Có=True`, tránh phủ định kép cho các khai báo “không tranh chấp/không thuộc địa điểm cấm”.
+- Lượt xác nhận có thêm dữ liệu, ví dụ `Đúng, tôi nộp trực tuyến`, vẫn tạo suggestion cho dữ liệu được
+  trích ở chính lượt đó. Pending procedure được đánh dấu bằng `confirmation_required=true` trong
+  extraction context và chỉ được activate sau outcome cùng mã. Lượt intent đầu tiên vẫn không
+  auto-commit field trước khi xác nhận.
+- Phủ nhận dài như `Vâng nhưng không phải thủ tục này` xóa pending bằng guard deterministic ngay cả
+  khi model trả nhầm cùng mã. Nếu cùng câu nêu rõ thủ tục khác đã review, core chỉ thay pending sang
+  mã mới, không activate sớm và không bắt reset.
+- Phản hồi sau Accept/Reject/Edit và manual form edit được lưu vào `state.messages`; web thay transcript
+  từ API nên không còn làm mất câu hỏi kế tiếp trong khi `asked_question_ids` đã đánh dấu là đã hỏi.
+- LiteLLM parse JSON sạch trước, sau đó mới phục hồi riêng prefix thinking kết thúc bằng `</think>`;
+  duplicate key, trailing prose, JSON không đóng và non-standard constant vẫn bị từ chối.
+- LiteLLM extraction gửi `temperature=0`; prompt khóa thêm ví dụ route trực tiếp cho tạm trú và xác nhận
+  điều kiện nhà ở. Probe model thật cho câu `Tôi muốn đăng ký tạm trú` đạt `5/5` lần liên tiếp.
+- Candidate field/context có evidence không khớp bị loại riêng, không làm mất intent hoặc candidate tốt.
+  Lỗi root, procedure, field ID, type, bounds, duplicate và origin không an toàn vẫn fail cứng.
+- Provider schema vẫn khóa exact root và catalog ID nhưng được rút từ khoảng 18 KB/44 nhánh `anyOf`
+  xuống dưới 5 KB. Type, procedure ownership và evidence tiếp tục được validator server-side kiểm tra.
+  Thay đổi này sửa lỗi HTTP 500 thực tế của gateway khi compile schema lớn.
+- `reply` NLG là nullable structured field. Core chỉ nhận ba acknowledgement chung trong allowlist và
+  chỉ dùng làm lời mở đầu; model không được thay câu hỏi, next action, validation hoặc kết luận nghiệp vụ.
+
+### Gate hội thoại senior
+
+| Gate | Kết quả |
+| --- | --- |
+| Compileall | Pass |
+| Ruff lint/format | Pass, 90 file |
+| Mypy strict | Pass, 88 source file |
+| Pytest/coverage | 252 passed, 1 skipped; coverage 80.62% |
+| API recovery/confirmation | Pass; pending qua GET session, xác nhận không gọi extractor lần hai |
+| `npm run check` | Pass; lint, typecheck, 27 test và Next build 25 route |
+| Provider smoke | `MODEL_SMOKE_OK`, LiteLLM, `zai-org/GLM-5.2`; route tạm trú 5/5 |
+| Live conversation smoke | Pass; intent → confirm → active và `Đúng, tôi nộp trực tuyến` → pending `submission_channel` |
+| Release audit | Full-index scan tiếp tục quá chậm trên Windows và đã dừng; bounded diff scan pass cho conflict marker, secret, tracked `.env` và chuỗi định danh 12 chữ số mới |
+
+Live smoke chỉ dùng dữ liệu giả. Gateway model vẫn là HTTP không mã hóa, vì vậy không được dùng PII hoặc
+hồ sơ hành chính thật cho đến khi có HTTPS.
+
+Môi trường máy này từng mất Python gốc mà `.venv` tham chiếu. Python `3.11.9` đã được cài lại theo phạm
+vi user đúng tại `C:\Users\hautt\AppData\Local\Programs\Python\Python311`; `.venv` chạy lại bình thường.

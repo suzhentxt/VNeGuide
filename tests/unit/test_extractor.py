@@ -39,10 +39,12 @@ def _payload(
     fields: list[dict[str, object]] | None = None,
     context_signals: list[dict[str, object]] | None = None,
     clarification_question: str | None = None,
+    reply: str | None = None,
 ) -> dict[str, object]:
     return {
         "classification": classification,
         "procedure_code": procedure_code,
+        "reply": reply,
         "clarification_question": clarification_question,
         "fields": [] if fields is None else fields,
         "context_signals": [] if context_signals is None else context_signals,
@@ -111,6 +113,7 @@ class StructuredExtractorTests(unittest.TestCase):
             {
                 "classification",
                 "procedure_code",
+                "reply",
                 "clarification_question",
                 "fields",
                 "context_signals",
@@ -156,6 +159,7 @@ class StructuredExtractorTests(unittest.TestCase):
             {
                 "active_procedure_code": "1.004194",
                 "expected_field_id": "registration_mode",
+                "confirmation_required": False,
             },
         )
         self.assertNotIn("messages", envelope)
@@ -178,9 +182,9 @@ class StructuredExtractorTests(unittest.TestCase):
             context=ExtractionTurnContext("1.004194", "registration_mode"),
         )
 
-        self.assertFalse(outcome.succeeded)
-        self.assertEqual(outcome.error_code, "malformed_output")
-        self.assertEqual(len(provider.calls), 2)
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(dict(outcome.fields), {})
+        self.assertEqual(len(provider.calls), 1)
 
     def test_pronoun_only_person_name_is_safely_discarded(self) -> None:
         unsafe_payload = _payload(
@@ -313,6 +317,18 @@ class StructuredExtractorTests(unittest.TestCase):
             with self.subTest(value=invalid_type), self.assertRaises(ValueError):
                 ExtractionTurnContext(cast(str, invalid_type))
 
+        with self.assertRaisesRegex(ValueError, "confirmation_required"):
+            ExtractionTurnContext(
+                "1.004194",
+                confirmation_required=cast(bool, "yes"),
+            )
+        with self.assertRaisesRegex(ValueError, "expected field"):
+            ExtractionTurnContext(
+                "1.004194",
+                "registration_mode",
+                confirmation_required=True,
+            )
+
     def test_catalog_locks_three_codes_and_separates_rule_context_origins(self) -> None:
         self.assertEqual(
             set(self.catalog.procedure_codes),
@@ -367,9 +383,46 @@ class StructuredExtractorTests(unittest.TestCase):
             {
                 "active_procedure_code": "1.004194",
                 "expected_field_id": "registration_mode",
+                "confirmation_required": False,
             },
         )
         self.assertNotIn("messages", envelope)
+
+    def test_pending_confirmation_context_is_explicit_in_the_provider_envelope(self) -> None:
+        provider = MockLLMProvider(
+            [
+                _payload(
+                    procedure_code="1.004194",
+                    fields=[
+                        {
+                            "field_id": "submission_channel",
+                            "value": "online",
+                            "evidence": "trực tuyến",
+                        }
+                    ],
+                )
+            ]
+        )
+        extractor = StructuredExtractor(provider, self.catalog)
+
+        outcome = extractor.extract(
+            "Đúng, tôi nộp trực tuyến",
+            context=ExtractionTurnContext(
+                "1.004194",
+                confirmation_required=True,
+            ),
+        )
+
+        self.assertTrue(outcome.succeeded)
+        envelope = json.loads(provider.calls[0].user_prompt)
+        self.assertEqual(
+            envelope["conversation_context"],
+            {
+                "active_procedure_code": "1.004194",
+                "expected_field_id": None,
+                "confirmation_required": True,
+            },
+        )
 
     def test_context_cannot_be_reused_as_field_evidence(self) -> None:
         unsafe = _payload(
@@ -392,8 +445,8 @@ class StructuredExtractorTests(unittest.TestCase):
             ),
         )
 
-        self.assertFalse(outcome.succeeded)
-        self.assertEqual(outcome.error_code, "malformed_output")
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(dict(outcome.fields), {})
 
     def test_active_context_allows_new_supported_intent_for_core_to_require_reset(self) -> None:
         new_procedure = _payload(
@@ -511,8 +564,9 @@ class StructuredExtractorTests(unittest.TestCase):
                 )
                 provider = MockLLMProvider([payload, payload])
                 outcome = StructuredExtractor(provider, self.catalog).extract(message)
-                self.assertFalse(outcome.succeeded)
-                self.assertEqual(outcome.error_code, "malformed_output")
+                self.assertTrue(outcome.succeeded)
+                self.assertEqual(dict(outcome.context_signals), {})
+                self.assertEqual(len(provider.calls), 1)
 
         negative_payload = _payload(
             procedure_code="1.004194",
@@ -543,8 +597,8 @@ class StructuredExtractorTests(unittest.TestCase):
         wrong_polarity = StructuredExtractor(
             MockLLMProvider([unrelated_negation, unrelated_negation]), self.catalog
         ).extract("Tôi không sống ở Hà Nội, tôi mới nhập quốc tịch Việt Nam.")
-        self.assertFalse(wrong_polarity.succeeded)
-        self.assertEqual(wrong_polarity.error_code, "malformed_output")
+        self.assertTrue(wrong_polarity.succeeded)
+        self.assertEqual(dict(wrong_polarity.context_signals), {})
 
     def test_text_model_cannot_emit_document_or_cross_procedure_signals(self) -> None:
         unsafe_cases: tuple[tuple[str, dict[str, object], str], ...] = (
@@ -728,7 +782,7 @@ class StructuredExtractorTests(unittest.TestCase):
                 self.assertEqual(outcome.attempts, 1)
                 self.assertEqual(len(provider.calls), 1)
 
-    def test_rejects_cross_procedure_unknown_duplicate_and_unverifiable_fields(self) -> None:
+    def test_rejects_cross_procedure_unknown_and_duplicate_fields(self) -> None:
         invalid_fields: tuple[list[dict[str, object]], ...] = (
             [
                 {
@@ -742,13 +796,11 @@ class StructuredExtractorTests(unittest.TestCase):
                 {"field_id": "submission_channel", "value": "online", "evidence": "online"},
                 {"field_id": "submission_channel", "value": "online", "evidence": "online"},
             ],
-            [{"field_id": "submission_channel", "value": "online", "evidence": "online"}],
         )
         messages = (
             "Tôi đăng ký tạm trú và cần 2 bản.",
             "Tôi cần x.",
             "Tôi đăng ký tạm trú online.",
-            "Tôi đăng ký tạm trú trực tiếp.",
         )
         for fields, message in zip(invalid_fields, messages, strict=True):
             with self.subTest(fields=fields):
@@ -761,6 +813,101 @@ class StructuredExtractorTests(unittest.TestCase):
                 outcome = StructuredExtractor(provider, self.catalog).extract(message)
                 self.assertFalse(outcome.succeeded)
                 self.assertEqual(outcome.error_code, "malformed_output")
+
+    def test_unverifiable_field_is_dropped_without_losing_supported_intent(self) -> None:
+        provider = MockLLMProvider(
+            [
+                _payload(
+                    procedure_code="1.004194",
+                    fields=[
+                        {
+                            "field_id": "submission_channel",
+                            "value": "online",
+                            "evidence": "online",
+                        }
+                    ],
+                )
+            ]
+        )
+
+        outcome = StructuredExtractor(provider, self.catalog).extract(
+            "Tôi đăng ký tạm trú trực tiếp."
+        )
+
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(outcome.procedure_code, "1.004194")
+        self.assertEqual(dict(outcome.fields), {})
+
+    def test_bad_candidate_does_not_discard_a_grounded_candidate(self) -> None:
+        provider = MockLLMProvider(
+            [
+                _payload(
+                    fields=[
+                        {
+                            "field_id": "copies_requested",
+                            "value": 2,
+                            "evidence": "2 bản",
+                        },
+                        {
+                            "field_id": "submission_channel",
+                            "value": "online",
+                            "evidence": "trực tuyến",
+                        },
+                    ]
+                )
+            ]
+        )
+
+        outcome = StructuredExtractor(provider, self.catalog).extract(
+            "Tôi cần 2 bản và sẽ đến nhận trực tiếp."
+        )
+
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(dict(outcome.fields), {"copies_requested": 2})
+
+    def test_duplicate_field_is_rejected_even_when_first_candidate_would_be_dropped(self) -> None:
+        duplicated = _payload(
+            fields=[
+                {
+                    "field_id": "submission_channel",
+                    "value": "online",
+                    "evidence": "không xuất hiện",
+                },
+                {
+                    "field_id": "submission_channel",
+                    "value": "direct",
+                    "evidence": "trực tiếp",
+                },
+            ]
+        )
+        provider = MockLLMProvider([duplicated, duplicated])
+
+        outcome = StructuredExtractor(provider, self.catalog).extract("Tôi nhận trực tiếp.")
+
+        self.assertFalse(outcome.succeeded)
+        self.assertEqual(outcome.error_code, "malformed_output")
+
+    def test_safe_reply_is_propagated_and_invalid_reply_is_rejected(self) -> None:
+        safe_reply = "Dạ, em đã hiểu yêu cầu của anh/chị ạ."
+        outcome = StructuredExtractor(
+            MockLLMProvider([_payload(reply=safe_reply)]), self.catalog
+        ).extract("Tôi cần bản sao Giấy khai sinh.")
+
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(outcome.reply, safe_reply)
+
+        invalid_payloads = (
+            _payload(reply=""),
+            _payload(reply="x" * 241),
+            {**_payload(), "reply": 42},
+        )
+        for invalid in invalid_payloads:
+            with self.subTest(reply=invalid["reply"]):
+                rejected = StructuredExtractor(
+                    MockLLMProvider([invalid, invalid]), self.catalog
+                ).extract("Tôi cần bản sao Giấy khai sinh.")
+                self.assertFalse(rejected.succeeded)
+                self.assertEqual(rejected.error_code, "malformed_output")
 
     def test_rejects_type_pattern_enum_bound_and_date_violations(self) -> None:
         invalid_cases: tuple[tuple[str, dict[str, object], str], ...] = (
@@ -807,15 +954,6 @@ class StructuredExtractorTests(unittest.TestCase):
                 {"field_id": "allocated_area_m2", "value": math.inf, "evidence": "inf"},
                 "inf",
             ),
-            (
-                "2.000635",
-                {
-                    "field_id": "subject_full_name",
-                    "value": "A",
-                    "evidence": "Trần An",
-                },
-                "Trần An",
-            ),
         )
         for procedure_code, field, message in invalid_cases:
             with self.subTest(field=field):
@@ -827,6 +965,26 @@ class StructuredExtractorTests(unittest.TestCase):
                 )
                 outcome = StructuredExtractor(provider, self.catalog).extract(message)
                 self.assertFalse(outcome.succeeded)
+
+    def test_inconsistent_string_value_is_soft_dropped(self) -> None:
+        provider = MockLLMProvider(
+            [
+                _payload(
+                    fields=[
+                        {
+                            "field_id": "subject_full_name",
+                            "value": "A",
+                            "evidence": "Trần An",
+                        }
+                    ]
+                )
+            ]
+        )
+
+        outcome = StructuredExtractor(provider, self.catalog).extract("Trần An")
+
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(dict(outcome.fields), {})
 
     def test_non_supported_output_cannot_smuggle_fields_or_a_procedure(self) -> None:
         unsafe = _payload(
@@ -1140,10 +1298,31 @@ class OpenAIResponsesProviderTests(unittest.TestCase):
         schema = build_extraction_json_schema(catalog)
         procedure_enum = schema["properties"]["procedure_code"]["enum"]
         self.assertEqual(set(procedure_enum), {"2.000635", "1.013314", "1.004194", None})
+        field_enum = schema["properties"]["fields"]["items"]["properties"]["field_id"]["enum"]
+        expected_field_ids = {
+            field.field_id for code in catalog.procedure_codes for field in catalog.fields_for(code)
+        }
+        self.assertEqual(set(field_enum), expected_field_ids)
+        context_enum = schema["properties"]["context_signals"]["items"]["properties"]["input_id"][
+            "enum"
+        ]
+        expected_context_ids = {
+            item.input_id
+            for code in catalog.procedure_codes
+            for item in catalog.extractable_rule_contexts_for(code)
+        }
+        self.assertEqual(set(context_enum), expected_context_ids)
         self.assertNotIn("marriage_extract", json.dumps(schema))
         self.assertNotIn("death_extract", json.dumps(schema))
         schema_text = json.dumps(schema)
-        for unsupported_keyword in ('"format"', '"pattern"', '"minimum"', '"maximum"'):
+        self.assertLess(len(schema_text), 5_000)
+        for unsupported_keyword in (
+            '"format"',
+            '"pattern"',
+            '"minimum"',
+            '"maximum"',
+            '"maxLength"',
+        ):
             self.assertNotIn(unsupported_keyword, schema_text)
 
 

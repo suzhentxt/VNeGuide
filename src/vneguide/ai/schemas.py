@@ -30,6 +30,7 @@ _ROOT_KEYS = frozenset(
     {
         "classification",
         "procedure_code",
+        "reply",
         "clarification_question",
         "fields",
         "context_signals",
@@ -512,6 +513,7 @@ class ValidatedExtraction:
 
     classification: str
     procedure_code: str | None
+    reply: str | None
     fields: Mapping[str, JsonScalar]
     evidence: Mapping[str, str]
     context_signals: Mapping[str, JsonScalar]
@@ -521,49 +523,50 @@ class ValidatedExtraction:
 
 
 def build_extraction_json_schema(catalog: ExtractionCatalog) -> dict[str, Any]:
-    """Build an OpenAI-compatible strict JSON Schema from reviewed catalog fields."""
+    """Build a compact strict provider schema from reviewed catalog identifiers.
 
-    item_variants: list[dict[str, Any]] = []
-    for procedure_code in catalog.procedure_codes:
-        for spec in catalog.fields_for(procedure_code):
-            item_variants.append(
-                {
-                    "type": "object",
-                    "description": f"{procedure_code}: {spec.label}",
-                    "properties": {
-                        "field_id": {"type": "string", "enum": [spec.field_id]},
-                        "value": spec.value_schema(),
-                        "evidence": {
-                            "type": "string",
-                            "description": "Verbatim evidence from the current user message.",
-                        },
-                    },
-                    "required": ["field_id", "value", "evidence"],
-                    "additionalProperties": False,
-                }
-            )
+    Per-field types, bounds, procedure ownership, and evidence consistency are
+    still enforced by :func:`validate_extraction_payload`.  Keeping those
+    constraints server-side avoids a large ``anyOf`` grammar that some
+    OpenAI-compatible gateways cannot compile, while the provider remains
+    unable to emit an unknown field or context ID.
+    """
 
-    context_variants: list[dict[str, Any]] = []
-    for procedure_code in catalog.procedure_codes:
-        for context_spec in catalog.extractable_rule_contexts_for(procedure_code):
-            context_variants.append(
-                {
-                    "type": "object",
-                    "description": (
-                        f"{procedure_code}: {context_spec.label}; origin={context_spec.origin}"
-                    ),
-                    "properties": {
-                        "input_id": {"type": "string", "enum": [context_spec.input_id]},
-                        "value": context_spec.value_schema(),
-                        "evidence": {
-                            "type": "string",
-                            "description": "Verbatim evidence from the current user message.",
-                        },
-                    },
-                    "required": ["input_id", "value", "evidence"],
-                    "additionalProperties": False,
-                }
-            )
+    field_ids = sorted(
+        {
+            spec.field_id
+            for procedure_code in catalog.procedure_codes
+            for spec in catalog.fields_for(procedure_code)
+        }
+    )
+    context_ids = sorted(
+        {
+            spec.input_id
+            for procedure_code in catalog.procedure_codes
+            for spec in catalog.extractable_rule_contexts_for(procedure_code)
+        }
+    )
+    scalar_schema = {"type": ["string", "integer", "number", "boolean"]}
+    field_item = {
+        "type": "object",
+        "properties": {
+            "field_id": {"type": "string", "enum": field_ids},
+            "value": scalar_schema,
+            "evidence": {"type": "string"},
+        },
+        "required": ["field_id", "value", "evidence"],
+        "additionalProperties": False,
+    }
+    context_item = {
+        "type": "object",
+        "properties": {
+            "input_id": {"type": "string", "enum": context_ids},
+            "value": scalar_schema,
+            "evidence": {"type": "string"},
+        },
+        "required": ["input_id", "value", "evidence"],
+        "additionalProperties": False,
+    }
 
     return {
         "type": "object",
@@ -576,19 +579,24 @@ def build_extraction_json_schema(catalog: ExtractionCatalog) -> dict[str, Any]:
                 "type": ["string", "null"],
                 "enum": [*catalog.procedure_codes, None],
             },
+            "reply": {
+                "type": ["string", "null"],
+                "description": "Optional short, polite acknowledgement without business facts.",
+            },
             "clarification_question": {"type": ["string", "null"]},
             "fields": {
                 "type": "array",
-                "items": {"anyOf": item_variants},
+                "items": field_item,
             },
             "context_signals": {
                 "type": "array",
-                "items": {"anyOf": context_variants},
+                "items": context_item,
             },
         },
         "required": [
             "classification",
             "procedure_code",
+            "reply",
             "clarification_question",
             "fields",
             "context_signals",
@@ -611,6 +619,7 @@ def validate_extraction_payload(
 
     classification = payload["classification"]
     procedure_code = payload["procedure_code"]
+    reply = payload["reply"]
     clarification_question = payload["clarification_question"]
     raw_fields = payload["fields"]
     raw_context_signals = payload["context_signals"]
@@ -619,6 +628,10 @@ def validate_extraction_payload(
         raise ExtractionSchemaError("invalid_classification", "Unknown extraction classification.")
     if procedure_code is not None and not isinstance(procedure_code, str):
         raise ExtractionSchemaError("invalid_procedure", "Procedure code must be a string or null.")
+    if reply is not None and (not isinstance(reply, str) or not reply.strip() or len(reply) > 240):
+        raise ExtractionSchemaError(
+            "invalid_reply", "Reply must be null or a short, non-empty string."
+        )
     if clarification_question is not None and not isinstance(clarification_question, str):
         raise ExtractionSchemaError(
             "invalid_clarification", "Clarification question must be a string or null."
@@ -638,10 +651,10 @@ def validate_extraction_payload(
                 "invalid_clarification", "Supported output cannot ask an intent clarification."
             )
     else:
-        if procedure_code is not None or raw_fields or raw_context_signals:
+        if procedure_code is not None or reply is not None or raw_fields or raw_context_signals:
             raise ExtractionSchemaError(
                 "unsafe_non_supported",
-                "Unsupported or ambiguous output must have a null code, no fields, "
+                "Unsupported or ambiguous output must have a null code, null reply, no fields, "
                 "and no context signals.",
             )
         if classification == "ambiguous":
@@ -661,6 +674,7 @@ def validate_extraction_payload(
 
     fields: dict[str, JsonScalar] = {}
     evidence_by_field: dict[str, str] = {}
+    seen_field_ids: set[str] = set()
     for raw_field in raw_fields:
         if not isinstance(raw_field, Mapping):
             raise ExtractionSchemaError("invalid_field", "Every extracted field must be an object.")
@@ -672,31 +686,27 @@ def validate_extraction_payload(
             raise ExtractionSchemaError("invalid_field", "Field ID must be a non-empty string.")
         assert procedure_code is not None
         spec = catalog.field(procedure_code, field_id)
-        if field_id in fields:
+        if field_id in seen_field_ids:
             raise ExtractionSchemaError("duplicate_field", f"Duplicate field: {field_id!r}.")
+        seen_field_ids.add(field_id)
         if not isinstance(evidence, str) or not evidence.strip() or len(evidence) > 500:
             raise ExtractionSchemaError(
                 "invalid_evidence", "Field evidence must be a short, non-empty string."
             )
-        if not _contains_evidence(message, evidence):
-            raise ExtractionSchemaError(
-                "unverifiable_evidence", f"Evidence for {field_id!r} is absent from the message."
-            )
-
         _validate_value(spec, value)
+        if not _contains_evidence(message, evidence):
+            continue
         if _is_pronoun_only_name(spec, value) or _is_uninformative_enum_evidence(spec, evidence):
             continue
         if not _evidence_supports_value(spec, value, evidence):
-            raise ExtractionSchemaError(
-                "inconsistent_evidence",
-                f"Evidence does not support the extracted value for {field_id!r}.",
-            )
+            continue
         fields[field_id] = value
         evidence_by_field[field_id] = evidence
 
     context_signals: dict[str, JsonScalar] = {}
     context_evidence: dict[str, str] = {}
     context_origins: dict[str, str] = {}
+    seen_context_ids: set[str] = set()
     for raw_signal in raw_context_signals:
         if not isinstance(raw_signal, Mapping):
             raise ExtractionSchemaError(
@@ -710,20 +720,15 @@ def validate_extraction_payload(
             raise ExtractionSchemaError(
                 "invalid_context_signal", "Context input ID must be a non-empty string."
             )
-        if input_id in context_signals:
+        if input_id in seen_context_ids:
             raise ExtractionSchemaError(
                 "duplicate_context_signal", f"Duplicate context signal: {input_id!r}."
             )
+        seen_context_ids.add(input_id)
         if not isinstance(evidence, str) or not evidence.strip() or len(evidence) > 500:
             raise ExtractionSchemaError(
                 "invalid_evidence", "Context evidence must be a short, non-empty string."
             )
-        if not _contains_evidence(message, evidence):
-            raise ExtractionSchemaError(
-                "unverifiable_evidence",
-                f"Evidence for context signal {input_id!r} is absent from the message.",
-            )
-
         assert procedure_code is not None
         context_spec = catalog.rule_context(procedure_code, input_id)
         if not context_spec.is_text_extractable:
@@ -732,21 +737,17 @@ def validate_extraction_payload(
                 f"Context signal {input_id!r} cannot originate from chat text.",
             )
         _validate_value(context_spec, value)
+        if not _contains_evidence(message, evidence):
+            continue
         if not _evidence_supports_value(context_spec, value, evidence):
-            raise ExtractionSchemaError(
-                "inconsistent_evidence",
-                f"Evidence does not support context signal {input_id!r}.",
-            )
+            continue
         if context_spec.field_type == "boolean" and not _boolean_context_is_grounded(
             context_spec,
             value,
             evidence=evidence,
             message=message,
         ):
-            raise ExtractionSchemaError(
-                "inconsistent_evidence",
-                f"Evidence does not safely ground boolean context signal {input_id!r}.",
-            )
+            continue
         context_signals[input_id] = value
         context_evidence[input_id] = evidence
         context_origins[input_id] = context_spec.origin
@@ -754,6 +755,7 @@ def validate_extraction_payload(
     return ValidatedExtraction(
         classification=classification,
         procedure_code=procedure_code,
+        reply=reply,
         fields=MappingProxyType(fields),
         evidence=MappingProxyType(evidence_by_field),
         context_signals=MappingProxyType(context_signals),

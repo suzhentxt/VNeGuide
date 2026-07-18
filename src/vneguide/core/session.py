@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import math
+import re
+import unicodedata
 from collections.abc import Mapping
 from dataclasses import replace
 from typing import Protocol
@@ -24,6 +26,46 @@ from vneguide.domain import (
     ValidationStatus,
 )
 from vneguide.rules import QuestionSelector, RuleEngine
+
+_AFFIRMATIVE_CONFIRMATIONS = frozenset(
+    {
+        "chính xác",
+        "dạ",
+        "dạ đúng",
+        "dạ đúng ạ",
+        "dạ đúng rồi",
+        "dạ đúng rồi ạ",
+        "dạ vâng",
+        "đúng",
+        "đúng rồi",
+        "đúng vậy",
+        "ok",
+        "okay",
+        "phải",
+        "phải rồi",
+        "vâng",
+        "vâng ạ",
+        "vâng đúng rồi",
+    }
+)
+_NEGATIVE_CONFIRMATIONS = frozenset(
+    {
+        "không",
+        "không ạ",
+        "không đúng",
+        "không phải",
+        "không phải ạ",
+        "sai",
+        "sai rồi",
+    }
+)
+_SAFE_NLG_ACKNOWLEDGEMENTS = frozenset(
+    {
+        "Dạ, em đã hiểu yêu cầu của anh/chị ạ.",
+        "Dạ, em đã ghi nhận thông tin anh/chị vừa cung cấp ạ.",
+        "Dạ, em hiểu rồi ạ.",
+    }
+)
 
 
 class Extractor(Protocol):
@@ -85,6 +127,14 @@ class ConversationSession:
     def send(self, message: str) -> TurnResult:
         self._ensure_open()
         active_code = self._state.draft.procedure_code
+        pending_code = self._state.pending_procedure_code
+        rejects_pending = pending_code is not None and _rejects_pending_procedure(message)
+        confirmation = _confirmation_value(message) if pending_code is not None else None
+        if confirmation is True:
+            return self._confirm_pending_procedure(message)
+        if confirmation is False:
+            return self._reject_pending_procedure(message)
+
         previous_missing = (
             self._rules.missing_fields(active_code, self._state.draft.values)
             if active_code is not None
@@ -96,13 +146,34 @@ class ConversationSession:
                 previous_missing[0] if previous_missing and not self._pending() else None
             )
             context = ExtractionTurnContext(active_code.value, expected_field)
+        elif pending_code is not None:
+            context = ExtractionTurnContext(
+                pending_code.value,
+                confirmation_required=True,
+            )
         outcome = self._extractor.extract(message, context=context)
         if not outcome.succeeded:
+            if rejects_pending:
+                return self._reject_pending_procedure(message)
             return self._technical_fallback(message, outcome.error_code or "provider_error")
         self._clear_technical_failures()
+        if pending_code is not None and rejects_pending:
+            selects_different_procedure = (
+                outcome.classification == "supported"
+                and outcome.procedure_code is not None
+                and ProcedureCode(outcome.procedure_code) != pending_code
+            )
+            if not selects_different_procedure:
+                return self._reject_pending_procedure(message)
         if outcome.classification == "unsupported":
             return self._unsupported(message)
         if outcome.classification == "ambiguous" or outcome.procedure_code is None:
+            if pending_code is not None:
+                return self._reply_without_draft_change(
+                    message,
+                    self._confirmation_prompt(pending_code, heard_clearly=False),
+                    NextAction.CONFIRM_PROCEDURE,
+                )
             if active_code is not None:
                 if previous_missing and not self._pending():
                     field_id = previous_missing[0]
@@ -112,29 +183,38 @@ class ConversationSession:
                 prompt, action = self._resume_prompt(active_code)
                 return self._reply_without_draft_change(
                     message,
-                    f"Tôi chưa hiểu câu trả lời trong ngữ cảnh thủ tục hiện tại. {prompt}",
+                    f"Dạ, em chưa hiểu rõ câu trả lời vừa rồi. {prompt}",
                     action,
                 )
             return self._reply_without_draft_change(
                 message,
-                "Bạn cần hỗ trợ đăng ký tạm trú, xác nhận diện tích nhà ở để đăng ký "
-                "thường trú hay cấp bản sao Giấy khai sinh?",
+                self._procedure_choice_prompt(),
                 NextAction.ASK_CLARIFICATION,
             )
 
         code = ProcedureCode(outcome.procedure_code)
         current_code = self._state.draft.procedure_code
+        pending_code = self._state.pending_procedure_code
+        if current_code is None:
+            if pending_code is None or pending_code != code:
+                self._state = replace(self._state, pending_procedure_code=code)
+                return self._finish_turn(
+                    message,
+                    self._confirmation_prompt(code),
+                    NextAction.CONFIRM_PROCEDURE,
+                )
+            self._activate_pending_procedure(code)
+            current_code = code
+
         if current_code is not None and current_code is not code:
             return self._reply_without_draft_change(
                 message,
-                "Yêu cầu mới thuộc thủ tục khác. Hãy dùng /reset trước khi chuyển thủ tục.",
+                "Dạ, yêu cầu mới thuộc thủ tục khác. Anh/chị vui lòng đặt lại phiên trước khi "
+                "chuyển thủ tục ạ.",
                 NextAction.ASK_CLARIFICATION,
             )
 
         draft = self._state.draft
-        if current_code is None:
-            pack = self._repository.get_by_code(code)
-            draft = replace(draft, procedure_code=code, pack_version=pack.version)
 
         suggestions = list(self._state.suggestions)
         valid_fields: dict[str, JSONValue] = {}
@@ -169,6 +249,7 @@ class ConversationSession:
             attempts[field_id] = attempts.get(field_id, 0) + 1
         self._state = ConversationState(
             draft=draft,
+            pending_procedure_code=self._state.pending_procedure_code,
             messages=self._state.messages,
             turn_number=self._state.turn_number,
             clarification_attempts=attempts,
@@ -177,13 +258,21 @@ class ConversationSession:
         )
         pending = self._pending()
         if pending:
-            reply = (
-                f"Tôi đã tạo {len(pending)} đề xuất. "
-                "Hãy Accept, Reject hoặc Edit từng đề xuất trước khi đi tiếp."
-            )
+            if len(pending) == 1:
+                label = self._field_label(code, pending[0].field_id)
+                reply = (
+                    f"Em đã điền sẵn mục {label}. Anh/chị kiểm tra rồi chọn Đồng ý, "
+                    "Bỏ qua hoặc Sửa giúp em ạ."
+                )
+            else:
+                reply = (
+                    f"Em đã điền sẵn {len(pending)} mục. Anh/chị kiểm tra từng đề xuất rồi "
+                    "chọn Đồng ý, Bỏ qua hoặc Sửa giúp em ạ."
+                )
             action = NextAction.CONFIRM_SUGGESTION
         else:
             reply, action = self._next_prompt(code)
+        reply = self._with_safe_nlg_acknowledgement(outcome.reply, reply)
         return self._finish_turn(message, reply, action, extracted_fields=valid_fields)
 
     def accept_suggestion(self, suggestion_id: str, *, expected_revision: int) -> TurnResult:
@@ -210,7 +299,10 @@ class ConversationSession:
             ),
             clarification_attempts=attempts,
         )
-        return self._result_after_action(f"Đã bỏ đề xuất cho {suggestion.field_id}.")
+        code = self._state.draft.procedure_code
+        assert code is not None
+        label = self._field_label(code, suggestion.field_id)
+        return self._result_after_action(f"Dạ, em đã bỏ đề xuất cho mục {label}.")
 
     def edit_suggestion(
         self,
@@ -269,7 +361,8 @@ class ConversationSession:
             ),
             clarification_attempts=attempts,
         )
-        return self._result_after_action(f"Đã cập nhật {field_id} từ biểu mẫu.")
+        label = self._field_label(code, field_id)
+        return self._result_after_action(f"Dạ, em đã cập nhật mục {label} từ biểu mẫu.")
 
     def close(self) -> None:
         self._state = ConversationState()
@@ -320,8 +413,9 @@ class ConversationSession:
                 resolved_status=status,
             ),
         )
-        verb = "Đã sửa và xác nhận" if status is SuggestionStatus.EDITED else "Đã chấp nhận"
-        return self._result_after_action(f"{verb} {suggestion.field_id}.")
+        label = self._field_label(code, suggestion.field_id)
+        verb = "đã sửa và xác nhận" if status is SuggestionStatus.EDITED else "đã chấp nhận"
+        return self._result_after_action(f"Dạ, em {verb} mục {label}.")
 
     def _result_after_action(self, prefix: str) -> TurnResult:
         code = self._state.draft.procedure_code
@@ -329,12 +423,12 @@ class ConversationSession:
             raise RuntimeError("Conversation has no active procedure")
         pending = self._pending()
         if pending:
-            return self._build_result(
-                f"{prefix} Còn {len(pending)} đề xuất cần xác nhận.",
+            return self._finish_action(
+                f"{prefix} Anh/chị còn {len(pending)} đề xuất cần kiểm tra ạ.",
                 NextAction.CONFIRM_SUGGESTION,
             )
         reply, action = self._next_prompt(code)
-        return self._build_result(f"{prefix} {reply}", action)
+        return self._finish_action(f"{prefix} {reply}", action)
 
     def _next_prompt(self, code: ProcedureCode) -> tuple[str, NextAction]:
         missing = self._rules.missing_fields(code, self._state.draft.values)
@@ -343,8 +437,9 @@ class ConversationSession:
             attempts = self._state.clarification_attempts.get(field_id, 0)
             question_id = self._question_id(code, field_id)
             if attempts >= 2 or question_id in self._state.asked_question_ids:
+                label = self._field_label(code, field_id)
                 return (
-                    f"Hãy nhập trực tiếp trường {field_id} trên biểu mẫu.",
+                    f"Anh/chị vui lòng nhập trực tiếp mục {label} trên biểu mẫu giúp em ạ.",
                     NextAction.MANUAL_INPUT,
                 )
             self._state = replace(
@@ -355,21 +450,28 @@ class ConversationSession:
 
         validation = self._rules.validate(code, self._state.draft.values)
         if validation.status is ValidationStatus.NEEDS_CORRECTION:
-            return "Hồ sơ còn lỗi cần sửa trước khi tiếp tục.", NextAction.REQUEST_CORRECTION
+            return (
+                "Hồ sơ còn một số mục cần sửa. Anh/chị xem phần báo lỗi trên biểu mẫu giúp em ạ.",
+                NextAction.REQUEST_CORRECTION,
+            )
         if validation.status is ValidationStatus.NEEDS_OFFICIAL_REVIEW:
             return (
-                "Hồ sơ cần cơ quan có thẩm quyền kiểm tra thêm.",
+                "Thông tin này cần cơ quan có thẩm quyền kiểm tra thêm, anh/chị nhé.",
                 NextAction.REQUEST_OFFICIAL_REVIEW,
             )
         if validation.status is ValidationStatus.OUT_OF_SCOPE:
-            return "Yêu cầu nằm ngoài phạm vi MVP.", NextAction.OUT_OF_SCOPE
-        return "Thông tin đã sẵn sàng để bạn kiểm tra lần cuối.", NextAction.COMPLETE
+            return "Yêu cầu này nằm ngoài phạm vi VNeGuide đang hỗ trợ ạ.", NextAction.OUT_OF_SCOPE
+        return (
+            "Em đã gom đủ thông tin. Anh/chị kiểm tra lại một lượt trước khi nộp nhé ạ.",
+            NextAction.COMPLETE,
+        )
 
     def _resume_prompt(self, code: ProcedureCode) -> tuple[str, NextAction]:
         pending = self._pending()
         if pending:
             return (
-                f"Bạn còn {len(pending)} đề xuất cần Accept, Reject hoặc Edit trước khi đi tiếp.",
+                f"Anh/chị còn {len(pending)} đề xuất cần chọn Đồng ý, Bỏ qua hoặc Sửa trước "
+                "khi đi tiếp ạ.",
                 NextAction.CONFIRM_SUGGESTION,
             )
         return self._next_prompt(code)
@@ -392,6 +494,15 @@ class ConversationSession:
             turn_number=self._state.turn_number + 1,
         )
         return self._build_result(reply, action, extracted_fields=extracted_fields)
+
+    def _finish_action(self, reply: str, action: NextAction) -> TurnResult:
+        """Record the assistant response generated by a form/suggestion mutation."""
+
+        self._state = replace(
+            self._state,
+            messages=self._state.messages + (ChatMessage(MessageRole.ASSISTANT, reply),),
+        )
+        return self._build_result(reply, action)
 
     def _build_result(
         self,
@@ -423,11 +534,18 @@ class ConversationSession:
         attempts = dict(self._state.clarification_attempts)
         attempts[key] = attempts.get(key, 0) + 1
         self._state = replace(self._state, clarification_attempts=attempts)
+        pending_code = self._state.pending_procedure_code
+        if pending_code is not None:
+            return self._finish_turn(
+                message,
+                self._confirmation_prompt(pending_code, heard_clearly=False),
+                NextAction.CONFIRM_PROCEDURE,
+            )
         action = NextAction.MANUAL_INPUT if attempts[key] >= 2 else NextAction.RETRY
         reply = (
-            "Tôi chưa đọc được thông tin. Hãy nhập trực tiếp trên biểu mẫu."
+            "Dạ, em chưa đọc được thông tin. Anh/chị nhập trực tiếp trên biểu mẫu giúp em ạ."
             if action is NextAction.MANUAL_INPUT
-            else "Tôi chưa đọc được thông tin; vui lòng thử diễn đạt lại."
+            else "Dạ, em chưa nghe rõ. Anh/chị nói lại theo cách khác giúp em được không ạ?"
         )
         return self._finish_turn(message, reply, action)
 
@@ -440,19 +558,99 @@ class ConversationSession:
 
     def _unsupported(self, message: str) -> TurnResult:
         active_code = self._state.draft.procedure_code
+        pending_code = self._state.pending_procedure_code
+        if pending_code is not None:
+            return self._reply_without_draft_change(
+                message,
+                "Dạ, nội dung vừa rồi nằm ngoài ba thủ tục em đang hỗ trợ. "
+                + self._confirmation_prompt(pending_code),
+                NextAction.CONFIRM_PROCEDURE,
+            )
         if active_code is not None:
             prompt, _action = self._resume_prompt(active_code)
             return self._reply_without_draft_change(
                 message,
-                "Yêu cầu vừa rồi nằm ngoài ba thủ tục được hỗ trợ trong MVP. "
-                f"Phiên thủ tục hiện tại vẫn được giữ nguyên. {prompt}",
+                "Dạ, nội dung vừa rồi nằm ngoài ba thủ tục em đang hỗ trợ. "
+                f"Phiên hiện tại vẫn được giữ nguyên. {prompt}",
                 NextAction.OUT_OF_SCOPE,
             )
         return self._reply_without_draft_change(
             message,
-            "Yêu cầu này nằm ngoài ba thủ tục được hỗ trợ trong MVP.",
+            "Dạ, nội dung này nằm ngoài ba thủ tục VNeGuide đang hỗ trợ ạ.",
             NextAction.OUT_OF_SCOPE,
         )
+
+    def _confirm_pending_procedure(self, message: str) -> TurnResult:
+        code = self._state.pending_procedure_code
+        if code is None:
+            raise RuntimeError("Conversation has no pending procedure")
+        self._clear_technical_failures()
+        self._activate_pending_procedure(code)
+        prompt, action = self._next_prompt(code)
+        procedure_name = self._questions.procedure_label(code)
+        return self._finish_turn(
+            message,
+            f"Dạ, em sẽ hỗ trợ anh/chị làm thủ tục {procedure_name}. {prompt}",
+            action,
+        )
+
+    def _reject_pending_procedure(self, message: str) -> TurnResult:
+        self._state = replace(self._state, pending_procedure_code=None)
+        self._clear_technical_failures()
+        return self._finish_turn(
+            message,
+            "Dạ, em đã bỏ lựa chọn vừa rồi. " + self._procedure_choice_prompt(),
+            NextAction.ASK_CLARIFICATION,
+        )
+
+    def _activate_pending_procedure(self, code: ProcedureCode) -> None:
+        if self._state.pending_procedure_code is not code:
+            raise RuntimeError("Pending procedure does not match the procedure being activated")
+        pack = self._repository.get_by_code(code)
+        self._state = replace(
+            self._state,
+            pending_procedure_code=None,
+            draft=replace(
+                self._state.draft,
+                procedure_code=code,
+                pack_version=pack.version,
+            ),
+        )
+
+    def _confirmation_prompt(
+        self,
+        code: ProcedureCode,
+        *,
+        heard_clearly: bool = True,
+    ) -> str:
+        procedure_name = self._questions.procedure_label(code)
+        if heard_clearly:
+            lead = f"Dạ, em hiểu anh/chị muốn làm thủ tục {procedure_name}."
+        else:
+            lead = "Dạ, em chưa nghe rõ câu trả lời vừa rồi."
+        return f'{lead} Đúng vậy không ạ? Anh/chị trả lời "Đúng" hoặc "Không phải" giúp em.'
+
+    @staticmethod
+    def _procedure_choice_prompt() -> str:
+        return (
+            "Anh/chị cần hỗ trợ đăng ký tạm trú, xác nhận diện tích nhà ở để đăng ký "
+            "thường trú hay cấp bản sao Giấy khai sinh ạ?"
+        )
+
+    def _field_label(self, code: ProcedureCode, field_id: str) -> str:
+        for field in self._repository.fields_for(code):
+            if field.field_id == field_id:
+                return field.label
+        return field_id
+
+    @staticmethod
+    def _with_safe_nlg_acknowledgement(reply: str | None, deterministic: str) -> str:
+        if reply is None:
+            return deterministic
+        compact = " ".join(reply.split())
+        if compact not in _SAFE_NLG_ACKNOWLEDGEMENTS:
+            return deterministic
+        return f"{compact} {deterministic}"
 
     def _reply_without_draft_change(
         self, message: str, reply: str, action: NextAction
@@ -527,6 +725,56 @@ class ConversationSession:
     def _ensure_open(self) -> None:
         if self._closed:
             raise RuntimeError("Conversation session is closed")
+
+
+def _confirmation_value(message: str) -> bool | None:
+    phrase = _normalise_confirmation_phrase(message)
+    if phrase in _AFFIRMATIVE_CONFIRMATIONS:
+        return True
+    if phrase in _NEGATIVE_CONFIRMATIONS:
+        return False
+    return None
+
+
+def _normalise_confirmation_phrase(message: str) -> str:
+    normalised = unicodedata.normalize("NFC", message).casefold()
+    return " ".join(re.findall(r"\w+", normalised, flags=re.UNICODE))
+
+
+def _rejects_pending_procedure(message: str) -> bool:
+    normalised = unicodedata.normalize("NFC", message).casefold()
+    phrase = _normalise_confirmation_phrase(message)
+    procedure_rejections = (
+        r"\bkhông phải (?:thủ tục|lựa chọn) (?:này|đó)\b",
+        r"\b(?:không|chẳng|chả) muốn (?:làm|thực hiện) (?:thủ tục|lựa chọn) (?:này|đó)\b",
+        r"\b(?:thủ tục|lựa chọn) (?:này|đó) (?:không đúng|sai)\b",
+    )
+    if any(re.search(pattern, phrase) for pattern in procedure_rejections):
+        return True
+    if phrase in {
+        "thủ tục khác",
+        "lựa chọn khác",
+        "tôi muốn thủ tục khác",
+        "tôi chọn thủ tục khác",
+        "đổi sang thủ tục khác",
+        "chuyển sang thủ tục khác",
+        "không đúng thủ tục",
+        "sai thủ tục",
+        "sai thủ tục rồi",
+        "nhầm thủ tục",
+        "nhầm thủ tục rồi",
+        "không đúng lựa chọn",
+        "sai lựa chọn",
+        "nhầm lựa chọn",
+    }:
+        return True
+    return (
+        re.match(
+            r"^\s*(?:(?:dạ|vâng)\s*)?không\s*(?:ạ\s*)?[,.;:!?…-]",
+            normalised,
+        )
+        is not None
+    )
 
 
 def build_session(
