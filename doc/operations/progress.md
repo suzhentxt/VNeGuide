@@ -1,5 +1,59 @@
 # Nhật ký tiến độ VNeGuide
 
+## 2026-07-18 — Grounded conversational NLG (thay deterministic templates)
+
+- Trước đây mọi câu trả lời assistant đều là template deterministic: lời chào/social talk bị
+  extraction prompt ép thành `unsupported` (rule 11) rồi trả "nằm ngoài ba thủ tục"; câu hỏi làm
+  rõ field không có `help_text` rơi vào `_missing_fact` → "liên hệ cơ quan" dù chỉ hỏi định dạng
+  ngày sinh. Với người cao tuổi thì phản ứng này rất tệ.
+- Thêm `GroundedResponder` (`src/vneguide/ai/grounded_responder.py`) sinh câu trả lời tự nhiên có
+  grounding: LLM chỉ *diễn đạt* lại fact đã duyệt, không được bịa phí/thời hạn/giấy tờ/căn cứ ngoài
+  khối context thu thập từ `ProcedureQAResponder`; phần chào/cảm ơn/giải thích khái niệm/làm rõ
+  định dạng thì free-form; chủ đề lệch domain được `off_domain=true` → giữ `OUT_OF_SCOPE`.
+- Prompt mới `src/vneguide/ai/prompts/conversation.py` chặn hallucination: fact chỉ từ "Thông tin
+  đã duyệt", thiếu thì nói chưa có + gợi ý liên hệ cơ quan, không đoán. Trả JSON
+  `{reply, off_domain}` qua `generate_structured` hiện có (không thêm method provider).
+- `session.py`: nhánh `_unsupported` cold-start và `_informational` gọi responder trước; nếu
+  provider lỗi/malformed thì fallback deterministic cũ (không bao giờ để citizen không có câu
+  trả lời). `_unsupported` mid-flow (pending/active) vẫn giữ logic resume form. Field_help khi
+  field không có `help_text` được bổ sung hint theo `field_type` (date → "nhập đầy đủ dd/mm/yyyy").
+- Factory dựng `GroundedResponder` từ cùng provider/repository; `ConversationSession` nhận
+  `responder` optional nên test/CLI cũ không vỡ. AGENTS.md vẫn tuân thủ: LLM không quyết định fact
+  nghiệp vụ, chỉ phrase lại từ data đã review.
+- Gate trên `.venv` Python 3.11.9: Ruff lint/format pass; Mypy strict pass (95 source file);
+  Pytest `343 passed, 1 skipped` (thêm 12 test: 7 responder + 5 conversation), coverage `80.83%`;
+  `demoweb/npm run check` pass (lint/typecheck/Node test/Next build 25 route). Release audit
+  full-index chậm trên Windows nên dùng bounded scan: 4 file mới không có secret/PII/12 chữ số.
+- Live smoke GLM-5.2 (HTTP, dữ liệu giả, không PII): "xin chao ban" → "Dạ em chào anh/chị ạ! Em
+  là trợ lý VNeGuide, sẵn sàng hỗ trợ ba thủ tục..." (`off_domain=false`, `PRESENT_GUIDANCE`);
+  "ngay sinh la ngay thang nam hay ngay thoi" → "Dạ, anh/chị nhập đầy đủ cả ngày, tháng và năm
+  sinh (ví dụ 01/01/1990) nhé ạ." Không còn "nằm ngoài ba thủ tục" / "liên hệ cơ quan" cho hai
+  trường hợp này.
+- Chưa commit, chưa push. Phần `ambiguous` và mid-flow `unsupported` vẫn dùng template; làm rõ
+  khái niệm chung ("giấy khai sinh là gì") chưa có nhánh riêng — có thể mở rộng sau nếu cần.
+
+## 2026-07-18 — invalid_value fallback cho field sai định dạng
+
+- Khi người dùng cung cấp giá trị field không khớp pattern (vd số định danh 9/11/14 chữ số thay
+  vì 12), `_validate_value` raise `ExtractionSchemaError("invalid_value")` → extractor cũ gộp vào
+  `malformed_output` → `_technical_fallback` trả "em chưa nghe rõ" / "nhập trực tiếp trên biểu mẫu"
+  mà không nói rõ sai gì. Rule `BIRTH-ID-001` có câu sửa "nhập đủ 12 chữ số" nhưng không bao giờ
+  chạy vì giá trị bị chặn ở tầng extraction.
+- Sửa theo hướng nhẹ (giữ hard-reject ở extraction, chỉ đổi câu fallback): `ExtractionSchemaError`
+  thêm `field_id` optional; `_validate_value` truyền `field_id` khi raise `invalid_value`; extractor
+  bắt riêng `invalid_value` (không retry vì deterministic) và trả `error_code="invalid_value"` +
+  `invalid_field_id` qua `ExtractionOutcome`; `_technical_fallback` sinh câu sửa theo field:
+  "Dạ, mục {label} chưa đúng định dạng. {hint} Anh/chị kiểm tra rồi nói lại giúp em ạ." — hint lấy
+  từ `help_text` hoặc `field_type` (date → "nhập đầy đủ dd/mm/yyyy").
+- Giữ nguyên hard-reject cho fullwidth/garbage char (test `test_rejects_type_pattern_enum_bound`
+  vẫn pass, chỉ đổi error_code sang `invalid_value`). `invalid_reply`/`invalid_root`/... vẫn
+  `malformed_output`.
+- Gate: Ruff lint/format pass; Mypy strict pass (95 file); Pytest `345 passed, 1 skipped`
+  (+2 test invalid_value), coverage `80.77%`. Probe trực tiếp: citizen_id 11 chữ số →
+  `error_code=invalid_value`, `invalid_field_id=requester_personal_id`.
+- Chưa commit, chưa push.
+
+
 ## Trạng thái release
 
 - Remote baseline của lượt tích hợp: `origin/dev@f90b5e2`.

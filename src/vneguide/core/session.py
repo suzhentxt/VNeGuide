@@ -9,13 +9,23 @@ from collections.abc import Mapping
 from dataclasses import replace
 from typing import Protocol
 
-from vneguide.ai import ExtractionOutcome, ExtractionTurnContext, StructuredExtractor
+from vneguide.ai import (
+    MAX_RESPONDER_HISTORY_TURNS,
+    ExtractionOutcome,
+    ExtractionTurnContext,
+    GroundedReply,
+    InformationRequest,
+    MemoryCompactor,
+    ResponderContext,
+    StructuredExtractor,
+)
 from vneguide.data import ProcedureRepository
 from vneguide.domain import (
     CaseDraft,
     ChatMessage,
     ConversationState,
     FieldSuggestion,
+    FieldType,
     JSONValue,
     MessageRole,
     NextAction,
@@ -66,6 +76,7 @@ _SAFE_NLG_ACKNOWLEDGEMENTS = frozenset(
         "Dạ, em hiểu rồi ạ.",
     }
 )
+_COMPACTION_THRESHOLD_MESSAGES = MAX_RESPONDER_HISTORY_TURNS * 2
 
 
 class Extractor(Protocol):
@@ -75,6 +86,10 @@ class Extractor(Protocol):
         *,
         context: ExtractionTurnContext | None = None,
     ) -> ExtractionOutcome: ...
+
+
+class Responder(Protocol):
+    def respond(self, context: ResponderContext) -> object: ...
 
 
 class RevisionConflictError(ValueError):
@@ -92,12 +107,21 @@ class ProcedureConflictError(ValueError):
 class ConversationSession:
     """Own one ephemeral conversation and its confirmed draft."""
 
-    def __init__(self, extractor: Extractor, repository: ProcedureRepository) -> None:
+    def __init__(
+        self,
+        extractor: Extractor,
+        repository: ProcedureRepository,
+        *,
+        responder: Responder | None = None,
+        compactor: MemoryCompactor | None = None,
+    ) -> None:
         self._extractor = extractor
         self._repository = repository
         self._rules = RuleEngine(repository)
         self._questions = QuestionSelector(repository)
         self._qa = ProcedureQAResponder(repository)
+        self._responder = responder
+        self._compactor = compactor
         self._state = ConversationState()
         self._closed = False
 
@@ -166,7 +190,11 @@ class ConversationSession:
         if not outcome.succeeded:
             if rejects_pending:
                 return self._reject_pending_procedure(message)
-            return self._technical_fallback(message, outcome.error_code or "provider_error")
+            return self._technical_fallback(
+                message,
+                outcome.error_code or "provider_error",
+                invalid_field_id=outcome.invalid_field_id,
+            )
         self._clear_technical_failures()
         if outcome.classification == "informational":
             return self._informational(message, outcome)
@@ -520,6 +548,7 @@ class ConversationSession:
             messages=messages,
             turn_number=self._state.turn_number + 1,
         )
+        self._maybe_compact()
         return self._build_result(
             reply,
             action,
@@ -534,7 +563,32 @@ class ConversationSession:
             self._state,
             messages=self._state.messages + (ChatMessage(MessageRole.ASSISTANT, reply),),
         )
+        self._maybe_compact()
         return self._build_result(reply, action)
+
+    def _maybe_compact(self) -> None:
+        """Fold old messages into ``memory_summary`` once the log exceeds its window.
+
+        Compaction is best-effort: on any compactor failure the messages are
+        left untouched and retried on a later turn, so a memory hiccup never
+        blocks the citizen's reply.
+        """
+
+        if self._compactor is None:
+            return
+        messages = self._state.messages
+        if len(messages) <= _COMPACTION_THRESHOLD_MESSAGES:
+            return
+        keep = messages[-MAX_RESPONDER_HISTORY_TURNS:]
+        old = messages[:-MAX_RESPONDER_HISTORY_TURNS]
+        result = self._compactor.compact(self._state.memory_summary, old)
+        if not result.succeeded or result.summary is None:
+            return
+        self._state = replace(
+            self._state,
+            messages=keep,
+            memory_summary=result.summary,
+        )
 
     def _build_result(
         self,
@@ -613,28 +667,40 @@ class ConversationSession:
             recent_information_topics=request.topics,
         )
 
+        grounded = self._try_respond(
+            message,
+            classification="informational",
+            procedure_code=code.value,
+            information_request=request,
+            draft_values=draft_values,
+        )
+        reply_text = answer.text
+        reply_sources = answer.source_ids
+        if grounded is not None:
+            reply_text, _off_domain, reply_sources = grounded
+
         if active_code is None:
             if pending_code is not code:
                 self._state = replace(self._state, pending_procedure_code=code)
             procedure_name = self._questions.procedure_label(code)
             reply = (
-                f"{answer.text}\n\nAnh/chị có muốn em hỗ trợ thực hiện thủ tục "
+                f"{reply_text}\n\nAnh/chị có muốn em hỗ trợ thực hiện thủ tục "
                 f'{procedure_name} không ạ? Anh/chị trả lời "Đúng" hoặc "Không phải" giúp em.'
             )
             return self._finish_turn(
                 message,
                 reply,
                 NextAction.CONFIRM_PROCEDURE,
-                source_ids=answer.source_ids,
+                source_ids=reply_sources,
             )
 
         prompt, action = self._resume_prompt(active_code, record_question=False)
         if active_code is code:
-            reply = f"{answer.text}\n\n{prompt}"
+            reply = f"{reply_text}\n\n{prompt}"
         else:
             current_name = self._questions.procedure_label(active_code)
             reply = (
-                f"{answer.text}\n\nThông tin trên chỉ để tham khảo. Phiên hiện tại vẫn đang "
+                f"{reply_text}\n\nThông tin trên chỉ để tham khảo. Phiên hiện tại vẫn đang "
                 f"hỗ trợ thủ tục {current_name}; nếu muốn chuyển thủ tục, anh/chị cần đặt lại "
                 f"phiên trước ạ. {prompt}"
             )
@@ -642,10 +708,16 @@ class ConversationSession:
             message,
             reply,
             action,
-            source_ids=answer.source_ids,
+            source_ids=reply_sources,
         )
 
-    def _technical_fallback(self, message: str, error_code: str) -> TurnResult:
+    def _technical_fallback(
+        self,
+        message: str,
+        error_code: str,
+        *,
+        invalid_field_id: str | None = None,
+    ) -> TurnResult:
         key = "__extractor__"
         attempts = dict(self._state.clarification_attempts)
         attempts[key] = attempts.get(key, 0) + 1
@@ -658,12 +730,43 @@ class ConversationSession:
                 NextAction.CONFIRM_PROCEDURE,
             )
         action = NextAction.MANUAL_INPUT if attempts[key] >= 2 else NextAction.RETRY
+        if error_code == "invalid_value" and invalid_field_id is not None:
+            reply = self._invalid_value_reply(invalid_field_id)
+            return self._finish_turn(message, reply, action)
         reply = (
             "Dạ, em chưa đọc được thông tin. Anh/chị nhập trực tiếp trên biểu mẫu giúp em ạ."
             if action is NextAction.MANUAL_INPUT
             else "Dạ, em chưa nghe rõ. Anh/chị nói lại theo cách khác giúp em được không ạ?"
         )
         return self._finish_turn(message, reply, action)
+
+    def _invalid_value_reply(self, field_id: str) -> str:
+        active_code = self._state.draft.procedure_code
+        label = self._field_label(active_code, field_id) if active_code is not None else field_id
+        hint = self._field_format_hint(active_code, field_id) if active_code is not None else ""
+        lead = f"Dạ, mục {label} chưa đúng định dạng."
+        if hint:
+            return f"{lead} {hint} Anh/chị kiểm tra rồi nói lại giúp em ạ."
+        return f"{lead} Anh/chị kiểm tra rồi nói lại giúp em ạ."
+
+    def _field_format_hint(self, code: ProcedureCode, field_id: str) -> str:
+        for field in self._repository.fields_for(code):
+            if field.field_id != field_id:
+                continue
+            if field.help_text:
+                return field.help_text.rstrip(".") + "."
+            if field.field_type is FieldType.DATE:
+                return "Anh/chị nhập đầy đủ ngày/tháng/năm (ví dụ 01/01/1990) ạ."
+            if field.field_type is FieldType.INTEGER:
+                return "Anh/chị nhập một số nguyên ạ."
+            if field.field_type is FieldType.NUMBER:
+                return "Anh/chị nhập một số ạ."
+            if field.field_type is FieldType.BOOLEAN:
+                return 'Anh/chị trả lời "Có" hoặc "Không" ạ.'
+            if field.field_type is FieldType.ENUM:
+                return "Anh/chị chọn một trong các lựa chọn đã liệt kê ạ."
+            return ""
+        return ""
 
     def _clear_technical_failures(self) -> None:
         if "__extractor__" not in self._state.clarification_attempts:
@@ -690,11 +793,74 @@ class ConversationSession:
                 f"Phiên hiện tại vẫn được giữ nguyên. {prompt}",
                 NextAction.OUT_OF_SCOPE,
             )
+        grounded = self._try_respond(message, classification="unsupported")
+        if grounded is not None:
+            reply, off_domain, source_ids = grounded
+            action = NextAction.OUT_OF_SCOPE if off_domain else NextAction.PRESENT_GUIDANCE
+            return self._finish_turn(
+                message,
+                reply,
+                action,
+                source_ids=source_ids or None,
+            )
         return self._reply_without_draft_change(
             message,
             "Dạ, nội dung này nằm ngoài ba thủ tục VNeGuide đang hỗ trợ ạ.",
             NextAction.OUT_OF_SCOPE,
         )
+
+    def _try_respond(
+        self,
+        message: str,
+        *,
+        classification: str,
+        procedure_code: str | None = None,
+        information_request: InformationRequest | None = None,
+        draft_values: Mapping[str, JSONValue] | None = None,
+    ) -> tuple[str, bool, tuple[str, ...]] | None:
+        """Generate a grounded reply, or ``None`` to fall back deterministically."""
+
+        if self._responder is None:
+            return None
+        active_code = self._state.draft.procedure_code
+        pending_code = self._state.pending_procedure_code
+        filled_labels, missing_labels = self._form_labels(active_code)
+        recent_turns = self._state.messages[-MAX_RESPONDER_HISTORY_TURNS:]
+        try:
+            context = ResponderContext(
+                user_message=message,
+                classification=classification,
+                procedure_code=procedure_code,
+                information_request=information_request,
+                active_procedure_code=None if active_code is None else active_code.value,
+                pending_procedure_code=None if pending_code is None else pending_code.value,
+                filled_field_labels=filled_labels,
+                missing_field_labels=missing_labels,
+                draft_values={} if draft_values is None else draft_values,
+                recent_turns=recent_turns,
+                memory_summary=self._state.memory_summary,
+            )
+        except ValueError:
+            return None
+        result = self._responder.respond(context)
+        if not isinstance(result, GroundedReply) or not result.succeeded or not result.text:
+            return None
+        return result.text, result.off_domain, result.source_ids
+
+    def _form_labels(
+        self, active_code: ProcedureCode | None
+    ) -> tuple[tuple[str, ...], tuple[str, ...]]:
+        if active_code is None:
+            return (), ()
+        values = self._state.draft.values
+        filled = tuple(
+            self._field_label(active_code, field_id)
+            for field_id, value in values.items()
+            if value not in (None, "", [])
+        )
+        missing_ids = self._rules.missing_fields(active_code, values)
+        missing = tuple(self._field_label(active_code, field_id) for field_id in missing_ids)
+        return filled, missing
 
     def _confirm_pending_procedure(self, message: str) -> TurnResult:
         code = self._state.pending_procedure_code
