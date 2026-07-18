@@ -244,3 +244,21 @@ npm.cmd run check
 Sau gate, chạy một probe synthetic qua `StructuredExtractor` cho các câu “Đăng ký tạm trú cần giấy
 gì và phí bao nhiêu?” và “Theo danh sách tức là gì?”, ghi model/version/timestamp nhưng không ghi raw
 prompt, evidence hoặc secret. Chỉ khi pass mới commit; không push nếu chưa có yêu cầu mới.
+
+## Bàn giao STT phương án 1 — 2026-07-19
+
+- App-side integration đã hoàn thành trên nhánh `agent/stt-integration`: browser → Next BFF
+  `/api/stt/transcribe` → remote OpenAI-compatible Qwen3-ASR-1.7B → draft chat. Không auto-send.
+- Base stack giữ STT disabled và health độc lập. Overlay kích hoạt là
+  `deployment/docker-compose.stt-remote.yml`; trên VPS hiện tại luôn ghép thêm
+  `deployment/docker-compose.vps.yml` và `--env-file /opt/vneguide/shared/vneguide.env` để không đụng
+  translator hoặc đổi các port `9000/13000/18000`.
+- VPS hiện tại không có GPU và data mount hiện chỉ khoảng 448 KiB; không được cố chạy model 1.7B tại
+  đó. Việc kích hoạt còn thiếu hai input vận hành: URL/key của GPU endpoint có hard duration/quota và
+  một domain HTTPS hợp lệ (hoặc chỉ test microphone qua SSH tunnel/localhost).
+- Gate app-side: Python targeted 7/7, frontend 44/44 + lint/typecheck/build, BFF smoke success/415/400;
+  bounded staged audit 18 file đạt sau khi full-index audit timeout 120 giây. Browser interaction chưa
+  chạy do không có browser instance trong phiên này.
+- Bước tiếp theo cụ thể: deploy bản app mới với STT vẫn disabled, xác minh gateway/health/chat không
+  regression; sau đó người vận hành cung cấp GPU URL/key và HTTPS domain để bật overlay, chạy audio
+  tiếng Việt tổng hợp, kiểm tra transcript chỉ nằm trong textarea và probe actual-duration >60 giây.

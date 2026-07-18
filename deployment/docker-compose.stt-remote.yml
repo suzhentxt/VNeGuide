@@ -1,0 +1,21 @@
+services:
+  web:
+    environment:
+      VNEGUIDE_STT_ENABLED: ${VNEGUIDE_STT_ENABLED:-1}
+      VNEGUIDE_STT_BASE_URL: ${VNEGUIDE_STT_BASE_URL:?Set the HTTPS URL of the remote STT provider, including /v1}
+      VNEGUIDE_STT_MODEL: ${VNEGUIDE_STT_MODEL:-Qwen/Qwen3-ASR-1.7B}
+      VNEGUIDE_STT_API_KEY_FILE: /run/secrets/vneguide_stt_api_key
+      VNEGUIDE_STT_ALLOW_INSECURE_HTTP: ${VNEGUIDE_STT_ALLOW_INSECURE_HTTP:-0}
+      VNEGUIDE_STT_TIMEOUT_SECONDS: ${VNEGUIDE_STT_TIMEOUT_SECONDS:-180}
+      VNEGUIDE_STT_MAX_BYTES: ${VNEGUIDE_STT_MAX_BYTES:-10485760}
+      VNEGUIDE_STT_MAX_DURATION_SECONDS: ${VNEGUIDE_STT_MAX_DURATION_SECONDS:-60}
+    secrets:
+      - source: vneguide_stt_api_key
+        target: vneguide_stt_api_key
+        uid: "10001"
+        gid: "10001"
+        mode: 0400
+
+secrets:
+  vneguide_stt_api_key:
+    file: ${VNEGUIDE_STT_API_KEY_SOURCE:?Set the host path of the STT API-key file}
