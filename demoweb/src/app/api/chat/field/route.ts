@@ -13,6 +13,8 @@ interface FieldPayload {
   value?: unknown;
   expected_revision?: unknown;
   context?: unknown;
+  interaction?: unknown;
+  display_label?: unknown;
 }
 
 export async function POST(request: NextRequest) {
@@ -24,6 +26,12 @@ export async function POST(request: NextRequest) {
       typeof payload.expected_revision !== "number" ||
       !Number.isInteger(payload.expected_revision) ||
       payload.expected_revision < 0
+      || (payload.interaction !== undefined && payload.interaction !== "chat_choice")
+      || (payload.interaction === "chat_choice" && (
+        typeof payload.display_label !== "string" ||
+        payload.display_label.length === 0 ||
+        payload.display_label.length > 200
+      ))
     ) {
       return NextResponse.json(
         {
@@ -61,6 +69,10 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
           value: payload.value ?? null,
           expected_revision: payload.expected_revision,
+          interaction: payload.interaction ?? "form",
+          ...(payload.interaction === "chat_choice"
+            ? { display_label: payload.display_label }
+            : {}),
         }),
       },
     );

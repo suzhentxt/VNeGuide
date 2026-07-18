@@ -183,6 +183,14 @@
 
 **Thông tin đã có sẽ không được hỏi lại. Thông tin chưa chắc chắn phải được người dùng xác nhận.**
 
+**Để phù hợp với người lớn tuổi, người ít am hiểu công nghệ và người làm thủ tục lần đầu:**
+
+* **Chatbot phải nhớ câu hỏi làm rõ ở lượt trước và hiểu câu trả lời rút gọn ở lượt sau.**
+* **Các lựa chọn phổ biến được hiển thị thành nút lớn, dùng tiếng Việt đời thường và vẫn cho phép nhập tự do.**
+* **Không hiển thị tên field hoặc enum kỹ thuật cho người dùng.**
+* **Chấp nhận lỗi gõ phổ biến khi ý định vẫn rõ, nhưng không tự suy đoán tư cách pháp lý hoặc dữ liệu cá nhân.**
+* **Khi người dùng nói “cho con tôi”, chatbot phải xác nhận đã ghi nhớ quan hệ này và hỏi rõ tư cách người yêu cầu trước khi điền biểu mẫu.**
+
 ## **4.3. Hướng dẫn thủ tục**
 
 **Hệ thống hiển thị:**

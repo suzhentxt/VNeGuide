@@ -8,10 +8,10 @@ import {
   getProcedureExperience,
 } from "@/data/procedure-experiences";
 import {
-  getSelectedReceptionUnit,
+  getReceptionUnitLabel,
   getSelectedService,
-  withProcedureSelection,
 } from "@/lib/procedure-selection";
+import { loadGuidedFields } from "@/server/guided-fields";
 
 interface ProcedureApplicationPageProps {
   params: Promise<{ procedure: string }>;
@@ -52,23 +52,21 @@ export default async function ProcedureApplicationPage({
   }
 
   const selectedService = getSelectedService(experience, query.service);
-  const selectedReceptionUnit = getSelectedReceptionUnit(query.receptionUnit);
+  const selectedReceptionUnit = getReceptionUnitLabel(query.receptionUnit);
+  const serviceConfirmed = query.confirmed === "1";
 
-  if (!selectedService || !selectedReceptionUnit) {
-    redirect(
-      withProcedureSelection(experience.routes.apply, {
-        receptionUnit: selectedReceptionUnit,
-        serviceId: selectedService?.id,
-      }),
-    );
+  if (!selectedService || !selectedReceptionUnit || !serviceConfirmed) {
+    redirect(experience.routes.detail);
   }
 
   const initialStep = query.step === "3" ? 3 : 1;
+  const guidedFields = await loadGuidedFields(experience.code);
 
   return (
     <JusticeShell activeNav="procedures">
       <MarriageApplication
         experience={experience}
+        guidedFields={guidedFields}
         initialStep={initialStep}
         selectedReceptionUnit={selectedReceptionUnit}
         selectedServiceId={selectedService.id}

@@ -90,7 +90,15 @@ test("pending suggestion is shown before missing-field progress", () => {
     turn({
       next_action: "ask_clarification",
       suggestions: [pendingSuggestion],
-      missing_fields: [{ field_id: "full_name", label: "Họ tên" }],
+      missing_fields: [
+        {
+          field_id: "full_name",
+          label: "Họ tên",
+          field_type: "string",
+          input_hint: "Nhập đầy đủ họ và tên.",
+          choices: [],
+        },
+      ],
     }),
   );
   assert.equal(result.label, "Đang chờ xác nhận đề xuất");
@@ -101,7 +109,15 @@ test("missing fields prevent ready status and hide readiness score", () => {
   const result = getChatStatusPresentation(
     turn({
       next_action: "complete",
-      missing_fields: [{ field_id: "registration_mode", label: "Hình thức đăng ký" }],
+      missing_fields: [
+        {
+          field_id: "registration_mode",
+          label: "Hình thức đăng ký",
+          field_type: "enum",
+          input_hint: "Chọn một phương án.",
+          choices: ["individual_household", "by_list"],
+        },
+      ],
       validation: validation("ready_to_submit", 100),
     }),
   );

@@ -8,7 +8,8 @@ from typing import cast
 from pydantic import JsonValue as PydanticJsonValue
 
 from vneguide.data import ProcedureRepository
-from vneguide.domain import CaseDraft, JSONValue, ProcedureCode, TurnResult
+from vneguide.domain import CaseDraft, FieldType, JSONValue, ProcedureCode, TurnResult
+from vneguide.rules.questions import field_input_hint
 
 from .schemas import (
     ChatMessageResponse,
@@ -38,6 +39,11 @@ class TurnResultSerializer:
     def serialize(self, result: TurnResult) -> ChatTurnResponse:
         code = result.state.draft.procedure_code
         labels = self._field_labels(code)
+        fields = (
+            {field.field_id: field for field in self._repository.fields_for(code)}
+            if code is not None
+            else {}
+        )
         procedure = self._procedure(code)
         validation = result.validation
         return ChatTurnResponse(
@@ -63,7 +69,19 @@ class TurnResultSerializer:
                 for item in result.suggestions
             ],
             missing_fields=[
-                MissingFieldResponse(field_id=field_id, label=labels.get(field_id, field_id))
+                MissingFieldResponse(
+                    field_id=field_id,
+                    label=labels.get(field_id, field_id),
+                    field_type=fields[field_id].field_type.value,
+                    input_hint=field_input_hint(fields[field_id]),
+                    choices=(
+                        [json_value(value) for value in fields[field_id].values]
+                        if fields[field_id].field_type is FieldType.ENUM
+                        else [True, False]
+                        if fields[field_id].field_type is FieldType.BOOLEAN
+                        else []
+                    ),
+                )
                 for field_id in result.missing_fields
             ],
             validation=(

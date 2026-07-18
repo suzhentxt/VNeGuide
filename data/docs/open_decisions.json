@@ -46,5 +46,13 @@
     "deadline": "Trước khi khóa contract validation cho web hoặc hiển thị trạng thái sẵn sàng nộp",
     "default_for_mvp": "Core phải kiểm tra missing_fields trước khi cho NextAction.COMPLETE; UI không được diễn giải ready_to_submit là hồ sơ đầy đủ khi missing_fields còn phần tử.",
     "impact": "Một số gold_validation kỳ vọng ready_to_submit trên input chưa đủ required field. Không tự đổi status hoặc ground truth trong nhánh Người 3; cần quyết định và migration có review."
+  },
+  {
+    "decision_id": "OD-007",
+    "question": "Cha, mẹ hoặc người giám hộ xin bản sao Giấy khai sinh cho con phải ánh xạ vào requester_type nào?",
+    "owner": "Domain & Data Lead + Product & UX Lead",
+    "deadline": "Trước khi tự động điền requester_type từ quan hệ gia đình",
+    "default_for_mvp": "Không tự suy ra authorized_person chỉ từ câu 'cho con tôi'. Ghi nhớ ngữ cảnh, giải thích bằng tiếng Việt và yêu cầu người dùng xác nhận tư cách theo ba lựa chọn đã review.",
+    "impact": "Luồng vẫn tiếp tục bằng chat và nút chọn nhanh, nhưng không tự điền sai tư cách pháp lý khi data package chưa có giá trị riêng cho cha/mẹ/người giám hộ."
   }
 ]

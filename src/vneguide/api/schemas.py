@@ -41,6 +41,14 @@ class SuggestionActionRequest(StrictModel):
 class FieldEditRequest(StrictModel):
     value: JsonValue
     expected_revision: int = Field(ge=0, strict=True)
+    interaction: Literal["form", "chat_choice"] = "form"
+    display_label: str | None = Field(default=None, min_length=1, max_length=200)
+
+    @model_validator(mode="after")
+    def require_chat_choice_label(self) -> FieldEditRequest:
+        if self.interaction == "chat_choice" and self.display_label is None:
+            raise ValueError("display_label is required for chat_choice")
+        return self
 
 
 class ChatMessageResponse(StrictModel):
@@ -67,6 +75,9 @@ class SuggestionResponse(StrictModel):
 class MissingFieldResponse(StrictModel):
     field_id: str
     label: str
+    field_type: Literal["string", "date", "integer", "number", "boolean", "enum"]
+    input_hint: str
+    choices: list[JsonValue] = Field(default_factory=list)
 
 
 class ValidationIssueResponse(StrictModel):
