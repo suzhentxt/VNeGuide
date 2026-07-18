@@ -1,0 +1,7 @@
+# Pin LF line endings for JSON/JS/TS config files that tooling (Tailwind/PostCSS)
+# parses strictly — CRLF causes "Expected double-quoted property name" errors.
+*.json text eol=lf
+*.mjs text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.css text eol=lf
