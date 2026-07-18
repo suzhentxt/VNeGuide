@@ -122,6 +122,7 @@ def test_missing_answer_switches_to_manual_input_without_repeating_question(
         StubExtractor(
             outcome(fields={"copies_requested": 1}),
             outcome(fields={}),
+            outcome(fields={}),
         ),
         repository,
     )
@@ -131,13 +132,19 @@ def test_missing_answer_switches_to_manual_input_without_repeating_question(
         initial.suggestions[0].suggestion_id,
         expected_revision=0,
     )
-    question = accepted.reply
-    manual = session.send("Tôi chưa rõ")
+    retry = session.send("Tôi chưa rõ")
+    question = retry.reply
+    manual = session.send("Tôi vẫn chưa rõ")
+    assert retry.next_action is NextAction.FILL_MISSING_FIELD
+    assert question in accepted.reply
     assert manual.next_action is NextAction.MANUAL_INPUT
     assert question not in manual.reply
+    assert "Bạn có thể nhập trực tiếp vào biểu mẫu." in manual.reply
 
 
-def test_confirmed_field_is_never_overwritten(repository: ProcedureRepository) -> None:
+def test_explicit_correction_reopens_confirmed_field_for_review(
+    repository: ProcedureRepository,
+) -> None:
     session = ConversationSession(
         StubExtractor(
             outcome(fields={"copies_requested": 1}),
@@ -150,11 +157,15 @@ def test_confirmed_field_is_never_overwritten(repository: ProcedureRepository) -
     session.accept_suggestion(first.suggestions[0].suggestion_id, expected_revision=0)
     conflict = session.send("Đổi thành ba bản")
     assert conflict.draft["copies_requested"] == 1
-    assert not [
+    corrections = [
         item
         for item in conflict.suggestions
         if item.status is SuggestionStatus.PENDING and item.field_id == "copies_requested"
     ]
+    assert len(corrections) == 1
+    assert corrections[0].suggested_value == 3
+    assert conflict.next_action is NextAction.REVIEW_SUGGESTION
+    assert "nội dung sửa" in conflict.reply
 
 
 def test_manual_edit_is_confirmed_dirty_and_revision_guarded(
@@ -339,7 +350,7 @@ def test_active_procedure_context_survives_an_unsupported_turn(
         assert context.expected_field_id == "registration_mode"
     assert unsupported.next_action is NextAction.OUT_OF_SCOPE
     assert "vẫn được giữ nguyên" in unsupported.reply
-    assert "hình thức đăng ký" in unsupported.reply.lower()
+    assert "hình thức đăng ký" not in unsupported.reply.lower()
     assert "registration_mode" not in unsupported.reply
     assert continued.next_action is NextAction.CONFIRM_SUGGESTION
     assert continued.suggestions[-1].field_id == "submission_channel"
@@ -722,7 +733,7 @@ def test_route_scoped_session_bypasses_confirmation_and_nlg_is_allowlisted(
     assert unsafe not in unsafe_result.reply
 
 
-def test_initial_faq_answers_without_bridge_or_draft_mutation(
+def test_initial_faq_answers_with_confirmation_bridge_without_draft_mutation(
     repository: ProcedureRepository,
 ) -> None:
     extractor = StubExtractor(
@@ -737,14 +748,14 @@ def test_initial_faq_answers_without_bridge_or_draft_mutation(
     faq = session.send("Đăng ký tạm trú mất bao lâu?")
     confirmed = session.send("Đúng")
 
-    assert faq.next_action is NextAction.PRESENT_GUIDANCE
+    assert faq.next_action is NextAction.CONFIRM_PROCEDURE
     assert faq.state.draft.values == {}
     assert faq.state.draft.revision == 0
     assert faq.state.draft.procedure_code is None
     assert faq.state.pending_procedure_code is not None
     assert faq.state.pending_procedure_code.value == "1.004194"
     assert faq.source_ids == ("SRC-DVC-1004194",)
-    assert "Đúng" not in faq.reply
+    assert 'trả lời "Đúng" hoặc "Không phải"' in faq.reply
     assert confirmed.state.draft.procedure_code is not None
     assert confirmed.state.draft.procedure_code.value == "1.004194"
     assert len(extractor.calls) == 1
@@ -898,7 +909,7 @@ def test_faq_preserves_active_suggestion_and_form_state(
     assert "7.000 đồng" in faq.reply
 
 
-def test_faq_repeats_current_question_without_marking_another_attempt(
+def test_faq_does_not_repeat_current_question_or_mark_another_attempt(
     repository: ProcedureRepository,
 ) -> None:
     extractor = StubExtractor(
@@ -925,7 +936,8 @@ def test_faq_repeats_current_question_without_marking_another_attempt(
     assert faq.state.asked_question_ids == first.state.asked_question_ids
     assert faq.state.clarification_attempts == first.state.clarification_attempts
     assert "Tờ khai CT01 của từng người" in faq.reply
-    assert "Anh/chị chọn hình thức đăng ký" in faq.reply
+    assert "Anh/chị chọn hình thức đăng ký" not in faq.reply
+    assert "tiếp tục mục đang điền" in faq.reply
 
 
 def test_cross_procedure_faq_is_reference_only_for_active_form(
@@ -1029,3 +1041,170 @@ def test_close_clears_state_and_prevents_reuse(repository: ProcedureRepository) 
     assert session.state.turn_number == 0
     with pytest.raises(RuntimeError, match="closed"):
         session.send("không được xử lý")
+
+
+def test_next_action_wire_values_are_the_fixed_conversation_vocabulary() -> None:
+    assert {action.value for action in NextAction} == {
+        "confirm_procedure",
+        "choose_portal",
+        "fill_missing_field",
+        "review_suggestion",
+        "upload_document",
+        "fix_validation",
+        "ready_to_continue",
+        "needs_official_review",
+        "unsupported",
+    }
+
+
+def test_one_message_keeps_all_valid_fields_and_reviews_before_next_question(
+    repository: ProcedureRepository,
+) -> None:
+    fields: dict[str, object] = {
+        "registration_mode": "individual_or_household",
+        "applicant_full_name": "Người Đăng Ký Kiểm Thử",
+        "temporary_address": "Chỗ ở tạm trú tổng hợp, Hà Nội",
+    }
+    session = ConversationSession(
+        StubExtractor(outcome(procedure_code="1.004194", fields=fields)),
+        repository,
+    )
+    session.initialize_procedure("1.004194")
+
+    result = session.send("Tôi đăng ký cá nhân, tên và địa chỉ như đã nêu.")
+
+    pending = {
+        item.field_id for item in result.suggestions if item.status is SuggestionStatus.PENDING
+    }
+    assert result.extracted_fields == fields
+    assert pending == set(fields)
+    assert result.next_action is NextAction.REVIEW_SUGGESTION
+    assert result.draft == {}
+    assert "applicant_date_of_birth" in result.missing_fields
+
+
+def test_explicit_address_correction_is_reviewed_but_dirty_address_wins(
+    repository: ProcedureRepository,
+) -> None:
+    original = "Địa chỉ tổng hợp cũ, Hà Nội"
+    corrected = "Địa chỉ tổng hợp đúng, Hà Nội"
+    session = ConversationSession(
+        StubExtractor(
+            outcome(
+                procedure_code="1.004194",
+                fields={"temporary_address": original},
+            ),
+            outcome(
+                procedure_code="1.004194",
+                fields={"temporary_address": corrected},
+            ),
+            outcome(
+                procedure_code="1.004194",
+                fields={"temporary_address": "Địa chỉ model khác, Hà Nội"},
+            ),
+        ),
+        repository,
+    )
+    session.initialize_procedure("1.004194")
+    proposed = session.send("Địa chỉ tạm trú là địa chỉ cũ.")
+    accepted = session.accept_suggestion(
+        proposed.suggestions[0].suggestion_id,
+        expected_revision=0,
+    )
+
+    correction = session.send("Không, địa chỉ đúng là địa chỉ tổng hợp đúng, Hà Nội.")
+    pending = [
+        item
+        for item in correction.suggestions
+        if item.status is SuggestionStatus.PENDING and item.field_id == "temporary_address"
+    ]
+    assert correction.draft["temporary_address"] == original
+    assert len(pending) == 1
+    assert pending[0].current_value == original
+    assert pending[0].suggested_value == corrected
+    assert correction.next_action is NextAction.REVIEW_SUGGESTION
+
+    edited = session.edit_field(
+        "temporary_address",
+        corrected,
+        expected_revision=accepted.state.draft.revision,
+    )
+    ignored = session.send("Không, địa chỉ đúng là một địa chỉ khác.")
+    assert ignored.draft["temporary_address"] == corrected
+    assert "temporary_address" in edited.state.draft.dirty_fields
+    assert not any(
+        item.field_id == "temporary_address" and item.status is SuggestionStatus.PENDING
+        for item in ignored.suggestions
+    )
+
+
+def test_complete_golden_flow_stops_asking_within_six_turns(
+    repository: ProcedureRepository,
+) -> None:
+    complete_fields = {
+        "requester_type": "self",
+        "requester_full_name": "Người Yêu Cầu Kiểm Thử",
+        "requester_personal_id": "000000000000",
+        "subject_full_name": "Người Được Trích Lục Kiểm Thử",
+        "subject_date_of_birth": "2000-01-01",
+        "copies_requested": 1,
+        "submission_channel": "online",
+    }
+    session = ConversationSession(
+        StubExtractor(outcome(fields=complete_fields)),
+        repository,
+    )
+    session.initialize_procedure("2.000635")
+
+    result = session.send("Tôi cung cấp toàn bộ thông tin hồ sơ trong một lượt.")
+    while pending := [
+        item for item in result.suggestions if item.status is SuggestionStatus.PENDING
+    ]:
+        result = session.accept_suggestion(
+            pending[0].suggestion_id,
+            expected_revision=result.state.draft.revision,
+        )
+
+    assert result.next_action is NextAction.READY_TO_CONTINUE
+    assert result.missing_fields == ()
+    assert "cho biết" not in result.reply.lower()
+    assert session.state.turn_number <= 6
+
+
+def test_model_failure_keeps_existing_draft_and_uses_manual_fallback_after_two_turns(
+    repository: ProcedureRepository,
+) -> None:
+    session = ConversationSession(
+        StubExtractor(
+            outcome(status="fallback", procedure_code=None, error_code="malformed_output"),
+            outcome(status="fallback", procedure_code=None, error_code="malformed_output"),
+        ),
+        repository,
+    )
+    session.initialize_procedure("1.004194")
+    session.edit_field("submission_channel", "online", expected_revision=0)
+    draft_before = session.state.draft
+
+    first = session.send("Thông tin tổng hợp thứ nhất.")
+    second = session.send("Thông tin tổng hợp thứ hai.")
+
+    assert first.state.draft == draft_before
+    assert second.state.draft == draft_before
+    assert "nói lại" in first.reply
+    assert "nhập trực tiếp" in second.reply
+
+
+def test_collection_reply_is_short_and_has_one_clear_next_step(
+    repository: ProcedureRepository,
+) -> None:
+    session = ConversationSession(
+        StubExtractor(outcome(procedure_code="1.004194")),
+        repository,
+    )
+    session.send("Tôi muốn đăng ký tạm trú.")
+
+    result = session.send("Đúng")
+
+    assert result.next_action is NextAction.FILL_MISSING_FIELD
+    assert "Bước tiếp theo:" in result.reply
+    assert len(result.reply.split()) <= 50

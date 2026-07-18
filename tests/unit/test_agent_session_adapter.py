@@ -102,7 +102,7 @@ def test_informational_reply_recomposed_by_agent(repository: ProcedureRepository
     session = _make_session(model, extractor, repository)
     result = session.send("Đăng ký tạm trú mất bao nhiêu tiền?")
     assert "7.000đ" in result.reply or "7.000" in result.reply
-    assert result.next_action is NextAction.PRESENT_GUIDANCE
+    assert result.next_action is NextAction.CONFIRM_PROCEDURE
     assert len(result.source_ids) > 0
     session.close()
 
@@ -137,7 +137,31 @@ def test_agent_failure_falls_back_to_delegate(repository: ProcedureRepository) -
     session = _make_session(model, extractor, repository)
     result = session.send("Đăng ký tạm trú mất bao nhiêu tiền?")
     assert result.reply
-    assert result.next_action is NextAction.PRESENT_GUIDANCE
+    assert result.next_action is NextAction.CONFIRM_PROCEDURE
+    session.close()
+
+
+def test_extractor_failure_keeps_core_fallback_without_agent_rewrite(
+    repository: ProcedureRepository,
+) -> None:
+    fallback = ExtractionOutcome(
+        status="fallback",
+        classification=None,
+        procedure_code=None,
+        fields={},
+        evidence={},
+        clarification_question=None,
+        attempts=1,
+        error_code="malformed_output",
+    )
+    model = FakeChatModel(responses=["Nội dung không được dùng."])
+    session = _make_session(model, StubExtractor(fallback), repository)
+    session.initialize_procedure("1.004194")
+
+    result = session.send("Thông tin tổng hợp.")
+
+    assert "nói lại" in result.reply
+    assert model.remaining == 1
     session.close()
 
 

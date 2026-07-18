@@ -1,5 +1,26 @@
 # Bàn giao phiên release
 
+## 2026-07-19 — Conversation Core & Guided Q&A (`refactor-code`)
+
+- Core đã hoàn tất fixed `next_action` vocabulary và toàn bộ regression bắt buộc; full Python gate đạt
+  `429 passed, 1 skipped`, coverage `81.49%`, Ruff và Mypy strict đều pass.
+- Full-index `release_audit.py` bị timeout sau 184 giây theo giới hạn đã biết trên Windows; diff-scoped
+  clean-state scan, bounded staged audit 13 file và data checksum pass. Không hạ gate hoặc sửa audit
+  script để che timeout.
+- Deep Agents không sở hữu draft: `ConversationSession` tiếp tục quyết định revision/suggestion/rule;
+  adapter chỉ re-compose FAQ. FAQ có pending procedure vẫn giữ action/prompt `confirm_procedure`.
+- Correction chỉ tạo suggestion reviewable, không auto-write draft. Manual `dirty` value luôn thắng.
+  Sau hai lần không hiểu cùng field hoặc hai lỗi extractor liên tiếp, core hướng dẫn nhập trực tiếp.
+- Memory hiện có được giữ: session + transcript + revision + best-effort compaction; không thêm Redis.
+- File cross-owner tối thiểu đã đổi vì contract/refactor seam: `src/vneguide/domain/enums.py` khóa chín
+  wire value; `src/vneguide/agent/session_adapter.py` giữ FAQ confirmation bridge và chặn agent rewrite
+  fallback. Không sửa `demoweb/**`, OCR hoặc AI provider.
+
+Bước tiếp theo cụ thể cho web owner: cập nhật mapping `demoweb` từ key cũ sang
+`fill_missing_field`/`review_suggestion`/`fix_validation`/`ready_to_continue`/
+`needs_official_review`/`unsupported`, rồi chạy browser E2E golden flow. Backend/core không nên thêm
+compatibility key thứ mười vì vocabulary đã được khóa đúng chín giá trị.
+
 ## Nhánh thử nghiệm chat core
 
 - `experiment/chat-core-v2` đang tách từ `dev@48f9c1f` trong worktree riêng.

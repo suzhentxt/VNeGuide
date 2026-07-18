@@ -262,11 +262,14 @@ class ConversationSession:
             )
 
         draft = self._state.draft
+        correction = _is_field_correction(message)
 
         suggestions = list(self._state.suggestions)
         valid_fields: dict[str, JSONValue] = {}
         for field_id, value in outcome.fields.items():
-            if field_id in draft.confirmed_fields or field_id in draft.dirty_fields:
+            if field_id in draft.dirty_fields:
+                continue
+            if field_id in draft.confirmed_fields and not correction:
                 continue
             try:
                 self._validate_field_value(code, field_id, value)
@@ -303,10 +306,16 @@ class ConversationSession:
         if pending:
             if len(pending) == 1:
                 label = self._field_label(code, pending[0].field_id)
-                reply = (
-                    f"Em đã điền sẵn mục {label}. Anh/chị kiểm tra rồi chọn Đồng ý, "
-                    "Bỏ qua hoặc Sửa giúp em ạ."
-                )
+                if correction:
+                    reply = (
+                        f"Tôi đã ghi nhận nội dung sửa cho mục {label}. "
+                        "Bước tiếp theo: anh/chị kiểm tra đề xuất giúp tôi."
+                    )
+                else:
+                    reply = (
+                        f"Tôi đã ghi nhận mục {label}. "
+                        "Bước tiếp theo: anh/chị kiểm tra đề xuất giúp tôi."
+                    )
             else:
                 reply = (
                     f"Em đã điền sẵn {len(pending)} mục. Anh/chị kiểm tra từng đề xuất rồi "
@@ -493,13 +502,13 @@ class ConversationSession:
             field_id = missing[0]
             attempts = self._state.clarification_attempts.get(field_id, 0)
             question_id = self._question_id(code, field_id)
-            if attempts >= 2 or (record_question and question_id in self._state.asked_question_ids):
+            if attempts >= 2:
                 label = self._field_label(code, field_id)
                 return (
-                    f"Anh/chị vui lòng nhập trực tiếp mục {label} trên biểu mẫu giúp em ạ.",
+                    f"Tôi chưa ghi nhận được mục {label}. Bạn có thể nhập trực tiếp vào biểu mẫu.",
                     NextAction.MANUAL_INPUT,
                 )
-            if record_question:
+            if record_question and question_id not in self._state.asked_question_ids:
                 self._state = replace(
                     self._state,
                     asked_question_ids=self._state.asked_question_ids + (question_id,),
@@ -693,20 +702,21 @@ class ConversationSession:
                 self._state = replace(self._state, pending_procedure_code=code)
             return self._finish_turn(
                 message,
-                reply_text,
-                NextAction.PRESENT_GUIDANCE,
+                f"{reply_text}\n\n{self._confirmation_prompt(code)}",
+                NextAction.CONFIRM_PROCEDURE,
                 source_ids=reply_sources,
             )
 
-        prompt, action = self._resume_prompt(active_code, record_question=False)
+        _prompt, action = self._resume_prompt(active_code, record_question=False)
+        bridge = self._action_bridge(action)
         if active_code is code:
-            reply = f"{reply_text}\n\n{prompt}"
+            reply = f"{reply_text}\n\n{bridge}"
         else:
             current_name = self._questions.procedure_label(active_code)
             reply = (
                 f"{reply_text}\n\nThông tin trên chỉ để tham khảo. Phiên hiện tại vẫn đang "
                 f"hỗ trợ thủ tục {current_name}; nếu muốn chuyển thủ tục, anh/chị cần đặt lại "
-                f"phiên trước ạ. {prompt}"
+                f"phiên trước ạ. {bridge}"
             )
         return self._finish_turn(
             message,
@@ -733,13 +743,14 @@ class ConversationSession:
                 self._confirmation_prompt(pending_code, heard_clearly=False),
                 NextAction.CONFIRM_PROCEDURE,
             )
-        action = NextAction.MANUAL_INPUT if attempts[key] >= 2 else NextAction.RETRY
+        use_manual_input = attempts[key] >= 2
+        action = NextAction.FILL_MISSING_FIELD
         if error_code == "invalid_value" and invalid_field_id is not None:
             reply = self._invalid_value_reply(invalid_field_id)
             return self._finish_turn(message, reply, action)
         reply = (
             "Dạ, em chưa đọc được thông tin. Anh/chị nhập trực tiếp trên biểu mẫu giúp em ạ."
-            if action is NextAction.MANUAL_INPUT
+            if use_manual_input
             else "Dạ, em chưa nghe rõ. Anh/chị nói lại theo cách khác giúp em được không ạ?"
         )
         return self._finish_turn(message, reply, action)
@@ -790,11 +801,10 @@ class ConversationSession:
                 NextAction.CONFIRM_PROCEDURE,
             )
         if active_code is not None:
-            prompt, _action = self._resume_prompt(active_code)
             return self._reply_without_draft_change(
                 message,
                 "Dạ, nội dung vừa rồi nằm ngoài ba thủ tục em đang hỗ trợ. "
-                f"Phiên hiện tại vẫn được giữ nguyên. {prompt}",
+                "Phiên hiện tại vẫn được giữ nguyên; anh/chị có thể tiếp tục mục đang điền ạ.",
                 NextAction.OUT_OF_SCOPE,
             )
         grounded = self._try_respond(message, classification="unsupported")
@@ -876,9 +886,23 @@ class ConversationSession:
         procedure_name = self._questions.procedure_label(code)
         return self._finish_turn(
             message,
-            f"Dạ, em sẽ hỗ trợ anh/chị làm thủ tục {procedure_name}. {prompt}",
+            f"Tôi đã ghi nhận anh/chị muốn {procedure_name}. Bước tiếp theo: {prompt}",
             action,
         )
+
+    @staticmethod
+    def _action_bridge(action: NextAction) -> str:
+        if action is NextAction.CONFIRM_SUGGESTION:
+            return "Bước tiếp theo: kiểm tra đề xuất đang chờ."
+        if action is NextAction.REQUEST_CORRECTION:
+            return "Bước tiếp theo: sửa các mục đang được báo lỗi."
+        if action is NextAction.REQUEST_OFFICIAL_REVIEW:
+            return "Bước tiếp theo: nhờ cơ quan có thẩm quyền kiểm tra."
+        if action is NextAction.COMPLETE:
+            return "Bước tiếp theo: kiểm tra lại hồ sơ trước khi tiếp tục."
+        if action is NextAction.OUT_OF_SCOPE:
+            return "Phiên hiện tại vẫn được giữ nguyên."
+        return "Bước tiếp theo: tiếp tục mục đang điền."
 
     def _reject_pending_procedure(self, message: str) -> TurnResult:
         self._state = replace(
@@ -1025,6 +1049,30 @@ def _confirmation_value(message: str) -> bool | None:
     if phrase in _NEGATIVE_CONFIRMATIONS:
         return False
     return None
+
+
+def _is_field_correction(message: str) -> bool:
+    """Return whether the citizen explicitly corrects previously confirmed data.
+
+    Correction language is intentionally narrow.  A normal repeated value must
+    not reopen confirmed state, while phrases such as ``địa chỉ đúng là`` or
+    ``đổi thành`` may create a reviewable suggestion.  Dirty form fields remain
+    protected by the caller regardless of this result.
+    """
+
+    phrase = _normalise_confirmation_phrase(message)
+    patterns = (
+        r"\bkhông\b.{0,80}\b(?:đúng|chính xác|phải) là\b",
+        r"\b(?:địa chỉ|họ tên|tên|ngày sinh|số|thông tin) "
+        r"(?:đúng|chính xác|mới) là\b",
+        r"\b(?:xin|muốn|cần) (?:sửa|đính chính|cập nhật)\b",
+        (
+            r"\b(?:sửa|đính chính|cập nhật) (?:lại )?"
+            r"(?:mục|thông tin|địa chỉ|họ tên|tên|ngày sinh|số)\b"
+        ),
+        r"\bđổi (?:lại )?(?:thành|từ)\b",
+    )
+    return any(re.search(pattern, phrase) for pattern in patterns)
 
 
 def _normalise_confirmation_phrase(message: str) -> str:

@@ -176,7 +176,7 @@ async def test_release_routes_exactly_three_reviewed_procedures(procedure_code: 
     body = response.json()
     assert response.status_code == 200
     assert body["procedure"]["code"] == procedure_code
-    assert body["next_action"] == "confirm_suggestion"
+    assert body["next_action"] == "review_suggestion"
     assert body["draft"]["confirmed_fields"] == []
     assert body["sources"]
 
@@ -194,7 +194,7 @@ async def test_release_rejects_out_of_scope_without_populating_draft() -> None:
 
     body = response.json()
     assert response.status_code == 200
-    assert body["next_action"] == "out_of_scope"
+    assert body["next_action"] == "unsupported"
     assert body["procedure"] is None
     assert body["draft"]["confirmed_fields"] == []
     assert body["suggestions"] == []
@@ -244,7 +244,7 @@ async def test_temporary_residence_hero_flow_passes_five_of_five_runs(
         assert len(final_turn["draft"]["confirmed_fields"]) == len(COMPLETE_CASES[procedure_code])
 
         # 5/5 — deterministic validation reaches ready, then reset invalidates the old session.
-        assert final_turn["next_action"] == "complete"
+        assert final_turn["next_action"] == "ready_to_continue"
         assert final_turn["validation"]["status"] == "ready_to_submit"
         reset = await client.delete(f"/v1/chat/sessions/{session_id}")
         stale_session = await client.get(f"/v1/chat/sessions/{session_id}")
@@ -301,9 +301,9 @@ async def assert_repeated_failure_offers_manual_fallback(app: FastAPI) -> None:
         session = await client.get(f"/v1/chat/sessions/{session_id}")
 
     assert first.status_code == 200
-    assert first.json()["next_action"] == "retry"
+    assert first.json()["next_action"] == "fill_missing_field"
     assert second.status_code == 200
-    assert second.json()["next_action"] == "manual_input"
+    assert second.json()["next_action"] == "fill_missing_field"
     assert session.status_code == 200
     assert session.json()["turn"]["draft"]["confirmed_fields"] == []
 

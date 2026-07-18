@@ -78,17 +78,28 @@ class MessageRole(StrEnum):
 
 
 class NextAction(StrEnum):
-    ASK_CLARIFICATION = "ask_clarification"
-    PRESENT_GUIDANCE = "present_guidance"
-    VALIDATE_DRAFT = "validate_draft"
-    REQUEST_CORRECTION = "request_correction"
-    REQUEST_OFFICIAL_REVIEW = "request_official_review"
-    COMPLETE = "complete"
-    OUT_OF_SCOPE = "out_of_scope"
     CONFIRM_PROCEDURE = "confirm_procedure"
-    CONFIRM_SUGGESTION = "confirm_suggestion"
-    MANUAL_INPUT = "manual_input"
-    RETRY = "retry"
+    CHOOSE_PORTAL = "choose_portal"
+    FILL_MISSING_FIELD = "fill_missing_field"
+    REVIEW_SUGGESTION = "review_suggestion"
+    UPLOAD_DOCUMENT = "upload_document"
+    FIX_VALIDATION = "fix_validation"
+    READY_TO_CONTINUE = "ready_to_continue"
+    NEEDS_OFFICIAL_REVIEW = "needs_official_review"
+    UNSUPPORTED = "unsupported"
+
+    # Python compatibility aliases.  The wire values above are the only values
+    # emitted by the refactored conversation core.
+    ASK_CLARIFICATION = FILL_MISSING_FIELD
+    PRESENT_GUIDANCE = READY_TO_CONTINUE
+    VALIDATE_DRAFT = READY_TO_CONTINUE
+    REQUEST_CORRECTION = FIX_VALIDATION
+    REQUEST_OFFICIAL_REVIEW = NEEDS_OFFICIAL_REVIEW
+    COMPLETE = READY_TO_CONTINUE
+    OUT_OF_SCOPE = UNSUPPORTED
+    CONFIRM_SUGGESTION = REVIEW_SUGGESTION
+    MANUAL_INPUT = FILL_MISSING_FIELD
+    RETRY = FILL_MISSING_FIELD
 
 
 class SuggestionStatus(StrEnum):

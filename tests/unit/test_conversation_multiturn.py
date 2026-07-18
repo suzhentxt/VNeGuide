@@ -182,7 +182,7 @@ def test_unsupported_turn_preserves_context_without_reasking(
     assert result.state.draft.procedure_code.value == scenario.code
     assert result.state.asked_question_ids == (scenario.question_id,)
     assert first.reply not in result.reply
-    assert "nhập trực tiếp" in result.reply.lower()
+    assert "tiếp tục mục đang điền" in result.reply.lower()
     assert scenario.expected_field not in result.reply
     assert extractor.calls[-1][1] == ExtractionTurnContext(
         scenario.code,
@@ -191,7 +191,7 @@ def test_unsupported_turn_preserves_context_without_reasking(
 
 
 @pytest.mark.parametrize("scenario", SCENARIOS)
-def test_ambiguous_turn_switches_previously_asked_field_to_manual_input(
+def test_two_ambiguous_turns_switch_field_to_manual_input(
     repository: ProcedureRepository,
     scenario: ProcedureScenario,
 ) -> None:
@@ -199,15 +199,18 @@ def test_ambiguous_turn_switches_previously_asked_field_to_manual_input(
         StubExtractor(
             outcome(scenario.code),
             outcome(None, classification="ambiguous"),
+            outcome(None, classification="ambiguous"),
         ),
         repository,
     )
 
     first = session.send(scenario.intro)
     session.send("Đúng")
-    result = session.send("Tôi chưa rõ.")
+    retry = session.send("Tôi chưa rõ.")
+    result = session.send("Tôi vẫn chưa rõ.")
 
     assert result.next_action is NextAction.MANUAL_INPUT
+    assert "nhập trực tiếp" not in retry.reply.lower()
     assert result.state.asked_question_ids == (scenario.question_id,)
     assert first.reply not in result.reply
     assert "nhập trực tiếp" in result.reply.lower()
@@ -220,14 +223,21 @@ def test_supported_empty_follow_up_does_not_repeat_question(
     repository: ProcedureRepository,
     scenario: ProcedureScenario,
 ) -> None:
-    extractor = StubExtractor(outcome(scenario.code), outcome(scenario.code))
+    extractor = StubExtractor(
+        outcome(scenario.code),
+        outcome(scenario.code),
+        outcome(scenario.code),
+    )
     session = ConversationSession(extractor, repository)
 
     first = session.send(scenario.intro)
     session.send("Đúng")
-    result = session.send("Vâng, tiếp tục đi.")
+    retry = session.send("Vâng, tiếp tục đi.")
+    result = session.send("Tôi vẫn chưa biết.")
 
     assert result.next_action is NextAction.MANUAL_INPUT
+    assert "nhập trực tiếp" not in retry.reply.lower()
+    assert "nhập trực tiếp" in result.reply.lower()
     assert first.reply not in result.reply
     assert result.state.asked_question_ids == (scenario.question_id,)
     assert extractor.calls[-1][1] == ExtractionTurnContext(
