@@ -148,3 +148,19 @@ npm run check
 ```
 
 Rollback bằng `git revert`; không dùng reset hoặc force-push trên branch dùng chung.
+
+## Bàn giao Vercel production 2026-07-18
+
+- Project đã sẵn sàng tại `trinhs-projects-e6e09c31/vneguide`; Root Directory là `demoweb`, framework
+  Next.js và production env `VNEGUIDE_API_BASE_URL` đã được cấu hình.
+- Chưa có deployment `READY`: lần đầu lỗi Root Directory; sau khi sửa, policy của execution
+  environment không cho agent upload lại private source ra ngoài.
+- Người có terminal chạy từ repo root:
+
+```bash
+npm exec --yes vercel@latest -- deploy --yes --prod --logs
+```
+
+- Sau khi build `READY`, xác minh `https://vneguide.vercel.app/`, ba procedure route,
+  `/api/portal-options` và một lượt chatbot. Preview hiện phụ thuộc FastAPI `127.0.0.1:18000` cùng
+  tunnel ngrok; tunnel hoặc máy local dừng thì chatbot trên Vercel cũng dừng.

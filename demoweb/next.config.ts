@@ -1,5 +1,8 @@
 import type { NextConfig } from "next";
 import { networkInterfaces } from "node:os";
+import { resolve } from "node:path";
+
+const repositoryRoot = resolve(process.cwd(), "..");
 
 function getAllowedDevOrigins() {
   const addresses = new Set<string>();
@@ -18,9 +21,9 @@ function getAllowedDevOrigins() {
 const nextConfig: NextConfig = {
   allowedDevOrigins: getAllowedDevOrigins(),
   output: "standalone",
-  outputFileTracingRoot: process.cwd(),
+  outputFileTracingRoot: repositoryRoot,
   turbopack: {
-    root: process.cwd(),
+    root: repositoryRoot,
   },
 };
 

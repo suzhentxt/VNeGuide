@@ -298,3 +298,17 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
 - Session store in-memory chỉ phù hợp một worker và mất memory khi restart/TTL; cần shared store trước
   khi scale.
 - Frontend có banner mô phỏng Hackathon và `noindex`; không tiếp nhận dữ liệu cá nhân thật.
+
+### 2026-07-18 — Chuẩn bị Vercel production
+
+- Project Vercel `trinhs-projects-e6e09c31/vneguide` đã được tạo với Root Directory `demoweb`,
+  framework Next.js, Node.js 24, build `npm run build`, install `npm ci` và output `.next`.
+- Frontend import trực tiếp `data/catalog/field_catalog.json`; Next output tracing/Turbopack dùng repo
+  root để không tạo bản sao runtime của data package. `.vercelignore` chỉ cho phép field catalog cần
+  thiết và loại `.env`, cache, dependency local, Python source, test và tài liệu khỏi payload.
+- `VNEGUIDE_API_BASE_URL` production đã trỏ tới API preview ngrok; biến này không chứa secret. API
+  `/health` trả `200 {"status":"ok"}` ngay trước lần deploy.
+- Frontend gate đạt: ESLint, TypeScript, 21/21 test và Next production build 25 route.
+- Lần upload đầu dừng ở bước detect Next.js vì Root Directory còn ở repo root. Cấu hình project đã
+  được sửa nhưng môi trường agent chặn lần upload lại tới dịch vụ ngoài; chưa có production deployment
+  `READY` và chưa smoke-test được `https://vneguide.vercel.app/`.
