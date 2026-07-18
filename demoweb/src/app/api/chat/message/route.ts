@@ -6,10 +6,7 @@ import {
   safeResponseBody,
   unavailableResponse,
 } from "@/lib/server/chat-api";
-import {
-  guardSessionContext,
-  withoutClientContext,
-} from "@/lib/server/chat-session-context";
+import { withoutClientContext } from "@/lib/server/chat-session-context";
 
 export async function POST(request: NextRequest) {
   const sessionId = request.cookies.get(CHAT_SESSION_COOKIE)?.value;
@@ -28,9 +25,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const payload: unknown = await request.json();
-    const { context, forwardedPayload } = withoutClientContext(payload);
-    const contextMismatch = await guardSessionContext(sessionId, context);
-    if (contextMismatch) return contextMismatch;
+    const { forwardedPayload } = withoutClientContext(payload);
 
     const backend = await callChatApi(
       `/v1/chat/sessions/${encodeURIComponent(sessionId)}/messages`,

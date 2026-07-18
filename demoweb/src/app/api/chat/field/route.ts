@@ -6,13 +6,11 @@ import {
   safeResponseBody,
   unavailableResponse,
 } from "@/lib/server/chat-api";
-import { guardSessionContext } from "@/lib/server/chat-session-context";
 
 interface FieldPayload {
   field_id?: unknown;
   value?: unknown;
   expected_revision?: unknown;
-  context?: unknown;
   interaction?: unknown;
   display_label?: unknown;
 }
@@ -58,9 +56,6 @@ export async function POST(request: NextRequest) {
         { status: 404 },
       );
     }
-
-    const contextMismatch = await guardSessionContext(sessionId, payload.context);
-    if (contextMismatch) return contextMismatch;
 
     const backend = await callChatApi(
       `/v1/chat/sessions/${encodeURIComponent(sessionId)}/draft/fields/${encodeURIComponent(payload.field_id)}`,
