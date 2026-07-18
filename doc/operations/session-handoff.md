@@ -273,3 +273,5 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
   production.
 - Sau khi merge/push `dev`, chờ GitHub Actions E2E và Vercel/Render deploy đúng SHA mới; public smoke
   bằng session mới rồi mới cập nhật evidence deployment.
+- GitHub runner hiện dùng npm 11.16.0; khi đổi Playwright/Next dependency phải regenerate và kiểm
+  `npm ci` bằng cùng major/minor để tránh optional peer bị thiếu trong lockfile.

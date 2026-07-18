@@ -458,3 +458,10 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
   ambiguity clarification → suggestion. README nêu rõ họ tên/CCCD/ngày sinh/địa chỉ không được sửa,
   raw/normalized text không được log production và fact nghiệp vụ vẫn do source/rule quyết định.
 - Chỉ thay tài liệu; `git diff --check` và release audit staged là gate bắt buộc trước merge/push.
+
+### 2026-07-19 — Đồng bộ npm lock với GitHub runner
+
+- Quality gate sau merge phát hiện `npm ci` trên npm 11.16.0 yêu cầu hai optional peer
+  `@emnapi/core@1.11.2` và `@emnapi/runtime@1.11.2` chưa được khóa bởi npm 11.6.2 local.
+- Regenerate `demoweb/package-lock.json` bằng đúng npm 11.16.0; clean install cùng phiên bản đạt,
+  595 package và 0 vulnerability. Không đổi dependency trực tiếp hoặc application code.
