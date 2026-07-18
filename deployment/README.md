@@ -98,6 +98,7 @@ VNEGUIDE_STT_ENABLED=1
 VNEGUIDE_STT_BASE_URL=https://stt-gpu.example/v1
 VNEGUIDE_STT_MODEL=Qwen/Qwen3-ASR-1.7B
 VNEGUIDE_STT_LANGUAGE=
+VNEGUIDE_STT_PROMPT=
 VNEGUIDE_STT_API_KEY_SOURCE=/opt/vneguide/shared/stt_api_key
 VNEGUIDE_STT_ALLOW_INSECURE_HTTP=0
 VNEGUIDE_STT_TIMEOUT_SECONDS=180
@@ -112,6 +113,7 @@ server-side để giảm độ trễ/nhầm ngôn ngữ:
 VNEGUIDE_STT_BASE_URL=https://api.openai.com/v1
 VNEGUIDE_STT_MODEL=gpt-4o-mini-transcribe
 VNEGUIDE_STT_LANGUAGE=vi
+VNEGUIDE_STT_PROMPT=Nội dung là tiếng Việt về thủ tục hành chính Việt Nam. Hãy chép lại nguyên văn bằng tiếng Việt có dấu; giữ nguyên tên riêng, mã thủ tục và thuật ngữ; không dịch sang ngôn ngữ khác.
 ```
 
 API key nằm trong file riêng, không nằm trong `stt.env`. Giữ owner số `10001` vì Compose file-secret

@@ -21,12 +21,14 @@ test("forwards audio as an authenticated OpenAI-compatible transcription request
   let capturedModel = "";
   let capturedFilename = "";
   let capturedLanguage = "";
+  let capturedPrompt = "";
 
   globalThis.fetch = async (_input, init) => {
     capturedAuthorization = new Headers(init?.headers).get("authorization") ?? "";
     const form = init?.body as FormData;
     capturedModel = String(form.get("model"));
     capturedLanguage = String(form.get("language") ?? "");
+    capturedPrompt = String(form.get("prompt") ?? "");
     const file = form.get("file") as File;
     capturedFilename = file.name;
     return Response.json({ text: "  Xin chào\u0000  ", language: "Vietnamese" });
@@ -37,7 +39,11 @@ test("forwards audio as an authenticated OpenAI-compatible transcription request
       new Uint8Array([1, 2, 3]),
       "audio/webm",
       "recording.webm",
-      config({ apiKey: "test-secret", language: "vi" }),
+      config({
+        apiKey: "test-secret",
+        language: "vi",
+        prompt: "Chép lại nguyên văn bằng tiếng Việt có dấu.",
+      }),
     );
 
     assert.deepEqual(result, {
@@ -49,6 +55,7 @@ test("forwards audio as an authenticated OpenAI-compatible transcription request
     assert.equal(capturedModel, "Qwen/Qwen3-ASR-1.7B");
     assert.equal(capturedFilename, "recording.webm");
     assert.equal(capturedLanguage, "vi");
+    assert.equal(capturedPrompt, "Chép lại nguyên văn bằng tiếng Việt có dấu.");
   } finally {
     globalThis.fetch = originalFetch;
   }

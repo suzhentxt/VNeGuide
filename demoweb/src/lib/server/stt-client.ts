@@ -83,6 +83,7 @@ export async function transcribeAudio(
   form.append("file", new Blob([ownedAudio.buffer], { type: mimeType }), filename);
   form.append("model", config.model);
   if (config.language) form.append("language", config.language);
+  if (config.prompt) form.append("prompt", config.prompt);
 
   let response: Response;
   try {

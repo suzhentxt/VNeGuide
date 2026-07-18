@@ -8,6 +8,7 @@ const DEFAULT_TIMEOUT_MS = 180_000;
 const DEFAULT_MAX_BYTES = 10 * 1024 * 1024;
 const DEFAULT_MAX_DURATION_SECONDS = 60;
 const MAX_SECRET_BYTES = 8 * 1024;
+const MAX_PROMPT_CHARACTERS = 1_000;
 
 export interface SttConfig {
   apiKey?: string;
@@ -16,6 +17,7 @@ export interface SttConfig {
   maxBytes: number;
   maxDurationSeconds: number;
   model: string;
+  prompt?: string;
   timeoutMs: number;
 }
 
@@ -125,6 +127,14 @@ export async function getSttConfig(): Promise<SttConfig> {
     throw new SttConfigurationError("VNEGUIDE_STT_LANGUAGE must be an ISO-639-1 code");
   }
 
+  const prompt = process.env.VNEGUIDE_STT_PROMPT?.trim();
+  if (
+    prompt &&
+    (prompt.length > MAX_PROMPT_CHARACTERS || /[\u0000-\u001f\u007f]/.test(prompt))
+  ) {
+    throw new SttConfigurationError("VNEGUIDE_STT_PROMPT is invalid");
+  }
+
   const timeoutSeconds = boundedInteger(
     "VNEGUIDE_STT_TIMEOUT_SECONDS",
     process.env.VNEGUIDE_STT_TIMEOUT_SECONDS,
@@ -157,6 +167,7 @@ export async function getSttConfig(): Promise<SttConfig> {
     maxBytes,
     maxDurationSeconds,
     model,
+    ...(prompt ? { prompt } : {}),
     timeoutMs: timeoutSeconds * 1000,
   };
 }
