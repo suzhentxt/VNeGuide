@@ -127,6 +127,21 @@ def test_uncertain_birth_request_keeps_safe_plain_language_choices(
     assert "requester_type" not in result.reply
 
 
+def test_guided_form_help_skips_extractor_and_asks_the_next_reviewed_field(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor()
+    session = ConversationSession(extractor, repository)
+    session.initialize_procedure("1.004194")
+
+    result = session.send("Hãy hướng dẫn tôi điền hồ sơ từng bước.")
+
+    assert result.next_action is NextAction.ASK_CLARIFICATION
+    assert "hỏi từng mục" in result.reply
+    assert "hình thức đăng ký" in result.reply.lower()
+    assert extractor.calls == []
+
+
 def test_confirmed_field_is_never_overwritten(repository: ProcedureRepository) -> None:
     session = ConversationSession(
         StubExtractor(

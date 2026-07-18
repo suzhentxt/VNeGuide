@@ -8,7 +8,7 @@ import {
   getProcedureExperience,
 } from "@/data/procedure-experiences";
 import {
-  getSelectedReceptionUnit,
+  getReceptionUnitLabel,
   getSelectedService,
 } from "@/lib/procedure-selection";
 import { loadGuidedFields } from "@/server/guided-fields";
@@ -52,10 +52,10 @@ export default async function ProcedureApplicationPage({
   }
 
   const selectedService = getSelectedService(experience, query.service);
-  const selectedReceptionUnit = getSelectedReceptionUnit(query.receptionUnit) ?? "";
+  const selectedReceptionUnit = getReceptionUnitLabel(query.receptionUnit);
   const serviceConfirmed = query.confirmed === "1";
 
-  if (!selectedService || !serviceConfirmed) {
+  if (!selectedService || !selectedReceptionUnit || !serviceConfirmed) {
     redirect(experience.routes.detail);
   }
 

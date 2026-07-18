@@ -72,6 +72,7 @@ class FakeChatSession:
         _value: JSONValue,
         *,
         expected_revision: int,
+        user_message: str | None = None,
     ) -> TurnResult:
         raise ValueError("no suggestion")
 
@@ -388,4 +389,78 @@ async def test_chat_api_remembers_birth_scope_clarification_across_turns() -> No
     assert "đã ghi nhận" in child.json()["reply"].lower()
     assert "requester_type" not in child.json()["reply"]
     assert len(child.json()["messages"]) == 6
+    assert extractor.calls == []
+
+
+@pytest.mark.anyio
+async def test_guided_help_returns_catalog_choices_without_calling_model() -> None:
+    repository = ProcedureRepository.discover()
+    extractor = StubExtractor()
+    app = create_app(
+        session_factory=lambda: ConversationSession(extractor, repository),
+        repository=repository,
+    )
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post(
+            "/v1/chat/sessions",
+            json={"context": {"procedure_code": "1.004194", "route": "/dang-ky-tam-tru"}},
+        )
+        session_id = created.headers["X-VNeGuide-Session"]
+        response = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "Hãy hướng dẫn tôi điền hồ sơ từng bước."},
+        )
+
+    assert response.status_code == 200
+    assert response.json()["next_action"] == "ask_clarification"
+    assert response.json()["missing_fields"][0] == {
+        "field_id": "registration_mode",
+        "label": "Hình thức đăng ký",
+        "choices": ["individual_or_household", "by_list", "armed_forces"],
+    }
+    assert extractor.calls == []
+
+
+@pytest.mark.anyio
+async def test_chat_choice_updates_form_and_persists_friendly_conversation() -> None:
+    repository = ProcedureRepository.discover()
+    extractor = StubExtractor()
+    app = create_app(
+        session_factory=lambda: ConversationSession(extractor, repository),
+        repository=repository,
+    )
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post(
+            "/v1/chat/sessions",
+            json={"context": {"procedure_code": "1.004194", "route": "/dang-ky-tam-tru"}},
+        )
+        session_id = created.headers["X-VNeGuide-Session"]
+        await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "Hãy hướng dẫn tôi điền hồ sơ từng bước."},
+        )
+        response = await client.patch(
+            f"/v1/chat/sessions/{session_id}/draft/fields/registration_mode",
+            json={
+                "value": "individual_or_household",
+                "expected_revision": 0,
+                "interaction": "chat_choice",
+                "display_label": "Cá nhân hoặc hộ gia đình",
+            },
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["draft"]["values"]["registration_mode"] == "individual_or_household"
+    assert body["draft"]["confirmed_fields"] == ["registration_mode"]
+    assert body["messages"][-2] == {
+        "role": "user",
+        "content": "Cá nhân hoặc hộ gia đình",
+    }
+    assert body["messages"][-1]["role"] == "assistant"
+    assert "Đã ghi nhận hình thức đăng ký" in body["reply"]
+    assert "registration_mode" not in body["reply"]
+    assert body["missing_fields"][0]["field_id"] == "applicant_full_name"
     assert extractor.calls == []

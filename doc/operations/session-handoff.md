@@ -3,13 +3,18 @@
 ## Nhánh thử nghiệm chat core
 
 - `experiment/chat-core-v2` đang tách từ `dev@48f9c1f` trong worktree riêng.
-- Working tree hiện có redesign chưa commit của luồng trợ lý đồng hành hồ sơ. Chat xác nhận tên dịch
-  vụ trước khi mở URL có `confirmed=1`; trang nộp hồ sơ mới dùng catalog để render bốn bước cho cả
-  ba thủ tục, giữ source manual/assistant/wallet và chặn dữ liệu autofill chưa được xác nhận.
-- Gate frontend mới nhất: lint/typecheck đạt, 19 unit test đạt, production build 25 route đạt ngoài
-  sandbox. HTTP smoke: ba URL đã xác nhận trả `200`; URL chưa xác nhận trả `307` về trang chi tiết.
-  In-app Browser không khả dụng nên bước kế tiếp cụ thể là chạy browser E2E/manual keyboard cho
-  confirm-service → bước 1 → bước 2, rồi rebuild Docker để kiểm loader catalog trong runner.
+- Working tree có redesign chưa commit: chat xác nhận dịch vụ rồi mở trang chi tiết để chọn tỉnh và
+  phường/xã/cơ quan tiếp nhận; chỉ sau đó người dùng bấm `Nộp hồ sơ`. Wizard nhận nơi tiếp nhận từ URL
+  đã xác nhận và không lặp lại bước chọn địa điểm.
+- Nút nhờ trợ giúp tự gửi prompt ẩn; core hỏi tuần tự theo field catalog. Enum/boolean có lựa chọn ngay
+  trong chat và lựa chọn cập nhật draft thật, ghi transcript bằng nhãn thân thiện rồi hỏi field kế
+  tiếp. Agent cũng chủ động đề xuất lưu/autofill trong ví session và vẫn yêu cầu xác nhận dữ liệu.
+- Gate mới nhất: full Python `275 passed, 2 skipped`, coverage `80.40%`, Ruff, mypy 94 source;
+  frontend lint/typecheck, 21 unit test và build 25 route đều đạt. BFF smoke xác nhận help → chọn
+  fixed value → draft revision `1` và câu hỏi kế tiếp; detail/submission trả `200`, API health `ok`.
+- In-app Browser không khả dụng. Bước tiếp theo cụ thể là chạy browser E2E/manual keyboard cho
+  confirm-service → chọn authority → nộp hồ sơ → nhờ trợ giúp → chọn option, rồi rebuild Docker để
+  kiểm loader catalog trong runner.
 - Chatbot local hiện dùng OpenAI Responses API với `gpt-5.6-luna`; `.env` nằm ở worktree chính, bị
   Git ignore và phải được truyền rõ bằng `--env-file`. Provider/three-procedure/BFF smoke đều đạt;
   case tạm trú trả đúng `submission_channel=online` trong khoảng `1.415 s` qua web.

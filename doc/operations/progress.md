@@ -1,5 +1,26 @@
 # Nhật ký tiến độ VNeGuide
 
+## 2026-07-18 — Chọn nơi tiếp nhận trước khi vào hồ sơ và trợ lý điền thực tế
+
+- Luồng xác nhận dịch vụ trong chat giờ mở trang chi tiết thủ tục thay vì nhảy thẳng vào wizard.
+  Người dùng chọn tỉnh/thành phố và phường/xã/cơ quan tiếp nhận tại đây; nút `Nộp hồ sơ` chỉ bật khi
+  lựa chọn hợp lệ và mang nơi tiếp nhận sang hồ sơ. Wizard không hỏi lại các mục địa điểm này.
+- Nút `Nhờ trợ lý điền cùng tôi` tự gửi câu lệnh hướng dẫn ẩn. Core trả lời deterministic từ field
+  catalog, hỏi từng mục một và không gọi model/out-of-scope guard cho chính yêu cầu trợ giúp này.
+- Enum và boolean được trả thành lựa chọn lớn ngay trong cửa sổ chat. Chọn một giá trị cập nhật field
+  thật qua revision guard, ghi lượt người dùng bằng nhãn tiếng Việt, xác nhận field và hỏi mục kế tiếp;
+  transcript không lộ tên field kỹ thuật.
+- Đề xuất lưu/điền lại thông tin dùng chung được chuyển vào agent. Ví chỉ lưu trong session browser;
+  agent chỉ lưu hoặc autofill sau khi người dùng đồng ý, và dữ liệu autofill vẫn phải được xác nhận
+  trên biểu mẫu trước khi qua bước tiếp theo.
+- Gate đạt: full Python `275 passed, 2 skipped`, coverage `80.40%`, Ruff lint/format và mypy strict
+  trên 94 source file; frontend lint/typecheck và `21` unit test; Next production build thành công
+  với 25 route. BFF smoke xác nhận
+  trợ giúp → lựa chọn `Cá nhân hoặc hộ gia đình` → draft revision `1` → hỏi `Họ tên người đăng ký`;
+  detail và submission URL hợp lệ đều trả `200`, `/health` trả `ok`.
+- In-app Browser không khả dụng nên chưa có bằng chứng click/keyboard/screenshot trong phiên này;
+  HTTP/BFF smoke và unit/integration test không thay thế browser E2E.
+
 ## 2026-07-18 — Luồng trợ lý đồng hành hồ sơ bốn bước
 
 - Thay wizard nộp hồ sơ chung bằng luồng dùng trực tiếp field catalog đã review cho cả ba thủ tục:

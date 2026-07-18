@@ -25,14 +25,11 @@ export function getProcedureContextByCode(code: string) {
   return procedureContexts.find((procedure) => procedure.code === code);
 }
 
-export function getConfirmedSubmissionRoute(code: string) {
+export function getConfirmedProcedureRoute(code: string) {
   const procedure = getProcedureContextByCode(code);
   if (!procedure) return null;
-  const query = new URLSearchParams({
-    service: procedure.serviceId,
-    confirmed: "1",
-  });
-  return `/hon-nhan-va-gia-dinh/${procedure.slug}/nop-ho-so?${query.toString()}`;
+  const query = new URLSearchParams({ confirmed: "1" });
+  return `/hon-nhan-va-gia-dinh/${procedure.slug}?${query.toString()}`;
 }
 
 export function getChatSessionContext(pathname: string): ChatSessionContext {

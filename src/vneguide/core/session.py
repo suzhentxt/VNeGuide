@@ -107,6 +107,15 @@ class ConversationSession:
         )
         normalized = self._normalize_message(message)
 
+        if active_code is not None and self._is_guided_form_help_request(normalized):
+            self._contextual_reference_trusted = True
+            prompt, action = self._resume_prompt(active_code)
+            return self._reply_without_draft_change(
+                message,
+                f"Tôi sẽ hỏi từng mục một và chỉ điền sau khi bạn trả lời. {prompt}",
+                action,
+            )
+
         if self._pending_scope_clarification == "birth":
             scope_choice = self._birth_scope_choice(normalized)
             if scope_choice == "copy":
@@ -278,7 +287,7 @@ class ConversationSession:
         elif pending:
             confirmation = (
                 f"Tôi đã tạo {len(pending)} đề xuất. "
-                "Hãy Accept, Reject hoặc Edit từng đề xuất trước khi đi tiếp."
+                "Hãy xác nhận, sửa hoặc bỏ từng đề xuất trước khi đi tiếp."
             )
             reply = confirmation
             action = NextAction.CONFIRM_SUGGESTION
@@ -303,6 +312,10 @@ class ConversationSession:
         self._ensure_open()
         self._require_revision(expected_revision)
         suggestion = self._pending_by_id(suggestion_id)
+        code = self._state.draft.procedure_code
+        if code is None:
+            raise RuntimeError("Cannot reject a suggestion without a procedure")
+        label = self._field_label(code, suggestion.field_id).lower()
         new_revision = self._state.draft.revision + 1
         attempts = dict(self._state.clarification_attempts)
         attempts[suggestion.field_id] = attempts.get(suggestion.field_id, 0) + 1
@@ -316,7 +329,7 @@ class ConversationSession:
             ),
             clarification_attempts=attempts,
         )
-        return self._result_after_action(f"Đã bỏ đề xuất cho {suggestion.field_id}.")
+        return self._result_after_action(f"Đã bỏ đề xuất cho {label}.")
 
     def edit_suggestion(
         self,
@@ -338,6 +351,7 @@ class ConversationSession:
         value: JSONValue,
         *,
         expected_revision: int,
+        user_message: str | None = None,
     ) -> TurnResult:
         """Apply a validated manual form edit as confirmed and user-owned data."""
 
@@ -377,7 +391,12 @@ class ConversationSession:
             ),
             clarification_attempts=attempts,
         )
-        return self._result_after_action(f"Đã cập nhật {field_id} từ biểu mẫu.")
+        result = self._result_after_action(
+            f"Đã ghi nhận {self._field_label(code, field_id).lower()}."
+        )
+        if user_message is None:
+            return result
+        return self._finish_turn(user_message, result.reply, result.next_action)
 
     def close(self) -> None:
         self._state = ConversationState()
@@ -432,7 +451,8 @@ class ConversationSession:
             ),
         )
         verb = "Đã sửa và xác nhận" if status is SuggestionStatus.EDITED else "Đã chấp nhận"
-        return self._result_after_action(f"{verb} {suggestion.field_id}.")
+        label = self._field_label(code, suggestion.field_id).lower()
+        return self._result_after_action(f"{verb} {label}.")
 
     def _result_after_action(self, prefix: str) -> TurnResult:
         code = self._state.draft.procedure_code
@@ -483,7 +503,7 @@ class ConversationSession:
         pending = self._pending()
         if pending:
             return (
-                f"Bạn còn {len(pending)} đề xuất cần Accept, Reject hoặc Edit trước khi đi tiếp.",
+                f"Bạn còn {len(pending)} đề xuất cần xác nhận, sửa hoặc bỏ trước khi đi tiếp.",
                 NextAction.CONFIRM_SUGGESTION,
             )
         return self._next_prompt(code)
@@ -795,6 +815,10 @@ class ConversationSession:
             "khong ro",
             "khong biet",
         }
+
+    @staticmethod
+    def _is_guided_form_help_request(normalized: str) -> bool:
+        return normalized == "hay huong dan toi dien ho so tung buoc"
 
     @staticmethod
     def _needs_birth_scope_clarification(message: str) -> bool:

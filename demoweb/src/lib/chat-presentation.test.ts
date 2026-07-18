@@ -21,6 +21,7 @@ function turn(status: string, missingCount: number): ChatTurn {
     missing_fields: Array.from({ length: missingCount }, (_, index) => ({
       field_id: `field_${index}`,
       label: `Trường ${index}`,
+      choices: [],
     })),
     validation: { status, readiness_score: 100, issues: [] },
     sources: [],

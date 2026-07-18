@@ -41,7 +41,7 @@ export interface ChatTurn {
   };
   messages: ChatMessage[];
   suggestions: ChatSuggestion[];
-  missing_fields: Array<{ field_id: string; label: string }>;
+  missing_fields: Array<{ field_id: string; label: string; choices: JsonValue[] }>;
   validation: {
     status: string;
     readiness_score: number | null;

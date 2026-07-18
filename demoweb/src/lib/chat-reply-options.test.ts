@@ -43,7 +43,7 @@ test("offers requester choices without exposing internal enum values", () => {
   const options = getChatReplyOptions(
     turn({
       procedure: { code: "2.000635", name: "Cấp bản sao Giấy khai sinh" },
-      missing_fields: [{ field_id: "requester_type", label: "Loại người yêu cầu" }],
+      missing_fields: [{ field_id: "requester_type", label: "Loại người yêu cầu", choices: ["self", "authorized_person", "organization"] }],
     }),
   );
 

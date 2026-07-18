@@ -7,6 +7,8 @@ export interface InformationWallet {
   residence?: JsonValue;
 }
 
+export const INFORMATION_WALLET_KEY = "vneguide:information-wallet:v1";
+
 const aliases = {
   full_name: ["requester_full_name", "applicant_full_name"],
   date_of_birth: ["requester_date_of_birth", "applicant_date_of_birth"],

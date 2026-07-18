@@ -4,6 +4,7 @@ import {
   AlertTriangle,
   Bot,
   ChevronDown,
+  FolderHeart,
   LoaderCircle,
   MessageCircle,
   RefreshCw,
@@ -16,16 +17,30 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
 import {
   getChatSessionContext,
-  getConfirmedSubmissionRoute,
+  getConfirmedProcedureRoute,
   getProcedureContextByCode,
   procedureContexts,
 } from "@/data/chat-scope";
+import { getEnumLabel } from "@/data/guided-fields";
 import { useProcedureWorkspace } from "@/components/workspace/ProcedureWorkspaceProvider";
 import { getChatValidationPresentation } from "@/lib/chat-presentation";
 import { getChatReplyOptions } from "@/lib/chat-reply-options";
+import {
+  createWallet,
+  INFORMATION_WALLET_KEY,
+  walletValuesForProcedure,
+  type InformationWallet,
+} from "@/lib/information-wallet";
+import type { JsonValue } from "@/types/chat";
 
 import { SuggestionCard } from "./SuggestionCard";
 import { useChatSession } from "./useChatSession";
+
+function choiceLabel(value: JsonValue) {
+  if (typeof value === "boolean") return value ? "Có" : "Không";
+  if (typeof value === "string") return getEnumLabel(value);
+  return String(value);
+}
 
 export function ChatWidget() {
   const pathname = usePathname();
@@ -36,6 +51,16 @@ export function ChatWidget() {
   const [draft, setDraft] = useState("");
   const [selectedProcedureCode, setSelectedProcedureCode] = useState<string | null>(null);
   const [choosingProcedure, setChoosingProcedure] = useState(false);
+  const [wallet, setWallet] = useState<InformationWallet | null>(() => {
+    if (typeof window === "undefined") return null;
+    try {
+      const saved = window.sessionStorage.getItem(INFORMATION_WALLET_KEY);
+      return saved ? (JSON.parse(saved) as InformationWallet) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [walletNotice, setWalletNotice] = useState<string | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const {
@@ -46,6 +71,8 @@ export function ChatWidget() {
     busy,
     ensureSession,
     sendMessage,
+    sendHiddenMessage,
+    chooseFieldValue,
     resolveSuggestion,
     resetSession,
     closeSession,
@@ -84,15 +111,17 @@ export function ChatWidget() {
     const openForStep = (event: Event) => {
       const detail = (event as CustomEvent<{ prompt?: string }>).detail;
       setOpen(true);
-      if (detail?.prompt) setDraft(detail.prompt);
+      if (detail?.prompt) {
+        void ensureSession().then(() => sendHiddenMessage(detail.prompt ?? ""));
+      }
     };
     window.addEventListener("vneguide:open-assistant", openForStep);
     return () => window.removeEventListener("vneguide:open-assistant", openForStep);
-  }, []);
+  }, [ensureSession, sendHiddenMessage]);
 
   async function confirmProcedure() {
     if (!selectedProcedure) return;
-    const route = getConfirmedSubmissionRoute(selectedProcedure.code);
+    const route = getConfirmedProcedureRoute(selectedProcedure.code);
     if (!route) return;
     setOpen(false);
     await closeSession();
@@ -120,6 +149,33 @@ export function ChatWidget() {
   );
   const validationPresentation = getChatValidationPresentation(turn);
   const replyOptions = getChatReplyOptions(turn);
+  const fixedChoiceField =
+    replyOptions.length === 0 && turn?.missing_fields[0]?.choices.length
+      ? turn.missing_fields[0]
+      : null;
+  const walletCandidate = createWallet(workspace.state.fields);
+  const walletAutofill = wallet
+    ? walletValuesForProcedure(
+        wallet,
+        turn?.missing_fields.map((field) => field.field_id) ?? [],
+      )
+    : {};
+  const canOfferWalletSave =
+    !wallet && Object.keys(walletCandidate).length > 0 && Boolean(turn?.procedure);
+  const canOfferWalletAutofill = Object.keys(walletAutofill).length > 0;
+
+  const saveSuggestedWallet = () => {
+    window.sessionStorage.setItem(INFORMATION_WALLET_KEY, JSON.stringify(walletCandidate));
+    setWallet(walletCandidate);
+    setWalletNotice("Đã lưu trong phiên trình duyệt này. Tôi sẽ đề xuất điền lại khi gặp mục tương ứng.");
+  };
+
+  const applySuggestedWallet = () => {
+    workspace.prefillFromWallet(walletAutofill);
+    setWalletNotice(
+      `Tôi đã điền ${Object.keys(walletAutofill).length} mục từ ví. Hãy kiểm tra trên biểu mẫu và bấm xác nhận trước khi đi tiếp.`,
+    );
+  };
   const validationToneClass = {
     danger: "border-[#efb4b4] bg-[#fff1f1] text-[#8b1e1e]",
     incomplete: "border-[#f0c36a] bg-[#fff8df] text-[#704d09]",
@@ -254,13 +310,14 @@ export function ChatWidget() {
                 className="rounded-xl border-2 border-[#ce7a58] bg-[#fff8f5] p-4 shadow-sm"
               >
                 <p className="text-xs font-extrabold tracking-wide text-[#903938] uppercase">
-                  Cần xác nhận trước khi mở hồ sơ
+                  Cần xác nhận trước khi chọn nơi nộp
                 </p>
                 <h3 className="mt-2 text-base font-extrabold text-[#1e2f41]" id="service-confirmation-title">
                   {selectedProcedure.title}
                 </h3>
                 <p className="mt-2 text-sm leading-6 text-[#52606d]">
-                  Đây có đúng là thủ tục bạn muốn thực hiện không? Chỉ sau khi bạn xác nhận, VNeGuide mới mở trang nộp hồ sơ tương ứng.
+                  Đây có đúng là thủ tục bạn muốn thực hiện không? Sau khi xác nhận,
+                  VNeGuide sẽ mở trang chi tiết để bạn chọn tỉnh, phường/xã và cơ quan tiếp nhận.
                 </p>
                 <div className="mt-4 grid gap-2">
                   <button
@@ -269,7 +326,7 @@ export function ChatWidget() {
                     onClick={() => void confirmProcedure()}
                     type="button"
                   >
-                    Đúng, mở hồ sơ này
+                    Đúng, chọn nơi nộp hồ sơ
                   </button>
                   <button
                     className="min-h-12 rounded-lg border-2 border-[#cbd5df] bg-white px-4 font-bold text-[#334155] hover:border-[#ce7a58]"
@@ -332,6 +389,34 @@ export function ChatWidget() {
               </div>
             ) : null}
 
+            {!needsServiceConfirmation && !choosingProcedure && fixedChoiceField ? (
+              <div
+                aria-label={`Chọn ${fixedChoiceField.label}`}
+                className="rounded-xl border border-[#d9e2ec] bg-white p-3"
+                role="group"
+              >
+                <p className="mb-2 text-sm font-bold text-[#334155]">
+                  Chọn {fixedChoiceField.label.toLocaleLowerCase("vi")}
+                </p>
+                <div className="grid gap-2">
+                  {fixedChoiceField.choices.map((choice) => {
+                    const label = choiceLabel(choice);
+                    return (
+                      <button
+                        className="min-h-12 rounded-lg border-2 border-[#ce7a58] bg-[#fff8f5] px-4 py-2 text-left text-base font-bold text-[#762b2b] hover:bg-[#ffede5] focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[#ffc251] disabled:opacity-50"
+                        disabled={busy}
+                        key={`${fixedChoiceField.field_id}:${JSON.stringify(choice)}`}
+                        onClick={() => void chooseFieldValue(fixedChoiceField.field_id, choice, label)}
+                        type="button"
+                      >
+                        {label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : null}
+
             {!needsServiceConfirmation && !choosingProcedure ? pendingSuggestions?.map((suggestion) => (
               <SuggestionCard
                 disabled={busy}
@@ -341,6 +426,37 @@ export function ChatWidget() {
                 suggestion={suggestion}
               />
             )) : null}
+
+            {!needsServiceConfirmation && !choosingProcedure && !pendingSuggestions?.length && (canOfferWalletAutofill || canOfferWalletSave) ? (
+              <section className="rounded-xl border-2 border-[#b9cde5] bg-[#f2f7fc] p-4 text-[#24496f]">
+                <div className="flex items-start gap-3">
+                  <FolderHeart className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
+                  <div>
+                    <p className="font-extrabold">
+                      {canOfferWalletAutofill ? "Tôi có thể điền lại thông tin đã lưu" : "Bạn có muốn lưu thông tin dùng lại?"}
+                    </p>
+                    <p className="mt-1 text-sm leading-6">
+                      {canOfferWalletAutofill
+                        ? `Có ${Object.keys(walletAutofill).length} mục phù hợp. Tôi chỉ điền sau khi bạn đồng ý và bạn vẫn phải xác nhận lại.`
+                        : "Chỉ lưu trong phiên trình duyệt này; không gửi thêm dữ liệu ra ngoài."}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  className="mt-3 min-h-11 rounded-lg bg-[#24496f] px-4 font-bold text-white hover:bg-[#183653]"
+                  onClick={canOfferWalletAutofill ? applySuggestedWallet : saveSuggestedWallet}
+                  type="button"
+                >
+                  {canOfferWalletAutofill ? "Đồng ý, điền giúp tôi" : "Đồng ý, lưu trong phiên"}
+                </button>
+              </section>
+            ) : null}
+
+            {walletNotice ? (
+              <div className="rounded-lg border border-[#b9d8c4] bg-[#f1f8f3] p-3 text-sm text-[#28543a]" role="status">
+                {walletNotice}
+              </div>
+            ) : null}
 
             {!needsServiceConfirmation && !choosingProcedure && turn?.missing_fields.length ? (
               <details className="rounded-lg border border-[#d9e2ec] bg-white p-3 text-sm">

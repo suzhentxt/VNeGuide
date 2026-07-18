@@ -275,18 +275,19 @@ export function MarriageProcedureDetail({
               Bạn đã sẵn sàng thực hiện thủ tục?
             </p>
             <Link
-              href={experience.routes.apply}
+              href="#agency-filter-title"
               className="inline-flex h-11 items-center justify-center rounded bg-[#ce7a58] px-6 font-semibold text-white shadow-sm hover:bg-[#b96749] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#903938]"
             >
-              Nộp hồ sơ trực tuyến
+              Chọn cơ quan để nộp
             </Link>
           </div>
         </article>
 
         <div className="order-1 space-y-4 md:order-2 md:col-span-4">
           <AgencySidebar
-            actionHref={experience.routes.apply}
+            actionHref={experience.routes.submission}
             actionLabel="Nộp hồ sơ"
+            serviceId={experience.services[0].id}
           />
           <PopularProcedures />
         </div>
