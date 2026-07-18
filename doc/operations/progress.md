@@ -349,3 +349,7 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
   mã máy; regression test xác nhận vẫn bắt số CCCD tổng hợp 12 chữ số đứng độc lập.
 - Gate local đạt: Ruff/format/mypy sạch, `279 passed`, `2 skipped`, coverage `80.55%`. Audit branch
   đạt `385/239`; audit trên merge result `origin/dev` + candidate đạt `17379/11569` file.
+- Job container sau đó phát hiện Next standalone nằm dưới `/app/app` trong image, trong khi
+  `web.Dockerfile` chạy/copy asset ở `/app`. Dockerfile đã dùng `app/server.js`,
+  `app/.next/static` và `app/public`; Compose local xác nhận API/web/gateway healthy. Smoke mock trên
+  gateway cổng test đạt API `3/3` và web `3/3`, toàn bộ HTTP `200`.

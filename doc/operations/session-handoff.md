@@ -188,3 +188,6 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
   test vẫn bắt số định danh 12 chữ số đứng độc lập.
 - Xác minh local: Ruff/format/mypy đạt; pytest `279 passed`, `2 skipped`, coverage `80.55%`; branch
   audit `385/239` và merge-result audit `17379/11569` đều đạt.
+- Next tracing root làm Docker artifact nằm tại `/app/app/server.js`; `web.Dockerfile` đã đồng bộ
+  entrypoint và asset path theo artifact này. Compose smoke trên cổng riêng xác nhận ba service
+  healthy, API `3/3` và web `3/3` trả `200`; project test đã được `down --volumes`.

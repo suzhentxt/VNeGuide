@@ -25,8 +25,8 @@ RUN addgroup --system --gid 10001 vneguide \
     && adduser --system --uid 10001 --ingroup vneguide vneguide
 
 COPY --from=builder --chown=vneguide:vneguide /app/.next/standalone ./
-COPY --from=builder --chown=vneguide:vneguide /app/.next/static ./.next/static
-COPY --from=builder --chown=vneguide:vneguide /app/public ./public
+COPY --from=builder --chown=vneguide:vneguide /app/.next/static ./app/.next/static
+COPY --from=builder --chown=vneguide:vneguide /app/public ./app/public
 COPY --from=builder --chown=vneguide:vneguide /data/catalog/field_catalog.json /data/catalog/field_catalog.json
 
 USER vneguide
@@ -35,4 +35,4 @@ EXPOSE 3000
 HEALTHCHECK --interval=15s --timeout=3s --start-period=15s --retries=3 \
     CMD ["node", "-e", "fetch('http://127.0.0.1:3000').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
 
-CMD ["node", "server.js"]
+CMD ["node", "app/server.js"]
