@@ -29,6 +29,7 @@ hiểu là “tôi muốn đăng ký tạm trú”, nhưng họ tên, CCCD, ngà
 1. Người dân mô tả nhu cầu bằng tiếng Việt tự nhiên, phương ngữ, từ rút gọn hoặc transcript speech.
 2. Lớp ngôn ngữ bảo vệ dữ liệu định danh, chuẩn hóa phần còn lại và giữ ánh xạ về câu gốc.
 3. Agent đề xuất đúng một dịch vụ trong phạm vi và **bắt buộc người dùng xác nhận** trước điều hướng.
+   Câu hỏi làm rõ và đổi dịch vụ có nút chọn lớn; người dùng không phải nhớ hoặc gõ câu lệnh.
 4. Trên trang nộp hồ sơ, người dùng có thể tự điền hoặc nhờ agent hỏi/hướng dẫn từng trường.
 5. Giá trị do AI tìm thấy chỉ là suggestion; người dùng Accept, Edit hoặc Reject trước khi vào draft.
 6. Rule engine kiểm tra field bắt buộc, điều kiện, nguồn và trạng thái; LLM không được tự nhớ luật.
@@ -56,7 +57,9 @@ nhận CCCD, số điện thoại hoặc dữ liệu cá nhân thật.
 
 Render Free có thể sleep khi không hoạt động, vì vậy request đầu tiên sau thời gian idle có thể chậm.
 Session hiện lưu trong memory và sẽ mất khi Render restart, deploy hoặc spin down; đây chưa phải kiến
-trúc lưu trữ bền vững cho tải thật.
+trúc lưu trữ bền vững cho tải thật. Trong cùng một backend session, cookie HttpOnly giữ nguyên cuộc
+trò chuyện khi người dùng xác nhận dịch vụ và chuyển từ trang chủ sang trang thủ tục; lịch sử, dịch
+vụ đang làm và đề xuất chưa xử lý không bị tạo lại chỉ vì điều hướng trang.
 
 ## Dành cho ban giám khảo — bản đồ chấm 100 điểm
 
@@ -338,11 +341,14 @@ Thiết kế ưu tiên người lần đầu làm thủ tục, người lớn tu
 
 - Dùng tiếng Việt đời thường; không bắt người dùng nhập enum như `requester_type`.
 - Chỉ hỏi một mục có ngữ cảnh tại một thời điểm; fixed-value hiển thị thành nút chọn lớn.
+- Các câu hỏi “bản sao hay đăng ký mới”, “chuyển hay giữ dịch vụ” và danh sách ba dịch vụ đều có nút
+  trả lời nhanh; người dùng lớn tuổi không phải gõ lại đúng một mẫu câu.
 - Bắt buộc xác nhận đúng dịch vụ trước điều hướng để tránh người dùng điền nhầm form.
 - Nếu người dùng tự điền được, AI chỉ hướng dẫn. Nếu AI điền giúp, phải xác nhận trước bước tiếp theo.
 - “Nhờ trợ giúp” gửi prompt ngữ cảnh ẩn để người dùng không phải mô tả lại đang mắc ở bước nào.
 - Chat, missing-field summary, validation và form dùng cùng workspace; thông tin đã xác nhận không bị
-  hỏi lại hoặc ghi đè.
+  hỏi lại hoặc ghi đè. Xác nhận dịch vụ chỉ liên kết procedure vào phiên hiện tại, không đóng phiên;
+  vì vậy lịch sử chat và đề xuất có evidence được giữ khi mở trang tương ứng.
 - Ví thông tin chỉ được đề xuất sau khi hoàn thành phần khai; dữ liệu chỉ ở `sessionStorage` của bản
   demo, autofill vẫn yêu cầu kiểm tra và xác nhận lại.
 
@@ -352,6 +358,7 @@ Thiết kế ưu tiên người lần đầu làm thủ tục, người lớn tu
 | --- | --- |
 | Chưa xác định dịch vụ | Chào hỏi bình thường, hỏi làm rõ; chưa gắn nhãn ngoài phạm vi quá sớm |
 | Cần xác nhận dịch vụ | Hiển thị tên đầy đủ, giải thích và nút xác nhận/đổi dịch vụ |
+| Người dùng đổi ý | Hiểu “thôi/tôi muốn…”; nếu còn mơ hồ thì nhớ dịch vụ đích và hiện nút Chuyển/Giữ |
 | Thiếu field | Nêu tên đời thường, giải thích cách điền, cho nút chọn hoặc ô nhập ngay trong chat |
 | Có suggestion | Hiển thị giá trị và Accept/Edit/Reject; không áp dụng âm thầm |
 | Dữ liệu stale | Giữ giá trị form, tải lại session/revision và thông báo phục hồi dễ hiểu |

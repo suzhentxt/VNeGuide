@@ -608,6 +608,47 @@ def test_birth_copy_confirmation_never_falls_out_of_scope_after_ambiguous_turn(
     assert "ngoài ba thủ tục" not in confirmed.reply.lower()
 
 
+def test_first_service_turn_keeps_extracted_field_as_pending_memory(
+    repository: ProcedureRepository,
+) -> None:
+    session = ConversationSession(
+        StubExtractor(
+            outcome(
+                procedure_code="2.000635",
+                fields={"requester_type": "self"},
+                evidence={"requester_type": "cho tôi"},
+            )
+        ),
+        repository,
+    )
+
+    result = session.send("tôi muốn xin bản sao giấy khai sinh cho tôi")
+
+    assert result.next_action is NextAction.ASK_CLARIFICATION
+    assert result.state.draft.procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+    assert len(result.suggestions) == 1
+    assert result.suggestions[0].field_id == "requester_type"
+    assert result.suggestions[0].suggested_value == "self"
+    assert result.draft == {}
+
+
+def test_reviewed_service_still_reaches_confirmation_when_provider_fails(
+    repository: ProcedureRepository,
+) -> None:
+    session = ConversationSession(
+        StubExtractor(outcome(status="fallback", error_code="provider_error")),
+        repository,
+    )
+
+    result = session.send("tôi muốn xin bản sao giấy khai sinh cho tôi")
+
+    assert result.next_action is NextAction.ASK_CLARIFICATION
+    assert result.state.draft.procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+    assert "ngoài ba thủ tục" not in result.reply.lower()
+    assert "bạn đang cần bản sao" in result.reply.lower()
+    assert result.suggestions == ()
+
+
 def test_active_ambiguous_turn_uses_the_deterministic_pending_question(
     repository: ProcedureRepository,
 ) -> None:
@@ -730,19 +771,118 @@ def test_typo_guidance_request_explains_the_current_field_without_model(
     assert extractor.calls == []
 
 
-def test_switching_procedure_requires_reset(repository: ProcedureRepository) -> None:
+def test_natural_new_intent_switches_procedure_and_requires_confirmation(
+    repository: ProcedureRepository,
+) -> None:
     session = ConversationSession(
         StubExtractor(
             outcome(fields={"copies_requested": 1}),
-            outcome(procedure_code="1.004194", fields={"submission_channel": "online"}),
         ),
         repository,
     )
     session.send("Xin một bản")
     result = session.send("Tôi muốn đăng ký tạm trú")
+
     assert result.next_action is NextAction.ASK_CLARIFICATION
-    assert result.state.draft.procedure_code is not None
-    assert result.state.draft.procedure_code.value == "2.000635"
+    assert result.state.draft.procedure_code is ProcedureCode.TEMPORARY_RESIDENCE_REGISTRATION
+    assert "đã chuyển sang yêu cầu mới" in result.reply
+    assert "đúng không" in result.reply
+
+
+def test_colloquial_change_of_mind_switches_without_command_phrase(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor(outcome(procedure_code="2.000635"))
+    session = ConversationSession(extractor, repository)
+
+    birth_scope = session.send("tui ưng mần giấy khai sinh")
+    birth_copy = session.send("tui ưng xin bản sao giấy khai sinh")
+    temporary = session.send("thôi tui ưng đăng kí tạm trú")
+
+    assert "đăng ký khai sinh mới" in birth_scope.reply
+    assert birth_copy.state.draft.procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+    assert temporary.state.draft.procedure_code is ProcedureCode.TEMPORARY_RESIDENCE_REGISTRATION
+    assert temporary.next_action is NextAction.ASK_CLARIFICATION
+    assert "đã chuyển sang yêu cầu mới" in temporary.reply
+    assert "đăng ký tạm trú" in temporary.reply
+    assert extractor.calls == []
+
+
+def test_merely_comparing_another_service_does_not_discard_active_draft(
+    repository: ProcedureRepository,
+) -> None:
+    session = ConversationSession(
+        StubExtractor(
+            outcome(procedure_code="2.000635"),
+            outcome(procedure_code="1.004194"),
+        ),
+        repository,
+    )
+    session.send("Tôi xin bản sao Giấy khai sinh")
+
+    result = session.send("Đăng ký tạm trú khác gì thủ tục này?")
+
+    assert result.state.draft.procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+    assert "bạn có muốn chuyển" in result.reply.lower()
+
+
+def test_information_question_with_want_phrase_does_not_switch_automatically(
+    repository: ProcedureRepository,
+) -> None:
+    session = ConversationSession(
+        StubExtractor(
+            outcome(procedure_code="2.000635"),
+            outcome(procedure_code="1.004194"),
+        ),
+        repository,
+    )
+    session.send("Tôi xin bản sao Giấy khai sinh")
+
+    result = session.send("Tôi muốn biết đăng ký tạm trú khác gì thủ tục này?")
+
+    assert result.state.draft.procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+    assert "bạn có muốn chuyển" in result.reply.lower()
+
+
+def test_pending_service_switch_remembers_target_for_short_confirmation(
+    repository: ProcedureRepository,
+) -> None:
+    session = ConversationSession(
+        StubExtractor(
+            outcome(procedure_code="2.000635"),
+            outcome(procedure_code="1.004194"),
+        ),
+        repository,
+    )
+    session.send("Tôi xin bản sao Giấy khai sinh")
+    proposed = session.send("Đăng ký tạm trú khác gì thủ tục này?")
+
+    switched = session.send("ok, hãy chuyển cho tôi")
+
+    assert "bạn có muốn chuyển" in proposed.reply.lower()
+    assert switched.state.draft.procedure_code is ProcedureCode.TEMPORARY_RESIDENCE_REGISTRATION
+    assert "đã chuyển sang yêu cầu mới" in switched.reply
+    assert len(session.state.messages) == 6
+    assert len(session.state.suggestions) == 0
+
+
+def test_pending_service_switch_can_be_rejected_with_plain_language(
+    repository: ProcedureRepository,
+) -> None:
+    session = ConversationSession(
+        StubExtractor(
+            outcome(procedure_code="2.000635"),
+            outcome(procedure_code="1.004194"),
+        ),
+        repository,
+    )
+    session.send("Tôi xin bản sao Giấy khai sinh")
+    session.send("Đăng ký tạm trú khác gì thủ tục này?")
+
+    kept = session.send("Không, giữ dịch vụ hiện tại")
+
+    assert kept.state.draft.procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+    assert "giữ nguyên dịch vụ" in kept.reply.lower()
 
 
 def test_close_clears_state_and_prevents_reuse(repository: ProcedureRepository) -> None:

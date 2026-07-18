@@ -306,3 +306,20 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
   `80.56%`; frontend lint/typecheck, `22/22` unit test và Next build 25 route đạt; release audit
   `17401/11591` đạt. Bước tiếp theo: review diff, commit/push theo yêu cầu, chờ Render deploy rồi
   smoke đúng ba lượt qua public API; chưa được ghi artifact hiện tại là production-verified.
+
+## Bàn giao one-tap service switching và session memory 2026-07-19
+
+- Quick replies hiện bao phủ chọn một trong ba dịch vụ, làm rõ bản sao/đăng ký khai sinh mới và xác
+  nhận Chuyển/Giữ khi người dùng nhắc dịch vụ khác. Câu đổi ý rõ như “à thôi tôi muốn đăng ký tạm
+  trú” không còn bắt người dùng gõ lại cú pháp “chuyển sang”.
+- `ConversationSession` nhớ pending procedure đích qua lượt kế tiếp; câu “ok hãy chuyển cho tôi” dùng
+  target đã nhớ thay vì bị structured extractor hiểu như field của procedure cũ. Comparison/info
+  query không tự xóa draft.
+- Frontend `PATCH /api/chat/session` chỉ bind procedure cookie sau khi backend xác nhận cùng procedure;
+  không DELETE session khi điều hướng. Memory được giữ trong cùng live backend session nhưng vẫn mất
+  khi Render restart/spin-down vì chưa có Redis/database.
+- Gate hiện tại: Python `323 passed`, `2 skipped`, coverage `80.58%`; frontend lint/typecheck,
+  `24/24` unit test và production build 25 route đạt. Browser spec `assistant-memory.spec.ts` bao phủ
+  quick choice, cùng session ID qua navigation và đổi ý tự nhiên (`2/2` đạt). Release audit index
+  `17401/11591`, targeted secret scan và `git diff --check` đều đạt. Bước tiếp theo là review/commit;
+  chỉ push/redeploy khi được yêu cầu, rồi smoke bằng session production mới.

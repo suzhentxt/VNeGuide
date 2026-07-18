@@ -17,6 +17,8 @@ function cookieOptions() {
   };
 }
 
+const SUPPORTED_PROCEDURE_CODES = new Set(["2.000635", "1.013314", "1.004194"]);
+
 export async function POST(request: NextRequest) {
   try {
     const payload: unknown = await request.json();
@@ -73,6 +75,81 @@ export async function GET(request: NextRequest) {
       response.cookies.delete(CHAT_SESSION_COOKIE);
       response.cookies.delete(CHAT_PROCEDURE_COOKIE);
     }
+    return response;
+  } catch (error) {
+    return unavailableResponse(error);
+  }
+}
+
+export async function PATCH(request: NextRequest) {
+  const sessionId = request.cookies.get(CHAT_SESSION_COOKIE)?.value;
+  if (!sessionId) {
+    return NextResponse.json(
+      {
+        error: {
+          code: "session_not_found",
+          message: "Chưa có phiên trò chuyện để tiếp tục.",
+          retryable: false,
+        },
+      },
+      { status: 404 },
+    );
+  }
+
+  try {
+    const payload = (await request.json()) as { procedure_code?: unknown };
+    if (
+      typeof payload.procedure_code !== "string" ||
+      !SUPPORTED_PROCEDURE_CODES.has(payload.procedure_code)
+    ) {
+      return NextResponse.json(
+        {
+          error: {
+            code: "invalid_procedure",
+            message: "Dịch vụ được xác nhận không hợp lệ.",
+            retryable: false,
+          },
+        },
+        { status: 400 },
+      );
+    }
+
+    const backend = await callChatApi(`/v1/chat/sessions/${encodeURIComponent(sessionId)}`);
+    const body = await safeResponseBody(backend);
+    if (!backend.ok) {
+      return NextResponse.json(body, { status: backend.status });
+    }
+    const session = body && typeof body === "object" ? body as Record<string, unknown> : null;
+    const turn = session?.turn && typeof session.turn === "object"
+      ? session.turn as Record<string, unknown>
+      : null;
+    const procedure = turn?.procedure && typeof turn.procedure === "object"
+      ? turn.procedure as Record<string, unknown>
+      : null;
+    const context = session?.context && typeof session.context === "object"
+      ? session.context as Record<string, unknown>
+      : null;
+    const activeProcedure =
+      typeof procedure?.code === "string"
+        ? procedure.code
+        : typeof context?.procedure_code === "string"
+          ? context.procedure_code
+          : null;
+    if (activeProcedure !== payload.procedure_code) {
+      return NextResponse.json(
+        {
+          error: {
+            code: "procedure_conflict",
+            message: "Dịch vụ xác nhận không khớp với phiên trò chuyện.",
+            retryable: false,
+          },
+        },
+        { status: 409 },
+      );
+    }
+
+    const response = new NextResponse(null, { status: 204 });
+    response.cookies.set(CHAT_PROCEDURE_COOKIE, payload.procedure_code, cookieOptions());
     return response;
   } catch (error) {
     return unavailableResponse(error);

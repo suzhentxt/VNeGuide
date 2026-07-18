@@ -503,3 +503,21 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
   `17401/11591` index/text file, không phát hiện secret/PII/conflict marker.
 - Chưa push/redeploy trong phiên này. Public URL vẫn chạy artifact trước thay đổi; cần deploy rồi
   smoke bằng session mới trước khi ghi nhận production evidence.
+
+### 2026-07-19 — Nút trả lời nhanh và memory khi đổi/điều hướng dịch vụ
+
+- Câu hỏi làm rõ dịch vụ hiển thị ba lựa chọn lớn; làm rõ Giấy khai sinh và xác nhận đổi dịch vụ cũng
+  có nút một chạm. Người dùng không cần gõ đúng câu “chuyển sang…”.
+- Core nới lỏng câu đổi ý tự nhiên như “à thôi tôi muốn đăng ký tạm trú”, nhưng không tự chuyển với
+  câu hỏi so sánh/tham khảo. Khi câu còn mơ hồ, session nhớ procedure đích và hiểu lượt sau như “ok,
+  hãy chuyển cho tôi”; nút “Không, giữ dịch vụ hiện tại” xóa pending target.
+- Xác nhận procedure không còn xóa backend session. BFF liên kết procedure cookie vào đúng session
+  sau khi kiểm tra context, nên lịch sử và suggestion có evidence còn nguyên qua navigation. Draft
+  của procedure cũ vẫn bị vô hiệu hóa khi đổi dịch vụ để tránh điền nhầm.
+- Initial utterance có cả procedure và field, ví dụ “xin bản sao giấy khai sinh cho tôi”, giữ field
+  dưới dạng pending suggestion và chỉ hiện sau khi người dùng xác nhận dịch vụ.
+- Gate local đạt: Ruff lint/format, mypy; Pytest `323 passed`, `2 skipped`, coverage `80.58%`;
+  frontend ESLint/TypeScript, `24/24` unit test và Next production build 25 route. Browser E2E mới
+  đạt `2/2`, kiểm tra session ID/lịch sử qua navigation và đổi ý tự nhiên; public deployment chưa
+  được xác minh ở phiên này. Release audit Git index đạt `17401/11591`; targeted secret scan trên
+  toàn bộ file thay đổi và `git diff --check` không có phát hiện.

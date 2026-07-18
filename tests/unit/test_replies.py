@@ -367,20 +367,11 @@ def test_route_seeded_guidance_does_not_call_extractor(
     assert set(result.source_ids) <= set(repository.get_by_code(code).source_ids)
 
 
-@pytest.mark.parametrize(
-    ("first_message", "first_outcome"),
-    (
-        ("Tôi muốn đăng ký kết hôn", outcome(None, classification="unsupported")),
-        ("Tôi muốn xin bản sao giấy khai sinh", outcome("2.000635")),
-    ),
-)
 def test_implicit_guidance_is_blocked_after_context_shift(
     repository: ProcedureRepository,
-    first_message: str,
-    first_outcome: ExtractionOutcome,
 ) -> None:
     extractor = StubExtractor(
-        first_outcome,
+        outcome(None, classification="unsupported"),
         outcome(None, classification="ambiguous"),
     )
     session = ConversationSession(
@@ -390,13 +381,35 @@ def test_implicit_guidance_is_blocked_after_context_shift(
     )
     session.initialize_procedure("1.004194")
 
-    session.send(first_message)
+    session.send("Tôi muốn đăng ký kết hôn")
     result = session.send("Lệ phí bao nhiêu?")
 
     assert len(extractor.calls) == 2
     assert result.next_action is not NextAction.PRESENT_GUIDANCE
     assert "7.000 đồng" not in result.reply
     assert "15.000 đồng" not in result.reply
+
+
+def test_clear_supported_service_change_uses_the_new_grounded_context(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor()
+    session = ConversationSession(
+        extractor,
+        repository,
+        reply_composer=CatalogReplyComposer(repository),
+    )
+    session.initialize_procedure("1.004194")
+
+    switched = session.send("Tôi muốn xin bản sao giấy khai sinh")
+    result = session.send("Lệ phí bao nhiêu?")
+
+    assert switched.state.draft.procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+    assert result.next_action is NextAction.PRESENT_GUIDANCE
+    assert extractor.calls == []
+    assert set(result.source_ids) <= set(
+        repository.get_by_code(ProcedureCode.BIRTH_CERTIFICATE_COPY).source_ids
+    )
 
 
 def test_explicit_active_procedure_restores_contextual_guidance(

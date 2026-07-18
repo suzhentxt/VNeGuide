@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from vneguide.cli.runtime import load_session_factory
-from vneguide.domain import NextAction
+from vneguide.domain import NextAction, ProcedureCode
 
 
 def test_default_core_factory_is_loadable_without_api_key(
@@ -19,7 +19,8 @@ def test_default_core_factory_is_loadable_without_api_key(
     factory = load_session_factory()
     session = factory()
     result = session.send("Tôi cần xin lại giấy khai sinh")
-    assert result.next_action is NextAction.RETRY
+    assert result.next_action is NextAction.ASK_CLARIFICATION
+    assert result.state.draft.procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
     close = getattr(session, "close", None)
     assert callable(close)
     close()
@@ -46,7 +47,8 @@ def test_default_core_factory_loads_an_explicit_llm_env_file(
     session = load_session_factory()()
     result = session.send("Tôi cần xin lại giấy khai sinh")
 
-    assert result.next_action is NextAction.RETRY
+    assert result.next_action is NextAction.ASK_CLARIFICATION
+    assert result.state.draft.procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
     close = getattr(session, "close", None)
     assert callable(close)
     close()

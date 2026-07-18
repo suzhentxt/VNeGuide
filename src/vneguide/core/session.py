@@ -73,6 +73,7 @@ class ConversationSession:
         self._closed = False
         self._contextual_reference_trusted = False
         self._pending_scope_clarification: str | None = None
+        self._pending_procedure_switch: ProcedureCode | None = None
         self._birth_for_child = False
 
     @property
@@ -113,13 +114,45 @@ class ConversationSession:
         raw_normalized = self._normalize_message(message)
 
         switch_target = self._procedure_switch_target(normalized)
+        if self._pending_procedure_switch is not None:
+            pending_target = self._pending_procedure_switch
+            switch_choice = self._switch_confirmation_choice(normalized)
+            if switch_choice is True:
+                return self._switch_procedure(message, pending_target)
+            if switch_choice is False:
+                self._pending_procedure_switch = None
+                self._contextual_reference_trusted = True
+                if active_code is None:
+                    return self._reply_without_draft_change(
+                        message,
+                        "Được, tôi chưa chuyển dịch vụ. Bạn muốn làm thủ tục nào?",
+                        NextAction.ASK_CLARIFICATION,
+                    )
+                title = self._short_procedure_name(active_code)
+                prompt, action = self._resume_prompt(active_code)
+                return self._reply_without_draft_change(
+                    message,
+                    f"Được, tôi giữ nguyên dịch vụ “{title}”. {prompt}",
+                    action,
+                )
+            if (
+                switch_target is not None
+                and switch_target is not active_code
+                and self._is_service_change_request(normalized)
+            ):
+                return self._switch_procedure(message, switch_target)
+            return self._reply_without_draft_change(
+                message,
+                self._switch_confirmation_reply(active_code, pending_target),
+                NextAction.ASK_CLARIFICATION,
+            )
         if self._pending_scope_clarification is not None and switch_target is not None:
             return self._switch_procedure(message, switch_target)
         if (
             active_code is not None
             and switch_target is not None
             and switch_target is not active_code
-            and self._is_explicit_switch_request(normalized)
+            and self._is_service_change_request(normalized)
         ):
             return self._switch_procedure(message, switch_target)
 
@@ -244,7 +277,22 @@ class ConversationSession:
                 normalization=outcome.normalization,
             )
         if not outcome.succeeded:
-            return self._technical_fallback(message, outcome.error_code or "provider_error")
+            if reviewed_match is None:
+                return self._technical_fallback(message, outcome.error_code or "provider_error")
+            # A provider outage must not hide a service that deterministic routing
+            # already recognized from reviewed catalog aliases. We can safely ask
+            # the user to confirm that service; field extraction waits for a later
+            # turn instead of inventing values.
+            outcome = ExtractionOutcome(
+                status="success",
+                classification="supported",
+                procedure_code=reviewed_match.value,
+                fields={},
+                evidence={},
+                clarification_question=None,
+                attempts=outcome.attempts,
+                normalization=outcome.normalization,
+            )
         self._clear_technical_failures()
         if outcome.classification == "unsupported":
             if not self._looks_like_service_request(normalized):
@@ -280,15 +328,13 @@ class ConversationSession:
         code = ProcedureCode(outcome.procedure_code)
         current_code = self._state.draft.procedure_code
         if current_code is not None and current_code is not code:
-            if self._is_explicit_switch_request(normalized):
+            if self._is_service_change_request(normalized):
                 return self._switch_procedure(message, code)
             self._contextual_reference_trusted = False
+            self._pending_procedure_switch = code
             return self._reply_without_draft_change(
                 message,
-                "Tôi hiểu bạn đang nhắc tới một thủ tục khác. Nếu muốn đổi, hãy nói rõ "
-                "“chuyển sang đăng ký tạm trú”, “chuyển sang xác nhận nhà ở” hoặc "
-                "“chuyển sang xin bản sao Giấy khai sinh”. Tôi sẽ xác nhận lại dịch vụ "
-                "và xóa dữ liệu nháp không còn phù hợp.",
+                self._switch_confirmation_reply(current_code, code),
                 NextAction.ASK_CLARIFICATION,
             )
         self._contextual_reference_trusted = True
@@ -298,6 +344,8 @@ class ConversationSession:
             pack = self._repository.get_by_code(code)
             draft = replace(draft, procedure_code=code, pack_version=pack.version)
             self._state = replace(self._state, draft=draft)
+            suggestions, valid_fields = self._merge_extracted_suggestions(code, draft, outcome)
+            self._state = replace(self._state, suggestions=tuple(suggestions))
             confirmation = pack.routing.get("confirmation_message")
             reply = (
                 confirmation
@@ -308,38 +356,12 @@ class ConversationSession:
                 message,
                 reply,
                 NextAction.ASK_CLARIFICATION,
+                extracted_fields=valid_fields,
             )
 
         grounded_reply = self._compose_grounded_reply(code, message)
 
-        suggestions = list(self._state.suggestions)
-        valid_fields: dict[str, JSONValue] = {}
-        for field_id, value in outcome.fields.items():
-            if field_id in draft.confirmed_fields or field_id in draft.dirty_fields:
-                continue
-            try:
-                self._validate_field_value(code, field_id, value)
-            except ValueError:
-                continue
-            valid_fields[field_id] = value
-            if field_id == "requester_type":
-                self._birth_for_child = False
-            suggestions = [
-                item
-                for item in suggestions
-                if not (item.field_id == field_id and item.status is SuggestionStatus.PENDING)
-            ]
-            suggestions.append(
-                FieldSuggestion(
-                    suggestion_id=f"{draft.revision}:{self._state.turn_number + 1}:{field_id}",
-                    field_id=field_id,
-                    current_value=draft.values.get(field_id),
-                    suggested_value=value,
-                    evidence=outcome.evidence.get(field_id, ""),
-                    status=SuggestionStatus.PENDING,
-                    revision=draft.revision,
-                )
-            )
+        suggestions, valid_fields = self._merge_extracted_suggestions(code, draft, outcome)
 
         attempts = dict(self._state.clarification_attempts)
         if previous_missing and not valid_fields and grounded_reply is None:
@@ -483,6 +505,7 @@ class ConversationSession:
         self._closed = True
         self._contextual_reference_trusted = False
         self._pending_scope_clarification = None
+        self._pending_procedure_switch = None
         self._birth_for_child = False
 
     def _resolve_suggestion(
@@ -877,9 +900,10 @@ class ConversationSession:
         return self._finish_turn(message, reply, action)
 
     def _switch_procedure(self, message: str, code: ProcedureCode) -> TurnResult:
-        """Switch only after an explicit user choice and invalidate procedure-specific state."""
+        """Switch after a clear user choice and invalidate procedure-specific state."""
 
         current = self._state.draft.procedure_code
+        self._pending_procedure_switch = None
         if current is code:
             self._pending_scope_clarification = None
             self._contextual_reference_trusted = True
@@ -922,6 +946,44 @@ class ConversationSession:
             f"{prefix}{question}{discarded_note}",
             NextAction.ASK_CLARIFICATION,
         )
+
+    def _merge_extracted_suggestions(
+        self,
+        code: ProcedureCode,
+        draft: CaseDraft,
+        outcome: ExtractionOutcome,
+    ) -> tuple[list[FieldSuggestion], dict[str, JSONValue]]:
+        """Keep safe field evidence even while service confirmation is still pending."""
+
+        suggestions = list(self._state.suggestions)
+        valid_fields: dict[str, JSONValue] = {}
+        for field_id, value in outcome.fields.items():
+            if field_id in draft.confirmed_fields or field_id in draft.dirty_fields:
+                continue
+            try:
+                self._validate_field_value(code, field_id, value)
+            except ValueError:
+                continue
+            valid_fields[field_id] = value
+            if field_id == "requester_type":
+                self._birth_for_child = False
+            suggestions = [
+                item
+                for item in suggestions
+                if not (item.field_id == field_id and item.status is SuggestionStatus.PENDING)
+            ]
+            suggestions.append(
+                FieldSuggestion(
+                    suggestion_id=f"{draft.revision}:{self._state.turn_number + 1}:{field_id}",
+                    field_id=field_id,
+                    current_value=draft.values.get(field_id),
+                    suggested_value=value,
+                    evidence=outcome.evidence.get(field_id, ""),
+                    status=SuggestionStatus.PENDING,
+                    revision=draft.revision,
+                )
+            )
+        return suggestions, valid_fields
 
     @staticmethod
     def _normalize_message(message: str) -> str:
@@ -1011,6 +1073,70 @@ class ConversationSession:
             )
         )
 
+    @staticmethod
+    def _switch_confirmation_choice(normalized: str) -> bool | None:
+        padded = f" {normalized} "
+        if any(
+            marker in padded
+            for marker in (
+                " khong chuyen ",
+                " khong doi ",
+                " giu dich vu ",
+                " giu nguyen ",
+                " thoi khong ",
+            )
+        ):
+            return False
+        if normalized in {"khong", "khong dung", "giu lai"}:
+            return False
+        if any(
+            marker in padded
+            for marker in (
+                " dong y ",
+                " dung chuyen ",
+                " hay chuyen ",
+                " chuyen cho toi ",
+                " chuyen sang dich vu moi ",
+            )
+        ):
+            return True
+        if normalized in {"dong y", "dung", "ok", "okay", "duoc", "chuyen"}:
+            return True
+        return None
+
+    @classmethod
+    def _is_service_change_request(cls, normalized: str) -> bool:
+        """Recognize explicit commands and natural Vietnamese change-of-mind phrases."""
+
+        if cls._is_explicit_switch_request(normalized):
+            return True
+        padded = f" {normalized} "
+        if any(
+            marker in padded
+            for marker in (
+                " khac gi ",
+                " la gi ",
+                " hoi ve ",
+                " muon biet ",
+                " le phi ",
+                " mat bao lau ",
+                " can giay to gi ",
+            )
+        ):
+            return False
+        return any(
+            marker in padded
+            for marker in (
+                " thoi ",
+                " toi muon ",
+                " minh muon ",
+                " toi can ",
+                " khong phai ",
+                " ma la ",
+                " cho toi lam ",
+            )
+        )
+
     def _procedure_switch_target(self, normalized: str) -> ProcedureCode | None:
         reviewed = self._reviewed_procedure_match(normalized)
         if reviewed is not None:
@@ -1030,6 +1156,35 @@ class ConversationSession:
             if "ban sao" in normalized and "khai sinh" in normalized:
                 return ProcedureCode.BIRTH_CERTIFICATE_COPY
         return None
+
+    def _switch_confirmation_reply(
+        self,
+        current: ProcedureCode | None,
+        target: ProcedureCode,
+    ) -> str:
+        current_name = (
+            self._short_procedure_name(current) if current is not None else "dịch vụ hiện tại"
+        )
+        target_name = self._short_procedure_name(target)
+        discarded_note = (
+            " Nếu đồng ý, các thông tin đã nhập cho dịch vụ hiện tại sẽ được xóa."
+            if self._state.draft.values or self._state.suggestions
+            else ""
+        )
+        return (
+            f"Tôi nhớ bạn đang làm “{current_name}” và vừa nhắc đến “{target_name}”. "
+            f"Bạn có muốn chuyển sang dịch vụ mới không?{discarded_note}"
+        )
+
+    @staticmethod
+    def _short_procedure_name(code: ProcedureCode) -> str:
+        return {
+            ProcedureCode.BIRTH_CERTIFICATE_COPY: "Cấp bản sao Giấy khai sinh",
+            ProcedureCode.HOUSING_CONDITION_CONFIRMATION: (
+                "Xác nhận điều kiện nhà ở để đăng ký thường trú"
+            ),
+            ProcedureCode.TEMPORARY_RESIDENCE_REGISTRATION: "Đăng ký tạm trú",
+        }[code]
 
     @staticmethod
     def _looks_like_service_request(normalized: str) -> bool:
