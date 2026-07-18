@@ -62,9 +62,9 @@ export function DocumentUploadCard({ kind, compact = false }: { kind: DocumentKi
         </label>
       ) : null}
       <div className="mt-3 flex min-w-0 flex-wrap gap-2">
-        <label className={`inline-flex min-h-10 max-w-full items-center justify-center rounded-lg px-3 text-sm font-bold ${demoConfirmed && !busy ? "cursor-pointer bg-[#903938] text-white" : "cursor-not-allowed bg-[#d9e2ec] text-[#7a8793]"}`}>
+        <label className={`inline-flex min-h-11 max-w-full touch-manipulation items-center justify-center rounded-lg px-3 text-base font-bold ${demoConfirmed && !busy ? "cursor-pointer bg-[#903938] text-white" : "cursor-not-allowed bg-[#d9e2ec] text-[#7a8793]"}`}>
           <Upload className="mr-2 size-4 shrink-0" aria-hidden="true" />{state.fileName ? "Thay tệp" : "Tải tài liệu"}
-          <input accept="image/jpeg,image/png,application/pdf" className="sr-only" disabled={!demoConfirmed || busy} onChange={choose} type="file" />
+          <input accept="image/jpeg,image/png,application/pdf" className="sr-only text-base" disabled={!demoConfirmed || busy} onChange={choose} type="file" />
         </label>
         {state.fileName && !busy ? (
           <button className="inline-flex min-h-10 max-w-full items-center rounded-lg border border-[#cbd5df] px-3 text-sm font-bold text-[#334155]" onClick={() => reset(kind)} type="button">

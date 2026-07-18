@@ -5,15 +5,19 @@
 - Tách nhánh `fix/ocr-chat-upload-ui` từ `integrate/dev-refactor`; không sửa/push trực tiếp nhánh tích hợp.
 - Nguyên nhân oversize là hai bộ `DocumentUploadCard` cùng render khi panel paperclip mở, vùng message
   thiếu `min-height: 0`, và panel upload không có giới hạn chiều cao. Nay bộ inline được ẩn khi panel mở;
-  panel giới hạn `min(42dvh, 360px)`, tự cuộn/overscroll-contained; card compact không render danh sách
+  panel giới hạn `min(42svh, 360px)`, tự cuộn/overscroll-contained; card compact không render danh sách
   tiêu chí sau upload và ẩn xác nhận demo đã hoàn tất nên không thể đẩy form chat khỏi viewport.
+- Follow-up lỗi scale khi bấm `Tải tài liệu`/`Thay tệp`: popup trước đó dùng `dvh` và animation `zoom`,
+  còn file input kế thừa font 14px. File picker có thể đổi dynamic viewport hoặc kích hoạt auto-zoom
+  mobile. Popup nay dùng stable viewport `svh`, bỏ toàn bộ zoom transform; file control dùng 16px và
+  `touch-manipulation` nên kích thước hộp chat không phụ thuộc vòng đời native file picker.
 - UI chỉ còn hai kết quả cuối: `Không hợp lệ` cho `fail`/`needs_review`/lỗi, và
   `Hợp lệ, tài liệu sẽ cần kiểm tra chính thức` cho `pass`. Chỉ `pass` mở gate; không còn cách xác nhận
   thủ công để biến kết quả chưa rõ thành hợp lệ.
-- Tăng ngưỡng pass từ `0.75` lên `0.90` cho cả confidence tổng thể và toàn bộ tiêu chí bắt buộc. Thêm
-  regression xác nhận `0.89` không pass và test mapping đúng hai trạng thái UI.
-- Xác minh hiện tại: frontend HTTP `200`, full ESLint và typecheck đạt, 37 Node test đạt; OCR targeted
-  `9 passed`, Ruff và Mypy OCR đạt. Browser tích hợp không có phiên khả dụng nên chưa chụp/click UI trực
+- Ngưỡng pass được chốt ở `0.85` (vẫn cao hơn mức cũ `0.75`) cho cả confidence tổng thể và toàn bộ
+  tiêu chí bắt buộc. Regression xác nhận `0.84` không pass, `0.85` pass và mapping đúng hai trạng thái UI.
+- Xác minh hiện tại: frontend HTTP `200`, ESLint và typecheck đạt, 37 Node test đạt; OCR targeted
+  `10 passed`, Ruff và Mypy OCR đạt. Browser tích hợp không có phiên khả dụng nên chưa chụp/click UI trực
   tiếp; không chạy production build để tránh dừng dev server cổng 3000 mà người dùng đang sử dụng.
 
 ## 2026-07-19 — Mem0 long-term memory opt-in trên nhánh refactor

@@ -2,12 +2,13 @@
 
 ## 2026-07-19 — OCR chatbot layout/status (`fix/ocr-chat-upload-ui`)
 
-- Panel paperclip OCR đã bị chặn ở tối đa 360px/42dvh và tự cuộn; message list co đúng trong flex layout,
-  không còn render trùng hai bộ card khi panel mở. Card compact sau upload chỉ hiển thị kết quả gọn.
+- Panel paperclip OCR đã bị chặn ở tối đa 360px/42svh và tự cuộn; message list co đúng trong flex layout,
+  không còn render trùng hai bộ card khi panel mở. Popup dùng stable viewport và không còn zoom animation;
+  file control 16px/touch-manipulation để native picker không kích hoạt mobile auto-zoom.
 - UI chỉ có `Không hợp lệ` và `Hợp lệ, tài liệu sẽ cần kiểm tra chính thức`; chỉ backend `pass` mở gate.
   `needs_review`, provider error và payload không hợp lệ đều không được coi là tài liệu hợp lệ.
-- Ngưỡng pass backend là `0.90` cho overall và từng check bắt buộc; test biên `0.89` trả `needs_review`.
-- Gate đã chạy: frontend HTTP 200, full ESLint, typecheck, 37 Node test, 9 OCR test, Ruff và Mypy OCR
+- Ngưỡng pass backend là `0.85` cho overall và từng check bắt buộc; test biên `0.84` review, `0.85` pass.
+- Gate đã chạy: frontend HTTP 200, ESLint, typecheck, 37 Node test, 10 OCR test, Ruff và Mypy OCR
   đều đạt. Production build không chạy để tránh dừng dev server cổng 3000. Browser tích hợp không khả
   dụng; bước tiếp theo cụ thể là click paperclip và upload hai fixture ở viewport mobile
   và desktop khi browser session hoạt động, xác nhận panel tự cuộn và input chat vẫn luôn nhìn thấy.
