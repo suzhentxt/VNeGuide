@@ -3,6 +3,8 @@
 ## Trạng thái hiện tại
 
 - Repo có data package v2, domain/data runtime foundation, AI extraction và CLI shell.
+- Repo có thêm `demoweb/`, một giao diện Next.js độc lập; thư mục này không phụ thuộc tool clone hoặc dữ liệu capture ban đầu.
+- Luồng Hôn nhân và gia đình trong `demoweb` đã sửa catalog, lựa chọn dịch vụ/đơn vị, form không điền sẵn PII và tải cơ quan có timeout/thử lại.
 - Scope runtime nằm trong `data/README.md`.
 - `vneguide.domain` cung cấp contract dùng chung; `ProcedureRepository` cung cấp dữ liệu đã audit.
 - `python -m vneguide.cli` nạp được `vneguide.core:create_session`.
@@ -10,6 +12,8 @@
 
 ## Việc đã xác minh
 
+- `demoweb`: `npm run check` pass (ESLint, TypeScript và production build; 26 route).
+- `demoweb`: 12 HTTP assertion production pass; catalog có 4 thủ tục tích hợp/11 chưa tích hợp, thư mục có 7 dịch vụ và query không dấu/mã thủ tục hoạt động.
 - Nhánh Người 1 có 25 unit test pass cho domain/data foundation.
 - Baseline main trước tích hợp đạt `37 passed, 1 skipped`.
 - AI tests không cần API key; live provider smoke mặc định skip.
@@ -23,13 +27,16 @@
 - Rule condition không phải DSL thực thi; phải dùng handler xác định theo `rule_id`.
 - Một số rule dùng context/document signal, không được suy đoán từ field biểu mẫu.
 - Git LFS có thể cần quyền ghi `.git/lfs/tmp` trong môi trường sandbox.
+- Danh sách Phường/Xã và Sở phụ thuộc upstream `vpcp.dichvucong.gov.vn`; khi upstream lỗi hoặc quá hạn, UI hiển thị lỗi và cho phép thử lại thay vì dùng dữ liệu giả.
 
 ## Bước tốt nhất tiếp theo
 
-Người 4 nối session API vào web/widget, hiển thị suggestion card và cấu hình provider/model cho demo.
+Người 4 nối session API vào `demoweb`, hiển thị suggestion card và cấu hình provider/model cho demo.
 
 ## Lệnh dự kiến
 
+- Chạy web: `cd demoweb`, `npm ci`, `npm run dev -- --hostname 0.0.0.0 -p 3000`
+- Kiểm tra web: `cd demoweb`, `npm run check`
 - Cài dev dependencies: `python -m pip install -e ".[dev]"`
 - Quality gate: `python -m ruff check .`, `python -m mypy`, `python -m pytest`
 - CLI: `python -m vneguide.cli`

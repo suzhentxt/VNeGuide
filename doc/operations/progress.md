@@ -25,6 +25,23 @@ Người 4 nối hành động Accept/Reject/Edit vào UI/web adapter và cấu 
 
 ## Nhật ký phiên
 
+### 2026-07-18 — Bổ sung demoweb Next.js
+
+- Thêm `demoweb/` làm ứng dụng giao diện chạy độc lập trong repository VNeGuide.
+- Bundle chỉ gồm `src/`, `public/`, manifest/lockfile và cấu hình cần để chạy Next.js; không kèm tool clone, HTML/ảnh chụp nguồn, `_DataURI`, cache build hoặc `node_modules`.
+- Chuẩn hóa package thành `demoweb@1.0.0` và loại metadata của template clone.
+- Xác minh trước khi chuyển: ESLint pass, TypeScript pass và Next.js production build pass với 26 route.
+
+### 2026-07-18 — Sửa lỗi luồng demoweb sau tích hợp
+
+- Danh mục Hôn nhân và gia đình liên kết đúng 4 thủ tục đã tích hợp; 11 thủ tục còn lại hiển thị `Chưa tích hợp` và không còn route fallback sai.
+- Trang xem tất cả tổng hợp đủ 7 dịch vụ, tìm kiếm không phân biệt dấu theo tên, mã thủ tục và cơ quan.
+- Bắt buộc chọn rõ dịch vụ và đơn vị tiếp nhận; lựa chọn hợp lệ được giữ xuyên suốt danh sách, wizard, tờ khai và liên kết quay lại mà không đưa PII vào URL.
+- Trạng thái lưu tờ khai dùng marker theo phiên không chứa PII; tham số `to-khai=da-luu` tùy ý không còn tạo trạng thái hoàn thành giả.
+- Bỏ mặc định Hà Nội/Cầu Giấy và dữ liệu cá nhân mẫu khỏi form; sidebar dùng 34 tỉnh/thành, 24 bộ/ngành và trạng thái tải/thử lại rõ ràng.
+- Proxy cơ quan có timeout, kiểm tra/chuẩn hóa dữ liệu, loại trùng, giới hạn 500 bản ghi và phản hồi lỗi có kiểm soát.
+- Xác minh: `npm run check` pass; 12 HTTP assertion production pass cho catalog, tìm kiếm, lựa chọn, redirect và API validation.
+
 ### 2026-07-17 — Chuẩn hóa repository
 
 - Tạo cấu trúc `src/vneguide/` và `tests/` theo ranh giới bốn người.
