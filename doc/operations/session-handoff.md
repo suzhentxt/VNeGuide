@@ -210,5 +210,8 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
   alias của `1.004194` và `1.013314` cũng được kiểm tra. Câu “làm giấy khai sinh” không có từ “bản
   sao/trích lục” vẫn đi qua clarification an toàn.
 - Full Python gate đạt `284 passed`, `2 skipped`, coverage `80.65%`; Ruff, format và mypy đạt.
-- Bước tiếp theo: review diff, commit trên `dev`, push khi được chủ repo yêu cầu, sau đó cấu hình
-  Render theo `dev`, redeploy và smoke lại transcript trên `https://vneguide.vercel.app`.
+- `origin/dev` đã nhận bản sửa `7ea8ff5d` và cấu hình Render `e341b55a`. Service hiện theo branch
+  `dev`; deploy `dep-d9dt5lvaqgkc73cvj7ug` đã `live` và public smoke đúng transcript đạt `200/200`,
+  cùng procedure `2.000635`, không còn false out-of-scope.
+- Bước tiếp theo: chạy browser manual bằng một session mới sau cold start và record video dự phòng;
+  không dùng session cũ vì Render restart làm mất memory.

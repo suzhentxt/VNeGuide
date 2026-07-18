@@ -376,4 +376,8 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
   khớp nhiều thủ tục thì không tự chọn. Regression bao phủ đúng transcript lỗi và alias của cả ba
   thủ tục.
 - Gate đạt: compileall, Ruff lint/format, mypy strict; `284 passed`, `2 skipped`, coverage `80.65%`.
-  Public Render/Vercel vẫn cần deploy commit mới trước khi hành vi production thay đổi.
+- Sau khi rebase `origin/dev`, bản sửa là `7ea8ff5d`; cấu hình Render theo `dev` là `e341b55a`.
+  Deploy `dep-d9dt5lvaqgkc73cvj7ug` đã `live` lúc `2026-07-18T19:26:50Z`.
+- Public smoke Vercel → Render → OpenAI: health `200`, session `201`; hai lượt đúng transcript lỗi đều
+  `200`, trả procedure `2.000635`, `next_action=ask_clarification`, không có error hoặc thông báo ngoài
+  phạm vi. Thời gian lần lượt: health `0.239s`, session `1.298s`, turn 1 `3.464s`, turn 2 `2.590s`.
