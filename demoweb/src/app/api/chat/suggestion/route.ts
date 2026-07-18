@@ -6,12 +6,14 @@ import {
   safeResponseBody,
   unavailableResponse,
 } from "@/lib/server/chat-api";
+import { guardSessionContext } from "@/lib/server/chat-session-context";
 
 interface SuggestionPayload {
   suggestion_id?: unknown;
   action?: unknown;
   value?: unknown;
   expected_revision?: unknown;
+  context?: unknown;
 }
 
 export async function POST(request: NextRequest) {
@@ -44,7 +46,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { suggestion_id: suggestionId, ...action } = payload;
+    const { suggestion_id: suggestionId, context, ...action } = payload;
+    const contextMismatch = await guardSessionContext(sessionId, context);
+    if (contextMismatch) return contextMismatch;
+
     const backend = await callChatApi(
       `/v1/chat/sessions/${encodeURIComponent(sessionId)}/suggestions/${encodeURIComponent(suggestionId)}`,
       { method: "POST", body: JSON.stringify(action) },

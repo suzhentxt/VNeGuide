@@ -2,13 +2,15 @@
 
 ## Trạng thái Git
 
-- Nhánh hiện tại: local `dev`, nền `origin/dev@f90b5e2`.
+- Nhánh hiện tại: local `dev`, nền `origin/dev@185279a3`.
 - Rules/AI đã merge bằng `43ed537` từ `origin/agent/rules-ai-eval@4a7aac3`; OCR đã merge bằng
-  `299cc69` từ `origin/agent/ocr-hero@2a155a0`. Đích push là `origin/dev`.
+  `299cc69` từ `origin/agent/ocr-hero@2a155a0`.
+- Chatbot toàn cục từ `agent/senior-conversation@22810e5` đã được tích hợp vào local `dev`;
+  nhánh này chưa có phần NLG/xác nhận thủ tục cho người cao tuổi.
 - Phạm vi runtime vẫn khóa đúng ba mã trong `data/README.md`: `2.000635`, `1.013314` và `1.004194`.
 - BFF được nối sang contract backend bằng
   `PATCH /v1/chat/sessions/{session_id}/draft/fields/{field_id}`.
-- Full Python/npm gate và staged release audit đã đạt trên cây hợp nhất Rules/AI + OCR.
+- Full Python/npm gate đã đạt trên merge result hiện tại.
 - `.DS_Store`, `procedures.csv` và `view_parquet.py` không thuộc release và không được stage.
 
 ## Thay đổi từ Người 2
@@ -64,6 +66,14 @@
 - Staged release audit pass: 363 index file, 217 text file; không secret, PII ngoài fixture hoặc
   conflict marker.
 
+## Gate sau khi tích hợp chatbot toàn cục
+
+- Compileall, Ruff lint/format và Mypy strict pass trên merge result.
+- Pytest `216 passed, 1 skipped`, coverage `80.42%`; skip duy nhất là live-model opt-in.
+- Frontend lint/typecheck, `27/27` Node test và Next production build 25 route pass.
+- Full-index `release_audit.py` không hoàn tất trong thời gian giới hạn trên Windows;
+  staged-diff audit thay thế pass cho conflict marker, secret, `.env` và chuỗi 12 chữ số mới.
+
 ## Việc cần làm tiếp
 
 1. Push `dev`, sau đó xác minh SHA remote trỏ tới commit tài liệu bàn giao mới nhất.
@@ -98,3 +108,19 @@ npm run check
 ```
 
 Rollback bằng `git revert`; không dùng reset hoặc force-push trên branch dùng chung.
+
+## Bàn giao chatbot toàn cục
+
+- Root layout mount đúng một `ProcedureWorkspaceProvider` và một `ChatWidget`; launcher có mặt trên mọi
+  trang, gồm trang chủ, danh mục và ba procedure.
+- Context/revision guard chặn session cũ, suggestion cũ và field response cũ làm thay đổi form khác
+  procedure. Form edits được serialize; session creation được single-flight trong một tab.
+- General-session và procedure-session được tách scope. Khi chuyển scope hoặc draft không khớp, UI yêu
+  cầu session mới, giữ form local rồi tuần tự đồng bộ field trước khi mở lại chat.
+- Field chưa sync được replay khi quay lại procedure; retry message dừng nếu replay chỉ thành công
+  một phần. Accept/Edit response cũ không ghi đè manual edit phát sinh trong lúc request chờ.
+- Gate cuối: `cd demoweb && npm run check` pass với 27/27 test và build 25 route.
+- HTTP smoke trên port tạm `3117`: năm route mục tiêu đều `200`, mỗi route có đúng một launcher; server
+  tạm đã được dừng sau smoke.
+- Việc tiếp theo: chạy browser E2E với backend/model thật cho open/close, general → procedure, A → B,
+  manual field blur nhanh, rebind và mobile focus. Multi-tab session identity chưa thuộc phạm vi MVP này.
