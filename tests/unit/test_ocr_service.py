@@ -64,6 +64,22 @@ def test_clear_relevant_document_passes() -> None:
     assert result.error_code is None
 
 
+def test_document_below_strict_confidence_does_not_pass() -> None:
+    service = OcrService(
+        StubPreprocessor(), StubBackend(assessment("legal_dwelling", confidence=0.79))
+    )
+    result = service.validate_document("legal_dwelling", OcrDocument(b"x", "image/png"))
+    assert result.status == "needs_review"
+
+
+def test_document_at_strict_confidence_threshold_passes() -> None:
+    service = OcrService(
+        StubPreprocessor(), StubBackend(assessment("legal_dwelling", confidence=0.80))
+    )
+    result = service.validate_document("legal_dwelling", OcrDocument(b"x", "image/png"))
+    assert result.status == "pass"
+
+
 def test_clear_wrong_document_fails() -> None:
     wrong = assessment("minor_consent")
     checks = list(wrong.checks)

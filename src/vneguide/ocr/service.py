@@ -14,7 +14,7 @@ from .models import (
     OcrStatus,
 )
 
-PASS_CONFIDENCE = 0.75
+PASS_CONFIDENCE = 0.80
 CLEAR_MISMATCH_CONFIDENCE = 0.90
 
 _REQUIRED_CHECKS: dict[DocumentKind, frozenset[str]] = {

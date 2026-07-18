@@ -587,6 +587,10 @@ VNEGUIDE_OCR_OPENAI_API_KEY=
 VNEGUIDE_OCR_WORKER_TOKEN=
 ```
 
+Nếu `VNEGUIDE_OCR_OPENAI_API_KEY` để trống, OCR worker dùng lại `VNEGUIDE_API_KEY`. Chạy local bằng
+`python -m vneguide.ocr --host 127.0.0.1 --port 8010 --env-file .env`; worker token vẫn phải là secret
+nội bộ riêng giữa BFF và OCR worker, không dùng OpenAI API key làm worker token.
+
 Không commit `.env`, API key, dữ liệu cá nhân thật hoặc transcript chứa số định danh đầy đủ. Dữ liệu test trong repo phải là dữ liệu giả.
 
 `VNEGUIDE_LLM_PROVIDER` là tên provider (`mock`, `openai` hoặc `litellm`), không phải URL.

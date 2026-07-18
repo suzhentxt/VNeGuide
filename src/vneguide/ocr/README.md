@@ -9,14 +9,14 @@ cho thủ tục `1.004194`:
 OCR không xác minh chữ ký, danh tính, quyền sở hữu hay giá trị pháp lý. Kết quả chỉ là `pass`,
 `needs_review` hoặc `fail`; không có raw text và không tự điền draft.
 
+`pass` yêu cầu confidence tổng thể và từng tiêu chí bắt buộc đều đạt ít nhất `0.80`. Web chỉ trình bày
+hai kết quả cuối cho người dùng: `Không hợp lệ` khi không đạt/nghi ngờ/lỗi, hoặc
+`Hợp lệ, tài liệu sẽ cần kiểm tra chính thức` khi đạt ngưỡng nghiêm ngặt. Chỉ kết quả thứ hai mở gate.
+
 ## Chạy local
 
 ```powershell
-$env:VNEGUIDE_OCR_ENABLED = "1"
-$env:VNEGUIDE_OCR_MODEL = "gpt-5.5"
-$env:VNEGUIDE_OCR_OPENAI_API_KEY = "<openai-key>"
-$env:VNEGUIDE_OCR_WORKER_TOKEN = "<random-local-token>"
-python -m vneguide.ocr --host 127.0.0.1 --port 8010
+python -m vneguide.ocr --host 127.0.0.1 --port 8010 --env-file .env
 ```
 
 Frontend cần cùng worker token ở phía server:

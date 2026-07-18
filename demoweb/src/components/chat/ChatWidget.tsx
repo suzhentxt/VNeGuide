@@ -91,7 +91,6 @@ export function ChatWidget() {
     }
   });
   const [declarationCompleted, setDeclarationCompleted] = useState(false);
-  const [documentStepActive, setDocumentStepActive] = useState(false);
   const [showUploadPanel, setShowUploadPanel] = useState(false);
   const [fieldEntry, setFieldEntry] = useState({ fieldId: "", value: "" });
   const listRef = useRef<HTMLDivElement>(null);
@@ -217,7 +216,7 @@ export function ChatWidget() {
 
   useEffect(() => {
     const onDocumentStepEntered = () => {
-      setDocumentStepActive(true);
+      setShowUploadPanel(true);
       setOpen(true);
     };
     window.addEventListener("vneguide:document-step-entered", onDocumentStepEntered);
@@ -352,10 +351,10 @@ export function ChatWidget() {
           <Dialog.Portal>
           <Dialog.Popup
             aria-label="Trợ lý VNeGuide"
-            className={`fixed inset-x-0 bottom-0 z-[1000] flex h-[calc(100dvh-3.5rem)] flex-col overflow-hidden border border-[#d9b2a3] bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:bottom-6 sm:h-[min(700px,calc(100dvh-3rem))] sm:w-[460px] sm:rounded-xl md:w-[500px] lg:h-[min(760px,calc(100dvh-3rem))] lg:w-[540px] xl:w-[580px] ${
+            className={`fixed inset-x-0 bottom-0 z-[1000] flex h-[calc(100svh-3.5rem)] flex-col overflow-hidden border border-[#d9b2a3] bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:bottom-6 sm:h-[min(700px,calc(100svh-3rem))] sm:w-[460px] sm:rounded-xl md:w-[500px] lg:h-[min(760px,calc(100svh-3rem))] lg:w-[540px] xl:w-[580px] ${
               closing
-                ? "animate-out slide-out-to-bottom-full sm:fade-out sm:zoom-out-95"
-                : "animate-in slide-in-from-bottom-full sm:fade-in sm:zoom-in-95"
+                ? "animate-out slide-out-to-bottom-full sm:fade-out"
+                : "animate-in slide-in-from-bottom-full sm:fade-in"
             }`}
             initialFocus={inputRef}
           >
@@ -402,7 +401,7 @@ export function ChatWidget() {
           ) : null}
 
           <div
-            className="flex-1 space-y-3 overflow-y-auto bg-[#f7f8fa] px-4 py-4"
+            className="min-h-0 flex-1 space-y-3 overflow-y-auto bg-[#f7f8fa] px-4 py-4"
             onScroll={handleListScroll}
             ref={listRef}
           >
@@ -485,17 +484,6 @@ export function ChatWidget() {
                 );
               })}
             </div>
-
-            {documentStepActive && context.procedure_code === "1.004194" ? (
-              <section className="space-y-3 rounded-xl border-2 border-[#ce7a58] bg-[#fff8f5] p-3">
-                <div>
-                  <p className="font-extrabold text-[#903938]">Kiểm tra giấy tờ ở bước 2</p>
-                  <p className="mt-1 text-sm leading-6 text-[#52606d]">Bạn có thể tải tài liệu demo hoặc đã ẩn danh. OCR chỉ sàng lọc nhẹ và không kết luận giá trị pháp lý.</p>
-                </div>
-                <DocumentUploadCard compact kind="legal_dwelling" />
-                <DocumentUploadCard compact kind="minor_consent" />
-              </section>
-            ) : null}
 
             {needsServiceConfirmation && selectedProcedure ? (
               <section
@@ -767,7 +755,7 @@ export function ChatWidget() {
           </div>
 
           {showUploadPanel ? (
-            <section className="border-t border-[#e2e6ea] bg-[#fffdf9] p-3">
+            <section className="max-h-[min(42svh,360px)] min-h-0 shrink-0 overflow-y-auto overscroll-contain border-t border-[#e2e6ea] bg-[#fffdf9] p-3" aria-label="Tải tài liệu OCR">
               <div className="mb-2 flex items-center justify-between">
                 <p className="flex items-center gap-1.5 text-xs font-extrabold tracking-wide text-[#903938] uppercase">
                   <Paperclip className="size-4 shrink-0" />
@@ -787,7 +775,7 @@ export function ChatWidget() {
                 tải tài liệu demo hoặc đã ẩn danh; OCR chỉ sàng lọc nhẹ và không kết
                 luận giá trị pháp lý.
               </p>
-              <div className="space-y-3">
+              <div className="min-w-0 space-y-3">
                 <DocumentUploadCard compact kind="legal_dwelling" />
                 <DocumentUploadCard compact kind="minor_consent" />
               </div>

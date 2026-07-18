@@ -8,28 +8,14 @@ import { documentBlockingMessages, documentRequirements } from "@/lib/document-v
 export type DocumentKind = "legal_dwelling" | "minor_consent";
 export type DocumentStatus = "idle" | "uploading" | "queued" | "running" | "pass" | "needs_review" | "fail" | "error";
 
-export interface DocumentCheck {
-  code: string;
-  result: "pass" | "uncertain" | "fail";
-  message: string;
-}
-
 export interface DocumentValidationState {
   fileName: string | null;
   status: DocumentStatus;
-  checks: DocumentCheck[];
-  warnings: string[];
-  error: string | null;
-  reviewAcknowledged: boolean;
 }
 
 const emptyState = (): DocumentValidationState => ({
   fileName: null,
   status: "idle",
-  checks: [],
-  warnings: [],
-  error: null,
-  reviewAcknowledged: false,
 });
 
 interface DocumentValidationContextValue {
@@ -37,18 +23,15 @@ interface DocumentValidationContextValue {
   required: Record<DocumentKind, boolean>;
   blockingMessages: string[];
   upload: (kind: DocumentKind, file: File) => Promise<void>;
-  acknowledgeReview: (kind: DocumentKind) => void;
   reset: (kind: DocumentKind) => void;
 }
 
 const Context = createContext<DocumentValidationContextValue | null>(null);
+const RESULT_STATUSES = new Set<DocumentStatus>(["queued", "running", "pass", "needs_review", "fail"]);
 
 async function responseBody(response: Response) {
   const body = await response.json() as Record<string, unknown>;
-  if (!response.ok) {
-    const error = body.error as { message?: string } | undefined;
-    throw new Error(error?.message || "Không thể kiểm tra tài liệu.");
-  }
+  if (!response.ok) throw new Error("ocr_request_failed");
   return body;
 }
 
@@ -71,7 +54,7 @@ export function DocumentValidationProvider({ children }: { children: ReactNode }
   );
 
   const upload = useCallback(async (kind: DocumentKind, file: File) => {
-    setDocument(kind, () => ({ ...emptyState(), fileName: file.name, status: "uploading" }));
+    setDocument(kind, () => ({ fileName: file.name, status: "uploading" }));
     try {
       const createdResponse = await fetch("/api/ocr/jobs", {
         method: "POST",
@@ -79,62 +62,34 @@ export function DocumentValidationProvider({ children }: { children: ReactNode }
         body: file,
       });
       if (createdResponse.status === 503) {
-        const body = await createdResponse.json() as { error?: { message?: string } };
-        setDocument(kind, (current) => ({
-          ...current,
-          status: "needs_review",
-          error: body.error?.message ?? "OCR chưa sẵn sàng.",
-          warnings: ["official_review_required"],
-        }));
+        setDocument(kind, (current) => ({ ...current, status: "needs_review" }));
         return;
       }
-      const created = await responseBody(createdResponse) as { job_id: string };
+      const created = await responseBody(createdResponse);
+      if (typeof created.job_id !== "string" || !created.job_id) {
+        setDocument(kind, (current) => ({ ...current, status: "error" }));
+        return;
+      }
       setDocument(kind, (current) => ({ ...current, status: "queued" }));
 
       for (let attempt = 0; attempt < 90; attempt += 1) {
         await new Promise((resolve) => window.setTimeout(resolve, 750));
         const polled = await fetch(`/api/ocr/jobs/${encodeURIComponent(created.job_id)}`, { cache: "no-store" });
         if (polled.status === 503) {
-          setDocument(kind, (current) => ({
-            ...current,
-            status: "needs_review",
-            error: "Không thể lấy kết quả OCR; tài liệu cần kiểm tra chính thức.",
-            warnings: ["official_review_required"],
-          }));
+          setDocument(kind, (current) => ({ ...current, status: "needs_review" }));
           return;
         }
-        const result = await responseBody(polled) as {
-          status: DocumentStatus;
-          checks?: DocumentCheck[];
-          warnings?: string[];
-          error_code?: string | null;
-        };
-        setDocument(kind, (current) => ({
-          ...current,
-          status: result.status,
-          checks: result.checks ?? [],
-          warnings: result.warnings ?? [],
-          error: result.error_code ? "OCR chưa thể kết luận; tài liệu cần kiểm tra chính thức." : null,
-        }));
-        if (!["queued", "running"].includes(result.status)) return;
+        const result = await responseBody(polled);
+        const status = typeof result.status === "string" && RESULT_STATUSES.has(result.status as DocumentStatus)
+          ? result.status as DocumentStatus
+          : "error";
+        setDocument(kind, (current) => ({ ...current, status }));
+        if (!["queued", "running"].includes(status)) return;
       }
-      setDocument(kind, (current) => ({
-        ...current,
-        status: "needs_review",
-        error: "OCR phản hồi quá thời gian; tài liệu cần kiểm tra chính thức.",
-        warnings: ["official_review_required"],
-      }));
-    } catch (error) {
-      setDocument(kind, (current) => ({
-        ...current,
-        status: "error",
-        error: error instanceof Error ? error.message : "Không thể kiểm tra tài liệu.",
-      }));
+      setDocument(kind, (current) => ({ ...current, status: "needs_review" }));
+    } catch {
+      setDocument(kind, (current) => ({ ...current, status: "error" }));
     }
-  }, [setDocument]);
-
-  const acknowledgeReview = useCallback((kind: DocumentKind) => {
-    setDocument(kind, (current) => ({ ...current, reviewAcknowledged: true }));
   }, [setDocument]);
 
   const reset = useCallback((kind: DocumentKind) => {
@@ -144,7 +99,7 @@ export function DocumentValidationProvider({ children }: { children: ReactNode }
   const blockingMessages = documentBlockingMessages(required, documents);
 
   return (
-    <Context.Provider value={{ documents, required, blockingMessages, upload, acknowledgeReview, reset }}>
+    <Context.Provider value={{ documents, required, blockingMessages, upload, reset }}>
       {children}
     </Context.Provider>
   );

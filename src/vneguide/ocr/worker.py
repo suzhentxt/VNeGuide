@@ -11,6 +11,7 @@ from collections.abc import AsyncIterator, Callable, Sequence
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Literal, Protocol
 
 from fastapi import FastAPI, Header, HTTPException, Request, status
@@ -343,12 +344,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run the VNeGuide document OCR worker")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8010)
+    parser.add_argument("--env-file", type=Path)
     return parser
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    config = load_ocr_config()
+    config = load_ocr_config(env_file=args.env_file)
     backend: DocumentValidationBackend
     if config.enabled and config.api_key is not None:
         backend = OpenAIDocumentValidationBackend(

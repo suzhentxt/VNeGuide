@@ -1,5 +1,33 @@
 # Nhật ký tiến độ VNeGuide
 
+## 2026-07-19 — Sửa kích thước panel OCR trong chatbot và siết điều kiện hợp lệ
+
+- Tách nhánh `fix/ocr-chat-upload-ui` từ `integrate/dev-refactor`; không sửa/push trực tiếp nhánh tích hợp.
+- Nguyên nhân oversize là hai bộ `DocumentUploadCard` cùng render khi panel paperclip mở, vùng message
+  thiếu `min-height: 0`, và panel upload không có giới hạn chiều cao. Ảnh chụp sau đó xác nhận khi đóng
+  panel, bộ inline lại hiện trong lịch sử và tiếp tục chiếm gần hết khung. Bộ inline nay bị xóa hoàn toàn;
+  event bước 2 mở thẳng panel paperclip, đóng panel trả lại vùng chat bình thường;
+  panel giới hạn `min(42svh, 360px)`, tự cuộn/overscroll-contained; card compact không render danh sách
+  tiêu chí sau upload và ẩn xác nhận demo đã hoàn tất nên không thể đẩy form chat khỏi viewport.
+- Follow-up lỗi scale khi bấm `Tải tài liệu`/`Thay tệp`: popup trước đó dùng `dvh` và animation `zoom`,
+  còn file input kế thừa font 14px. File picker có thể đổi dynamic viewport hoặc kích hoạt auto-zoom
+  mobile. Popup nay dùng stable viewport `svh`, bỏ toàn bộ zoom transform; file control dùng 16px và
+  `touch-manipulation` nên kích thước hộp chat không phụ thuộc vòng đời native file picker.
+- UI chỉ còn hai kết quả cuối: `Không hợp lệ` cho `fail`/`needs_review`/lỗi, và
+  `Hợp lệ, tài liệu sẽ cần kiểm tra chính thức` cho `pass`. Chỉ `pass` mở gate; không còn cách xác nhận
+  thủ công để biến kết quả chưa rõ thành hợp lệ.
+- Ngưỡng pass hiện là `0.80` cho cả confidence tổng thể và toàn bộ tiêu chí bắt buộc. Regression xác nhận
+  `0.79` không pass, `0.80` pass và mapping đúng hai trạng thái UI.
+- OCR worker hỗ trợ `--env-file .env`; nếu `VNEGUIDE_OCR_OPENAI_API_KEY` trống thì dùng lại
+  `VNEGUIDE_API_KEY` của chatbot. Worker bearer token vẫn tách riêng và chỉ chia sẻ giữa worker với BFF,
+  không tái sử dụng OpenAI key làm token nội bộ.
+- Live end-to-end qua đúng đường `frontend :3000 → BFF → worker :8010 → OpenAI gpt-5.5` đạt với hai
+  fixture tổng hợp: `legal_dwelling` pass 4/4 check trong 5,140 ms; `minor_consent` pass 4/4 check trong
+  3,907 ms. Health worker là `ready`; frontend không cần restart vì dev server đã reload `.env.local`.
+- Xác minh hiện tại: frontend HTTP `200`, ESLint và typecheck đạt, 37 Node test đạt; OCR targeted
+  `15 passed`, Ruff và Mypy OCR đạt. Browser tích hợp không có phiên khả dụng nên chưa chụp/click UI trực
+  tiếp; không chạy production build để tránh dừng dev server cổng 3000 mà người dùng đang sử dụng.
+
 ## 2026-07-19 — Mem0 long-term memory opt-in trên nhánh refactor
 
 - Clone shallow source chính thức `mem0ai/mem0` vào `D:\tmp\mem0-reference-20260719`, đối chiếu bản

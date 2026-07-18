@@ -1,5 +1,22 @@
 # Bàn giao phiên release
 
+## 2026-07-19 — OCR chatbot layout/status (`fix/ocr-chat-upload-ui`)
+
+- Panel paperclip OCR đã bị chặn ở tối đa 360px/42svh và tự cuộn; message list co đúng trong flex layout,
+  bộ upload inline trong lịch sử đã bị xóa hoàn toàn vì ảnh thực tế cho thấy nó tái xuất hiện khi đóng
+  panel. Event bước 2 giờ mở trực tiếp panel paperclip. Popup dùng stable viewport và không còn zoom animation;
+  file control 16px/touch-manipulation để native picker không kích hoạt mobile auto-zoom.
+- UI chỉ có `Không hợp lệ` và `Hợp lệ, tài liệu sẽ cần kiểm tra chính thức`; chỉ backend `pass` mở gate.
+  `needs_review`, provider error và payload không hợp lệ đều không được coi là tài liệu hợp lệ.
+- Ngưỡng pass backend là `0.80` cho overall và từng check bắt buộc; test biên `0.79` review, `0.80` pass.
+- Worker đọc thẳng `.env` bằng `python -m vneguide.ocr --host 127.0.0.1 --port 8010 --env-file .env`,
+  dùng fallback `VNEGUIDE_API_KEY` cho OpenAI và worker token riêng cho BFF. Live BFF smoke hai fixture
+  đều pass 4/4 check qua `gpt-5.5` (5,140 ms và 3,907 ms); worker health hiện `ready` ở cổng 8010.
+- Gate đã chạy: frontend HTTP 200, ESLint, typecheck, 37 Node test, 15 OCR test, Ruff và Mypy OCR
+  đều đạt. Production build không chạy để tránh dừng dev server cổng 3000. Browser tích hợp không khả
+  dụng; bước tiếp theo cụ thể là click paperclip và upload hai fixture ở viewport mobile
+  và desktop khi browser session hoạt động, xác nhận panel tự cuộn và input chat vẫn luôn nhìn thấy.
+
 ## 2026-07-19 — Mem0 long-term memory opt-in (`refactor-code`)
 
 - `mem0ai 2.0.12` đã cài trong `.venv`; adapter, local Qdrant, telemetry opt-out, anonymous scope và
