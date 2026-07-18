@@ -41,8 +41,13 @@ Không tự tạo một bộ enum hoặc field name riêng trong từng module.
 ## Quy tắc làm việc
 
 - Mỗi phiên tập trung vào một đầu việc hoặc một lỗi cụ thể.
-- Không dùng LLM để quyết định required field, phí, thời hạn hoặc căn cứ pháp lý.
-- Mọi kết luận nghiệp vụ phải truy được về `source_id` đã review.
+- LLM được phép chủ động gọi tool truy xuất phí, thời hạn, giấy tờ, căn cứ pháp lý
+  từ data package đã review. LLM KHÔNG được tự bịa; mọi câu trả lời dựa trên data
+  tool trả về và truy được về `source_id` đã review.
+- Tool chỉ trả data đã review trong `data/catalog/`; tool không cho LLM ghi đè,
+  sáng tác hoặc suy luận sự kiện nghiệp vụ.
+- LLM không được thay cơ quan có thẩm quyền kết luận đủ điều kiện hồ sơ; chỉ
+  `RuleEngine` và `ProcedureQAResponder` là nguồn sự thật nghiệp vụ.
 - Không thay schema, ground truth hoặc quality gate chỉ để làm test pass.
 - Không commit secret, `.env`, log chứa PII hoặc dữ liệu cá nhân thật.
 - Không sửa dataset discovery để che lỗi của application.

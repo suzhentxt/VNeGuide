@@ -19,6 +19,13 @@ ocr = [
     "Pillow>=11,<13",
     "pypdfium2>=5,<6",
 ]
+agent = [
+    "langchain>=1.1,<2",
+    "langchain-core>=1.2,<2",
+    "langgraph>=0.2,<2",
+    "langchain-openai>=1.0,<2",
+    "deepagents>=0.6,<1",
+]
 dev = [
     "httpx>=0.28,<1",
     "mypy>=1.10,<2",
