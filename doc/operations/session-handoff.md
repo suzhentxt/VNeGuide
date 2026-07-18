@@ -246,3 +246,20 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
   audit đều đạt. Bước tiếp theo sau merge là smoke một session mới với các câu “tui muốn làm tạm
   chú”, “hộ khẩu photo có được hông” và “Tôi cần giấy nhà”; chỉ bật model-assisted sau khi đo latency,
   cost và tỉ lệ ambiguity trên traffic tổng hợp.
+
+## Bàn giao audit tiêu chí và browser E2E 2026-07-19
+
+- Browser suite nằm ở `demoweb/e2e/`, chạy production build + FastAPI mock bằng
+  `cd demoweb && npm run test:e2e`. Baseline hiện tại: `15 passed, 1 skipped`; OCR test cố ý `fixme`
+  cho tới khi có upload API/UI thật.
+- BFF field route tự tạo lại session khi backend trả 404/410 hoặc procedure cookie không khớp route;
+  header `X-VNeGuide-Session-Recreated: 1` khiến workspace rebase revision nhưng giữ các local field
+  chưa đồng bộ.
+- Form tạm trú chỉ chặn severity `error`/`needs_review`; severity `info` được render trong “Thông tin
+  tham khảo”. Draft còn missing field không được core báo `ready_to_submit`.
+- Ma trận readiness ở `doc/operations/judging-readiness.md`; không đổi 82/100 evidence coverage thành
+  claim điểm thi. Bốn bằng chứng ngoài code còn thiếu: usability test người dùng mục tiêu, sponsor/LOI
+  pilot, DPIA/security assessment độc lập và video backup được hai người review.
+- Bước tiếp theo cụ thể: commit/push thay đổi này lên `dev`, chờ CI xanh, xác minh Vercel/Render deploy
+  đúng SHA mới rồi append deployment ID/timestamp vào `release-evidence.md`. Sau đó record video; không
+  đưa video, PII hoặc secret vào Git.

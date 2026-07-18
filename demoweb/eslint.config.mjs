@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Playwright output is generated evidence, not application source.
+    "blob-report/**",
+    "playwright-report/**",
+    "test-results/**",
     // Saved browser captures are reference data, not application source.
     "_DataURI/**",
     "dichvucong.gov.vn/**",

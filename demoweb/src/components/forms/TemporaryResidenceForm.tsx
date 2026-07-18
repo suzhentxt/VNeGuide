@@ -129,19 +129,24 @@ export function TemporaryResidenceForm({
 
   const allIssues = useMemo(() => {
     const aiIssues = workspace.state.validation_issues
-      .filter((issue) => issue.field_id)
+      .filter((issue) => issue.field_id && issue.severity !== "info")
       .map((issue) => ({ field_id: issue.field_id as string, message: issue.message }));
     return [...localIssues, ...aiIssues].filter(
       (issue, index, list) => list.findIndex((item) => item.field_id === issue.field_id && item.message === issue.message) === index,
     );
   }, [localIssues, workspace.state.validation_issues]);
 
+  const information = useMemo(
+    () => workspace.state.validation_issues.filter((issue) => issue.severity === "info"),
+    [workspace.state.validation_issues],
+  );
+
   const errorsFor = (fieldId: string) => {
     const local = submitted
       ? localIssues.filter((issue) => issue.field_id === fieldId).map((issue) => issue.message)
       : [];
     const ai = workspace.state.validation_issues
-      .filter((issue) => issue.field_id === fieldId)
+      .filter((issue) => issue.field_id === fieldId && issue.severity !== "info")
       .map((issue) => issue.message);
     return [...new Set([...local, ...ai])];
   };
@@ -289,6 +294,14 @@ export function TemporaryResidenceForm({
             <button className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#903938] px-6 font-bold text-white hover:bg-[#762b2b] focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[#ffc251] sm:w-auto" type="submit">
               <Save className="size-5" aria-hidden="true" /> Kiểm tra và lưu bản nháp
             </button>
+            {information.length ? (
+              <section className="rounded-xl border border-[#b9cde5] bg-[#f2f7fc] p-4 text-[#24496f]" role="region" aria-labelledby="reference-information-title">
+                <h2 className="font-extrabold" id="reference-information-title">Thông tin tham khảo</h2>
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-sm">
+                  {information.map((issue) => <li key={issue.rule_id}>{issue.message}</li>)}
+                </ul>
+              </section>
+            ) : null}
             {submitted && !allIssues.length ? (
               <div className="flex items-start gap-2 rounded-xl border border-[#98d0aa] bg-[#effaf2] p-4 text-[#25633f]" role="status">
                 <CheckCircle2 className="mt-0.5 size-5" aria-hidden="true" /> Bản nháp đã đủ thông tin kiểm tra tại UI.
@@ -300,7 +313,7 @@ export function TemporaryResidenceForm({
             <div className="rounded-2xl border border-[#d7e0e8] bg-white p-5 shadow-sm">
               <h2 className="font-extrabold">Trạng thái biểu mẫu</h2>
               <dl className="mt-3 space-y-2 text-sm">
-                <div className="flex justify-between gap-3"><dt>Revision</dt><dd className="font-bold">{workspace.state.revision}</dd></div>
+                <div className="flex justify-between gap-3"><dt>Revision</dt><dd className="font-bold" data-testid="workspace-revision">{workspace.state.revision}</dd></div>
                 <div className="flex justify-between gap-3"><dt>Đã xác nhận</dt><dd className="font-bold">{Object.values(workspace.state.fields).filter((field) => field.confirmed).length}</dd></div>
                 <div className="flex justify-between gap-3"><dt>Đã sửa tay</dt><dd className="font-bold">{Object.values(workspace.state.fields).filter((field) => field.dirty).length}</dd></div>
               </dl>

@@ -4,9 +4,9 @@ Thư mục này đóng gói FastAPI, Next.js và gateway thành một release ba
 một Uvicorn worker vì session store hiện nằm trong bộ nhớ của một process. Gateway công khai một
 origin duy nhất: `/health` đi tới API, các route còn lại đi tới Next.js.
 
-> Trạng thái release: hạ tầng đã build và smoke được, nhưng frontend hợp nhất từ `tuan` vẫn hiển thị
-> luồng Hôn nhân và gia đình ngoài data package. Không dùng preview này để tuyên bố sản phẩm đã đạt
-> đúng ba thủ tục cho tới khi branch UI đúng scope được merge và browser E2E đạt.
+> Trạng thái release: frontend và backend đã khóa đúng ba thủ tục trong data package. Public preview
+> chạy trên Vercel + Render; browser E2E là gate của CI. Đây vẫn là bản mô phỏng hackathon, không
+> nhận dữ liệu thật và chưa có SLA/session store bền vững cho production.
 
 ## Chạy local
 

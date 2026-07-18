@@ -37,6 +37,10 @@ README này phân biệt rõ ba lớp bằng chứng:
 - **Đã kiểm chứng:** có lệnh chạy, số liệu và evidence trong repository.
 - **Mục tiêu pilot:** là ngưỡng đề xuất cho thử nghiệm thực tế, chưa được trình bày như kết quả hiện có.
 
+Audit khoảng trống và mức độ phủ evidence hiện tại được khóa tại
+[`doc/operations/judging-readiness.md`](doc/operations/judging-readiness.md). Repo không đánh đồng
+độ phủ bằng chứng nội bộ với điểm ban giám khảo hoặc mức sẵn sàng production.
+
 | Tiêu chí | Điểm | Nội dung để kiểm tra nhanh | Bằng chứng chính |
 | --- | ---: | --- | --- |
 | Chất lượng triển khai kỹ thuật | 20 | Next.js BFF, FastAPI, core độc lập UI, state revisioned, CI và container smoke | [`src/vneguide/`](src/vneguide/), [`demoweb/`](demoweb/), [release evidence](doc/operations/release-evidence.md) |
@@ -107,8 +111,9 @@ smoke toàn tuyến trước khi deploy.
 
 | Hạng mục | Kết quả hiện tại | Cách kiểm tra |
 | --- | --- | --- |
-| Python quality gate | Ruff, format, mypy strict đạt; `304 passed`, `2 skipped`; coverage `80.59%` | `python -m pytest --cov=vneguide --cov-report=term-missing` |
-| Frontend gate | 21 unit test; ESLint, TypeScript và Next production build 25 route đạt | `cd demoweb && npm run check` |
+| Python quality gate | Ruff, format, mypy strict đạt; `305 passed`, `2 skipped`; coverage `80.58%` | `python -m pytest --cov=vneguide --cov-report=term-missing` |
+| Frontend gate | 22 unit test; ESLint, TypeScript và Next production build 25 route đạt | `cd demoweb && npm run check` |
+| Browser E2E | `15 passed`, `1 skipped`; ba route, hero tạm trú 5/5, edit/stale/reset/recovery/timeout; OCR UI chưa có nên test được đánh dấu rõ | `cd demoweb && npm run test:e2e` |
 | Dependency | `npm audit --audit-level=moderate` không có vulnerability ở lần release | Xem [release evidence](doc/operations/release-evidence.md) |
 | Data contract | 44 field: tạm trú 15, nhà ở 16, bản sao khai sinh 13 | `jq 'group_by(.procedure_code)' data/catalog/field_catalog.json` |
 | Rule contract | 27 rule: tạm trú 10, nhà ở 8, bản sao khai sinh 9 | `jq 'group_by(.procedure_code)' data/catalog/validation_rules.json` |
@@ -229,7 +234,7 @@ sequenceDiagram
 
 MVP hiện **chưa** đáp ứng production: Render Free có cold start; session in-memory; chưa có durable
 store, authentication/VNeID, audit event store, rate limiting production, DPIA, penetration test,
-browser E2E hoàn chỉnh và kênh hỗ trợ vận hành. Đây là backlog bắt buộc trước giai đoạn 2–3, không
+usability/accessibility audit với người dùng mục tiêu và kênh hỗ trợ vận hành. Đây là backlog bắt buộc trước giai đoạn 2–3, không
 phải phần được che bằng prompt.
 
 ## 4. UX AI-Native & tư duy thiết kế — 15 điểm
@@ -336,14 +341,14 @@ môi trường production.
 | Làm sao mở rộng hàng nghìn thủ tục? | Procedure pack + field/rule/source versioning; ưu tiên cụm thủ tục có volume cao, không mở rộng bằng prompt đơn lẻ. |
 | Có dùng dữ liệu cá nhân thật không? | Demo không tiếp nhận PII thật; pilot cần DPIA, consent, hosting phù hợp và telemetry tối thiểu. |
 | Đây có phải Cổng DVC thật không? | Không. Đây là bản mô phỏng hackathon và chưa gọi API nộp hồ sơ chính thức. |
-| Điểm yếu lớn nhất hiện tại? | Session chưa durable, Render Free cold start, OCR chưa có upload UI và browser E2E/video dự phòng chưa hoàn tất. |
+| Điểm yếu lớn nhất hiện tại? | Session chưa durable, Render Free cold start, OCR chưa có upload UI, chưa có user validation/đơn vị pilot và video dự phòng chưa hoàn tất. |
 
 ### Giới hạn được công khai
 
 - Chỉ đúng ba thủ tục; không giả vờ bao phủ toàn bộ hành chính công.
 - Public URL là production preview, không có SLA và không nhận dữ liệu cá nhân thật.
 - OCR CT01 mới ở candidate worker; chưa có end-to-end upload trong web.
-- Một số browser E2E và video dự phòng vẫn là Definition of Done chưa hoàn thành.
+- OCR upload E2E và video dự phòng vẫn là Definition of Done chưa hoàn thành.
 - Cơ quan có thẩm quyền mới được xác minh tranh chấp, quyền sở hữu/sử dụng và quyết định hồ sơ.
 
 Chi tiết runbook, rollback và evidence: [`doc/operations/`](doc/operations/).

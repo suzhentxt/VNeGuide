@@ -1,6 +1,7 @@
 import "server-only";
 
 export const CHAT_SESSION_COOKIE = "vneguide_chat_session";
+export const CHAT_PROCEDURE_COOKIE = "vneguide_chat_procedure";
 
 // The extractor can make two provider attempts of up to 20 seconds each.
 // Keep the BFF alive long enough for the bounded retry path to finish.

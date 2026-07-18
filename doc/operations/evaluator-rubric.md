@@ -1,5 +1,9 @@
 # Rubric đánh giá thay đổi
 
+Rubric 0–2 dưới đây dùng để review từng thay đổi code, không phải thang chấm hackathon. Ma trận sáu
+tiêu chí 100 điểm và khoảng trống evidence hiện tại nằm tại
+[`judging-readiness.md`](judging-readiness.md).
+
 Chấm mỗi hạng mục từ 0 đến 2 trước khi chấp nhận thay đổi.
 
 | Hạng mục | Câu hỏi | Điểm |

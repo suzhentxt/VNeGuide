@@ -94,3 +94,30 @@ Image provenance của lần smoke:
 Timestamp: 2026-07-18 khoảng 23:56 ICT. Smoke chỉ dùng câu tổng hợp về cấp bản sao Giấy khai sinh;
 không gửi PII. API key được nhập trực tiếp vào Render Environment và không xuất hiện trong command,
 log, report hoặc repository.
+
+## Audit readiness candidate 2026-07-19 04:12 ICT
+
+Candidate được audit trên branch `dev`, base `8a2d48ed`. Các sửa dưới đây chưa nằm trong public
+deployment tại thời điểm ghi, vì vậy không dùng URL công khai để claim chúng cho tới khi push và
+deploy đúng SHA mới.
+
+| Hạng mục | Lệnh/bằng chứng | Kết quả |
+| --- | --- | --- |
+| Python gate | Ruff lint/format, Mypy, Pytest coverage | Pass; 103 source; `305 passed`, `2 skipped`; 80.58% |
+| Frontend gate | `npm run check` | Pass; lint, typecheck, 22 unit test và Next production build |
+| Browser E2E | `npm run test:e2e` | `15 passed`, `1 skipped`; đúng ba route, hero 5/5, edit/stale/reset/recovery/timeout |
+| OCR browser case | `failure-states.spec.ts` | `test.fixme`; upload API/UI chưa tồn tại, không được tính pass |
+| Dependency audit | `npm audit --audit-level=moderate` | 0 vulnerability |
+| Session recovery | Playwright qua Next BFF → FastAPI | 404/410 và đổi procedure tạo session mới; local edit được giữ/rebase |
+| Readiness invariant | Python regression + public defect reproduction | Missing field buộc `needs_correction`, không còn false `ready_to_submit` |
+
+Public artifact trước candidate vẫn hoạt động: web `https://vneguide.vercel.app/` HTTP 200 khoảng
+1.06 giây; health `https://vneguide-api.onrender.com/health` HTTP 200 khoảng 0.18 giây. Synthetic
+message “tui muốn làm tạm chú” qua Vercel BFF → Render → OpenAI trả 200 khoảng 4.09 giây và route
+đúng `1.004194`. Lần smoke này đã phát hiện false readiness khi còn 11 missing field; candidate phía
+trên là bản sửa và phải được smoke lại sau deploy.
+
+Hạ tầng tại thời điểm kiểm tra: Vercel production deployment
+`dpl_8gx1qCkXx4VfMQSYrNfDPJYj1oev` và Render deploy `dep-d9dudlm1a83c73b5fu90` đều ở trạng thái
+ready/live, cùng commit `8a2d48ed`. Provider/model của API là `openai/gpt-4o-mini`; public smoke dùng
+dữ liệu tổng hợp và không ghi raw prompt/response vào report.

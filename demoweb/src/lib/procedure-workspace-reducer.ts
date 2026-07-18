@@ -84,7 +84,11 @@ function metadataFromTurn(
     revision: Math.max(state.revision, turn.draft.revision),
     fields,
     validation_issues: turn.validation?.issues ?? [],
-    recovery_notice: null,
+    recovery_notice: Object.values(fields).some(
+      (field) => field.sync_status === "dirty" || field.sync_status === "error",
+    )
+      ? state.recovery_notice
+      : null,
   };
 }
 
@@ -210,7 +214,19 @@ export function procedureWorkspaceReducer(
       return next;
     }
     case "stale":
-      return { ...state, recovery_notice: "Phiên đã thay đổi. Dữ liệu trên form được giữ lại và chat đang đồng bộ lại." };
+      return {
+        ...state,
+        fields: Object.fromEntries(
+          Object.entries(state.fields).map(([fieldId, field]) => [
+            fieldId,
+            field.sync_status === "saving"
+              ? { ...field, sync_status: "dirty", error: null }
+              : field,
+          ]),
+        ),
+        recovery_notice:
+          "Phiên đã thay đổi. Giá trị bạn vừa sửa vẫn được giữ và cần đồng bộ lại.",
+      };
     case "session_recreated":
       return {
         ...state,

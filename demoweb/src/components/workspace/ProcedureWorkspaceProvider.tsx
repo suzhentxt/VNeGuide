@@ -174,7 +174,14 @@ export function ProcedureWorkspaceProvider({ children }: { children: ReactNode }
         });
         return null;
       }
-      applyTurn(body, snapshot.revision);
+      const recreated = response.headers.get("X-VNeGuide-Session-Recreated") === "1";
+      if (recreated) {
+        dispatchTracked({ type: "session_recreated" });
+        dispatchTracked({ type: "sync_start", fieldId });
+        applyTurn(body, 0);
+      } else {
+        applyTurn(body, snapshot.revision);
+      }
       return body;
     } catch {
       if (requestTokens.current.get(fieldId) === token) {

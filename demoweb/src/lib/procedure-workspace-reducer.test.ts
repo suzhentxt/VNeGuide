@@ -91,6 +91,28 @@ test("stale response is ignored", () => {
   assert.match(next.recovery_notice ?? "", /phản hồi cũ/);
 });
 
+test("stale rebase preserves the unsynced value and status", () => {
+  const edited = procedureWorkspaceReducer(workspace({ revision: 1 }), {
+    type: "manual_change",
+    fieldId: "temporary_address",
+    value: "Giá trị local cần retry",
+  });
+  const saving = procedureWorkspaceReducer(edited, {
+    type: "sync_start",
+    fieldId: "temporary_address",
+  });
+  const stale = procedureWorkspaceReducer(saving, { type: "stale" });
+  const rebased = procedureWorkspaceReducer(stale, {
+    type: "apply_turn",
+    turn: turn(2, { temporary_address: "Giá trị server cũ" }),
+  });
+
+  assert.equal(rebased.revision, 2);
+  assert.equal(rebased.fields.temporary_address.value, "Giá trị local cần retry");
+  assert.equal(rebased.fields.temporary_address.sync_status, "dirty");
+  assert.match(rebased.recovery_notice ?? "", /vẫn được giữ/);
+});
+
 test("session recreation preserves form values and rebases the revision", () => {
   const current = workspace({
     revision: 3,

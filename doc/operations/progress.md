@@ -280,7 +280,7 @@ Smoke chỉ dùng dữ liệu giả và provider mock, không gửi PII hoặc g
 - [x] Backend có revisioned form-edit contract và draft snapshot.
 - [x] Full Python/npm gate đạt trên merge result Rules/AI + OCR.
 - [x] BFF gọi đúng revisioned backend field-edit contract bằng production server smoke.
-- [ ] Manual edit sync được browser E2E xác minh qua BFF và backend.
+- [x] Manual edit sync được browser E2E xác minh qua BFF và backend.
 - [x] Rebuild/smoke API container từ merge result mới.
 - [x] OCR adapter/worker candidate-only và synthetic gate.
 - [ ] OCR API/UI sink và browser E2E thật.
@@ -426,3 +426,24 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
   `80.59%`; release audit `17379/11569` file đạt. Frontend gate đạt ESLint, TypeScript, `21/21` test
   và Next production build 25 route; lần build sandbox đầu thất bại vì Turbopack không được bind
   cổng, chạy lại ngoài sandbox đạt.
+
+### 2026-07-19 — Audit readiness theo sáu tiêu chí chấm và browser E2E
+
+- Thêm ma trận [`judging-readiness.md`](judging-readiness.md) phân biệt độ phủ evidence nội bộ với
+  điểm chấm/production readiness. Mức ước lượng nội bộ là 82/100 evidence coverage; repo chưa claim
+  100/100 vì thiếu user validation, đơn vị pilot/LOI, DPIA/pen-test độc lập và video dự phòng.
+- Đưa Playwright vào CI với đúng ba procedure route, hero đăng ký tạm trú 5/5, out-of-scope, manual
+  edit, stale/retry, reset, session bị xóa, đổi procedure và typed timeout. Kết quả local:
+  `15 passed, 1 skipped`; skip được khai báo là OCR upload UI chưa tồn tại, không được tính pass.
+- E2E phát hiện và sửa ba lỗi sản phẩm: session cookie trỏ tới backend session đã mất; đổi thủ tục vẫn
+  dùng session cũ; rule mức `info` về lệ phí bị UI coi như lỗi chặn. BFF nay tạo lại session theo
+  procedure context, form giữ local edit/rebase đúng trạng thái và thông tin không chặn nằm trong
+  vùng “Thông tin tham khảo”.
+- Core không còn trả `ready_to_submit` khi vẫn còn missing field; regression khóa hành vi này.
+- Gate 04:12 ICT đạt: Ruff lint/format, mypy 103 source; Pytest `305 passed, 2 skipped`, coverage
+  `80.58%`; frontend `22/22` unit test, lint/type/build đạt; npm audit 0 vulnerability; Playwright
+  `15 passed, 1 skipped`.
+- Public smoke trên artifact đang deploy trước thay đổi này: `https://vneguide.vercel.app/` và
+  `https://vneguide-api.onrender.com/health` đều HTTP 200; synthetic message phương ngữ đi qua
+  Vercel → Render → OpenAI trả 200 và route đúng `1.004194`. Cần push/redeploy commit mới trước khi
+  dùng public URL làm evidence cho các sửa session/readiness ở trên.

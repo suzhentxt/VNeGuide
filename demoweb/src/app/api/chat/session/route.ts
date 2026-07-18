@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import {
   callChatApi,
+  CHAT_PROCEDURE_COOKIE,
   CHAT_SESSION_COOKIE,
   safeResponseBody,
   unavailableResponse,
@@ -29,6 +30,19 @@ export async function POST(request: NextRequest) {
 
     if (backend.ok && sessionId) {
       response.cookies.set(CHAT_SESSION_COOKIE, sessionId, cookieOptions());
+      const context =
+        payload && typeof payload === "object" && "context" in payload
+          ? payload.context
+          : null;
+      const procedureCode =
+        context && typeof context === "object" && "procedure_code" in context
+          ? context.procedure_code
+          : null;
+      if (typeof procedureCode === "string") {
+        response.cookies.set(CHAT_PROCEDURE_COOKIE, procedureCode, cookieOptions());
+      } else {
+        response.cookies.delete(CHAT_PROCEDURE_COOKIE);
+      }
     }
     return response;
   } catch (error) {
@@ -57,6 +71,7 @@ export async function GET(request: NextRequest) {
     const response = NextResponse.json(body, { status: backend.status });
     if (backend.status === 404 || backend.status === 410) {
       response.cookies.delete(CHAT_SESSION_COOKIE);
+      response.cookies.delete(CHAT_PROCEDURE_COOKIE);
     }
     return response;
   } catch (error) {
@@ -78,5 +93,6 @@ export async function DELETE(request: NextRequest) {
 
   const response = new NextResponse(null, { status: 204 });
   response.cookies.delete(CHAT_SESSION_COOKIE);
+  response.cookies.delete(CHAT_PROCEDURE_COOKIE);
   return response;
 }
