@@ -102,3 +102,36 @@ def test_non_jsonable_response_falls_back_to_repr(tmp_path: Path) -> None:
     assert record["status"] == "success"
     assert isinstance(record["response"], str)
     assert "Weird" in record["response"]
+
+
+def test_emits_readable_console_summary_to_stderr(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    log_path = tmp_path / "llm.jsonl"
+    inner = MockLLMProvider([{"classification": "supported", "procedure_code": "2.000635"}])
+    provider = LoggingProvider(inner, log_path=log_path, model="test-model")
+
+    provider.generate_structured(_request("sys", "tôi tên Hậu"))
+
+    captured = capsys.readouterr()
+    assert "[LLM:test_schema]" in captured.err
+    assert "test-model" in captured.err
+    assert "success" in captured.err
+    assert "tôi tên Hậu" in captured.err
+    assert "2.000635" in captured.err
+
+
+def test_emits_console_error_summary_on_failure(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    log_path = tmp_path / "llm.jsonl"
+    inner = MockLLMProvider([ProviderError("gateway down", retryable=True)])
+    provider = LoggingProvider(inner, log_path=log_path, model="m")
+
+    with pytest.raises(ProviderError):
+        provider.generate_structured(_request("sys", "câu hỏi"))
+
+    captured = capsys.readouterr()
+    assert "ERROR" in captured.err
+    assert "gateway down" in captured.err
+    assert "câu hỏi" in captured.err
