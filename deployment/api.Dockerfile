@@ -10,11 +10,11 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-COPY pyproject.toml README.md ./
+COPY pyproject.toml README.md deployment/requirements-api.lock ./
 COPY src ./src
 COPY data ./data
 
-RUN python -m pip install --no-cache-dir ".[api]" \
+RUN python -m pip install --no-cache-dir --constraint requirements-api.lock ".[api]" \
     && useradd --create-home --uid 10001 vneguide \
     && chown -R vneguide:vneguide /app
 

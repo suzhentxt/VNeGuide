@@ -1,6 +1,6 @@
 # VNeGuide deployment
 
-Thư mục này đóng gói FastAPI, Next.js và gateway thành một release stack có thể tái lập. API chạy
+Thư mục này đóng gói FastAPI, Next.js và gateway thành một release baseline có thể build. API chạy
 một Uvicorn worker vì session store hiện nằm trong bộ nhớ của một process. Gateway công khai một
 origin duy nhất: `/health` đi tới API, các route còn lại đi tới Next.js.
 
@@ -13,7 +13,8 @@ origin duy nhất: `/health` đi tới API, các route còn lại đi tới Next
 Yêu cầu Docker Engine/Compose. Không cần secret khi dùng mock provider:
 
 ```bash
-docker compose -f deployment/docker-compose.yml up --build --detach --wait
+VNEGUIDE_LLM_PROVIDER=mock VNEGUIDE_MODEL=mock-scripted \
+  docker compose -f deployment/docker-compose.yml up --build --detach --wait
 python deployment/scripts/smoke.py \
   --api-url http://127.0.0.1:8080 \
   --web-url http://127.0.0.1:8080 \
@@ -36,15 +37,18 @@ docker compose -f deployment/docker-compose.yml down
 
 ## Cấu hình model
 
-Compose nhận cấu hình qua environment. Không ghi key vào YAML, image, shell history hoặc biến
-`NEXT_PUBLIC_*`.
+Compose nhận cấu hình dev qua environment. Không ghi key vào YAML, image, shell history hoặc biến
+`NEXT_PUBLIC_*`. Lệnh `read -s` dưới đây tránh đưa key vào shell history, nhưng key vẫn có thể hiện
+trong `docker inspect`; production phải dùng secret manager của nền tảng thay vì Compose environment.
 
 ```bash
 export VNEGUIDE_LLM_PROVIDER=litellm
 export VNEGUIDE_MODEL='<model-id>'
 export VNEGUIDE_LITELLM_BASE_URL='https://gateway.example'
-export VNEGUIDE_LITELLM_API_KEY='<secret>'
+read -rsp 'LiteLLM API key: ' VNEGUIDE_LITELLM_API_KEY && echo
+export VNEGUIDE_LITELLM_API_KEY
 docker compose -f deployment/docker-compose.yml up --build --detach --wait
+unset VNEGUIDE_LITELLM_API_KEY
 ```
 
 HTTP tới LiteLLM bị tắt mặc định. Chỉ bật `VNEGUIDE_LITELLM_ALLOW_INSECURE_HTTP=1` trên mạng dev
@@ -84,9 +88,10 @@ cd demoweb
 npm audit --audit-level=moderate
 ```
 
-Audit chỉ đọc file Git theo dõi và chặn secret pattern phổ biến, private key, `.env`/log nhạy cảm,
-conflict marker và số định danh 12 chữ số ngoài vùng fixture tổng hợp. Kết quả scan hỗ trợ review,
-không thay thế secret scanning phía GitHub hoặc đánh giá bảo vệ dữ liệu.
+Audit chỉ đọc bản staged/index của một số loại UTF-8 text tối đa 2 MB và chặn common secret pattern,
+private key, `.env`/log nhạy cảm, conflict marker và số định danh 12 chữ số ngoài vùng fixture tổng
+hợp. Nó không scan history/binary hoặc nhận diện mọi loại PII; kết quả chỉ hỗ trợ review và không
+thay thế secret scanning phía GitHub hoặc đánh giá bảo vệ dữ liệu.
 
 ## Deploy bền vững
 
@@ -97,6 +102,8 @@ Hai Dockerfile là contract deploy độc lập:
 - Web cần `VNEGUIDE_API_BASE_URL` trỏ tới API nội bộ; không public model key.
 - Gateway/ingress route `/health` tới API và `/` tới web.
 - Dùng immutable image digest hoặc release tag; giữ tag trước đó để rollback.
+- Base image được khóa digest và Python runtime dependency được khóa version trong
+  `deployment/requirements-api.lock`; lock chưa có artifact hash nên không đảm bảo byte-for-byte.
 
 Không có credential của một cloud target cụ thể trong repo. Release Captain phải ghi URL, image
 digest và lệnh rollback thực tế vào `doc/operations/release-evidence.md` sau khi deploy lâu dài.

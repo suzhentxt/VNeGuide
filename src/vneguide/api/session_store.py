@@ -120,9 +120,7 @@ class InMemorySessionStore:
     def _remove_expired_locked(self) -> None:
         now = self._clock()
         expired_ids = [
-            session_id
-            for session_id, entry in self._entries.items()
-            if entry.expires_at <= now
+            session_id for session_id, entry in self._entries.items() if entry.expires_at <= now
         ]
         for session_id in expired_ids:
             entry = self._entries.pop(session_id)

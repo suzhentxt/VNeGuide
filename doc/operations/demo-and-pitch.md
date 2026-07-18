@@ -3,7 +3,8 @@
 ## Preflight 15 phút trước demo
 
 1. Xác nhận public URL và `/health` bằng `deployment/scripts/smoke.py --samples 5`.
-2. Xác nhận provider/model/version và timestamp trong output; không hiện API key.
+2. Xác nhận revision/timestamp trong infra smoke. Nếu cần claim model, chạy live-model smoke riêng
+   và xác nhận provider/model/version mà không hiện API key.
 3. Chạy `pytest -q tests/integration/test_release_flows.py` và `npm run check`.
 4. Dùng hoàn toàn dữ liệu tổng hợp, bật cảnh báo hệ thống không ra quyết định hành chính.
 5. Mở sẵn ba thủ tục đúng scope và một case out-of-scope.
@@ -18,13 +19,13 @@
   lại, xem validation/nguồn. Nhấn mạnh AI không tự commit dữ liệu.
 - 1:50–2:15 — Failure demo: response stale bị 409; typed model timeout chuyển retry/manual input.
   Chỉ demo OCR sau khi OCR adapter/UI thật đã được merge; hiện mới có generic upstream fallback.
-- 2:15–2:40 — Trust: rule/source từ data package đã review, secret/PII scan, revision guard, HTTPS.
+- 2:15–2:40 — Trust: rule/source đã review, limited staged-text pattern scan, revision guard, HTTPS.
 - 2:40–3:00 — Kết: VNeGuide giúp chuẩn bị và kiểm tra trước; kết quả không phải quyết định hành chính.
 
 ## Shot list video dự phòng
 
 1. Title và disclaimer, 5 giây.
-2. Public `/health` và timestamp/model label, 5 giây.
+2. Public `/health`, revision và timestamp; provider/model chỉ là label nếu chưa live-smoke, 5 giây.
 3. Hero tạm trú đủ 5 checkpoint, tối đa 75 giây.
 4. Out-of-scope, stale revision và timeout/OCR fallback, tối đa 30 giây.
 5. Ba source/procedure code và kết luận, 15 giây.

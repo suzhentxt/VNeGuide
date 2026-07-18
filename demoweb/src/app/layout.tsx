@@ -68,6 +68,7 @@ export default function RootLayout({
       lang="vi"
       className={`${nunito.variable} h-full`}
       data-scroll-behavior="smooth"
+      suppressHydrationWarning
     >
       <body suppressHydrationWarning className="flex min-h-full flex-col">
         <aside

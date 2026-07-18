@@ -12,7 +12,7 @@ Các tài liệu sản phẩm cũ trong `doc/` phải được đối chiếu v�
 
 - Python 3.11 trở lên.
 - Không cần API key khi dùng mock provider và chạy test mặc định.
-- API key chỉ cần cho smoke test provider thật, được bật chủ động.
+- API key cần cho mọi luồng dùng provider thật, gồm CLI, HTTP API và live smoke chủ động.
 
 ## Cài đặt
 
@@ -36,8 +36,9 @@ python -m pip install -e '.[dev,api]'
 cp .env.example .env
 ```
 
-`.env` đã được Git bỏ qua. Runtime không đọc secret lúc import. Lệnh smoke provider bên dưới chỉ
-đọc file được chỉ định rõ bằng `--env-file`; các luồng khác vẫn nhận cấu hình từ environment.
+`.env` đã được Git bỏ qua. Runtime không đọc secret lúc import. Lệnh smoke provider và HTTP API chỉ
+đọc file khi được chỉ định rõ bằng `--env-file`; các luồng khác vẫn nhận cấu hình từ environment.
+File mẫu mặc định dùng `mock`; chỉ đổi sang LiteLLM/OpenAI khi đã có endpoint HTTPS và secret hợp lệ.
 
 ## Chạy chatbot
 
@@ -68,11 +69,12 @@ Terminal 1 — chạy Python Chat API:
 
 ```powershell
 .venv\Scripts\Activate.ps1
-$env:VNEGUIDE_LLM_PROVIDER="openai"
-$env:VNEGUIDE_MODEL="<model>"
-$env:VNEGUIDE_API_KEY="<secret>"
-python -m vneguide.api
+python -m vneguide.api --env-file .env
 ```
+
+`--env-file` là opt-in tường minh cho local development; file chỉ được đọc các khóa LLM trong danh
+sách cho phép. Có thể bỏ tùy chọn này khi provider/model/key đã được đặt trực tiếp trong process
+environment.
 
 Terminal 2 — chạy Next.js:
 
@@ -96,8 +98,8 @@ trợ. Chatbox chỉ cảnh báo phạm vi và không được tự suy đoán c
 Các biến mẫu nằm trong `.env.example`:
 
 ```text
-VNEGUIDE_LLM_PROVIDER=litellm
-VNEGUIDE_MODEL=Qwen/Qwen3.5-9B
+VNEGUIDE_LLM_PROVIDER=mock
+VNEGUIDE_MODEL=mock-scripted
 VNEGUIDE_LITELLM_BASE_URL=https://litellm.example.invalid
 VNEGUIDE_LITELLM_API_KEY=
 VNEGUIDE_LITELLM_ALLOW_INSECURE_HTTP=0
@@ -110,6 +112,7 @@ VNEGUIDE_RUN_LIVE_SMOKE=0
 Không commit `.env`, API key, dữ liệu cá nhân thật hoặc transcript chứa số định danh đầy đủ. Dữ liệu test trong repo phải là dữ liệu giả.
 
 `VNEGUIDE_LLM_PROVIDER` là tên provider (`mock`, `openai` hoặc `litellm`), không phải URL.
+Để dùng LiteLLM, đổi provider thành `litellm`, đặt model ID đã deploy và cung cấp endpoint/key hợp lệ.
 `openai` tiếp tục dùng endpoint HTTPS chính thức đã khóa cứng. `litellm` dùng base URL riêng và
 tự nối `/v1/chat/completions`. HTTP bị từ chối mặc định; chỉ bật
 `VNEGUIDE_LITELLM_ALLOW_INSECURE_HTTP=1` cho gateway dev tin cậy và dữ liệu tổng hợp. Bearer key,
@@ -159,6 +162,8 @@ python -m pytest tests/integration/test_live_smoke.py -m live
 Stack release giữ đồng thời LiteLLM/OpenAI/mock provider, FastAPI, Next.js và một gateway chung:
 
 ```powershell
+$env:VNEGUIDE_LLM_PROVIDER="mock"
+$env:VNEGUIDE_MODEL="mock-scripted"
 docker compose -f deployment/docker-compose.yml up --build --detach --wait
 python deployment/scripts/smoke.py `
   --api-url http://127.0.0.1:8080 `

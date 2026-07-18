@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Fail a release when tracked files contain common secret, PII, or merge artifacts."""
+"""Audit selected staged UTF-8 text for common secrets, IDs, and merge artifacts.
+
+This bounded pattern scan is not a comprehensive PII detector or Git-history scanner.
+"""
 
 from __future__ import annotations
 
@@ -17,6 +20,7 @@ TEXT_SUFFIXES = {
     ".js",
     ".json",
     ".jsonl",
+    ".lock",
     ".md",
     ".mjs",
     ".py",
@@ -31,11 +35,12 @@ TEXT_SUFFIXES = {
 ALLOWED_ENV_FILES = {".env.example", ".env.local.example"}
 SYNTHETIC_DATA_PREFIXES = ("data/evaluation/", "tests/")
 
-CONFLICT_PATTERN = re.compile(r"(?m)^(?:<{7} |={7}$|>{7} )")
+CONFLICT_PATTERN = re.compile(r"(?m)^(?:<{7}(?: .*)?|={7}|>{7}(?: .*)?|\|{7}(?: .*)?)$")
 PERSONAL_ID_PATTERN = re.compile(r"(?<!\d)\d{12}(?!\d)")
 SECRET_PATTERNS = {
     "private_key": re.compile(r"-----BEGIN (?:[A-Z ]+ )?PRIVATE KEY-----"),
     "github_token": re.compile(r"\bgh[pousr]_[A-Za-z0-9]{30,}\b"),
+    "github_fine_grained_token": re.compile(r"\bgithub_pat_[A-Za-z0-9_]{22,}\b"),
     "openai_key": re.compile(r"\bsk-[A-Za-z0-9_-]{20,}\b"),
     "aws_access_key": re.compile(r"\b(?:AKIA|ASIA)[A-Z0-9]{16}\b"),
     "google_api_key": re.compile(r"\bAIza[A-Za-z0-9_-]{35}\b"),

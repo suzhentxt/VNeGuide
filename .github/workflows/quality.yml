@@ -50,6 +50,9 @@ jobs:
   containers:
     runs-on: ubuntu-latest
     needs: [python, web]
+    env:
+      VNEGUIDE_LLM_PROVIDER: mock
+      VNEGUIDE_MODEL: mock-scripted
     steps:
       - uses: actions/checkout@v4
       - run: docker compose -f deployment/docker-compose.yml config --quiet
