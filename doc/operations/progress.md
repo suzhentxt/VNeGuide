@@ -16,10 +16,16 @@
 - UI chỉ còn hai kết quả cuối: `Không hợp lệ` cho `fail`/`needs_review`/lỗi, và
   `Hợp lệ, tài liệu sẽ cần kiểm tra chính thức` cho `pass`. Chỉ `pass` mở gate; không còn cách xác nhận
   thủ công để biến kết quả chưa rõ thành hợp lệ.
-- Ngưỡng pass được hạ theo yêu cầu xuống `0.75` cho cả confidence tổng thể và toàn bộ tiêu chí bắt buộc.
-  Regression xác nhận `0.74` không pass, `0.75` pass và mapping đúng hai trạng thái UI.
+- Ngưỡng pass hiện là `0.80` cho cả confidence tổng thể và toàn bộ tiêu chí bắt buộc. Regression xác nhận
+  `0.79` không pass, `0.80` pass và mapping đúng hai trạng thái UI.
+- OCR worker hỗ trợ `--env-file .env`; nếu `VNEGUIDE_OCR_OPENAI_API_KEY` trống thì dùng lại
+  `VNEGUIDE_API_KEY` của chatbot. Worker bearer token vẫn tách riêng và chỉ chia sẻ giữa worker với BFF,
+  không tái sử dụng OpenAI key làm token nội bộ.
+- Live end-to-end qua đúng đường `frontend :3000 → BFF → worker :8010 → OpenAI gpt-5.5` đạt với hai
+  fixture tổng hợp: `legal_dwelling` pass 4/4 check trong 5,140 ms; `minor_consent` pass 4/4 check trong
+  3,907 ms. Health worker là `ready`; frontend không cần restart vì dev server đã reload `.env.local`.
 - Xác minh hiện tại: frontend HTTP `200`, ESLint và typecheck đạt, 37 Node test đạt; OCR targeted
-  `10 passed`, Ruff và Mypy OCR đạt. Browser tích hợp không có phiên khả dụng nên chưa chụp/click UI trực
+  `15 passed`, Ruff và Mypy OCR đạt. Browser tích hợp không có phiên khả dụng nên chưa chụp/click UI trực
   tiếp; không chạy production build để tránh dừng dev server cổng 3000 mà người dùng đang sử dụng.
 
 ## 2026-07-19 — Mem0 long-term memory opt-in trên nhánh refactor
