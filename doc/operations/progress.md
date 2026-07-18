@@ -576,6 +576,42 @@ chưa tạo commit follow-up. Không công bố metric accuracy model từ fixtu
   revision và procedure không đổi.
 - Chưa push; tạo một commit follow-up trên `agent/senior-conversation-v2`.
 
+### 2026-07-19 — STT phương án 1 với Qwen3-ASR-1.7B từ xa
+
+- Thêm route cùng origin `GET/POST /api/stt/transcribe` trong Next.js. BFF chỉ đọc key từ secret file,
+  chặn URL không an toàn/redirect, allowlist MIME, giới hạn body 10 MiB, client-declared duration 60
+  giây, timeout 180 giây, transcript 4.000 ký tự và provider response 64 KiB. Audio/transcript không
+  được log.
+- Chat widget hỗ trợ `MediaRecorder`, stop tự động, fallback chọn tệp, cleanup stream/abort và trạng
+  thái accessible. Transcript chỉ được ghép vào draft rồi focus textarea; không gọi send/submit.
+- Compose mặc định giữ STT tắt. Overlay `docker-compose.stt-remote.yml` mount API key qua Compose
+  secret và trỏ tới OpenAI-compatible `/v1/audio/transcriptions` trên máy GPU; Qwen không chạy trên
+  VPS ứng dụng không có GPU.
+- Gateway chỉ nới upload tại đúng route STT, rate-limit audio POST 5/phút/IP, một request đồng thời/IP,
+  không buffer toàn bộ request xuống đĩa và chờ BFF tối đa 195 giây. Kho `data/procedures` không bị
+  loại khỏi Docker context.
+- Ranh giới 60 giây ở BFF là pre-check UX vì header client không đáng tin. Trước khi kích hoạt thật,
+  GPU ingress bắt buộc phải probe thời lượng media, chặn trên 60 giây trước inference và áp quota/
+  concurrency theo key.
+- Gate đạt: backend baseline `7 passed`; frontend `npm run check` đạt lint, typecheck, `44 passed` và
+  production build 26 route; smoke Next+BFF+provider giả lập trả transcript đúng, MIME sai `415`, quá
+  thời lượng khai báo `400`.
+- Full-index release audit không hoàn tất trong timeout 120 giây trên Windows; bounded scan đúng 18
+  staged file đạt, không thấy secret, private key, tracked env, conflict marker hoặc định danh 12 số.
+- Browser E2E chưa chạy vì phiên công cụ không có browser instance. Public `http://IP:9000` không phải
+  secure context cho microphone; có thể test mic qua `localhost`/SSH tunnel, còn production cần domain
+  HTTPS hợp lệ.
+- App-side release đã deploy lên VPS tại `/opt/vneguide/releases/48c7582e-stt1`; symlink `current` đã
+  chuyển sang release này. Web image là
+  `sha256:52c3598c24c97b76a2f6e1ebc7f88ca33c72459310e92600c6a36290717065bd`.
+- Post-deploy smoke đạt: `/health` 200; STT status 200 và `enabled=false`; POST STT trả typed 503 khi
+  chưa có provider; chat BFF create/get/delete đạt `201/200/204`. API, web, gateway healthy; translator
+  và Caddy không bị recreate.
+- Gateway runtime `nginx -T` có exact STT location, body 10 MiB, rate/concurrency limit và
+  `proxy_request_buffering off`. Cấu hình trước deploy được giữ tại
+  `/opt/vneguide/shared/nginx-http.conf.before-stt-20260719`; web rollback image giữ tag
+  `vneguide-web:rollback-df97f0321f25`. Hai file upload tạm đã xóa khỏi `/tmp`.
+
 ### 2026-07-18 — Chuẩn bị Vercel production
 
 - Project Vercel `trinhs-projects-e6e09c31/vneguide` đã được tạo với Root Directory `demoweb`,

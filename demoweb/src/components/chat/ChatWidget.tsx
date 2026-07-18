@@ -7,16 +7,19 @@ import {
   ChevronDown,
   FolderHeart,
   MessageCircle,
+  Mic,
   Paperclip,
   RefreshCw,
   RotateCw,
   Send,
   ShieldCheck,
   Sparkles,
+  Square,
+  Upload,
   X,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import {
   getChatSessionContext,
@@ -29,6 +32,7 @@ import { DocumentUploadCard } from "@/components/ocr/DocumentUploadCard";
 import { useProcedureWorkspace } from "@/components/workspace/ProcedureWorkspaceProvider";
 import { getChatValidationPresentation } from "@/lib/chat-presentation";
 import { getChatReplyOptions } from "@/lib/chat-reply-options";
+import { AUDIO_FILE_ACCEPT, mergeTranscriptIntoDraft } from "@/lib/stt";
 import {
   createWallet,
   INFORMATION_WALLET_KEY,
@@ -42,6 +46,7 @@ import { ChatSection } from "./ChatSection";
 import { SuggestionCard } from "./SuggestionCard";
 import { TypingIndicator } from "./TypingIndicator";
 import { useChatSession } from "./useChatSession";
+import { useSpeechToText } from "./useSpeechToText";
 import { toast } from "@/components/ui/sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -91,6 +96,7 @@ export function ChatWidget() {
   const [fieldEntry, setFieldEntry] = useState({ fieldId: "", value: "" });
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const audioFileInputRef = useRef<HTMLInputElement>(null);
   const {
     session,
     turn,
@@ -105,6 +111,11 @@ export function ChatWidget() {
     resolveSuggestion,
     resetSession,
   } = useChatSession(context);
+  const applyTranscript = useCallback((transcript: string) => {
+    setDraft((currentDraft) => mergeTranscriptIntoDraft(currentDraft, transcript));
+    window.requestAnimationFrame(() => inputRef.current?.focus());
+  }, []);
+  const speech = useSpeechToText({ active: open, onTranscript: applyTranscript });
 
   const inferredProcedure = turn?.procedure
     ? getProcedureContextByCode(turn.procedure.code)
@@ -226,7 +237,7 @@ export function ChatWidget() {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const message = draft.trim();
-    if (!message || busy) return;
+    if (!message || busy || speech.phase !== "idle") return;
     setDraft("");
     await sendMessage(message);
     inputRef.current?.focus();
@@ -780,6 +791,20 @@ export function ChatWidget() {
             <p className="mb-2 text-sm text-[#667085]">
               Bạn có thể chọn câu trả lời gợi ý hoặc nhập bằng lời của mình.
             </p>
+            <input
+              accept={AUDIO_FILE_ACCEPT}
+              aria-label="Chọn tệp âm thanh để chuyển thành văn bản"
+              className="sr-only"
+              disabled={busy || speech.phase !== "idle"}
+              onChange={(event) => {
+                const file = event.currentTarget.files?.[0];
+                event.currentTarget.value = "";
+                if (file) void speech.transcribeFile(file);
+              }}
+              ref={audioFileInputRef}
+              tabIndex={-1}
+              type="file"
+            />
             <div className="flex items-end gap-2 rounded-xl border border-[#c9cdcf] bg-white p-2 focus-within:border-[#ce7a58] focus-within:ring-2 focus-within:ring-[#ce7a58]/20">
               <button
                 aria-label="Tải tài liệu OCR"
@@ -807,15 +832,79 @@ export function ChatWidget() {
                 rows={1}
                 value={draft}
               />
+              {speech.enabled && speech.phase === "recording" ? (
+                <button
+                  aria-describedby="chat-stt-status"
+                  aria-label="Dừng ghi âm và chuyển thành văn bản"
+                  aria-pressed="true"
+                  className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-[#a12f2f] text-white hover:bg-[#842525] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#903938]"
+                  onClick={speech.stopRecording}
+                  title="Dừng ghi âm"
+                  type="button"
+                >
+                  <Square className="size-4 fill-current" aria-hidden="true" />
+                </button>
+              ) : speech.enabled && speech.canRecord ? (
+                <button
+                  aria-describedby="chat-stt-status"
+                  aria-label="Bắt đầu nhập bằng giọng nói"
+                  className="flex size-11 shrink-0 items-center justify-center rounded-lg border border-[#c9cdcf] bg-white text-[#704238] hover:border-[#ce7a58] hover:bg-[#fff8f5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#903938] disabled:cursor-not-allowed disabled:opacity-50"
+                  disabled={busy || speech.phase !== "idle"}
+                  onClick={() => void speech.startRecording()}
+                  title="Nhập bằng giọng nói"
+                  type="button"
+                >
+                  <Mic className="size-5" aria-hidden="true" />
+                </button>
+              ) : null}
+              {speech.enabled ? (
+                <button
+                  aria-describedby="chat-stt-status"
+                  aria-label="Chọn tệp âm thanh để chuyển thành văn bản"
+                  className="flex size-11 shrink-0 items-center justify-center rounded-lg border border-[#c9cdcf] bg-white text-[#704238] hover:border-[#ce7a58] hover:bg-[#fff8f5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#903938] disabled:cursor-not-allowed disabled:opacity-50"
+                  disabled={busy || speech.phase !== "idle"}
+                  onClick={() => audioFileInputRef.current?.click()}
+                  title="Chọn tệp âm thanh"
+                  type="button"
+                >
+                  <Upload className="size-5" aria-hidden="true" />
+                </button>
+              ) : null}
               <button
                 aria-label="Gửi tin nhắn"
                 className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-[#ce7a58] text-white hover:bg-[#b96749] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#903938] disabled:cursor-not-allowed disabled:opacity-50"
-                disabled={busy || !draft.trim()}
+                disabled={busy || speech.phase !== "idle" || !draft.trim()}
                 type="submit"
               >
                 <Send className="size-5" aria-hidden="true" />
               </button>
             </div>
+            <div
+              aria-live="polite"
+              className="mt-2 min-h-5 text-xs leading-5 text-[#667085]"
+              id="chat-stt-status"
+            >
+              {speech.checking
+                ? "Đang kiểm tra tính năng nhập bằng giọng nói…"
+                : speech.enabled && speech.phase === "requesting"
+                  ? "Đang chờ quyền sử dụng mic…"
+                  : speech.enabled && speech.phase === "recording"
+                    ? `Đang ghi âm. Bản ghi sẽ tự dừng sau tối đa ${speech.maxDurationSeconds} giây.`
+                    : speech.enabled && speech.phase === "transcribing"
+                      ? "Đang chuyển giọng nói thành văn bản…"
+                      : speech.enabled && !speech.microphoneSupported && speech.phase === "idle"
+                        ? "Mic không khả dụng tại địa chỉ này; bạn vẫn có thể chọn một tệp âm thanh."
+                        : null}
+            </div>
+            {speech.error ? (
+              <div
+                className="mt-1 flex items-start gap-2 rounded-lg border border-[#efb4b4] bg-[#fff1f1] p-2 text-xs leading-5 text-[#8b1e1e]"
+                role="alert"
+              >
+                <AlertTriangle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+                <p>{speech.error}</p>
+              </div>
+            ) : null}
             {draft.length > 0 ? (
               <p className={`mt-1 text-right text-xs ${draft.length > 3500 ? "text-[#8b1e1e]" : "text-[#9299a2]"}`}>
                 {draft.length}/4000

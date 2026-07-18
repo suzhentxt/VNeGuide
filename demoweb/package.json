@@ -12,7 +12,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --test src/lib/procedure-workspace-reducer.test.ts src/lib/chat-presentation.test.ts src/lib/chat-reply-options.test.ts src/lib/guided-application.test.ts src/lib/procedure-selection.test.ts src/lib/document-validation.test.ts src/data/chat-scope.test.ts",
+    "test": "node --test src/lib/procedure-workspace-reducer.test.ts src/lib/chat-presentation.test.ts src/lib/chat-reply-options.test.ts src/lib/guided-application.test.ts src/lib/procedure-selection.test.ts src/lib/document-validation.test.ts src/lib/stt.test.ts src/lib/server/stt-audio.test.ts src/lib/server/stt-client.test.ts src/data/chat-scope.test.ts",
     "test:e2e": "playwright test",
     "test:e2e:debug": "playwright test --debug",
     "typecheck": "tsc --noEmit",

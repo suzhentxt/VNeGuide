@@ -444,3 +444,27 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
 - Full Python gate đạt `309 passed`, `2 skipped`, coverage `80.61%`; npm gate đạt 22 test và build 25
   route. Bước tiếp theo sau push là chờ CI xanh, chờ Render deploy đúng SHA rồi public smoke bằng
   session mới; in-app Browser không khả dụng trong phiên này.
+
+## Bàn giao STT phương án 1 — 2026-07-19
+
+- App-side integration đã hoàn thành trên nhánh `agent/stt-integration`: browser → Next BFF
+  `/api/stt/transcribe` → remote OpenAI-compatible Qwen3-ASR-1.7B → draft chat. Không auto-send.
+- Base stack giữ STT disabled và health độc lập. Overlay kích hoạt là
+  `deployment/docker-compose.stt-remote.yml`; trên VPS hiện tại luôn ghép thêm
+  `deployment/docker-compose.vps.yml` và `--env-file /opt/vneguide/shared/vneguide.env` để không đụng
+  translator hoặc đổi các port `9000/13000/18000`.
+- VPS hiện tại không có GPU và data mount hiện chỉ khoảng 448 KiB; không được cố chạy model 1.7B tại
+  đó. Việc kích hoạt còn thiếu hai input vận hành: URL/key của GPU endpoint có hard duration/quota và
+  một domain HTTPS hợp lệ (hoặc chỉ test microphone qua SSH tunnel/localhost).
+- Gate app-side: Python targeted 7/7, frontend 44/44 + lint/typecheck/build, BFF smoke success/415/400;
+  bounded staged audit 18 file đạt sau khi full-index audit timeout 120 giây. Browser interaction chưa
+  chạy do không có browser instance trong phiên này.
+- App-side release đã deploy tại `/opt/vneguide/releases/48c7582e-stt1`; health đạt, STT status trả
+  `enabled=false`, chat create/get/delete đạt `201/200/204`, translator/Caddy không bị recreate. Web
+  image mới là `sha256:52c3598c24c97b76a2f6e1ebc7f88ca33c72459310e92600c6a36290717065bd`.
+- Rollback: cấu hình gateway cũ ở
+  `/opt/vneguide/shared/nginx-http.conf.before-stt-20260719`, web image cũ có tag
+  `vneguide-web:rollback-df97f0321f25`, release cũ là `/opt/vneguide/releases/df97f0321f25`.
+- Bước tiếp theo cụ thể: người vận hành cung cấp GPU URL/key và HTTPS domain; xác minh GPU ingress tự
+  probe duration/quota, bật overlay STT cùng overlay VPS, chạy audio tiếng Việt tổng hợp, kiểm tra
+  transcript chỉ nằm trong textarea và thử actual-duration trên 60 giây.

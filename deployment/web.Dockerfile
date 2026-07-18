@@ -21,7 +21,8 @@ ENV HOSTNAME=0.0.0.0 \
     PORT=3000 \
     VNEGUIDE_API_BASE_URL=http://api:8000
 
-RUN addgroup --system --gid 10001 vneguide \
+RUN apk add --no-cache ffmpeg \
+    && addgroup --system --gid 10001 vneguide \
     && adduser --system --uid 10001 --ingroup vneguide vneguide
 
 COPY --from=builder --chown=vneguide:vneguide /app/.next/standalone ./
