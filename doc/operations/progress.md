@@ -1,5 +1,24 @@
 # Nhật ký tiến độ VNeGuide
 
+## 2026-07-18 — Khắc phục chatbot web không phản hồi
+
+- Xác định hai nguyên nhân độc lập: mọi câu guidance trên route đã seed vẫn gọi extractor trước, và
+  process demo ban đầu không có network egress tới LiteLLM nên trả `provider_error`.
+- Thêm whole-message allowlist để bảy topic guidance thuần được trả trực tiếp từ procedure pack đã
+  review. Câu có field/nội dung hỗn hợp/thủ tục khác vẫn qua extractor; draft, revision và suggestion
+  contract không đổi.
+- Thêm guard ngữ cảnh fail-closed: sau `unsupported`, `ambiguous`, procedure switch hoặc provider
+  failure, câu mơ hồ không được gán fact của route cũ; nhắc rõ active procedure có thể phục hồi.
+- Full Python gate đạt `265 passed, 2 skipped`, coverage `80.27%`; compile, Ruff lint/format và mypy
+  strict đều đạt. Next gate đạt lint, typecheck, 9 reducer tests, production build 25 route; npm audit
+  báo `0 vulnerabilities`.
+- Provider smoke đạt `MODEL_SMOKE_OK`, provider `litellm`, model `Qwen/Qwen3.5-9B`, structured output,
+  timestamp `2026-07-18T11:40:42Z`. A/B deterministic vẫn đạt `12/12` fact/topic/source, không thêm
+  model call, timestamp `2026-07-18T11:41:32Z`.
+- BFF smoke trên `http://127.0.0.1:13000`: session route `1.004194` trả phí đúng với
+  `present_guidance`; câu tổng hợp “Tôi đăng ký trực tuyến.” đi qua model và tạo pending suggestion
+  `submission_channel=online`. Không dùng PII thật và không ghi raw provider response.
+
 ## 2026-07-18 — Thử nghiệm grounded conversational core
 
 - Tạo nhánh `experiment/chat-core-v2` từ `dev@48f9c1f`; mọi thay đổi nằm trong worktree riêng, không

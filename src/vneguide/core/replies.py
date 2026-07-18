@@ -139,6 +139,61 @@ class CatalogReplyComposer:
         "postal": "qua bưu chính",
     }
 
+    _CONTEXTUAL_PATTERNS: Mapping[GuidanceTopic, tuple[str, ...]] = {
+        GuidanceTopic.FEE: (
+            r"(?:co )?(?:le )?phi(?: la)? bao nhieu",
+            r"(?:co )?(?:mat|thu) (?:le )?phi khong",
+            r"(?:co )?mien (?:le )?phi khong",
+            r"chi phi(?: la)? bao nhieu",
+            r"bao nhieu tien",
+        ),
+        GuidanceTopic.PROCESSING_TIME: (
+            r"(?:mat )?bao lau",
+            r"(?:mat )?may ngay",
+            r"(?:thoi gian|thoi han) giai quyet(?: la)? (?:bao lau|may ngay)",
+            r"khi nao co ket qua",
+        ),
+        GuidanceTopic.CHECKLIST: (
+            r"(?:can )?(?:chuan bi )?(?:nhung )?(?:ho so|giay to)(?: gi| nao)?",
+            r"(?:ho so|giay to) (?:can|gom|co) (?:nhung )?gi",
+            r"can nop nhung gi",
+            r"can chuan bi gi",
+            r"tai lieu nao",
+        ),
+        GuidanceTopic.STEPS: (
+            r"(?:cac )?buoc(?: thuc hien)?(?: la gi| the nao)?",
+            r"huong dan(?: cac buoc| lam thu tuc)?",
+            r"quy trinh(?: thuc hien)?(?: la gi| the nao)?",
+            r"lam thu tuc the nao",
+            r"bat dau tu dau",
+        ),
+        GuidanceTopic.AUTHORITY: (
+            r"(?:nop|den) o dau",
+            r"(?:co quan|don vi) nao giai quyet",
+            r"ai giai quyet",
+            r"noi giai quyet",
+        ),
+        GuidanceTopic.CHANNELS: (
+            r"(?:co )?nop (?:online|truc tuyen|truc tiep|qua buu chinh|buu chinh)(?: duoc)? khong",
+            r"(?:kenh|cach) nop(?: la gi| nao| the nao)?",
+            r"nop bang cach nao",
+            r"co gui buu (?:dien|chinh)",
+        ),
+        GuidanceTopic.RESULT: (
+            r"(?:toi )?nhan duoc gi",
+            r"ket qua(?: cua thu tuc)? la gi",
+            r"duoc cap gi",
+            r"tra ket qua(?: gi)?",
+        ),
+    }
+
+    _CONTEXTUAL_FILLER_PATTERNS = (
+        r"\bvui long\b",
+        r"\bcho toi biet\b",
+        r"\btoi muon biet\b",
+        r"\bthu tuc nay\b",
+    )
+
     def __init__(self, repository: ProcedureRepository) -> None:
         self._repository = repository
 
@@ -157,12 +212,66 @@ class CatalogReplyComposer:
         text, source_ids = self._render(topic, pack)
         return GroundedReply(text=text, topic=topic, source_ids=source_ids)
 
+    def compose_contextual(
+        self,
+        *,
+        procedure_code: ProcedureCode,
+        message: str,
+        allow_implicit_context: bool = True,
+    ) -> GroundedReply | None:
+        """Answer only a pure guidance follow-up for an already active procedure.
+
+        The full-match allowlist prevents a message about another procedure or
+        a message carrying form values from bypassing structured extraction.
+        """
+
+        if not isinstance(message, str) or not message.strip():
+            return None
+        normalized = _normalize_vietnamese(message)
+        pack = self._repository.get_by_code(procedure_code)
+        contextual_text, has_active_reference = self._contextual_text(normalized, pack)
+        if not allow_implicit_context and not has_active_reference:
+            return None
+        topic = next(
+            (
+                candidate
+                for candidate, patterns in self._CONTEXTUAL_PATTERNS.items()
+                if any(re.fullmatch(pattern, contextual_text) for pattern in patterns)
+            ),
+            None,
+        )
+        if topic is None:
+            return None
+        text, source_ids = self._render(topic, pack)
+        return GroundedReply(text=text, topic=topic, source_ids=source_ids)
+
     @classmethod
     def _select_topic(cls, normalized_message: str) -> GuidanceTopic | None:
         for topic, patterns in cls._TOPIC_PATTERNS:
             if any(re.search(pattern, normalized_message) for pattern in patterns):
                 return topic
         return None
+
+    @classmethod
+    def _contextual_text(cls, value: str, pack: ProcedurePack) -> tuple[str, bool]:
+        references = [pack.procedure_name]
+        aliases = pack.routing.get("aliases")
+        if isinstance(aliases, tuple):
+            references.extend(alias for alias in aliases if isinstance(alias, str))
+        has_active_reference = False
+        for reference in sorted(
+            (_normalize_vietnamese(item) for item in references),
+            key=len,
+            reverse=True,
+        ):
+            if reference:
+                pattern = rf"\b{re.escape(reference)}\b"
+                if re.search(pattern, value):
+                    has_active_reference = True
+                    value = re.sub(pattern, " ", value)
+        for pattern in cls._CONTEXTUAL_FILLER_PATTERNS:
+            value = re.sub(pattern, " ", value)
+        return " ".join(value.split()), has_active_reference
 
     def _render(
         self,

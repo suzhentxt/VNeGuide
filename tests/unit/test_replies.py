@@ -38,6 +38,7 @@ ROOT = Path(__file__).resolve().parents[2]
 class StubExtractor:
     def __init__(self, *outcomes: ExtractionOutcome) -> None:
         self._outcomes = deque(outcomes)
+        self.calls: list[tuple[str, ExtractionTurnContext | None]] = []
 
     def extract(
         self,
@@ -45,7 +46,7 @@ class StubExtractor:
         *,
         context: ExtractionTurnContext | None = None,
     ) -> ExtractionOutcome:
-        del context
+        self.calls.append((_message, context))
         return self._outcomes.popleft()
 
 
@@ -164,6 +165,78 @@ def test_composer_ignores_empty_input(repository: ProcedureRepository) -> None:
     )
 
 
+@pytest.mark.parametrize(
+    ("message", "topic", "expected_text"),
+    (
+        ("Lệ phí bao nhiêu?", GuidanceTopic.FEE, "7.000 đồng"),
+        ("Mất bao lâu?", GuidanceTopic.PROCESSING_TIME, "03 ngày làm việc"),
+        ("Cần những giấy tờ gì?", GuidanceTopic.CHECKLIST, "Tờ khai thay đổi"),
+        ("Hướng dẫn các bước", GuidanceTopic.STEPS, "Các bước thực hiện"),
+        ("Nộp ở đâu?", GuidanceTopic.AUTHORITY, "Công an cấp xã"),
+        ("Có nộp online được không?", GuidanceTopic.CHANNELS, "trực tuyến"),
+        ("Tôi nhận được gì?", GuidanceTopic.RESULT, "Kết quả của thủ tục"),
+    ),
+)
+def test_contextual_composer_accepts_only_whole_guidance_questions(
+    repository: ProcedureRepository,
+    message: str,
+    topic: GuidanceTopic,
+    expected_text: str,
+) -> None:
+    reply = CatalogReplyComposer(repository).compose_contextual(
+        procedure_code=ProcedureCode("1.004194"),
+        message=message,
+    )
+
+    assert reply is not None
+    assert reply.topic is topic
+    assert expected_text in reply.text
+
+
+@pytest.mark.parametrize(
+    "message",
+    (
+        "Lệ phí đăng ký kết hôn bao nhiêu?",
+        "Tôi nộp online, lệ phí bao nhiêu?",
+        "Không phải đăng ký tạm trú, lệ phí bao nhiêu?",
+        "Lệ phí bao nhiêu và mất bao lâu?",
+        "Hôm nay trời đẹp không?",
+        "   ",
+    ),
+)
+def test_contextual_composer_fails_closed_for_non_guidance_only_messages(
+    repository: ProcedureRepository,
+    message: str,
+) -> None:
+    reply = CatalogReplyComposer(repository).compose_contextual(
+        procedure_code=ProcedureCode("1.004194"),
+        message=message,
+    )
+
+    assert reply is None
+
+
+def test_contextual_composer_requires_explicit_active_reference_when_requested(
+    repository: ProcedureRepository,
+) -> None:
+    composer = CatalogReplyComposer(repository)
+
+    implicit = composer.compose_contextual(
+        procedure_code=ProcedureCode("1.004194"),
+        message="Lệ phí bao nhiêu?",
+        allow_implicit_context=False,
+    )
+    explicit = composer.compose_contextual(
+        procedure_code=ProcedureCode("1.004194"),
+        message="Đăng ký tạm trú: lệ phí bao nhiêu?",
+        allow_implicit_context=False,
+    )
+
+    assert implicit is None
+    assert explicit is not None
+    assert "7.000 đồng" in explicit.text
+
+
 def test_composer_fails_closed_for_invalid_reviewed_service_data(
     repository: ProcedureRepository,
 ) -> None:
@@ -260,28 +333,138 @@ def test_guidance_only_turn_preserves_workflow_state(
     assert result.state.turn_number == before.turn_number + 1
 
 
-def test_mixed_guidance_and_field_extraction_keeps_suggestion_contract(
+@pytest.mark.parametrize(
+    ("code", "message", "expected_text"),
+    (
+        ("2.000635", "Lệ phí bao nhiêu?", "8.000 đồng"),
+        ("1.013314", "Mất bao lâu?", "02 ngày làm việc"),
+        ("1.004194", "Nộp ở đâu?", "Công an cấp xã"),
+    ),
+)
+def test_route_seeded_guidance_does_not_call_extractor(
     repository: ProcedureRepository,
+    code: str,
+    message: str,
+    expected_text: str,
 ) -> None:
+    extractor = StubExtractor()
     session = ConversationSession(
-        StubExtractor(
-            outcome(
-                "1.004194",
-                fields={"submission_channel": "online"},
-            )
-        ),
+        extractor,
         repository,
         reply_composer=CatalogReplyComposer(repository),
     )
+    session.initialize_procedure(code)
+    before = session.state
+
+    result = session.send(message)
+
+    assert result.next_action is NextAction.PRESENT_GUIDANCE
+    assert expected_text in result.reply
+    assert extractor.calls == []
+    assert result.state.draft == before.draft
+    assert result.state.suggestions == before.suggestions
+    assert result.state.turn_number == 1
+    assert set(result.source_ids) <= set(repository.get_by_code(code).source_ids)
+
+
+@pytest.mark.parametrize(
+    ("first_message", "first_outcome"),
+    (
+        ("Tôi muốn đăng ký kết hôn", outcome(None, classification="unsupported")),
+        ("Tôi muốn xin bản sao giấy khai sinh", outcome("2.000635")),
+    ),
+)
+def test_implicit_guidance_is_blocked_after_context_shift(
+    repository: ProcedureRepository,
+    first_message: str,
+    first_outcome: ExtractionOutcome,
+) -> None:
+    extractor = StubExtractor(
+        first_outcome,
+        outcome(None, classification="ambiguous"),
+    )
+    session = ConversationSession(
+        extractor,
+        repository,
+        reply_composer=CatalogReplyComposer(repository),
+    )
+    session.initialize_procedure("1.004194")
+
+    session.send(first_message)
+    result = session.send("Lệ phí bao nhiêu?")
+
+    assert len(extractor.calls) == 2
+    assert result.next_action is not NextAction.PRESENT_GUIDANCE
+    assert "7.000 đồng" not in result.reply
+    assert "15.000 đồng" not in result.reply
+
+
+def test_explicit_active_procedure_restores_contextual_guidance(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor(outcome(None, classification="unsupported"))
+    session = ConversationSession(
+        extractor,
+        repository,
+        reply_composer=CatalogReplyComposer(repository),
+    )
+    session.initialize_procedure("1.004194")
+    session.send("Tôi muốn đăng ký kết hôn")
+
+    result = session.send("Đăng ký tạm trú: lệ phí bao nhiêu?")
+
+    assert len(extractor.calls) == 1
+    assert result.next_action is NextAction.PRESENT_GUIDANCE
+    assert "7.000 đồng" in result.reply
+
+
+def test_mixed_guidance_and_field_extraction_keeps_suggestion_contract(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor(
+        outcome(
+            "1.004194",
+            fields={"submission_channel": "online"},
+        )
+    )
+    session = ConversationSession(
+        extractor,
+        repository,
+        reply_composer=CatalogReplyComposer(repository),
+    )
+    session.initialize_procedure("1.004194")
 
     result = session.send("Tôi nộp online, lệ phí bao nhiêu?")
 
+    assert len(extractor.calls) == 1
     assert result.next_action is NextAction.CONFIRM_SUGGESTION
     assert "7.000 đồng" in result.reply
     assert "1 đề xuất" in result.reply
     assert result.draft == {}
     assert result.suggestions[-1].field_id == "submission_channel"
     assert result.suggestions[-1].suggested_value == "online"
+
+
+def test_contextual_guidance_preserves_pending_suggestion_priority(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor(outcome("1.004194", fields={"submission_channel": "online"}))
+    session = ConversationSession(
+        extractor,
+        repository,
+        reply_composer=CatalogReplyComposer(repository),
+    )
+    session.initialize_procedure("1.004194")
+    first = session.send("Tôi nộp online")
+
+    result = session.send("Lệ phí bao nhiêu?")
+
+    assert first.next_action is NextAction.CONFIRM_SUGGESTION
+    assert result.next_action is NextAction.CONFIRM_SUGGESTION
+    assert "7.000 đồng" in result.reply
+    assert "1 đề xuất" in result.reply
+    assert result.state.suggestions == first.state.suggestions
+    assert len(extractor.calls) == 1
 
 
 class FailingComposer:

@@ -3,13 +3,18 @@
 ## Nhánh thử nghiệm chat core
 
 - `experiment/chat-core-v2` đang tách từ `dev@48f9c1f` trong worktree riêng.
-- Guided reply layer đã đạt targeted core/API/release/eval `92 passed`, full Python
-  `243 passed, 2 skipped` với coverage `80.04%`, và A/B `12/12` fact/source;
+- Route-scoped pure guidance hiện bypass model bằng whole-message allowlist; mixed/form input vẫn qua
+  structured extraction. Context guard chặn dùng nhầm fact của route cũ sau out-of-scope, ambiguous,
+  procedure switch hoặc provider failure.
+- Guided reply layer đạt full Python `265 passed, 2 skipped` với coverage `80.27%`, và A/B `12/12`
+  fact/topic/source;
   dùng `VNEGUIDE_CHAT_CORE_VARIANT=baseline` để rollback tức thì.
-- Npm gate đạt `0 vulnerabilities`, 9 reducer tests và build 25 route; staged release audit đạt
-  `370` index file/`224` text file. Bước tiếp theo là thử UI/provider thật bằng dữ liệu tổng hợp nếu
-  có endpoint, sau đó chỉ cân nhắc merge khi review A/B; không thay coverage threshold, dataset
-  checksum hoặc source data.
+- Provider smoke đạt trên LiteLLM/Qwen và BFF smoke xác nhận cả guidance lẫn structured field
+  suggestion hoạt động bằng dữ liệu tổng hợp. Local demo đang chạy tại `http://127.0.0.1:13000`, API
+  tại `http://127.0.0.1:18000`; process phải có network egress tới gateway.
+- Npm gate đạt `0 vulnerabilities`, 9 reducer tests và build 25 route. Bước tiếp theo là review nhánh,
+  sau đó chỉ cân nhắc merge khi A/B và public deployment được chấp thuận; không thay coverage
+  threshold, dataset checksum hoặc source data.
 
 ## Trạng thái Git
 

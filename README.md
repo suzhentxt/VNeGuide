@@ -60,10 +60,12 @@ Mỗi lượt hiển thị câu trả lời, thủ tục nhận diện, dữ li�
 
 Hook mặc định `vneguide.core:create_session` đã được triển khai. Với mock provider không có response dựng sẵn, core trả fallback an toàn; để hội thoại bằng model thật cần cấu hình provider/model/key theo phần bên dưới. CLI không chứa business logic của core.
 
-Core mặc định dùng biến thể `guided`: sau khi structured extractor khóa đúng một trong ba mã thủ tục,
-chatbot có thể trả lời câu hỏi về lệ phí, thời gian giải quyết, hồ sơ, các bước, cơ quan, kênh nộp
-và kết quả. Nội dung được render trực tiếp từ procedure pack đã review và giữ `source_id`; lớp này
-không gọi thêm model, không đọc transcript/draft và không được thay đổi rule, revision hoặc suggestion.
+Core mặc định dùng biến thể `guided`. Khi route đã khóa đúng một trong ba mã thủ tục, câu hỏi thuần
+guidance như “Lệ phí bao nhiêu?” được trả trực tiếp trước structured extraction; chatbot vì vậy vẫn
+trình bày được phí, thời gian, hồ sơ, các bước, cơ quan, kênh nộp và kết quả khi provider chậm hoặc
+tạm thời không khả dụng. Matcher dùng whole-message allowlist; câu chứa field, thủ tục khác hoặc nội
+dung hỗn hợp vẫn đi qua extractor. Nội dung được render từ procedure pack đã review và giữ
+`source_id`; lớp này không đọc transcript/draft và không được thay đổi rule, revision hoặc suggestion.
 Đặt `VNEGUIDE_CHAT_CORE_VARIANT=baseline` để rollback/A-B mà không đổi API.
 
 ## Chạy HTTP API và demoweb

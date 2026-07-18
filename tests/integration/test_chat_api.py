@@ -250,6 +250,47 @@ async def test_chat_api_presents_grounded_guidance_without_mutating_draft() -> N
 
 
 @pytest.mark.anyio
+async def test_route_seeded_chat_api_serves_guidance_without_model() -> None:
+    repository = ProcedureRepository.discover()
+    extractor = StubExtractor()
+
+    def session_factory() -> ConversationSession:
+        return ConversationSession(
+            extractor,
+            repository,
+            reply_composer=CatalogReplyComposer(repository),
+        )
+
+    app = create_app(session_factory=session_factory, repository=repository)
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post(
+            "/v1/chat/sessions",
+            json={
+                "context": {
+                    "procedure_code": "1.004194",
+                    "procedure_title": "Đăng ký tạm trú",
+                    "route": "/hon-nhan-va-gia-dinh/dang-ky-tam-tru",
+                }
+            },
+        )
+        session_id = created.headers["X-VNeGuide-Session"]
+        turn = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "Lệ phí bao nhiêu?"},
+        )
+
+    assert created.status_code == 201
+    assert created.json()["context_supported"] is True
+    assert turn.status_code == 200
+    payload = turn.json()
+    assert payload["next_action"] == "present_guidance"
+    assert "7.000 đồng" in payload["reply"]
+    assert payload["draft"]["values"] == {}
+    assert payload["draft"]["revision"] == 0
+    assert extractor.calls == []
+
+
+@pytest.mark.anyio
 async def test_chat_api_keeps_compact_memory_across_multiple_turns() -> None:
     repository = ProcedureRepository.discover()
     extractor = StubExtractor(

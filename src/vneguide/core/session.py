@@ -66,6 +66,7 @@ class ConversationSession:
         self._reply_composer = reply_composer
         self._state = ConversationState()
         self._closed = False
+        self._contextual_reference_trusted = False
 
     @property
     def state(self) -> ConversationState:
@@ -90,10 +91,22 @@ class ConversationSession:
                 pack_version=pack.version,
             ),
         )
+        self._contextual_reference_trusted = True
 
     def send(self, message: str) -> TurnResult:
         self._ensure_open()
         active_code = self._state.draft.procedure_code
+        if active_code is not None:
+            contextual_reply = self._compose_contextual_grounded_reply(active_code, message)
+            if contextual_reply is not None:
+                self._contextual_reference_trusted = True
+                reply, action = self._reply_for_grounded_guidance(contextual_reply)
+                return self._finish_turn(
+                    message,
+                    reply,
+                    action,
+                    source_ids=contextual_reply.source_ids,
+                )
         previous_missing = (
             self._rules.missing_fields(active_code, self._state.draft.values)
             if active_code is not None
@@ -112,6 +125,7 @@ class ConversationSession:
         if outcome.classification == "unsupported":
             return self._unsupported(message)
         if outcome.classification == "ambiguous" or outcome.procedure_code is None:
+            self._contextual_reference_trusted = False
             if active_code is not None:
                 if previous_missing and not self._pending():
                     field_id = previous_missing[0]
@@ -134,11 +148,13 @@ class ConversationSession:
         code = ProcedureCode(outcome.procedure_code)
         current_code = self._state.draft.procedure_code
         if current_code is not None and current_code is not code:
+            self._contextual_reference_trusted = False
             return self._reply_without_draft_change(
                 message,
                 "Yêu cầu mới thuộc thủ tục khác. Hãy dùng /reset trước khi chuyển thủ tục.",
                 NextAction.ASK_CLARIFICATION,
             )
+        self._contextual_reference_trusted = True
 
         draft = self._state.draft
         if current_code is None:
@@ -187,20 +203,15 @@ class ConversationSession:
             asked_question_ids=self._state.asked_question_ids,
         )
         pending = self._pending()
-        if pending:
+        if grounded_reply is not None:
+            reply, action = self._reply_for_grounded_guidance(grounded_reply)
+        elif pending:
             confirmation = (
                 f"Tôi đã tạo {len(pending)} đề xuất. "
                 "Hãy Accept, Reject hoặc Edit từng đề xuất trước khi đi tiếp."
             )
-            reply = (
-                f"{grounded_reply.text}\n\n{confirmation}"
-                if grounded_reply is not None
-                else confirmation
-            )
+            reply = confirmation
             action = NextAction.CONFIRM_SUGGESTION
-        elif grounded_reply is not None:
-            reply = grounded_reply.text
-            action = NextAction.PRESENT_GUIDANCE
         else:
             reply, action = self._next_prompt(code)
         return self._finish_turn(
@@ -299,6 +310,7 @@ class ConversationSession:
     def close(self) -> None:
         self._state = ConversationState()
         self._closed = True
+        self._contextual_reference_trusted = False
 
     def _resolve_suggestion(
         self,
@@ -352,6 +364,7 @@ class ConversationSession:
         code = self._state.draft.procedure_code
         if code is None:
             raise RuntimeError("Conversation has no active procedure")
+        self._contextual_reference_trusted = True
         pending = self._pending()
         if pending:
             return self._build_result(
@@ -453,6 +466,7 @@ class ConversationSession:
         )
 
     def _technical_fallback(self, message: str, error_code: str) -> TurnResult:
+        self._contextual_reference_trusted = False
         key = "__extractor__"
         attempts = dict(self._state.clarification_attempts)
         attempts[key] = attempts.get(key, 0) + 1
@@ -473,6 +487,7 @@ class ConversationSession:
         self._state = replace(self._state, clarification_attempts=attempts)
 
     def _unsupported(self, message: str) -> TurnResult:
+        self._contextual_reference_trusted = False
         active_code = self._state.draft.procedure_code
         if active_code is not None:
             prompt, _action = self._resume_prompt(active_code)
@@ -505,16 +520,57 @@ class ConversationSession:
                 procedure_code=procedure_code,
                 message=message,
             )
-            if reply is None:
-                return None
-            reviewed_sources = set(self._repository.get_by_code(procedure_code).source_ids)
-            if not set(reply.source_ids).issubset(reviewed_sources):
-                return None
-            return reply
+            return self._reviewed_grounded_reply(procedure_code, reply)
         except Exception:
             # Reply composition is optional. Extraction and the deterministic
             # state machine remain available if the presentation layer fails.
             return None
+
+    def _compose_contextual_grounded_reply(
+        self,
+        procedure_code: ProcedureCode,
+        message: str,
+    ) -> GroundedReply | None:
+        if self._reply_composer is None:
+            return None
+        compose_contextual = getattr(self._reply_composer, "compose_contextual", None)
+        if not callable(compose_contextual):
+            return None
+        try:
+            reply = compose_contextual(
+                procedure_code=procedure_code,
+                message=message,
+                allow_implicit_context=self._contextual_reference_trusted,
+            )
+            if not isinstance(reply, GroundedReply):
+                return None
+            return self._reviewed_grounded_reply(procedure_code, reply)
+        except Exception:
+            return None
+
+    def _reviewed_grounded_reply(
+        self,
+        procedure_code: ProcedureCode,
+        reply: GroundedReply | None,
+    ) -> GroundedReply | None:
+        if reply is None:
+            return None
+        reviewed_sources = set(self._repository.get_by_code(procedure_code).source_ids)
+        if not set(reply.source_ids).issubset(reviewed_sources):
+            return None
+        return reply
+
+    def _reply_for_grounded_guidance(
+        self,
+        reply: GroundedReply,
+    ) -> tuple[str, NextAction]:
+        pending = self._pending()
+        if not pending:
+            return reply.text, NextAction.PRESENT_GUIDANCE
+        confirmation = (
+            f"Bạn còn {len(pending)} đề xuất cần Accept, Reject hoặc Edit trước khi đi tiếp."
+        )
+        return f"{reply.text}\n\n{confirmation}", NextAction.CONFIRM_SUGGESTION
 
     def _pending(self) -> tuple[FieldSuggestion, ...]:
         return tuple(
