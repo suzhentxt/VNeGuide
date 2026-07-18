@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+
+import { ChatWidget } from "@/components/chat/ChatWidget";
+import { ProcedureWorkspaceProvider } from "@/components/workspace/ProcedureWorkspaceProvider";
+
 import "./globals.css";
 
 const nunito = localFont({
@@ -92,7 +96,10 @@ export default function RootLayout({
             </p>
           </div>
         </aside>
-        {children}
+        <ProcedureWorkspaceProvider>
+          {children}
+          <ChatWidget />
+        </ProcedureWorkspaceProvider>
       </body>
     </html>
   );

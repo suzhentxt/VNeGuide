@@ -13,6 +13,8 @@
   sinh mới ngoài phạm vi, kể cả khi route tạm trú đang hoạt động. UI hiển thị “Hồ sơ chưa đủ thông
   tin” thay cho `ready_to_submit` khi còn missing field; backend rule status được giữ nguyên vì
   completeness là contract tách biệt.
+- Chat widget và workspace provider được mount ở root layout: trang chủ và mọi route đều hiện đúng
+  một nút trợ lý, trong khi form tạm trú vẫn chia sẻ cùng workspace với chat.
 - Guided reply layer đạt full Python `268 passed, 2 skipped`, và A/B `12/12` fact/topic/source;
   dùng `VNEGUIDE_CHAT_CORE_VARIANT=baseline` để rollback tức thì.
 - Provider/BFF smoke mới nhất dùng OpenAI/gpt-5.6-luna và xác nhận cả guidance lẫn structured field

@@ -1,5 +1,15 @@
 # Nhật ký tiến độ VNeGuide
 
+## 2026-07-18 — Hiển thị chatbot trên toàn bộ demoweb
+
+- Tái hiện trang chủ trả HTTP `200` nhưng không có nút chatbot: `ChatWidget` và workspace provider
+  chỉ được mount trong layout `/hon-nhan-va-gia-dinh`.
+- Chuyển `ProcedureWorkspaceProvider` và `ChatWidget` lên root layout, bỏ mount lặp ở layout con.
+  Chatbot giờ xuất hiện trên trang chủ và mọi route; các route thủ tục vẫn dùng chung workspace với
+  biểu mẫu như trước.
+- HTML smoke xác nhận cả `/` và hero tạm trú đều có đúng một nút `Mở trợ lý VNeGuide`, không bị render
+  trùng. `npm run check` đạt lint, typecheck, 11 test và production build 25 route.
+
 ## 2026-07-18 — Sửa phân loại “làm giấy khai sinh” và trạng thái hồ sơ
 
 - Tái hiện trên phiên route `1.004194`: câu “tôi muốn làm giấy khai sinh” từng bị model gán
