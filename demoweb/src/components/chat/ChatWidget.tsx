@@ -7,6 +7,7 @@ import {
   ChevronDown,
   FolderHeart,
   MessageCircle,
+  Paperclip,
   RefreshCw,
   RotateCw,
   Send,
@@ -86,6 +87,7 @@ export function ChatWidget() {
   });
   const [declarationCompleted, setDeclarationCompleted] = useState(false);
   const [documentStepActive, setDocumentStepActive] = useState(false);
+  const [showUploadPanel, setShowUploadPanel] = useState(false);
   const [fieldEntry, setFieldEntry] = useState({ fieldId: "", value: "" });
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -737,11 +739,48 @@ export function ChatWidget() {
             ) : null}
           </div>
 
+          {showUploadPanel ? (
+            <section className="border-t border-[#e2e6ea] bg-[#fffdf9] p-3">
+              <div className="mb-2 flex items-center justify-between">
+                <p className="flex items-center gap-1.5 text-xs font-extrabold tracking-wide text-[#903938] uppercase">
+                  <Paperclip className="size-4 shrink-0" />
+                  Tải tài liệu OCR
+                </p>
+                <button
+                  aria-label="Đóng phần tải tài liệu"
+                  className="flex size-8 items-center justify-center rounded-lg text-[#52606d] hover:bg-[#f1f3f5]"
+                  onClick={() => setShowUploadPanel(false)}
+                  type="button"
+                >
+                  <X className="size-4" aria-hidden="true" />
+                </button>
+              </div>
+              <p className="mb-3 text-sm leading-6 text-[#52606d]">
+                OCR hiện hỗ trợ kiểm tra giấy tờ thủ tục đăng ký tạm trú. Bạn có thể
+                tải tài liệu demo hoặc đã ẩn danh; OCR chỉ sàng lọc nhẹ và không kết
+                luận giá trị pháp lý.
+              </p>
+              <div className="space-y-3">
+                <DocumentUploadCard compact kind="legal_dwelling" />
+                <DocumentUploadCard compact kind="minor_consent" />
+              </div>
+            </section>
+          ) : null}
+
           <form className="border-t border-[#e2e6ea] bg-white p-3" onSubmit={submit}>
             <p className="mb-2 text-sm text-[#667085]">
               Bạn có thể chọn câu trả lời gợi ý hoặc nhập bằng lời của mình.
             </p>
             <div className="flex items-end gap-2 rounded-xl border border-[#c9cdcf] bg-white p-2 focus-within:border-[#ce7a58] focus-within:ring-2 focus-within:ring-[#ce7a58]/20">
+              <button
+                aria-label="Tải tài liệu OCR"
+                aria-pressed={showUploadPanel}
+                className={`flex size-11 shrink-0 items-center justify-center rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#903938] ${showUploadPanel ? "bg-[#ce7a58]/15 text-[#903938]" : "text-[#52606d] hover:bg-[#f1f3f5]"}`}
+                onClick={() => setShowUploadPanel((v) => !v)}
+                type="button"
+              >
+                <Paperclip className="size-5" aria-hidden="true" />
+              </button>
               <textarea
                 aria-label="Nội dung cần trợ lý hỗ trợ"
                 className="max-h-32 min-h-12 flex-1 resize-none border-0 bg-transparent px-2 py-2 text-base outline-none placeholder:text-[#9299a2]"
