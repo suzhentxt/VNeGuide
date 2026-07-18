@@ -2,69 +2,52 @@
 
 ## Trạng thái hiện tại
 
-- Repository: `D:\VAIC_UET`, nhánh `dev`.
-- Phạm vi nghiệp vụ là ba procedure pack trong `data/README.md`.
-- Domain/data foundation, structured extraction, LiteLLM provider, deterministic rule engine,
-  suggestion-aware conversation core và CLI harness đều đã có source.
-- `python -m vneguide.cli` đã nạp được composition root `vneguide.core:create_session`.
-- Provider trực tiếp hỗ trợ `mock`, OpenAI Responses và LiteLLM Chat Completions.
-- Merge hiện tại kết hợp core/rules từ `origin/dev` với LiteLLM support cục bộ; quality gate của
-  trạng thái hợp nhất được ghi ở phần xác minh bên dưới.
+- Phạm vi runtime được khóa bởi `data/README.md` và chỉ gồm `2.000635`, `1.013314`, `1.004194`.
+- Domain/data foundation, structured extraction, deterministic rules, suggestion-aware core và CLI
+  đã có source.
+- AI hỗ trợ mock, OpenAI Responses và LiteLLM Chat Completions.
+- HTTP Chat API cung cấp session TTL/capacity/lock, send, Accept/Reject/Edit và reset.
+- `demoweb/` là Next.js frontend độc lập; BFF giữ session ID trong cookie `HttpOnly`.
+- Nhánh `integration/release-dev` đang hợp nhất LiteLLM từ `dev` với FastAPI/Next.js từ `tuan`.
+- Frontend Hôn nhân và gia đình là phạm vi cũ, không phải nguồn nghiệp vụ; phải thay bằng đúng ba
+  thủ tục trước release.
 
-## Ưu tiên tiếp theo
+## Ưu tiên release
 
-Trước khi nối web, bổ sung interaction Accept/Reject/Edit cho terminal hoặc adapter dùng chung và
-đưa các rule-context signal đã review vào luồng extraction/core. Sau đó chạy demo end-to-end bằng
-dữ liệu tổng hợp. Không gửi dữ liệu hành chính thật qua gateway HTTP; cần HTTPS trước khi dùng
-transcript thật.
+1. Hoàn tất merge `dev` + `tuan` và đưa commit tài liệu phạm vi `709b795` vào nhánh tích hợp.
+2. Cài dependency bằng `.[api,dev]` và `npm ci`, sau đó chạy lại toàn bộ Python/web gates.
+3. Bổ sung E2E cho đúng ba thủ tục, out-of-scope, revision/reset/timeout và OCR fallback.
+4. Deploy public frontend/backend, smoke `/health`, ghi metrics và chuẩn bị rollback/video.
 
-## Xác minh trạng thái hợp nhất
+## Bằng chứng đã có trước nhánh release
 
-- Compileall, Ruff, formatter và Mypy đều pass trên working tree kết hợp.
-- Pytest: `87 passed, 1 skipped`; coverage `80.82%`, vượt gate `80%`.
-- Terminal mock smoke khởi tạo `vneguide.core:create_session` và `/quit` an toàn.
-- Provider-only smoke trước merge đã gọi thật `Qwen/Qwen3.5-9B` và trả
-  `MODEL_SMOKE_OK ... structured_output=true` với schema tổng hợp `{ok: boolean}`.
+- Core/rules + LiteLLM: Ruff/format/Mypy pass; Pytest `87 passed, 1 skipped`; coverage `80.82%`.
+- Provider-only smoke đã gọi `Qwen/Qwen3.5-9B` bằng dữ liệu tổng hợp và nhận structured output.
+- Web/API trên nhánh `tuan`: Ruff/Mypy pass; Pytest `79 passed, 1 skipped`; coverage `82.32%`.
+- `demoweb` trên nhánh `tuan`: ESLint, TypeScript và production build pass; local smoke
+  web → BFF → Python API pass bằng mock provider.
+
+Các số liệu trên là bằng chứng lịch sử của từng nhánh. Trạng thái hợp nhất chỉ được công bố sau khi
+quality gate được chạy lại trên `integration/release-dev`.
 
 ## Nhật ký phiên
 
-### 2026-07-17 — Hợp nhất core/rules và LiteLLM
+### 2026-07-18 — Release integration đang thực hiện
 
-- Nhập conversation core, 27 deterministic rule handler, question selector và
-  `vneguide.core:create_session` từ `origin/dev`.
-- Giữ provider LiteLLM, loader `.env` có chỉ định, Qwen `enable_thinking=false` và smoke command.
-- Source/tests được Git hợp nhất tự động; conflict chỉ nằm trong ba tài liệu vận hành.
-- Gate kết hợp: Ruff/format/Mypy pass; Pytest `87 passed, 1 skipped`; coverage `80.82%`.
+- Tạo `integration/release-dev` từ `dev`.
+- Merge `tuan`; source LiteLLM, FastAPI và Next.js hợp nhất tự động, conflict chỉ nằm trong cấu hình
+  mẫu và tài liệu vận hành.
+- Giữ cả cấu hình LiteLLM lẫn HTTP API trong `.env.example`.
+- Chưa công bố release hoàn thành, public URL hoặc metric mới cho tới khi full gate và deploy pass.
 
-### 2026-07-17 — LiteLLM self-hosted provider
+### 2026-07-18 — HTTP API và demoweb trên nhánh nguồn
 
-- Thêm `LiteLLMChatCompletionsProvider` với strict JSON Schema, response-size/timeout gate, typed
-  error và chặn redirect.
-- Tách provider selector `litellm`, base URL và key riêng; HTTP yêu cầu insecure opt-in rõ ràng.
-- Thêm `python -m vneguide.ai.smoke --env-file .env --confirm-live`; request chỉ dùng dữ liệu tổng
-  hợp và không in prompt, raw response hoặc key.
-- Pytest tại thời điểm triển khai: `74 passed, 1 skipped`; Ruff/format/Mypy pass cho AI và test
-  liên quan.
-- Live provider smoke với `Qwen/Qwen3.5-9B` đã pass structured output tối thiểu.
+- Thêm FastAPI session adapter và Next.js BFF/chatbox với cookie `HttpOnly`.
+- Chatbox có Accept/Sửa/Từ chối, validation, nguồn, reset và cảnh báo không nhập PII thật.
+- Frontend nguồn còn hiển thị bốn mã Hôn nhân và gia đình ngoài data package hiện hành.
 
-### 2026-07-17 — Conversation engine, rules và validation (Người 3)
+### 2026-07-17 — Core, rules và LiteLLM trên nhánh nguồn
 
-- Thêm handler xác định cho 27 rule, field validation, missing-field resolver và question selector.
-- Thêm state machine suggestion `pending/accepted/rejected/edited`, revision guard và retry cap.
-- Cung cấp `vneguide.core:create_session`; CLI với mock rỗng trả fallback an toàn.
-- Bằng chứng trên nhánh nguồn: Ruff/Mypy pass; Pytest `75 passed, 1 skipped`; coverage `82.64%`.
-
-### 2026-07-17 — Domain và data foundation (Người 1)
-
-- Thêm enum/model/contract dùng chung cho ba mã thủ tục data package v2.
-- Thêm loader, dependency-free JSON Schema validator và `ProcedureRepository`.
-- Audit catalog, nguồn approved, local path, rule input, guidance step và checksum chuẩn LF.
-- Khóa OD-004: rule engine dùng handler theo `rule_id`, không `eval/exec` condition.
-- Bằng chứng trên nhánh nguồn: 25 unit test pass.
-
-### 2026-07-17 — CLI và LLM structured extraction
-
-- Thêm terminal loop, `/status`, `/reset`, `/quit`, renderer và integration port cho core.
-- Thêm provider-neutral interface, mock/OpenAI adapter, strict schema, bounded retry và fallback.
+- Thêm 27 deterministic rule handler, question selector, suggestion lifecycle và revision guard.
+- Thêm LiteLLM provider, smoke command, giới hạn timeout/response và insecure-HTTP opt-in.
 - LLM chỉ phân loại/trích xuất; required field, rule, phí, thời hạn và nguồn do code xác định xử lý.
-- Bằng chứng trước khi tích hợp domain/data: Pytest `37 passed, 1 skipped`.

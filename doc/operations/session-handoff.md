@@ -2,51 +2,43 @@
 
 ## Trạng thái hiện tại
 
-- Repo có data package v2, shared domain/data foundation, AI extraction, rule engine, conversation
-  core và CLI shell.
-- `vneguide.core:create_session` đã tồn tại và là factory mặc định của CLI.
-- Core hỗ trợ suggestion, Accept/Reject/Edit, validation và question selection.
-- AI hỗ trợ mock, OpenAI Responses và LiteLLM Chat Completions.
-- Provider-only smoke đọc `.env` được chỉ định; composition root của CLI hiện đọc process
-  environment, không tự nạp `.env`.
+- Nhánh đang làm việc: `integration/release-dev`, tạo từ `dev`.
+- Merge `tuan` đang được hoàn tất để giữ đồng thời LiteLLM, FastAPI Chat API và Next.js demoweb.
+- Scope runtime duy nhất nằm trong `data/README.md`: `2.000635`, `1.013314`, `1.004194`.
+- Core đã có suggestion `pending/accepted/rejected/edited`, revision guard, validation và question
+  selection.
+- Web đã có BFF/chatbox nhưng nội dung/route chính vẫn là Hôn nhân và gia đình ngoài scope.
+- Session API là in-memory, single-process, có TTL/capacity/per-session lock.
 
-## Việc đã xác minh
+## Việc cần xác minh trên cây hợp nhất
 
-- Working tree kết hợp: compileall, Ruff, formatter và Mypy pass.
-- Pytest `87 passed, 1 skipped`; coverage `80.82%`.
-- Terminal mock smoke nạp `vneguide.core:create_session` và `/quit` an toàn.
-- Nhánh core/rules nguồn: Ruff/Mypy pass; Pytest `75 passed, 1 skipped`; coverage `82.64%`.
-- LiteLLM trước merge: Pytest `74 passed, 1 skipped`; AI Ruff/format/Mypy pass.
-- Provider-only smoke gọi thật `Qwen/Qwen3.5-9B` và nhận structured output tối thiểu; request không
-  chứa catalog hoặc PII.
+- Cài Python bằng `python -m pip install -e ".[api,dev]"` và web bằng `npm ci`.
+- Chạy Ruff, formatter, Mypy, Pytest và coverage trên toàn repo.
+- Chạy `npm run check` trong `demoweb`.
+- Chạy E2E cho ba thủ tục, out-of-scope, stale revision, reset, timeout và OCR fallback.
+- Secret/PII/conflict-marker scan trước commit.
+- Public deploy và smoke `/health` chưa có bằng chứng trong nhánh release.
 
 ## Rủi ro
 
-- Tài liệu Product/Architecture/Terminal cũ có thể mô tả phạm vi khác data package v2.
-- Live provider connectivity không chứng minh accuracy của extraction hoặc full conversation.
-- LiteLLM gateway hiện là public IP qua HTTP; key, prompt và response không có TLS. Chỉ dùng dữ
-  liệu giả cho tới khi có HTTPS.
-- CLI chưa ánh xạ câu lệnh người dùng sang `accept_suggestion`, `reject_suggestion` và
-  `edit_suggestion`; web/widget adapter cần sở hữu interaction này.
-- AI extraction chưa tạo 10 rule-context signal từ `rule_context_catalog.json`; các handler dùng
-  document/context signal chưa thể nhận đủ dữ liệu từ hội thoại.
-- 17/27 rule chưa có positive/triggering gold case riêng; test hiện chứng minh handler tồn tại và
-  12 gold case hiện có pass, không chứng minh đủ hành vi của mọi handler.
-- Một số rule dùng context/document signal, không được suy đoán từ field biểu mẫu.
-- Git LFS có thể cần quyền ghi `.git/lfs/tmp` trong sandbox.
+- Frontend cũ hiển thị bốn procedure code Hôn nhân và gia đình không có procedure pack backend.
+- API hiện chưa trả toàn bộ `draft.values` và chưa có mutation dành cho sửa form trực tiếp.
+- AI chưa tạo đủ rule-context signal; live provider smoke không chứng minh accuracy hội thoại.
+- LiteLLM gateway HTTP chỉ được dùng với dữ liệu tổng hợp; production cần HTTPS.
+- In-memory store không phù hợp nhiều API worker; release demo phải chạy một worker.
+- Hai repo đối thủ và các file untracked ở root là tài liệu tham khảo, tuyệt đối không stage/commit.
 
-## Bước tốt nhất tiếp theo
+## Bước tiếp theo
 
-Bổ sung adapter interaction hiển thị suggestion ID và gọi đúng Accept/Reject/Edit; đồng thời nối
-rule-context signal vào extraction/core. Chạy lại terminal end-to-end bằng dữ liệu tổng hợp trước
-khi nối web/widget.
+Hoàn tất merge, đưa commit `709b795` vào, chạy baseline trên dependency sạch, rồi mới bổ sung test,
+deployment artifacts, metrics, README, rollback và demo script.
 
-## Lệnh
+## Lệnh chuẩn
 
-- Cài dev dependencies: `python -m pip install -e ".[dev]"`
-- Ruff: `python -m ruff check .`
-- Format: `python -m ruff format --check .`
-- Type check: `python -m mypy`
-- Test: `python -m pytest`
-- Provider smoke: `python -m vneguide.ai.smoke --env-file .env --confirm-live`
-- CLI: `python -m vneguide.cli`
+- Python install: `python -m pip install -e ".[api,dev]"`
+- Python gates: `python -m ruff check .`, `python -m ruff format --check .`,
+  `python -m mypy`, `python -m pytest`
+- Coverage: `python -m pytest --cov=vneguide --cov-report=term-missing`
+- Web install/check: `cd demoweb`, `npm ci`, `npm run check`
+- API: `python -m vneguide.api`
+- Web: `cd demoweb`, `npm run dev -- --hostname 0.0.0.0 -p 3000`
