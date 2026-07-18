@@ -199,7 +199,12 @@ class ConversationSession:
             )
             context = ExtractionTurnContext(active_code.value, expected_field)
         outcome = self._extractor.extract(message, context=context)
-        reviewed_match = self._reviewed_procedure_match(normalized)
+        routing_text = (
+            self._normalize_message(outcome.normalization.normalized_text)
+            if outcome.normalization is not None
+            else normalized
+        )
+        reviewed_match = self._reviewed_procedure_match(routing_text)
         if (
             outcome.succeeded
             and reviewed_match is not None
@@ -220,6 +225,7 @@ class ConversationSession:
                 evidence={},
                 clarification_question=None,
                 attempts=outcome.attempts,
+                normalization=outcome.normalization,
             )
         if not outcome.succeeded:
             return self._technical_fallback(message, outcome.error_code or "provider_error")
@@ -230,6 +236,16 @@ class ConversationSession:
             return self._unsupported(message)
         if outcome.classification == "ambiguous" or outcome.procedure_code is None:
             self._contextual_reference_trusted = False
+            if (
+                outcome.normalization is not None
+                and outcome.normalization.ambiguities
+                and outcome.clarification_question
+            ):
+                return self._reply_without_draft_change(
+                    message,
+                    outcome.clarification_question,
+                    NextAction.ASK_CLARIFICATION,
+                )
             if active_code is not None:
                 if previous_missing and not self._pending():
                     field_id = previous_missing[0]

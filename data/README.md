@@ -30,6 +30,7 @@ người dùng tới đúng bước xác nhận Mẫu số 02; VNeGuide vẫn kh
 - `contracts/*.schema.json`
 - `evaluation/gold_guidance.jsonl`
 - `evaluation/gold_validation.jsonl`
+- `evaluation/dialect/*.jsonl` – fixture tổng hợp cho phương ngữ, ASR, protected span và ambiguity.
 - `docs/review_workflow.md`
 - `docs/open_decisions.json`
 

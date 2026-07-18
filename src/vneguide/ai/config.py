@@ -23,6 +23,7 @@ _ENV_FILE_KEYS = frozenset(
         "VNEGUIDE_LITELLM_API_KEY",
         "VNEGUIDE_LITELLM_BASE_URL",
         "VNEGUIDE_LITELLM_DISABLE_THINKING",
+        "VNEGUIDE_LANGUAGE_MODEL_ASSISTED",
         "VNEGUIDE_LLM_PROVIDER",
         "VNEGUIDE_MODEL",
     }
@@ -39,6 +40,7 @@ class LLMConfig:
     litellm_base_url: str | None = None
     litellm_allow_insecure_http: bool = False
     litellm_disable_thinking: bool = True
+    language_model_assisted: bool = False
 
 
 def load_llm_config(
@@ -70,6 +72,11 @@ def load_llm_config(
         "VNEGUIDE_LITELLM_DISABLE_THINKING",
         default=True,
     )
+    language_model_assisted = _read_boolean(
+        source,
+        "VNEGUIDE_LANGUAGE_MODEL_ASSISTED",
+        default=False,
+    )
     return LLMConfig(
         provider=provider,
         model=model,
@@ -77,6 +84,7 @@ def load_llm_config(
         litellm_base_url=base_url,
         litellm_allow_insecure_http=allow_insecure_http,
         litellm_disable_thinking=disable_thinking,
+        language_model_assisted=language_model_assisted,
     )
 
 

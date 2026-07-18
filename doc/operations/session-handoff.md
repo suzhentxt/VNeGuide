@@ -234,3 +234,15 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
   `287 passed`, `2 skipped`, coverage `80.60%`.
 - Bước tiếp theo sau khi push/redeploy: tạo session production mới và smoke hai lượt đúng transcript;
   Render restart làm mất session in-memory nên không tái sử dụng cookie cũ.
+
+## Bàn giao chuẩn hóa phương ngữ 2026-07-19
+
+- Nhánh `feature/vietnamese-dialect-normalization` có module deterministic/model-assisted, protected
+  spans, evidence mapping và 15 fixture tổng hợp. Workbook nguồn được ignore và tuyệt đối không stage.
+- Tầng deterministic mặc định luôn chạy. Model-assisted mặc định tắt; bật bằng
+  `VNEGUIDE_LANGUAGE_MODEL_ASSISTED=1` khi chấp nhận thêm một model call cho câu còn dấu hiệu chưa
+  chuẩn. Production không được log `NormalizationResult` vì chứa raw/normalized text trong memory.
+- Full gate đạt `304 passed`, `2 skipped`, coverage `80.59%`; frontend `npm run check` và release
+  audit đều đạt. Bước tiếp theo sau merge là smoke một session mới với các câu “tui muốn làm tạm
+  chú”, “hộ khẩu photo có được hông” và “Tôi cần giấy nhà”; chỉ bật model-assisted sau khi đo latency,
+  cost và tỉ lệ ambiguity trên traffic tổng hợp.

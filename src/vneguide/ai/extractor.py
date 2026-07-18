@@ -26,6 +26,7 @@ from vneguide.ai.schemas import (
     decode_provider_payload,
     validate_extraction_payload,
 )
+from vneguide.language import InputSource, LanguageNormalizer, NormalizationResult
 
 
 def _empty_mapping() -> Mapping[str, JsonScalar]:
@@ -55,6 +56,7 @@ class ExtractionOutcome:
     context_signals: Mapping[str, JsonScalar] = field(default_factory=_empty_mapping)
     context_evidence: Mapping[str, str] = field(default_factory=_empty_text_mapping)
     context_origins: Mapping[str, str] = field(default_factory=_empty_text_mapping)
+    normalization: NormalizationResult | None = None
 
     @property
     def succeeded(self) -> bool:
@@ -94,6 +96,7 @@ class StructuredExtractor:
         max_attempts: int = 2,
         timeout_seconds: float = 20.0,
         max_input_chars: int = 8_000,
+        normalizer: LanguageNormalizer | None = None,
     ) -> None:
         if type(max_attempts) is not int or not 1 <= max_attempts <= 2:
             raise ValueError("max_attempts must be 1 or 2")
@@ -112,6 +115,7 @@ class StructuredExtractor:
         self._system_prompt = build_extraction_prompt(catalog)
         self._timeout_seconds = timeout_seconds
         self._max_input_chars = max_input_chars
+        self._normalizer = normalizer or LanguageNormalizer()
 
     @property
     def response_schema(self) -> Mapping[str, object]:
@@ -124,6 +128,7 @@ class StructuredExtractor:
         message: str,
         *,
         context: ExtractionTurnContext | None = None,
+        input_source: InputSource = InputSource.TEXT,
     ) -> ExtractionOutcome:
         """Extract one Vietnamese user turn, retrying only safe failure classes."""
 
@@ -140,7 +145,21 @@ class StructuredExtractor:
         if context is not None and not self._context_is_valid(context):
             return self._fallback(attempts=0, error_code="invalid_context")
 
-        user_prompt = self._user_prompt(message, context)
+        normalization = self._normalizer.normalize(message, source=input_source)
+        if normalization.ambiguities:
+            return ExtractionOutcome(
+                status="success",
+                classification="ambiguous",
+                procedure_code=None,
+                fields=MappingProxyType({}),
+                evidence=MappingProxyType({}),
+                clarification_question=normalization.clarification_prompt(),
+                attempts=0,
+                normalization=normalization,
+            )
+
+        normalized_message = normalization.normalized_text
+        user_prompt = self._user_prompt(normalized_message, context)
 
         last_error_code = "provider_error"
 
@@ -157,36 +176,58 @@ class StructuredExtractor:
                 payload = decode_provider_payload(raw_payload)
                 validated = validate_extraction_payload(
                     payload,
-                    message=message,
+                    message=normalized_message,
                     catalog=self._catalog,
+                )
+                evidence = self._remap_evidence(validated.evidence, normalization)
+                context_evidence = self._remap_evidence(
+                    validated.context_evidence,
+                    normalization,
                 )
                 return ExtractionOutcome(
                     status="success",
                     classification=validated.classification,
                     procedure_code=validated.procedure_code,
                     fields=validated.fields,
-                    evidence=validated.evidence,
+                    evidence=evidence,
                     context_signals=validated.context_signals,
-                    context_evidence=validated.context_evidence,
+                    context_evidence=context_evidence,
                     context_origins=validated.context_origins,
                     clarification_question=validated.clarification_question,
                     attempts=attempt,
+                    normalization=normalization,
                 )
             except ProviderConfigurationError:
-                return self._fallback(attempts=attempt, error_code="provider_configuration")
+                return self._fallback(
+                    attempts=attempt,
+                    error_code="provider_configuration",
+                    normalization=normalization,
+                )
             except ProviderRefusal:
-                return self._fallback(attempts=attempt, error_code="provider_refusal")
+                return self._fallback(
+                    attempts=attempt,
+                    error_code="provider_refusal",
+                    normalization=normalization,
+                )
             except ProviderTimeout:
                 last_error_code = "provider_timeout"
             except ProviderError as exc:
                 last_error_code = "provider_error"
                 if not exc.retryable:
-                    return self._fallback(attempts=attempt, error_code=last_error_code)
+                    return self._fallback(
+                        attempts=attempt,
+                        error_code=last_error_code,
+                        normalization=normalization,
+                    )
             except ExtractionSchemaError:
                 last_error_code = "malformed_output"
 
             if attempt == self._max_attempts:
-                return self._fallback(attempts=attempt, error_code=last_error_code)
+                return self._fallback(
+                    attempts=attempt,
+                    error_code=last_error_code,
+                    normalization=normalization,
+                )
 
         raise AssertionError("bounded extraction loop terminated unexpectedly")
 
@@ -215,7 +256,28 @@ class StructuredExtractor:
         return json.dumps(envelope, ensure_ascii=False, separators=(",", ":"))
 
     @staticmethod
-    def _fallback(*, attempts: int, error_code: str) -> ExtractionOutcome:
+    def _remap_evidence(
+        evidence: Mapping[str, str],
+        normalization: NormalizationResult,
+    ) -> Mapping[str, str]:
+        remapped: dict[str, str] = {}
+        for key, normalized_evidence in evidence.items():
+            raw_evidence = normalization.raw_text_for(normalized_evidence)
+            if raw_evidence is None:
+                raise ExtractionSchemaError(
+                    "unmappable_evidence",
+                    f"Normalized evidence for {key!r} cannot be traced to raw input.",
+                )
+            remapped[key] = raw_evidence
+        return MappingProxyType(remapped)
+
+    @staticmethod
+    def _fallback(
+        *,
+        attempts: int,
+        error_code: str,
+        normalization: NormalizationResult | None = None,
+    ) -> ExtractionOutcome:
         return ExtractionOutcome(
             status="fallback",
             classification=None,
@@ -228,6 +290,7 @@ class StructuredExtractor:
             context_signals=MappingProxyType({}),
             context_evidence=MappingProxyType({}),
             context_origins=MappingProxyType({}),
+            normalization=normalization,
         )
 
 

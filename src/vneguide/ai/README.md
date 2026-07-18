@@ -29,6 +29,9 @@ providers/         # Interface, mock, OpenAI Responses và LiteLLM Chat Completi
 - `unsupported` là kết luận ngữ nghĩa; timeout/malformed/refusal trả `status="fallback"`,
   `procedure_code=None` và fields rỗng.
 - Mọi call provider nhận JSON Schema strict. Unit test dùng `MockLLMProvider`, không cần key.
+- Trước structured extraction, `vneguide.language` chuẩn hóa phương ngữ/ASR theo glossary đã review,
+  bảo vệ dữ liệu định danh và remap evidence từ câu chuẩn hóa về đúng câu gốc. Tầng model-assisted
+  mặc định tắt và không chứa bảng phương ngữ trong prompt.
 - `ExtractionOutcome` hiện là contract nội bộ của module AI. Chỉ map sang contract dùng chung sau
   khi `src/vneguide/domain/` có model chính thức; không dùng class này để khóa domain contract.
 

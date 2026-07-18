@@ -71,7 +71,8 @@ flowchart LR
     UI --> BFF[BFF /api/chat/*]
     BFF --> API[FastAPI /v1/chat/*]
     API --> CORE[Conversation Core]
-    CORE --> AI[Structured Extraction]
+    CORE --> LANG[Dialect + ASR normalization]
+    LANG --> AI[Structured Extraction]
     CORE --> RULES[Rule & Validation Engine]
     CORE --> DATA[Reviewed Data Package]
     AI --> PROVIDER[OpenAI / LiteLLM / Mock]
@@ -106,12 +107,12 @@ smoke toàn tuyến trước khi deploy.
 
 | Hạng mục | Kết quả hiện tại | Cách kiểm tra |
 | --- | --- | --- |
-| Python quality gate | Ruff, format, mypy strict đạt; `279 passed`, `2 skipped`; coverage `80.55%` | `python -m pytest --cov=vneguide --cov-report=term-missing` |
+| Python quality gate | Ruff, format, mypy strict đạt; `304 passed`, `2 skipped`; coverage `80.59%` | `python -m pytest --cov=vneguide --cov-report=term-missing` |
 | Frontend gate | 21 unit test; ESLint, TypeScript và Next production build 25 route đạt | `cd demoweb && npm run check` |
 | Dependency | `npm audit --audit-level=moderate` không có vulnerability ở lần release | Xem [release evidence](doc/operations/release-evidence.md) |
 | Data contract | 44 field: tạm trú 15, nhà ở 16, bản sao khai sinh 13 | `jq 'group_by(.procedure_code)' data/catalog/field_catalog.json` |
 | Rule contract | 27 rule: tạm trú 10, nhà ở 8, bản sao khai sinh 9 | `jq 'group_by(.procedure_code)' data/catalog/validation_rules.json` |
-| Evaluation data | 58 ca JSONL tổng hợp cho guidance, validation, multi-turn và intent | [`data/evaluation/`](data/evaluation/), [`tests/evals/`](tests/evals/) |
+| Evaluation data | 73 ca JSONL tổng hợp, gồm 15 ca phương ngữ/ASR/protected span | [`data/evaluation/`](data/evaluation/), [`tests/evals/`](tests/evals/) |
 | CI | Python, web, container smoke và Vercel đều pass trên PR release | [progress 2026-07-19](doc/operations/progress.md) |
 | Public E2E | Tạo session `201`; message qua Vercel → Render → OpenAI `200` | [release evidence](doc/operations/release-evidence.md) |
 
@@ -121,7 +122,7 @@ VNeGuide không đặt một chatbot bên cạnh form rồi để hai bên hoạ
 điều khiển có cấu trúc cho chính biểu mẫu, còn biểu mẫu vẫn là nơi người dùng nhìn thấy và quyết định
 dữ liệu cuối cùng.
 
-### Sáu điểm AI-Native
+### Bảy điểm AI-Native
 
 1. **Routing có xác nhận:** AI hiểu nhu cầu đời thường nhưng phải được người dùng xác nhận đúng dịch
    vụ trước khi điều hướng. Điều này giải quyết ambiguity giữa “làm giấy khai sinh” và “xin bản sao”.
@@ -138,6 +139,12 @@ dữ liệu cuối cùng.
 6. **Provider abstraction và graceful degradation:** cùng contract hỗ trợ OpenAI, LiteLLM và mock;
    timeout/malformed/refusal chuyển fallback an toàn. OCR CT01 tồn tại ở chế độ candidate-only và
    chưa được mô tả như OCR E2E khi upload UI chưa hoàn thành.
+7. **Hiểu phương ngữ mà không làm sai định danh:** tầng deterministic chuẩn hóa cách nói Bắc–Trung–
+   Nam, viết tắt và lỗi ASR trước extraction. Họ tên, CCCD, ngày sinh, địa chỉ, số điện thoại và mã
+   hồ sơ được bảo vệ; evidence sau chuẩn hóa vẫn ánh xạ về đúng lời gốc. Câu mơ hồ tạo lựa chọn làm
+   rõ, không tự suy luận field. Tầng model-assisted là tùy chọn và chỉ nhận placeholder thay cho dữ
+   liệu định danh; bảng phương ngữ không nằm trong prompt. Xem [`language/`](src/vneguide/language/)
+   và [dialect evaluation](data/evaluation/dialect/README.md).
 
 ### Phân chia quyết định giữa AI và code
 

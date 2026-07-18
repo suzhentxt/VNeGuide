@@ -406,3 +406,23 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
   trú”; cả hai giữ procedure `1.013314`, không quay lại menu ba thủ tục và không báo ngoài phạm vi.
 - Gate đạt: compileall, Ruff lint/format, mypy 95 source; `287 passed`, `2 skipped`, coverage `80.60%`;
   checksum procedure pack khớp data package.
+
+### 2026-07-19 — Chuẩn hóa phương ngữ, lỗi ASR và evidence
+
+- Tạo `vneguide.language` với protected span cho họ tên, CCCD, ngày sinh, địa chỉ, mã thủ tục, số
+  điện thoại và mã hồ sơ; deterministic glossary không được sửa bên trong các span này.
+- Tầng model-assisted là tùy chọn qua `VNEGUIDE_LANGUAGE_MODEL_ASSISTED`; chỉ nhận text đã thay dữ
+  liệu định danh bằng placeholder, dùng strict schema và không chứa bảng phương ngữ trong prompt.
+- Structured extractor kiểm tra trên câu normalized rồi remap evidence về câu gốc trước khi tạo
+  suggestion. Cụm mơ hồ “giấy nhà” dừng trước provider và trả ba lựa chọn, không suy luận procedure
+  hay field. Cùng contract nhận `InputSource.TEXT` và `InputSource.SPEECH`.
+- Workbook `data/DIALECT LEXICON_v2 (đã nhóm).xlsx` chỉ là input nghiên cứu cục bộ và đã được
+  `.gitignore` bằng pattern `data/DIALECT LEXICON_v2*.xlsx`; không có workbook hoặc repo tham khảo
+  ngoài scope nào trong Git index.
+- Dataset mới có 15 mẫu tổng hợp Bắc/Trung/Nam, ASR và ambiguity. Reference classifier đạt raw
+  `33.33%` và normalized `100%`; exact normalization `100%`, protected preservation `100%`, unsafe
+  inference `0`. Đây là offline fixture metric, không phải claim người dùng thật.
+- Gate đạt: compileall, Ruff lint/format, mypy 103 source; `304 passed`, `2 skipped`, coverage
+  `80.59%`; release audit `17379/11569` file đạt. Frontend gate đạt ESLint, TypeScript, `21/21` test
+  và Next production build 25 route; lần build sandbox đầu thất bại vì Turbopack không được bind
+  cổng, chạy lại ngoài sandbox đạt.
