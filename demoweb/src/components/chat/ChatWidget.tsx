@@ -110,12 +110,15 @@ export function ChatWidget() {
     chooseFieldValue,
     resolveSuggestion,
     resetSession,
+    bindProcedure,
   } = useChatSession(context);
   const applyTranscript = useCallback((transcript: string) => {
     setDraft((currentDraft) => mergeTranscriptIntoDraft(currentDraft, transcript));
     window.requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
   const speech = useSpeechToText({ active: open, onTranscript: applyTranscript });
+
+  const replyOptions = getChatReplyOptions(turn);
 
   const inferredProcedure = turn?.procedure
     ? getProcedureContextByCode(turn.procedure.code)
@@ -124,7 +127,10 @@ export function ChatWidget() {
     ? getProcedureContextByCode(selectedProcedureCode)
     : inferredProcedure;
   const needsServiceConfirmation = Boolean(
-    !choosingProcedure && selectedProcedure && context.procedure_code !== selectedProcedure.code,
+    replyOptions.length === 0 &&
+      !choosingProcedure &&
+      selectedProcedure &&
+      context.procedure_code !== selectedProcedure.code,
   );
 
   useEffect(() => {
@@ -218,10 +224,11 @@ export function ChatWidget() {
     return () => window.removeEventListener("vneguide:document-step-entered", onDocumentStepEntered);
   }, []);
 
-  function confirmProcedure() {
+  async function confirmProcedure() {
     if (!selectedProcedure) return;
     const route = getConfirmedProcedureRoute(selectedProcedure.code);
     if (!route) return;
+    if (!(await bindProcedure(selectedProcedure.code))) return;
     setOpen(false);
     setSelectedProcedureCode(null);
     setChoosingProcedure(false);
@@ -247,7 +254,6 @@ export function ChatWidget() {
     (suggestion) => suggestion.status === "pending",
   );
   const validationPresentation = getChatValidationPresentation(turn);
-  const replyOptions = getChatReplyOptions(turn);
   const activeMissingField =
     !declarationCompleted && !pendingSuggestions?.length && replyOptions.length === 0
       ? turn?.missing_fields[0] ?? null
@@ -538,8 +544,9 @@ export function ChatWidget() {
                       className="min-h-12 rounded-lg border-2 border-[#ce7a58] bg-[#fff8f5] px-3 py-2 text-left font-bold text-[#762b2b] hover:bg-[#ffede5]"
                       key={procedure.code}
                       onClick={() => {
-                        setSelectedProcedureCode(procedure.code);
+                        setSelectedProcedureCode(null);
                         setChoosingProcedure(false);
+                        void sendMessage(`Chuyển sang ${procedure.title}`);
                       }}
                       type="button"
                     >

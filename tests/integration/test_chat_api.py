@@ -5,9 +5,9 @@ from collections import deque
 import pytest
 from httpx import ASGITransport, AsyncClient
 
-from vneguide.ai import ExtractionOutcome, ExtractionTurnContext, InformationRequest
+from vneguide.ai import ExtractionOutcome, ExtractionTurnContext
 from vneguide.api import create_app
-from vneguide.core import ConversationSession
+from vneguide.core import CatalogReplyComposer, ConversationSession
 from vneguide.data import ProcedureRepository
 from vneguide.domain import (
     CaseDraft,
@@ -17,7 +17,6 @@ from vneguide.domain import (
     MessageRole,
     NextAction,
     ProcedureCode,
-    QATopic,
     TurnResult,
 )
 
@@ -135,7 +134,7 @@ async def test_chat_api_creates_session_and_sends_message() -> None:
 
     assert turn.status_code == 200
     assert repeated.json() == turn.json()
-    assert turn.json()["next_action"] == "fill_missing_field"
+    assert turn.json()["next_action"] == "ask_clarification"
     assert [message["role"] for message in turn.json()["messages"]] == [
         "user",
         "assistant",
@@ -207,15 +206,99 @@ async def test_chat_api_accepts_a_pending_suggestion() -> None:
         )
 
     assert accepted.status_code == 200
-    accepted_body = accepted.json()
-    assert accepted_body["draft"]["revision"] == 1
-    assert accepted_body["suggestions"][0]["status"] == "accepted"
-    assert accepted_body["messages"][-1] == {
-        "role": "assistant",
-        "content": accepted_body["reply"],
-    }
+    assert accepted.json()["draft"]["revision"] == 1
+    assert accepted.json()["suggestions"][0]["status"] == "accepted"
+    assert accepted.json()["messages"][-2]["role"] == "user"
+    assert accepted.json()["messages"][-2]["content"].startswith("Xác nhận:")
+    assert accepted.json()["messages"][-1]["role"] == "assistant"
+    assert "người được ủy quyền" in accepted.json()["messages"][-1]["content"].lower()
     assert stale.status_code == 409
     assert stale.json()["error"]["code"] == "stale_suggestion"
+
+
+@pytest.mark.anyio
+async def test_chat_api_presents_grounded_guidance_without_mutating_draft() -> None:
+    repository = ProcedureRepository.discover()
+
+    def session_factory() -> ConversationSession:
+        return ConversationSession(
+            StubExtractor(
+                ExtractionOutcome(
+                    status="success",
+                    classification="supported",
+                    procedure_code="1.004194",
+                    fields={},
+                    evidence={},
+                    clarification_question=None,
+                    attempts=1,
+                )
+            ),
+            repository,
+            reply_composer=CatalogReplyComposer(repository),
+        )
+
+    app = create_app(session_factory=session_factory, repository=repository)
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post(
+            "/v1/chat/sessions",
+            json={"context": {"procedure_code": "1.004194"}},
+        )
+        session_id = created.headers["X-VNeGuide-Session"]
+        turn = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "Lệ phí bao nhiêu?"},
+        )
+
+    assert turn.status_code == 200
+    payload = turn.json()
+    assert payload["next_action"] == "present_guidance"
+    assert "7.000 đồng" in payload["reply"]
+    assert payload["draft"]["values"] == {}
+    assert payload["draft"]["revision"] == 0
+    assert {source["id"] for source in payload["sources"]} <= set(
+        repository.get_by_code("1.004194").source_ids
+    )
+
+
+@pytest.mark.anyio
+async def test_route_seeded_chat_api_serves_guidance_without_model() -> None:
+    repository = ProcedureRepository.discover()
+    extractor = StubExtractor()
+
+    def session_factory() -> ConversationSession:
+        return ConversationSession(
+            extractor,
+            repository,
+            reply_composer=CatalogReplyComposer(repository),
+        )
+
+    app = create_app(session_factory=session_factory, repository=repository)
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post(
+            "/v1/chat/sessions",
+            json={
+                "context": {
+                    "procedure_code": "1.004194",
+                    "procedure_title": "Đăng ký tạm trú",
+                    "route": "/hon-nhan-va-gia-dinh/dang-ky-tam-tru",
+                }
+            },
+        )
+        session_id = created.headers["X-VNeGuide-Session"]
+        turn = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "Lệ phí bao nhiêu?"},
+        )
+
+    assert created.status_code == 201
+    assert created.json()["context_supported"] is True
+    assert turn.status_code == 200
+    payload = turn.json()
+    assert payload["next_action"] == "present_guidance"
+    assert "7.000 đồng" in payload["reply"]
+    assert payload["draft"]["values"] == {}
+    assert payload["draft"]["revision"] == 0
+    assert extractor.calls == []
 
 
 @pytest.mark.anyio
@@ -226,15 +309,6 @@ async def test_chat_api_keeps_compact_memory_across_multiple_turns() -> None:
             status="success",
             classification="supported",
             procedure_code="1.004194",
-            fields={},
-            evidence={},
-            clarification_question=None,
-            attempts=1,
-        ),
-        ExtractionOutcome(
-            status="success",
-            classification="unsupported",
-            procedure_code=None,
             fields={},
             evidence={},
             clarification_question=None,
@@ -262,11 +336,6 @@ async def test_chat_api_keeps_compact_memory_across_multiple_turns() -> None:
             f"/v1/chat/sessions/{session_id}/messages",
             json={"message": "Tôi muốn đăng ký tạm trú"},
         )
-        recovered = await client.get(f"/v1/chat/sessions/{session_id}")
-        confirmed = await client.post(
-            f"/v1/chat/sessions/{session_id}/messages",
-            json={"message": "Đúng"},
-        )
         off_topic = await client.post(
             f"/v1/chat/sessions/{session_id}/messages",
             json={"message": "Bạn ăn cơm chưa?"},
@@ -277,46 +346,22 @@ async def test_chat_api_keeps_compact_memory_across_multiple_turns() -> None:
         )
 
     assert first.status_code == 200
-    first_body = first.json()
-    assert first_body["next_action"] == "confirm_procedure"
-    assert first_body["procedure"] is None
-    assert first_body["draft"]["values"] == {}
-    assert first_body["draft"]["revision"] == 0
-    assert first_body["messages"][-1] == {
-        "role": "assistant",
-        "content": first_body["reply"],
-    }
-    assert recovered.status_code == 200
-    assert recovered.json()["turn"]["next_action"] == "confirm_procedure"
-    assert confirmed.status_code == 200
-    assert confirmed.json()["procedure"]["code"] == "1.004194"
-    assert off_topic.json()["next_action"] == "unsupported"
+    assert off_topic.json()["next_action"] == "ask_clarification"
+    assert "ngoài" not in off_topic.json()["reply"].lower()
     assert continued.status_code == 200
     assert continued.json()["procedure"]["code"] == "1.004194"
-    assert continued.json()["next_action"] == "review_suggestion"
+    assert continued.json()["next_action"] == "confirm_suggestion"
     assert continued.json()["suggestions"][-1]["field_id"] == "submission_channel"
     assert [call[1] for call in extractor.calls] == [
         None,
-        ExtractionTurnContext("1.004194", "registration_mode"),
         ExtractionTurnContext("1.004194", "registration_mode"),
     ]
 
 
 @pytest.mark.anyio
-async def test_chat_api_faq_returns_sources_without_mutating_pre_form_draft() -> None:
+async def test_chat_api_remembers_birth_scope_clarification_across_turns() -> None:
     repository = ProcedureRepository.discover()
-    extractor = StubExtractor(
-        ExtractionOutcome(
-            status="success",
-            classification="informational",
-            procedure_code="1.004194",
-            fields={},
-            evidence={},
-            clarification_question=None,
-            attempts=1,
-            information_request=InformationRequest((QATopic.FEE,)),
-        )
-    )
+    extractor = StubExtractor()
     app = create_app(
         session_factory=lambda: ConversationSession(extractor, repository),
         repository=repository,
@@ -325,31 +370,137 @@ async def test_chat_api_faq_returns_sources_without_mutating_pre_form_draft() ->
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         created = await client.post("/v1/chat/sessions", json={})
         session_id = created.headers["X-VNeGuide-Session"]
-        faq = await client.post(
+        ambiguous = await client.post(
             f"/v1/chat/sessions/{session_id}/messages",
-            json={"message": "Đăng ký tạm trú mất bao nhiêu tiền?"},
+            json={"message": "tôi muốn làm giấy khai sinh"},
         )
-        confirmed = await client.post(
+        selected = await client.post(
             f"/v1/chat/sessions/{session_id}/messages",
-            json={"message": "Đúng"},
+            json={"message": "tôi muốn xin bản sao"},
+        )
+        child = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "cho con tôi"},
         )
 
-    assert faq.status_code == 200
-    body = faq.json()
-    assert body["next_action"] == "confirm_procedure"
-    assert body["procedure"] is None
-    assert body["draft"] == {
-        "values": {},
-        "revision": 0,
-        "confirmed_fields": [],
-        "dirty_fields": [],
-        "pack_version": None,
+    assert ambiguous.json()["next_action"] == "ask_clarification"
+    assert selected.json()["procedure"]["code"] == "2.000635"
+    assert "bản thân" in selected.json()["reply"]
+    assert child.json()["next_action"] == "ask_clarification"
+    assert "đã ghi nhận" in child.json()["reply"].lower()
+    assert "requester_type" not in child.json()["reply"]
+    assert len(child.json()["messages"]) == 6
+    assert extractor.calls == []
+
+
+@pytest.mark.anyio
+async def test_chat_api_normalizes_dialect_and_allows_service_switch_during_clarification() -> None:
+    repository = ProcedureRepository.discover()
+    extractor = StubExtractor()
+    app = create_app(
+        session_factory=lambda: ConversationSession(extractor, repository),
+        repository=repository,
+    )
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post("/v1/chat/sessions", json={})
+        session_id = created.headers["X-VNeGuide-Session"]
+        birth = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "tui ưng mần giấy khai sinh"},
+        )
+        housing = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "thường trú"},
+        )
+        temporary = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "đổi thành đăng kí tạm trú"},
+        )
+
+    assert birth.status_code == 200
+    assert "đăng ký khai sinh mới" in birth.json()["reply"]
+    assert housing.json()["procedure"]["code"] == "1.013314"
+    assert "xác nhận Mẫu số 02" in housing.json()["reply"]
+    assert temporary.json()["procedure"]["code"] == "1.004194"
+    assert "đã chuyển sang yêu cầu mới" in temporary.json()["reply"]
+    assert temporary.json()["draft"]["revision"] == 1
+    assert extractor.calls == []
+
+
+@pytest.mark.anyio
+async def test_guided_help_returns_catalog_choices_without_calling_model() -> None:
+    repository = ProcedureRepository.discover()
+    extractor = StubExtractor()
+    app = create_app(
+        session_factory=lambda: ConversationSession(extractor, repository),
+        repository=repository,
+    )
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post(
+            "/v1/chat/sessions",
+            json={"context": {"procedure_code": "1.004194", "route": "/dang-ky-tam-tru"}},
+        )
+        session_id = created.headers["X-VNeGuide-Session"]
+        response = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "Hãy hướng dẫn tôi điền hồ sơ từng bước."},
+        )
+
+    assert response.status_code == 200
+    assert response.json()["next_action"] == "ask_clarification"
+    assert response.json()["missing_fields"][0] == {
+        "field_id": "registration_mode",
+        "label": "Hình thức đăng ký",
+        "field_type": "enum",
+        "input_hint": (
+            "Hãy chọn một phương án bên dưới; tôi sẽ điền vào biểu mẫu sau khi bạn chọn."
+        ),
+        "choices": ["individual_or_household", "by_list", "armed_forces"],
     }
-    assert {source["id"] for source in body["sources"]} == {
-        "SRC-DVC-1004194",
-        "SRC-FEE-75-2022",
+    assert extractor.calls == []
+
+
+@pytest.mark.anyio
+async def test_chat_choice_updates_form_and_persists_friendly_conversation() -> None:
+    repository = ProcedureRepository.discover()
+    extractor = StubExtractor()
+    app = create_app(
+        session_factory=lambda: ConversationSession(extractor, repository),
+        repository=repository,
+    )
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post(
+            "/v1/chat/sessions",
+            json={"context": {"procedure_code": "1.004194", "route": "/dang-ky-tam-tru"}},
+        )
+        session_id = created.headers["X-VNeGuide-Session"]
+        await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "Hãy hướng dẫn tôi điền hồ sơ từng bước."},
+        )
+        response = await client.patch(
+            f"/v1/chat/sessions/{session_id}/draft/fields/registration_mode",
+            json={
+                "value": "individual_or_household",
+                "expected_revision": 0,
+                "interaction": "chat_choice",
+                "display_label": "Cá nhân hoặc hộ gia đình",
+            },
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["draft"]["values"]["registration_mode"] == "individual_or_household"
+    assert body["draft"]["confirmed_fields"] == ["registration_mode"]
+    assert body["messages"][-2] == {
+        "role": "user",
+        "content": "Cá nhân hoặc hộ gia đình",
     }
-    assert confirmed.status_code == 200
-    assert confirmed.json()["procedure"]["code"] == "1.004194"
-    assert confirmed.json()["draft"]["revision"] == 0
-    assert len(extractor.calls) == 1
+    assert body["messages"][-1]["role"] == "assistant"
+    assert "Đã ghi nhận hình thức đăng ký" in body["reply"]
+    assert "registration_mode" not in body["reply"]
+    assert body["missing_fields"][0]["field_id"] == "applicant_full_name"
+    assert extractor.calls == []

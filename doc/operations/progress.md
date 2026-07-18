@@ -796,3 +796,41 @@ chưa tạo commit follow-up. Không công bố metric accuracy model từ fixtu
 - Gate đạt: Ruff lint/format, mypy strict; `309 passed`, `2 skipped`, coverage `80.61%`; frontend
   ESLint/TypeScript, `22/22` unit test và Next production build 25 route đạt. In-app Browser không có
   instance trong phiên; manual public click-through và GitHub browser E2E phải kiểm tra sau deploy.
+
+### 2026-07-19 — LLM clarification fallback và chuyển dịch vụ giữa hội thoại
+
+- Routing deterministic nay dùng cùng `LanguageNormalizer` trước các guard của core. Câu tổng hợp
+  “tui ưng mần giấy khai sinh” được chuẩn hóa thành “tôi muốn làm giấy khai sinh” và hỏi đúng giữa
+  bản sao được hỗ trợ với đăng ký khai sinh mới; không gọi model và không tự suy luận field.
+- Trong lúc đang làm rõ giấy khai sinh, “thường trú” thoát trạng thái cũ để xác nhận thủ tục Mẫu 02;
+  “đổi thành đăng kí tạm trú” tiếp tục chuyển sang `1.004194`. Chuyển explicit xóa suggestion/draft
+  không còn phù hợp, tăng revision khi đã có procedure và trả confirmation trước điều hướng.
+- Structured output cho phép một `clarification_question` tự nhiên khi procedure đã rõ nhưng không
+  trích được field. Validator cấm kết hợp câu hỏi này với field/context signal; pending suggestion
+  vẫn được ưu tiên xác nhận và rule/catalog tiếp tục là nguồn quyết định nghiệp vụ.
+- Dataset phương ngữ tăng lên 17 fixture; reference classifier raw `29.41%`, normalized `100%`,
+  exact normalization `100%`, protected preservation `100%`, unsafe inference `0` trên dữ liệu tổng
+  hợp. Python gate đạt Ruff/format/mypy, `316 passed`, `2 skipped`, coverage `80.56%`. Frontend
+  lint/typecheck và `22/22` unit test đạt; Next build 25 route đạt khi chạy ngoài sandbox (lần đầu
+  bị sandbox chặn Turbopack bind cổng nội bộ, không phải lỗi application). Release audit đạt
+  `17401/11591` index/text file, không phát hiện secret/PII/conflict marker.
+- Chưa push/redeploy trong phiên này. Public URL vẫn chạy artifact trước thay đổi; cần deploy rồi
+  smoke bằng session mới trước khi ghi nhận production evidence.
+
+### 2026-07-19 — Nút trả lời nhanh và memory khi đổi/điều hướng dịch vụ
+
+- Câu hỏi làm rõ dịch vụ hiển thị ba lựa chọn lớn; làm rõ Giấy khai sinh và xác nhận đổi dịch vụ cũng
+  có nút một chạm. Người dùng không cần gõ đúng câu “chuyển sang…”.
+- Core nới lỏng câu đổi ý tự nhiên như “à thôi tôi muốn đăng ký tạm trú”, nhưng không tự chuyển với
+  câu hỏi so sánh/tham khảo. Khi câu còn mơ hồ, session nhớ procedure đích và hiểu lượt sau như “ok,
+  hãy chuyển cho tôi”; nút “Không, giữ dịch vụ hiện tại” xóa pending target.
+- Xác nhận procedure không còn xóa backend session. BFF liên kết procedure cookie vào đúng session
+  sau khi kiểm tra context, nên lịch sử và suggestion có evidence còn nguyên qua navigation. Draft
+  của procedure cũ vẫn bị vô hiệu hóa khi đổi dịch vụ để tránh điền nhầm.
+- Initial utterance có cả procedure và field, ví dụ “xin bản sao giấy khai sinh cho tôi”, giữ field
+  dưới dạng pending suggestion và chỉ hiện sau khi người dùng xác nhận dịch vụ.
+- Gate local đạt: Ruff lint/format, mypy; Pytest `323 passed`, `2 skipped`, coverage `80.58%`;
+  frontend ESLint/TypeScript, `24/24` unit test và Next production build 25 route. Browser E2E mới
+  đạt `2/2`, kiểm tra session ID/lịch sử qua navigation và đổi ý tự nhiên; public deployment chưa
+  được xác minh ở phiên này. Release audit Git index đạt `17401/11591`; targeted secret scan trên
+  toàn bộ file thay đổi và `git diff --check` không có phát hiện.

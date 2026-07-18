@@ -55,3 +55,33 @@ test("leaves requester enum choices to the catalog-driven field card", () => {
 
   assert.deepEqual(options, []);
 });
+
+test("offers three large service choices when no procedure is understood", () => {
+  const options = getChatReplyOptions(
+    turn({
+      reply: "Bạn cần hỗ trợ thủ tục nào?",
+      procedure: null,
+    }),
+  );
+
+  assert.deepEqual(options, [
+    "Tôi muốn đăng ký tạm trú",
+    "Tôi muốn xác nhận điều kiện nhà ở để đăng ký thường trú",
+    "Tôi muốn xin bản sao Giấy khai sinh",
+  ]);
+});
+
+test("offers one-tap accept or reject for a remembered service switch", () => {
+  const options = getChatReplyOptions(
+    turn({
+      reply:
+        "Tôi nhớ bạn đang làm cấp bản sao. Bạn có muốn chuyển sang dịch vụ mới không?",
+      procedure: { code: "2.000635", name: "Cấp bản sao Giấy khai sinh" },
+    }),
+  );
+
+  assert.deepEqual(options, [
+    "Đúng, chuyển sang dịch vụ mới",
+    "Không, giữ dịch vụ hiện tại",
+  ]);
+});

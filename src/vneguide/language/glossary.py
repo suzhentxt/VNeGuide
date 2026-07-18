@@ -94,6 +94,7 @@ DEFAULT_ENTRIES = (
     GlossaryEntry("khai sanh", "khai sinh", "dialect.birth", "dialect", ("south",)),
     GlossaryEntry("nhập khẩu", "đăng ký thường trú", "admin.permanent_residence", "dialect"),
     GlossaryEntry("đk tạm trú", "đăng ký tạm trú", "abbr.temp_residence", "abbreviation"),
+    GlossaryEntry("đăng kí", "đăng ký", "orthography.register", "spelling"),
     GlossaryEntry(
         "đk thường trú",
         "đăng ký thường trú",
@@ -117,6 +118,7 @@ DEFAULT_ENTRIES = (
     GlossaryEntry("hong", "không", "south.negation_unaccented", "dialect", ("south",)),
     GlossaryEntry("tui", "tôi", "south.pronoun", "dialect", ("south",)),
     GlossaryEntry("ưng", "muốn", "central.want", "dialect", ("central",)),
+    GlossaryEntry("mần", "làm", "central.do", "dialect", ("central", "south")),
     GlossaryEntry("ổng", "ông ấy", "south.he_older", "dialect", ("south",)),
     GlossaryEntry("bả", "bà ấy", "south.she_older", "dialect", ("south",)),
     GlossaryEntry("ảnh", "anh ấy", "south.he", "dialect", ("south",)),

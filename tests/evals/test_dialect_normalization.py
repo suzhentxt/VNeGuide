@@ -11,6 +11,8 @@ def _fixed_intent_classifier(text: str) -> str:
     normalized = text.casefold()
     if "giấy nhà" in normalized:
         return "ambiguous"
+    if "làm giấy khai sinh" in normalized:
+        return "ambiguous"
     if "đăng ký tạm trú" in normalized:
         return "1.004194"
     if "bản sao giấy khai sinh" in normalized or "bản sao khai sinh" in normalized:
@@ -27,7 +29,7 @@ def test_dialect_dataset_meets_safety_and_accuracy_gates() -> None:
 
     metrics = evaluate_normalizer(LanguageNormalizer(), samples, _fixed_intent_classifier)
 
-    assert metrics.sample_count == 16
+    assert metrics.sample_count == 17
     assert metrics.exact_normalization_rate == 1.0
     assert metrics.intent_accuracy_non_decreasing
     assert metrics.normalized_intent_accuracy == 1.0

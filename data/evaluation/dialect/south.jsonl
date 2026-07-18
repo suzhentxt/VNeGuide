@@ -1,5 +1,6 @@
 {"raw_text":"tui muốn làm tạm chú","expected_intent":"1.004194","expected_normalized_text":"tôi muốn đăng ký tạm trú","protected_values":[],"must_not_infer":["registration_mode","submission_channel"]}
 {"raw_text":"Tui ưng mần tạm trú","expected_intent":"1.004194","expected_normalized_text":"Tôi muốn đăng ký tạm trú","protected_values":[],"must_not_infer":["registration_mode","submission_channel"]}
+{"raw_text":"tui ưng mần giấy khai sinh","expected_intent":"ambiguous","expected_normalized_text":"tôi muốn làm giấy khai sinh","protected_values":[],"must_not_infer":["requester_type","copies_requested"]}
 {"raw_text":"hộ khẩu photo có được hông","expected_intent":"document_question","expected_normalized_text":"bản sao sổ hộ khẩu có được không","protected_values":[],"must_not_infer":["accepted","rejected"]}
 {"raw_text":"tui tên Nguyễn Thị Bảy muốn xin bản sao khai sanh","expected_intent":"2.000635","expected_normalized_text":"tôi tên Nguyễn Thị Bảy muốn xin bản sao khai sinh","protected_values":["Nguyễn Thị Bảy"],"must_not_infer":["requester_type","copies_requested"]}
 {"raw_text":"Tôi cư trú tại ấp Bển, xã Bình An và muốn làm tạm trú","expected_intent":"1.004194","expected_normalized_text":"Tôi cư trú tại ấp Bển, xã Bình An và muốn đăng ký tạm trú","protected_values":["ấp Bển"],"must_not_infer":["dwelling_basis"]}

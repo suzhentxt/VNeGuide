@@ -468,3 +468,36 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
 - Bước tiếp theo cụ thể: người vận hành cung cấp GPU URL/key và HTTPS domain; xác minh GPU ingress tự
   probe duration/quota, bật overlay STT cùng overlay VPS, chạy audio tiếng Việt tổng hợp, kiểm tra
   transcript chỉ nằm trong textarea và thử actual-duration trên 60 giây.
+
+## Bàn giao natural fallback và chuyển dịch vụ 2026-07-19
+
+- Core chuẩn hóa deterministic trước rule guard, nên “tui ưng mần giấy khai sinh” đi vào clarification
+  an toàn thay vì danh sách ba thủ tục chung. Fixture phương ngữ hiện là 17; workbook nghiên cứu vẫn
+  không được stage.
+- Pending clarification không khóa người dùng: “thường trú” chọn Mẫu 02 và câu explicit “đổi thành
+  đăng kí tạm trú” chuyển sang `1.004194`. Procedure-specific draft/suggestion cũ bị vô hiệu hóa và
+  revision tăng để response cũ không thể ghi đè.
+- Khi rule/catalog không tạo được câu trả lời, model có thể trả `clarification_question` tự nhiên
+  trong structured output. Không được đi kèm field/context signal; core luôn ưu tiên pending
+  suggestion và không giao required field, phí, thời hạn hoặc state transition cho model.
+- Gate đã chạy: Ruff lint/format, mypy strict, full pytest `316 passed`, `2 skipped`, coverage
+  `80.56%`; frontend lint/typecheck, `22/22` unit test và Next build 25 route đạt; release audit
+  `17401/11591` đạt. Bước tiếp theo: review diff, commit/push theo yêu cầu, chờ Render deploy rồi
+  smoke đúng ba lượt qua public API; chưa được ghi artifact hiện tại là production-verified.
+
+## Bàn giao one-tap service switching và session memory 2026-07-19
+
+- Quick replies hiện bao phủ chọn một trong ba dịch vụ, làm rõ bản sao/đăng ký khai sinh mới và xác
+  nhận Chuyển/Giữ khi người dùng nhắc dịch vụ khác. Câu đổi ý rõ như “à thôi tôi muốn đăng ký tạm
+  trú” không còn bắt người dùng gõ lại cú pháp “chuyển sang”.
+- `ConversationSession` nhớ pending procedure đích qua lượt kế tiếp; câu “ok hãy chuyển cho tôi” dùng
+  target đã nhớ thay vì bị structured extractor hiểu như field của procedure cũ. Comparison/info
+  query không tự xóa draft.
+- Frontend `PATCH /api/chat/session` chỉ bind procedure cookie sau khi backend xác nhận cùng procedure;
+  không DELETE session khi điều hướng. Memory được giữ trong cùng live backend session nhưng vẫn mất
+  khi Render restart/spin-down vì chưa có Redis/database.
+- Gate hiện tại: Python `323 passed`, `2 skipped`, coverage `80.58%`; frontend lint/typecheck,
+  `24/24` unit test và production build 25 route đạt. Browser spec `assistant-memory.spec.ts` bao phủ
+  quick choice, cùng session ID qua navigation và đổi ý tự nhiên (`2/2` đạt). Release audit index
+  `17401/11591`, targeted secret scan và `git diff --check` đều đạt. Bước tiếp theo là review/commit;
+  chỉ push/redeploy khi được yêu cầu, rồi smoke bằng session production mới.

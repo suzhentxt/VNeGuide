@@ -29,6 +29,7 @@ hiểu là “tôi muốn đăng ký tạm trú”, nhưng họ tên, CCCD, ngà
 1. Người dân mô tả nhu cầu bằng tiếng Việt tự nhiên, phương ngữ, từ rút gọn hoặc transcript speech.
 2. Lớp ngôn ngữ bảo vệ dữ liệu định danh, chuẩn hóa phần còn lại và giữ ánh xạ về câu gốc.
 3. Agent đề xuất đúng một dịch vụ trong phạm vi và **bắt buộc người dùng xác nhận** trước điều hướng.
+   Câu hỏi làm rõ và đổi dịch vụ có nút chọn lớn; người dùng không phải nhớ hoặc gõ câu lệnh.
 4. Trên trang nộp hồ sơ, người dùng có thể tự điền hoặc nhờ agent hỏi/hướng dẫn từng trường.
 5. Giá trị do AI tìm thấy chỉ là suggestion; người dùng Accept, Edit hoặc Reject trước khi vào draft.
 6. Rule engine kiểm tra field bắt buộc, điều kiện, nguồn và trạng thái; LLM không được tự nhớ luật.
@@ -56,7 +57,9 @@ nhận CCCD, số điện thoại hoặc dữ liệu cá nhân thật.
 
 Render Free có thể sleep khi không hoạt động, vì vậy request đầu tiên sau thời gian idle có thể chậm.
 Session hiện lưu trong memory và sẽ mất khi Render restart, deploy hoặc spin down; đây chưa phải kiến
-trúc lưu trữ bền vững cho tải thật.
+trúc lưu trữ bền vững cho tải thật. Trong cùng một backend session, cookie HttpOnly giữ nguyên cuộc
+trò chuyện khi người dùng xác nhận dịch vụ và chuyển từ trang chủ sang trang thủ tục; lịch sử, dịch
+vụ đang làm và đề xuất chưa xử lý không bị tạo lại chỉ vì điều hướng trang.
 
 ## Dành cho ban giám khảo — bản đồ chấm 100 điểm
 
@@ -147,7 +150,7 @@ smoke toàn tuyến trước khi deploy.
 | Dependency | `npm audit --audit-level=moderate` không có vulnerability ở lần release | Xem [release evidence](doc/operations/release-evidence.md) |
 | Data contract | 44 field: tạm trú 15, nhà ở 16, bản sao khai sinh 13 | `jq 'group_by(.procedure_code)' data/catalog/field_catalog.json` |
 | Rule contract | 27 rule: tạm trú 10, nhà ở 8, bản sao khai sinh 9 | `jq 'group_by(.procedure_code)' data/catalog/validation_rules.json` |
-| Evaluation data | 74 ca JSONL tổng hợp, gồm 16 ca phương ngữ/ASR/protected span | [`data/evaluation/`](data/evaluation/), [`tests/evals/`](tests/evals/) |
+| Evaluation data | 75 ca JSONL tổng hợp, gồm 17 ca phương ngữ/ASR/protected span | [`data/evaluation/`](data/evaluation/), [`tests/evals/`](tests/evals/) |
 | CI | Python, web, container smoke và Vercel đều pass trên PR release | [progress 2026-07-19](doc/operations/progress.md) |
 | Public E2E | Tạo session `201`; message qua Vercel → Render → OpenAI `200` | [release evidence](doc/operations/release-evidence.md) |
 
@@ -171,9 +174,10 @@ dữ liệu cuối cùng.
 5. **Grounded guidance không cần model nhớ luật:** bảy nhóm câu hỏi — phí, thời hạn, hồ sơ, trình tự,
    cơ quan, kênh nộp, kết quả — được render trực tiếp từ catalog có `source_id`. Khi model chậm, phần
    hướng dẫn cốt lõi vẫn hoạt động.
-6. **Provider abstraction và graceful degradation:** cùng contract hỗ trợ OpenAI, LiteLLM và mock;
-   timeout/malformed/refusal chuyển fallback an toàn. OCR CT01 tồn tại ở chế độ candidate-only và
-   chưa được mô tả như OCR E2E khi upload UI chưa hoàn thành.
+6. **Deterministic-first, LLM fallback tự nhiên:** rule/catalog trả lời trước cho fact đã review;
+   khi không hiểu được câu hiện tại, structured LLM được phép hỏi lại bằng tiếng Việt tự nhiên.
+   Validator cấm model vừa hỏi làm rõ vừa đề xuất dữ liệu, còn timeout/malformed/refusal vẫn chuyển
+   sang fallback nhập tay an toàn. Cùng contract hỗ trợ OpenAI, LiteLLM và mock.
 7. **Hiểu phương ngữ mà không làm sai định danh:** tầng deterministic chuẩn hóa cách nói Bắc–Trung–
    Nam, viết tắt và lỗi ASR trước extraction. Họ tên, CCCD, ngày sinh, địa chỉ, số điện thoại và mã
    hồ sơ được bảo vệ; evidence sau chuẩn hóa vẫn ánh xạ về đúng lời gốc. Câu mơ hồ tạo lựa chọn làm
@@ -216,8 +220,8 @@ bước làm rõ. Sau extraction, mỗi evidence span trên câu normalized đư
 giải thích được dữ liệu lấy từ câu nào của người dùng. Production không log raw/normalized text vì
 chúng có thể chứa PII.
 
-Evaluation phương ngữ hiện có 16 fixture tổng hợp Bắc/Trung/Nam, lỗi ASR và ambiguity. Reference
-classifier đạt intent accuracy raw `31,25%` và sau normalization `100%`; exact normalization `100%`,
+Evaluation phương ngữ hiện có 17 fixture tổng hợp Bắc/Trung/Nam, lỗi ASR và ambiguity. Reference
+classifier đạt intent accuracy raw `29,41%` và sau normalization `100%`; exact normalization `100%`,
 protected-span preservation `100%`, unsafe inference `0`. Đây là **offline synthetic baseline**, không
 phải kết quả người dùng thật hoặc cam kết accuracy production. Lệnh kiểm tra:
 
@@ -337,11 +341,14 @@ Thiết kế ưu tiên người lần đầu làm thủ tục, người lớn tu
 
 - Dùng tiếng Việt đời thường; không bắt người dùng nhập enum như `requester_type`.
 - Chỉ hỏi một mục có ngữ cảnh tại một thời điểm; fixed-value hiển thị thành nút chọn lớn.
+- Các câu hỏi “bản sao hay đăng ký mới”, “chuyển hay giữ dịch vụ” và danh sách ba dịch vụ đều có nút
+  trả lời nhanh; người dùng lớn tuổi không phải gõ lại đúng một mẫu câu.
 - Bắt buộc xác nhận đúng dịch vụ trước điều hướng để tránh người dùng điền nhầm form.
 - Nếu người dùng tự điền được, AI chỉ hướng dẫn. Nếu AI điền giúp, phải xác nhận trước bước tiếp theo.
 - “Nhờ trợ giúp” gửi prompt ngữ cảnh ẩn để người dùng không phải mô tả lại đang mắc ở bước nào.
 - Chat, missing-field summary, validation và form dùng cùng workspace; thông tin đã xác nhận không bị
-  hỏi lại hoặc ghi đè.
+  hỏi lại hoặc ghi đè. Xác nhận dịch vụ chỉ liên kết procedure vào phiên hiện tại, không đóng phiên;
+  vì vậy lịch sử chat và đề xuất có evidence được giữ khi mở trang tương ứng.
 - Ví thông tin chỉ được đề xuất sau khi hoàn thành phần khai; dữ liệu chỉ ở `sessionStorage` của bản
   demo, autofill vẫn yêu cầu kiểm tra và xác nhận lại.
 
@@ -351,6 +358,7 @@ Thiết kế ưu tiên người lần đầu làm thủ tục, người lớn tu
 | --- | --- |
 | Chưa xác định dịch vụ | Chào hỏi bình thường, hỏi làm rõ; chưa gắn nhãn ngoài phạm vi quá sớm |
 | Cần xác nhận dịch vụ | Hiển thị tên đầy đủ, giải thích và nút xác nhận/đổi dịch vụ |
+| Người dùng đổi ý | Hiểu “thôi/tôi muốn…”; nếu còn mơ hồ thì nhớ dịch vụ đích và hiện nút Chuyển/Giữ |
 | Thiếu field | Nêu tên đời thường, giải thích cách điền, cho nút chọn hoặc ô nhập ngay trong chat |
 | Có suggestion | Hiển thị giá trị và Accept/Edit/Reject; không áp dụng âm thầm |
 | Dữ liệu stale | Giữ giá trị form, tải lại session/revision và thông báo phục hồi dễ hiểu |

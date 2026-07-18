@@ -328,6 +328,25 @@ export function useChatSession(context: ChatSessionContext) {
     void retryAction();
   }, [busy, retryAction]);
 
+  const bindProcedure = useCallback(async (procedureCode: string) => {
+    setBusy(true);
+    setError(null);
+    try {
+      const response = await fetch("/api/chat/session", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ procedure_code: procedureCode }),
+      });
+      if (!response.ok) await readJson<never>(response);
+      return true;
+    } catch (requestError) {
+      setError(errorMessage(requestError, "Không thể ghi nhớ dịch vụ đã xác nhận."));
+      return false;
+    } finally {
+      setBusy(false);
+    }
+  }, []);
+
   return {
     session,
     turn,
@@ -342,5 +361,6 @@ export function useChatSession(context: ChatSessionContext) {
     chooseFieldValue,
     resolveSuggestion,
     resetSession,
+    bindProcedure,
   };
 }
