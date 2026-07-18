@@ -22,8 +22,21 @@ JsonScalar = str | int | float | bool
 
 _CLASSIFICATIONS = frozenset({"supported", "unsupported", "ambiguous"})
 _FIELD_TYPES = frozenset({"string", "date", "enum", "integer", "number", "boolean"})
-_ROOT_KEYS = frozenset({"classification", "procedure_code", "clarification_question", "fields"})
+_RULE_CONTEXT_ORIGINS = frozenset(
+    {"intent_extraction", "document_check", "user_declaration", "derived"}
+)
+_EXTRACTABLE_RULE_ORIGINS = frozenset({"intent_extraction", "user_declaration"})
+_ROOT_KEYS = frozenset(
+    {
+        "classification",
+        "procedure_code",
+        "clarification_question",
+        "fields",
+        "context_signals",
+    }
+)
 _FIELD_KEYS = frozenset({"field_id", "value", "evidence"})
+_CONTEXT_SIGNAL_KEYS = frozenset({"input_id", "value", "evidence"})
 _PRONOUN_ONLY_NAME_VALUES = frozenset(
     {"tôi", "mình", "chúng tôi", "chúng mình", "tớ", "con tôi", "con của tôi"}
 )
@@ -34,6 +47,21 @@ _POSSESSIVE_RELATION_REFERENCE = re.compile(
     r"^(?:cho\s+)?(?:con|bố|ba|cha|mẹ|má|vợ|chồng|ông|bà|anh|chị|em)(?:\s+của)?\s+tôi$"
 )
 _PHRASE_EDGE_CHARACTERS = " \t\r\n.,!?;:…'\"“”‘’()[]{}"
+_NEGATION_PATTERN = re.compile(
+    r"(?<!\w)(?:không\s+phải|đâu\s+có|không|chưa|chẳng|chả)(?!\w)",
+    flags=re.IGNORECASE,
+)
+_LABEL_STOP_WORDS = frozenset(
+    {
+        "có",
+        "hoặc",
+        "là",
+        "người",
+        "trường",
+        "hợp",
+        "và",
+    }
+)
 
 
 class ExtractionSchemaError(ValueError):
@@ -159,17 +187,117 @@ class ProcedureSpec:
 
 
 @dataclass(frozen=True, slots=True)
+class RuleContextSpec:
+    """One reviewed rule input, kept separate from form fields.
+
+    Only constrained inputs whose origin is ``intent_extraction`` or
+    ``user_declaration`` are exposed to the text model.  ``document_check``
+    inputs remain available to deterministic adapters such as OCR, but cannot
+    be invented from chat text.
+    """
+
+    procedure_code: str
+    input_id: str
+    label: str
+    field_type: str
+    origin: str
+    values: tuple[str, ...] = ()
+    pattern: str | None = None
+    minimum: int | float | None = None
+    maximum: int | float | None = None
+
+    @classmethod
+    def from_record(cls, record: Mapping[str, Any]) -> RuleContextSpec:
+        try:
+            procedure_code = record["procedure_code"]
+            input_id = record["input_id"]
+            label = record["label"]
+            field_type = record["type"]
+            origin = record["origin"]
+        except KeyError as exc:
+            raise ExtractionSchemaError(
+                "invalid_catalog", f"Rule-context entry is missing {exc.args[0]!r}."
+            ) from exc
+
+        text_values = (procedure_code, input_id, label, field_type, origin)
+        if not all(isinstance(value, str) and value for value in text_values):
+            raise ExtractionSchemaError(
+                "invalid_catalog", "Rule-context metadata must use non-empty strings."
+            )
+        if field_type not in _FIELD_TYPES:
+            raise ExtractionSchemaError(
+                "invalid_catalog", f"Unsupported rule-context type: {field_type!r}."
+            )
+        if origin not in _RULE_CONTEXT_ORIGINS:
+            raise ExtractionSchemaError(
+                "invalid_catalog", f"Unsupported rule-context origin: {origin!r}."
+            )
+
+        raw_values = record.get("values", ())
+        if not isinstance(raw_values, Sequence) or isinstance(raw_values, (str, bytes)):
+            raise ExtractionSchemaError(
+                "invalid_catalog", "Rule-context enum values must be an array."
+            )
+        values = tuple(raw_values)
+        if any(not isinstance(value, str) or not value for value in values):
+            raise ExtractionSchemaError(
+                "invalid_catalog", "Rule-context enum values must be non-empty strings."
+            )
+        if field_type == "enum" and not values:
+            raise ExtractionSchemaError(
+                "invalid_catalog", "Enum rule-context inputs must declare values."
+            )
+
+        return cls(
+            procedure_code=procedure_code,
+            input_id=input_id,
+            label=label,
+            field_type=field_type,
+            origin=origin,
+            values=values,
+        )
+
+    @property
+    def field_id(self) -> str:
+        """Compatibility name used by the shared scalar validators."""
+
+        return self.input_id
+
+    @property
+    def is_text_extractable(self) -> bool:
+        # Unconstrained strings cannot be safely normalized into a canonical
+        # rule value.  Keep them for deterministic adapters until the reviewed
+        # catalog provides an enum or another explicit constraint.
+        return self.origin in _EXTRACTABLE_RULE_ORIGINS and self.field_type != "string"
+
+    def value_schema(self) -> dict[str, Any]:
+        if self.field_type == "enum":
+            return {"type": "string", "enum": list(self.values)}
+        if self.field_type in {"string", "date"}:
+            return {"type": "string"}
+        return {
+            "type": {
+                "integer": "integer",
+                "number": "number",
+                "boolean": "boolean",
+            }[self.field_type]
+        }
+
+
+@dataclass(frozen=True, slots=True)
 class ExtractionCatalog:
     """Immutable view of extractable fields and routing metadata."""
 
     _fields_by_procedure: Mapping[str, Mapping[str, FieldSpec]]
     _procedures: Mapping[str, ProcedureSpec]
+    _rule_contexts_by_procedure: Mapping[str, Mapping[str, RuleContextSpec]]
 
     @classmethod
     def from_records(
         cls,
         field_records: Iterable[Mapping[str, Any]],
         procedure_records: Iterable[Mapping[str, Any]] = (),
+        rule_context_records: Iterable[Mapping[str, Any]] = (),
     ) -> ExtractionCatalog:
         mutable_fields: dict[str, dict[str, FieldSpec]] = {}
         for record in field_records:
@@ -242,13 +370,46 @@ class ExtractionCatalog:
                 "Field catalog and procedure metadata must contain exactly the same codes.",
             )
 
+        mutable_contexts: dict[str, dict[str, RuleContextSpec]] = {code: {} for code in procedures}
+        for record in rule_context_records:
+            context_spec = RuleContextSpec.from_record(record)
+            if context_spec.procedure_code not in procedures:
+                raise ExtractionSchemaError(
+                    "unapproved_procedure",
+                    "Rule-context input references unknown procedure "
+                    f"{context_spec.procedure_code!r}.",
+                )
+            procedure_contexts = mutable_contexts[context_spec.procedure_code]
+            if context_spec.input_id in procedure_contexts:
+                raise ExtractionSchemaError(
+                    "invalid_catalog",
+                    f"Duplicate rule-context input {context_spec.input_id!r} for "
+                    f"procedure {context_spec.procedure_code!r}.",
+                )
+            if context_spec.input_id in mutable_fields[context_spec.procedure_code]:
+                raise ExtractionSchemaError(
+                    "invalid_catalog",
+                    f"Rule-context input {context_spec.input_id!r} duplicates a form field.",
+                )
+            procedure_contexts[context_spec.input_id] = context_spec
+
         frozen_fields = MappingProxyType(
             {
                 code: MappingProxyType(dict(sorted(fields.items())))
                 for code, fields in sorted(mutable_fields.items())
             }
         )
-        return cls(frozen_fields, MappingProxyType(dict(sorted(procedures.items()))))
+        frozen_contexts = MappingProxyType(
+            {
+                code: MappingProxyType(dict(sorted(contexts.items())))
+                for code, contexts in sorted(mutable_contexts.items())
+            }
+        )
+        return cls(
+            frozen_fields,
+            MappingProxyType(dict(sorted(procedures.items()))),
+            frozen_contexts,
+        )
 
     @classmethod
     def from_data_package(cls, data_directory: Path) -> ExtractionCatalog:
@@ -258,6 +419,11 @@ class ExtractionCatalog:
         field_records = _load_json(catalog_directory / "field_catalog.json")
         if not isinstance(field_records, list):
             raise ExtractionSchemaError("invalid_catalog", "Field catalog root must be an array.")
+        rule_context_records = _load_json(catalog_directory / "rule_context_catalog.json")
+        if not isinstance(rule_context_records, list):
+            raise ExtractionSchemaError(
+                "invalid_catalog", "Rule-context catalog root must be an array."
+            )
 
         procedure_records: list[Mapping[str, Any]] = []
         approved_codes: set[str] = set()
@@ -282,7 +448,7 @@ class ExtractionCatalog:
                 "unapproved_procedure",
                 "Every field-catalog procedure must have one approved procedure pack.",
             )
-        return cls.from_records(field_records, procedure_records)
+        return cls.from_records(field_records, procedure_records, rule_context_records)
 
     @property
     def procedure_codes(self) -> tuple[str, ...]:
@@ -295,6 +461,10 @@ class ExtractionCatalog:
     @property
     def field_count(self) -> int:
         return sum(len(fields) for fields in self._fields_by_procedure.values())
+
+    @property
+    def rule_context_count(self) -> int:
+        return sum(len(items) for items in self._rule_contexts_by_procedure.values())
 
     def fields_for(self, procedure_code: str) -> tuple[FieldSpec, ...]:
         try:
@@ -313,6 +483,28 @@ class ExtractionCatalog:
                 f"Field {field_id!r} is not defined for procedure {procedure_code!r}.",
             ) from exc
 
+    def rule_contexts_for(self, procedure_code: str) -> tuple[RuleContextSpec, ...]:
+        try:
+            return tuple(self._rule_contexts_by_procedure[procedure_code].values())
+        except KeyError as exc:
+            raise ExtractionSchemaError(
+                "unknown_procedure", f"Unknown procedure code: {procedure_code!r}."
+            ) from exc
+
+    def extractable_rule_contexts_for(self, procedure_code: str) -> tuple[RuleContextSpec, ...]:
+        return tuple(
+            spec for spec in self.rule_contexts_for(procedure_code) if spec.is_text_extractable
+        )
+
+    def rule_context(self, procedure_code: str, input_id: str) -> RuleContextSpec:
+        try:
+            return self._rule_contexts_by_procedure[procedure_code][input_id]
+        except KeyError as exc:
+            raise ExtractionSchemaError(
+                "unknown_context_signal",
+                f"Rule-context input {input_id!r} is not defined for {procedure_code!r}.",
+            ) from exc
+
 
 @dataclass(frozen=True, slots=True)
 class ValidatedExtraction:
@@ -322,6 +514,9 @@ class ValidatedExtraction:
     procedure_code: str | None
     fields: Mapping[str, JsonScalar]
     evidence: Mapping[str, str]
+    context_signals: Mapping[str, JsonScalar]
+    context_evidence: Mapping[str, str]
+    context_origins: Mapping[str, str]
     clarification_question: str | None
 
 
@@ -348,6 +543,28 @@ def build_extraction_json_schema(catalog: ExtractionCatalog) -> dict[str, Any]:
                 }
             )
 
+    context_variants: list[dict[str, Any]] = []
+    for procedure_code in catalog.procedure_codes:
+        for context_spec in catalog.extractable_rule_contexts_for(procedure_code):
+            context_variants.append(
+                {
+                    "type": "object",
+                    "description": (
+                        f"{procedure_code}: {context_spec.label}; origin={context_spec.origin}"
+                    ),
+                    "properties": {
+                        "input_id": {"type": "string", "enum": [context_spec.input_id]},
+                        "value": context_spec.value_schema(),
+                        "evidence": {
+                            "type": "string",
+                            "description": "Verbatim evidence from the current user message.",
+                        },
+                    },
+                    "required": ["input_id", "value", "evidence"],
+                    "additionalProperties": False,
+                }
+            )
+
     return {
         "type": "object",
         "properties": {
@@ -364,14 +581,27 @@ def build_extraction_json_schema(catalog: ExtractionCatalog) -> dict[str, Any]:
                 "type": "array",
                 "items": {"anyOf": item_variants},
             },
+            "context_signals": {
+                "type": "array",
+                "items": {"anyOf": context_variants},
+            },
         },
-        "required": ["classification", "procedure_code", "clarification_question", "fields"],
+        "required": [
+            "classification",
+            "procedure_code",
+            "clarification_question",
+            "fields",
+            "context_signals",
+        ],
         "additionalProperties": False,
     }
 
 
 def validate_extraction_payload(
-    payload: Mapping[str, Any], *, message: str, catalog: ExtractionCatalog
+    payload: Mapping[str, Any],
+    *,
+    message: str,
+    catalog: ExtractionCatalog,
 ) -> ValidatedExtraction:
     """Validate provider output without coercing, defaulting, or inferring values."""
 
@@ -383,6 +613,7 @@ def validate_extraction_payload(
     procedure_code = payload["procedure_code"]
     clarification_question = payload["clarification_question"]
     raw_fields = payload["fields"]
+    raw_context_signals = payload["context_signals"]
 
     if not isinstance(classification, str) or classification not in _CLASSIFICATIONS:
         raise ExtractionSchemaError("invalid_classification", "Unknown extraction classification.")
@@ -394,6 +625,8 @@ def validate_extraction_payload(
         )
     if not isinstance(raw_fields, list):
         raise ExtractionSchemaError("invalid_fields", "Fields must be an array.")
+    if not isinstance(raw_context_signals, list):
+        raise ExtractionSchemaError("invalid_context_signals", "Context signals must be an array.")
 
     if classification == "supported":
         if procedure_code not in catalog.procedure_codes:
@@ -405,10 +638,11 @@ def validate_extraction_payload(
                 "invalid_clarification", "Supported output cannot ask an intent clarification."
             )
     else:
-        if procedure_code is not None or raw_fields:
+        if procedure_code is not None or raw_fields or raw_context_signals:
             raise ExtractionSchemaError(
                 "unsafe_non_supported",
-                "Unsupported or ambiguous output must have a null code and no fields.",
+                "Unsupported or ambiguous output must have a null code, no fields, "
+                "and no context signals.",
             )
         if classification == "ambiguous":
             if clarification_question is None or not clarification_question.strip():
@@ -460,11 +694,71 @@ def validate_extraction_payload(
         fields[field_id] = value
         evidence_by_field[field_id] = evidence
 
+    context_signals: dict[str, JsonScalar] = {}
+    context_evidence: dict[str, str] = {}
+    context_origins: dict[str, str] = {}
+    for raw_signal in raw_context_signals:
+        if not isinstance(raw_signal, Mapping):
+            raise ExtractionSchemaError(
+                "invalid_context_signal", "Every context signal must be an object."
+            )
+        _require_exact_keys(raw_signal, _CONTEXT_SIGNAL_KEYS, "context_signal")
+        input_id = raw_signal["input_id"]
+        value = raw_signal["value"]
+        evidence = raw_signal["evidence"]
+        if not isinstance(input_id, str) or not input_id:
+            raise ExtractionSchemaError(
+                "invalid_context_signal", "Context input ID must be a non-empty string."
+            )
+        if input_id in context_signals:
+            raise ExtractionSchemaError(
+                "duplicate_context_signal", f"Duplicate context signal: {input_id!r}."
+            )
+        if not isinstance(evidence, str) or not evidence.strip() or len(evidence) > 500:
+            raise ExtractionSchemaError(
+                "invalid_evidence", "Context evidence must be a short, non-empty string."
+            )
+        if not _contains_evidence(message, evidence):
+            raise ExtractionSchemaError(
+                "unverifiable_evidence",
+                f"Evidence for context signal {input_id!r} is absent from the message.",
+            )
+
+        assert procedure_code is not None
+        context_spec = catalog.rule_context(procedure_code, input_id)
+        if not context_spec.is_text_extractable:
+            raise ExtractionSchemaError(
+                "unsafe_context_origin",
+                f"Context signal {input_id!r} cannot originate from chat text.",
+            )
+        _validate_value(context_spec, value)
+        if not _evidence_supports_value(context_spec, value, evidence):
+            raise ExtractionSchemaError(
+                "inconsistent_evidence",
+                f"Evidence does not support context signal {input_id!r}.",
+            )
+        if context_spec.field_type == "boolean" and not _boolean_context_is_grounded(
+            context_spec,
+            value,
+            evidence=evidence,
+            message=message,
+        ):
+            raise ExtractionSchemaError(
+                "inconsistent_evidence",
+                f"Evidence does not safely ground boolean context signal {input_id!r}.",
+            )
+        context_signals[input_id] = value
+        context_evidence[input_id] = evidence
+        context_origins[input_id] = context_spec.origin
+
     return ValidatedExtraction(
         classification=classification,
         procedure_code=procedure_code,
         fields=MappingProxyType(fields),
         evidence=MappingProxyType(evidence_by_field),
+        context_signals=MappingProxyType(context_signals),
+        context_evidence=MappingProxyType(context_evidence),
+        context_origins=MappingProxyType(context_origins),
         clarification_question=clarification_question,
     )
 
@@ -534,7 +828,7 @@ def _require_exact_keys(
         )
 
 
-def _validate_value(spec: FieldSpec, value: object) -> None:
+def _validate_value(spec: FieldSpec | RuleContextSpec, value: object) -> None:
     if spec.field_type in {"string", "date", "enum"}:
         if not isinstance(value, str) or not value:
             raise ExtractionSchemaError("invalid_value", f"{spec.field_id!r} must be a string.")
@@ -604,7 +898,9 @@ def _is_uninformative_enum_evidence(spec: FieldSpec, evidence: str) -> bool:
     )
 
 
-def _evidence_supports_value(spec: FieldSpec, value: JsonScalar, evidence: str) -> bool:
+def _evidence_supports_value(
+    spec: FieldSpec | RuleContextSpec, value: JsonScalar, evidence: str
+) -> bool:
     if spec.field_type == "string":
         normalised_value = _normalise_text(str(value))
         normalised_evidence = _normalise_text(evidence)
@@ -653,6 +949,66 @@ def _evidence_supports_value(spec: FieldSpec, value: JsonScalar, evidence: str) 
                 return True
         return False
     return True
+
+
+def _boolean_context_is_grounded(
+    spec: RuleContextSpec,
+    value: JsonScalar,
+    *,
+    evidence: str,
+    message: str,
+) -> bool:
+    """Fail closed on unrelated or polarity-conflicting boolean rule signals.
+
+    The provider is allowed to select a verbatim evidence span, so polarity is
+    checked against both that span and its clause in the full current message.
+    Salient terms come from the reviewed catalog label; no separate business
+    synonym table is treated as source of truth here.  The result remains an
+    unconfirmed candidate and cannot enter ``RuleEngine`` without promotion by
+    trusted conversation state.
+    """
+
+    if type(value) is not bool:
+        return False
+    normalised_evidence = _normalise_text(evidence)
+    normalised_message = _normalise_text(message)
+    label_terms = _salient_label_terms(spec.label)
+    required_overlap = math.ceil(len(label_terms) * 0.6)
+    if required_overlap == 0 or not any(
+        len(label_terms & set(re.findall(r"\w+", clause, flags=re.UNICODE))) >= required_overlap
+        for clause in _text_clauses(normalised_evidence)
+    ):
+        return False
+
+    grounded_polarities: list[bool] = []
+    for clause in _text_clauses(normalised_message):
+        clause_terms = set(re.findall(r"\w+", clause, flags=re.UNICODE))
+        if len(label_terms & clause_terms) < required_overlap:
+            continue
+        grounded_polarities.append(_NEGATION_PATTERN.search(clause) is None)
+    if not grounded_polarities:
+        return False
+
+    if value:
+        return all(grounded_polarities)
+    return all(not polarity for polarity in grounded_polarities)
+
+
+def _salient_label_terms(label: str) -> set[str]:
+    return {
+        term
+        for term in re.findall(r"\w+", _normalise_text(label), flags=re.UNICODE)
+        if len(term) >= 3 and term not in _LABEL_STOP_WORDS
+    }
+
+
+def _text_clauses(value: str) -> tuple[str, ...]:
+    clauses = re.split(
+        r"[.!?;,:]|(?<!\w)(?:nhưng|mà|tuy\s+nhiên|thay\s+vào\s+đó)(?!\w)",
+        value,
+        flags=re.IGNORECASE,
+    )
+    return tuple(clause.strip() for clause in clauses if clause.strip())
 
 
 def _normalise_text(value: str) -> str:

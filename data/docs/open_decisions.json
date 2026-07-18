@@ -30,5 +30,21 @@
     "deadline": "Trước khi triển khai Rule Engine",
     "default_for_mvp": "Dùng handler Python xác định theo rule_id; condition chỉ là mô tả có thể audit identifier. Không dùng eval/exec trên chuỗi condition.",
     "impact": "Ngăn thực thi biểu thức không an toàn và tránh hai người tự xây hai parser khác nhau."
+  },
+  {
+    "decision_id": "OD-005",
+    "question": "source_ids ở cấp ValidationResult biểu diễn nguồn của issue đã kích hoạt, toàn bộ check đã chạy hay tập nguồn tối thiểu cần hiển thị?",
+    "owner": "Domain & Data Lead + API/UX Lead",
+    "deadline": "Trước khi khóa contract validation cho web và bật assertion source trong evaluation",
+    "default_for_mvp": "Dùng nguồn của các issue đã kích hoạt; nếu không có issue thì dùng source_ids của procedure pack. Chưa sửa ground truth chỉ để khớp runtime.",
+    "impact": "Sáu case gold_validation hiện có source_ids khác runtime; status và rule_id vẫn kiểm được nhưng metric nguồn phải chờ quyết định."
+  },
+  {
+    "decision_id": "OD-006",
+    "question": "ValidationStatus.ready_to_submit biểu diễn chỉ không có rule vi phạm hay còn bắt buộc mọi required field đã đủ?",
+    "owner": "Domain & Data Lead + Core/API Lead + Rule Engine Lead",
+    "deadline": "Trước khi khóa contract validation cho web hoặc hiển thị trạng thái sẵn sàng nộp",
+    "default_for_mvp": "Core phải kiểm tra missing_fields trước khi cho NextAction.COMPLETE; UI không được diễn giải ready_to_submit là hồ sơ đầy đủ khi missing_fields còn phần tử.",
+    "impact": "Một số gold_validation kỳ vọng ready_to_submit trên input chưa đủ required field. Không tự đổi status hoặc ground truth trong nhánh Người 3; cần quyết định và migration có review."
   }
 ]

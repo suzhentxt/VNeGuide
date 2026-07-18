@@ -51,6 +51,23 @@
 | BFF → backend field smoke | 200; revision 0 → 1; values/confirmed/dirty/pack_version đúng |
 | Limited staged-text audit | Pass: 335 index file, 190 text file |
 
+### 2026-07-18 — Context-aware extraction, rule signals và evaluation (Người 3)
+
+- Giữ contract runtime hiện hành `ExtractionTurnContext(active_procedure_code,
+  expected_field_id)` và JSON prompt envelope; model chỉ dùng context để hiểu câu trả lời ngắn,
+  không dùng metadata làm evidence.
+- Schema catalog-derived có `context_signals` tách khỏi form field. Text model chỉ được sinh signal
+  có origin `intent_extraction`/`user_declaration`; `document_check` dành cho adapter tài liệu.
+- `RuleEngine` kiểm type, origin và promotion trước khi dùng signal. Boolean signal được kiểm
+  grounding/polarity theo evidence trong chính message hiện tại.
+- Thêm 21 case tổng hợp cho đúng ba thủ tục, multi-turn, out-of-scope và ambiguous; fixture có
+  checksum LF-normalized. Live evaluator là opt-in, khóa fixture và không ghi message/evidence/raw
+  output/secret vào report.
+- Giới hạn: extractor mới chỉ tạo signal candidate; conversation core chưa lưu, xác nhận và promote
+  signal vào trusted state, nên chưa được coi là chức năng end-to-end.
+
+### 2026-07-18 — Kết nối lại model thật với chatbot web
+
 Next build lần đầu bị Turbopack từ chối bind cổng nội bộ trong sandbox; chạy lại ngoài sandbox đạt.
 Smoke chỉ dùng dữ liệu giả và provider mock, không gửi PII hoặc gọi model ngoài.
 

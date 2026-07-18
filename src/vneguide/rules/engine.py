@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Collection, Mapping
 from datetime import date
 from typing import TypeAlias
 
@@ -14,12 +14,17 @@ from vneguide.domain import (
     IssueSeverity,
     JSONValue,
     ProcedureCode,
+    RuleInputOrigin,
     ValidationIssue,
     ValidationResult,
     ValidationStatus,
 )
 
 RulePredicate: TypeAlias = Callable[[Mapping[str, JSONValue]], bool]
+_TEXT_CONTEXT_ORIGINS = frozenset(
+    {RuleInputOrigin.INTENT_EXTRACTION, RuleInputOrigin.USER_DECLARATION}
+)
+_ADAPTER_CONTEXT_ORIGINS = frozenset({RuleInputOrigin.DOCUMENT_CHECK, RuleInputOrigin.DERIVED})
 
 
 def _present(values: Mapping[str, JSONValue], key: str) -> bool:
@@ -151,16 +156,82 @@ class RuleEngine:
         self._today = today or date.today()
 
     def validate(
-        self, procedure_code: ProcedureCode | str, values: Mapping[str, JSONValue]
+        self,
+        procedure_code: ProcedureCode | str,
+        values: Mapping[str, JSONValue],
+        *,
+        context_signals: Mapping[str, JSONValue] | None = None,
+        context_origins: Mapping[str, RuleInputOrigin | str] | None = None,
+        confirmed_context_signal_ids: Collection[str] = (),
+        trusted_adapter_signal_ids: Collection[str] = (),
     ) -> ValidationResult:
         code = ProcedureCode(procedure_code)
+        evaluated_values = dict(values)
+        known_context_ids = {item.input_id for item in self._repository.rule_inputs_for(code)}
+        misplaced_context = evaluated_values.keys() & known_context_ids
+        if misplaced_context:
+            raise ValueError(
+                "Rule-context inputs must be passed separately with provenance: "
+                f"{sorted(misplaced_context)}"
+            )
+        confirmed_ids = set(confirmed_context_signal_ids)
+        trusted_adapter_ids = set(trusted_adapter_signal_ids)
+        if not all(isinstance(item, str) and item for item in confirmed_ids | trusted_adapter_ids):
+            raise ValueError("Promoted context signal IDs must be non-empty strings")
+        if confirmed_ids & trusted_adapter_ids:
+            raise ValueError("A context signal cannot use two promotion paths")
+        if context_origins and not context_signals:
+            raise ValueError("Context origins require matching context signals")
+        if not context_signals and (confirmed_ids or trusted_adapter_ids):
+            raise ValueError("Cannot promote a context signal that was not supplied")
+        if context_signals:
+            if context_origins is None or set(context_origins) != set(context_signals):
+                raise ValueError("Every context signal requires one declared origin")
+            promoted_ids = confirmed_ids | trusted_adapter_ids
+            if promoted_ids - set(context_signals):
+                raise ValueError("Cannot promote a context signal that was not supplied")
+            duplicated = evaluated_values.keys() & context_signals.keys()
+            if duplicated:
+                raise ValueError(
+                    f"Context signals must not duplicate form fields: {sorted(duplicated)}"
+                )
+            for input_id, value in context_signals.items():
+                try:
+                    origin = RuleInputOrigin(context_origins[input_id])
+                except ValueError as exc:
+                    raise ValueError(
+                        f"Unknown rule-context origin {context_origins[input_id]!r}"
+                    ) from exc
+                self.validate_context_signal(
+                    code,
+                    input_id,
+                    value,
+                    origin=origin,
+                )
+                if origin in _TEXT_CONTEXT_ORIGINS and input_id not in confirmed_ids:
+                    raise ValueError(
+                        f"Text-derived context signal {input_id!r} requires confirmation"
+                    )
+                if origin in _TEXT_CONTEXT_ORIGINS and input_id in trusted_adapter_ids:
+                    raise ValueError(
+                        f"Text-derived context signal {input_id!r} cannot use adapter trust"
+                    )
+                if origin in _ADAPTER_CONTEXT_ORIGINS and input_id not in trusted_adapter_ids:
+                    raise ValueError(
+                        f"Adapter context signal {input_id!r} requires trusted provenance"
+                    )
+                if origin in _ADAPTER_CONTEXT_ORIGINS and input_id in confirmed_ids:
+                    raise ValueError(
+                        f"Adapter context signal {input_id!r} cannot use text confirmation"
+                    )
+            evaluated_values.update(context_signals)
         issues: list[ValidationIssue] = []
         passed: list[str] = []
         for rule in self._repository.rules_for(code):
             handler = RULE_HANDLERS.get(rule.rule_id)
             if handler is None:
                 raise RuntimeError(f"Missing deterministic handler for {rule.rule_id}")
-            if handler(values):
+            if handler(evaluated_values):
                 issues.append(
                     ValidationIssue(
                         rule_id=rule.rule_id,
@@ -194,6 +265,59 @@ class RuleEngine:
             passed_checks=tuple(passed),
             source_ids=source_ids,
         )
+
+    def validate_context_signal(
+        self,
+        procedure_code: ProcedureCode | str,
+        input_id: str,
+        value: JSONValue,
+        *,
+        origin: RuleInputOrigin | str,
+    ) -> None:
+        """Validate one non-form rule input and its catalog-declared origin.
+
+        Origin equality alone is not provenance.  ``validate`` separately
+        requires confirmation for text-derived candidates or trusted-adapter
+        promotion for document/derived inputs before rules can consume them.
+        """
+
+        code = ProcedureCode(procedure_code)
+        inputs = {item.input_id: item for item in self._repository.rule_inputs_for(code)}
+        try:
+            item = inputs[input_id]
+        except KeyError as exc:
+            raise ValueError(f"Unknown rule-context input {input_id!r}") from exc
+
+        try:
+            actual_origin = RuleInputOrigin(origin)
+        except ValueError as exc:
+            raise ValueError(f"Unknown rule-context origin {origin!r}") from exc
+        if actual_origin is not item.origin:
+            raise ValueError(
+                f"Rule-context input {input_id!r} requires origin {item.origin.value!r}"
+            )
+
+        if item.field_type is FieldType.STRING and not isinstance(value, str):
+            raise ValueError(f"{input_id} must be a string")
+        if item.field_type is FieldType.BOOLEAN and not isinstance(value, bool):
+            raise ValueError(f"{input_id} must be a boolean")
+        if item.field_type is FieldType.INTEGER and (
+            isinstance(value, bool) or not isinstance(value, int)
+        ):
+            raise ValueError(f"{input_id} must be an integer")
+        if item.field_type is FieldType.NUMBER and (
+            isinstance(value, bool) or not isinstance(value, (int, float))
+        ):
+            raise ValueError(f"{input_id} must be a number")
+        if item.field_type is FieldType.DATE:
+            if not isinstance(value, str):
+                raise ValueError(f"{input_id} must be an ISO date")
+            try:
+                date.fromisoformat(value)
+            except ValueError as exc:
+                raise ValueError(f"{input_id} must be an ISO date") from exc
+        if item.field_type is FieldType.ENUM and value not in item.values:
+            raise ValueError(f"{input_id} has an unsupported value")
 
     def missing_fields(
         self, procedure_code: ProcedureCode | str, values: Mapping[str, JSONValue]
