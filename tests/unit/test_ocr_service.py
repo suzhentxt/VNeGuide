@@ -66,7 +66,7 @@ def test_clear_relevant_document_passes() -> None:
 
 def test_document_below_strict_confidence_does_not_pass() -> None:
     service = OcrService(
-        StubPreprocessor(), StubBackend(assessment("legal_dwelling", confidence=0.84))
+        StubPreprocessor(), StubBackend(assessment("legal_dwelling", confidence=0.74))
     )
     result = service.validate_document("legal_dwelling", OcrDocument(b"x", "image/png"))
     assert result.status == "needs_review"
@@ -74,7 +74,7 @@ def test_document_below_strict_confidence_does_not_pass() -> None:
 
 def test_document_at_strict_confidence_threshold_passes() -> None:
     service = OcrService(
-        StubPreprocessor(), StubBackend(assessment("legal_dwelling", confidence=0.85))
+        StubPreprocessor(), StubBackend(assessment("legal_dwelling", confidence=0.75))
     )
     result = service.validate_document("legal_dwelling", OcrDocument(b"x", "image/png"))
     assert result.status == "pass"

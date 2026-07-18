@@ -86,7 +86,6 @@ export function ChatWidget() {
     }
   });
   const [declarationCompleted, setDeclarationCompleted] = useState(false);
-  const [documentStepActive, setDocumentStepActive] = useState(false);
   const [showUploadPanel, setShowUploadPanel] = useState(false);
   const [fieldEntry, setFieldEntry] = useState({ fieldId: "", value: "" });
   const listRef = useRef<HTMLDivElement>(null);
@@ -201,7 +200,7 @@ export function ChatWidget() {
 
   useEffect(() => {
     const onDocumentStepEntered = () => {
-      setDocumentStepActive(true);
+      setShowUploadPanel(true);
       setOpen(true);
     };
     window.addEventListener("vneguide:document-step-entered", onDocumentStepEntered);
@@ -459,17 +458,6 @@ export function ChatWidget() {
                 );
               })}
             </div>
-
-            {!showUploadPanel && documentStepActive && context.procedure_code === "1.004194" ? (
-              <section className="space-y-3 rounded-xl border-2 border-[#ce7a58] bg-[#fff8f5] p-3">
-                <div>
-                  <p className="font-extrabold text-[#903938]">Kiểm tra giấy tờ ở bước 2</p>
-                  <p className="mt-1 text-sm leading-6 text-[#52606d]">Bạn có thể tải tài liệu demo hoặc đã ẩn danh. OCR chỉ sàng lọc nhẹ và không kết luận giá trị pháp lý.</p>
-                </div>
-                <DocumentUploadCard compact kind="legal_dwelling" />
-                <DocumentUploadCard compact kind="minor_consent" />
-              </section>
-            ) : null}
 
             {needsServiceConfirmation && selectedProcedure ? (
               <section
