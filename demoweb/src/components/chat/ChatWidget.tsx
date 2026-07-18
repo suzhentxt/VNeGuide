@@ -77,7 +77,6 @@ export function ChatWidget() {
     chooseFieldValue,
     resolveSuggestion,
     resetSession,
-    closeSession,
   } = useChatSession(context);
 
   const inferredProcedure = turn?.procedure
@@ -131,12 +130,11 @@ export function ChatWidget() {
     return () => window.removeEventListener("vneguide:declaration-completed", onDeclarationCompleted);
   }, []);
 
-  async function confirmProcedure() {
+  function confirmProcedure() {
     if (!selectedProcedure) return;
     const route = getConfirmedProcedureRoute(selectedProcedure.code);
     if (!route) return;
     setOpen(false);
-    await closeSession();
     setSelectedProcedureCode(null);
     setChoosingProcedure(false);
     setDeclarationCompleted(false);
@@ -160,11 +158,6 @@ export function ChatWidget() {
 
   const pendingSuggestions = turn?.suggestions.filter(
     (suggestion) => suggestion.status === "pending",
-  );
-  const contextChanged = Boolean(
-    session?.context?.procedure_code &&
-      context.procedure_code &&
-      session.context.procedure_code !== context.procedure_code,
   );
   const validationPresentation = getChatValidationPresentation(turn);
   const replyOptions = getChatReplyOptions(turn);
@@ -304,22 +297,6 @@ export function ChatWidget() {
               <div className="flex items-start gap-2 rounded-lg border border-[#f0c36a] bg-[#fff8df] p-3 text-sm text-[#704d09]">
                 <AlertTriangle className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
                 <p>{session.scope_warning}</p>
-              </div>
-            ) : null}
-
-            {contextChanged ? (
-              <div className="rounded-lg border border-[#b9cde5] bg-[#f2f7fc] p-3 text-sm text-[#24496f]">
-                <p>
-                  Phiên hiện tại đang gắn với “{session?.context?.procedure_title}”. Bạn đã chuyển sang “{context.procedure_title}”.
-                </p>
-                <button
-                  className="mt-2 min-h-10 rounded-md bg-[#24496f] px-3 font-bold text-white hover:bg-[#183653] disabled:opacity-50"
-                  disabled={busy}
-                  onClick={() => void restartSession()}
-                  type="button"
-                >
-                  Bắt đầu phiên cho trang này
-                </button>
               </div>
             ) : null}
 

@@ -252,25 +252,6 @@ export function useChatSession(context: ChatSessionContext) {
     }
   }, [createSession, workspace]);
 
-  const closeSession = useCallback(async () => {
-    setBusy(true);
-    setError(null);
-    latestMessageRequest.current = null;
-    hiddenMessages.current.clear();
-    try {
-      await fetch("/api/chat/session", { method: "DELETE" });
-      workspace.resetWorkspace();
-      setSession(null);
-      setTurn(null);
-      setMessages([]);
-    } catch (requestError) {
-      setError(errorMessage(requestError, "Không thể chuyển sang hồ sơ đã chọn."));
-      throw requestError;
-    } finally {
-      setBusy(false);
-    }
-  }, [workspace]);
-
   return {
     session,
     turn,
@@ -283,6 +264,5 @@ export function useChatSession(context: ChatSessionContext) {
     chooseFieldValue,
     resolveSuggestion,
     resetSession,
-    closeSession,
   };
 }
