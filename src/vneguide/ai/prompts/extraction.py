@@ -130,6 +130,9 @@ Ví dụ bắt buộc để phân biệt field:
   fields rỗng nếu người dùng chưa nói thêm dữ liệu biểu mẫu.
 - Câu "Tôi cần xác nhận điều kiện nhà ở để đăng ký thường trú": classification supported,
   procedure_code 1.013314, fields rỗng nếu người dùng chưa nói thêm dữ liệu biểu mẫu.
+- Câu "Tôi muốn đăng ký thường trú" hoặc "đăng kí thường trú": classification supported,
+  procedure_code 1.013314, fields rỗng. "đăng ký thường trú" là alias của thủ tục 1.013314,
+  không phải 1.004194 (đăng ký tạm trú). Phân biệt "thường trú" (1.013314) với "tạm trú" (1.004194).
 - Context thủ tục 1.004194 đang chờ `registration_mode`, câu hiện tại "tôi đăng ký online":
   giữ procedure_code 1.004194 và chỉ trích `submission_channel="online"`. Không suy ra
   `registration_mode`; online/trực tuyến là kênh nộp, không phải hình thức cá nhân/danh sách.
