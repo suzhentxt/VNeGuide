@@ -75,4 +75,22 @@ Image provenance của lần smoke:
   có margin 75/60 giây nhưng chưa có delayed-response E2E.
 - Không có browser tab trong phiên nên chưa chụp screenshot/video. Video backup chỉ có runbook và
   phải được record lại sau khi UI đúng scope được merge.
-- Không có cloud credential/target để tạo URL lâu dài; ngrok URL là preview tạm thời.
+- Render Free đã thay ngrok làm API target có URL ổn định, nhưng cold start và session in-memory vẫn
+  là blocker production; cần paid instance/shared store trước tải thật.
+
+## Render API production preview 2026-07-18
+
+| Hạng mục | Bằng chứng | Kết quả |
+| --- | --- | --- |
+| Blueprint | `render blueprints validate render.yaml --output json` | `valid: true`, một create action; secret chỉ có tên, `sync: false` |
+| API targeted | `pytest` API main/store/chat/form sync | `29 passed` |
+| Docker build | `docker build -f deployment/api.Dockerfile -t vneguide-api:render-test .` | Pass; manifest list `sha256:4e51b133bd7015466376f038d9ca0865cc64bed272bce965985390c3483d5dec` |
+| Container health | `GET http://127.0.0.1:18001/health` | `200 {"status":"ok"}` |
+| Render deploy | service `srv-d9dqule1a83c73b989s0`, deploy `dep-d9dr0nf41pts73docp7g`, commit `be88e9d36bd5` | `live`, `https://vneguide-api.onrender.com` |
+| Direct live model | health/create/message | `200` / `201` / `200`; `openai/gpt-4o-mini`, synthetic input |
+| Vercel deployment | `8tf1DLcUwfYtJFw18UyALrUn4zEW` | `READY`; alias `https://vneguide.vercel.app` |
+| Public E2E | Vercel BFF → Render → OpenAI | create `201` in 1.178 s; message `200` in 5.039 s |
+
+Timestamp: 2026-07-18 khoảng 23:56 ICT. Smoke chỉ dùng câu tổng hợp về cấp bản sao Giấy khai sinh;
+không gửi PII. API key được nhập trực tiếp vào Render Environment và không xuất hiện trong command,
+log, report hoặc repository.

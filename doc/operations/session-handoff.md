@@ -148,3 +148,46 @@ npm run check
 ```
 
 Rollback bằng `git revert`; không dùng reset hoặc force-push trên branch dùng chung.
+
+## Bàn giao Vercel production 2026-07-18
+
+- Project đã sẵn sàng tại `trinhs-projects-e6e09c31/vneguide`; Root Directory là `demoweb`, framework
+  Next.js và production env `VNEGUIDE_API_BASE_URL` đã được cấu hình.
+- Production deployment `HGBB73U7JGdaQay1V8DcU8tvNKGc` đã `READY` tại
+  `https://vneguide.vercel.app/`; SSO Protection đã tắt theo xác nhận của chủ project.
+
+Không dùng `vercel redeploy` với deployment `dpl_3McXuEUTANRxvYnBLGnQ1n1LXa8U`: source archive đó
+thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit mới là bắt buộc.
+
+- Smoke công khai đạt: trang chủ/ba procedure `200`, backend health `200`, tạo chat session qua BFF
+  `201`; portal-options thiếu query trả `400` đúng thiết kế. Preview vẫn phụ thuộc FastAPI
+  `127.0.0.1:18000` cùng tunnel ngrok; tunnel hoặc máy local dừng thì chatbot trên Vercel cũng dừng.
+- Bằng chứng sau smoke: ngrok `ERR_NGROK_3200` khi process local kết thúc; BFF hiển thị
+  `invalid_backend_response` vì endpoint offline trả HTML thay vì JSON. Phải deploy FastAPI lên host
+  bền vững hoặc giữ đồng thời process API/ngrok trên máy demo.
+
+## Bàn giao Render API 2026-07-18
+
+- `render.yaml` đã sẵn sàng cho Python service `vneguide-api` trên Free plan/Singapore, dùng
+  constraint lock hiện hành, một API process và health check `/health`.
+- Targeted API gate đạt `29 passed`; image local build thành công và container health `200`.
+- Service `srv-d9dqule1a83c73b989s0`, deploy `dep-d9dr0nf41pts73docp7g` đang `live` tại
+  `https://vneguide-api.onrender.com`; direct model smoke đạt health `200`, session `201`, message
+  `200`. Secret chỉ tồn tại trong Render Environment.
+- Vercel production env đã trỏ sang Render; deployment `8tf1DLcUwfYtJFw18UyALrUn4zEW` `READY` và
+  alias `https://vneguide.vercel.app` giữ nguyên. E2E create `201`/1.178 giây, message
+  `200`/5.039 giây.
+- Render Free sleep sau 15 phút idle và restart làm mất session in-memory; nâng plan hoặc thêm shared
+  store trước demo tải cao. Lần gọi đầu sau sleep có thể cần retry do cold start.
+
+## Bàn giao CI release audit 2026-07-19
+
+- Check `python` của PR #5 từng fail vì regex PII cũ nhận UUID, SHA-256, mã thủ tục dot-delimited và
+  placeholder 12 chữ số trong corpus từ `dev` là CCCD.
+- Bản sửa không allowlist `data/procedures`; scanner tiếp tục quét toàn bộ merge result và regression
+  test vẫn bắt số định danh 12 chữ số đứng độc lập.
+- Xác minh local: Ruff/format/mypy đạt; pytest `279 passed`, `2 skipped`, coverage `80.55%`; branch
+  audit `385/239` và merge-result audit `17379/11569` đều đạt.
+- Next tracing root làm Docker artifact nằm tại `/app/app/server.js`; `web.Dockerfile` đã đồng bộ
+  entrypoint và asset path theo artifact này. Compose smoke trên cổng riêng xác nhận ba service
+  healthy, API `3/3` và web `3/3` trả `200`; project test đã được `down --volumes`.

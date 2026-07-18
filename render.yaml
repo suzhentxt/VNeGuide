@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: vneguide-api
+    runtime: python
+    plan: free
+    region: singapore
+    repo: https://github.com/suzhentxt/VNeGuide
+    branch: experiment/chat-core-v2
+    buildCommand: python -m pip install --constraint deployment/requirements-api.lock ".[api]"
+    startCommand: python -m vneguide.api
+    healthCheckPath: /health
+    autoDeployTrigger: checksPass
+    renderSubdomainPolicy: enabled
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: PYTHON_VERSION
+        value: 3.11.14
+      - key: VNEGUIDE_API_HOST
+        value: 0.0.0.0
+      - key: VNEGUIDE_API_PORT
+        value: "10000"
+      - key: VNEGUIDE_LLM_PROVIDER
+        value: openai
+      - key: VNEGUIDE_MODEL
+        value: gpt-4o-mini
+      - key: VNEGUIDE_API_KEY
+        sync: false
+      - key: VNEGUIDE_SESSION_TTL_SECONDS
+        value: "1800"
+      - key: VNEGUIDE_SESSION_MAX_ACTIVE
+        value: "100"
+
+previews:
+  generation: off

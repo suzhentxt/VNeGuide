@@ -281,7 +281,7 @@ Smoke chỉ dùng dữ liệu giả và provider mock, không gửi PII hoặc g
 - [x] Full Python/npm gate đạt trên merge result Rules/AI + OCR.
 - [x] BFF gọi đúng revisioned backend field-edit contract bằng production server smoke.
 - [ ] Manual edit sync được browser E2E xác minh qua BFF và backend.
-- [ ] Rebuild/smoke container từ merge result mới.
+- [x] Rebuild/smoke API container từ merge result mới.
 - [x] OCR adapter/worker candidate-only và synthetic gate.
 - [ ] OCR API/UI sink và browser E2E thật.
 - [ ] Public hosting bền vững thay tunnel tạm.
@@ -298,3 +298,58 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
 - Session store in-memory chỉ phù hợp một worker và mất memory khi restart/TTL; cần shared store trước
   khi scale.
 - Frontend có banner mô phỏng Hackathon và `noindex`; không tiếp nhận dữ liệu cá nhân thật.
+
+### 2026-07-18 — Chuẩn bị Vercel production
+
+- Project Vercel `trinhs-projects-e6e09c31/vneguide` đã được tạo với Root Directory `demoweb`,
+  framework Next.js, Node.js 24, build `npm run build`, install `npm ci` và output `.next`.
+- Frontend import trực tiếp `data/catalog/field_catalog.json`; Next output tracing/Turbopack dùng repo
+  root để không tạo bản sao runtime của data package. `.vercelignore` chỉ cho phép field catalog cần
+  thiết và loại `.env`, cache, dependency local, Python source, test và tài liệu khỏi payload.
+- `VNEGUIDE_API_BASE_URL` production đã trỏ tới API preview ngrok; biến này không chứa secret. API
+  `/health` trả `200 {"status":"ok"}` ngay trước lần deploy.
+- Frontend gate đạt: ESLint, TypeScript, 21/21 test và Next production build 25 route.
+- Lần upload đầu dừng ở bước detect Next.js vì Root Directory còn ở repo root; cấu hình project sau
+  đó đã được sửa và giữ lại như evidence của lần phát hành lỗi.
+- Redeploy source cũ sau khi sửa Root Directory đã nhận đúng Next.js 16.2.10 nhưng thất bại vì archive
+  không có `demoweb/src`: mẫu `.vercelignore` `src` không neo ở root đã loại cả frontend source.
+  Pattern đã đổi thành `/src`; các data directory được loại tường minh để giữ duy nhất
+  `data/catalog/field_catalog.json`. Vercel dry-run xác nhận có frontend app và field catalog, không có
+  `src/vneguide` hoặc catalog khác. Redeploy archive cũ sẽ tiếp tục thất bại.
+- Fresh production deployment `HGBB73U7JGdaQay1V8DcU8tvNKGc` đã `READY`; alias công khai là
+  `https://vneguide.vercel.app/`. SSO Protection đã tắt sau xác nhận rõ của chủ project.
+- Smoke 2026-07-18 23:29 ICT: trang chủ và ba procedure route trả `200`; backend ngrok `/health`
+  trả `200`; tạo phiên qua production BFF trả `201`. `/api/portal-options` thiếu query bắt buộc trả
+  `400` đúng validation contract.
+- Kiểm tra lại 23:34 ICT xác nhận tunnel đã dừng: ngrok trả HTML `404 ERR_NGROK_3200`, production
+  BFF trả JSON `invalid_backend_response`. Vì vậy public frontend đã bền vững nhưng chatbot chưa có
+  backend hosting bền vững; smoke trước đó chỉ hợp lệ trong lúc FastAPI và ngrok cùng chạy.
+
+### 2026-07-18 — Deploy Render FastAPI
+
+- Thêm Blueprint `render.yaml` cho Python web service `vneguide-api`: Free plan, region Singapore,
+  branch `experiment/chat-core-v2`, health check `/health`, auto-deploy sau khi CI pass.
+- Blueprint chỉ khai báo tên secret `VNEGUIDE_API_KEY` với `sync: false`; provider/model công khai là
+  `openai`/`gpt-4o-mini`. Không commit `.env`, key hoặc dữ liệu cá nhân.
+- Render CLI Blueprint validation trả `valid: true` với một create action; API targeted gate
+  `29 passed`. Image `vneguide-api:render-test` build từ
+  `deployment/api.Dockerfile` và container health trả `200 {"status":"ok"}` trên cổng 18001.
+- Render service `srv-d9dqule1a83c73b989s0`, deploy `dep-d9dr0nf41pts73docp7g` đã `live` tại
+  `https://vneguide-api.onrender.com` với secret nhập qua Dashboard; không ghi hoặc in key.
+- Direct live smoke: health `200`, create session `201`, message model thật `200`. Vercel production
+  đã đổi backend URL sang Render và deployment `8tf1DLcUwfYtJFw18UyALrUn4zEW` đã `READY`.
+- E2E Vercel → Render → OpenAI bằng dữ liệu tổng hợp: create session `201`/1.178 giây, message
+  `200`/5.039 giây; reply hỏi đúng `requester_type` và không còn phụ thuộc ngrok.
+
+### 2026-07-19 — Sửa false positive release audit trên PR #5
+
+- GitHub Actions merge result có thêm corpus từ `dev`; regex cũ nhầm 12 chữ số nằm trong UUID,
+  SHA-256, mã thủ tục dạng `TP-G12.000...` và placeholder lặp là số định danh cá nhân.
+- Scanner vẫn kiểm tra toàn bộ data package nhưng chỉ báo token 12 chữ số độc lập, không nằm trong
+  mã máy; regression test xác nhận vẫn bắt số CCCD tổng hợp 12 chữ số đứng độc lập.
+- Gate local đạt: Ruff/format/mypy sạch, `279 passed`, `2 skipped`, coverage `80.55%`. Audit branch
+  đạt `385/239`; audit trên merge result `origin/dev` + candidate đạt `17379/11569` file.
+- Job container sau đó phát hiện Next standalone nằm dưới `/app/app` trong image, trong khi
+  `web.Dockerfile` chạy/copy asset ở `/app`. Dockerfile đã dùng `app/server.js`,
+  `app/.next/static` và `app/public`; Compose local xác nhận API/web/gateway healthy. Smoke mock trên
+  gateway cổng test đạt API `3/3` và web `3/3`, toàn bộ HTTP `200`.
