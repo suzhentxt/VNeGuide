@@ -191,3 +191,13 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
 - Next tracing root làm Docker artifact nằm tại `/app/app/server.js`; `web.Dockerfile` đã đồng bộ
   entrypoint và asset path theo artifact này. Compose smoke trên cổng riêng xác nhận ba service
   healthy, API `3/3` và web `3/3` trả `200`; project test đã được `down --volumes`.
+
+## Bàn giao README cho ban giám khảo 2026-07-19
+
+- Bắt đầu review tại phần “Dành cho ban giám khảo — bản đồ chấm 100 điểm” trong `README.md`; mỗi tiêu
+  chí có code/evidence hoặc nhãn mục tiêu pilot rõ ràng.
+- Không đổi số liệu pilot thành claim thực tế khi chưa có baseline người dùng thật. Các blocker vẫn
+  phải công khai: session chưa durable, preview không có SLA, OCR chưa nối upload UI, browser E2E và
+  video dự phòng chưa hoàn tất.
+- Bước trình bày tiếp theo: chạy preflight public URL, record video theo
+  `doc/operations/demo-and-pitch.md` và để hai người review offline trước giờ chấm.

@@ -1,12 +1,345 @@
-# VNeGuide Terminal MVP
+# VNeGuide — Trợ lý AI đồng hành điền hồ sơ dịch vụ công
 
-VNeGuide là chatbot hỗ trợ người dân chuẩn bị và kiểm tra trước hồ sơ dịch vụ công. Phạm vi runtime hiện hành được khóa bởi [`data/README.md`](data/README.md) và gồm:
+> Người dân nói bằng ngôn ngữ đời thường; VNeGuide xác định đúng dịch vụ, hướng dẫn từng bước, đề
+> xuất dữ liệu cho biểu mẫu và chờ người dùng xác nhận. AI không tự quyết định điều kiện hành chính,
+> không tự ghi đè dữ liệu và không tự nộp hồ sơ.
+
+VNeGuide là AI copilot chạy song song với biểu mẫu dịch vụ công, được thiết kế trước hết cho người
+lớn tuổi, người ít am hiểu công nghệ và người lần đầu làm thủ tục trực tuyến. Phạm vi runtime hiện
+hành được khóa bởi [`data/README.md`](data/README.md) và chỉ gồm:
 
 - `2.000635`: Cấp bản sao Trích lục hộ tịch — bản sao Giấy khai sinh.
 - `1.013314`: Xác nhận điều kiện diện tích bình quân nhà ở và tình trạng chỗ ở.
 - `1.004194`: Đăng ký tạm trú.
 
 Các tài liệu sản phẩm cũ trong `doc/` phải được đối chiếu với data package trước khi dùng để code. VNeGuide chỉ hỗ trợ hướng dẫn, kiểm tra và chuẩn bị hồ sơ; kết quả không phải quyết định hành chính.
+
+## Demo công khai
+
+- Web: [https://vneguide.vercel.app](https://vneguide.vercel.app)
+- FastAPI health: [https://vneguide-api.onrender.com/health](https://vneguide-api.onrender.com/health)
+- API production dùng provider `openai`, model `gpt-4o-mini`; secret chỉ nằm trong Render
+  Environment, không nằm trong frontend hoặc repository.
+
+Vercel chạy Next.js và các route BFF `/api/chat/*`; BFF gọi FastAPI trên Render, sau đó FastAPI mới
+gọi model. Website là bản mô phỏng phục vụ hackathon, không phải Cổng Dịch vụ công và không tiếp
+nhận CCCD, số điện thoại hoặc dữ liệu cá nhân thật.
+
+Render Free có thể sleep khi không hoạt động, vì vậy request đầu tiên sau thời gian idle có thể chậm.
+Session hiện lưu trong memory và sẽ mất khi Render restart, deploy hoặc spin down; đây chưa phải kiến
+trúc lưu trữ bền vững cho tải thật.
+
+## Dành cho ban giám khảo — bản đồ chấm 100 điểm
+
+README này phân biệt rõ ba lớp bằng chứng:
+
+- **Đã triển khai:** có code, test hoặc public URL để kiểm tra ngay.
+- **Đã kiểm chứng:** có lệnh chạy, số liệu và evidence trong repository.
+- **Mục tiêu pilot:** là ngưỡng đề xuất cho thử nghiệm thực tế, chưa được trình bày như kết quả hiện có.
+
+| Tiêu chí | Điểm | Nội dung để kiểm tra nhanh | Bằng chứng chính |
+| --- | ---: | --- | --- |
+| Chất lượng triển khai kỹ thuật | 20 | Next.js BFF, FastAPI, core độc lập UI, state revisioned, CI và container smoke | [`src/vneguide/`](src/vneguide/), [`demoweb/`](demoweb/), [release evidence](doc/operations/release-evidence.md) |
+| Kiến trúc AI-Native & đổi mới | 20 | Structured extraction, suggestion-first, chat–form shared state, deterministic guidance, multi-provider | [`src/vneguide/ai/`](src/vneguide/ai/), [`src/vneguide/core/`](src/vneguide/core/), [AI design](doc/AI%20%26%20Evaluation.md) |
+| Khả thi kinh doanh & pilot | 20 | Bài toán, bên hưởng lợi, mô hình triển khai, pilot 12 tuần, KPI và điều kiện go/no-go | Mục 3 bên dưới |
+| UX AI-Native & design thinking | 15 | Xác nhận dịch vụ, hỏi từng trường, lựa chọn lớn, Accept/Edit/Reject, fallback nhập tay | [`ChatWidget.tsx`](demoweb/src/components/chat/ChatWidget.tsx), [Product & UX](doc/Product%20and%20UX.md) |
+| An toàn AI, grounding & tin cậy | 15 | 13 nguồn, 27 rule deterministic, strict schema, evidence, revision guard, PII/secret audit | [`data/catalog/`](data/catalog/), [`rules/`](src/vneguide/rules/), [`release_audit.py`](deployment/scripts/release_audit.py) |
+| Trình bày & bảo vệ giải pháp | 10 | Demo công khai, hero flow, failure demo, số liệu, giới hạn và pitch 3 phút | [Demo & pitch](doc/operations/demo-and-pitch.md), [progress](doc/operations/progress.md) |
+
+### Kịch bản chấm nhanh trong 5 phút
+
+1. Mở [demo công khai](https://vneguide.vercel.app), bấm biểu tượng trợ lý và nhập “Tôi muốn đăng
+   ký tạm trú”. Xác nhận đúng dịch vụ trước khi VNeGuide điều hướng sang trang thủ tục.
+2. Chọn nơi tiếp nhận, mở luồng nộp hồ sơ và bấm **Nhờ trợ giúp** ở một bước. Prompt hướng dẫn được
+   gửi ẩn; người dùng vẫn thấy câu trả lời và lựa chọn phù hợp với trường hiện tại.
+3. Trả lời một trường lựa chọn trong chat. Kiểm tra rằng AI chỉ tạo đề xuất; biểu mẫu chỉ thay đổi sau
+   Accept/Edit hoặc thao tác xác nhận rõ ràng.
+4. Sửa một trường trực tiếp trên form. Revision/dirty-field guard giữ giá trị người dùng và ngăn
+   phản hồi cũ ghi đè.
+5. Hỏi “Lệ phí bao nhiêu?” hoặc “Mất bao lâu?”. Câu trả lời lấy từ procedure pack đã review, không
+   cần LLM tự nhớ quy định.
+6. Thử “Tôi muốn đăng ký khai sinh mới”. Hệ thống giải thích ngoài phạm vi thay vì ép vào dịch vụ gần
+   giống.
+
+## 1. Chất lượng triển khai kỹ thuật — 20 điểm
+
+### Kiến trúc đang chạy
+
+```mermaid
+flowchart LR
+    U[Người dân] --> UI[Next.js: trang thủ tục + chat]
+    UI --> BFF[BFF /api/chat/*]
+    BFF --> API[FastAPI /v1/chat/*]
+    API --> CORE[Conversation Core]
+    CORE --> AI[Structured Extraction]
+    CORE --> RULES[Rule & Validation Engine]
+    CORE --> DATA[Reviewed Data Package]
+    AI --> PROVIDER[OpenAI / LiteLLM / Mock]
+    CORE --> SESSION[Ephemeral Session Store]
+    DATA --> SOURCES[source_id + procedure version]
+```
+
+Production preview dùng Vercel cho Next.js/BFF và Render cho FastAPI. Model key chỉ tồn tại ở Render;
+browser không gọi model trực tiếp. Local/release stack có thêm Nginx gateway và Docker Compose để
+smoke toàn tuyến trước khi deploy.
+
+| Lớp | Trách nhiệm | Ranh giới kỹ thuật |
+| --- | --- | --- |
+| `demoweb` | Điều hướng dịch vụ, biểu mẫu, chat, suggestion card và trạng thái UX | Không chứa API key hoặc business rule pháp lý |
+| Next.js BFF | Giữ session ID trong cookie `HttpOnly`, chuẩn hóa timeout/error, gọi FastAPI server-side | Không đưa session/model key vào `NEXT_PUBLIC_*` |
+| FastAPI | Contract HTTP, schema validation, session lifecycle và revisioned mutations | Không chứa logic giao diện |
+| Conversation core | Điều phối nhiều lượt, câu hỏi kế tiếp, suggestion và state transition | Không phụ thuộc CLI/Next.js |
+| AI adapter | Routing và trích xuất dữ liệu có cấu trúc từ lời người dùng | Không quyết định required field, phí hay căn cứ pháp lý |
+| Rule engine | Required/conditional field, validation và trạng thái hồ sơ | Chỉ chạy handler deterministic đã review; không `eval` rule text |
+| Data package | Procedure pack, field catalog, rule và nguồn | Là nguồn sự thật runtime; không sao chép JSON vào source |
+
+### Contract chống mất đồng bộ chat–form
+
+- `CaseDraft` có `revision`; mọi mutation suggestion/form phải gửi `expected_revision`.
+- Response stale bị từ chối thay vì ghi đè state mới.
+- Field sửa tay được đánh dấu `confirmed` và `dirty`; AI không được đề xuất ghi đè âm thầm.
+- Tin nhắn dùng `client_turn_id` để retry idempotent mà không tăng revision biểu mẫu.
+- Suggestion có vòng đời `pending → accepted/rejected/edited`; draft chỉ chứa giá trị đã xác nhận.
+- Reset tạo session mới; session cũ trả `404`. Form có thể tiếp tục dùng khi AI timeout.
+
+### Số liệu triển khai đã kiểm chứng
+
+| Hạng mục | Kết quả hiện tại | Cách kiểm tra |
+| --- | --- | --- |
+| Python quality gate | Ruff, format, mypy strict đạt; `279 passed`, `2 skipped`; coverage `80.55%` | `python -m pytest --cov=vneguide --cov-report=term-missing` |
+| Frontend gate | 21 unit test; ESLint, TypeScript và Next production build 25 route đạt | `cd demoweb && npm run check` |
+| Dependency | `npm audit --audit-level=moderate` không có vulnerability ở lần release | Xem [release evidence](doc/operations/release-evidence.md) |
+| Data contract | 44 field: tạm trú 15, nhà ở 16, bản sao khai sinh 13 | `jq 'group_by(.procedure_code)' data/catalog/field_catalog.json` |
+| Rule contract | 27 rule: tạm trú 10, nhà ở 8, bản sao khai sinh 9 | `jq 'group_by(.procedure_code)' data/catalog/validation_rules.json` |
+| Evaluation data | 58 ca JSONL tổng hợp cho guidance, validation, multi-turn và intent | [`data/evaluation/`](data/evaluation/), [`tests/evals/`](tests/evals/) |
+| CI | Python, web, container smoke và Vercel đều pass trên PR release | [progress 2026-07-19](doc/operations/progress.md) |
+| Public E2E | Tạo session `201`; message qua Vercel → Render → OpenAI `200` | [release evidence](doc/operations/release-evidence.md) |
+
+## 2. Kiến trúc AI-Native & đổi mới sáng tạo — 20 điểm
+
+VNeGuide không đặt một chatbot bên cạnh form rồi để hai bên hoạt động độc lập. Hội thoại là một cổng
+điều khiển có cấu trúc cho chính biểu mẫu, còn biểu mẫu vẫn là nơi người dùng nhìn thấy và quyết định
+dữ liệu cuối cùng.
+
+### Sáu điểm AI-Native
+
+1. **Routing có xác nhận:** AI hiểu nhu cầu đời thường nhưng phải được người dùng xác nhận đúng dịch
+   vụ trước khi điều hướng. Điều này giải quyết ambiguity giữa “làm giấy khai sinh” và “xin bản sao”.
+2. **Structured extraction có evidence:** model trả strict JSON Schema; mỗi field phải có bằng chứng
+   nguyên văn trong tin nhắn hiện tại. Context chỉ giúp hiểu câu trả lời ngắn, không được dùng làm
+   bằng chứng để bịa dữ liệu.
+3. **Suggestion-first human control:** AI tạo candidate; người dùng Accept, Reject hoặc Edit. Không có
+   đường tự động commit hoặc tự bấm “Nộp hồ sơ”.
+4. **Chat–form shared state:** câu trả lời chat, sửa tay trên form, missing field, confirmation và
+   validation cùng dùng một draft revisioned thay vì hai bản dữ liệu cạnh tranh.
+5. **Grounded guidance không cần model nhớ luật:** bảy nhóm câu hỏi — phí, thời hạn, hồ sơ, trình tự,
+   cơ quan, kênh nộp, kết quả — được render trực tiếp từ catalog có `source_id`. Khi model chậm, phần
+   hướng dẫn cốt lõi vẫn hoạt động.
+6. **Provider abstraction và graceful degradation:** cùng contract hỗ trợ OpenAI, LiteLLM và mock;
+   timeout/malformed/refusal chuyển fallback an toàn. OCR CT01 tồn tại ở chế độ candidate-only và
+   chưa được mô tả như OCR E2E khi upload UI chưa hoàn thành.
+
+### Phân chia quyết định giữa AI và code
+
+| Câu hỏi | Thành phần quyết định |
+| --- | --- |
+| Người dùng đang nói về dịch vụ nào, đã nêu field nào? | LLM structured extraction |
+| Field nào bắt buộc, phí bao nhiêu, thời hạn bao lâu? | Data package + deterministic rule |
+| Giá trị AI có được ghi vào form không? | Người dùng qua Accept/Edit hoặc xác nhận form |
+| Hồ sơ cần sửa, cần kiểm tra chính thức hay sẵn sàng kiểm tra cuối? | Rule engine với state đã xác nhận |
+| Có được nộp hồ sơ thay người dùng không? | Không; nằm ngoài capability của VNeGuide |
+
+### Luồng agent từ đầu đến cuối
+
+```mermaid
+sequenceDiagram
+    participant C as Người dân
+    participant W as Web + Form
+    participant A as VNeGuide Agent
+    participant R as Rules + Sources
+    C->>A: Mô tả nhu cầu đời thường
+    A-->>C: Đề xuất dịch vụ và yêu cầu xác nhận
+    C->>A: Xác nhận dịch vụ
+    A->>W: Điều hướng trang chi tiết dịch vụ
+    C->>W: Chọn nơi tiếp nhận / tự điền
+    W->>A: Nhờ trợ giúp cho bước hiện tại
+    A-->>C: Hướng dẫn hoặc hỏi một trường còn thiếu
+    C->>A: Trả lời
+    A-->>C: Suggestion Accept / Edit / Reject
+    C->>W: Xác nhận suggestion
+    W->>R: Validate draft revision mới
+    R-->>W: Missing fields, issue, source và next action
+    W-->>C: Kiểm tra lần cuối; người dùng tự bấm tiếp tục
+```
+
+## 3. Tính khả thi kinh doanh & lộ trình Pilot — 20 điểm
+
+### Bài toán và giá trị tạo ra
+
+| Bên liên quan | Chi phí/vướng mắc hiện tại | Giá trị VNeGuide cần chứng minh trong pilot |
+| --- | --- | --- |
+| Người dân | Khó chọn đúng thủ tục, không hiểu field, phát hiện lỗi muộn | Giảm thời gian chuẩn bị, giảm lượt hỏi lại, tăng tỷ lệ hoàn thành đúng ngay lần đầu |
+| Bộ phận một cửa | Mất thời gian giải thích lặp lại và xử lý hồ sơ thiếu | Giảm hồ sơ phải bổ sung và thời gian hỗ trợ trên mỗi hồ sơ |
+| Đơn vị vận hành cổng | Form khó dùng, mỗi thủ tục cần logic hỗ trợ riêng | Tái sử dụng agent contract, data package và rule framework theo procedure pack |
+| Cơ quan chuyên môn | Rủi ro hướng dẫn sai hoặc AI nói quá thẩm quyền | Source/version traceability, deterministic rule và luồng `needs_official_review` |
+
+### Mô hình triển khai khả thi
+
+- **Khách hàng mục tiêu:** cơ quan hành chính địa phương, trung tâm phục vụ hành chính công, đơn vị
+  vận hành cổng dịch vụ công; mô hình B2G hoặc B2B2G.
+- **Gói sản phẩm:** phí thiết lập procedure pack và mapping form; phí vận hành theo số phiên hoặc theo
+  cụm thủ tục; tùy chọn triển khai VPC/on-prem cho dữ liệu nhạy cảm.
+- **Tích hợp:** widget/component + BFF/API contract; không cần thay business rule của cổng hiện hữu.
+- **Lợi thế mở rộng:** thêm thủ tục bằng data/field/rule pack đã review thay vì viết lại prompt và UI
+  từ đầu. Mọi thủ tục mới phải qua review nguồn và regression gate.
+- **Chưa tuyên bố doanh thu hoặc tiết kiệm:** MVP chưa có dữ liệu người dùng thật. Unit economics,
+  token/session và chi phí hỗ trợ giảm được là đầu ra phải đo trong pilot.
+
+### Pilot 12 tuần đề xuất
+
+| Giai đoạn | Thời gian | Phạm vi | Điều kiện hoàn thành |
+| --- | ---: | --- | --- |
+| 0. Data & legal readiness | Tuần 1–2 | Chọn một đơn vị pilot; review nguồn, DPA/DPIA, accessibility và kịch bản hỗ trợ | Ba procedure pack được chủ nghiệp vụ ký duyệt; không còn open decision mức blocker |
+| 1. Sandbox nội bộ | Tuần 3–4 | Cán bộ nghiệp vụ chạy dữ liệu tổng hợp và case biên | 100% câu guidance có source; không auto-submit; lỗi nghiêm trọng được phân loại |
+| 2. Assisted pilot | Tuần 5–8 | Người dùng thử tại quầy/kiosk với nhân viên hỗ trợ; chưa kết nối nộp thật | Có consent, telemetry tối thiểu không PII và baseline thời gian/tỷ lệ bổ sung |
+| 3. Controlled online pilot | Tuần 9–12 | Một địa bàn, ba thủ tục, rollout theo tỷ lệ nhỏ; form hiện hữu là source of truth | KPI đạt ngưỡng, security review pass, có rollback và support owner |
+| 4. Scale decision | Sau tuần 12 | Quyết định mở rộng procedure/địa bàn hoặc dừng | Hội đồng pilot duyệt go/no-go dựa trên evidence, không dựa vào demo |
+
+### KPI pilot — mục tiêu, chưa phải kết quả MVP
+
+| Nhóm | Chỉ số mục tiêu | Cách đo |
+| --- | ---: | --- |
+| Hiệu quả | Giảm ≥ 30% median thời gian chuẩn bị hồ sơ so với baseline cùng thủ tục | A/B hoặc cohort có kiểm soát |
+| Chất lượng | Giảm ≥ 25% tỷ lệ hồ sơ phải bổ sung do thiếu/sai field trong phạm vi agent | So sánh trước/sau, loại nguyên nhân ngoài agent |
+| Task success | ≥ 80% người dùng hoàn thành luồng chuẩn bị mà không cần nhân viên nhập thay | Event funnel không chứa raw PII |
+| Grounding | 100% fact về phí/thời hạn/hồ sơ có `source_id` approved | Automated traceability gate + sample review |
+| Human control | 0 suggestion tự commit; 0 hành động tự nộp | Audit event + E2E |
+| Reliability | ≥ 99.5% API availability trong cửa sổ pilot; p95 không tính cold-start Free tier | APM của môi trường pilot trả phí |
+| Safety | 0 secret/PII trong log chuẩn; 100% case ngoài thẩm quyền được chặn/escalate | Red-team set + log audit |
+| Adoption | ≥ 70% người thử đánh giá hướng dẫn “dễ hiểu” | Survey sau phiên, tách theo nhóm tuổi/kinh nghiệm số |
+
+### Điều kiện cần trước pilot thật
+
+MVP hiện **chưa** đáp ứng production: Render Free có cold start; session in-memory; chưa có durable
+store, authentication/VNeID, audit event store, rate limiting production, DPIA, penetration test,
+browser E2E hoàn chỉnh và kênh hỗ trợ vận hành. Đây là backlog bắt buộc trước giai đoạn 2–3, không
+phải phần được che bằng prompt.
+
+## 4. UX AI-Native & tư duy thiết kế — 15 điểm
+
+### Người dùng và nguyên tắc thiết kế
+
+Thiết kế ưu tiên người lần đầu làm thủ tục, người lớn tuổi và người không biết tên field kỹ thuật:
+
+- Dùng tiếng Việt đời thường; không bắt người dùng nhập enum như `requester_type`.
+- Chỉ hỏi một mục có ngữ cảnh tại một thời điểm; fixed-value hiển thị thành nút chọn lớn.
+- Bắt buộc xác nhận đúng dịch vụ trước điều hướng để tránh người dùng điền nhầm form.
+- Nếu người dùng tự điền được, AI chỉ hướng dẫn. Nếu AI điền giúp, phải xác nhận trước bước tiếp theo.
+- “Nhờ trợ giúp” gửi prompt ngữ cảnh ẩn để người dùng không phải mô tả lại đang mắc ở bước nào.
+- Chat, missing-field summary, validation và form dùng cùng workspace; thông tin đã xác nhận không bị
+  hỏi lại hoặc ghi đè.
+- Ví thông tin chỉ được đề xuất sau khi hoàn thành phần khai; dữ liệu chỉ ở `sessionStorage` của bản
+  demo, autofill vẫn yêu cầu kiểm tra và xác nhận lại.
+
+### Trạng thái UX có chủ đích
+
+| Trạng thái | Giao diện phải giúp người dùng hiểu gì? |
+| --- | --- |
+| Chưa xác định dịch vụ | Chào hỏi bình thường, hỏi làm rõ; chưa gắn nhãn ngoài phạm vi quá sớm |
+| Cần xác nhận dịch vụ | Hiển thị tên đầy đủ, giải thích và nút xác nhận/đổi dịch vụ |
+| Thiếu field | Nêu tên đời thường, giải thích cách điền, cho nút chọn hoặc ô nhập ngay trong chat |
+| Có suggestion | Hiển thị giá trị và Accept/Edit/Reject; không áp dụng âm thầm |
+| Dữ liệu stale | Giữ giá trị form, tải lại session/revision và thông báo phục hồi dễ hiểu |
+| Model timeout/OCR lỗi | Form vẫn dùng được; chuyển nhập tay, không xóa draft |
+| Cần kiểm tra chính thức | Nói rõ phần nào cơ quan có thẩm quyền phải xác minh |
+| Sẵn sàng | “Sẵn sàng kiểm tra lần cuối”, không tuyên bố “được chấp thuận” |
+
+### Accessibility và responsive đã có trong UI
+
+- Chat full-height trên mobile, panel cố định trên desktop; nút thao tác có chiều cao tối thiểu.
+- `aria-label`, `aria-live`, focus-visible và phím `Escape`; lỗi/trạng thái không chỉ truyền bằng màu.
+- Font và khoảng cách đọc được, câu trả lời ngắn, button thay cho yêu cầu ghi nhớ cú pháp.
+- Banner nhắc không nhập CCCD/số điện thoại thật trong demo và disclaimer luôn tách khỏi nội dung AI.
+
+## 5. An toàn AI, Grounding & độ tin cậy — 15 điểm
+
+### Chuỗi tin cậy
+
+```text
+Nguồn chính thức đã review
+        ↓ source_id + version
+Procedure pack / Field catalog / 27 deterministic rules
+        ↓ strict contract
+LLM chỉ routing + extraction có evidence
+        ↓ candidate
+Người dùng Accept / Edit / Reject
+        ↓ confirmed state + revision
+Rule engine validate → ready / correction / official review / out of scope
+```
+
+Data package hiện có 13 source register entry: 10 nguồn `approved`, một nguồn `context_only` và hai
+dataset `discovery_only`. Nguồn discovery chỉ dùng tìm kiếm/RAG seed, không được dùng để kết luận
+nghiệp vụ. Mỗi procedure pack có version, ngày kiểm chứng, `source_ids` và lịch review.
+
+| Rủi ro | Kiểm soát đã triển khai | Fallback |
+| --- | --- | --- |
+| Hallucination về phí/hồ sơ/thời hạn | LLM không sở hữu fact; guided reply đọc procedure pack và trả source | Không có fact đã review thì không kết luận chắc chắn |
+| Model bịa field | Strict schema, field allowlist và evidence phải nằm trong message hiện tại | Bỏ field/malformed output, hỏi lại hoặc nhập tay |
+| AI ghi sai dữ liệu | Suggestion pending và xác nhận từng field | Reject/Edit, dirty field không bị ghi đè |
+| Response cũ | `expected_revision` + stale `409`; `client_turn_id` chống gửi trùng | Re-fetch session và rebase form |
+| Case ngoài thẩm quyền | Scope chỉ ba thủ tục; rule status `out_of_scope`/`needs_official_review` | Điều hướng tới cơ quan/kênh chính thức, không tự phán quyết |
+| Provider timeout/refusal | Typed timeout, retry có giới hạn, safe error không raw output | Form tiếp tục hoạt động và cho nhập tay |
+| PII/secret leakage | Demo warning, server-only secret, `HttpOnly` cookie, HTTPS, release audit | Không log prompt/raw response/key; reset/xóa session tạm |
+| Prompt injection | User text là untrusted input; model output chỉ đi qua schema/allowlist | Rule và source không thể bị user/model sửa |
+
+### Những gì VNeGuide tuyệt đối không làm
+
+- Không thu mật khẩu, OTP, VNeID token hoặc chữ ký số.
+- Không tự nộp, thanh toán hoặc phê duyệt hồ sơ.
+- Không dùng LLM để thêm/bớt giấy tờ, đổi phí, thời hạn hay điều kiện.
+- Không coi `ready_to_submit` là quyết định chấp thuận của cơ quan nhà nước.
+- Không dùng dữ liệu người dùng để huấn luyện nếu chưa có cơ sở pháp lý và đồng ý phù hợp.
+
+`release_audit.py` là limited pattern scan cho tracked text, secret, conflict marker và số định danh
+12 chữ số đứng độc lập; nó không thay thế secret-history scan, DLP, DPIA hoặc security assessment của
+môi trường production.
+
+## 6. Trình bày & bảo vệ giải pháp — 10 điểm
+
+### Pitch 3 phút
+
+- **0:00–0:20 — Problem:** người dân không biết chọn thủ tục nào và chỉ phát hiện hồ sơ thiếu sau khi
+  đã điền dài.
+- **0:20–0:40 — Insight:** chatbot thuần túy không đủ; agent phải cùng state với form nhưng quyền
+  quyết định vẫn thuộc người dùng.
+- **0:40–1:50 — Hero demo:** xác nhận đăng ký tạm trú → chọn nơi tiếp nhận → nhờ trợ giúp → suggestion
+  → sửa một field → xác nhận → validation và nguồn.
+- **1:50–2:15 — Failure demo:** yêu cầu đăng ký khai sinh mới bị chặn; stale revision không ghi đè;
+  timeout giữ form hoạt động.
+- **2:15–2:40 — Trust:** 44 field, 27 rule, 13 source entry, strict extraction và no auto-submit.
+- **2:40–3:00 — Pilot:** thử nghiệm 12 tuần, KPI có baseline và go/no-go; không tuyên bố demo là hệ
+  thống hành chính thật.
+
+### Câu hỏi phản biện dự kiến
+
+| Câu hỏi | Trả lời ngắn |
+| --- | --- |
+| Vì sao cần LLM nếu rule engine làm validation? | LLM hiểu ngôn ngữ đời thường và trích xuất; rule deterministic giữ tính đúng và auditability. |
+| Nếu model sai thì sao? | Output là candidate có evidence, phải xác nhận; schema/rule/revision chặn tác động ngoài contract. |
+| Làm sao mở rộng hàng nghìn thủ tục? | Procedure pack + field/rule/source versioning; ưu tiên cụm thủ tục có volume cao, không mở rộng bằng prompt đơn lẻ. |
+| Có dùng dữ liệu cá nhân thật không? | Demo không tiếp nhận PII thật; pilot cần DPIA, consent, hosting phù hợp và telemetry tối thiểu. |
+| Đây có phải Cổng DVC thật không? | Không. Đây là bản mô phỏng hackathon và chưa gọi API nộp hồ sơ chính thức. |
+| Điểm yếu lớn nhất hiện tại? | Session chưa durable, Render Free cold start, OCR chưa có upload UI và browser E2E/video dự phòng chưa hoàn tất. |
+
+### Giới hạn được công khai
+
+- Chỉ đúng ba thủ tục; không giả vờ bao phủ toàn bộ hành chính công.
+- Public URL là production preview, không có SLA và không nhận dữ liệu cá nhân thật.
+- OCR CT01 mới ở candidate worker; chưa có end-to-end upload trong web.
+- Một số browser E2E và video dự phòng vẫn là Definition of Done chưa hoàn thành.
+- Cơ quan có thẩm quyền mới được xác minh tranh chấp, quyền sở hữu/sử dụng và quyết định hồ sơ.
+
+Chi tiết runbook, rollback và evidence: [`doc/operations/`](doc/operations/).
 
 ## Yêu cầu
 
@@ -94,6 +427,11 @@ npm run dev
 ```
 
 Mặc định BFF gọi `http://127.0.0.1:8000`. Có thể đổi bằng `VNEGUIDE_API_BASE_URL` trong `demoweb/.env.local`. Kiểm tra API bằng `GET /health`.
+
+`GET /api/chat/session` trả `404 session_not_found` khi browser chưa có cookie phiên hoặc session
+trên backend đã hết hạn. Đây là bước dò phiên có chủ đích: frontend lập tức gọi
+`POST /api/chat/session` để tạo phiên mới và nhận `201`. Vì browser vẫn ghi request `404` vào
+Console, chỉ coi đây là lỗi kết nối khi request `POST` tiếp theo cũng thất bại hoặc trả `5xx`.
 
 Demoweb hiện chỉ hiển thị đúng ba thủ tục đã khóa trong `data/README.md`: `2.000635`, `1.013314` và
 `1.004194`. Luồng đăng ký kết hôn cũ đã bị loại khỏi route hỗ trợ. Form sâu của `1.004194` dùng
@@ -200,6 +538,21 @@ python deployment/scripts/smoke.py `
   --provider mock `
   --model mock-scripted
 ```
+
+Smoke hai URL public bằng dữ liệu tổng hợp, không gửi PII hoặc gọi model trực tiếp:
+
+```powershell
+python deployment/scripts/smoke.py `
+  --api-url https://vneguide-api.onrender.com `
+  --web-url https://vneguide.vercel.app `
+  --samples 3 `
+  --provider openai `
+  --model gpt-4o-mini
+```
+
+`render.yaml` là Blueprint của FastAPI trên Render. Vercel project dùng `demoweb` làm Root Directory
+và biến server-only `VNEGUIDE_API_BASE_URL=https://vneguide-api.onrender.com`. Không tạo biến
+`NEXT_PUBLIC_*` chứa API key.
 
 API demo chạy một worker vì session store nằm trong memory. Hướng dẫn public preview, model secret,
 metrics và deploy bền vững nằm trong [`deployment/README.md`](deployment/README.md). Quy trình phục

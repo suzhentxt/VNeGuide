@@ -353,3 +353,13 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
   `web.Dockerfile` chạy/copy asset ở `/app`. Dockerfile đã dùng `app/server.js`,
   `app/.next/static` và `app/public`; Compose local xác nhận API/web/gateway healthy. Smoke mock trên
   gateway cổng test đạt API `3/3` và web `3/3`, toàn bộ HTTP `200`.
+
+### 2026-07-19 — README theo rubric chấm 100 điểm
+
+- README có bản đồ evidence và nội dung riêng cho sáu tiêu chí: kỹ thuật 20, AI-Native 20, khả thi
+  kinh doanh/pilot 20, UX 15, safety/grounding 15 và pitch 10.
+- Claim kỹ thuật chỉ dùng số liệu đã kiểm chứng: 44 field, 27 rule, 13 source register entry, 58 ca
+  evaluation JSONL, 279 Python test đạt/2 skip, coverage 80,55% và 21 web test.
+- Lộ trình pilot 12 tuần, KPI và mô hình B2G/B2B2G được ghi rõ là đề xuất/mục tiêu; không trình bày
+  như kết quả thị trường đã đạt. README giữ nguyên cảnh báo demo, giới hạn Render Free, session
+  in-memory, OCR candidate-only và browser E2E/video chưa hoàn tất.
