@@ -83,7 +83,7 @@ npm run dev
 
 Mặc định BFF gọi `http://127.0.0.1:8000`. Có thể đổi bằng `VNEGUIDE_API_BASE_URL` trong `demoweb/.env.local`. Kiểm tra API bằng `GET /health`.
 
-Data package hiện hành vẫn chỉ khóa ba thủ tục trong `data/README.md`. Bốn mã thủ tục đang hiển thị trong mục Hôn nhân và gia đình chưa có procedure pack backend tương ứng; chatbox hiển thị cảnh báo phạm vi thay vì tự suy đoán checklist hoặc căn cứ nghiệp vụ cho các mã này.
+Demoweb hiện chỉ hiển thị đúng ba thủ tục đã khóa trong `data/README.md`: `2.000635`, `1.013314` và `1.004194`. Luồng đăng ký kết hôn cũ đã bị loại khỏi route hỗ trợ. Form sâu của `1.004194` dùng shared workspace với chat; endpoint backend cập nhật field trực tiếp cần được merge cùng contract BFF `/api/chat/field` để đồng bộ manual edit end-to-end.
 
 ## Cấu hình provider
 

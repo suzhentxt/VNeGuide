@@ -252,8 +252,6 @@ function DeclarationInformation({
   selectedReceptionUnit: string;
   selectedService: ProcedureService;
 }) {
-  const isMarriage = experience.formKind === "marriage";
-
   return (
     <div className="space-y-6">
       <div className="rounded-lg border border-[#E4E9EE] bg-[#F8FAFC] p-4 text-sm leading-6 text-[#52606D]">
@@ -261,7 +259,7 @@ function DeclarationInformation({
           <Info aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-[#CE7A58]" />
           <p>
             Kiểm tra phạm vi hồ sơ trước khi chuyển sang thành phần hồ sơ. Tờ
-            khai hộ tịch điện tử sẽ được mở ở bước tiếp theo.
+            khai điện tử sẽ được mở ở bước tiếp theo.
           </p>
         </div>
       </div>
@@ -306,9 +304,7 @@ function DeclarationInformation({
               type="checkbox"
             />
             <span>
-              {isMarriage
-                ? "Hai bên nam, nữ tự nguyện đăng ký kết hôn và chịu trách nhiệm về nội dung kê khai."
-                : "Người yêu cầu xác nhận nội dung đề nghị thay đổi, cải chính hoặc bổ sung thông tin hộ tịch là đúng sự thật."}
+              Người yêu cầu xác nhận thông tin trên biểu mẫu là đúng và chịu trách nhiệm về nội dung kê khai.
             </span>
           </label>
           <label className="flex cursor-pointer items-start gap-3">

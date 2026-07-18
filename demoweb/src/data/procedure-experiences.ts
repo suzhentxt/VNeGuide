@@ -1,16 +1,8 @@
-import {
-  dossierItems,
-  implementationMethods,
-  legalBases as marriageLegalBases,
-  marriageConditions,
-  marriageRoutes,
-  marriageServices,
-  procedureMetadata,
-  procedureSteps,
-  type DossierItem,
-  type ImplementationMethod,
-  type MarriageService,
-  type MetadataField,
+import type {
+  DossierItem,
+  ImplementationMethod,
+  MarriageService,
+  MetadataField,
 } from "@/data/marriage";
 
 export interface ProcedureRoutes {
@@ -50,23 +42,14 @@ export interface ProcedureExperience {
   nationalDossier: readonly DossierItem[];
   conditions: readonly string[];
   legalBases: readonly string[];
-  result: {
-    label: string;
-    code: string;
-  };
+  result: { label: string; code: string };
   justiceDossier: readonly OnlineDossierRow[];
-  formKind: "marriage" | "civil-record";
+  formKind: "temporary-residence" | "guided";
   routes: ProcedureRoutes;
 }
 
-const NO_INFORMATION = "Không có thông tin";
-
-const localFeeDescription =
-  "Mức lệ phí cụ thể do Hội đồng nhân dân tỉnh, thành phố trực thuộc Trung ương quyết định. Miễn lệ phí cho người thuộc gia đình có công với cách mạng, người thuộc hộ nghèo và người khuyết tật; phí cấp bản sao thực hiện theo quy định hiện hành.";
-
 function createRoutes(slug: string): ProcedureRoutes {
   const root = `/hon-nhan-va-gia-dinh/${slug}`;
-
   return {
     detail: root,
     services: `${root}/dich-vu-cong`,
@@ -76,489 +59,256 @@ function createRoutes(slug: string): ProcedureRoutes {
   };
 }
 
-function createMethods(duration: "01 ngày" | "05 ngày"): readonly ImplementationMethod[] {
-  return ["Trực tuyến", "Dịch vụ bưu chính", "Trực tiếp"].map((method) => ({
-    method,
-    duration,
-    fee: "Miễn phí",
-    description: localFeeDescription,
-  }));
-}
-
-function createMetadata({
-  audience,
-  code,
-  procedureType,
-  title,
-}: {
-  audience: string;
-  code: string;
-  procedureType: string;
+function metadata(experience: {
   title: string;
+  code: string;
+  field: string;
+  authority: string;
+  audience: string;
+  processingTime: string;
 }): readonly MetadataField[] {
   return [
-    { label: "Tên thủ tục", value: title, wide: true },
-    { label: "Mã thủ tục", value: code },
-    { label: "Số quyết định", value: "163/QĐ-BTP" },
+    { label: "Tên thủ tục", value: experience.title, wide: true },
+    { label: "Mã thủ tục", value: experience.code },
     { label: "Cấp thực hiện", value: "Cấp xã" },
-    { label: "Loại thủ tục", value: procedureType },
-    { label: "Lĩnh vực", value: "Hộ tịch" },
-    { label: "Đối tượng thực hiện", value: audience },
-    {
-      label: "Cơ quan có thẩm quyền",
-      value: NO_INFORMATION,
-      wide: true,
-    },
-    { label: "Địa chỉ tiếp nhận hồ sơ", value: NO_INFORMATION, wide: true },
-    { label: "Cơ quan được ủy quyền", value: NO_INFORMATION },
-    { label: "Cơ quan phối hợp", value: NO_INFORMATION },
-    {
-      label: "Thủ tục hành chính liên quan",
-      value: NO_INFORMATION,
-      wide: true,
-    },
+    { label: "Lĩnh vực", value: experience.field },
+    { label: "Đối tượng thực hiện", value: experience.audience },
+    { label: "Cơ quan thực hiện", value: experience.authority, wide: true },
+    { label: "Thời hạn giải quyết", value: experience.processingTime, wide: true },
   ];
 }
 
-const standardMarriageJusticeDossier: readonly OnlineDossierRow[] = [
-  {
-    id: "electronic-form",
-    name: "Mẫu hộ tịch điện tử tương tác đăng ký kết hôn (kê khai theo hướng dẫn trên Cổng dịch vụ công)",
-    required: true,
-    eForm: true,
-  },
-  {
-    id: "identity-documents",
-    name: "Giấy tờ tùy thân còn giá trị sử dụng của hai bên yêu cầu đăng ký kết hôn",
-    required: true,
-    eForm: false,
-  },
-  {
-    id: "residence-documents",
-    name: "Giấy tờ chứng minh thông tin cư trú khi cơ quan đăng ký hộ tịch chưa khai thác được dữ liệu cư trú",
-    required: false,
-    eForm: false,
-  },
-];
+function service(input: {
+  id: string;
+  title: string;
+  authority: string;
+  audience: string;
+  fee: string;
+}): readonly MarriageService[] {
+  return [{ ...input, level: "Hỗ trợ chuẩn bị hồ sơ" }];
+}
 
-export const standardMarriageExperience: ProcedureExperience = {
-  slug: "dang-ky-ket-hon",
-  title: "Thủ tục đăng ký kết hôn",
-  shortTitle: "Đăng ký kết hôn",
-  code: "1.000894",
-  decision: "163/QĐ-BTP",
+export const temporaryResidenceExperience: ProcedureExperience = {
+  slug: "dang-ky-tam-tru",
+  title: "Đăng ký tạm trú",
+  shortTitle: "Đăng ký tạm trú",
+  code: "1.004194",
+  decision: "Data package v2",
   level: "Cấp xã",
-  procedureType: "TTHC được luật giao quy định chi tiết",
-  field: "Hộ tịch",
+  procedureType: "Thủ tục cư trú",
+  field: "Đăng ký, quản lý cư trú",
   audience: "Công dân Việt Nam",
-  competentAuthority: "UBND phường Cầu Giấy, Thành phố Hà Nội",
-  performingAgency: "Ủy ban Nhân dân xã, phường, thị trấn",
-  nationalProcedureId: "019d2bfd-3fac-7489-b53b-a15eb239a6fe",
-  justiceProcedureId: "144405",
-  onlineServiceCode: "1.000894.01",
-  services: marriageServices,
-  metadata: procedureMetadata,
-  steps: procedureSteps,
-  methods: implementationMethods,
-  nationalDossier: dossierItems,
-  conditions: marriageConditions,
-  legalBases: marriageLegalBases,
+  competentAuthority: "Công an cấp xã",
+  performingAgency: "Công an cấp xã",
+  nationalProcedureId: "1.004194",
+  justiceProcedureId: "1.004194",
+  onlineServiceCode: "1.004194",
+  services: service({
+    id: "temporary-residence-guidance",
+    title: "Đăng ký tạm trú",
+    authority: "Công an cấp xã",
+    audience: "Công dân Việt Nam",
+    fee: "Cá nhân/hộ gia đình: trực tuyến 7.000 đồng, trực tiếp 15.000 đồng; có trường hợp được miễn.",
+  }),
+  metadata: metadata({
+    title: "Đăng ký tạm trú",
+    code: "1.004194",
+    field: "Đăng ký, quản lý cư trú",
+    authority: "Công an cấp xã",
+    audience: "Công dân Việt Nam",
+    processingTime: "03 ngày làm việc",
+  }),
+  steps: [
+    "Xác định hình thức đăng ký cá nhân/hộ gia đình và trường hợp người chưa thành niên.",
+    "Hoàn thành CT01 và khai địa chỉ, thời hạn tạm trú.",
+    "Kiểm tra thông tin chỗ ở hợp pháp; chỉ bổ sung giấy tờ khi hệ thống không khai thác được.",
+    "Kiểm tra ý kiến cha mẹ/người giám hộ và sự đồng ý của chủ hộ/chủ sở hữu khi áp dụng.",
+    "Kiểm tra lệ phí theo kênh nộp rồi chuyển sang kênh chính thức để nộp.",
+  ],
+  methods: [
+    {
+      method: "Trực tuyến",
+      duration: "03 ngày làm việc",
+      fee: "7.000 đồng/lần",
+      description: "Mức tham chiếu cho đăng ký cá nhân hoặc hộ gia đình, trừ trường hợp được miễn.",
+    },
+    {
+      method: "Trực tiếp",
+      duration: "03 ngày làm việc",
+      fee: "15.000 đồng/lần",
+      description: "Nộp tại Công an cấp xã; kiểm tra lại mức phí tại thời điểm nộp.",
+    },
+  ],
+  nationalDossier: [
+    { name: "Tờ khai thay đổi thông tin cư trú – Mẫu CT01", quantity: "01 bản chính" },
+    {
+      name: "Thông tin hoặc giấy tờ chứng minh chỗ ở hợp pháp khi cơ sở dữ liệu không khai thác được",
+      quantity: "Theo trường hợp",
+    },
+    {
+      name: "Ý kiến đồng ý của cha, mẹ hoặc người giám hộ đối với người chưa thành niên",
+      quantity: "Theo trường hợp",
+    },
+  ],
+  conditions: [
+    "Luồng tự kiểm tra sâu áp dụng cho đăng ký cá nhân hoặc hộ gia đình.",
+    "Đăng ký theo danh sách hoặc tại đơn vị lực lượng vũ trang cần cán bộ kiểm tra chính thức.",
+  ],
+  legalBases: [
+    "SRC-DVC-1004194 — Đăng ký tạm trú",
+    "SRC-LAW-154-2024 — Nghị định 154/2024/NĐ-CP",
+    "SRC-CIRC-53-2025 — Thông tư 53/2025/TT-BCA",
+    "SRC-FEE-75-2022 — Thông tư 75/2022/TT-BTC",
+  ],
   result: {
-    label: "Giấy chứng nhận kết hôn",
-    code: "KQ.G15.000032",
+    label: "Cập nhật thông tin cư trú và thông báo kết quả",
+    code: "1.004194",
   },
-  justiceDossier: standardMarriageJusticeDossier,
-  formKind: "marriage",
-  routes: {
-    detail: marriageRoutes.detail,
-    services: `${marriageRoutes.detail}/dich-vu-cong`,
-    apply: marriageRoutes.apply,
-    submission: marriageRoutes.submission,
-    eForm: marriageRoutes.eForm,
-  },
+  justiceDossier: [
+    { id: "ct01", name: "Tờ khai thay đổi thông tin cư trú – Mẫu CT01", required: true, eForm: true },
+    {
+      id: "legal-dwelling",
+      name: "Giấy tờ chứng minh chỗ ở hợp pháp khi dữ liệu không khai thác được",
+      required: false,
+      eForm: false,
+    },
+    {
+      id: "minor-consent",
+      name: "Ý kiến đồng ý của cha, mẹ hoặc người giám hộ",
+      required: false,
+      eForm: false,
+    },
+  ],
+  formKind: "temporary-residence",
+  routes: createRoutes("dang-ky-tam-tru"),
 };
 
-const foreignMarriageTitle =
-  "Thủ tục đăng ký kết hôn có yếu tố nước ngoài";
-
-const foreignMarriageServices: readonly MarriageService[] = [
-  {
-    id: "foreign-marriage-ubnd-phuong-cau-giay",
-    title: foreignMarriageTitle,
-    level: "DVCTT toàn trình",
-    authority: "UBND phường Cầu Giấy",
-    audience: "Công dân Việt Nam, Người Việt Nam định cư ở nước ngoài",
-    fee: localFeeDescription,
-  },
-  {
-    id: "foreign-marriage-phong-kinh-te-ha-tang-do-thi-cau-giay",
-    title: foreignMarriageTitle,
-    level: "DVCTT toàn trình",
-    authority: "Phòng Kinh tế, Hạ tầng và Đô thị phường Cầu Giấy",
-    audience: "Công dân Việt Nam, Người Việt Nam định cư ở nước ngoài",
-    fee: localFeeDescription,
-  },
-];
-
-const foreignMarriageSteps = [
-  "Người yêu cầu nộp hồ sơ trực tiếp tại Trung tâm Phục vụ hành chính công có thẩm quyền hoặc nộp trực tuyến trên Cổng Dịch vụ công quốc gia hay Ứng dụng định danh quốc gia; kê khai mẫu hộ tịch điện tử, đính kèm tài liệu và nộp phí, lệ phí theo quy định.",
-  "Cán bộ tiếp nhận kiểm tra tính chính xác, đầy đủ, thống nhất và hợp lệ của hồ sơ; hồ sơ hợp lệ được tiếp nhận, hẹn trả kết quả và chuyển công chức tư pháp - hộ tịch, hồ sơ thiếu được hướng dẫn bổ sung, hồ sơ không thể hoàn thiện bị từ chối.",
-  "Công chức tư pháp - hộ tịch thẩm tra hồ sơ, kiểm tra nhân thân, sự tự nguyện và mục đích kết hôn; phối hợp xác minh khi có khiếu nại, tố cáo hoặc nội dung cần làm rõ và lập phiếu xin lỗi, hẹn lại nếu không thể trả đúng hạn.",
-  "Nếu hồ sơ đầy đủ, hợp lệ và hai bên đủ điều kiện kết hôn, công chức tư pháp - hộ tịch ghi Sổ đăng ký kết hôn, cập nhật Phần mềm hộ tịch; với hồ sơ trực tuyến, biểu mẫu Giấy chứng nhận kết hôn điện tử được gửi để người yêu cầu xác nhận tối đa một ngày.",
-  "Công chức tư pháp - hộ tịch in Giấy chứng nhận kết hôn, trình lãnh đạo Ủy ban nhân dân cấp xã ký và chuyển tới Trung tâm Phục vụ hành chính công để trả kết quả.",
-  "Hai bên nam, nữ phải có mặt, xuất trình giấy tờ tùy thân, kiểm tra thông tin, xác nhận sự tự nguyện và ký vào Sổ, Giấy chứng nhận kết hôn; thời gian trao giấy có thể được gia hạn theo đề nghị bằng văn bản nhưng không quá 60 ngày.",
-] as const;
-
-const foreignMarriageNationalDossier: readonly DossierItem[] = [
-  {
-    name: "Mẫu hộ tịch điện tử tương tác đăng ký kết hôn khi nộp hồ sơ trực tuyến hoặc Tờ khai đăng ký kết hôn theo mẫu khi nộp trực tiếp",
-    quantity: "01 bản chính",
-  },
-  {
-    name: "Bản sao hộ chiếu hoặc giấy tờ có giá trị thay thế hộ chiếu của người nước ngoài, công dân Việt Nam định cư ở nước ngoài",
-    quantity: "01 bản chính",
-  },
-  {
-    name: "Giấy tờ chứng minh tình trạng hôn nhân của người nước ngoài do cơ quan có thẩm quyền nước ngoài cấp, còn giá trị sử dụng",
-    quantity: "01 bản chính",
-  },
-  {
-    name: "Giấy xác nhận của tổ chức y tế có thẩm quyền xác nhận các bên không mắc bệnh làm mất khả năng nhận thức, làm chủ hành vi",
-    quantity: "01 bản chính",
-  },
-  {
-    name: "Văn bản của cơ quan, đơn vị quản lý xác nhận việc kết hôn với người nước ngoài không trái quy định của ngành đối với công chức, viên chức hoặc người phục vụ trong lực lượng vũ trang",
-    quantity: "01 bản chính",
-  },
-  {
-    name: "Giấy xác nhận tình trạng hôn nhân do Cơ quan đại diện ngoại giao hoặc Cơ quan đại diện lãnh sự Việt Nam ở nước ngoài cấp đối với người đang công tác, học tập, lao động có thời hạn ở nước ngoài",
-    quantity: "01 bản chính",
-  },
-  {
-    name: "Trích lục ghi chú ly hôn đối với công dân Việt Nam đã ly hôn hoặc hủy việc kết hôn tại cơ quan có thẩm quyền nước ngoài",
-    quantity: "01 bản chính",
-  },
-  {
-    name: "Giấy tờ tùy thân còn giá trị sử dụng để chứng minh nhân thân khi thực hiện thủ tục trực tiếp",
-    quantity: "01 bản chính",
-  },
-  {
-    name: "Giấy tờ chứng minh thông tin cư trú khi cơ quan đăng ký hộ tịch không khai thác được dữ liệu cư trú",
-    quantity: "01 bản chính",
-  },
-];
-
-const foreignMarriageJusticeDossier: readonly OnlineDossierRow[] = [
-  {
-    id: "foreign-marriage-electronic-form",
-    name: "Mẫu hộ tịch điện tử tương tác đăng ký kết hôn (do người yêu cầu cung cấp thông tin theo hướng dẫn trên Cổng dịch vụ công)",
-    required: true,
-    eForm: true,
-  },
-  {
-    id: "foreign-marriage-medical-certificate",
-    name: "Giấy xác nhận của tổ chức y tế có thẩm quyền xác nhận các bên kết hôn không mắc bệnh làm mất khả năng nhận thức, làm chủ hành vi",
-    required: false,
-    eForm: false,
-  },
-  {
-    id: "foreign-marriage-status-certificate",
-    name: "Giấy tờ chứng minh tình trạng hôn nhân của người nước ngoài do cơ quan có thẩm quyền cấp, còn giá trị sử dụng",
-    required: false,
-    eForm: false,
-  },
-  {
-    id: "foreign-marriage-passport",
-    name: "Bản sao hộ chiếu hoặc giấy tờ có giá trị thay thế hộ chiếu của người nước ngoài, công dân Việt Nam định cư ở nước ngoài",
-    required: false,
-    eForm: false,
-  },
-  {
-    id: "foreign-marriage-employer-confirmation",
-    name: "Văn bản của cơ quan, đơn vị quản lý xác nhận việc kết hôn với người nước ngoài không trái quy định của ngành đối với công chức, viên chức hoặc lực lượng vũ trang",
-    required: false,
-    eForm: false,
-  },
-  {
-    id: "foreign-marriage-consular-status-certificate",
-    name: "Giấy xác nhận tình trạng hôn nhân do Cơ quan đại diện ngoại giao hoặc Cơ quan đại diện lãnh sự Việt Nam ở nước ngoài cấp",
-    required: false,
-    eForm: false,
-  },
-];
-
-export const foreignMarriageExperience: ProcedureExperience = {
-  slug: "dang-ky-ket-hon-co-yeu-to-nuoc-ngoai",
-  title: foreignMarriageTitle,
-  shortTitle: "Đăng ký kết hôn có yếu tố nước ngoài",
-  code: "2.000806",
-  decision: "163/QĐ-BTP",
+export const birthCertificateCopyExperience: ProcedureExperience = {
+  slug: "cap-ban-sao-giay-khai-sinh",
+  title: "Cấp bản sao Trích lục hộ tịch (bản sao Giấy khai sinh)",
+  shortTitle: "Cấp bản sao Giấy khai sinh",
+  code: "2.000635",
+  decision: "Data package v2",
   level: "Cấp xã",
-  procedureType: "TTHC không được luật giao cho địa phương quy định",
+  procedureType: "Thủ tục hộ tịch",
   field: "Hộ tịch",
-  audience: "Công dân Việt Nam, Người Việt Nam định cư ở nước ngoài",
-  competentAuthority: "UBND phường Cầu Giấy, Thành phố Hà Nội",
-  performingAgency: NO_INFORMATION,
-  nationalProcedureId: "019d2bfd-8e13-728a-a0cd-635811d8432e",
-  justiceProcedureId: "144406",
-  onlineServiceCode: "2.000806.01",
-  services: foreignMarriageServices,
-  metadata: createMetadata({
-    audience: "Công dân Việt Nam, Người Việt Nam định cư ở nước ngoài",
-    code: "2.000806",
-    procedureType: "TTHC không được luật giao cho địa phương quy định",
-    title: foreignMarriageTitle,
+  audience: "Cá nhân, người được ủy quyền hoặc tổ chức",
+  competentAuthority: "Cơ quan quản lý Cơ sở dữ liệu hộ tịch điện tử",
+  performingAgency: "Trung tâm Phục vụ hành chính công có thẩm quyền",
+  nationalProcedureId: "2.000635",
+  justiceProcedureId: "2.000635",
+  onlineServiceCode: "2.000635",
+  services: service({
+    id: "birth-copy-guidance",
+    title: "Cấp bản sao Giấy khai sinh",
+    authority: "Cơ quan quản lý Cơ sở dữ liệu hộ tịch điện tử",
+    audience: "Cá nhân, người được ủy quyền hoặc tổ chức",
+    fee: "8.000 đồng/bản tham chiếu; kiểm tra lại tại bước nộp.",
   }),
-  steps: foreignMarriageSteps,
-  methods: createMethods("05 ngày"),
-  nationalDossier: foreignMarriageNationalDossier,
-  conditions: [NO_INFORMATION],
-  legalBases: marriageLegalBases,
-  result: {
-    label: "Giấy chứng nhận kết hôn",
-    code: "KQ.G15.000032",
-  },
-  justiceDossier: foreignMarriageJusticeDossier,
-  formKind: "marriage",
-  routes: createRoutes("dang-ky-ket-hon-co-yeu-to-nuoc-ngoai"),
+  metadata: metadata({
+    title: "Cấp bản sao Trích lục hộ tịch (bản sao Giấy khai sinh)",
+    code: "2.000635",
+    field: "Hộ tịch",
+    authority: "Cơ quan quản lý Cơ sở dữ liệu hộ tịch điện tử",
+    audience: "Cá nhân, người được ủy quyền hoặc tổ chức",
+    processingTime: "Theo phiếu hẹn",
+  }),
+  steps: [
+    "Xác nhận đây là yêu cầu cấp bản sao Giấy khai sinh đã đăng ký trước đó.",
+    "Chọn kênh nộp và kê khai người yêu cầu, người có sự kiện khai sinh.",
+    "Chuẩn bị giấy tờ tùy thân và văn bản ủy quyền nếu thực hiện thay người khác.",
+    "Kiểm tra thông tin tra cứu và yêu cầu riêng theo kênh nộp.",
+    "Chuyển sang kênh chính thức để nộp hồ sơ.",
+  ],
+  methods: [
+    { method: "Trực tuyến", duration: "Theo phiếu hẹn", fee: "8.000 đồng/bản", description: "Phí tham chiếu; kiểm tra lại tại bước nộp." },
+    { method: "Trực tiếp", duration: "Theo phiếu hẹn", fee: "8.000 đồng/bản", description: "Xuất trình giấy tờ tùy thân còn giá trị." },
+    { method: "Bưu chính", duration: "Theo phiếu hẹn", fee: "8.000 đồng/bản", description: "Chuẩn bị bản sao có chứng thực của giấy tờ phải xuất trình." },
+  ],
+  nationalDossier: [
+    { name: "Mẫu điện tử tương tác hoặc Tờ khai đề nghị cấp bản sao Trích lục hộ tịch", quantity: "01 bản" },
+    { name: "Thông tin giấy tờ tùy thân của người yêu cầu", quantity: "Theo trường hợp" },
+    { name: "Thông tin sự kiện khai sinh đủ để tra cứu", quantity: "Theo trường hợp" },
+    { name: "Văn bản ủy quyền", quantity: "Khi được ủy quyền" },
+  ],
+  conditions: ["Chỉ hỗ trợ bản sao Giấy khai sinh, không phải đăng ký khai sinh mới hoặc cải chính hộ tịch."],
+  legalBases: ["SRC-DVC-2000635 — Cấp bản sao Trích lục hộ tịch, bản sao Giấy khai sinh"],
+  result: { label: "Bản sao Giấy khai sinh", code: "2.000635" },
+  justiceDossier: [
+    { id: "birth-form", name: "Tờ khai đề nghị cấp bản sao Trích lục hộ tịch", required: true, eForm: true },
+    { id: "identity", name: "Thông tin giấy tờ tùy thân", required: true, eForm: false },
+    { id: "authorization", name: "Văn bản ủy quyền khi áp dụng", required: false, eForm: false },
+  ],
+  formKind: "guided",
+  routes: createRoutes("cap-ban-sao-giay-khai-sinh"),
 };
 
-const domesticCivilRecordTitle =
-  "Thủ tục thay đổi, cải chính, bổ sung thông tin hộ tịch, xác định lại dân tộc";
-
-const foreignCivilRecordTitle =
-  "Thủ tục thay đổi, cải chính, bổ sung thông tin hộ tịch, xác định lại dân tộc có yếu tố nước ngoài";
-
-const civilRecordResult = {
-  label:
-    "Trích lục thay đổi, cải chính, bổ sung thông tin hộ tịch, xác định lại dân tộc",
-  code: "KQ.G15.000037",
-} as const;
-
-const domesticCivilRecordServices: readonly MarriageService[] = [
-  {
-    id: "domestic-civil-record-ubnd-phuong-cau-giay",
-    title: domesticCivilRecordTitle,
-    level: "DVCTT toàn trình",
-    authority: "UBND phường Cầu Giấy",
-    audience: "Công dân Việt Nam",
-    fee: localFeeDescription,
-  },
-];
-
-const foreignCivilRecordServices: readonly MarriageService[] = [
-  {
-    id: "foreign-civil-record-ubnd-phuong-cau-giay",
-    title: foreignCivilRecordTitle,
-    level: "DVCTT toàn trình",
-    authority: "UBND phường Cầu Giấy",
-    audience: "Công dân Việt Nam",
-    fee: localFeeDescription,
-  },
-  {
-    id: "foreign-civil-record-phong-kinh-te-ha-tang-do-thi-cau-giay",
-    title: foreignCivilRecordTitle,
-    level: "DVCTT toàn trình",
-    authority: "Phòng Kinh tế, Hạ tầng và Đô thị phường Cầu Giấy",
-    audience: "Công dân Việt Nam",
-    fee: localFeeDescription,
-  },
-];
-
-const domesticCivilRecordSteps = [
-  "Người yêu cầu nộp hồ sơ trực tiếp tại Trung tâm Phục vụ hành chính công có thẩm quyền hoặc nộp trực tuyến qua Cổng Dịch vụ công quốc gia hay Ứng dụng định danh; kê khai mẫu tương tác, đính kèm tài liệu và nộp phí, lệ phí.",
-  "Cán bộ tiếp nhận kiểm tra tính chính xác, đầy đủ và hợp lệ; hồ sơ hợp lệ được tiếp nhận, hẹn trả và chuyển công chức tư pháp - hộ tịch, hồ sơ thiếu được hướng dẫn bổ sung, hồ sơ không thể hoàn thiện bị từ chối.",
-  "Công chức tư pháp - hộ tịch thẩm tra; yêu cầu bổ sung hoặc từ chối nếu không đủ điều kiện, lập phiếu xin lỗi và hẹn lại khi cần kiểm tra, xác minh.",
-  "Nếu có cơ sở và hồ sơ hợp lệ, công chức tư pháp - hộ tịch ghi Sổ, cập nhật Phần mềm hộ tịch; với hồ sơ trực tuyến, biểu mẫu Trích lục điện tử được gửi để người yêu cầu kiểm tra và xác nhận tối đa một ngày.",
-  "Sau khi người yêu cầu xác nhận hoặc hết thời hạn một ngày mà không phản hồi, công chức tư pháp - hộ tịch hoàn tất việc ghi nội dung và cập nhật dữ liệu.",
-  "Công chức tư pháp - hộ tịch in Trích lục tương ứng, trình lãnh đạo Ủy ban nhân dân cấp xã ký và chuyển Trung tâm Phục vụ hành chính công trả kết quả.",
-] as const;
-
-const foreignCivilRecordSteps = [
-  domesticCivilRecordSteps[0],
-  domesticCivilRecordSteps[1],
-  domesticCivilRecordSteps[2],
-  domesticCivilRecordSteps[3],
-  "Công chức tư pháp - hộ tịch in Trích lục, trình lãnh đạo Ủy ban nhân dân cấp xã ký và chuyển trả kết quả; nếu nội dung liên quan Giấy khai sinh hoặc Giấy chứng nhận kết hôn thì ghi và đóng dấu nội dung thay đổi, bổ sung.",
-  "Nếu thủ tục không được thực hiện tại nơi đã đăng ký hộ tịch trước đây, Ủy ban nhân dân cấp xã gửi trích lục về nơi đăng ký cũ; nếu nơi cũ là Cơ quan đại diện thì gửi Bộ Ngoại giao để chuyển Cơ quan đại diện ghi Sổ.",
-] as const;
-
-const domesticCivilRecordNationalDossier: readonly DossierItem[] = [
-  {
-    name: "Mẫu hộ tịch điện tử tương tác thực hiện đăng ký thay đổi, cải chính, bổ sung thông tin hộ tịch, xác định lại dân tộc khi nộp trực tuyến",
-    quantity: "01 bản chính, 01 bản sao",
-  },
-  {
-    name: "Tờ khai đăng ký thay đổi, cải chính, bổ sung thông tin hộ tịch, xác định lại dân tộc khi nộp trực tiếp",
-    quantity: "01 bản chính",
-  },
-  {
-    name: "Giấy tờ làm căn cứ cho việc thay đổi, cải chính, bổ sung thông tin hộ tịch, xác định lại dân tộc",
-    quantity: "01 bản chính",
-  },
-  {
-    name: "Văn bản ủy quyền theo quy định trong trường hợp ủy quyền thực hiện thủ tục",
-    quantity: "01 bản chính",
-  },
-  {
-    name: "Giấy tờ tùy thân còn giá trị sử dụng để chứng minh nhân thân khi thực hiện thủ tục trực tiếp",
-    quantity: "01 bản chính",
-  },
-  {
-    name: "Giấy tờ chứng minh thông tin cư trú khi cơ quan đăng ký hộ tịch không khai thác được dữ liệu cư trú",
-    quantity: "01 bản chính",
-  },
-];
-
-const foreignCivilRecordNationalDossier: readonly DossierItem[] = [
-  {
-    name: "Mẫu hộ tịch điện tử tương tác thực hiện đăng ký thay đổi, cải chính, bổ sung thông tin hộ tịch, xác định lại dân tộc khi nộp trực tuyến",
-    quantity: "01 bản chính",
-  },
-  {
-    name: "Tờ khai đăng ký thay đổi, cải chính, bổ sung thông tin hộ tịch, xác định lại dân tộc khi nộp trực tiếp",
-    quantity: "01 bản chính",
-  },
-  ...domesticCivilRecordNationalDossier.slice(2),
-];
-
-const civilRecordJusticeDossier: readonly OnlineDossierRow[] = [
-  {
-    id: "civil-record-electronic-form",
-    name: "Mẫu hộ tịch điện tử tương tác thực hiện đăng ký thay đổi, cải chính, bổ sung thông tin hộ tịch, xác định lại dân tộc",
-    required: true,
-    eForm: true,
-  },
-  {
-    id: "civil-record-supporting-documents",
-    name: "Giấy tờ làm căn cứ thay đổi, cải chính, bổ sung thông tin hộ tịch",
-    required: false,
-    eForm: false,
-  },
-  {
-    id: "civil-record-authorization",
-    name: "Văn bản ủy quyền theo quy định; trường hợp người được ủy quyền là ông, bà, cha, mẹ, con, vợ, chồng, anh, chị hoặc em ruột thì văn bản ủy quyền không phải chứng thực",
-    required: false,
-    eForm: false,
-  },
-];
-
-const domesticCivilRecordLegalBases = [
-  "03/2023/TT-BTP",
-  "87/2020/NĐ-CP",
-  "01/2022/TT-BTP",
-  "04/2020/TT-BTP",
-  "07/2025/NĐ-CP",
-  "120/2025/NĐ-CP",
-  "66.7/2025/NQ-CP",
-  "60/2014/QH13",
-  "85/2019/TT-BTC",
-  "104/2022/NĐ-CP",
-  "123/2015/NĐ-CP",
-  "91/2015/QH13",
-  "08/2025/TT-BTP",
-  "18/2026/NĐ-CP",
-  "04/2024/TT-BTP",
-  "106/2021/TT-BTC",
-] as const;
-
-const foreignCivilRecordLegalBases = [
-  "04/2024/TT-BTP",
-  "03/2023/TT-BTP",
-  "106/2021/TT-BTC",
-  "04/2020/TT-BTP",
-  "07/2025/NĐ-CP",
-  "120/2025/NĐ-CP",
-  "66.7/2025/NQ-CP",
-  "60/2014/QH13",
-  "01/2022/TT-BTP",
-  "85/2019/TT-BTC",
-  "104/2022/NĐ-CP",
-  "123/2015/NĐ-CP",
-  "08/2025/TT-BTP",
-  "18/2026/NĐ-CP",
-  "87/2020/NĐ-CP",
-] as const;
-
-export const domesticCivilRecordExperience: ProcedureExperience = {
-  slug: "thay-doi-cai-chinh-ho-tich",
-  title: domesticCivilRecordTitle,
-  shortTitle: "Thay đổi, cải chính thông tin hộ tịch",
-  code: "1.004859",
-  decision: "163/QĐ-BTP",
+export const housingConfirmationExperience: ProcedureExperience = {
+  slug: "xac-nhan-dieu-kien-nha-o",
+  title: "Xác nhận điều kiện diện tích bình quân nhà ở",
+  shortTitle: "Xác nhận điều kiện nhà ở",
+  code: "1.013314",
+  decision: "Data package v2",
   level: "Cấp xã",
-  procedureType: "TTHC được luật giao quy định chi tiết",
-  field: "Hộ tịch",
+  procedureType: "Thủ tục cư trú",
+  field: "Đăng ký, quản lý cư trú",
   audience: "Công dân Việt Nam",
-  competentAuthority: "UBND phường Cầu Giấy, Thành phố Hà Nội",
-  performingAgency: NO_INFORMATION,
-  nationalProcedureId: "019d2bfd-671e-714b-8fd6-8230c82f7867",
-  justiceProcedureId: "144381",
-  onlineServiceCode: "1.004859.01",
-  services: domesticCivilRecordServices,
-  metadata: createMetadata({
+  competentAuthority: "Ủy ban nhân dân cấp xã nơi cư trú",
+  performingAgency: "Ủy ban nhân dân cấp xã",
+  nationalProcedureId: "1.013314",
+  justiceProcedureId: "1.013314",
+  onlineServiceCode: "1.013314",
+  services: service({
+    id: "housing-confirmation-guidance",
+    title: "Xác nhận điều kiện diện tích bình quân nhà ở",
+    authority: "Ủy ban nhân dân cấp xã nơi cư trú",
     audience: "Công dân Việt Nam",
-    code: "1.004859",
-    procedureType: "TTHC được luật giao quy định chi tiết",
-    title: domesticCivilRecordTitle,
+    fee: "Không thu phí.",
   }),
-  steps: domesticCivilRecordSteps,
-  methods: createMethods("01 ngày"),
-  nationalDossier: domesticCivilRecordNationalDossier,
-  conditions: [NO_INFORMATION],
-  legalBases: domesticCivilRecordLegalBases,
-  result: civilRecordResult,
-  justiceDossier: civilRecordJusticeDossier,
-  formKind: "civil-record",
-  routes: createRoutes("thay-doi-cai-chinh-ho-tich"),
-};
-
-export const foreignCivilRecordExperience: ProcedureExperience = {
-  slug: "thay-doi-cai-chinh-ho-tich-co-yeu-to-nuoc-ngoai",
-  title: foreignCivilRecordTitle,
-  shortTitle: "Thay đổi, cải chính hộ tịch có yếu tố nước ngoài",
-  code: "2.000748",
-  decision: "163/QĐ-BTP",
-  level: "Cấp xã",
-  procedureType: "TTHC không được luật giao cho địa phương quy định",
-  field: "Hộ tịch",
-  audience: "Công dân Việt Nam",
-  competentAuthority: "UBND phường Cầu Giấy, Thành phố Hà Nội",
-  performingAgency: NO_INFORMATION,
-  nationalProcedureId: "019d2bfd-8e02-7590-b74b-fb572a57eda2",
-  justiceProcedureId: "144382",
-  onlineServiceCode: "2.000748.01",
-  services: foreignCivilRecordServices,
-  metadata: createMetadata({
+  metadata: metadata({
+    title: "Xác nhận điều kiện diện tích bình quân nhà ở",
+    code: "1.013314",
+    field: "Đăng ký, quản lý cư trú",
+    authority: "Ủy ban nhân dân cấp xã nơi cư trú",
     audience: "Công dân Việt Nam",
-    code: "2.000748",
-    procedureType: "TTHC không được luật giao cho địa phương quy định",
-    title: foreignCivilRecordTitle,
+    processingTime: "02 ngày làm việc",
   }),
-  steps: foreignCivilRecordSteps,
-  methods: createMethods("01 ngày"),
-  nationalDossier: foreignCivilRecordNationalDossier,
-  conditions: [NO_INFORMATION],
-  legalBases: foreignCivilRecordLegalBases,
-  result: civilRecordResult,
-  justiceDossier: civilRecordJusticeDossier,
-  formKind: "civil-record",
-  routes: createRoutes("thay-doi-cai-chinh-ho-tich-co-yeu-to-nuoc-ngoai"),
+  steps: [
+    "Xác nhận nhu cầu là Mẫu số 02, không phải thủ tục đăng ký thường trú.",
+    "Kê khai người đề nghị, địa chỉ chỗ ở và số liệu diện tích.",
+    "Kiểm tra phép tính diện tích bình quân theo khu vực Hà Nội.",
+    "Ghi rõ các nội dung phải do UBND cấp xã xác nhận.",
+    "Nộp Mẫu số 02 tới UBND cấp xã hoặc cùng hồ sơ cư trú.",
+  ],
+  methods: [
+    { method: "Trực tuyến", duration: "02 ngày làm việc", fee: "Không thu phí", description: "Nộp biểu mẫu điện tử tương tác." },
+    { method: "Trực tiếp", duration: "02 ngày làm việc", fee: "Không thu phí", description: "Nộp Mẫu số 02 tại UBND cấp xã." },
+    { method: "Bưu chính", duration: "02 ngày làm việc", fee: "Không thu phí", description: "Thời gian vận chuyển không nằm trong thời hạn xử lý." },
+  ],
+  nationalDossier: [{ name: "Mẫu số 02 – Tờ khai xác nhận tình trạng chỗ ở hợp pháp, diện tích nhà ở tối thiểu", quantity: "01 bản chính" }],
+  conditions: ["VNeGuide chỉ kiểm tra tờ khai và phép tính; UBND cấp xã xác nhận tình trạng chỗ ở."],
+  legalBases: [
+    "SRC-DVC-1013314 — Thông tin thủ tục trên Cổng Dịch vụ công Quốc gia",
+    "SRC-FORM-M02 — Mẫu số 02",
+    "SRC-HN-AREA-2023 — Nghị quyết 10/2023/NQ-HĐND Hà Nội",
+  ],
+  result: { label: "Xác nhận tình trạng chỗ ở và diện tích nhà ở", code: "1.013314" },
+  justiceDossier: [{ id: "m02", name: "Mẫu số 02", required: true, eForm: true }],
+  formKind: "guided",
+  routes: createRoutes("xac-nhan-dieu-kien-nha-o"),
 };
-
-export const additionalProcedureExperiences = [
-  foreignMarriageExperience,
-  domesticCivilRecordExperience,
-  foreignCivilRecordExperience,
-] as const satisfies readonly ProcedureExperience[];
 
 export const procedureExperiences = [
-  standardMarriageExperience,
-  ...additionalProcedureExperiences,
+  temporaryResidenceExperience,
+  birthCertificateCopyExperience,
+  housingConfirmationExperience,
 ] as const satisfies readonly ProcedureExperience[];
 
-export function getProcedureExperience(
-  slug: string,
-): ProcedureExperience | undefined {
+// Compatibility aliases for the existing shared route components. They are not
+// separate supported procedures.
+export const standardMarriageExperience = temporaryResidenceExperience;
+export const additionalProcedureExperiences = procedureExperiences;
+
+export function getProcedureExperience(slug: string): ProcedureExperience | undefined {
   return procedureExperiences.find((experience) => experience.slug === slug);
 }

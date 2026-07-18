@@ -152,7 +152,7 @@ export function MarriageServiceDirectory({
               href="/hon-nhan-va-gia-dinh"
               className="rounded-sm text-sm font-medium text-[#ce7a58] hover:underline focus-visible:outline-2 focus-visible:outline-[#ce7a58]"
             >
-              Xem nhóm Hôn nhân và gia đình
+              Xem 3 thủ tục được hỗ trợ
             </Link>
           </div>
 

@@ -4,7 +4,8 @@
 
 - Repo có data package v2, domain/data runtime foundation, AI extraction và CLI shell.
 - Repo có thêm `demoweb/`, một giao diện Next.js độc lập; thư mục này không phụ thuộc tool clone hoặc dữ liệu capture ban đầu.
-- Luồng Hôn nhân và gia đình trong `demoweb` đã sửa catalog, lựa chọn dịch vụ/đơn vị, form không điền sẵn PII và tải cơ quan có timeout/thử lại.
+- Luồng demoweb tại `/hon-nhan-va-gia-dinh` chỉ còn ba thủ tục đúng data package; route đăng ký kết hôn cũ trả 404.
+- Form `1.004194` là hero flow và dùng shared workspace với chat, giữ dirty/confirmed/revision qua refresh trong phiên.
 - Scope runtime nằm trong `data/README.md`.
 - `vneguide.domain` cung cấp contract dùng chung; `ProcedureRepository` cung cấp dữ liệu đã audit.
 - `python -m vneguide.cli` nạp được `vneguide.core:create_session`.
@@ -24,6 +25,7 @@
 - Sau tích hợp chat: Ruff và Mypy pass; Pytest `79 passed, 1 skipped`; coverage `82.32%`.
 - `demoweb`: `npm run check` pass, production build có 29 route gồm ba BFF route `/api/chat/*`.
 - Smoke end-to-end local web → BFF → Python API pass; provider mock rỗng trả fallback `retry`.
+- Nhánh `agent/web-three-procedures`: `npm run check` pass, 8 reducer tests pass, hero route HTTP `5/5` status 200, route kết hôn cũ 404.
 
 ## Rủi ro
 
@@ -33,12 +35,13 @@
 - Một số rule dùng context/document signal, không được suy đoán từ field biểu mẫu.
 - Git LFS có thể cần quyền ghi `.git/lfs/tmp` trong môi trường sandbox.
 - Danh sách Phường/Xã và Sở phụ thuộc upstream `vpcp.dichvucong.gov.vn`; khi upstream lỗi hoặc quá hạn, UI hiển thị lỗi và cho phép thử lại thay vì dùng dữ liệu giả.
-- Bốn mã đang hoạt động trên web (`1.000894`, `2.000806`, `1.004859`, `2.000748`) chưa có procedure pack backend; chat hiển thị scope warning và chưa thể kết luận nghiệp vụ cho các mã này.
+- Backend hiện chưa có endpoint cập nhật field trực tiếp `/v1/chat/sessions/{session_id}/fields/{field_id}` và `DraftResponse` chưa trả `values`; BFF/frontend đã chuẩn bị contract nhưng chưa thể xác minh manual-edit sync end-to-end trước khi backend merge.
+- Browser in-app không khởi tạo được trong Windows sandbox, nên visual, keyboard và screen-reader QA vẫn cần chạy ở môi trường browser khả dụng.
 - In-memory session store chỉ phù hợp một API worker; cần Redis hoặc store dùng chung trước khi scale nhiều worker.
 
 ## Bước tốt nhất tiếp theo
 
-Review/bổ sung data package cho bốn thủ tục Hôn nhân và gia đình, sau đó cấu hình provider/model và chạy live smoke/E2E trên dữ liệu giả.
+Merge backend field-update contract, chạy visual/browser QA 5 lượt cho hero tạm trú, sau đó cấu hình provider/model và chạy live smoke/E2E trên dữ liệu giả.
 
 ## Lệnh dự kiến
 

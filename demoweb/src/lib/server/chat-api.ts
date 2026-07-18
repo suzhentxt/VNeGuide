@@ -47,12 +47,15 @@ export async function safeResponseBody(response: Response): Promise<unknown> {
   }
 }
 
-export function unavailableResponse() {
+export function unavailableResponse(error?: unknown) {
+  const timeout = error instanceof DOMException && error.name === "TimeoutError";
   return Response.json(
     {
       error: {
-        code: "chat_api_unavailable",
-        message: "Chưa thể kết nối tới trợ lý VNeGuide. Vui lòng thử lại sau.",
+        code: timeout ? "chat_api_timeout" : "chat_api_unavailable",
+        message: timeout
+          ? "Trợ lý phản hồi quá thời gian. Biểu mẫu vẫn dùng được; bạn có thể thử lại sau."
+          : "Chưa thể kết nối tới trợ lý VNeGuide. Biểu mẫu vẫn dùng được.",
         retryable: true,
       },
     },

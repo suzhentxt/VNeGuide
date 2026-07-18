@@ -5,9 +5,9 @@ import { NationalPortalShell } from "@/components/national/NationalPortalShell";
 import { procedureExperiences } from "@/data/procedure-experiences";
 
 export const metadata: Metadata = {
-  title: "Danh sách dịch vụ công hôn nhân và gia đình",
+  title: "Danh sách ba thủ tục VNeGuide hỗ trợ",
   description:
-    "Danh sách dịch vụ công trực tuyến thuộc nhóm hôn nhân và gia đình.",
+    "Danh sách ba thủ tục đã có data package được xác minh.",
 };
 
 interface MarriageServicesPageProps {

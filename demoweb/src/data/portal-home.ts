@@ -78,7 +78,7 @@ export const PORTAL_SERVICE_GROUPS = [
     type: "CITIZEN",
     order: 5,
     state: "ACTIVE",
-    name: "Hôn nhân và gia đình",
+    name: "VNeGuide: 3 thủ tục đã xác minh",
     icon: `${portalIconBase}/hon-nhan-va-gia-dinh.png`,
     href: "/hon-nhan-va-gia-dinh",
   },

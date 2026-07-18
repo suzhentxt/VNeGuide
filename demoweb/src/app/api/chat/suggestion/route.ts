@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(await safeResponseBody(backend), {
       status: backend.status,
     });
-  } catch {
-    return unavailableResponse();
+  } catch (error) {
+    return unavailableResponse(error);
   }
 }

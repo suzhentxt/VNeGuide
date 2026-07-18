@@ -36,6 +36,7 @@ export interface ChatTurn {
     revision: number;
     confirmed_fields: string[];
     dirty_fields: string[];
+    values?: Record<string, JsonValue>;
   };
   messages: ChatMessage[];
   suggestions: ChatSuggestion[];
@@ -75,4 +76,23 @@ export interface ChatApiError {
     message: string;
     retryable: boolean;
   };
+}
+
+export type FieldSyncStatus = "idle" | "dirty" | "saving" | "saved" | "error";
+
+export interface ProcedureFieldState {
+  value: JsonValue;
+  confirmed: boolean;
+  dirty: boolean;
+  sync_status: FieldSyncStatus;
+  error: string | null;
+}
+
+export interface ProcedureWorkspaceState {
+  procedure_code: string | null;
+  revision: number;
+  fields: Record<string, ProcedureFieldState>;
+  validation_issues: NonNullable<ChatTurn["validation"]>["issues"];
+  hydrated: boolean;
+  recovery_notice: string | null;
 }

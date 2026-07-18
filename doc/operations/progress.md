@@ -14,7 +14,7 @@
 
 ## Ưu tiên tiếp theo
 
-Review/bổ sung data package cho bốn mã thủ tục Hôn nhân và gia đình đang hiển thị trên web, sau đó cấu hình provider/model cho demo thật.
+Hoàn thiện endpoint backend cập nhật field trực tiếp theo revision cho form web, sau đó chạy visual/browser QA và live provider smoke bằng dữ liệu giả.
 
 ### 2026-07-17 — Conversation engine, rules và validation (Người 3)
 
@@ -25,6 +25,16 @@ Review/bổ sung data package cho bốn mã thủ tục Hôn nhân và gia đìn
 - Xác minh Python 3.11.9: Ruff pass, Mypy strict pass, Pytest `75 passed, 1 skipped`, coverage `82.64%`.
 
 ## Nhật ký phiên
+
+### 2026-07-18 — Web chỉ còn ba thủ tục và shared form state
+
+- Tạo nhánh `agent/web-three-procedures`; loại toàn bộ route/mã hỗ trợ đăng ký kết hôn khỏi demoweb.
+- Catalog và static params chỉ còn `2.000635`, `1.013314`, `1.004194`; hero flow là form CT01 mô phỏng cho `1.004194`.
+- Thêm reducer + context làm source of truth chung cho form/chat, persistence theo phiên, reset/recovery, dirty/confirmed field và stale-response guard.
+- Accept/Edit cập nhật đúng field; Reject giữ nguyên; field sửa tay không nhận ghi đè AI. Validation hiển thị cạnh field và trong summary, form vẫn dùng khi AI timeout/lỗi.
+- Thêm BFF `/api/chat/field` gửi `value` và `expected_revision`; backend hiện chưa có endpoint `/fields/{field_id}` tương ứng nên manual-edit sync end-to-end còn phụ thuộc nhánh backend.
+- Xác minh: `npm run check` pass; 8 reducer tests pass; build còn 25 route và chỉ generate ba procedure slug mới. Hero HTTP assertion đạt `5/5` với status 200; route kết hôn cũ trả 404.
+- Browser in-app không khởi tạo được do Windows sandbox (`CreateProcessWithLogonW failed`), nên chưa xác minh visual/keyboard bằng browser thật.
 
 ### 2026-07-18 — Nối HTTP API và chatbox demoweb
 

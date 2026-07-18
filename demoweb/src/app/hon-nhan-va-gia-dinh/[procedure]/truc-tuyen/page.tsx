@@ -34,7 +34,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: "Danh sách thủ tục | Hệ thống ngành Tư pháp",
+    title: "Danh sách thủ tục | VNeGuide Demo",
     description: `Tra cứu và bắt đầu nộp hồ sơ trực tuyến cho ${experience.title.toLocaleLowerCase("vi")}.`,
   };
 }
