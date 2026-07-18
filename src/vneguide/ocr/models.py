@@ -1,4 +1,4 @@
-"""Wire-neutral contracts for document OCR."""
+"""PII-safe contracts for document validation OCR."""
 
 from __future__ import annotations
 
@@ -6,10 +6,9 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 from typing import Literal, Protocol
 
-from vneguide.domain import JSONValue, ProcedureCode, TurnResult
-
-OcrStatus = Literal["succeeded", "manual_input"]
-OcrDocumentType = Literal["CT01", "other", "uncertain"]
+DocumentKind = Literal["legal_dwelling", "minor_consent"]
+CheckResult = Literal["pass", "uncertain", "fail"]
+OcrStatus = Literal["pass", "needs_review", "fail"]
 
 
 @dataclass(frozen=True, slots=True)
@@ -39,96 +38,71 @@ class PreparedPage:
 
 
 @dataclass(frozen=True, slots=True)
-class OcrBlock:
-    block_type: str
-    bbox: tuple[float, float, float, float]
-    angle: int | None
-    content: str | None
-    page_number: int = 1
+class DocumentCheck:
+    code: str
+    result: CheckResult
+    confidence: float
 
     def __post_init__(self) -> None:
-        if not self.block_type.strip():
-            raise ValueError("OCR block type must not be empty")
-        if len(self.bbox) != 4 or any(not 0.0 <= coordinate <= 1.0 for coordinate in self.bbox):
-            raise ValueError("OCR block bbox must contain four normalized coordinates")
-        if self.bbox[0] > self.bbox[2] or self.bbox[1] > self.bbox[3]:
-            raise ValueError("OCR block bbox is inverted")
-        if self.angle not in {None, 0, 90, 180, 270}:
-            raise ValueError("OCR block angle is invalid")
-        if self.page_number < 1:
-            raise ValueError("OCR block page number must be positive")
+        if not self.code.strip():
+            raise ValueError("Document check code must not be empty")
+        if self.result not in {"pass", "uncertain", "fail"}:
+            raise ValueError("Document check result is invalid")
+        if not 0.0 <= self.confidence <= 1.0:
+            raise ValueError("Document check confidence must be between 0 and 1")
 
 
 @dataclass(frozen=True, slots=True)
-class OcrCandidate:
-    field_id: str
-    suggested_value: JSONValue
-    confidence: float
-    evidence: str
-    source: Literal["USER_UPLOAD"] = "USER_UPLOAD"
+class ModelAssessment:
+    checks: tuple[DocumentCheck, ...]
+    overall_confidence: float
 
     def __post_init__(self) -> None:
-        if not self.field_id.strip():
-            raise ValueError("OCR candidate field_id must not be empty")
-        if not 0.0 <= self.confidence <= 1.0:
-            raise ValueError("OCR candidate confidence must be between 0 and 1")
-        if not self.evidence.strip() or len(self.evidence) > 500:
-            raise ValueError("OCR candidate evidence must be short and non-empty")
+        if not 0.0 <= self.overall_confidence <= 1.0:
+            raise ValueError("Assessment confidence must be between 0 and 1")
+        if len({check.code for check in self.checks}) != len(self.checks):
+            raise ValueError("Assessment contains duplicate check codes")
+        object.__setattr__(self, "checks", tuple(self.checks))
 
 
 @dataclass(frozen=True, slots=True)
 class OcrResult:
     status: OcrStatus
-    document_type: OcrDocumentType
-    candidates: tuple[OcrCandidate, ...] = ()
-    warnings: tuple[str, ...] = ()
+    document_kind: DocumentKind
+    checks: tuple[DocumentCheck, ...] = ()
+    warnings: tuple[str, ...] = field(default_factory=tuple)
     error_code: str | None = None
     duration_ms: int = 0
 
     def __post_init__(self) -> None:
+        if self.status not in {"pass", "needs_review", "fail"}:
+            raise ValueError("OCR result status is invalid")
         if self.duration_ms < 0:
             raise ValueError("OCR duration must not be negative")
-        if self.status == "manual_input" and self.candidates:
-            raise ValueError("Manual-input OCR result cannot contain candidates")
-        object.__setattr__(self, "candidates", tuple(self.candidates))
+        object.__setattr__(self, "checks", tuple(self.checks))
         object.__setattr__(self, "warnings", tuple(self.warnings))
-
-
-@dataclass(frozen=True, slots=True)
-class OcrMappingResult:
-    document_type: OcrDocumentType
-    document_confidence: float
-    candidates: tuple[OcrCandidate, ...] = ()
-    warnings: tuple[str, ...] = field(default_factory=tuple)
 
 
 class DocumentPreprocessor(Protocol):
     def prepare(self, document: OcrDocument) -> tuple[PreparedPage, ...]: ...
 
 
-class OcrBackend(Protocol):
-    def extract(self, pages: Sequence[PreparedPage]) -> tuple[OcrBlock, ...]: ...
-
-
-class OcrCandidateSink(Protocol):
-    def propose_ocr_candidates(
+class DocumentValidationBackend(Protocol):
+    def assess(
         self,
-        procedure_code: ProcedureCode,
-        candidates: Sequence[OcrCandidate],
-        *,
-        expected_revision: int,
-    ) -> TurnResult: ...
+        document_kind: DocumentKind,
+        pages: Sequence[PreparedPage],
+    ) -> ModelAssessment: ...
 
 
 __all__ = [
+    "CheckResult",
+    "DocumentCheck",
+    "DocumentKind",
     "DocumentPreprocessor",
-    "OcrBackend",
-    "OcrBlock",
-    "OcrCandidate",
-    "OcrCandidateSink",
+    "DocumentValidationBackend",
+    "ModelAssessment",
     "OcrDocument",
-    "OcrDocumentType",
-    "OcrMappingResult",
     "OcrResult",
     "OcrStatus",
     "PreparedPage",

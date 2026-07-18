@@ -107,13 +107,13 @@ sau đó hỏi người dùng có muốn thực hiện thủ tục hay không. T
 revision, suggestion và bước đang làm. Các topic hiện có gồm phí, thời gian, giấy tờ, thông tin cần
 khai, cơ quan, kênh nộp, kết quả, các bước, căn cứ, điều kiện giới hạn và giải thích field.
 
-## OCR CT01 (candidate-only)
+## OCR kiểm tra tài liệu tạm trú
 
-Module `vneguide.ocr` chỉ xử lý fixture hoặc tài liệu CT01 của thủ tục `1.004194` và chỉ trả candidate;
-chưa có đường upload từ demoweb/API và không tự ghi vào draft. Khi chạy worker, export
-`VNEGUIDE_OCR_ENABLED`, `VNEGUIDE_OCR_WORKER_TOKEN` cùng các giới hạn OCR vào process environment.
-Tùy chọn `--env-file` của worker chỉ nạp provider/model/key LLM, không nạp các biến `VNEGUIDE_OCR_*`.
-Xem contract, giới hạn dữ liệu và lệnh smoke tại
+Module `vneguide.ocr` kiểm tra nhẹ giấy tờ chỗ ở hợp pháp và văn bản đồng ý của cha/mẹ/người giám hộ
+tại bước 2 của thủ tục `1.004194`. Demoweb upload qua BFF tới worker riêng; OpenAI key và worker token
+không đi xuống browser. OCR chỉ trả `pass`, `needs_review` hoặc `fail`, không trả raw text, không tự
+điền draft và không kết luận giá trị pháp lý. Bản demo chỉ nhận tài liệu tổng hợp hoặc đã ẩn danh.
+Xem contract, lệnh chạy và hai ảnh test tại
 [`src/vneguide/ocr/README.md`](src/vneguide/ocr/README.md).
 
 ## Cấu hình provider
@@ -132,6 +132,8 @@ VNEGUIDE_SESSION_FACTORY=vneguide.core:create_session
 VNEGUIDE_CHAT_CORE_VARIANT=guided
 VNEGUIDE_RUN_LIVE_SMOKE=0
 VNEGUIDE_OCR_ENABLED=0
+VNEGUIDE_OCR_MODEL=gpt-5.5
+VNEGUIDE_OCR_OPENAI_API_KEY=
 VNEGUIDE_OCR_WORKER_TOKEN=
 ```
 

@@ -27,11 +27,36 @@ services:
       dockerfile: deployment/web.Dockerfile
     environment:
       VNEGUIDE_API_BASE_URL: http://api:8000
+      VNEGUIDE_OCR_BASE_URL: http://ocr:8010
+      VNEGUIDE_OCR_WORKER_TOKEN: ${VNEGUIDE_OCR_WORKER_TOKEN:-}
     depends_on:
       api:
         condition: service_healthy
+      ocr:
+        condition: service_healthy
     ports:
       - "127.0.0.1:${VNEGUIDE_WEB_PORT:-3000}:3000"
+    restart: unless-stopped
+
+  ocr:
+    build:
+      context: ..
+      dockerfile: deployment/api.Dockerfile
+    command: ["python", "-m", "vneguide.ocr", "--host", "0.0.0.0", "--port", "8010"]
+    environment:
+      VNEGUIDE_OCR_ENABLED: ${VNEGUIDE_OCR_ENABLED:-0}
+      VNEGUIDE_OCR_MODEL: ${VNEGUIDE_OCR_MODEL:-gpt-5.5}
+      VNEGUIDE_OCR_OPENAI_API_KEY: ${VNEGUIDE_OCR_OPENAI_API_KEY:-}
+      VNEGUIDE_OCR_WORKER_TOKEN: ${VNEGUIDE_OCR_WORKER_TOKEN:-}
+      VNEGUIDE_OCR_MAX_QUEUED_JOBS: ${VNEGUIDE_OCR_MAX_QUEUED_JOBS:-2}
+      VNEGUIDE_OCR_JOB_TIMEOUT_SECONDS: ${VNEGUIDE_OCR_JOB_TIMEOUT_SECONDS:-60}
+      VNEGUIDE_OCR_RESULT_TTL_SECONDS: ${VNEGUIDE_OCR_RESULT_TTL_SECONDS:-600}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8010/health', timeout=2).read()"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
     restart: unless-stopped
 
   gateway:

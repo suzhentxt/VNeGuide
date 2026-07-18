@@ -1,89 +1,62 @@
-# Qwen CT01 OCR worker
+# OCR kiểm tra tài liệu Đăng ký tạm trú
 
-Module này chỉ nhận ảnh/PDF CT01 cho thủ tục `1.004194` và chỉ trả suggestion. Nó không
-ghi trực tiếp vào draft/form. Core/API cần đưa từng candidate qua cùng luồng
-Accept/Reject/Edit của text suggestion.
+Đây là OCR duy nhất của VNeGuide. Worker chỉ kiểm tra nhẹ hai nhóm tài liệu tổng hợp/đã ẩn danh
+cho thủ tục `1.004194`:
 
-## Runtime được chọn
+- `legal_dwelling`: giấy tờ chứng minh chỗ ở hợp pháp khi CSDL không khai thác được;
+- `minor_consent`: ý kiến đồng ý của cha, mẹ hoặc người giám hộ.
 
-OCR dùng chính model `Qwen/Qwen3.5-9B` và LiteLLM Chat Completions multimodal được cấu hình
-trong file `.env` của repository. Không dùng MinerU, vLLM hoặc model OCR thứ hai.
+OCR không xác minh chữ ký, danh tính, quyền sở hữu hay giá trị pháp lý. Kết quả chỉ là `pass`,
+`needs_review` hoặc `fail`; không có raw text và không tự điền draft.
 
-Qwen nhận ảnh JPEG đã chuẩn hóa trong memory và trả layout block có schema chặt. Mapper xác định
-sau đó chỉ lấy các giá trị hiển thị rõ trên CT01 và kiểm tra chúng bằng field catalog/rule engine đã
-review. Model không được quyết định required field, giấy tờ, phí, thời hạn hoặc kết luận pháp lý.
-
-Dependency ảnh/PDF được khai báo trong extra `ocr`:
-
-```powershell
-python -m pip install -e ".[api,ocr]"
-```
-
-## Chạy worker
-
-Không ghi worker token vào source. Đặt token ở process environment rồi đọc cấu hình model từ `.env`:
+## Chạy local
 
 ```powershell
 $env:VNEGUIDE_OCR_ENABLED = "1"
-$env:VNEGUIDE_OCR_WORKER_TOKEN = "<random-local-secret>"
-python -m vneguide.ocr --env-file C:\Users\admin\VAIC_UET\.env `
-  --host 127.0.0.1 --port 8010
+$env:VNEGUIDE_OCR_MODEL = "gpt-5.5"
+$env:VNEGUIDE_OCR_OPENAI_API_KEY = "<openai-key>"
+$env:VNEGUIDE_OCR_WORKER_TOKEN = "<random-local-token>"
+python -m vneguide.ocr --host 127.0.0.1 --port 8010
 ```
 
-`--env-file` chỉ nạp cấu hình LLM. Các biến `VNEGUIDE_OCR_*` phải được export vào process
-environment như ví dụ trên; chỉ ghi chúng trong `.env` sẽ không bật worker.
+Frontend cần cùng worker token ở phía server:
 
-Không bind worker ra ngoài localhost. API không có Swagger/OpenAPI và không log raw upload.
+```text
+VNEGUIDE_OCR_BASE_URL=http://127.0.0.1:8010
+VNEGUIDE_OCR_WORKER_TOKEN=<random-local-token>
+```
 
-## Contract HTTP
+Không đặt key hoặc worker token trong biến `NEXT_PUBLIC_*`.
+
+## HTTP contract
 
 - `GET /health`
 - `POST /v1/ocr/jobs`
-  - bearer token;
-  - `Content-Type`: `image/jpeg`, `image/png` hoặc `application/pdf`;
+  - bearer worker token;
   - `X-Procedure-Code: 1.004194`;
-  - `X-Form-Id: CT01`;
-  - body là raw bytes, tối đa 8 MiB và 2 trang.
+  - `X-Document-Kind: legal_dwelling` hoặc `minor_consent`;
+  - raw JPEG, PNG hoặc PDF; tối đa 8 MiB, 2 trang và 20 MP.
 - `GET /v1/ocr/jobs/{job_id}` để poll.
 
-Kết quả thành công trả `field_id`, `suggested_value`, `confidence`, `evidence` và
-`source=USER_UPLOAD`. Sai loại giấy tờ, model lỗi hoặc timeout trả `manual_input` và không
-có candidate.
+Worker đọc upload theo stream và dừng khi vượt giới hạn. Ảnh được chuẩn hóa trong memory, gửi tới
+OpenAI Responses API với `store: false`, rồi bị giải phóng. Không log upload, base64, prompt hoặc
+model response.
 
-## Ranh giới dữ liệu
+## Tài liệu test thủ công
 
-`.env` hiện có thể trỏ tới gateway HTTP bên ngoài máy. HTTP không mã hóa ảnh trên đường truyền.
-Chỉ dùng fixture/dữ liệu giả cho tới khi gateway có HTTPS; không gửi CT01, CCCD hoặc PII thật.
+Upload hai file tổng hợp:
 
-Timeout hiện là timeout mềm ở biên job. Request quá hạn chuyển sang nhập tay và kết quả muộn bị bỏ,
-nhưng Python thread đang chờ gateway chỉ kết thúc khi HTTP call trả về. Worker chạy như process riêng
-để có thể restart khi cần.
+- `tests/fixtures/ocr/demo_documents/legal_dwelling_demo.png`
+- `tests/fixtures/ocr/demo_documents/minor_consent_demo.png`
 
-## Smoke và metric
-
-Lệnh sau chỉ gửi ảnh CT01 tổng hợp được tạo trong memory; không đọc ảnh người dùng:
+Sinh lại fixture bằng:
 
 ```powershell
-python -m vneguide.ocr.smoke --env-file .env --runs 3 --confirm-live
+python tests/fixtures/ocr/generate_demo_documents.py
 ```
 
-Lệnh trả exit code `1` nếu không nhận đúng toàn bộ 4 field ở mọi lượt. Kết quả thực đo ngày
-2026-07-18 với `Qwen/Qwen3.5-9B`: field recall `0.75` (9/12), latency trung bình `6,688 giây`,
-lớn nhất `8,407 giây`; cả ba lượt nhận đúng loại CT01 nhưng mỗi lượt thiếu một field. Đây là baseline
-thật, chưa phải cam kết accuracy production.
-
-Eval adapter không gọi model nằm ở `tests/evals/test_ocr_ct01_acceptance.py`; nó kiểm tra clear,
-blurred, rotated và wrong-document fixture, field precision/recall cùng latency mapper.
-
-Chạy toàn bộ test OCR, gồm raster ảnh/PDF:
+Chạy test OCR:
 
 ```powershell
-python -m pip install -e ".[api,dev,ocr]"
-python -m pytest tests/unit/test_ocr*.py tests/evals/test_ocr_ct01_acceptance.py
+python -m pytest tests/unit/test_ocr*.py
 ```
-
-## Điểm nối tích hợp
-
-`OcrCandidateSink` là port bàn giao cho Core/API. Consumer phải chuyển candidate sang suggestion
-`pending` với revision guard rồi mới dùng Accept/Reject/Edit. Adapter OCR không có method ghi draft,
-vì vậy nhánh Người 4 không tạo đường auto-commit và không sửa `core`, `api` hay `demoweb`.

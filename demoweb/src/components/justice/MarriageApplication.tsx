@@ -8,10 +8,11 @@ import {
   FileText,
   Info,
   ShieldCheck,
-  Upload,
 } from "lucide-react";
-import { type ChangeEvent, type FormEvent, type ReactNode, useState } from "react";
+import { type FormEvent, type ReactNode, useEffect, useState } from "react";
 
+import { DocumentUploadCard } from "@/components/ocr/DocumentUploadCard";
+import { useDocumentValidation } from "@/components/ocr/DocumentValidationProvider";
 import { useProcedureWorkspace } from "@/components/workspace/ProcedureWorkspaceProvider";
 import { getEnumLabel, isBlockingRequirement, type GuidedFieldDefinition } from "@/data/guided-fields";
 import { standardMarriageExperience, type ProcedureExperience } from "@/data/procedure-experiences";
@@ -178,27 +179,31 @@ export function MarriageApplication({
   guidedFields: GuidedFieldDefinition[];
 }) {
   const workspace = useProcedureWorkspace();
+  const documentValidation = useDocumentValidation();
   const definitions = guidedFields;
   const selectedService = experience.services.find((service) => service.id === selectedServiceId);
   const [currentStep, setCurrentStep] = useState<WizardStep>(initialStep);
   const [receiptMethod, setReceiptMethod] = useState<ReceiptMethod>("counter");
   const [deliveryAddress, setDeliveryAddress] = useState("");
-  const [fileNames, setFileNames] = useState<Record<string, string>>({});
   const [attemptedStep, setAttemptedStep] = useState<WizardStep | null>(null);
   const [submitted, setSubmitted] = useState(false);
 
   if (!selectedService) throw new Error("Dịch vụ công được chọn không hợp lệ.");
 
   const declaration = declarationGate(definitions, workspace.state.fields);
-  const requiredDocuments = experience.justiceDossier.filter((row) => row.required && !row.eForm);
-  const missingDocuments = requiredDocuments.filter((row) => !fileNames[row.id]);
   const stepMissing = {
     1: [...declaration.missing, ...declaration.unconfirmed].map((field) => field.label),
-    2: missingDocuments.map((row) => row.name),
+    2: documentValidation.blockingMessages,
     3: receiptMethod === "post" && !deliveryAddress.trim() ? ["Địa chỉ nhận kết quả"] : [],
     4: [],
   } satisfies Record<WizardStep, string[]>;
   const canAdvance = stepMissing[currentStep].length === 0;
+
+  useEffect(() => {
+    if (currentStep === 2) {
+      window.dispatchEvent(new CustomEvent("vneguide:document-step-entered"));
+    }
+  }, [currentStep]);
 
   const moveToStep = (step: WizardStep) => {
     setCurrentStep(step);
@@ -241,13 +246,13 @@ export function MarriageApplication({
     ),
     2: (
       <div className="space-y-4">
-        <p className="rounded-xl border border-[#b9cde5] bg-[#f2f7fc] p-4 text-sm leading-6 text-[#24496f]">Tờ khai điện tử được tạo từ thông tin ở bước 1. Với giấy tờ khác, bản demo chỉ giữ tên tệp trên thiết bị và không tải lên máy chủ.</p>
-        {experience.justiceDossier.map((row) => (
-          <div className="flex flex-col gap-4 rounded-xl border border-[#d9e2ec] p-4 sm:flex-row sm:items-center sm:justify-between" key={row.id}>
-            <div><p className="font-extrabold text-[#1e2f41]">{row.name}</p><p className="mt-1 text-sm text-[#667085]">{row.eForm ? "Đã kê khai ở bước 1" : row.required ? "Bắt buộc" : "Chỉ cần khi áp dụng"}</p>{fileNames[row.id] ? <p className="mt-1 text-sm font-bold text-[#28543a]">Đã chọn: {fileNames[row.id]}</p> : null}</div>
-            {row.eForm ? <span className="inline-flex min-h-11 items-center rounded-xl bg-[#f1f8f3] px-4 font-bold text-[#28543a]"><Check className="mr-2 size-5" />Đã hoàn thành</span> : <label className="inline-flex min-h-11 cursor-pointer items-center justify-center rounded-xl border-2 border-[#ce7a58] px-4 font-bold text-[#762b2b]"><Upload className="mr-2 size-5" />Chọn tệp<input className="sr-only" type="file" onChange={(event: ChangeEvent<HTMLInputElement>) => setFileNames((current) => ({ ...current, [row.id]: event.target.files?.[0]?.name ?? "" }))} /></label>}
-          </div>
-        ))}
+        <p className="rounded-xl border border-[#b9cde5] bg-[#f2f7fc] p-4 text-sm leading-6 text-[#24496f]">OCR chỉ kiểm tra nhẹ tài liệu demo hoặc đã ẩn danh. Kết quả không xác minh chữ ký, quyền sở hữu hay giá trị pháp lý và không được gửi tới cơ quan nhà nước.</p>
+        <div className="flex flex-col gap-4 rounded-xl border border-[#d9e2ec] p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div><p className="font-extrabold text-[#1e2f41]">Tờ khai thay đổi thông tin cư trú – Mẫu CT01</p><p className="mt-1 text-sm text-[#667085]">Đã kê khai ở bước 1</p></div>
+          <span className="inline-flex min-h-11 items-center rounded-xl bg-[#f1f8f3] px-4 font-bold text-[#28543a]"><Check className="mr-2 size-5" />Đã hoàn thành</span>
+        </div>
+        <DocumentUploadCard kind="legal_dwelling" />
+        <DocumentUploadCard kind="minor_consent" />
       </div>
     ),
     3: (
@@ -258,7 +263,7 @@ export function MarriageApplication({
     ),
     4: (
       <div className="space-y-6">
-        <section className="rounded-xl border border-[#d9e2ec] bg-[#f8fafc] p-5"><h3 className="font-extrabold">Kiểm tra lần cuối</h3><dl className="mt-4 grid gap-4 text-sm sm:grid-cols-2"><div><dt className="text-[#667085]">Thủ tục</dt><dd className="mt-1 font-bold">{experience.title}</dd></div><div><dt className="text-[#667085]">Nơi tiếp nhận</dt><dd className="mt-1 font-bold">{selectedReceptionUnit}</dd></div><div><dt className="text-[#667085]">Thông tin đã xác nhận</dt><dd className="mt-1 font-bold">{Object.values(workspace.state.fields).filter((field) => field.confirmed).length}/{definitions.length}</dd></div><div><dt className="text-[#667085]">Giấy tờ đã chuẩn bị</dt><dd className="mt-1 font-bold">{experience.justiceDossier.length - missingDocuments.length}/{experience.justiceDossier.length}</dd></div></dl></section>
+        <section className="rounded-xl border border-[#d9e2ec] bg-[#f8fafc] p-5"><h3 className="font-extrabold">Kiểm tra lần cuối</h3><dl className="mt-4 grid gap-4 text-sm sm:grid-cols-2"><div><dt className="text-[#667085]">Thủ tục</dt><dd className="mt-1 font-bold">{experience.title}</dd></div><div><dt className="text-[#667085]">Nơi tiếp nhận</dt><dd className="mt-1 font-bold">{selectedReceptionUnit}</dd></div><div><dt className="text-[#667085]">Thông tin đã xác nhận</dt><dd className="mt-1 font-bold">{Object.values(workspace.state.fields).filter((field) => field.confirmed).length}/{definitions.length}</dd></div><div><dt className="text-[#667085]">Kiểm tra tài liệu</dt><dd className="mt-1 font-bold">{documentValidation.blockingMessages.length ? "Còn nội dung cần xử lý" : "Đã đủ để hoàn tất mô phỏng"}</dd></div></dl></section>
         {submitted ? <div className="flex gap-3 rounded-xl border border-[#98d0aa] bg-[#effaf2] p-5 text-[#25633f]" role="status"><CheckCircle2 className="size-6 shrink-0" /><div><p className="font-extrabold">Đã hoàn tất bản mô phỏng hồ sơ</p><p className="mt-1 text-sm">Chưa có dữ liệu hoặc tài liệu nào được gửi tới cơ quan nhà nước.</p></div></div> : null}
       </div>
     ),

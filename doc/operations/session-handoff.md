@@ -38,6 +38,26 @@ Bước tiếp theo cụ thể cho web owner: cập nhật mapping `demoweb` t�
 `needs_official_review`/`unsupported`, rồi chạy browser E2E golden flow. Backend/core không nên thêm
 compatibility key thứ mười vì vocabulary đã được khóa đúng chín giá trị.
 
+## OCR tài liệu bước 2 — trạng thái 2026-07-19
+
+- OCR CT01 cũ đã được thay hoàn toàn bởi kiểm tra nhẹ hai loại tài liệu của thủ tục tạm trú `1.004194`.
+  Không còn mapper/smoke/candidate sink cũ; OCR không ghi dữ liệu vào draft và không trả nội dung nhận dạng.
+- Cấu hình worker bằng `VNEGUIDE_OCR_ENABLED=true`, `VNEGUIDE_OCR_OPENAI_API_KEY`,
+  `VNEGUIDE_OCR_MODEL=gpt-5.5` và `VNEGUIDE_OCR_WORKER_TOKEN`. Web dùng
+  `VNEGUIDE_OCR_API_BASE_URL` cùng token ở môi trường server; xem `.env.example` và
+  `demoweb/.env.local.example`.
+- Chạy worker: `.venv\Scripts\python.exe -m vneguide.ocr.worker --host 127.0.0.1 --port 8001`.
+  Chạy backend API: `.venv\Scripts\python.exe -m uvicorn vneguide.api.app:create_app --factory --host 127.0.0.1 --port 8000 --reload --reload-dir src`.
+  Chạy frontend trong terminal khác: `cd demoweb; npm run dev`.
+- Hai tệp thử: `tests/fixtures/ocr/demo_documents/legal_dwelling_demo.png` và
+  `tests/fixtures/ocr/demo_documents/minor_consent_demo.png`. Đây chỉ là dữ liệu tổng hợp; không dùng
+  giấy tờ hoặc PII thật khi endpoint chưa được triển khai trên đường truyền/hạ tầng được phê duyệt.
+- Live smoke `gpt-5.5` đã cho cả hai ảnh mẫu `pass`, mọi tiêu chí ở mức `0.98–0.99`. Full Python đạt
+  `408 passed, 1 skipped`, coverage `82.38%`; frontend đạt lint/typecheck/35 test/build. JSON/checksum và
+  parse tĩnh Compose đạt. Máy hiện tại không có Docker CLI trong `PATH`, nên chưa xác minh runtime Compose.
+- Bước tiếp theo cụ thể: cấu hình key/token cục bộ, mở trang đăng ký tạm trú, sang bước 2, tải lần lượt
+  hai ảnh mẫu và xác nhận UI hiển thị tiêu chí/status; sau đó mới đánh giá thêm bộ tài liệu tổng hợp đa dạng.
+
 ## Nhánh thử nghiệm chat core
 
 - `experiment/chat-core-v2` đang tách từ `dev@48f9c1f` trong worktree riêng.
