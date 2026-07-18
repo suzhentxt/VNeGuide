@@ -72,9 +72,10 @@ _LABEL_STOP_WORDS = frozenset(
 class ExtractionSchemaError(ValueError):
     """A provider response or catalog entry violates the extraction contract."""
 
-    def __init__(self, code: str, message: str) -> None:
+    def __init__(self, code: str, message: str, *, field_id: str | None = None) -> None:
         super().__init__(message)
         self.code = code
+        self.field_id = field_id
 
 
 @dataclass(frozen=True, slots=True)
@@ -1080,31 +1081,42 @@ def _require_exact_keys(
 
 
 def _validate_value(spec: FieldSpec | RuleContextSpec, value: object) -> None:
+    field_id = spec.field_id
     if spec.field_type in {"string", "date", "enum"}:
         if not isinstance(value, str) or not value:
-            raise ExtractionSchemaError("invalid_value", f"{spec.field_id!r} must be a string.")
+            raise ExtractionSchemaError(
+                "invalid_value", f"{field_id!r} must be a string.", field_id=field_id
+            )
         if spec.field_type == "enum" and value not in spec.values:
             raise ExtractionSchemaError(
-                "invalid_value", f"{spec.field_id!r} has an unknown enum value."
+                "invalid_value",
+                f"{field_id!r} has an unknown enum value.",
+                field_id=field_id,
             )
         if spec.field_type == "date":
             try:
                 parsed = date.fromisoformat(value)
             except ValueError as exc:
                 raise ExtractionSchemaError(
-                    "invalid_value", f"{spec.field_id!r} must be an ISO date."
+                    "invalid_value", f"{field_id!r} must be an ISO date.", field_id=field_id
                 ) from exc
             if parsed.isoformat() != value:
                 raise ExtractionSchemaError(
-                    "invalid_value", f"{spec.field_id!r} must use canonical YYYY-MM-DD."
+                    "invalid_value",
+                    f"{field_id!r} must use canonical YYYY-MM-DD.",
+                    field_id=field_id,
                 )
         if spec.pattern is not None and re.fullmatch(spec.pattern, value, flags=re.ASCII) is None:
             raise ExtractionSchemaError(
-                "invalid_value", f"{spec.field_id!r} does not match its catalog pattern."
+                "invalid_value",
+                f"{field_id!r} does not match its catalog pattern.",
+                field_id=field_id,
             )
     elif spec.field_type == "integer":
         if type(value) is not int:
-            raise ExtractionSchemaError("invalid_value", f"{spec.field_id!r} must be an integer.")
+            raise ExtractionSchemaError(
+                "invalid_value", f"{field_id!r} must be an integer.", field_id=field_id
+            )
     elif spec.field_type == "number":
         if (
             isinstance(value, bool)
@@ -1112,18 +1124,20 @@ def _validate_value(spec: FieldSpec | RuleContextSpec, value: object) -> None:
             or not math.isfinite(float(value))
         ):
             raise ExtractionSchemaError(
-                "invalid_value", f"{spec.field_id!r} must be a finite number."
+                "invalid_value", f"{field_id!r} must be a finite number.", field_id=field_id
             )
     elif spec.field_type == "boolean" and type(value) is not bool:
-        raise ExtractionSchemaError("invalid_value", f"{spec.field_id!r} must be a boolean.")
+        raise ExtractionSchemaError(
+            "invalid_value", f"{field_id!r} must be a boolean.", field_id=field_id
+        )
 
     if spec.minimum is not None and value < spec.minimum:  # type: ignore[operator]
         raise ExtractionSchemaError(
-            "invalid_value", f"{spec.field_id!r} is below its catalog minimum."
+            "invalid_value", f"{field_id!r} is below its catalog minimum.", field_id=field_id
         )
     if spec.maximum is not None and value > spec.maximum:  # type: ignore[operator]
         raise ExtractionSchemaError(
-            "invalid_value", f"{spec.field_id!r} is above its catalog maximum."
+            "invalid_value", f"{field_id!r} is above its catalog maximum.", field_id=field_id
         )
 
 

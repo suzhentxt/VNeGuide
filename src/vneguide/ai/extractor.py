@@ -59,6 +59,7 @@ class ExtractionOutcome:
     context_evidence: Mapping[str, str] = field(default_factory=_empty_text_mapping)
     context_origins: Mapping[str, str] = field(default_factory=_empty_text_mapping)
     information_request: InformationRequest | None = None
+    invalid_field_id: str | None = None
 
     @property
     def succeeded(self) -> bool:
@@ -213,7 +214,13 @@ class StructuredExtractor:
                 last_error_code = "provider_error"
                 if not exc.retryable:
                     return self._fallback(attempts=attempt, error_code=last_error_code)
-            except ExtractionSchemaError:
+            except ExtractionSchemaError as exc:
+                if exc.code == "invalid_value":
+                    return self._fallback(
+                        attempts=attempt,
+                        error_code="invalid_value",
+                        invalid_field_id=exc.field_id,
+                    )
                 last_error_code = "malformed_output"
 
             if attempt == self._max_attempts:
@@ -256,7 +263,12 @@ class StructuredExtractor:
         return json.dumps(envelope, ensure_ascii=False, separators=(",", ":"))
 
     @staticmethod
-    def _fallback(*, attempts: int, error_code: str) -> ExtractionOutcome:
+    def _fallback(
+        *,
+        attempts: int,
+        error_code: str,
+        invalid_field_id: str | None = None,
+    ) -> ExtractionOutcome:
         return ExtractionOutcome(
             status="fallback",
             classification=None,
@@ -271,6 +283,7 @@ class StructuredExtractor:
             context_evidence=MappingProxyType({}),
             context_origins=MappingProxyType({}),
             information_request=None,
+            invalid_field_id=invalid_field_id,
         )
 
 

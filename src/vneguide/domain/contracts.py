@@ -60,6 +60,7 @@ class ConversationState:
     asked_question_ids: tuple[str, ...] = ()
     recent_information_procedure_code: ProcedureCode | None = None
     recent_information_topics: tuple[QATopic, ...] = ()
+    memory_summary: str = ""
 
     def __post_init__(self) -> None:
         if self.turn_number < 0:
@@ -82,6 +83,8 @@ class ConversationState:
             )
         if (self.recent_information_procedure_code is None) != (not self.recent_information_topics):
             raise ValueError("recent information procedure and topics must be recorded together")
+        if not isinstance(self.memory_summary, str):
+            raise ValueError("memory_summary must be a string")
         object.__setattr__(self, "messages", tuple(self.messages))
         object.__setattr__(
             self,

@@ -6,6 +6,13 @@ from .extractor import (
     ExtractionTurnContext,
     StructuredExtractor,
 )
+from .grounded_responder import (
+    MAX_RESPONDER_HISTORY_TURNS,
+    GroundedReply,
+    GroundedResponder,
+    ResponderContext,
+)
+from .memory_compactor import CompactionResult, MemoryCompactor
 from .providers import (
     LiteLLMChatCompletionsProvider,
     LLMProvider,
@@ -20,20 +27,26 @@ from .providers import (
 from .schemas import ExtractionCatalog, ExtractionSchemaError, InformationRequest
 
 __all__ = [
+    "CompactionResult",
     "ExtractionCatalog",
     "ExtractionOutcome",
     "ExtractionSchemaError",
     "ExtractionTurnContext",
+    "GroundedReply",
+    "GroundedResponder",
     "InformationRequest",
     "LLMConfig",
     "LLMProvider",
     "LiteLLMChatCompletionsProvider",
+    "MAX_RESPONDER_HISTORY_TURNS",
+    "MemoryCompactor",
     "MockLLMProvider",
     "OpenAIResponsesProvider",
     "ProviderConfigurationError",
     "ProviderError",
     "ProviderRefusal",
     "ProviderTimeout",
+    "ResponderContext",
     "StructuredExtractor",
     "StructuredRequest",
     "build_llm_provider",
