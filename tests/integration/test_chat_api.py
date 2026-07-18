@@ -354,3 +354,38 @@ async def test_chat_api_keeps_compact_memory_across_multiple_turns() -> None:
         ExtractionTurnContext("1.004194", "registration_mode"),
         ExtractionTurnContext("1.004194", "registration_mode"),
     ]
+
+
+@pytest.mark.anyio
+async def test_chat_api_remembers_birth_scope_clarification_across_turns() -> None:
+    repository = ProcedureRepository.discover()
+    extractor = StubExtractor()
+    app = create_app(
+        session_factory=lambda: ConversationSession(extractor, repository),
+        repository=repository,
+    )
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post("/v1/chat/sessions", json={})
+        session_id = created.headers["X-VNeGuide-Session"]
+        ambiguous = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "tôi muốn làm giấy khai sinh"},
+        )
+        selected = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "tôi muốn xin bản sao"},
+        )
+        child = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "cho con tôi"},
+        )
+
+    assert ambiguous.json()["next_action"] == "ask_clarification"
+    assert selected.json()["procedure"]["code"] == "2.000635"
+    assert "bản thân" in selected.json()["reply"]
+    assert child.json()["next_action"] == "ask_clarification"
+    assert "đã ghi nhận" in child.json()["reply"].lower()
+    assert "requester_type" not in child.json()["reply"]
+    assert len(child.json()["messages"]) == 6
+    assert extractor.calls == []

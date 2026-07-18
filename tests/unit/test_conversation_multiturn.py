@@ -178,7 +178,8 @@ def test_unsupported_turn_preserves_context_without_reasking(
     assert result.state.draft.procedure_code.value == scenario.code
     assert result.state.asked_question_ids == (scenario.question_id,)
     assert first.reply not in result.reply
-    assert f"nhập trực tiếp trường {scenario.expected_field}" in result.reply.lower()
+    assert "bạn có thể nhập mục" in result.reply.lower()
+    assert scenario.expected_field not in result.reply
     assert extractor.calls[-1][1] == ExtractionTurnContext(
         scenario.code,
         scenario.expected_field,
@@ -201,10 +202,15 @@ def test_ambiguous_turn_switches_previously_asked_field_to_manual_input(
     first = session.send(scenario.intro)
     result = session.send("Tôi chưa rõ.")
 
-    assert result.next_action is NextAction.MANUAL_INPUT
+    expected_action = (
+        NextAction.ASK_CLARIFICATION if scenario.code == "2.000635" else NextAction.MANUAL_INPUT
+    )
+    assert result.next_action is expected_action
     assert result.state.asked_question_ids == (scenario.question_id,)
     assert first.reply not in result.reply
-    assert f"nhập trực tiếp trường {scenario.expected_field}" in result.reply.lower()
+    expected_phrase = "ba lựa chọn" if scenario.code == "2.000635" else "bạn có thể nhập mục"
+    assert expected_phrase in result.reply.lower()
+    assert scenario.expected_field not in result.reply
     assert "Câu hỏi tự do từ model" not in result.reply
 
 

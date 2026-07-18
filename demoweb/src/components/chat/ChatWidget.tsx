@@ -17,6 +17,7 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { getChatSessionContext } from "@/data/chat-scope";
 import { useProcedureWorkspace } from "@/components/workspace/ProcedureWorkspaceProvider";
 import { getChatValidationPresentation } from "@/lib/chat-presentation";
+import { getChatReplyOptions } from "@/lib/chat-reply-options";
 
 import { SuggestionCard } from "./SuggestionCard";
 import { useChatSession } from "./useChatSession";
@@ -78,6 +79,7 @@ export function ChatWidget() {
       session.context.procedure_code !== context.procedure_code,
   );
   const validationPresentation = getChatValidationPresentation(turn);
+  const replyOptions = getChatReplyOptions(turn);
   const validationToneClass = {
     danger: "border-[#efb4b4] bg-[#fff1f1] text-[#8b1e1e]",
     incomplete: "border-[#f0c36a] bg-[#fff8df] text-[#704d09]",
@@ -179,7 +181,7 @@ export function ChatWidget() {
             ) : null}
 
             {messages.length === 0 ? (
-              <div className="max-w-[92%] rounded-2xl rounded-tl-sm border border-[#e2e6ea] bg-white px-4 py-3 text-sm leading-6 text-[#334155] shadow-sm">
+              <div className="max-w-[92%] rounded-2xl rounded-tl-sm border border-[#e2e6ea] bg-white px-4 py-3 text-base leading-7 text-[#334155] shadow-sm">
                 <p className="font-bold text-[#903938]">Xin chào!</p>
                 <p className="mt-1">
                   Tôi có thể giúp bạn kiểm tra thông tin và chuẩn bị hồ sơ trong phạm vi đã được xác minh. Bạn đang cần hỗ trợ việc gì?
@@ -194,7 +196,7 @@ export function ChatWidget() {
                   key={`${message.role}-${index}-${message.content.slice(0, 20)}`}
                 >
                   <div
-                    className={`max-w-[88%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm leading-6 shadow-sm ${
+                    className={`max-w-[92%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-base leading-7 shadow-sm ${
                       message.role === "user"
                         ? "rounded-tr-sm bg-[#903938] text-white"
                         : "rounded-tl-sm border border-[#e2e6ea] bg-white text-[#334155]"
@@ -205,6 +207,31 @@ export function ChatWidget() {
                 </div>
               ))}
             </div>
+
+            {replyOptions.length ? (
+              <div
+                aria-label="Câu trả lời gợi ý"
+                className="rounded-xl border border-[#d9e2ec] bg-white p-3"
+                role="group"
+              >
+                <p className="mb-2 text-sm font-bold text-[#334155]">
+                  Chọn nhanh một câu trả lời
+                </p>
+                <div className="grid gap-2">
+                  {replyOptions.map((option) => (
+                    <button
+                      className="min-h-12 rounded-lg border-2 border-[#ce7a58] bg-[#fff8f5] px-4 py-2 text-left text-base font-bold text-[#762b2b] hover:bg-[#ffede5] focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[#ffc251] disabled:opacity-50"
+                      disabled={busy}
+                      key={option}
+                      onClick={() => void sendMessage(option)}
+                      type="button"
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
 
             {pendingSuggestions?.map((suggestion) => (
               <SuggestionCard
@@ -290,10 +317,13 @@ export function ChatWidget() {
           </div>
 
           <form className="border-t border-[#e2e6ea] bg-white p-3" onSubmit={submit}>
+            <p className="mb-2 text-sm text-[#667085]">
+              Bạn có thể chọn câu trả lời gợi ý hoặc nhập bằng lời của mình.
+            </p>
             <div className="flex items-end gap-2 rounded-xl border border-[#c9cdcf] bg-white p-2 focus-within:border-[#ce7a58] focus-within:ring-2 focus-within:ring-[#ce7a58]/20">
               <textarea
                 aria-label="Nội dung cần trợ lý hỗ trợ"
-                className="max-h-32 min-h-11 flex-1 resize-none border-0 bg-transparent px-2 py-2 text-sm outline-none placeholder:text-[#9299a2]"
+                className="max-h-32 min-h-12 flex-1 resize-none border-0 bg-transparent px-2 py-2 text-base outline-none placeholder:text-[#9299a2]"
                 disabled={busy}
                 maxLength={4000}
                 onChange={(event) => setDraft(event.target.value)}

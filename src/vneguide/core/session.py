@@ -69,6 +69,8 @@ class ConversationSession:
         self._state = ConversationState()
         self._closed = False
         self._contextual_reference_trusted = False
+        self._pending_scope_clarification: str | None = None
+        self._birth_for_child = False
 
     @property
     def state(self) -> ConversationState:
@@ -98,8 +100,63 @@ class ConversationSession:
     def send(self, message: str) -> TurnResult:
         self._ensure_open()
         active_code = self._state.draft.procedure_code
+        previous_missing = (
+            self._rules.missing_fields(active_code, self._state.draft.values)
+            if active_code is not None
+            else ()
+        )
+        normalized = self._normalize_message(message)
+
+        if self._pending_scope_clarification == "birth":
+            scope_choice = self._birth_scope_choice(normalized)
+            if scope_choice == "copy":
+                self._pending_scope_clarification = None
+                return self._select_birth_copy(message, active_code)
+            if scope_choice == "new_registration":
+                self._pending_scope_clarification = None
+                return self._reply_without_draft_change(
+                    message,
+                    "Đăng ký khai sinh mới chưa nằm trong ba thủ tục VNeGuide hỗ trợ. "
+                    "Tôi chưa thay đổi hồ sơ hiện tại của bạn.",
+                    NextAction.OUT_OF_SCOPE,
+                )
+            return self._reply_without_draft_change(
+                message,
+                "Tôi vẫn nhớ bạn đang chọn giữa hai việc. Bạn hãy chọn “Xin bản sao "
+                "Giấy khai sinh” hoặc “Đăng ký khai sinh mới” nhé.",
+                NextAction.ASK_CLARIFICATION,
+            )
+
+        if self._is_typo_birth_copy_request(normalized):
+            return self._select_birth_copy(message, active_code)
+
+        waiting_for_requester_type = (
+            active_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+            and bool(previous_missing)
+            and previous_missing[0] == "requester_type"
+        )
+        if waiting_for_requester_type and self._is_uncertain_answer(normalized):
+            return self._reply_without_draft_change(
+                message,
+                "Không sao. Biểu mẫu hiện có ba lựa chọn: xin cho bản thân, người được "
+                "ủy quyền, hoặc đại diện cơ quan/tổ chức. Tôi sẽ chưa tự điền khi bạn chưa "
+                "chắc; bạn có thể chọn một phương án bên dưới hoặc hỏi cơ quan hộ tịch.",
+                NextAction.ASK_CLARIFICATION,
+            )
+        if waiting_for_requester_type and self._mentions_child(normalized):
+            self._birth_for_child = True
+            self._contextual_reference_trusted = True
+            return self._reply_without_draft_change(
+                message,
+                "Tôi đã ghi nhận bạn đang xin bản sao Giấy khai sinh cho con. "
+                "Để không điền sai tư cách pháp lý, bạn hãy cho biết mình là người được "
+                "ủy quyền hay đại diện cơ quan/tổ chức. Nếu chưa chắc, chọn “Tôi chưa rõ”.",
+                NextAction.ASK_CLARIFICATION,
+            )
+
         if self._needs_birth_scope_clarification(message):
             self._contextual_reference_trusted = False
+            self._pending_scope_clarification = "birth"
             active_note = ""
             if active_code is not None:
                 title = self._repository.get_by_code(active_code).procedure_name
@@ -123,11 +180,6 @@ class ConversationSession:
                     action,
                     source_ids=contextual_reply.source_ids,
                 )
-        previous_missing = (
-            self._rules.missing_fields(active_code, self._state.draft.values)
-            if active_code is not None
-            else ()
-        )
         context = None
         if active_code is not None:
             expected_field = (
@@ -189,6 +241,8 @@ class ConversationSession:
             except ValueError:
                 continue
             valid_fields[field_id] = value
+            if field_id == "requester_type":
+                self._birth_for_child = False
             suggestions = [
                 item
                 for item in suggestions
@@ -297,6 +351,8 @@ class ConversationSession:
 
         values = dict(draft.values)
         values[field_id] = value
+        if field_id == "requester_type":
+            self._birth_for_child = False
         confirmed = set(draft.confirmed_fields)
         confirmed.add(field_id)
         dirty = set(draft.dirty_fields)
@@ -327,6 +383,8 @@ class ConversationSession:
         self._state = ConversationState()
         self._closed = True
         self._contextual_reference_trusted = False
+        self._pending_scope_clarification = None
+        self._birth_for_child = False
 
     def _resolve_suggestion(
         self,
@@ -397,8 +455,10 @@ class ConversationSession:
             attempts = self._state.clarification_attempts.get(field_id, 0)
             question_id = self._question_id(code, field_id)
             if attempts >= 2 or question_id in self._state.asked_question_ids:
+                label = self._field_label(code, field_id)
                 return (
-                    f"Hãy nhập trực tiếp trường {field_id} trên biểu mẫu.",
+                    f"Bạn có thể nhập mục “{label}” trên biểu mẫu. "
+                    "Nếu muốn tiếp tục trong chat, hãy trả lời bằng một câu ngắn.",
                     NextAction.MANUAL_INPUT,
                 )
             self._state = replace(
@@ -653,15 +713,94 @@ class ConversationSession:
     def _question_id(code: ProcedureCode, field_id: str) -> str:
         return f"{code.value}:{field_id}"
 
-    @staticmethod
-    def _needs_birth_scope_clarification(message: str) -> bool:
-        """Fail closed for the common phrase that names two different services."""
+    def _field_label(self, code: ProcedureCode, field_id: str) -> str:
+        for field in self._repository.fields_for(code):
+            if field.field_id == field_id:
+                return field.label
+        return "thông tin còn thiếu"
 
+    def _select_birth_copy(
+        self,
+        message: str,
+        active_code: ProcedureCode | None,
+    ) -> TurnResult:
+        code = ProcedureCode.BIRTH_CERTIFICATE_COPY
+        if active_code is not None and active_code is not code:
+            active_title = self._repository.get_by_code(active_code).procedure_name
+            return self._reply_without_draft_change(
+                message,
+                f"Tôi đã hiểu bạn muốn xin bản sao Giấy khai sinh, nhưng phiên hiện tại "
+                f"đang là “{active_title}”. Hãy mở đúng trang thủ tục cấp bản sao để bắt đầu "
+                "mà không làm mất dữ liệu đang nhập.",
+                NextAction.ASK_CLARIFICATION,
+            )
+
+        if active_code is None:
+            pack = self._repository.get_by_code(code)
+            self._state = replace(
+                self._state,
+                draft=replace(
+                    self._state.draft,
+                    procedure_code=code,
+                    pack_version=pack.version,
+                ),
+            )
+        self._contextual_reference_trusted = True
+        if self._mentions_child(self._normalize_message(message)):
+            self._birth_for_child = True
+        reply, action = self._next_prompt(code)
+        if self._birth_for_child:
+            reply = f"Tôi đã ghi nhận bạn đang xin bản sao Giấy khai sinh cho con. {reply}"
+        return self._finish_turn(message, reply, action)
+
+    @staticmethod
+    def _normalize_message(message: str) -> str:
         normalized = unicodedata.normalize("NFD", message.casefold())
         normalized = "".join(
             character for character in normalized if unicodedata.category(character) != "Mn"
         ).replace("đ", "d")
-        normalized = re.sub(r"[^a-z0-9]+", " ", normalized).strip()
+        return re.sub(r"[^a-z0-9]+", " ", normalized).strip()
+
+    @staticmethod
+    def _birth_scope_choice(normalized: str) -> str | None:
+        if any(
+            marker in normalized
+            for marker in ("ban sao", "bao sao", "trich luc", "xin lai", "cap lai")
+        ):
+            return "copy"
+        if any(
+            marker in normalized
+            for marker in ("dang ky khai sinh", "khai sinh moi", "moi sinh", "so sinh")
+        ):
+            return "new_registration"
+        return None
+
+    @staticmethod
+    def _is_typo_birth_copy_request(normalized: str) -> bool:
+        return "bao sao" in normalized and "giay khai sinh" in normalized
+
+    @staticmethod
+    def _mentions_child(normalized: str) -> bool:
+        return any(
+            marker in normalized
+            for marker in ("con toi", "con cua toi", "cho con", "cho chau", "cua chau")
+        )
+
+    @staticmethod
+    def _is_uncertain_answer(normalized: str) -> bool:
+        return normalized in {
+            "toi chua ro",
+            "toi khong ro",
+            "chua ro",
+            "khong ro",
+            "khong biet",
+        }
+
+    @staticmethod
+    def _needs_birth_scope_clarification(message: str) -> bool:
+        """Fail closed for the common phrase that names two different services."""
+
+        normalized = ConversationSession._normalize_message(message)
 
         explicit_copy_markers = (
             "ban sao",

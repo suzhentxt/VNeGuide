@@ -1,5 +1,22 @@
 # Nhật ký tiến độ VNeGuide
 
+## 2026-07-18 — Memory nhiều lượt và UX dễ dùng cho người dân
+
+- Tái hiện chuỗi lỗi thật: sau câu mơ hồ “làm giấy khai sinh”, câu trả lời rút gọn “xin bản sao” bị
+  mất ngữ cảnh; typo “bảo sao” bị coi ngoài phạm vi; “cho con tôi” chuyển quá sớm sang tên field kỹ
+  thuật.
+- Session giờ giữ trạng thái câu hỏi làm rõ, hiểu lựa chọn rút gọn ở lượt kế tiếp và nhận typo
+  `bảo sao` trong cụm xin bản sao Giấy khai sinh. Câu “cho con tôi” được ghi nhớ và xác nhận bằng
+  tiếng Việt; core không tự suy ra tư cách pháp lý khi data package chưa có ánh xạ đã review.
+- Câu hỏi `requester_type` được diễn đạt thành ba tư cách dễ hiểu. UI thêm các nút trả lời nhanh cao
+  tối thiểu 48 px, tăng cỡ chữ hội thoại/input và vẫn giữ ô nhập tự do; không hiển thị enum hoặc tên
+  field nội bộ cho người dùng.
+- BFF smoke ba lượt trên session thật đạt: `ask_clarification` → chọn procedure `2.000635` → xác nhận
+  đã ghi nhớ “cho con”; transcript có đủ sáu message và draft không bị tự điền. Trình duyệt tích hợp
+  không khả dụng nên chưa có click/screenshot; hành vi nút được bảo vệ bằng unit test frontend.
+- Full Python gate đạt `272 passed, 2 skipped`; compile, Ruff lint/format và mypy đều đạt. Next
+  `npm run check` đạt lint, typecheck, 13 test và production build 25 route.
+
 ## 2026-07-18 — Hiển thị chatbot trên toàn bộ demoweb
 
 - Tái hiện trang chủ trả HTTP `200` nhưng không có nút chatbot: `ChatWidget` và workspace provider

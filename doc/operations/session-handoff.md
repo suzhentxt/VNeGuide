@@ -15,12 +15,15 @@
   completeness là contract tách biệt.
 - Chat widget và workspace provider được mount ở root layout: trang chủ và mọi route đều hiện đúng
   một nút trợ lý, trong khi form tạm trú vẫn chia sẻ cùng workspace với chat.
-- Guided reply layer đạt full Python `268 passed, 2 skipped`, và A/B `12/12` fact/topic/source;
+- Session nhớ câu hỏi làm rõ “bản sao hay đăng ký mới”, hiểu câu trả lời rút gọn và typo “bảo sao”.
+  UI có nút trả lời nhanh, chữ lớn hơn và không lộ tên field kỹ thuật. Quan hệ “cho con tôi” được ghi
+  nhớ nhưng chưa tự ánh xạ sang `authorized_person`; quyết định dữ liệu cần review nằm ở `OD-007`.
+- Guided reply layer đạt full Python `272 passed, 2 skipped`, và A/B `12/12` fact/topic/source;
   dùng `VNEGUIDE_CHAT_CORE_VARIANT=baseline` để rollback tức thì.
 - Provider/BFF smoke mới nhất dùng OpenAI/gpt-5.6-luna và xác nhận cả guidance lẫn structured field
   suggestion hoạt động bằng dữ liệu tổng hợp. Local demo đang chạy tại `http://127.0.0.1:13000`, API
   tại `http://127.0.0.1:18000`; process phải có network egress tới OpenAI API.
-- Npm gate đạt `0 vulnerabilities`, 11 unit tests và build 25 route. Bước tiếp theo là review nhánh,
+- Npm gate đạt `0 vulnerabilities`, 13 unit tests và build 25 route. Bước tiếp theo là review nhánh,
   sau đó chỉ cân nhắc merge khi A/B và public deployment được chấp thuận; không thay coverage
   threshold, dataset checksum hoặc source data.
 

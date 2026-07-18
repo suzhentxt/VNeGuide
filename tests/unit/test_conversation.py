@@ -8,7 +8,7 @@ import pytest
 from vneguide.ai import ExtractionOutcome, ExtractionTurnContext
 from vneguide.core import ConversationSession, RevisionConflictError
 from vneguide.data import ProcedureRepository
-from vneguide.domain import NextAction, SuggestionStatus
+from vneguide.domain import NextAction, ProcedureCode, SuggestionStatus
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -106,7 +106,7 @@ def test_reject_does_not_change_draft_and_caps_retries(
     assert rejected.suggestions[0].status is SuggestionStatus.REJECTED
 
 
-def test_missing_answer_switches_to_manual_input_without_repeating_question(
+def test_uncertain_birth_request_keeps_safe_plain_language_choices(
     repository: ProcedureRepository,
 ) -> None:
     session = ConversationSession(
@@ -117,14 +117,14 @@ def test_missing_answer_switches_to_manual_input_without_repeating_question(
         repository,
     )
     initial = session.send("Xin một bản")
-    accepted = session.accept_suggestion(
+    session.accept_suggestion(
         initial.suggestions[0].suggestion_id,
         expected_revision=0,
     )
-    question = accepted.reply
-    manual = session.send("Tôi chưa rõ")
-    assert manual.next_action is NextAction.MANUAL_INPUT
-    assert question not in manual.reply
+    result = session.send("Tôi chưa rõ")
+    assert result.next_action is NextAction.ASK_CLARIFICATION
+    assert "ba lựa chọn" in result.reply
+    assert "requester_type" not in result.reply
 
 
 def test_confirmed_field_is_never_overwritten(repository: ProcedureRepository) -> None:
@@ -322,7 +322,8 @@ def test_active_procedure_context_survives_an_unsupported_turn(
         assert context.expected_field_id == "registration_mode"
     assert unsupported.next_action is NextAction.OUT_OF_SCOPE
     assert "vẫn được giữ nguyên" in unsupported.reply
-    assert "nhập trực tiếp trường registration_mode" in unsupported.reply.lower()
+    assert "hình thức đăng ký" in unsupported.reply.lower()
+    assert "registration_mode" not in unsupported.reply
     assert continued.next_action is NextAction.CONFIRM_SUGGESTION
     assert continued.suggestions[-1].field_id == "submission_channel"
 
@@ -345,6 +346,71 @@ def test_generic_birth_certificate_request_is_clarified_before_extraction(
     assert result.state.draft.procedure_code.value == "1.004194"
     assert result.draft == {}
     assert extractor.calls == []
+
+
+def test_birth_scope_clarification_remembers_copy_choice_and_child_context(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor(
+        outcome(
+            procedure_code="2.000635",
+            fields={"requester_type": "authorized_person"},
+            evidence={"requester_type": "người được ủy quyền"},
+        )
+    )
+    session = ConversationSession(extractor, repository)
+
+    ambiguous = session.send("tôi muốn làm giấy khai sinh")
+    selected = session.send("tôi muốn xin bản sao")
+    child = session.send("cho con tôi")
+    role = session.send("Tôi là người được ủy quyền")
+
+    assert ambiguous.next_action is NextAction.ASK_CLARIFICATION
+    assert selected.state.draft.procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+    assert "bản thân" in selected.reply
+    assert child.next_action is NextAction.ASK_CLARIFICATION
+    assert "đã ghi nhận" in child.reply.lower()
+    assert "cho con" in child.reply.lower()
+    assert "requester_type" not in child.reply
+    assert role.next_action is NextAction.CONFIRM_SUGGESTION
+    assert role.suggestions[-1].field_id == "requester_type"
+    assert extractor.calls == [
+        (
+            "Tôi là người được ủy quyền",
+            ExtractionTurnContext("2.000635", "requester_type"),
+        )
+    ]
+
+
+def test_birth_copy_typo_selects_supported_procedure_without_model(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor()
+    session = ConversationSession(extractor, repository)
+
+    result = session.send("tôi muốn xin bảo sao giấy khai sinh")
+
+    assert result.next_action is NextAction.ASK_CLARIFICATION
+    assert result.state.draft.procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+    assert "bản thân" in result.reply
+    assert extractor.calls == []
+
+
+def test_uncertain_birth_requester_keeps_plain_language_choices(
+    repository: ProcedureRepository,
+) -> None:
+    session = ConversationSession(
+        StubExtractor(outcome(procedure_code="2.000635", fields={})),
+        repository,
+    )
+    session.send("Tôi muốn xin bản sao Giấy khai sinh")
+
+    result = session.send("Tôi chưa rõ")
+
+    assert result.next_action is NextAction.ASK_CLARIFICATION
+    assert "ba lựa chọn" in result.reply
+    assert "tự điền" in result.reply
+    assert "requester_type" not in result.reply
 
 
 @pytest.mark.parametrize(
@@ -381,21 +447,21 @@ def test_active_ambiguous_turn_uses_the_deterministic_pending_question(
     manual = session.send("Vẫn chưa rõ")
 
     assert result.next_action is NextAction.MANUAL_INPUT
-    assert "nhập trực tiếp trường registration_mode" in result.reply
+    assert "hình thức đăng ký" in result.reply.lower()
+    assert "registration_mode" not in result.reply
     assert "Bạn muốn làm thủ tục nào?" not in result.reply
     assert extractor.calls[-1][1] == ExtractionTurnContext(
         active_procedure_code="1.004194",
         expected_field_id="registration_mode",
     )
     assert manual.next_action is NextAction.MANUAL_INPUT
-    assert "nhập trực tiếp trường registration_mode" in manual.reply
+    assert "hình thức đăng ký" in manual.reply.lower()
 
 
 def test_birth_copy_follow_ups_keep_the_active_procedure_without_inference(
     repository: ProcedureRepository,
 ) -> None:
     extractor = StubExtractor(
-        outcome(procedure_code="2.000635", fields={}),
         outcome(procedure_code="2.000635", fields={}),
         outcome(
             procedure_code="2.000635",
@@ -409,8 +475,10 @@ def test_birth_copy_follow_ups_keep_the_active_procedure_without_inference(
     relationship = session.send("Cho con tôi")
     channel = session.send("Đăng ký trực tuyến")
 
-    assert relationship.next_action is NextAction.MANUAL_INPUT
-    assert "nhập trực tiếp trường requester_type" in relationship.reply
+    assert relationship.next_action is NextAction.ASK_CLARIFICATION
+    assert "đã ghi nhận" in relationship.reply.lower()
+    assert "cho con" in relationship.reply.lower()
+    assert "requester_type" not in relationship.reply
     assert relationship.state.draft.procedure_code is not None
     assert relationship.state.draft.procedure_code.value == "2.000635"
     assert channel.next_action is NextAction.CONFIRM_SUGGESTION
@@ -420,10 +488,10 @@ def test_birth_copy_follow_ups_keep_the_active_procedure_without_inference(
         expected_revision=0,
     )
     assert accepted.next_action is NextAction.MANUAL_INPUT
-    assert "nhập trực tiếp trường requester_type" in accepted.reply
+    assert "loại người yêu cầu" in accepted.reply.lower()
+    assert "requester_type" not in accepted.reply
     assert [call[1] for call in extractor.calls] == [
         None,
-        ExtractionTurnContext("2.000635", "requester_type"),
         ExtractionTurnContext("2.000635", "requester_type"),
     ]
 
