@@ -7,7 +7,7 @@ from httpx import ASGITransport, AsyncClient
 
 from vneguide.ai import ExtractionOutcome, ExtractionTurnContext
 from vneguide.api import create_app
-from vneguide.core import ConversationSession
+from vneguide.core import CatalogReplyComposer, ConversationSession
 from vneguide.data import ProcedureRepository
 from vneguide.domain import (
     CaseDraft,
@@ -72,6 +72,7 @@ class FakeChatSession:
         _value: JSONValue,
         *,
         expected_revision: int,
+        user_message: str | None = None,
     ) -> TurnResult:
         raise ValueError("no suggestion")
 
@@ -204,8 +205,94 @@ async def test_chat_api_accepts_a_pending_suggestion() -> None:
     assert accepted.status_code == 200
     assert accepted.json()["draft"]["revision"] == 1
     assert accepted.json()["suggestions"][0]["status"] == "accepted"
+    assert accepted.json()["messages"][-2]["role"] == "user"
+    assert accepted.json()["messages"][-2]["content"].startswith("Xác nhận:")
+    assert accepted.json()["messages"][-1]["role"] == "assistant"
+    assert "người được ủy quyền" in accepted.json()["messages"][-1]["content"].lower()
     assert stale.status_code == 409
     assert stale.json()["error"]["code"] == "stale_suggestion"
+
+
+@pytest.mark.anyio
+async def test_chat_api_presents_grounded_guidance_without_mutating_draft() -> None:
+    repository = ProcedureRepository.discover()
+
+    def session_factory() -> ConversationSession:
+        return ConversationSession(
+            StubExtractor(
+                ExtractionOutcome(
+                    status="success",
+                    classification="supported",
+                    procedure_code="1.004194",
+                    fields={},
+                    evidence={},
+                    clarification_question=None,
+                    attempts=1,
+                )
+            ),
+            repository,
+            reply_composer=CatalogReplyComposer(repository),
+        )
+
+    app = create_app(session_factory=session_factory, repository=repository)
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post("/v1/chat/sessions", json={})
+        session_id = created.headers["X-VNeGuide-Session"]
+        turn = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "Lệ phí bao nhiêu?"},
+        )
+
+    assert turn.status_code == 200
+    payload = turn.json()
+    assert payload["next_action"] == "present_guidance"
+    assert "7.000 đồng" in payload["reply"]
+    assert payload["draft"]["values"] == {}
+    assert payload["draft"]["revision"] == 0
+    assert {source["id"] for source in payload["sources"]} <= set(
+        repository.get_by_code("1.004194").source_ids
+    )
+
+
+@pytest.mark.anyio
+async def test_route_seeded_chat_api_serves_guidance_without_model() -> None:
+    repository = ProcedureRepository.discover()
+    extractor = StubExtractor()
+
+    def session_factory() -> ConversationSession:
+        return ConversationSession(
+            extractor,
+            repository,
+            reply_composer=CatalogReplyComposer(repository),
+        )
+
+    app = create_app(session_factory=session_factory, repository=repository)
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post(
+            "/v1/chat/sessions",
+            json={
+                "context": {
+                    "procedure_code": "1.004194",
+                    "procedure_title": "Đăng ký tạm trú",
+                    "route": "/hon-nhan-va-gia-dinh/dang-ky-tam-tru",
+                }
+            },
+        )
+        session_id = created.headers["X-VNeGuide-Session"]
+        turn = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "Lệ phí bao nhiêu?"},
+        )
+
+    assert created.status_code == 201
+    assert created.json()["context_supported"] is True
+    assert turn.status_code == 200
+    payload = turn.json()
+    assert payload["next_action"] == "present_guidance"
+    assert "7.000 đồng" in payload["reply"]
+    assert payload["draft"]["values"] == {}
+    assert payload["draft"]["revision"] == 0
+    assert extractor.calls == []
 
 
 @pytest.mark.anyio
@@ -216,15 +303,6 @@ async def test_chat_api_keeps_compact_memory_across_multiple_turns() -> None:
             status="success",
             classification="supported",
             procedure_code="1.004194",
-            fields={},
-            evidence={},
-            clarification_question=None,
-            attempts=1,
-        ),
-        ExtractionOutcome(
-            status="success",
-            classification="unsupported",
-            procedure_code=None,
             fields={},
             evidence={},
             clarification_question=None,
@@ -262,7 +340,8 @@ async def test_chat_api_keeps_compact_memory_across_multiple_turns() -> None:
         )
 
     assert first.status_code == 200
-    assert off_topic.json()["next_action"] == "out_of_scope"
+    assert off_topic.json()["next_action"] == "ask_clarification"
+    assert "ngoài" not in off_topic.json()["reply"].lower()
     assert continued.status_code == 200
     assert continued.json()["procedure"]["code"] == "1.004194"
     assert continued.json()["next_action"] == "confirm_suggestion"
@@ -270,5 +349,117 @@ async def test_chat_api_keeps_compact_memory_across_multiple_turns() -> None:
     assert [call[1] for call in extractor.calls] == [
         None,
         ExtractionTurnContext("1.004194", "registration_mode"),
-        ExtractionTurnContext("1.004194", "registration_mode"),
     ]
+
+
+@pytest.mark.anyio
+async def test_chat_api_remembers_birth_scope_clarification_across_turns() -> None:
+    repository = ProcedureRepository.discover()
+    extractor = StubExtractor()
+    app = create_app(
+        session_factory=lambda: ConversationSession(extractor, repository),
+        repository=repository,
+    )
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post("/v1/chat/sessions", json={})
+        session_id = created.headers["X-VNeGuide-Session"]
+        ambiguous = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "tôi muốn làm giấy khai sinh"},
+        )
+        selected = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "tôi muốn xin bản sao"},
+        )
+        child = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "cho con tôi"},
+        )
+
+    assert ambiguous.json()["next_action"] == "ask_clarification"
+    assert selected.json()["procedure"]["code"] == "2.000635"
+    assert "bản thân" in selected.json()["reply"]
+    assert child.json()["next_action"] == "ask_clarification"
+    assert "đã ghi nhận" in child.json()["reply"].lower()
+    assert "requester_type" not in child.json()["reply"]
+    assert len(child.json()["messages"]) == 6
+    assert extractor.calls == []
+
+
+@pytest.mark.anyio
+async def test_guided_help_returns_catalog_choices_without_calling_model() -> None:
+    repository = ProcedureRepository.discover()
+    extractor = StubExtractor()
+    app = create_app(
+        session_factory=lambda: ConversationSession(extractor, repository),
+        repository=repository,
+    )
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post(
+            "/v1/chat/sessions",
+            json={"context": {"procedure_code": "1.004194", "route": "/dang-ky-tam-tru"}},
+        )
+        session_id = created.headers["X-VNeGuide-Session"]
+        response = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "Hãy hướng dẫn tôi điền hồ sơ từng bước."},
+        )
+
+    assert response.status_code == 200
+    assert response.json()["next_action"] == "ask_clarification"
+    assert response.json()["missing_fields"][0] == {
+        "field_id": "registration_mode",
+        "label": "Hình thức đăng ký",
+        "field_type": "enum",
+        "input_hint": (
+            "Hãy chọn một phương án bên dưới; tôi sẽ điền vào biểu mẫu sau khi bạn chọn."
+        ),
+        "choices": ["individual_or_household", "by_list", "armed_forces"],
+    }
+    assert extractor.calls == []
+
+
+@pytest.mark.anyio
+async def test_chat_choice_updates_form_and_persists_friendly_conversation() -> None:
+    repository = ProcedureRepository.discover()
+    extractor = StubExtractor()
+    app = create_app(
+        session_factory=lambda: ConversationSession(extractor, repository),
+        repository=repository,
+    )
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post(
+            "/v1/chat/sessions",
+            json={"context": {"procedure_code": "1.004194", "route": "/dang-ky-tam-tru"}},
+        )
+        session_id = created.headers["X-VNeGuide-Session"]
+        await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "Hãy hướng dẫn tôi điền hồ sơ từng bước."},
+        )
+        response = await client.patch(
+            f"/v1/chat/sessions/{session_id}/draft/fields/registration_mode",
+            json={
+                "value": "individual_or_household",
+                "expected_revision": 0,
+                "interaction": "chat_choice",
+                "display_label": "Cá nhân hoặc hộ gia đình",
+            },
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["draft"]["values"]["registration_mode"] == "individual_or_household"
+    assert body["draft"]["confirmed_fields"] == ["registration_mode"]
+    assert body["messages"][-2] == {
+        "role": "user",
+        "content": "Cá nhân hoặc hộ gia đình",
+    }
+    assert body["messages"][-1]["role"] == "assistant"
+    assert "Đã ghi nhận hình thức đăng ký" in body["reply"]
+    assert "registration_mode" not in body["reply"]
+    assert body["missing_fields"][0]["field_id"] == "applicant_full_name"
+    assert extractor.calls == []

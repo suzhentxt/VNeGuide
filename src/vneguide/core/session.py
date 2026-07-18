@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import math
+import re
+import unicodedata
 from collections.abc import Mapping
 from dataclasses import replace
 from typing import Protocol
@@ -24,6 +26,8 @@ from vneguide.domain import (
     ValidationStatus,
 )
 from vneguide.rules import QuestionSelector, RuleEngine
+
+from .replies import GroundedReply, ReplyComposer
 
 
 class Extractor(Protocol):
@@ -50,13 +54,23 @@ class ProcedureConflictError(ValueError):
 class ConversationSession:
     """Own one ephemeral conversation and its confirmed draft."""
 
-    def __init__(self, extractor: Extractor, repository: ProcedureRepository) -> None:
+    def __init__(
+        self,
+        extractor: Extractor,
+        repository: ProcedureRepository,
+        *,
+        reply_composer: ReplyComposer | None = None,
+    ) -> None:
         self._extractor = extractor
         self._repository = repository
         self._rules = RuleEngine(repository)
         self._questions = QuestionSelector(repository)
+        self._reply_composer = reply_composer
         self._state = ConversationState()
         self._closed = False
+        self._contextual_reference_trusted = False
+        self._pending_scope_clarification: str | None = None
+        self._birth_for_child = False
 
     @property
     def state(self) -> ConversationState:
@@ -81,6 +95,7 @@ class ConversationSession:
                 pack_version=pack.version,
             ),
         )
+        self._contextual_reference_trusted = True
 
     def send(self, message: str) -> TurnResult:
         self._ensure_open()
@@ -90,6 +105,93 @@ class ConversationSession:
             if active_code is not None
             else ()
         )
+        normalized = self._normalize_message(message)
+
+        if active_code is not None and self._is_guided_form_help_request(normalized):
+            self._contextual_reference_trusted = True
+            prompt, action = self._resume_prompt(active_code)
+            return self._reply_without_draft_change(
+                message,
+                f"Tôi sẽ hỏi từng mục một và chỉ điền sau khi bạn trả lời. {prompt}",
+                action,
+            )
+
+        if self._is_small_talk(normalized):
+            return self._small_talk_reply(message, normalized, active_code)
+
+        if self._pending_scope_clarification == "birth":
+            scope_choice = self._birth_scope_choice(normalized)
+            if scope_choice == "copy":
+                self._pending_scope_clarification = None
+                return self._select_birth_copy(message, active_code)
+            if scope_choice == "new_registration":
+                self._pending_scope_clarification = None
+                return self._reply_without_draft_change(
+                    message,
+                    "Đăng ký khai sinh mới chưa nằm trong ba thủ tục VNeGuide hỗ trợ. "
+                    "Tôi chưa thay đổi hồ sơ hiện tại của bạn.",
+                    NextAction.OUT_OF_SCOPE,
+                )
+            return self._reply_without_draft_change(
+                message,
+                "Tôi vẫn nhớ bạn đang chọn giữa hai việc. Bạn hãy chọn “Xin bản sao "
+                "Giấy khai sinh” hoặc “Đăng ký khai sinh mới” nhé.",
+                NextAction.ASK_CLARIFICATION,
+            )
+
+        if self._is_typo_birth_copy_request(normalized):
+            return self._select_birth_copy(message, active_code)
+
+        waiting_for_requester_type = (
+            active_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+            and bool(previous_missing)
+            and previous_missing[0] == "requester_type"
+        )
+        if waiting_for_requester_type and self._is_uncertain_answer(normalized):
+            return self._reply_without_draft_change(
+                message,
+                "Không sao. Biểu mẫu hiện có ba lựa chọn: xin cho bản thân, người được "
+                "ủy quyền, hoặc đại diện cơ quan/tổ chức. Tôi sẽ chưa tự điền khi bạn chưa "
+                "chắc; bạn có thể chọn một phương án bên dưới hoặc hỏi cơ quan hộ tịch.",
+                NextAction.ASK_CLARIFICATION,
+            )
+        if waiting_for_requester_type and self._mentions_child(normalized):
+            self._birth_for_child = True
+            self._contextual_reference_trusted = True
+            return self._reply_without_draft_change(
+                message,
+                "Tôi đã ghi nhận bạn đang xin bản sao Giấy khai sinh cho con. "
+                "Để không điền sai tư cách pháp lý, bạn hãy cho biết mình là người được "
+                "ủy quyền hay đại diện cơ quan/tổ chức. Nếu chưa chắc, chọn “Tôi chưa rõ”.",
+                NextAction.ASK_CLARIFICATION,
+            )
+
+        if self._needs_birth_scope_clarification(message):
+            self._contextual_reference_trusted = False
+            self._pending_scope_clarification = "birth"
+            active_note = ""
+            if active_code is not None:
+                title = self._repository.get_by_code(active_code).procedure_name
+                active_note = f" Phiên “{title}” hiện tại vẫn được giữ nguyên."
+            return self._reply_without_draft_change(
+                message,
+                "“Làm giấy khai sinh” có thể là hai việc khác nhau. VNeGuide chỉ hỗ trợ "
+                "cấp bản sao Trích lục hộ tịch (bản sao Giấy khai sinh), không hỗ trợ "
+                "đăng ký khai sinh mới. Bạn muốn xin bản sao hay đăng ký khai sinh mới?"
+                f"{active_note}",
+                NextAction.ASK_CLARIFICATION,
+            )
+        if active_code is not None:
+            contextual_reply = self._compose_contextual_grounded_reply(active_code, message)
+            if contextual_reply is not None:
+                self._contextual_reference_trusted = True
+                reply, action = self._reply_for_grounded_guidance(contextual_reply)
+                return self._finish_turn(
+                    message,
+                    reply,
+                    action,
+                    source_ids=contextual_reply.source_ids,
+                )
         context = None
         if active_code is not None:
             expected_field = (
@@ -101,8 +203,11 @@ class ConversationSession:
             return self._technical_fallback(message, outcome.error_code or "provider_error")
         self._clear_technical_failures()
         if outcome.classification == "unsupported":
+            if not self._looks_like_service_request(normalized):
+                return self._small_talk_reply(message, normalized, active_code)
             return self._unsupported(message)
         if outcome.classification == "ambiguous" or outcome.procedure_code is None:
+            self._contextual_reference_trusted = False
             if active_code is not None:
                 if previous_missing and not self._pending():
                     field_id = previous_missing[0]
@@ -125,16 +230,20 @@ class ConversationSession:
         code = ProcedureCode(outcome.procedure_code)
         current_code = self._state.draft.procedure_code
         if current_code is not None and current_code is not code:
+            self._contextual_reference_trusted = False
             return self._reply_without_draft_change(
                 message,
                 "Yêu cầu mới thuộc thủ tục khác. Hãy dùng /reset trước khi chuyển thủ tục.",
                 NextAction.ASK_CLARIFICATION,
             )
+        self._contextual_reference_trusted = True
 
         draft = self._state.draft
         if current_code is None:
             pack = self._repository.get_by_code(code)
             draft = replace(draft, procedure_code=code, pack_version=pack.version)
+
+        grounded_reply = self._compose_grounded_reply(code, message)
 
         suggestions = list(self._state.suggestions)
         valid_fields: dict[str, JSONValue] = {}
@@ -146,6 +255,8 @@ class ConversationSession:
             except ValueError:
                 continue
             valid_fields[field_id] = value
+            if field_id == "requester_type":
+                self._birth_for_child = False
             suggestions = [
                 item
                 for item in suggestions
@@ -164,7 +275,7 @@ class ConversationSession:
             )
 
         attempts = dict(self._state.clarification_attempts)
-        if previous_missing and not valid_fields:
+        if previous_missing and not valid_fields and grounded_reply is None:
             field_id = previous_missing[0]
             attempts[field_id] = attempts.get(field_id, 0) + 1
         self._state = ConversationState(
@@ -176,15 +287,24 @@ class ConversationSession:
             asked_question_ids=self._state.asked_question_ids,
         )
         pending = self._pending()
-        if pending:
-            reply = (
+        if grounded_reply is not None:
+            reply, action = self._reply_for_grounded_guidance(grounded_reply)
+        elif pending:
+            confirmation = (
                 f"Tôi đã tạo {len(pending)} đề xuất. "
-                "Hãy Accept, Reject hoặc Edit từng đề xuất trước khi đi tiếp."
+                "Hãy xác nhận, sửa hoặc bỏ từng đề xuất trước khi đi tiếp."
             )
+            reply = confirmation
             action = NextAction.CONFIRM_SUGGESTION
         else:
             reply, action = self._next_prompt(code)
-        return self._finish_turn(message, reply, action, extracted_fields=valid_fields)
+        return self._finish_turn(
+            message,
+            reply,
+            action,
+            extracted_fields=valid_fields,
+            source_ids=(grounded_reply.source_ids if grounded_reply is not None else None),
+        )
 
     def accept_suggestion(self, suggestion_id: str, *, expected_revision: int) -> TurnResult:
         return self._resolve_suggestion(
@@ -197,6 +317,10 @@ class ConversationSession:
         self._ensure_open()
         self._require_revision(expected_revision)
         suggestion = self._pending_by_id(suggestion_id)
+        code = self._state.draft.procedure_code
+        if code is None:
+            raise RuntimeError("Cannot reject a suggestion without a procedure")
+        label = self._field_label(code, suggestion.field_id).lower()
         new_revision = self._state.draft.revision + 1
         attempts = dict(self._state.clarification_attempts)
         attempts[suggestion.field_id] = attempts.get(suggestion.field_id, 0) + 1
@@ -210,7 +334,12 @@ class ConversationSession:
             ),
             clarification_attempts=attempts,
         )
-        return self._result_after_action(f"Đã bỏ đề xuất cho {suggestion.field_id}.")
+        result = self._result_after_action(f"Đã bỏ đề xuất cho {label}.")
+        return self._finish_turn(
+            f"Bỏ đề xuất: {label}",
+            result.reply,
+            result.next_action,
+        )
 
     def edit_suggestion(
         self,
@@ -232,6 +361,7 @@ class ConversationSession:
         value: JSONValue,
         *,
         expected_revision: int,
+        user_message: str | None = None,
     ) -> TurnResult:
         """Apply a validated manual form edit as confirmed and user-owned data."""
 
@@ -245,6 +375,8 @@ class ConversationSession:
 
         values = dict(draft.values)
         values[field_id] = value
+        if field_id == "requester_type":
+            self._birth_for_child = False
         confirmed = set(draft.confirmed_fields)
         confirmed.add(field_id)
         dirty = set(draft.dirty_fields)
@@ -269,11 +401,19 @@ class ConversationSession:
             ),
             clarification_attempts=attempts,
         )
-        return self._result_after_action(f"Đã cập nhật {field_id} từ biểu mẫu.")
+        result = self._result_after_action(
+            f"Đã ghi nhận {self._field_label(code, field_id).lower()}."
+        )
+        if user_message is None:
+            return result
+        return self._finish_turn(user_message, result.reply, result.next_action)
 
     def close(self) -> None:
         self._state = ConversationState()
         self._closed = True
+        self._contextual_reference_trusted = False
+        self._pending_scope_clarification = None
+        self._birth_for_child = False
 
     def _resolve_suggestion(
         self,
@@ -321,12 +461,20 @@ class ConversationSession:
             ),
         )
         verb = "Đã sửa và xác nhận" if status is SuggestionStatus.EDITED else "Đã chấp nhận"
-        return self._result_after_action(f"{verb} {suggestion.field_id}.")
+        label = self._field_label(code, suggestion.field_id).lower()
+        result = self._result_after_action(f"{verb} {label}.")
+        user_action = "Sửa và xác nhận" if status is SuggestionStatus.EDITED else "Xác nhận"
+        return self._finish_turn(
+            f"{user_action}: {label}",
+            result.reply,
+            result.next_action,
+        )
 
     def _result_after_action(self, prefix: str) -> TurnResult:
         code = self._state.draft.procedure_code
         if code is None:
             raise RuntimeError("Conversation has no active procedure")
+        self._contextual_reference_trusted = True
         pending = self._pending()
         if pending:
             return self._build_result(
@@ -340,17 +488,12 @@ class ConversationSession:
         missing = self._rules.missing_fields(code, self._state.draft.values)
         if missing:
             field_id = missing[0]
-            attempts = self._state.clarification_attempts.get(field_id, 0)
             question_id = self._question_id(code, field_id)
-            if attempts >= 2 or question_id in self._state.asked_question_ids:
-                return (
-                    f"Hãy nhập trực tiếp trường {field_id} trên biểu mẫu.",
-                    NextAction.MANUAL_INPUT,
+            if question_id not in self._state.asked_question_ids:
+                self._state = replace(
+                    self._state,
+                    asked_question_ids=self._state.asked_question_ids + (question_id,),
                 )
-            self._state = replace(
-                self._state,
-                asked_question_ids=self._state.asked_question_ids + (question_id,),
-            )
             return self._questions.question_for(code, field_id), NextAction.ASK_CLARIFICATION
 
         validation = self._rules.validate(code, self._state.draft.values)
@@ -369,7 +512,7 @@ class ConversationSession:
         pending = self._pending()
         if pending:
             return (
-                f"Bạn còn {len(pending)} đề xuất cần Accept, Reject hoặc Edit trước khi đi tiếp.",
+                f"Bạn còn {len(pending)} đề xuất cần xác nhận, sửa hoặc bỏ trước khi đi tiếp.",
                 NextAction.CONFIRM_SUGGESTION,
             )
         return self._next_prompt(code)
@@ -381,6 +524,7 @@ class ConversationSession:
         action: NextAction,
         *,
         extracted_fields: Mapping[str, JSONValue] | None = None,
+        source_ids: tuple[str, ...] | None = None,
     ) -> TurnResult:
         messages = self._state.messages + (
             ChatMessage(MessageRole.USER, user_message),
@@ -391,7 +535,12 @@ class ConversationSession:
             messages=messages,
             turn_number=self._state.turn_number + 1,
         )
-        return self._build_result(reply, action, extracted_fields=extracted_fields)
+        return self._build_result(
+            reply,
+            action,
+            extracted_fields=extracted_fields,
+            source_ids=source_ids,
+        )
 
     def _build_result(
         self,
@@ -399,26 +548,30 @@ class ConversationSession:
         action: NextAction,
         *,
         extracted_fields: Mapping[str, JSONValue] | None = None,
+        source_ids: tuple[str, ...] | None = None,
     ) -> TurnResult:
         code = self._state.draft.procedure_code
         validation: ValidationResult | None = None
         missing: tuple[str, ...] = ()
-        source_ids: tuple[str, ...] = ()
+        resolved_source_ids: tuple[str, ...] = ()
         if code is not None:
             validation = self._rules.validate(code, self._state.draft.values)
             missing = self._rules.missing_fields(code, self._state.draft.values)
-            source_ids = self._repository.get_by_code(code).source_ids
+            resolved_source_ids = self._repository.get_by_code(code).source_ids
+        if source_ids is not None:
+            resolved_source_ids = source_ids
         return TurnResult(
             reply=reply,
             state=self._state,
             next_action=action,
-            source_ids=source_ids,
+            source_ids=resolved_source_ids,
             missing_fields=missing,
             validation=validation,
             extracted_fields={} if extracted_fields is None else extracted_fields,
         )
 
     def _technical_fallback(self, message: str, error_code: str) -> TurnResult:
+        self._contextual_reference_trusted = False
         key = "__extractor__"
         attempts = dict(self._state.clarification_attempts)
         attempts[key] = attempts.get(key, 0) + 1
@@ -439,6 +592,7 @@ class ConversationSession:
         self._state = replace(self._state, clarification_attempts=attempts)
 
     def _unsupported(self, message: str) -> TurnResult:
+        self._contextual_reference_trusted = False
         active_code = self._state.draft.procedure_code
         if active_code is not None:
             prompt, _action = self._resume_prompt(active_code)
@@ -458,6 +612,95 @@ class ConversationSession:
         self, message: str, reply: str, action: NextAction
     ) -> TurnResult:
         return self._finish_turn(message, reply, action)
+
+    def _small_talk_reply(
+        self,
+        message: str,
+        normalized: str,
+        active_code: ProcedureCode | None,
+    ) -> TurnResult:
+        if "cam on" in normalized:
+            opening = "Rất vui được hỗ trợ bạn."
+        else:
+            opening = "Xin chào! Tôi đang ở đây để hỗ trợ bạn."
+        if active_code is None:
+            return self._reply_without_draft_change(
+                message,
+                f"{opening} Bạn cần đăng ký tạm trú, xác nhận điều kiện nhà ở "
+                "hay xin bản sao Giấy khai sinh?",
+                NextAction.ASK_CLARIFICATION,
+            )
+        title = self._repository.get_by_code(active_code).procedure_name
+        prompt, action = self._resume_prompt(active_code)
+        return self._reply_without_draft_change(
+            message,
+            f"{opening} Tôi vẫn đang cùng bạn hoàn thành thủ tục “{title}”. {prompt}",
+            action,
+        )
+
+    def _compose_grounded_reply(
+        self,
+        procedure_code: ProcedureCode,
+        message: str,
+    ) -> GroundedReply | None:
+        if self._reply_composer is None:
+            return None
+        try:
+            reply = self._reply_composer.compose(
+                procedure_code=procedure_code,
+                message=message,
+            )
+            return self._reviewed_grounded_reply(procedure_code, reply)
+        except Exception:
+            # Reply composition is optional. Extraction and the deterministic
+            # state machine remain available if the presentation layer fails.
+            return None
+
+    def _compose_contextual_grounded_reply(
+        self,
+        procedure_code: ProcedureCode,
+        message: str,
+    ) -> GroundedReply | None:
+        if self._reply_composer is None:
+            return None
+        compose_contextual = getattr(self._reply_composer, "compose_contextual", None)
+        if not callable(compose_contextual):
+            return None
+        try:
+            reply = compose_contextual(
+                procedure_code=procedure_code,
+                message=message,
+                allow_implicit_context=self._contextual_reference_trusted,
+            )
+            if not isinstance(reply, GroundedReply):
+                return None
+            return self._reviewed_grounded_reply(procedure_code, reply)
+        except Exception:
+            return None
+
+    def _reviewed_grounded_reply(
+        self,
+        procedure_code: ProcedureCode,
+        reply: GroundedReply | None,
+    ) -> GroundedReply | None:
+        if reply is None:
+            return None
+        reviewed_sources = set(self._repository.get_by_code(procedure_code).source_ids)
+        if not set(reply.source_ids).issubset(reviewed_sources):
+            return None
+        return reply
+
+    def _reply_for_grounded_guidance(
+        self,
+        reply: GroundedReply,
+    ) -> tuple[str, NextAction]:
+        pending = self._pending()
+        if not pending:
+            return reply.text, NextAction.PRESENT_GUIDANCE
+        confirmation = (
+            f"Bạn còn {len(pending)} đề xuất cần Accept, Reject hoặc Edit trước khi đi tiếp."
+        )
+        return f"{reply.text}\n\n{confirmation}", NextAction.CONFIRM_SUGGESTION
 
     def _pending(self) -> tuple[FieldSuggestion, ...]:
         return tuple(
@@ -524,12 +767,180 @@ class ConversationSession:
     def _question_id(code: ProcedureCode, field_id: str) -> str:
         return f"{code.value}:{field_id}"
 
+    def _field_label(self, code: ProcedureCode, field_id: str) -> str:
+        for field in self._repository.fields_for(code):
+            if field.field_id == field_id:
+                return field.label
+        return "thông tin còn thiếu"
+
+    def _select_birth_copy(
+        self,
+        message: str,
+        active_code: ProcedureCode | None,
+    ) -> TurnResult:
+        code = ProcedureCode.BIRTH_CERTIFICATE_COPY
+        if active_code is not None and active_code is not code:
+            active_title = self._repository.get_by_code(active_code).procedure_name
+            return self._reply_without_draft_change(
+                message,
+                f"Tôi đã hiểu bạn muốn xin bản sao Giấy khai sinh, nhưng phiên hiện tại "
+                f"đang là “{active_title}”. Hãy mở đúng trang thủ tục cấp bản sao để bắt đầu "
+                "mà không làm mất dữ liệu đang nhập.",
+                NextAction.ASK_CLARIFICATION,
+            )
+
+        if active_code is None:
+            pack = self._repository.get_by_code(code)
+            self._state = replace(
+                self._state,
+                draft=replace(
+                    self._state.draft,
+                    procedure_code=code,
+                    pack_version=pack.version,
+                ),
+            )
+        self._contextual_reference_trusted = True
+        if self._mentions_child(self._normalize_message(message)):
+            self._birth_for_child = True
+        reply, action = self._next_prompt(code)
+        if self._birth_for_child:
+            reply = f"Tôi đã ghi nhận bạn đang xin bản sao Giấy khai sinh cho con. {reply}"
+        return self._finish_turn(message, reply, action)
+
+    @staticmethod
+    def _normalize_message(message: str) -> str:
+        normalized = unicodedata.normalize("NFD", message.casefold())
+        normalized = "".join(
+            character for character in normalized if unicodedata.category(character) != "Mn"
+        ).replace("đ", "d")
+        return re.sub(r"[^a-z0-9]+", " ", normalized).strip()
+
+    @staticmethod
+    def _birth_scope_choice(normalized: str) -> str | None:
+        if any(
+            marker in normalized
+            for marker in ("ban sao", "bao sao", "trich luc", "xin lai", "cap lai")
+        ):
+            return "copy"
+        if any(
+            marker in normalized
+            for marker in ("dang ky khai sinh", "khai sinh moi", "moi sinh", "so sinh")
+        ):
+            return "new_registration"
+        return None
+
+    @staticmethod
+    def _is_typo_birth_copy_request(normalized: str) -> bool:
+        return "bao sao" in normalized and "giay khai sinh" in normalized
+
+    @staticmethod
+    def _mentions_child(normalized: str) -> bool:
+        return any(
+            marker in normalized
+            for marker in ("con toi", "con cua toi", "cho con", "cho chau", "cua chau")
+        )
+
+    @staticmethod
+    def _is_uncertain_answer(normalized: str) -> bool:
+        return normalized in {
+            "toi chua ro",
+            "toi khong ro",
+            "chua ro",
+            "khong ro",
+            "khong biet",
+        }
+
+    @staticmethod
+    def _is_guided_form_help_request(normalized: str) -> bool:
+        guidance_markers = (
+            "huong dan",
+            "giup toi dien",
+            "giup minh dien",
+            "khong biet dien",
+            "khong biet nhap",
+            "nho tro giup",
+        )
+        input_markers = ("dien", "nhap", "muc", "o ", "ho so", "tiep")
+        return any(marker in normalized for marker in guidance_markers) and any(
+            marker in normalized for marker in input_markers
+        )
+
+    @staticmethod
+    def _is_small_talk(normalized: str) -> bool:
+        return normalized in {
+            "alo",
+            "cam on",
+            "cam on ban",
+            "chao",
+            "chao ban",
+            "hello",
+            "hi",
+            "xin cam on",
+            "xin chao",
+            "ban an com chua",
+            "ban co khoe khong",
+            "ban khoe khong",
+        }
+
+    @staticmethod
+    def _looks_like_service_request(normalized: str) -> bool:
+        return any(
+            marker in f" {normalized} "
+            for marker in (
+                " thu tuc ",
+                " ho so ",
+                " giay ",
+                " trich luc ",
+                " dang ky ",
+                " xac nhan ",
+                " xin ",
+                " cap ",
+                " nop ",
+                " doi ",
+                " lam ",
+            )
+        )
+
+    @staticmethod
+    def _needs_birth_scope_clarification(message: str) -> bool:
+        """Fail closed for the common phrase that names two different services."""
+
+        normalized = ConversationSession._normalize_message(message)
+
+        explicit_copy_markers = (
+            "ban sao",
+            "trich luc",
+            "xin lai",
+            "cap lai",
+            "mat giay khai sinh",
+        )
+        explicit_new_registration_markers = (
+            "dang ky khai sinh",
+            "moi sinh",
+            "so sinh",
+        )
+        explicit_markers = (*explicit_copy_markers, *explicit_new_registration_markers)
+        if any(marker in normalized for marker in explicit_markers):
+            return False
+
+        generic_birth_request = re.fullmatch(
+            r"(?:(?:toi|minh|em|anh|chi|chung toi|gia dinh toi)\s+)?"
+            r"(?:(?:dang\s+)?(?:muon|can)\s+)?"
+            r"(?:lam|xin|cap)?\s*giay khai sinh"
+            r"(?:\s+cho\s+(?:toi|ban than|con|con toi|be|be nha toi))?",
+            normalized,
+        )
+        return generic_birth_request is not None
+
     def _ensure_open(self) -> None:
         if self._closed:
             raise RuntimeError("Conversation session is closed")
 
 
 def build_session(
-    extractor: StructuredExtractor | Extractor, repository: ProcedureRepository
+    extractor: StructuredExtractor | Extractor,
+    repository: ProcedureRepository,
+    *,
+    reply_composer: ReplyComposer | None = None,
 ) -> ConversationSession:
-    return ConversationSession(extractor, repository)
+    return ConversationSession(extractor, repository, reply_composer=reply_composer)

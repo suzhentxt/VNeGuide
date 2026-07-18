@@ -289,6 +289,9 @@ def create_app(
                     field_id,
                     cast(JSONValue, payload.value),
                     expected_revision=payload.expected_revision,
+                    user_message=(
+                        payload.display_label if payload.interaction == "chat_choice" else None
+                    ),
                 )
             except RevisionConflictError:
                 raise HTTPException(status_code=409, detail="stale_revision") from None

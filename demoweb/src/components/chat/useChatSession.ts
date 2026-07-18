@@ -51,6 +51,7 @@ export function useChatSession(context: ChatSessionContext) {
   const [busy, setBusy] = useState(false);
   const initializing = useRef<Promise<void> | null>(null);
   const latestMessageRequest = useRef<string | null>(null);
+  const hiddenMessages = useRef(new Set<string>());
   const workspace = useProcedureWorkspace();
 
   const applySession = useCallback(
@@ -58,7 +59,11 @@ export function useChatSession(context: ChatSessionContext) {
       setSession(nextSession);
       if (nextSession.turn && workspace.applyTurn(nextSession.turn)) {
         setTurn(nextSession.turn);
-        setMessages(nextSession.turn.messages);
+        setMessages(
+          nextSession.turn.messages.filter(
+            (message) => message.role !== "user" || !hiddenMessages.current.has(message.content),
+          ),
+        );
       } else if (!nextSession.turn) {
         setTurn(null);
         setMessages([]);
@@ -106,16 +111,19 @@ export function useChatSession(context: ChatSessionContext) {
   }, [applySession, createSession, session]);
 
   const sendMessage = useCallback(
-    async (message: string) => {
+    async (message: string, options: { hidden?: boolean } = {}) => {
       const normalized = message.trim();
       if (!normalized) return;
 
       const requestId = crypto.randomUUID();
       let expectedRevision = workspace.state.revision;
       latestMessageRequest.current = requestId;
+      if (options.hidden) hiddenMessages.current.add(normalized);
       setBusy(true);
       setError(null);
-      setMessages((current) => [...current, { role: "user", content: normalized }]);
+      if (!options.hidden) {
+        setMessages((current) => [...current, { role: "user", content: normalized }]);
+      }
       try {
         const payload = JSON.stringify({ message: normalized, client_turn_id: requestId });
         const postMessage = () =>
@@ -139,7 +147,11 @@ export function useChatSession(context: ChatSessionContext) {
           return;
         }
         setTurn(nextTurn);
-        setMessages(nextTurn.messages);
+        setMessages(
+          nextTurn.messages.filter(
+            (item) => item.role !== "user" || !hiddenMessages.current.has(item.content),
+          ),
+        );
       } catch (requestError) {
         if (latestMessageRequest.current === requestId) {
           setError(errorMessage(requestError, "Không thể gửi tin nhắn."));
@@ -149,6 +161,35 @@ export function useChatSession(context: ChatSessionContext) {
       }
     },
     [createSession, recoverSession, workspace],
+  );
+
+  const sendHiddenMessage = useCallback(
+    (message: string) => sendMessage(message, { hidden: true }),
+    [sendMessage],
+  );
+
+  const chooseFieldValue = useCallback(
+    async (fieldId: string, value: JsonValue, visibleLabel: string) => {
+      setBusy(true);
+      setError(null);
+      workspace.setField(fieldId, value);
+      try {
+        const nextTurn = await workspace.commitField(fieldId, value, {
+          interaction: "chat_choice",
+          displayLabel: visibleLabel,
+        });
+        if (!nextTurn) return;
+        setTurn(nextTurn);
+        setMessages(
+          nextTurn.messages.filter(
+            (item) => item.role !== "user" || !hiddenMessages.current.has(item.content),
+          ),
+        );
+      } finally {
+        setBusy(false);
+      }
+    },
+    [workspace],
   );
 
   const resolveSuggestion = useCallback(
@@ -196,6 +237,7 @@ export function useChatSession(context: ChatSessionContext) {
     setBusy(true);
     setError(null);
     latestMessageRequest.current = null;
+    hiddenMessages.current.clear();
     try {
       await fetch("/api/chat/session", { method: "DELETE" });
       workspace.resetWorkspace();
@@ -210,6 +252,25 @@ export function useChatSession(context: ChatSessionContext) {
     }
   }, [createSession, workspace]);
 
+  const closeSession = useCallback(async () => {
+    setBusy(true);
+    setError(null);
+    latestMessageRequest.current = null;
+    hiddenMessages.current.clear();
+    try {
+      await fetch("/api/chat/session", { method: "DELETE" });
+      workspace.resetWorkspace();
+      setSession(null);
+      setTurn(null);
+      setMessages([]);
+    } catch (requestError) {
+      setError(errorMessage(requestError, "Không thể chuyển sang hồ sơ đã chọn."));
+      throw requestError;
+    } finally {
+      setBusy(false);
+    }
+  }, [workspace]);
+
   return {
     session,
     turn,
@@ -218,7 +279,10 @@ export function useChatSession(context: ChatSessionContext) {
     busy,
     ensureSession,
     sendMessage,
+    sendHiddenMessage,
+    chooseFieldValue,
     resolveSuggestion,
     resetSession,
+    closeSession,
   };
 }

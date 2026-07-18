@@ -19,6 +19,8 @@ export type WorkspaceAction =
   | { type: "hydrate"; state: ProcedureWorkspaceState }
   | { type: "activate"; procedureCode: string | null }
   | { type: "manual_change"; fieldId: string; value: JsonValue }
+  | { type: "wallet_prefill"; values: Record<string, JsonValue> }
+  | { type: "confirm_fields"; fieldIds: string[] }
   | { type: "sync_start"; fieldId: string }
   | { type: "sync_error"; fieldId: string; message: string }
   | { type: "apply_turn"; turn: ChatTurn; expectedRevision?: number }
@@ -38,6 +40,7 @@ function defaultField(value: JsonValue): ProcedureFieldState {
     value,
     confirmed: false,
     dirty: false,
+    source: "assistant",
     sync_status: "idle",
     error: null,
   };
@@ -57,6 +60,7 @@ function metadataFromTurn(
       ...current,
       confirmed: current.confirmed || confirmed.has(fieldId),
       dirty: current.dirty || dirty.has(fieldId),
+      source: dirty.has(fieldId) ? "manual" : current.source ?? "assistant",
       sync_status: current.sync_status === "saving" ? "saved" : current.sync_status,
       error: null,
     };
@@ -70,6 +74,7 @@ function metadataFromTurn(
         value,
         confirmed: confirmed.has(fieldId),
         dirty: dirty.has(fieldId),
+        source: dirty.has(fieldId) ? "manual" : current.source ?? "assistant",
       };
     }
   }
@@ -104,10 +109,39 @@ export function procedureWorkspaceReducer(
             value: action.value,
             confirmed: true,
             dirty: true,
+            source: "manual",
             sync_status: "dirty",
             error: null,
           },
         },
+      };
+    }
+    case "wallet_prefill": {
+      const fields = { ...state.fields };
+      for (const [fieldId, value] of Object.entries(action.values)) {
+        const current = fields[fieldId] ?? defaultField(value);
+        fields[fieldId] = {
+          ...current,
+          value,
+          confirmed: false,
+          dirty: true,
+          source: "wallet",
+          sync_status: "dirty",
+          error: null,
+        };
+      }
+      return { ...state, fields };
+    }
+    case "confirm_fields": {
+      const selected = new Set(action.fieldIds);
+      return {
+        ...state,
+        fields: Object.fromEntries(
+          Object.entries(state.fields).map(([fieldId, field]) => [
+            fieldId,
+            selected.has(fieldId) ? { ...field, confirmed: true } : field,
+          ]),
+        ),
       };
     }
     case "sync_start": {
@@ -167,6 +201,7 @@ export function procedureWorkspaceReducer(
             value,
             confirmed: true,
             dirty: action.action === "edit",
+            source: "assistant",
             sync_status: "saved",
             error: null,
           },

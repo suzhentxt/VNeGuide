@@ -1,5 +1,53 @@
 # Bàn giao phiên release
 
+## Nhánh thử nghiệm chat core
+
+- `experiment/chat-core-v2` đang tách từ `dev@48f9c1f` trong worktree riêng.
+- Core mới phân biệt small talk với yêu cầu dịch vụ ngoài phạm vi: greeting/cảm ơn không báo ngoài
+  MVP và vẫn giữ field đang điền. Chỉ một dịch vụ/thủ tục rõ ràng ngoài ba pack mới trả out-of-scope.
+- Guided mode nhận câu hướng dẫn linh hoạt/kể cả lỗi gõ, giải thích từng field từ metadata đã review.
+  API trả `field_type`/`input_hint`; chat render lần lượt nút enum/boolean hoặc input text/date/number,
+  ghi field thật qua revision guard và tự hiện câu hỏi tiếp theo sau mọi thao tác xác nhận.
+- Đề xuất lưu ví chỉ bật sau event hoàn tất bước kê khai và chuyển bước. Gate mới nhất: Python
+  `277 passed, 2 skipped`, coverage `80.55%`, mypy 94 source; frontend lint/typecheck, 21 test và
+  build 25 route đạt.
+  BFF smoke greeting → help → requester type → họ tên → typo-help đạt, revision `0 → 1 → 2`.
+- Nhánh đã có redesign: chat xác nhận dịch vụ rồi mở trang chi tiết để chọn tỉnh và
+  phường/xã/cơ quan tiếp nhận; chỉ sau đó người dùng bấm `Nộp hồ sơ`. Wizard nhận nơi tiếp nhận từ URL
+  đã xác nhận và không lặp lại bước chọn địa điểm.
+- Nút nhờ trợ giúp tự gửi prompt ẩn; core hỏi tuần tự theo field catalog. Enum/boolean có lựa chọn ngay
+  trong chat và lựa chọn cập nhật draft thật, ghi transcript bằng nhãn thân thiện rồi hỏi field kế
+  tiếp. Agent cũng chủ động đề xuất lưu/autofill trong ví session và vẫn yêu cầu xác nhận dữ liệu.
+- Gate mới nhất: full Python `275 passed, 2 skipped`, coverage `80.40%`, Ruff, mypy 94 source;
+  frontend lint/typecheck, 21 unit test và build 25 route đều đạt. BFF smoke xác nhận help → chọn
+  fixed value → draft revision `1` và câu hỏi kế tiếp; detail/submission trả `200`, API health `ok`.
+- In-app Browser không khả dụng. Bước tiếp theo cụ thể là chạy browser E2E/manual keyboard cho
+  confirm-service → chọn authority → nộp hồ sơ → nhờ trợ giúp → chọn option, rồi rebuild Docker để
+  kiểm loader catalog trong runner.
+- Chatbot local hiện dùng OpenAI Responses API với `gpt-5.6-luna`; `.env` nằm ở worktree chính, bị
+  Git ignore và phải được truyền rõ bằng `--env-file`. Provider/three-procedure/BFF smoke đều đạt;
+  case tạm trú trả đúng `submission_channel=online` trong khoảng `1.415 s` qua web.
+- Route-scoped pure guidance hiện bypass model bằng whole-message allowlist; mixed/form input vẫn qua
+  structured extraction. Context guard chặn dùng nhầm fact của route cũ sau out-of-scope, ambiguous,
+  procedure switch hoặc provider failure.
+- Câu mơ hồ “làm/xin giấy khai sinh” giờ được hỏi rõ giữa cấp bản sao được hỗ trợ và đăng ký khai
+  sinh mới ngoài phạm vi, kể cả khi route tạm trú đang hoạt động. UI hiển thị “Hồ sơ chưa đủ thông
+  tin” thay cho `ready_to_submit` khi còn missing field; backend rule status được giữ nguyên vì
+  completeness là contract tách biệt.
+- Chat widget và workspace provider được mount ở root layout: trang chủ và mọi route đều hiện đúng
+  một nút trợ lý, trong khi form tạm trú vẫn chia sẻ cùng workspace với chat.
+- Session nhớ câu hỏi làm rõ “bản sao hay đăng ký mới”, hiểu câu trả lời rút gọn và typo “bảo sao”.
+  UI có nút trả lời nhanh, chữ lớn hơn và không lộ tên field kỹ thuật. Quan hệ “cho con tôi” được ghi
+  nhớ nhưng chưa tự ánh xạ sang `authorized_person`; quyết định dữ liệu cần review nằm ở `OD-007`.
+- Guided reply layer đạt full Python `272 passed, 2 skipped`, và A/B `12/12` fact/topic/source;
+  dùng `VNEGUIDE_CHAT_CORE_VARIANT=baseline` để rollback tức thì.
+- Provider/BFF smoke mới nhất dùng OpenAI/gpt-5.6-luna và xác nhận cả guidance lẫn structured field
+  suggestion hoạt động bằng dữ liệu tổng hợp. Local demo đang chạy tại `http://127.0.0.1:13000`, API
+  tại `http://127.0.0.1:18000`; process phải có network egress tới OpenAI API.
+- Npm gate đạt `0 vulnerabilities`, 13 unit tests và build 25 route. Bước tiếp theo là review nhánh,
+  sau đó chỉ cân nhắc merge khi A/B và public deployment được chấp thuận; không thay coverage
+  threshold, dataset checksum hoặc source data.
+
 ## Trạng thái Git
 
 - Nhánh hiện tại: local `dev`, nền `origin/dev@f90b5e2`.
@@ -66,12 +114,14 @@
 
 ## Việc cần làm tiếp
 
-1. Push `dev`, sau đó xác minh SHA remote trỏ tới commit tài liệu bàn giao mới nhất.
-2. Thiết kế state/API nội bộ để persist, confirm và promote `context_signals`; không nhận cờ
+1. Review và tích hợp `experiment/chat-core-v2`; không đưa `.env` hoặc artifact local vào commit.
+2. Tách cấu hình OCR Qwen khỏi provider/model chatbot để hai process có thể chạy đồng thời mà không
+   phải đổi `.env` qua lại.
+3. Thiết kế state/API nội bộ để persist, confirm và promote `context_signals`; không nhận cờ
    confirmation/trust trực tiếp từ browser client.
-3. Triển khai `OcrCandidateSink` qua suggestion pending/revision guard và nối upload API/UI; không cho
+4. Triển khai `OcrCandidateSink` qua suggestion pending/revision guard và nối upload API/UI; không cho
    OCR ghi trực tiếp vào draft.
-4. Rebuild Docker; smoke local/public URL và ghi lại image digest, model/version, timestamp.
+5. Rebuild Docker; smoke local/public URL và ghi lại image digest, model/version, timestamp.
 
 ## Blocker còn lại
 

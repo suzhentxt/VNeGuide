@@ -1,0 +1,86 @@
+[
+  {
+    "case_id": "AB-BIRTH-FEE",
+    "procedure_code": "2.000635",
+    "message": "Xin bản sao Giấy khai sinh mất bao nhiêu lệ phí?",
+    "expected_topic": "fee",
+    "expected_terms": ["8.000 đồng"]
+  },
+  {
+    "case_id": "AB-BIRTH-TIME",
+    "procedure_code": "2.000635",
+    "message": "Thủ tục này mất bao lâu?",
+    "expected_topic": "processing_time",
+    "expected_terms": ["Theo phiếu hẹn"]
+  },
+  {
+    "case_id": "AB-BIRTH-CHECKLIST",
+    "procedure_code": "2.000635",
+    "message": "Tôi cần chuẩn bị giấy tờ gì?",
+    "expected_topic": "checklist",
+    "expected_terms": ["Tờ khai đề nghị", "Thông tin số định danh"]
+  },
+  {
+    "case_id": "AB-BIRTH-STEPS",
+    "procedure_code": "2.000635",
+    "message": "Hướng dẫn các bước thực hiện",
+    "expected_topic": "steps",
+    "expected_terms": ["Xác nhận đây là yêu cầu cấp bản sao", "Chọn kênh nộp"]
+  },
+  {
+    "case_id": "AB-HOUSE-FEE",
+    "procedure_code": "1.013314",
+    "message": "Xác nhận diện tích có mất phí không?",
+    "expected_topic": "fee",
+    "expected_terms": ["Không thu phí"]
+  },
+  {
+    "case_id": "AB-HOUSE-TIME",
+    "procedure_code": "1.013314",
+    "message": "Thời gian giải quyết là mấy ngày?",
+    "expected_topic": "processing_time",
+    "expected_terms": ["02 ngày làm việc"]
+  },
+  {
+    "case_id": "AB-HOUSE-CHECKLIST",
+    "procedure_code": "1.013314",
+    "message": "Hồ sơ cần những gì?",
+    "expected_topic": "checklist",
+    "expected_terms": ["Mẫu số 02"]
+  },
+  {
+    "case_id": "AB-HOUSE-STEPS",
+    "procedure_code": "1.013314",
+    "message": "Quy trình làm thủ tục thế nào?",
+    "expected_topic": "steps",
+    "expected_terms": ["15 m²/người", "UBND xác nhận"]
+  },
+  {
+    "case_id": "AB-TEMP-FEE",
+    "procedure_code": "1.004194",
+    "message": "Đăng ký tạm trú online lệ phí bao nhiêu?",
+    "expected_topic": "fee",
+    "expected_terms": ["7.000 đồng", "15.000 đồng"]
+  },
+  {
+    "case_id": "AB-TEMP-TIME",
+    "procedure_code": "1.004194",
+    "message": "Đăng ký tạm trú mất bao lâu?",
+    "expected_topic": "processing_time",
+    "expected_terms": ["03 ngày làm việc"]
+  },
+  {
+    "case_id": "AB-TEMP-CHECKLIST",
+    "procedure_code": "1.004194",
+    "message": "Cần chuẩn bị hồ sơ nào?",
+    "expected_topic": "checklist",
+    "expected_terms": ["Mẫu CT01", "chỗ ở hợp pháp"]
+  },
+  {
+    "case_id": "AB-TEMP-STEPS",
+    "procedure_code": "1.004194",
+    "message": "Cho tôi các bước đăng ký tạm trú",
+    "expected_topic": "steps",
+    "expected_terms": ["Hoàn thành CT01", "chỗ ở hợp pháp"]
+  }
+]

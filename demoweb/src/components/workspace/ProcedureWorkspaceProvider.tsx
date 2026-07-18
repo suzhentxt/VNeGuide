@@ -25,7 +25,13 @@ const STORAGE_PREFIX = "vneguide:workspace:v1:";
 interface WorkspaceContextValue {
   state: ProcedureWorkspaceState;
   setField: (fieldId: string, value: JsonValue) => void;
-  commitField: (fieldId: string, value?: JsonValue) => Promise<void>;
+  prefillFromWallet: (values: Record<string, JsonValue>) => void;
+  confirmFields: (fieldIds: string[]) => void;
+  commitField: (
+    fieldId: string,
+    value?: JsonValue,
+    options?: { interaction: "chat_choice"; displayLabel: string },
+  ) => Promise<ChatTurn | null>;
   applyTurn: (turn: ChatTurn, expectedRevision?: number) => boolean;
   applySuggestion: (
     suggestion: ChatSuggestion,
@@ -101,6 +107,14 @@ export function ProcedureWorkspaceProvider({ children }: { children: ReactNode }
     dispatchTracked({ type: "manual_change", fieldId, value });
   }, [dispatchTracked]);
 
+  const prefillFromWallet = useCallback((values: Record<string, JsonValue>) => {
+    dispatchTracked({ type: "wallet_prefill", values });
+  }, [dispatchTracked]);
+
+  const confirmFields = useCallback((fieldIds: string[]) => {
+    dispatchTracked({ type: "confirm_fields", fieldIds });
+  }, [dispatchTracked]);
+
   const applyTurn = useCallback((turn: ChatTurn, expectedRevision?: number) => {
     const before = stateRef.current;
     if (
@@ -114,10 +128,14 @@ export function ProcedureWorkspaceProvider({ children }: { children: ReactNode }
     return true;
   }, [dispatchTracked]);
 
-  const commitField = useCallback(async (fieldId: string, value?: JsonValue) => {
+  const commitField = useCallback(async (
+    fieldId: string,
+    value?: JsonValue,
+    options?: { interaction: "chat_choice"; displayLabel: string },
+  ) => {
     const snapshot = stateRef.current;
     const field = snapshot.fields[fieldId];
-    if (!field || !snapshot.procedure_code) return;
+    if (!field || !snapshot.procedure_code) return null;
 
     const token = crypto.randomUUID();
     requestTokens.current.set(fieldId, token);
@@ -131,10 +149,13 @@ export function ProcedureWorkspaceProvider({ children }: { children: ReactNode }
           value: value === undefined ? field.value : value,
           expected_revision: snapshot.revision,
           context,
+          ...(options
+            ? { interaction: options.interaction, display_label: options.displayLabel }
+            : {}),
         }),
       });
       const body = (await response.json()) as ChatTurn | { error?: { message?: string } };
-      if (requestTokens.current.get(fieldId) !== token) return;
+      if (requestTokens.current.get(fieldId) !== token) return null;
       if (response.status === 409) {
         dispatchTracked({ type: "stale" });
         const recovered = await fetch("/api/chat/session", { cache: "no-store" });
@@ -142,7 +163,7 @@ export function ProcedureWorkspaceProvider({ children }: { children: ReactNode }
           const recoveredSession = (await recovered.json()) as ChatSession;
           if (recoveredSession.turn) applyTurn(recoveredSession.turn);
         }
-        return;
+        return null;
       }
       if (!response.ok || !("draft" in body)) {
         const message = "error" in body ? body.error?.message : undefined;
@@ -151,9 +172,10 @@ export function ProcedureWorkspaceProvider({ children }: { children: ReactNode }
           fieldId,
           message: message || "AI chưa đồng bộ được; giá trị vẫn được giữ trên biểu mẫu.",
         });
-        return;
+        return null;
       }
       applyTurn(body, snapshot.revision);
+      return body;
     } catch {
       if (requestTokens.current.get(fieldId) === token) {
         dispatchTracked({
@@ -162,6 +184,7 @@ export function ProcedureWorkspaceProvider({ children }: { children: ReactNode }
           message: "AI đang quá hạn hoặc mất kết nối; giá trị vẫn được giữ trên biểu mẫu.",
         });
       }
+      return null;
     }
   }, [applyTurn, context, dispatchTracked]);
 
@@ -194,6 +217,8 @@ export function ProcedureWorkspaceProvider({ children }: { children: ReactNode }
     () => ({
       state,
       setField,
+      prefillFromWallet,
+      confirmFields,
       commitField,
       applyTurn,
       applySuggestion,
@@ -202,7 +227,7 @@ export function ProcedureWorkspaceProvider({ children }: { children: ReactNode }
       resetWorkspace,
       isDirty,
     }),
-    [applySuggestion, applyTurn, commitField, dispatchTracked, isDirty, resetWorkspace, setField, state],
+    [applySuggestion, applyTurn, commitField, confirmFields, dispatchTracked, isDirty, prefillFromWallet, resetWorkspace, setField, state],
   );
 
   return <WorkspaceContext.Provider value={value}>{children}</WorkspaceContext.Provider>;

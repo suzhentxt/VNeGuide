@@ -1,5 +1,174 @@
 # Nhật ký tiến độ VNeGuide
 
+## 2026-07-18 — Hội thoại thân thiện và điền từng trường ngay trong chat
+
+- Lời chào, cảm ơn và hội thoại xã giao không còn bị trình bày là dịch vụ ngoài MVP. Core chỉ dùng
+  thông báo ngoài phạm vi khi câu hiện tại nêu rõ một dịch vụ/thủ tục không thuộc ba procedure pack;
+  nếu đang làm hồ sơ, small talk giữ nguyên procedure và đưa người dùng trở lại trường đang điền.
+- Nhận các cách yêu cầu trợ giúp tự nhiên và có lỗi gõ như `hướng dẫn tôi điền nôis đi`. Agent không
+  gọi model cho intent trợ giúp mà tiếp tục đúng field còn thiếu, nêu nhãn field và hướng dẫn nhập từ
+  type/pattern/minimum đã review. Cơ chế chống hỏi lặp không còn đẩy người dùng ra biểu mẫu quá sớm.
+- API missing-field trả thêm `field_type` và `input_hint`. Chat chỉ hiển thị một field card mỗi lần:
+  enum/boolean dùng nút lớn; text/date/integer/number dùng input phù hợp. Nút xác nhận ghi field thật
+  qua revision guard và agent hỏi field tiếp theo. Chấp nhận/sửa/bỏ suggestion cũng được ghi thành
+  lượt hội thoại và hiện ngay lời hướng dẫn kế tiếp.
+- Agent chỉ đề xuất lưu thông tin dùng lại sau khi gate kê khai đã đạt và wizard chuyển khỏi bước 1.
+  Trước thời điểm đó, card lưu bị ẩn; autofill từ ví cũ vẫn cần người dùng đồng ý và xác nhận lại.
+- Gate đạt: full Python `277 passed, 2 skipped`, coverage `80.55%`; mypy strict trên 94 source;
+  frontend lint/typecheck và `21` unit test; Next production build 25 route. BFF smoke bằng dữ liệu
+  tổng hợp xác nhận greeting
+  không out-of-scope, help trả field metadata, chọn requester type và nhập họ tên tăng revision
+  `0 → 1 → 2`, rồi câu help có lỗi gõ tiếp tục đúng field số định danh. API `/health` trả `ok`.
+- In-app Browser vẫn không khả dụng; chưa có click/keyboard/screenshot tự động. BFF smoke, build và
+  test contract không thay thế browser E2E.
+
+## 2026-07-18 — Chọn nơi tiếp nhận trước khi vào hồ sơ và trợ lý điền thực tế
+
+- Luồng xác nhận dịch vụ trong chat giờ mở trang chi tiết thủ tục thay vì nhảy thẳng vào wizard.
+  Người dùng chọn tỉnh/thành phố và phường/xã/cơ quan tiếp nhận tại đây; nút `Nộp hồ sơ` chỉ bật khi
+  lựa chọn hợp lệ và mang nơi tiếp nhận sang hồ sơ. Wizard không hỏi lại các mục địa điểm này.
+- Nút `Nhờ trợ lý điền cùng tôi` tự gửi câu lệnh hướng dẫn ẩn. Core trả lời deterministic từ field
+  catalog, hỏi từng mục một và không gọi model/out-of-scope guard cho chính yêu cầu trợ giúp này.
+- Enum và boolean được trả thành lựa chọn lớn ngay trong cửa sổ chat. Chọn một giá trị cập nhật field
+  thật qua revision guard, ghi lượt người dùng bằng nhãn tiếng Việt, xác nhận field và hỏi mục kế tiếp;
+  transcript không lộ tên field kỹ thuật.
+- Đề xuất lưu/điền lại thông tin dùng chung được chuyển vào agent. Ví chỉ lưu trong session browser;
+  agent chỉ lưu hoặc autofill sau khi người dùng đồng ý, và dữ liệu autofill vẫn phải được xác nhận
+  trên biểu mẫu trước khi qua bước tiếp theo.
+- Gate đạt: full Python `275 passed, 2 skipped`, coverage `80.40%`, Ruff lint/format và mypy strict
+  trên 94 source file; frontend lint/typecheck và `21` unit test; Next production build thành công
+  với 25 route. BFF smoke xác nhận
+  trợ giúp → lựa chọn `Cá nhân hoặc hộ gia đình` → draft revision `1` → hỏi `Họ tên người đăng ký`;
+  detail và submission URL hợp lệ đều trả `200`, `/health` trả `ok`.
+- In-app Browser không khả dụng nên chưa có bằng chứng click/keyboard/screenshot trong phiên này;
+  HTTP/BFF smoke và unit/integration test không thay thế browser E2E.
+
+## 2026-07-18 — Luồng trợ lý đồng hành hồ sơ bốn bước
+
+- Thay wizard nộp hồ sơ chung bằng luồng dùng trực tiếp field catalog đã review cho cả ba thủ tục:
+  nơi tiếp nhận, kê khai, giấy tờ, kiểm tra/nhận kết quả. Enum/boolean/date/number dùng control dễ
+  hiểu; field bắt buộc do catalog quyết định, không do LLM.
+- Chat phải hiện thẻ tên dịch vụ và nhận xác nhận rõ ràng trước khi điều hướng. URL nộp hồ sơ thiếu
+  `confirmed=1` bị trả `307` về trang chi tiết; xác nhận từ modal hoặc chat mới tạo URL hợp lệ.
+- Shared workspace ghi nguồn dữ liệu `manual`/`assistant`/`wallet`. Người dùng tự nhập được xác nhận
+  ngay; ví thông tin chỉ lưu trong session trình duyệt, autofill ở trạng thái chưa xác nhận và chặn
+  bước tiếp theo cho tới khi người dùng kiểm tra, xác nhận rồi đồng bộ lần lượt về draft API.
+- Mỗi bước có panel trợ lý, nút mở chat kèm câu hỏi theo bước và danh sách mục còn thiếu. Kê khai,
+  giấy tờ bắt buộc và địa chỉ bưu chính đều có gate, thông báo lý do bằng tiếng Việt và control tối
+  thiểu 48 px cho người lớn tuổi/người ít quen công nghệ.
+- `npm` lint/typecheck đạt; 19 unit test đạt, gồm route xác nhận, missing-field gate, wallet confirm
+  và reducer source. Next production build ngoài sandbox đạt 25 route. HTTP production smoke xác
+  nhận ba URL hợp lệ đều `200`, URL bản sao khai sinh chưa xác nhận trả `307` và cả ba trang có đúng
+  nội dung wizard mới.
+- In-app Browser không khả dụng nên chưa có manual click/keyboard/screenshot. Dockerfile đã mang đúng
+  `field_catalog.json` duy nhất vào builder/runner nhưng chưa chạy lại Docker image trong phiên này.
+
+## 2026-07-18 — Memory nhiều lượt và UX dễ dùng cho người dân
+
+- Tái hiện chuỗi lỗi thật: sau câu mơ hồ “làm giấy khai sinh”, câu trả lời rút gọn “xin bản sao” bị
+  mất ngữ cảnh; typo “bảo sao” bị coi ngoài phạm vi; “cho con tôi” chuyển quá sớm sang tên field kỹ
+  thuật.
+- Session giờ giữ trạng thái câu hỏi làm rõ, hiểu lựa chọn rút gọn ở lượt kế tiếp và nhận typo
+  `bảo sao` trong cụm xin bản sao Giấy khai sinh. Câu “cho con tôi” được ghi nhớ và xác nhận bằng
+  tiếng Việt; core không tự suy ra tư cách pháp lý khi data package chưa có ánh xạ đã review.
+- Câu hỏi `requester_type` được diễn đạt thành ba tư cách dễ hiểu. UI thêm các nút trả lời nhanh cao
+  tối thiểu 48 px, tăng cỡ chữ hội thoại/input và vẫn giữ ô nhập tự do; không hiển thị enum hoặc tên
+  field nội bộ cho người dùng.
+- BFF smoke ba lượt trên session thật đạt: `ask_clarification` → chọn procedure `2.000635` → xác nhận
+  đã ghi nhớ “cho con”; transcript có đủ sáu message và draft không bị tự điền. Trình duyệt tích hợp
+  không khả dụng nên chưa có click/screenshot; hành vi nút được bảo vệ bằng unit test frontend.
+- Full Python gate đạt `272 passed, 2 skipped`; compile, Ruff lint/format và mypy đều đạt. Next
+  `npm run check` đạt lint, typecheck, 13 test và production build 25 route.
+
+## 2026-07-18 — Hiển thị chatbot trên toàn bộ demoweb
+
+- Tái hiện trang chủ trả HTTP `200` nhưng không có nút chatbot: `ChatWidget` và workspace provider
+  chỉ được mount trong layout `/hon-nhan-va-gia-dinh`.
+- Chuyển `ProcedureWorkspaceProvider` và `ChatWidget` lên root layout, bỏ mount lặp ở layout con.
+  Chatbot giờ xuất hiện trên trang chủ và mọi route; các route thủ tục vẫn dùng chung workspace với
+  biểu mẫu như trước.
+- HTML smoke xác nhận cả `/` và hero tạm trú đều có đúng một nút `Mở trợ lý VNeGuide`, không bị render
+  trùng. `npm run check` đạt lint, typecheck, 11 test và production build 25 route.
+
+## 2026-07-18 — Sửa phân loại “làm giấy khai sinh” và trạng thái hồ sơ
+
+- Tái hiện trên phiên route `1.004194`: câu “tôi muốn làm giấy khai sinh” từng bị model gán
+  `unsupported`, dù cụm từ này có thể chỉ cấp bản sao Giấy khai sinh trong phạm vi hoặc đăng ký khai
+  sinh mới ngoài phạm vi.
+- Thêm guard deterministic, fail-closed cho đúng nhóm câu mơ hồ này trước extractor. Chatbot hỏi rõ
+  người dùng muốn bản sao hay đăng ký mới, nêu đúng giới hạn hỗ trợ và giữ nguyên draft/procedure
+  hiện tại; các câu rõ nghĩa như “bản sao/trích lục” hoặc “đăng ký khai sinh” vẫn đi qua extractor.
+- UI không còn hiển thị `ready_to_submit` như trạng thái hoàn tất khi `missing_fields` còn phần tử.
+  Trường hợp rule không có issue nhưng draft còn thiếu được trình bày là “Hồ sơ chưa đủ thông tin” và
+  không hiện readiness score; contract rule/completeness hiện hành không bị thay đổi.
+- Full Python gate đạt `268 passed, 2 skipped`; compile, Ruff lint/format và mypy đều đạt. Next lint,
+  typecheck, 11 unit test và production build 25 route đạt.
+- BFF smoke qua `http://127.0.0.1:13000` trả `ask_clarification`, giữ procedure `1.004194`, draft
+  revision `0`, đủ 11 missing field và câu trả lời phân biệt hai ý định. Trình duyệt tích hợp không
+  khả dụng trong phiên, nên visual regression được bảo vệ bằng presentation unit test thay vì bằng
+  chứng click/screenshot.
+
+## 2026-07-18 — Chuyển chatbot local sang OpenAI
+
+- Tái hiện lỗi cấu hình trước thay đổi: provider vẫn là LiteLLM/Qwen nhưng key mới có định dạng
+  OpenAI nằm dưới biến LiteLLM; provider smoke trả `MODEL_SMOKE_FAILED: provider_error`.
+- `.env` local đã được chuyển sang `provider=openai`, `model=gpt-5.6-luna` và đúng biến
+  `VNEGUIDE_API_KEY`. File vẫn bị Git ignore; secret không xuất hiện trong log, diff hoặc commit.
+- Chọn model bằng cùng một câu synthetic: `gpt-4.1-mini` phản hồi nhanh nhưng gán sai “trực tuyến”
+  thành `direct`; `gpt-5.6-luna` trả đúng `online`. Không giữ cấu hình nhanh nhưng sai nghiệp vụ.
+- Provider smoke cuối đạt `MODEL_SMOKE_OK provider=openai model=gpt-5.6-luna
+  structured_output=true`, timestamp `2026-07-18T12:45:28Z`.
+- Live three-procedure smoke nhận đúng `2.000635`, `1.013314`, `1.004194`; case tạm trú tạo đúng
+  `submission_channel=online`, tổng thời gian ba request khoảng `5.271 s`.
+- BFF smoke cuối trả HTTP `200`, `confirm_suggestion`, `submission_channel=online`, draft revision
+  vẫn `0`; thời gian lượt web khoảng `1.415 s`. Trang hero tạm trú trả HTTP `200`.
+- Targeted config/provider/core/API gate đạt `104 passed`. Browser tab tích hợp không khả dụng trong
+  phiên nên chưa có bằng chứng click/visual; HTTP/BFF smoke không thay thế browser E2E.
+- OCR Qwen hiện dùng chung provider/model config và không thể chạy bằng chat `.env` OpenAI. Giữ OCR
+  tắt hoặc chạy process với env riêng cho tới khi tách cấu hình OCR khỏi chatbot.
+
+## 2026-07-18 — Khắc phục chatbot web không phản hồi
+
+- Xác định hai nguyên nhân độc lập: mọi câu guidance trên route đã seed vẫn gọi extractor trước, và
+  process demo ban đầu không có network egress tới LiteLLM nên trả `provider_error`.
+- Thêm whole-message allowlist để bảy topic guidance thuần được trả trực tiếp từ procedure pack đã
+  review. Câu có field/nội dung hỗn hợp/thủ tục khác vẫn qua extractor; draft, revision và suggestion
+  contract không đổi.
+- Thêm guard ngữ cảnh fail-closed: sau `unsupported`, `ambiguous`, procedure switch hoặc provider
+  failure, câu mơ hồ không được gán fact của route cũ; nhắc rõ active procedure có thể phục hồi.
+- Full Python gate đạt `265 passed, 2 skipped`, coverage `80.27%`; compile, Ruff lint/format và mypy
+  strict đều đạt. Next gate đạt lint, typecheck, 9 reducer tests, production build 25 route; npm audit
+  báo `0 vulnerabilities`.
+- Provider smoke đạt `MODEL_SMOKE_OK`, provider `litellm`, model `Qwen/Qwen3.5-9B`, structured output,
+  timestamp `2026-07-18T11:40:42Z`. A/B deterministic vẫn đạt `12/12` fact/topic/source, không thêm
+  model call, timestamp `2026-07-18T11:41:32Z`.
+- BFF smoke trên `http://127.0.0.1:13000`: session route `1.004194` trả phí đúng với
+  `present_guidance`; câu tổng hợp “Tôi đăng ký trực tuyến.” đi qua model và tạo pending suggestion
+  `submission_channel=online`. Không dùng PII thật và không ghi raw provider response.
+
+## 2026-07-18 — Thử nghiệm grounded conversational core
+
+- Tạo nhánh `experiment/chat-core-v2` từ `dev@48f9c1f`; mọi thay đổi nằm trong worktree riêng, không
+  chạm nhánh `agent/browser-e2e` hoặc ba file local ngoài scope.
+- Thêm `CatalogReplyComposer` deterministic cho phí, thời gian, hồ sơ, các bước, cơ quan, kênh nộp
+  và kết quả. Composer chỉ render procedure pack đã review sau khi extractor khóa procedure code.
+- Guidance-only dùng `present_guidance`, không tăng clarification attempt hoặc đổi draft/revision;
+  mixed turn vẫn tạo suggestion. Source ngoài pack, lỗi composer, unsupported/ambiguous và procedure
+  switch đều fail closed về flow hiện hành.
+- Factory mặc định `VNEGUIDE_CHAT_CORE_VARIANT=guided`; đặt `baseline` để A/B/rollback, không đổi
+  FastAPI/Next.js wire contract và không thêm model call.
+- A/B deterministic 12 case tổng hợp: baseline fact coverage `0/12`, guided `12/12`, topic accuracy
+  `12/12`, source grounding `12/12`; reply layer chạy khoảng `0.928 ms/12 case` tại timestamp
+  `2026-07-18T11:10:35Z`, engine `catalog-deterministic`, model `none`.
+- Targeted core/API/release/eval đạt `92 passed`. Full pytest đạt `243 passed, 2 skipped`, coverage
+  `80.04%`; repository-state test chạy với LFS filter tắt cục bộ chỉ cho subprocess status, không
+  stage các binary LFS giả-dirty. Compile, Ruff lint/format và mypy strict đều đạt.
+- `npm ci`, `npm audit --audit-level=moderate` đạt `0 vulnerabilities`; `npm run check` đạt lint,
+  typecheck, 9 reducer tests và production build 25 route. Turbopack build cần chạy ngoài sandbox vì
+  worker nội bộ phải bind cổng; không có thay đổi frontend/dependency.
+- Staged release audit đạt `RELEASE_AUDIT_OK index_files=370 text_files=224`; không có secret, PII
+  ngoài fixture tổng hợp, conflict marker hoặc file ngoài scope trong commit.
+
 ## Trạng thái release
 
 - Remote baseline của lượt tích hợp: `origin/dev@f90b5e2`.

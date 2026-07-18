@@ -4,6 +4,7 @@ Owner trong kế hoạch tích hợp hiện tại: Người 2.
 """
 
 from .factory import create_session
+from .replies import CatalogReplyComposer, GroundedReply, GuidanceTopic, ReplyComposer
 from .session import (
     ConversationSession,
     Extractor,
@@ -15,10 +16,14 @@ from .session import (
 
 __all__ = [
     "ConversationSession",
+    "CatalogReplyComposer",
     "Extractor",
+    "GroundedReply",
+    "GuidanceTopic",
     "ProcedureConflictError",
     "ProcedureNotSelectedError",
     "RevisionConflictError",
+    "ReplyComposer",
     "build_session",
     "create_session",
 ]

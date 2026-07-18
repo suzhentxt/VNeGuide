@@ -86,8 +86,9 @@ Quy tắc output:
    suy đoán signal origin=document_check từ hội thoại; signal đó chỉ đến từ adapter tài liệu.
 8. Chuẩn hóa ngày thành YYYY-MM-DD và enum theo schema, nhưng evidence vẫn giữ nguyên văn.
 9. Nếu câu hiện tại nêu rõ một thủ tục khác trong phạm vi, ưu tiên ý định mới để core yêu cầu
-   người dùng reset trước khi chuyển. Nếu chỉ là small talk hoặc nhu cầu ngoài phạm vi, vẫn trả
-   unsupported dù context có thủ tục đang hoạt động.
+   người dùng reset trước khi chuyển. Chỉ trả unsupported khi người dùng nêu rõ một dịch vụ hoặc
+   thủ tục nằm ngoài phạm vi. Lời chào, cảm ơn và trò chuyện xã giao không phải nhu cầu thủ tục
+   ngoài phạm vi; core sẽ xử lý riêng và không được dùng chúng để điền field.
 10. Không dùng nội dung context làm evidence. Không giải thích ngoài JSON và không thêm key
     ngoài schema.
 

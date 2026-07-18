@@ -41,7 +41,13 @@ export interface ChatTurn {
   };
   messages: ChatMessage[];
   suggestions: ChatSuggestion[];
-  missing_fields: Array<{ field_id: string; label: string }>;
+  missing_fields: Array<{
+    field_id: string;
+    label: string;
+    field_type: "string" | "date" | "integer" | "number" | "boolean" | "enum";
+    input_hint: string;
+    choices: JsonValue[];
+  }>;
   validation: {
     status: string;
     readiness_score: number | null;
@@ -86,6 +92,7 @@ export interface ProcedureFieldState {
   value: JsonValue;
   confirmed: boolean;
   dirty: boolean;
+  source?: "manual" | "assistant" | "wallet";
   sync_status: FieldSyncStatus;
   error: string | null;
 }
