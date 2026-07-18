@@ -55,6 +55,22 @@ class RuleInputOrigin(StrEnum):
     DERIVED = "derived"
 
 
+class QATopic(StrEnum):
+    """Reviewed information categories that the extractor may route to Q&A."""
+
+    FEE = "fee"
+    PROCESSING_TIME = "processing_time"
+    DOCUMENTS = "documents"
+    REQUIRED_INFORMATION = "required_information"
+    AUTHORITY = "authority"
+    CHANNELS = "channels"
+    RESULT = "result"
+    STEPS = "steps"
+    LEGAL_BASIS = "legal_basis"
+    CONDITIONS_LIMITED = "conditions_limited"
+    FIELD_HELP = "field_help"
+
+
 class MessageRole(StrEnum):
     USER = "user"
     ASSISTANT = "assistant"

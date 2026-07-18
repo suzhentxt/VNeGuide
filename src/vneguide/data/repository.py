@@ -83,6 +83,12 @@ def _parse_field(raw: Mapping[str, Any], procedure_code: ProcedureCode) -> Field
     pattern = raw.get("pattern")
     if pattern is not None and not isinstance(pattern, str):
         raise DataIntegrityError(f"{context}.pattern must be a string")
+    raw_choice_help = raw.get("choice_help", {})
+    if not isinstance(raw_choice_help, dict) or any(
+        not isinstance(key, str) or not isinstance(value, str)
+        for key, value in raw_choice_help.items()
+    ):
+        raise DataIntegrityError(f"{context}.choice_help must be an object of strings")
     return FieldDefinition(
         procedure_code=procedure_code,
         field_id=_text(raw, "field_id", context),
@@ -93,6 +99,8 @@ def _parse_field(raw: Mapping[str, Any], procedure_code: ProcedureCode) -> Field
         values=tuple(raw_values),
         pattern=pattern,
         minimum=minimum,
+        help_text=_optional_text(raw, "help_text", context),
+        choice_help=raw_choice_help,
     )
 
 
@@ -169,6 +177,12 @@ def _parse_pack(raw: Mapping[str, Any]) -> ProcedurePack:
         approved_at=_text(approval_raw, "approved_at", f"{context}.approval"),
     )
 
+    raw_service_info_sources = _mapping(raw, "service_info_sources", context)
+    service_info_sources = {
+        key: _strings(source_ids, f"{context}.service_info_sources.{key}")
+        for key, source_ids in raw_service_info_sources.items()
+    }
+
     return ProcedurePack(
         pack_id=_text(raw, "pack_id", context),
         procedure_code=procedure_code,
@@ -182,6 +196,7 @@ def _parse_pack(raw: Mapping[str, Any]) -> ProcedurePack:
         scope=_mapping(raw, "scope", context),
         routing=_mapping(raw, "routing", context),
         service_info=_mapping(raw, "service_info", context),
+        service_info_sources=service_info_sources,
         forms=forms,
         checklist=checklist,
         fields=fields,
@@ -445,8 +460,23 @@ class ProcedureRepository:
         sourced_items.extend(
             (f"{pack.pack_id}:step:{item.step}", item.source_ids) for item in pack.guidance_steps
         )
+        sourced_items.extend(
+            (f"{pack.pack_id}:service_info:{key}", source_ids)
+            for key, source_ids in pack.service_info_sources.items()
+        )
         for owner, source_ids in sourced_items:
             problems.extend(self._source_problems(owner, source_ids, pack.procedure_code))
+        undeclared_service_sources = {
+            source_id
+            for source_ids in pack.service_info_sources.values()
+            for source_id in source_ids
+            if source_id not in pack.source_ids
+        }
+        if undeclared_service_sources:
+            problems.append(
+                f"pack {pack.pack_id} service_info_sources are not declared in pack source_ids: "
+                f"{sorted(undeclared_service_sources)}"
+            )
         return problems
 
     def _source_problems(

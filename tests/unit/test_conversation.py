@@ -5,10 +5,10 @@ from pathlib import Path
 
 import pytest
 
-from vneguide.ai import ExtractionOutcome, ExtractionTurnContext
+from vneguide.ai import ExtractionOutcome, ExtractionTurnContext, InformationRequest
 from vneguide.core import ConversationSession, RevisionConflictError
 from vneguide.data import ProcedureRepository
-from vneguide.domain import NextAction, SuggestionStatus
+from vneguide.domain import NextAction, ProcedureCode, QATopic, SuggestionStatus
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -37,6 +37,7 @@ def outcome(
     status: str = "success",
     error_code: str | None = None,
     reply: str | None = None,
+    information_request: InformationRequest | None = None,
 ) -> ExtractionOutcome:
     return ExtractionOutcome(
         status=status,
@@ -50,6 +51,7 @@ def outcome(
         attempts=1,
         reply=reply,
         error_code=error_code,
+        information_request=information_request,
     )
 
 
@@ -718,6 +720,307 @@ def test_route_scoped_session_bypasses_confirmation_and_nlg_is_allowlisted(
     unsafe_session.initialize_procedure("2.000635")
     unsafe_result = unsafe_session.send("Tôi cần hỗ trợ")
     assert unsafe not in unsafe_result.reply
+
+
+def test_initial_faq_sets_pending_without_mutating_draft_then_confirms(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor(
+        outcome(
+            classification="informational",
+            procedure_code="1.004194",
+            information_request=InformationRequest((QATopic.PROCESSING_TIME,)),
+        )
+    )
+    session = ConversationSession(extractor, repository)
+
+    faq = session.send("Đăng ký tạm trú mất bao lâu?")
+    confirmed = session.send("Đúng")
+
+    assert faq.next_action is NextAction.CONFIRM_PROCEDURE
+    assert faq.state.draft.values == {}
+    assert faq.state.draft.revision == 0
+    assert faq.state.draft.procedure_code is None
+    assert faq.state.pending_procedure_code is not None
+    assert faq.state.pending_procedure_code.value == "1.004194"
+    assert faq.source_ids == ("SRC-DVC-1004194",)
+    assert confirmed.state.draft.procedure_code is not None
+    assert confirmed.state.draft.procedure_code.value == "1.004194"
+    assert confirmed.state.draft.revision == 0
+    assert len(extractor.calls) == 1
+
+
+def test_faq_follow_up_passes_recent_topic_and_procedure_context(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor(
+        outcome(
+            classification="informational",
+            procedure_code="1.004194",
+            information_request=InformationRequest(
+                (QATopic.FIELD_HELP,),
+                target_field_id="registration_mode",
+                reference_fields={"registration_mode": "by_list"},
+                evidence={"registration_mode": "theo danh sách"},
+            ),
+        ),
+        outcome(
+            classification="informational",
+            procedure_code=None,
+            information_request=InformationRequest(
+                (QATopic.FEE,),
+                reference_fields={"submission_channel": "direct"},
+                evidence={"submission_channel": "trực tiếp"},
+            ),
+        ),
+    )
+    session = ConversationSession(extractor, repository)
+    session.send("Theo danh sách là gì?")
+
+    follow_up = session.send("Còn trực tiếp thì sao?")
+
+    assert follow_up.state.pending_procedure_code is not None
+    assert extractor.calls[1][1] == ExtractionTurnContext(
+        "1.004194",
+        confirmation_required=True,
+        recent_information_topics=(QATopic.FIELD_HELP,),
+        recent_information_procedure_code="1.004194",
+    )
+    assert follow_up.state.recent_information_topics == (QATopic.FEE,)
+
+
+def test_active_procedure_scopes_informational_outcome_without_code(
+    repository: ProcedureRepository,
+) -> None:
+    session = ConversationSession(
+        StubExtractor(
+            outcome(
+                classification="informational",
+                procedure_code=None,
+                information_request=InformationRequest((QATopic.FEE,)),
+            )
+        ),
+        repository,
+    )
+    session.initialize_procedure("1.013314")
+
+    faq = session.send("Thủ tục này có mất phí không?")
+
+    assert faq.state.draft.procedure_code is ProcedureCode.HOUSING_CONDITION_CONFIRMATION
+    assert faq.next_action is NextAction.ASK_CLARIFICATION
+    assert "không thu phí" in faq.reply
+    assert faq.source_ids == ("SRC-DVC-1013314",)
+
+
+def test_successful_faq_clears_only_provider_failure_counter(
+    repository: ProcedureRepository,
+) -> None:
+    session = ConversationSession(
+        StubExtractor(
+            outcome(status="fallback", procedure_code=None, error_code="provider_timeout"),
+            outcome(
+                classification="informational",
+                procedure_code=None,
+                information_request=InformationRequest((QATopic.FEE,)),
+            ),
+            outcome(status="fallback", procedure_code=None, error_code="provider_timeout"),
+        ),
+        repository,
+    )
+    session.initialize_procedure("1.013314")
+    first_failure = session.send("Tôi cần hỗ trợ")
+    faq = session.send("Có mất phí không?")
+
+    second_failure = session.send("Tôi tiếp tục khai")
+
+    assert first_failure.next_action is NextAction.RETRY
+    assert "__extractor__" not in faq.state.clarification_attempts
+    assert second_failure.next_action is NextAction.RETRY
+
+
+def test_supported_intent_clears_stale_qa_context_when_pending_changes(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor(
+        outcome(
+            classification="informational",
+            procedure_code="2.000635",
+            information_request=InformationRequest((QATopic.FEE,)),
+        ),
+        outcome(procedure_code="1.004194"),
+        outcome(classification="ambiguous", procedure_code=None),
+    )
+    session = ConversationSession(extractor, repository)
+    session.send("Bản sao giấy khai sinh mất phí bao nhiêu?")
+
+    changed = session.send("Thực ra tôi muốn đăng ký tạm trú")
+    session.send("Tôi chưa chắc")
+
+    assert changed.state.pending_procedure_code is ProcedureCode.TEMPORARY_RESIDENCE_REGISTRATION
+    assert changed.state.recent_information_procedure_code is None
+    assert changed.state.recent_information_topics == ()
+    assert extractor.calls[2][1] == ExtractionTurnContext(
+        "1.004194",
+        confirmation_required=True,
+    )
+
+
+def test_faq_preserves_active_suggestion_and_form_state(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor(
+        outcome(
+            procedure_code="1.004194",
+            fields={"registration_mode": "individual_or_household"},
+            evidence={"registration_mode": "cá nhân"},
+        ),
+        outcome(
+            classification="informational",
+            procedure_code="1.004194",
+            information_request=InformationRequest((QATopic.FEE,)),
+        ),
+    )
+    session = ConversationSession(extractor, repository)
+    session.initialize_procedure("1.004194")
+    first = session.send("Tôi đăng ký theo cá nhân")
+    draft_before = first.state.draft
+    suggestions_before = first.state.suggestions
+    attempts_before = first.state.clarification_attempts
+    questions_before = first.state.asked_question_ids
+
+    faq = session.send("Lệ phí là bao nhiêu?")
+
+    assert faq.next_action is NextAction.CONFIRM_SUGGESTION
+    assert faq.state.draft == draft_before
+    assert faq.state.suggestions == suggestions_before
+    assert faq.state.clarification_attempts == attempts_before
+    assert faq.state.asked_question_ids == questions_before
+    assert "7.000 đồng" in faq.reply
+
+
+def test_faq_repeats_current_question_without_marking_another_attempt(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor(
+        outcome(procedure_code="1.004194", fields={}),
+        outcome(
+            classification="informational",
+            procedure_code="1.004194",
+            information_request=InformationRequest(
+                (QATopic.FIELD_HELP,),
+                target_field_id="registration_mode",
+                reference_fields={"registration_mode": "by_list"},
+                evidence={"registration_mode": "theo danh sách"},
+            ),
+        ),
+    )
+    session = ConversationSession(extractor, repository)
+    session.initialize_procedure("1.004194")
+    first = session.send("Tôi cần hỗ trợ")
+
+    faq = session.send("Theo danh sách tức là gì?")
+
+    assert first.next_action is NextAction.ASK_CLARIFICATION
+    assert faq.next_action is NextAction.ASK_CLARIFICATION
+    assert faq.state.asked_question_ids == first.state.asked_question_ids
+    assert faq.state.clarification_attempts == first.state.clarification_attempts
+    assert "Tờ khai CT01 của từng người" in faq.reply
+    assert "Anh/chị chọn hình thức đăng ký" in faq.reply
+
+
+def test_cross_procedure_faq_is_reference_only_for_active_form(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor(
+        outcome(
+            classification="informational",
+            procedure_code="1.004194",
+            information_request=InformationRequest((QATopic.FEE,)),
+        )
+    )
+    session = ConversationSession(extractor, repository)
+    session.initialize_procedure("2.000635")
+
+    faq = session.send("Đăng ký tạm trú mất bao nhiêu tiền?")
+
+    assert faq.state.draft.procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+    assert faq.state.draft.revision == 0
+    assert faq.state.pending_procedure_code is None
+    assert "Thông tin trên chỉ để tham khảo" in faq.reply
+    assert "đặt lại phiên" in faq.reply
+    assert set(faq.source_ids) == {"SRC-DVC-1004194", "SRC-FEE-75-2022"}
+
+
+def test_unscoped_faq_asks_for_procedure_without_recording_qa_memory(
+    repository: ProcedureRepository,
+) -> None:
+    session = ConversationSession(
+        StubExtractor(
+            outcome(
+                classification="informational",
+                procedure_code=None,
+                information_request=InformationRequest((QATopic.FEE,)),
+            )
+        ),
+        repository,
+    )
+
+    result = session.send("Phí bao nhiêu?")
+
+    assert result.next_action is NextAction.ASK_CLARIFICATION
+    assert result.source_ids == ()
+    assert result.state.draft.revision == 0
+    assert result.state.recent_information_procedure_code is None
+    assert result.state.recent_information_topics == ()
+
+
+def test_rejecting_faq_pending_procedure_clears_qa_memory(
+    repository: ProcedureRepository,
+) -> None:
+    session = ConversationSession(
+        StubExtractor(
+            outcome(
+                classification="informational",
+                procedure_code="2.000635",
+                information_request=InformationRequest((QATopic.DOCUMENTS,)),
+            )
+        ),
+        repository,
+    )
+    session.send("Xin bản sao khai sinh cần giấy tờ gì?")
+
+    rejected = session.send("Không phải")
+
+    assert rejected.state.pending_procedure_code is None
+    assert rejected.state.recent_information_procedure_code is None
+    assert rejected.state.recent_information_topics == ()
+
+
+def test_reset_after_active_faq_clears_dirty_draft_and_qa_memory(
+    repository: ProcedureRepository,
+) -> None:
+    session = ConversationSession(
+        StubExtractor(
+            outcome(
+                classification="informational",
+                procedure_code="1.004194",
+                information_request=InformationRequest((QATopic.CHANNELS,)),
+            )
+        ),
+        repository,
+    )
+    session.initialize_procedure("1.004194")
+    session.edit_field("submission_channel", "online", expected_revision=0)
+
+    faq = session.send("Có những kênh nộp nào?")
+    session.close()
+
+    assert faq.state.draft.revision == 1
+    assert faq.state.draft.dirty_fields == {"submission_channel"}
+    assert session.state.draft.revision == 0
+    assert session.state.draft.values == {}
+    assert session.state.recent_information_procedure_code is None
+    assert session.state.recent_information_topics == ()
 
 
 def test_close_clears_state_and_prevents_reuse(repository: ProcedureRepository) -> None:

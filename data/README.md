@@ -1,4 +1,4 @@
-# VNeGuide – Domain & Data Package v2
+# VNeGuide – Domain & Data Package v2.1
 
 ## Phạm vi duy nhất
 VNeGuide chỉ hỗ trợ ba thủ tục:
@@ -25,6 +25,7 @@ Không còn procedure pack cho trích lục kết hôn, trích lục khai tử h
 - `contracts/*.schema.json`
 - `evaluation/gold_guidance.jsonl`
 - `evaluation/gold_validation.jsonl`
+- `evaluation/synthetic_grounded_qa.jsonl`
 - `docs/review_workflow.md`
 - `docs/open_decisions.json`
 
@@ -45,6 +46,11 @@ data/
 Không đặt tài liệu nguồn trực tiếp tại root `data/`. Không sao chép `catalog/` vào `src/`; application phải đọc package này qua loader.
 
 Checksum trong `qa/` được tính trên nội dung UTF-8 với newline chuẩn hóa về LF. Quy ước này giúp cùng một artifact có hash ổn định trên Windows, Linux và macOS.
+
+Từ pack `2.1.0`, từng key trong `service_info` phải có `service_info_sources` trỏ tới nguồn đã
+approved và đúng procedure. Field enum có thể khai báo `help_text`/`choice_help`; core chỉ được giải
+thích chi tiết lựa chọn khi nội dung này có trong catalog. Fixture `synthetic_grounded_qa.jsonl`
+dùng dữ liệu giả để kiểm câu trả lời deterministic và source; nó không phải số đo accuracy model.
 
 `field_catalog.json` chỉ chứa trường hồ sơ/người dùng. Những tín hiệu phục vụ rule nhưng không phải field biểu mẫu (ví dụ `ct01_missing`) phải được khai báo trong `rule_context_catalog.json`; không được tạo ngầm trong rule engine.
 

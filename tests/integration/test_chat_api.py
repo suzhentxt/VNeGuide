@@ -5,7 +5,7 @@ from collections import deque
 import pytest
 from httpx import ASGITransport, AsyncClient
 
-from vneguide.ai import ExtractionOutcome, ExtractionTurnContext
+from vneguide.ai import ExtractionOutcome, ExtractionTurnContext, InformationRequest
 from vneguide.api import create_app
 from vneguide.core import ConversationSession
 from vneguide.data import ProcedureRepository
@@ -17,6 +17,7 @@ from vneguide.domain import (
     MessageRole,
     NextAction,
     ProcedureCode,
+    QATopic,
     TurnResult,
 )
 
@@ -298,3 +299,56 @@ async def test_chat_api_keeps_compact_memory_across_multiple_turns() -> None:
         ExtractionTurnContext("1.004194", "registration_mode"),
         ExtractionTurnContext("1.004194", "registration_mode"),
     ]
+
+
+@pytest.mark.anyio
+async def test_chat_api_faq_returns_sources_without_mutating_pre_form_draft() -> None:
+    repository = ProcedureRepository.discover()
+    extractor = StubExtractor(
+        ExtractionOutcome(
+            status="success",
+            classification="informational",
+            procedure_code="1.004194",
+            fields={},
+            evidence={},
+            clarification_question=None,
+            attempts=1,
+            information_request=InformationRequest((QATopic.FEE,)),
+        )
+    )
+    app = create_app(
+        session_factory=lambda: ConversationSession(extractor, repository),
+        repository=repository,
+    )
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post("/v1/chat/sessions", json={})
+        session_id = created.headers["X-VNeGuide-Session"]
+        faq = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "Đăng ký tạm trú mất bao nhiêu tiền?"},
+        )
+        confirmed = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "Đúng"},
+        )
+
+    assert faq.status_code == 200
+    body = faq.json()
+    assert body["next_action"] == "confirm_procedure"
+    assert body["procedure"] is None
+    assert body["draft"] == {
+        "values": {},
+        "revision": 0,
+        "confirmed_fields": [],
+        "dirty_fields": [],
+        "pack_version": None,
+    }
+    assert {source["id"] for source in body["sources"]} == {
+        "SRC-DVC-1004194",
+        "SRC-FEE-75-2022",
+    }
+    assert confirmed.status_code == 200
+    assert confirmed.json()["procedure"]["code"] == "1.004194"
+    assert confirmed.json()["draft"]["revision"] == 0
+    assert len(extractor.calls) == 1

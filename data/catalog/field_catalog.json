@@ -341,7 +341,13 @@
       "individual_or_household",
       "by_list",
       "armed_forces"
-    ]
+    ],
+    "help_text": "Hình thức đăng ký cho biết hồ sơ được lập cho cá nhân hoặc hộ gia đình, theo danh sách nhiều người, hay thuộc trường hợp tại đơn vị lực lượng vũ trang.",
+    "choice_help": {
+      "individual_or_household": "Cá nhân hoặc hộ gia đình đăng ký tạm trú theo trường hợp thông thường; VNeGuide có thể hỗ trợ kiểm tra tự động trong phạm vi MVP.",
+      "by_list": "Đăng ký theo danh sách cần Tờ khai CT01 của từng người và văn bản đề nghị đăng ký tạm trú, trong đó ghi rõ họ tên, ngày tháng năm sinh, giới tính, số định danh cá nhân và thời hạn tạm trú của từng người. Trường hợp này cần cơ quan có thẩm quyền kiểm tra chính thức.",
+      "armed_forces": "Dành cho người đăng ký tạm trú tại nơi đơn vị Công an hoặc Quân đội đóng quân, hoặc tại nhà ở công vụ trong đơn vị. Trường hợp này cần cơ quan có thẩm quyền kiểm tra chính thức."
+    }
   },
   {
     "procedure_code": "1.004194",

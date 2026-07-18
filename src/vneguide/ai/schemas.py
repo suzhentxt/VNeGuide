@@ -12,15 +12,17 @@ import math
 import re
 import unicodedata
 from collections.abc import Iterable, Mapping, Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
 from types import MappingProxyType
 from typing import Any
 
+from vneguide.domain import QATopic
+
 JsonScalar = str | int | float | bool
 
-_CLASSIFICATIONS = frozenset({"supported", "unsupported", "ambiguous"})
+_CLASSIFICATIONS = frozenset({"supported", "unsupported", "ambiguous", "informational"})
 _FIELD_TYPES = frozenset({"string", "date", "enum", "integer", "number", "boolean"})
 _RULE_CONTEXT_ORIGINS = frozenset(
     {"intent_extraction", "document_check", "user_declaration", "derived"}
@@ -34,10 +36,12 @@ _ROOT_KEYS = frozenset(
         "clarification_question",
         "fields",
         "context_signals",
+        "information_request",
     }
 )
 _FIELD_KEYS = frozenset({"field_id", "value", "evidence"})
 _CONTEXT_SIGNAL_KEYS = frozenset({"input_id", "value", "evidence"})
+_INFORMATION_REQUEST_KEYS = frozenset({"topics", "target_field_id", "reference_fields"})
 _PRONOUN_ONLY_NAME_VALUES = frozenset(
     {"tôi", "mình", "chúng tôi", "chúng mình", "tớ", "con tôi", "con của tôi"}
 )
@@ -507,6 +511,49 @@ class ExtractionCatalog:
             ) from exc
 
 
+def _empty_scalar_mapping() -> Mapping[str, JsonScalar]:
+    return MappingProxyType({})
+
+
+def _empty_string_mapping() -> Mapping[str, str]:
+    return MappingProxyType({})
+
+
+@dataclass(frozen=True, slots=True)
+class InformationRequest:
+    """One immutable, fact-free routing request for deterministic procedure Q&A."""
+
+    topics: tuple[QATopic, ...]
+    target_field_id: str | None = None
+    reference_fields: Mapping[str, JsonScalar] = field(default_factory=_empty_scalar_mapping)
+    evidence: Mapping[str, str] = field(default_factory=_empty_string_mapping)
+
+    def __post_init__(self) -> None:
+        topics = tuple(self.topics)
+        if any(not isinstance(topic, QATopic) for topic in topics):
+            raise ValueError("information topics must use QATopic values")
+        if not 1 <= len(topics) <= 3 or len(set(topics)) != len(topics):
+            raise ValueError("information topics must contain one to three unique values")
+        if self.target_field_id is not None and (
+            not isinstance(self.target_field_id, str)
+            or not self.target_field_id.strip()
+            or len(self.target_field_id) > 128
+        ):
+            raise ValueError("target_field_id must be a short non-empty string or None")
+        references = dict(self.reference_fields)
+        evidence = dict(self.evidence)
+        if set(references) != set(evidence):
+            raise ValueError("reference fields and evidence must contain the same keys")
+        if any(
+            not isinstance(item, str) or not item.strip() or len(item) > 500
+            for item in evidence.values()
+        ):
+            raise ValueError("reference evidence must contain short non-empty strings")
+        object.__setattr__(self, "topics", topics)
+        object.__setattr__(self, "reference_fields", MappingProxyType(references))
+        object.__setattr__(self, "evidence", MappingProxyType(evidence))
+
+
 @dataclass(frozen=True, slots=True)
 class ValidatedExtraction:
     """Validated provider output, still independent of domain workflow state."""
@@ -520,6 +567,7 @@ class ValidatedExtraction:
     context_evidence: Mapping[str, str]
     context_origins: Mapping[str, str]
     clarification_question: str | None
+    information_request: InformationRequest | None
 
 
 def build_extraction_json_schema(catalog: ExtractionCatalog) -> dict[str, Any]:
@@ -537,6 +585,14 @@ def build_extraction_json_schema(catalog: ExtractionCatalog) -> dict[str, Any]:
             spec.field_id
             for procedure_code in catalog.procedure_codes
             for spec in catalog.fields_for(procedure_code)
+        }
+    )
+    enum_field_ids = sorted(
+        {
+            spec.field_id
+            for procedure_code in catalog.procedure_codes
+            for spec in catalog.fields_for(procedure_code)
+            if spec.field_type == "enum"
         }
     )
     context_ids = sorted(
@@ -567,13 +623,39 @@ def build_extraction_json_schema(catalog: ExtractionCatalog) -> dict[str, Any]:
         "required": ["input_id", "value", "evidence"],
         "additionalProperties": False,
     }
+    reference_item = {
+        "type": "object",
+        "properties": {
+            "field_id": {"type": "string", "enum": enum_field_ids},
+            "value": scalar_schema,
+            "evidence": {"type": "string"},
+        },
+        "required": ["field_id", "value", "evidence"],
+        "additionalProperties": False,
+    }
+    information_request = {
+        "type": ["object", "null"],
+        "properties": {
+            "topics": {
+                "type": "array",
+                "items": {"type": "string", "enum": [topic.value for topic in QATopic]},
+            },
+            "target_field_id": {
+                "type": ["string", "null"],
+                "enum": [*field_ids, None],
+            },
+            "reference_fields": {"type": "array", "items": reference_item},
+        },
+        "required": ["topics", "target_field_id", "reference_fields"],
+        "additionalProperties": False,
+    }
 
     return {
         "type": "object",
         "properties": {
             "classification": {
                 "type": "string",
-                "enum": ["supported", "unsupported", "ambiguous"],
+                "enum": ["supported", "unsupported", "ambiguous", "informational"],
             },
             "procedure_code": {
                 "type": ["string", "null"],
@@ -592,6 +674,7 @@ def build_extraction_json_schema(catalog: ExtractionCatalog) -> dict[str, Any]:
                 "type": "array",
                 "items": context_item,
             },
+            "information_request": information_request,
         },
         "required": [
             "classification",
@@ -600,6 +683,7 @@ def build_extraction_json_schema(catalog: ExtractionCatalog) -> dict[str, Any]:
             "clarification_question",
             "fields",
             "context_signals",
+            "information_request",
         ],
         "additionalProperties": False,
     }
@@ -623,6 +707,7 @@ def validate_extraction_payload(
     clarification_question = payload["clarification_question"]
     raw_fields = payload["fields"]
     raw_context_signals = payload["context_signals"]
+    raw_information_request = payload["information_request"]
 
     if not isinstance(classification, str) or classification not in _CLASSIFICATIONS:
         raise ExtractionSchemaError("invalid_classification", "Unknown extraction classification.")
@@ -650,12 +735,45 @@ def validate_extraction_payload(
             raise ExtractionSchemaError(
                 "invalid_clarification", "Supported output cannot ask an intent clarification."
             )
+        if raw_information_request is not None:
+            raise ExtractionSchemaError(
+                "unsafe_information_request",
+                "Supported output cannot include an information request.",
+            )
+    elif classification == "informational":
+        if procedure_code is not None and procedure_code not in catalog.procedure_codes:
+            raise ExtractionSchemaError(
+                "invalid_procedure",
+                "Informational output may only reference a catalog procedure code.",
+            )
+        if (
+            reply is not None
+            or clarification_question is not None
+            or raw_fields
+            or raw_context_signals
+        ):
+            raise ExtractionSchemaError(
+                "unsafe_informational",
+                "Informational output cannot include a reply, clarification, fields, "
+                "or context signals.",
+            )
+        if not isinstance(raw_information_request, Mapping):
+            raise ExtractionSchemaError(
+                "invalid_information_request",
+                "Informational output requires an information request object.",
+            )
     else:
-        if procedure_code is not None or reply is not None or raw_fields or raw_context_signals:
+        if (
+            procedure_code is not None
+            or reply is not None
+            or raw_fields
+            or raw_context_signals
+            or raw_information_request is not None
+        ):
             raise ExtractionSchemaError(
                 "unsafe_non_supported",
                 "Unsupported or ambiguous output must have a null code, null reply, no fields, "
-                "and no context signals.",
+                "no context signals, and no information request.",
             )
         if classification == "ambiguous":
             if clarification_question is None or not clarification_question.strip():
@@ -671,6 +789,17 @@ def validate_extraction_payload(
         raise ExtractionSchemaError(
             "invalid_clarification", "Clarification question exceeds the safe length limit."
         )
+
+    information_request = (
+        _validate_information_request(
+            raw_information_request,
+            message=message,
+            procedure_code=procedure_code,
+            catalog=catalog,
+        )
+        if classification == "informational"
+        else None
+    )
 
     fields: dict[str, JsonScalar] = {}
     evidence_by_field: dict[str, str] = {}
@@ -762,6 +891,126 @@ def validate_extraction_payload(
         context_evidence=MappingProxyType(context_evidence),
         context_origins=MappingProxyType(context_origins),
         clarification_question=clarification_question,
+        information_request=information_request,
+    )
+
+
+def _validate_information_request(
+    raw_request: Mapping[str, Any],
+    *,
+    message: str,
+    procedure_code: str | None,
+    catalog: ExtractionCatalog,
+) -> InformationRequest:
+    _require_exact_keys(raw_request, _INFORMATION_REQUEST_KEYS, "information request")
+    raw_topics = raw_request["topics"]
+    target_field_id = raw_request["target_field_id"]
+    raw_references = raw_request["reference_fields"]
+
+    if not isinstance(raw_topics, list) or not 1 <= len(raw_topics) <= 3:
+        raise ExtractionSchemaError(
+            "invalid_information_topics",
+            "Information request must contain one to three topics.",
+        )
+    topics: list[QATopic] = []
+    for raw_topic in raw_topics:
+        if not isinstance(raw_topic, str):
+            raise ExtractionSchemaError(
+                "invalid_information_topics", "Information topics must be strings."
+            )
+        try:
+            topic = QATopic(raw_topic)
+        except ValueError as exc:
+            raise ExtractionSchemaError(
+                "invalid_information_topics", "Unknown information topic."
+            ) from exc
+        if topic in topics:
+            raise ExtractionSchemaError(
+                "duplicate_information_topic", "Information topics must be unique."
+            )
+        topics.append(topic)
+
+    if target_field_id is not None and (
+        not isinstance(target_field_id, str) or not target_field_id.strip()
+    ):
+        raise ExtractionSchemaError(
+            "invalid_information_target",
+            "Information target field must be a non-empty string or null.",
+        )
+    if target_field_id is not None and QATopic.FIELD_HELP not in topics:
+        raise ExtractionSchemaError(
+            "invalid_information_target",
+            "A target field is only allowed for field-help questions.",
+        )
+    if not isinstance(raw_references, list):
+        raise ExtractionSchemaError(
+            "invalid_information_references", "Information references must be an array."
+        )
+    if procedure_code is None:
+        if target_field_id is not None or raw_references:
+            raise ExtractionSchemaError(
+                "unsafe_unscoped_information",
+                "An unscoped information request cannot target or reference form fields.",
+            )
+        return InformationRequest(tuple(topics))
+
+    if QATopic.FIELD_HELP in topics and target_field_id is None:
+        raise ExtractionSchemaError(
+            "invalid_information_target",
+            "A scoped field-help question must identify its target field.",
+        )
+
+    if target_field_id is not None:
+        catalog.field(procedure_code, target_field_id)
+
+    reference_fields: dict[str, JsonScalar] = {}
+    evidence_by_field: dict[str, str] = {}
+    for raw_reference in raw_references:
+        if not isinstance(raw_reference, Mapping):
+            raise ExtractionSchemaError(
+                "invalid_information_reference", "Every information reference must be an object."
+            )
+        _require_exact_keys(raw_reference, _FIELD_KEYS, "information reference")
+        field_id = raw_reference["field_id"]
+        value = raw_reference["value"]
+        evidence = raw_reference["evidence"]
+        if not isinstance(field_id, str) or not field_id:
+            raise ExtractionSchemaError(
+                "invalid_information_reference", "Reference field ID must be a non-empty string."
+            )
+        if field_id in reference_fields:
+            raise ExtractionSchemaError(
+                "duplicate_information_reference", f"Duplicate reference field: {field_id!r}."
+            )
+        spec = catalog.field(procedure_code, field_id)
+        if spec.field_type != "enum":
+            raise ExtractionSchemaError(
+                "unsafe_information_reference",
+                "Information requests may only reference reviewed enum fields.",
+            )
+        if not isinstance(evidence, str) or not evidence.strip() or len(evidence) > 500:
+            raise ExtractionSchemaError(
+                "invalid_information_evidence",
+                "Reference evidence must be a short, non-empty string.",
+            )
+        _validate_value(spec, value)
+        if (
+            not _contains_evidence(message, evidence)
+            or _is_uninformative_enum_evidence(spec, evidence)
+            or not _evidence_supports_value(spec, value, evidence)
+        ):
+            raise ExtractionSchemaError(
+                "ungrounded_information_reference",
+                "Information reference evidence must be grounded in the current message.",
+            )
+        reference_fields[field_id] = value
+        evidence_by_field[field_id] = evidence
+
+    return InformationRequest(
+        topics=tuple(topics),
+        target_field_id=target_field_id,
+        reference_fields=reference_fields,
+        evidence=evidence_by_field,
     )
 
 

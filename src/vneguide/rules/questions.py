@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from vneguide.data import ProcedureRepository
-from vneguide.domain import FieldType, ProcedureCode
+from vneguide.domain import FieldType, JSONValue, ProcedureCode
 
 _PROCEDURE_LABELS = {
     ProcedureCode.BIRTH_CERTIFICATE_COPY: "cấp bản sao Giấy khai sinh",
@@ -137,6 +137,13 @@ class QuestionSelector:
         """Return the centralized short label used in conversational prompts."""
 
         return _PROCEDURE_LABELS[ProcedureCode(procedure_code)]
+
+    def choice_label(self, value: JSONValue) -> str:
+        """Return a plain-language label without exposing a raw enum token."""
+
+        if isinstance(value, str):
+            return _ENUM_VALUE_LABELS.get(value, value.replace("_", " "))
+        return str(value)
 
 
 def _join_choices(choices: tuple[str, ...]) -> str:

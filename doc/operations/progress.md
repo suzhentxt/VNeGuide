@@ -209,3 +209,63 @@ hồ sơ hành chính thật cho đến khi có HTTPS.
 
 Môi trường máy này từng mất Python gốc mà `.venv` tham chiếu. Python `3.11.9` đã được cài lại theo phạm
 vi user đúng tại `C:\Users\hautt\AppData\Local\Programs\Python\Python311`; `.venv` chạy lại bình thường.
+Kết quả này đã được xác minh ngoài sandbox. Sandbox mặc định của coding agent không được đọc đường dẫn
+Python trong user profile nên có thể báo nhầm executable không tồn tại; đây không phải lỗi của `.venv`
+trong terminal người dùng.
+
+## 2026-07-18 — Grounded Q&A cho ba thủ tục
+
+- Extraction thêm classification `informational` và 11 `QATopic`. Output FAQ chỉ chứa route/topic,
+  target field và enum tham chiếu có evidence; `fields`/`context_signals` phải rỗng nên câu hỏi không
+  thể tự điền form. Prompt phân biệt `theo danh sách` với `theo danh sách tức là gì`, câu không dấu,
+  multi-topic và follow-up.
+- `ProcedureQAResponder` không giữ provider và dựng toàn bộ câu trả lời từ service info, checklist,
+  field catalog, guidance, rule/scope và source register đã duyệt. Phí ba thủ tục, ranh giới giấy tờ
+  với field biểu mẫu, legal-basis và official-review được khóa deterministic.
+- Ba procedure pack lên `2.1.0`; mỗi service-info key có source riêng. `registration_mode` có help cho
+  đủ ba lựa chọn, gồm CT01 từng người/văn bản danh sách và trường hợp đơn vị lực lượng vũ trang.
+- FAQ đầu phiên đặt pending procedure nhưng không đổi draft/revision; lượt `Đúng` kích hoạt form mà
+  không gọi model. FAQ trong form giữ values, revision, confirmed/dirty, suggestion, attempts và
+  asked-question state; FAQ thủ tục khác chỉ tham khảo, muốn chuyển phải reset. Topic/procedure Q&A
+  gần nhất nằm ngoài draft và được gửi dưới dạng bounded context cho câu nối tiếp.
+- API public không đổi. FAQ trước khi active vẫn trả đúng source records. Web dùng mapper trạng thái
+  tiếng Việt; chỉ hiện “Sẵn sàng kiểm tra trước khi nộp” khi `complete`, không còn field thiếu và
+  validation thật sự là `ready_to_submit`; nguồn không có URL chỉ hiện tên, không tạo link rỗng.
+- Thêm 15 case `synthetic_grounded_qa.jsonl` có checksum và case extraction informational trong
+  `tests/evals/intent_cases.jsonl`. Đây là fixture tổng hợp, chưa phải accuracy của model thật.
+
+### Bằng chứng kiểm tra grounded Q&A
+
+| Gate | Kết quả |
+| --- | --- |
+| Renderer + conversation targeted | Pass: 91 test trước ba regression review cuối |
+| Chat API targeted | Pass: 5 test |
+| Form-sync API sau bump pack | Pass: 15 test |
+| Mypy strict | Pass: 90 source file trước regression review cuối |
+| Ruff lint/format | Pass: 93 file sau review cuối |
+| Frontend `npm run check` | Pass: lint, typecheck, 36 test, Next build 25 route |
+| Q&A fixture parse/checksum | Pass: 15 case, LF-normalized checksum khớp |
+
+Full Pytest lần đầu thu thập 313 test và phát hiện hai kỳ vọng cũ (`pack_version=2.0.0`) trong
+form-sync; chúng đã được sửa và suite form-sync đạt 15/15. Phiên công cụ sau đó hết hạn mức chạy ngoài
+sandbox; mặc dù `.venv` đã chạy được trong terminal người dùng, sandbox mặc định không đọc được Python
+user-level nên chưa chạy lại full Pytest/Mypy sau regression review cuối, chưa chạy live Q&A smoke và
+chưa tạo commit follow-up. Không công bố metric accuracy model từ fixture hoặc test mock.
+
+### Bổ sung xác minh sau khi phiên công cụ hết hạn mức
+
+- `.venv` là Python 3.11.9 và `vneguide` import được.
+- Full gate trên `.venv` đạt: Ruff lint/format pass, Mypy strict pass (91 source file), Pytest
+  `331 passed, 1 skipped` (kể cả form-sync 15/15 sau bump pack), `demoweb/npm run check` pass
+  (lint, typecheck, Node test, Next build 25 route).
+- Release audit thoát 0; chỉ còn cảnh báo định danh 12 chữ số trong `data/procedures/viec-lam/*`
+  (discovery seed, ngoài scope ba thủ tục, có trước thay đổi này).
+- `repository.verify_checksums()` trả sạch; ba pack ở `v2.1.0`, `status=approved`.
+- Provider smoke với `zai-org/GLM-5.2` qua HTTP gateway trả `MODEL_SMOKE_OK`.
+- E2E live (dữ liệu giả, không PII): câu "đăng ký tạm trú cần giấy tờ gì" → bot phân loại
+  `informational`, trả lời grounded từ checklist, cite `SRC-DVC-1004194`/`SRC-CIRC-53-2025`/
+  `SRC-LAW-154-2024`, đặt pending procedure, bridge sang form (`confirm_procedure`); lượt "Đúng"
+  kích hoạt form không gọi model; câu "lệ phí bao nhiêu" khi đang điền form trả lời phí đúng
+  (7.000đ/15.000đ cá nhân, 5.000đ/10.000đ theo danh sách, lưu ý kiểm tra chính thức) mà draft
+  revision và procedure không đổi.
+- Chưa push; tạo một commit follow-up trên `agent/senior-conversation-v2`.

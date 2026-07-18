@@ -3,7 +3,7 @@
   "procedure_code": "2.000635",
   "procedure_name": "Cấp bản sao Trích lục hộ tịch (bản sao Giấy khai sinh)",
   "jurisdiction": "Toàn quốc; pilot Hà Nội",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "status": "approved",
   "effective_from": null,
   "verified_at": "2026-07-17",
@@ -49,6 +49,23 @@
     },
     "result": "Bản sao Trích lục hộ tịch, bản sao Giấy khai sinh"
   },
+  "service_info_sources": {
+    "authority": [
+      "SRC-DVC-2000635"
+    ],
+    "channels": [
+      "SRC-DVC-2000635"
+    ],
+    "processing_time_display": [
+      "SRC-DVC-2000635"
+    ],
+    "fee": [
+      "SRC-DVC-2000635"
+    ],
+    "result": [
+      "SRC-DVC-2000635"
+    ]
+  },
   "forms": [
     {
       "form_id": "BIRTH-FORM-ONLINE",
@@ -79,9 +96,9 @@
     },
     {
       "item_id": "BIRTH-DOC-002",
-      "name": "Thông tin số định danh hoặc giấy tờ tùy thân còn giá trị của người yêu cầu",
+      "name": "Giấy tờ tùy thân còn giá trị của người yêu cầu",
       "requirement": "required",
-      "condition": "Trực tiếp phải xuất trình; trực tuyến không tải lại nếu hệ thống đã khai thác được.",
+      "condition": "Có thể dùng thông tin số định danh để đối chiếu; trực tiếp phải xuất trình giấy tờ, còn trực tuyến không tải lại nếu hệ thống đã khai thác được.",
       "source_ids": [
         "SRC-DVC-2000635"
       ]

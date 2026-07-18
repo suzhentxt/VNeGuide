@@ -17,13 +17,14 @@ from .providers import (
     ProviderTimeout,
     StructuredRequest,
 )
-from .schemas import ExtractionCatalog, ExtractionSchemaError
+from .schemas import ExtractionCatalog, ExtractionSchemaError, InformationRequest
 
 __all__ = [
     "ExtractionCatalog",
     "ExtractionOutcome",
     "ExtractionSchemaError",
     "ExtractionTurnContext",
+    "InformationRequest",
     "LLMConfig",
     "LLMProvider",
     "LiteLLMChatCompletionsProvider",
