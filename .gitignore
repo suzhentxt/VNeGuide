@@ -24,3 +24,11 @@ logs/
 
 # Local research inputs; never publish source workbooks.
 /data/DIALECT LEXICON_v2*.xlsx
+
+# Local-only Claude Code / MCP config and Playwright MCP artifacts
+.mcp.json
+
+# Local UI test screenshots
+*-check.png
+*-full.png
+chatbot-upload-panel.png
