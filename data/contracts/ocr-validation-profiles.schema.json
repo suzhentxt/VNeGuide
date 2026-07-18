@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vneguide.local/schemas/ocr-validation-profiles.schema.json",
+  "title": "VNeGuide OCR validation profiles",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "procedure_code", "profiles"],
+  "properties": {
+    "version": { "type": "string", "minLength": 1 },
+    "procedure_code": { "const": "1.004194" },
+    "profiles": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "document_kind",
+          "label",
+          "applicability",
+          "required_checks",
+          "excluded_conclusions",
+          "source_ids"
+        ],
+        "properties": {
+          "document_kind": {
+            "enum": ["legal_dwelling", "minor_consent"]
+          },
+          "label": { "type": "string", "minLength": 1 },
+          "applicability": { "type": "string", "minLength": 1 },
+          "required_checks": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "excluded_conclusions": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "source_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "pattern": "^SRC-" }
+          }
+        }
+      }
+    }
+  }
+}

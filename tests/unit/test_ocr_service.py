@@ -1,13 +1,16 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
-from pathlib import Path
 
-from vneguide.data import ProcedureRepository
-from vneguide.ocr import OcrBlock, OcrDocument, OcrResult, OcrService, PreparedPage
-from vneguide.ocr.errors import OcrBackendError
-
-ROOT = Path(__file__).resolve().parents[2]
+from vneguide.ocr import (
+    DocumentCheck,
+    DocumentKind,
+    ModelAssessment,
+    OcrBackendError,
+    OcrDocument,
+    OcrService,
+    PreparedPage,
+)
 
 
 class StubPreprocessor:
@@ -16,42 +19,67 @@ class StubPreprocessor:
 
 
 class StubBackend:
-    def __init__(self, blocks: tuple[OcrBlock, ...]) -> None:
-        self._blocks = blocks
+    def __init__(self, assessment: ModelAssessment | None = None, *, error: bool = False) -> None:
+        self.assessment = assessment
+        self.error = error
 
-    def extract(self, _pages: Sequence[PreparedPage]) -> tuple[OcrBlock, ...]:
-        return self._blocks
-
-
-class FailingBackend:
-    def extract(self, _pages: Sequence[PreparedPage]) -> tuple[OcrBlock, ...]:
-        raise OcrBackendError("inference_failed", "synthetic failure")
-
-
-def _service(backend: StubBackend | FailingBackend) -> OcrService:
-    return OcrService(StubPreprocessor(), backend, ProcedureRepository.discover(ROOT))
+    def assess(self, _kind: DocumentKind, _pages: Sequence[PreparedPage]) -> ModelAssessment:
+        if self.error:
+            raise OcrBackendError("provider_timeout", "safe")
+        assert self.assessment is not None
+        return self.assessment
 
 
-def test_service_validates_candidates_against_reviewed_catalog() -> None:
-    blocks = (
-        OcrBlock("text", (0.0, 0.0, 1.0, 0.1), 0, "TỜ KHAI THAY ĐỔI THÔNG TIN CƯ TRÚ"),
-        OcrBlock("text", (0.0, 0.1, 1.0, 0.2), 0, "Mẫu CT01"),
-        OcrBlock("text", (0.0, 0.2, 1.0, 0.3), 0, "Số định danh cá nhân: 000000000000"),
+def assessment(
+    kind: DocumentKind,
+    *,
+    result: str = "pass",
+    confidence: float = 0.95,
+) -> ModelAssessment:
+    codes = (
+        (
+            "document_type_match",
+            "readable_content",
+            "dwelling_location_present",
+            "dwelling_relationship_present",
+        )
+        if kind == "legal_dwelling"
+        else (
+            "document_type_match",
+            "readable_content",
+            "consent_statement_present",
+            "parent_guardian_role_present",
+        )
+    )
+    return ModelAssessment(
+        tuple(DocumentCheck(code, result, confidence) for code in codes),  # type: ignore[arg-type]
+        confidence,
     )
 
-    result = _service(StubBackend(blocks)).extract_ct01(OcrDocument(b"fake", "image/png"))
 
-    assert result.status == "succeeded"
-    assert [candidate.field_id for candidate in result.candidates] == ["applicant_personal_id"]
+def test_clear_relevant_document_passes() -> None:
+    service = OcrService(StubPreprocessor(), StubBackend(assessment("legal_dwelling")))
+    result = service.validate_document("legal_dwelling", OcrDocument(b"x", "image/png"))
+    assert result.status == "pass"
+    assert result.error_code is None
 
 
-def test_backend_failure_returns_manual_input_without_candidates() -> None:
-    result = _service(FailingBackend()).extract_ct01(OcrDocument(b"fake", "image/png"))
+def test_clear_wrong_document_fails() -> None:
+    wrong = assessment("minor_consent")
+    checks = list(wrong.checks)
+    checks[0] = DocumentCheck("document_type_match", "fail", 0.95)
+    service = OcrService(StubPreprocessor(), StubBackend(ModelAssessment(tuple(checks), 0.95)))
+    result = service.validate_document("minor_consent", OcrDocument(b"x", "image/png"))
+    assert result.status == "fail"
 
-    assert result == OcrResult(
-        status="manual_input",
-        document_type="uncertain",
-        warnings=("manual_input_available",),
-        error_code="inference_failed",
-        duration_ms=result.duration_ms,
+
+def test_ambiguous_or_provider_failure_requires_review() -> None:
+    ambiguous = OcrService(
+        StubPreprocessor(), StubBackend(assessment("minor_consent", confidence=0.70))
+    ).validate_document("minor_consent", OcrDocument(b"x", "image/png"))
+    unavailable = OcrService(StubPreprocessor(), StubBackend(error=True)).validate_document(
+        "legal_dwelling", OcrDocument(b"x", "image/png")
     )
+    assert ambiguous.status == "needs_review"
+    assert unavailable.status == "needs_review"
+    assert unavailable.error_code == "provider_timeout"

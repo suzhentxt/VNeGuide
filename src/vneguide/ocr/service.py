@@ -1,82 +1,103 @@
-"""OCR application service independent of HTTP and conversation state."""
+"""Deterministic, permissive decision layer for document validation OCR."""
 
 from __future__ import annotations
 
 import time
-from collections.abc import Callable
-
-from vneguide.data import ProcedureRepository
-from vneguide.domain import JSONValue, ProcedureCode
-from vneguide.rules import RuleEngine
 
 from .errors import OcrBackendError
-from .mapper import CT01TemplateMapper
-from .models import DocumentPreprocessor, OcrBackend, OcrDocument, OcrResult
+from .models import (
+    DocumentKind,
+    DocumentPreprocessor,
+    DocumentValidationBackend,
+    OcrDocument,
+    OcrResult,
+    OcrStatus,
+)
+
+PASS_CONFIDENCE = 0.75
+CLEAR_MISMATCH_CONFIDENCE = 0.90
+
+_REQUIRED_CHECKS: dict[DocumentKind, frozenset[str]] = {
+    "legal_dwelling": frozenset(
+        {
+            "document_type_match",
+            "readable_content",
+            "dwelling_location_present",
+            "dwelling_relationship_present",
+        }
+    ),
+    "minor_consent": frozenset(
+        {
+            "document_type_match",
+            "readable_content",
+            "consent_statement_present",
+            "parent_guardian_role_present",
+        }
+    ),
+}
 
 
 class OcrService:
     def __init__(
         self,
         preprocessor: DocumentPreprocessor,
-        backend: OcrBackend,
-        repository: ProcedureRepository,
-        *,
-        mapper: CT01TemplateMapper | None = None,
-        clock: Callable[[], float] = time.monotonic,
+        backend: DocumentValidationBackend,
     ) -> None:
         self._preprocessor = preprocessor
         self._backend = backend
-        self._rules = RuleEngine(repository)
-        self._mapper = mapper or CT01TemplateMapper()
-        self._clock = clock
 
-    def extract_ct01(self, document: OcrDocument) -> OcrResult:
-        started = self._clock()
+    def validate_document(
+        self,
+        document_kind: DocumentKind,
+        document: OcrDocument,
+    ) -> OcrResult:
+        started = time.monotonic()
         pages = self._preprocessor.prepare(document)
         try:
-            blocks = self._backend.extract(pages)
+            assessment = self._backend.assess(document_kind, pages)
         except OcrBackendError as exc:
             return OcrResult(
-                status="manual_input",
-                document_type="uncertain",
+                status="needs_review",
+                document_kind=document_kind,
+                warnings=("official_review_required",),
                 error_code=exc.code,
-                warnings=("manual_input_available",),
-                duration_ms=self._duration(started),
+                duration_ms=_duration_ms(started),
             )
-        mapped = self._mapper.map(blocks, validate_value=self._validate_value)
-        if mapped.document_type != "CT01":
-            return OcrResult(
-                status="manual_input",
-                document_type=mapped.document_type,
-                error_code="wrong_document_type",
-                warnings=mapped.warnings + ("manual_input_available",),
-                duration_ms=self._duration(started),
+
+        checks = {check.code: check for check in assessment.checks}
+        type_check = checks.get("document_type_match")
+        if (
+            type_check is not None
+            and type_check.result == "fail"
+            and type_check.confidence >= CLEAR_MISMATCH_CONFIDENCE
+        ):
+            decision: OcrStatus = "fail"
+            warnings: tuple[str, ...] = ("replace_wrong_document",)
+        elif (
+            assessment.overall_confidence >= PASS_CONFIDENCE
+            and _REQUIRED_CHECKS[document_kind].issubset(checks)
+            and all(
+                checks[code].result == "pass" and checks[code].confidence >= PASS_CONFIDENCE
+                for code in _REQUIRED_CHECKS[document_kind]
             )
-        if not mapped.candidates:
-            return OcrResult(
-                status="manual_input",
-                document_type="CT01",
-                error_code="no_fields_recognized",
-                warnings=mapped.warnings + ("manual_input_available",),
-                duration_ms=self._duration(started),
-            )
+        ):
+            decision = "pass"
+            warnings = ()
+        else:
+            decision = "needs_review"
+            warnings = ("official_review_required",)
+
         return OcrResult(
-            status="succeeded",
-            document_type="CT01",
-            candidates=mapped.candidates,
-            warnings=mapped.warnings,
-            duration_ms=self._duration(started),
+            status=decision,
+            document_kind=document_kind,
+            checks=assessment.checks,
+            warnings=warnings,
+            duration_ms=_duration_ms(started),
         )
 
-    def _validate_value(self, field_id: str, value: JSONValue) -> None:
-        self._rules.validate_field_value(
-            ProcedureCode.TEMPORARY_RESIDENCE_REGISTRATION,
-            field_id,
-            value,
-        )
 
-    def _duration(self, started: float) -> int:
-        return max(0, round((self._clock() - started) * 1_000))
+def _duration_ms(started: float) -> int:
+    return max(0, int((time.monotonic() - started) * 1_000))
 
 
-__all__ = ["OcrService"]
+__all__ = ["CLEAR_MISMATCH_CONFIDENCE", "OcrService", "PASS_CONFIDENCE"]

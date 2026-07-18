@@ -1,40 +1,40 @@
-"""Local, suggestion-only OCR support for the reviewed CT01 hero form."""
+"""Public document-validation OCR API."""
 
 from .config import OcrConfig, load_ocr_config
 from .errors import OcrBackendError, OcrError, OcrInputError
-from .mapper import CT01TemplateMapper
 from .models import (
+    CheckResult,
+    DocumentCheck,
+    DocumentKind,
     DocumentPreprocessor,
-    OcrBackend,
-    OcrBlock,
-    OcrCandidate,
-    OcrCandidateSink,
+    DocumentValidationBackend,
+    ModelAssessment,
     OcrDocument,
-    OcrMappingResult,
     OcrResult,
+    OcrStatus,
     PreparedPage,
 )
 from .preprocess import SafeDocumentPreprocessor
-from .provider import QwenVisionBackend
+from .provider import OpenAIDocumentValidationBackend
 from .service import OcrService
 
 __all__ = [
-    "CT01TemplateMapper",
+    "CheckResult",
+    "DocumentCheck",
+    "DocumentKind",
     "DocumentPreprocessor",
-    "OcrBackend",
+    "DocumentValidationBackend",
+    "ModelAssessment",
     "OcrBackendError",
-    "OcrBlock",
-    "OcrCandidate",
-    "OcrCandidateSink",
     "OcrConfig",
     "OcrDocument",
     "OcrError",
     "OcrInputError",
-    "OcrMappingResult",
     "OcrResult",
     "OcrService",
+    "OcrStatus",
+    "OpenAIDocumentValidationBackend",
     "PreparedPage",
     "SafeDocumentPreprocessor",
-    "QwenVisionBackend",
     "load_ocr_config",
 ]

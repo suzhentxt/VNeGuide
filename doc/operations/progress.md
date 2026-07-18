@@ -1,5 +1,31 @@
 # Nhật ký tiến độ VNeGuide
 
+## 2026-07-19 — OCR kiểm tra nhẹ tài liệu ở bước 2 đăng ký tạm trú
+
+- Thay OCR CT01 cũ bằng một luồng OCR duy nhất, tách worker khỏi API hội thoại. Luồng mới chỉ hỗ trợ
+  `1.004194` và hai loại tài liệu: giấy tờ chứng minh chỗ ở hợp pháp khi dữ liệu không khai thác được,
+  và ý kiến đồng ý của cha/mẹ/người giám hộ khi người đăng ký là người chưa thành niên.
+- OCR dùng OpenAI Responses API với model cấu hình riêng (`VNEGUIDE_OCR_MODEL`, mặc định `gpt-5.5`),
+  không dùng key/model chatbot. Kết quả chỉ gồm các tiêu chí cố định, độ tin cậy và trạng thái
+  `pass`/`needs_review`/`fail`; không trả raw OCR, không tự điền draft và không đưa ra kết luận pháp lý.
+- Bước 2 và chatbot dùng chung hai card tải tệp. `pass` cho phép tiếp tục; `needs_review` yêu cầu người
+  dùng xác nhận đã tự kiểm tra; chỉ `fail` khi model nhận diện rõ sai loại tài liệu. Lỗi provider/timeout
+  chuyển sang kiểm tra thủ công, không khóa hồ sơ vô thời hạn. Nộp hồ sơ trên demo vẫn chỉ là mô phỏng.
+- Thêm BFF server-only, polling job, giới hạn MIME/kích thước, token worker không lộ ra trình duyệt;
+  thêm OCR service vào Docker Compose. Chỉ dùng tài liệu tổng hợp/ẩn danh trong môi trường demo.
+- Thêm hai ảnh PNG tổng hợp để thử trực tiếp tại `tests/fixtures/ocr/demo_documents/` và script tái tạo
+  `tests/fixtures/ocr/generate_demo_documents.py`. Ảnh có watermark không có giá trị pháp lý và không
+  chứa dữ liệu cá nhân thật.
+- Gate đã đạt: Ruff lint/format, mypy strict (107 source), full pytest `408 passed, 1 skipped`, coverage
+  `82.38%`; frontend `npm run check` đạt lint, typecheck, 35 test và Next production build (26 page/route).
+  Data package audit đạt. Live smoke bằng hai PNG tổng hợp qua `gpt-5.5` đều `pass`: giấy chỗ ở có bốn
+  tiêu chí ở mức `0.98–0.99` trong 7,218 ms; giấy đồng ý có bốn tiêu chí ở mức `0.98–0.99` trong
+  3,781 ms. Full-index release audit chạm timeout 6 phút trên Windows; bounded audit tương đương trên
+  37 file staged đạt (30 file text, không có secret/PII/conflict marker). Máy kiểm tra không có Docker CLI
+  trong `PATH`, nên chưa chạy được `docker compose config`.
+- Không sửa conversation core, rule engine, schema draft hay ground truth. Phần OCR CT01 trong các mục
+  cũ phía dưới đã bị mục này thay thế và không còn được sử dụng.
+
 ## 2026-07-18 — Grounded conversational NLG (thay deterministic templates)
 
 - Trước đây mọi câu trả lời assistant đều là template deterministic: lời chào/social talk bị

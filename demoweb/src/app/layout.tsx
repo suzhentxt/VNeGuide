@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 
 import { ChatWidget } from "@/components/chat/ChatWidget";
+import { DocumentValidationProvider } from "@/components/ocr/DocumentValidationProvider";
 import { ProcedureWorkspaceProvider } from "@/components/workspace/ProcedureWorkspaceProvider";
 
 import "./globals.css";
@@ -97,8 +98,10 @@ export default function RootLayout({
           </div>
         </aside>
         <ProcedureWorkspaceProvider>
-          {children}
-          <ChatWidget />
+          <DocumentValidationProvider>
+            {children}
+            <ChatWidget />
+          </DocumentValidationProvider>
         </ProcedureWorkspaceProvider>
       </body>
     </html>

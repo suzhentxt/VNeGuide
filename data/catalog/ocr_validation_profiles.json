@@ -1,0 +1,41 @@
+{
+  "version": "1.0.0",
+  "procedure_code": "1.004194",
+  "profiles": [
+    {
+      "document_kind": "legal_dwelling",
+      "label": "Giấy tờ chứng minh chỗ ở hợp pháp",
+      "applicability": "legal_dwelling_data_retrievable == false",
+      "required_checks": [
+        "document_type_match",
+        "readable_content",
+        "dwelling_location_present",
+        "dwelling_relationship_present"
+      ],
+      "excluded_conclusions": [
+        "signature_authenticity",
+        "legal_validity",
+        "ownership_verification",
+        "notarization_requirement"
+      ],
+      "source_ids": ["SRC-DVC-1004194", "SRC-LAW-154-2024"]
+    },
+    {
+      "document_kind": "minor_consent",
+      "label": "Ý kiến đồng ý của cha, mẹ hoặc người giám hộ",
+      "applicability": "applicant_is_minor == true and minor_consent_present != true",
+      "required_checks": [
+        "document_type_match",
+        "readable_content",
+        "consent_statement_present",
+        "parent_guardian_role_present"
+      ],
+      "excluded_conclusions": [
+        "signature_authenticity",
+        "identity_verification",
+        "legal_validity"
+      ],
+      "source_ids": ["SRC-DVC-1004194", "SRC-CIRC-53-2025"]
+    }
+  ]
+}

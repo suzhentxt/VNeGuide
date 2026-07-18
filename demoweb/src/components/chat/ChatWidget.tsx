@@ -22,6 +22,7 @@ import {
   procedureContexts,
 } from "@/data/chat-scope";
 import { getEnumLabel } from "@/data/guided-fields";
+import { DocumentUploadCard } from "@/components/ocr/DocumentUploadCard";
 import { useProcedureWorkspace } from "@/components/workspace/ProcedureWorkspaceProvider";
 import { getChatValidationPresentation } from "@/lib/chat-presentation";
 import { getChatReplyOptions } from "@/lib/chat-reply-options";
@@ -62,6 +63,7 @@ export function ChatWidget() {
   });
   const [walletNotice, setWalletNotice] = useState<string | null>(null);
   const [declarationCompleted, setDeclarationCompleted] = useState(false);
+  const [documentStepActive, setDocumentStepActive] = useState(false);
   const [fieldEntry, setFieldEntry] = useState({ fieldId: "", value: "" });
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -128,6 +130,15 @@ export function ChatWidget() {
     };
     window.addEventListener("vneguide:declaration-completed", onDeclarationCompleted);
     return () => window.removeEventListener("vneguide:declaration-completed", onDeclarationCompleted);
+  }, []);
+
+  useEffect(() => {
+    const onDocumentStepEntered = () => {
+      setDocumentStepActive(true);
+      setOpen(true);
+    };
+    window.addEventListener("vneguide:document-step-entered", onDocumentStepEntered);
+    return () => window.removeEventListener("vneguide:document-step-entered", onDocumentStepEntered);
   }, []);
 
   function confirmProcedure() {
@@ -333,6 +344,17 @@ export function ChatWidget() {
                 </div>
               ))}
             </div>
+
+            {documentStepActive && context.procedure_code === "1.004194" ? (
+              <section className="space-y-3 rounded-xl border-2 border-[#ce7a58] bg-[#fff8f5] p-3">
+                <div>
+                  <p className="font-extrabold text-[#903938]">Kiểm tra giấy tờ ở bước 2</p>
+                  <p className="mt-1 text-sm leading-6 text-[#52606d]">Bạn có thể tải tài liệu demo hoặc đã ẩn danh. OCR chỉ sàng lọc nhẹ và không kết luận giá trị pháp lý.</p>
+                </div>
+                <DocumentUploadCard compact kind="legal_dwelling" />
+                <DocumentUploadCard compact kind="minor_consent" />
+              </section>
+            ) : null}
 
             {needsServiceConfirmation && selectedProcedure ? (
               <section
