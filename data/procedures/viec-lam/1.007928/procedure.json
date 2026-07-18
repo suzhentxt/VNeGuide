@@ -1,0 +1,354 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfa-4805-726c-9c16-1c9caf4aee05",
+  "procedure_code": "1.007928",
+  "title": "Cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfa-4805-726c-9c16-1c9caf4aee05",
+    "source_file": "chi-tiet-thu-tuc-1.007928.pdf",
+    "source_path": "procedures/viec-lam/1.007928/chi-tiet-thu-tuc-1.007928.pdf",
+    "page_count": 9,
+    "extracted_at": "2026-07-18T05:00:20.509510+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "435cd43ecbfc11e8fa935d7e67215066a6d8e824b8742abf470765ec8e127832"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1674/QĐ-BNNMT",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Trồng trọt và Bảo vệ thực vật",
+  "target_users": [
+    "Doanh nghiệp",
+    "Doanh nghiệp Việt Nam",
+    "Doanh nghiệp có vốn đầu tư nước ngoài",
+    "Công dân Việt Nam",
+    "Người nước ngoài",
+    "Tổ chức nước ngoài",
+    "Hợp tác xã",
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Người Việt Nam định cư ở nước ngoài"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Cơ quan chức năng do Ủy ban nhân dân cấp tỉnh chỉ định"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1: Tổ chức, cá nhân nộp 01 bộ hồ sơ đề nghị cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón đến cơ quan được Chủ tịch Ủy ban nhân dân cấp tỉnh giao tiếp nhận hồ sơ giải quyết thủ tục hành chính (nơi tổ chức, cá nhân đặt nhà máy sản xuất) bằng hình thức trực tiếp hoặc môi trường mạng hoặc qua dịch vụ bưu chính.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "Bước 2: Cơ quan được Chủ tịch Ủy ban nhân dân cấp tỉnh giao tiếp nhận hồ sơ giải quyết thủ tục hành chính trả lời ngay tính đầy đủ của hồ sơ đối với trường hợp nộp trực tiếp; trả lời bằng văn bản tính đầy đủ của hồ sơ trong 01 ngày làm việc đối với trường hợp nộp hồ sơ qua môi trường mạng hoặc qua dịch vụ bưu chính.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "Bước 3: Trong thời hạn 17 ngày làm việc đối với trường hợp cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón hết hạn; thay đổi về địa điểm sản xuất phân bón; thay đổi về loại phân bón, dạng phân bón, công suất sản xuất trong Giấy chứng nhận đủ điều kiện sản xuất phân bón thực hiện theo quy định tại điểm c khoản 1 Điều 17 Nghị định số 84/2019/NĐ-CP (được sửa đổi, bổ sung tại Điều 11 Nghị định số 33/2026/NĐ-CP); trong thời hạn 02 ngày làm việc đối với trường hợp cấp lại Giấy chứng nhận thay đổi nội dung thông tin tổ chức, cá nhân ghi trên Giấy chứng nhận, kể từ ngày nhận đủ hồ sơ hợp lệ, cơ quan được Chủ tịch Ủy ban nhân dân cấp tỉnh giao giải quyết thủ tục hành chính tổ chức thẩm định và trình Chủ tịch Ủy ban nhân dân cấp tỉnh.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 4,
+      "title": "Bước 4",
+      "description": "Bước 4: Trong thời hạn 03 ngày làm việc kể từ ngày nhận được hồ sơ trình của cơ quan được Chủ tịch Ủy ban nhân dân cấp tỉnh giao giải quyết thủ tục hành chính, Chủ tịch Ủy ban nhân dân cấp tỉnh xem xét, quyết định cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón theo Mẫu số 28 Phụ lục I ban hành kèm theo Nghị định số 33/2026/NĐ-CP; trường hợp không cấp lại, trả lời bằng văn bản và nêu rõ lý do.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 5,
+      "title": "Bước 5",
+      "description": "Bước 5: Cơ quan được Chủ tịch Ủy ban nhân dân cấp tỉnh giao giải quyết thủ tục hành chính đăng tải Giấy chứng nhận đủ điều kiện sản xuất phân bón trên Cổng thông tin điện tử của cơ quan ngay sau khi cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "(i) Trường hợp Giấy chứng nhận đủ điều kiện sản xuất phân bón hết hạn:  * Trước thời hạn 03 tháng kể từ ngày Giấy chứng nhận đủ điều kiện sản xuất phân bón hết hạn, tổ chức, cá nhân sản xuất phân bón có nhu cầu tiếp tục sản xuất phân bón phải nộp hồ sơ gồm:: Đơn đề nghị cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón theo Mẫu số 25 Phụ lục I ban hành kèm theo Nghị định số 33/2026/NĐ-CP",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu số 25.docx",
+        "source_page": 2
+      },
+      {
+        "name": "(i) Trường hợp Giấy chứng nhận đủ điều kiện sản xuất phân bón hết hạn:  * Trước thời hạn 03 tháng kể từ ngày Giấy chứng nhận đủ điều kiện sản xuất phân bón hết hạn, tổ chức, cá nhân sản xuất phân bón có nhu cầu tiếp tục sản xuất phân bón phải nộp hồ sơ gồm:: Bản thuyết minh về điều kiện sản xuất phân bón theo Mẫu số 26 Phụ lục I ban hành kèm theo Nghị định số  33/2026/NĐ-CP",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu số 26.docx",
+        "source_page": 3
+      },
+      {
+        "name": "(ii) Trường hợp hồ sơ không thay đổi: Đơn đề nghị cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón theo Mẫu số 25 Phụ lục I ban hành kèm theo Nghị định số  33/2026/NĐ-CP",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu số 25.docx",
+        "source_page": 2
+      },
+      {
+        "name": "(iii) Trường hợp thay đổi nội dung thông tin tổ chức, cá nhân ghi trên Giấy chứng nhận đủ điều kiện sản xuất phân bón: *Đơn đề nghị cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón theo Mẫu số 25 Phụ lục I ban hành kèm theo Nghị định số 33/2026/NĐ-CP",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu số 25.docx",
+        "source_page": 2
+      },
+      {
+        "name": "(iv) Trường hợp thay đổi về địa điểm sản xuất phân bón: .Đơn đề nghị cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón theo Mẫu số 25 Phụ lục I ban hành kèm theo Nghị định số 33/2026/NĐ-CP",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu số 25.docx",
+        "source_page": 2
+      },
+      {
+        "name": "(iv) Trường hợp thay đổi về địa điểm sản xuất phân bón: +Bản thuyết minh về điều kiện sản xuất phân bón theo Mẫu số 26 Phụ lục I ban hành kèm theo Nghị định số 33/2026/NĐ-CP",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu số 26.docx",
+        "source_page": 3
+      },
+      {
+        "name": "(v)Trường hợp thay đổi về loại phân bón, dạng phân bón, công suất sản xuất trong Giấy chứng nhận đủ điều kiện sản xuất phân bón: *Bản thuyết minh về điều kiện sản xuất phân bón theo Mẫu số 26 Phụ lục I ban hành kèm theo Nghị định số 33/2026/NĐ-CP",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu số 26.docx",
+        "source_page": 3
+      },
+      {
+        "name": "(v)Trường hợp thay đổi về loại phân bón, dạng phân bón, công suất sản xuất trong Giấy chứng nhận đủ điều kiện sản xuất phân bón: ,Đơn đề nghị cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón theo Mẫu số 25 Phụ lục I ban hành kèm theo Nghị định số 33/2026/NĐ-CP",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu số 25.docx",
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "(i) Trường hợp Giấy chứng nhận đủ điều kiện sản xuất phân bón hết hạn:  * Trước thời hạn 03 tháng kể từ ngày Giấy chứng nhận đủ điều kiện sản xuất phân bón hết hạn, tổ chức, cá nhân sản xuất phân bón có nhu cầu tiếp tục sản xuất phân bón phải nộp hồ sơ gồm:: -Bản sao Bằng tốt nghiệp đại học trở lên của người trực tiếp điều hành sản xuất quy định tại điểm e khoản 2 Điều 41 Luật Trồng trọt",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "(iii) Trường hợp thay đổi nội dung thông tin tổ chức, cá nhân ghi trên Giấy chứng nhận đủ điều kiện sản xuất phân bón: Bản chính Giấy chứng nhận đủ điều kiện sản xuất phân bón đã được cấp",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "(iv) Trường hợp thay đổi về địa điểm sản xuất phân bón: *Bản chính Giấy chứng nhận đủ điều kiện sản xuất phân bón đã được cấp",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "(iv) Trường hợp thay đổi về địa điểm sản xuất phân bón: +Bản sao Bằng tốt nghiệp đại học trở lên của người trực tiếp điều hành sản xuất quy định tại điểm e khoản 2 Điều 41 Luật Trồng trọt",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "(v)Trường hợp thay đổi về loại phân bón, dạng phân bón, công suất sản xuất trong Giấy chứng nhận đủ điều kiện sản xuất phân bón: .Bản chính Giấy chứng nhận đủ điều kiện sản xuất phân bón đã được cấp",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "20 ngày làm việc",
+      "fee": "Phí thẩm định cấp lại giấy chứng nhận đủ điều kiện sản xuất phân bón (trừ cơ sở chỉ hoạt động đóng gói phân bón); Phí thẩm định cấp lại giấy chứng nhận đủ điều kiện sản xuất phân bón, đối với cơ sở chỉ hoạt động đóng gói phân bón",
+      "description": "- 20 ngày làm việc đối với trường hợp cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón hết hạn; thay đổi về địa điểm sản xuất phân bón; thay đổi về loại phân bón, dạng phân bón, công suất sản xuất trong Giấy chứng nhận đủ điều kiện sản xuất phân bón (kể từ ngày nhận đủ hồ sơ, không tính thời gian khắc phục nếu có của tổ chức, cá nhân). \n- 05 ngày làm việc đối với trường hợp cấp lại Giấy chứng nhận thay đổi nội dung thông tin tổ chức, cá nhân ghi trên Giấy chứng nhận (kể từ ngày nhận đủ hồ sơ hợp lệ, không tính thời gian khắc phục nếu có của tổ chức, cá nhân).",
+      "source_page": 5
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "20 ngày làm việc",
+      "fee": "Phí thẩm định cấp lại giấy chứng nhận đủ điều kiện sản xuất phân bón (trừ cơ sở chỉ hoạt động đóng gói phân bón); Phí thẩm định cấp lại giấy chứng nhận đủ điều kiện sản xuất phân bón, đối với cơ sở chỉ hoạt động đóng gói phân bón",
+      "description": "- 20 ngày làm việc đối với trường hợp cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón hết hạn; thay đổi về địa điểm sản xuất phân bón; thay đổi về loại phân bón, dạng phân bón, công suất sản xuất trong Giấy chứng nhận đủ điều kiện sản xuất phân bón (kể từ ngày nhận đủ hồ sơ, không tính thời gian khắc phục nếu có của tổ chức, cá nhân). \n- 05 ngày làm việc đối với trường hợp cấp lại Giấy chứng nhận thay đổi nội dung thông tin tổ chức, cá nhân ghi trên Giấy chứng nhận (kể từ ngày nhận đủ hồ sơ hợp lệ, không tính thời gian khắc phục nếu có của tổ chức, cá nhân).",
+      "source_page": 5
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "20 ngày làm việc",
+      "fee": "Phí thẩm định cấp lại giấy chứng nhận đủ điều kiện sản xuất phân bón (trừ cơ sở chỉ hoạt động đóng gói phân bón); Phí thẩm định cấp lại giấy chứng nhận đủ điều kiện sản xuất phân bón, đối với cơ sở chỉ hoạt động đóng gói phân bón",
+      "description": "- 20 ngày làm việc đối với trường hợp cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón hết hạn; thay đổi về địa điểm sản xuất phân bón; thay đổi về loại phân bón, dạng phân bón, công suất sản xuất trong Giấy chứng nhận đủ điều kiện sản xuất phân bón (kể từ ngày nhận đủ hồ sơ, không tính thời gian khắc phục nếu có của tổ chức, cá nhân). \n- 05 ngày làm việc đối với trường hợp cấp lại Giấy chứng nhận thay đổi nội dung thông tin tổ chức, cá nhân ghi trên Giấy chứng nhận (kể từ ngày nhận đủ hồ sơ hợp lệ, không tính thời gian khắc phục nếu có của tổ chức, cá nhân).",
+      "source_page": 5
+    }
+  ],
+  "fees": {
+    "summary": "Phí thẩm định cấp lại giấy chứng nhận đủ điều kiện sản xuất phân bón (trừ cơ sở chỉ hoạt động đóng gói phân bón); Phí thẩm định cấp lại giấy chứng nhận đủ điều kiện sản xuất phân bón, đối với cơ sở chỉ hoạt động đóng gói phân bón",
+    "status": "varies_by_submission_method",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "Phí thẩm định cấp lại giấy chứng nhận đủ điều kiện sản xuất phân bón (trừ cơ sở chỉ hoạt động đóng gói phân bón)",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "Phí thẩm định cấp lại giấy chứng nhận đủ điều kiện sản xuất phân bón, đối với cơ sở chỉ hoạt động đóng gói phân bón",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "Phí thẩm định cấp lại giấy chứng nhận đủ điều kiện sản xuất phân bón (trừ cơ sở chỉ hoạt động đóng gói phân bón)",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "Phí thẩm định cấp lại giấy chứng nhận đủ điều kiện sản xuất phân bón, đối với cơ sở chỉ hoạt động đóng gói phân bón",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "Phí thẩm định cấp lại giấy chứng nhận đủ điều kiện sản xuất phân bón (trừ cơ sở chỉ hoạt động đóng gói phân bón)",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "Phí thẩm định cấp lại giấy chứng nhận đủ điều kiện sản xuất phân bón, đối với cơ sở chỉ hoạt động đóng gói phân bón",
+        "is_free": false,
+        "source_page": null
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "quy định chi tiết một số điều của Luật Bảo vệ và kiểm dịch thực vật, Luật Trồng trọt và sửa đổi, bổ sung một số điều của các thông tư trong lĩnh vực trồng trọt và bảo vệ thực vật",
+      "document_number": "số 07/2026/TT-BNNMT",
+      "source_page": 8
+    },
+    {
+      "title": "sửa đổi, bổ sung một số điều của các Nghị định trong lĩnh vực trồng trọt và bảo vệ thực vật",
+      "document_number": "Nghị định số 33/2026/NĐ-CP",
+      "source_page": 8
+    },
+    {
+      "title": "Luật sửa đổi, bổ sung một số điều của 15 luật trong lĩnh vực nông nghiệp và môi trường",
+      "document_number": "Luật số 146/2025/QH15",
+      "source_page": 8
+    },
+    {
+      "title": "Luật Trồng trọt",
+      "document_number": "Luật số 31/2018/QH14",
+      "source_page": 2
+    },
+    {
+      "title": "Thông tư 14/2018/TT-BTC",
+      "document_number": "14/2018/TT-BCT",
+      "source_page": 8
+    },
+    {
+      "title": "quy định về quản lý phân bón",
+      "document_number": "Nghị định 84/2019/NĐ-CP",
+      "source_page": 8
+    },
+    {
+      "title": "Về cắt giảm, phân cấp, đơn giản hóa thủ tục hành chính và cắt giảm, đơn giản hóa điều kiện kinh doanh thuộc phạm vi quản lý của Bộ Nông nghiệp và Môi trường",
+      "document_number": "17/2026/NQ-CP",
+      "source_page": 8
+    }
+  ],
+  "conditions": "Điều kiện cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón bao gồm:\n- Có địa điểm sản xuất, diện tích nhà xưởng phù hợp với quy mô sản xuất: Khu sản xuất có tường, trần, vách ngăn, cửa bảo đảm yêu cầu về kiểm soát chất lượng.\n- Có dây chuyền, máy móc, thiết bị phù hợp với quy trình sản xuất từng loại, dạng phân bón: Dây chuyền, máy móc, thiết bị sản xuất phân bón phải phù hợp với quy trình sản xuât từng loại phân bón, dạng phân bón quy định tại Phụ lục II ban hành kèm theo Nghị định số 84/2019/NĐ-CP.\n- Có khu vực chứa nguyên liệu và khu vực thành phẩm riêng biệt;\n- Người trực tiếp điều hành sản xuất phải có trình độ từ đại học trở lên thuộc một trong các chuyên ngành về trồng trọt, bảo vệ thực vật, nông hóa thổ nhưỡng, khoa học đất, nông học, hóa học, sinh học.",
+  "results": [
+    {
+      "title": "-Giấy chứng nhận đủ điều kiện sản xuất phân bón (theo Mẫu số 28 Phụ lục I ban hành kèm theo Nghị định số 33/2026/NĐ-CP)",
+      "code": "KQ.G10.001357",
+      "source_page": 2
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1: Tổ chức, cá nhân nộp 01 bộ hồ sơ đề nghị cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón đến cơ quan được Chủ tịch Ủy ban nhân dân cấp tỉnh giao tiếp nhận hồ sơ giải quyết thủ tục hành chính (nơi tổ chức, cá nhân đặt nhà máy sản xuất) bằng hình thức trực tiếp hoặc môi trường mạng hoặc qua dịch vụ bưu chính.\nBước 2: Cơ quan được Chủ tịch Ủy ban nhân dân cấp tỉnh giao tiếp nhận hồ sơ giải quyết thủ tục hành chính trả lời ngay tính đầy đủ của hồ sơ đối với trường hợp nộp trực tiếp; trả lời bằng văn bản tính đầy đủ của hồ sơ trong 01 ngày làm việc đối với trường hợp nộp hồ sơ qua môi trường mạng hoặc qua dịch vụ bưu chính.\nBước 3: Trong thời hạn 17 ngày làm việc đối với trường hợp cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón hết hạn; thay đổi về địa điểm sản xuất phân bón; thay đổi về loại phân bón, dạng phân bón, công suất sản xuất trong Giấy chứng nhận đủ điều kiện sản xuất phân bón thực hiện theo quy định tại điểm c khoản 1 Điều 17 Nghị định số 84/2019/NĐ-CP (được sửa đổi, bổ sung tại Điều 11 Nghị định số 33/2026/NĐ-CP); trong thời hạn 02 ngày làm việc đối với trường hợp cấp lại Giấy chứng nhận thay đổi nội dung thông tin tổ chức, cá nhân ghi trên Giấy chứng nhận, kể từ ngày nhận đủ hồ sơ hợp lệ, cơ quan được Chủ tịch Ủy ban nhân dân cấp tỉnh giao giải quyết thủ tục hành chính tổ chức thẩm định và trình Chủ tịch Ủy ban nhân dân cấp tỉnh.\nBước 4: Trong thời hạn 03 ngày làm việc kể từ ngày nhận được hồ sơ trình của cơ quan được Chủ tịch Ủy ban nhân dân cấp tỉnh giao giải quyết thủ tục hành chính, Chủ tịch Ủy ban nhân dân cấp tỉnh xem xét, quyết định cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón theo Mẫu số 28 Phụ lục I ban hành kèm theo Nghị định số 33/2026/NĐ-CP; trường hợp không cấp lại, trả lời bằng văn bản và nêu rõ lý do.\nBước 5: Cơ quan được Chủ tịch Ủy ban nhân dân cấp tỉnh giao giải quyết thủ tục hành chính đăng tải Giấy chứng nhận đủ điều kiện sản xuất phân bón trên Cổng thông tin điện tử của cơ quan ngay sau khi cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón.",
+    "THÀNH PHẦN HỒ SƠ": "(i) Trường hợp Giấy chứng nhận đủ điều kiện sản xuất phân bón hết hạn:  * Trước thời hạn 03 tháng kể từ ngày Giấy chứng nhận đủ điều kiện sản xuất phân bón hết hạn, tổ chức, cá nhân sản xuất phân bón có nhu cầu tiếp tục sản xuất phân bón phải nộp hồ sơ gồm:: Đơn đề nghị cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón theo Mẫu số 25 Phụ lục I ban hành kèm theo Nghị định số 33/2026/NĐ-CP\n(i) Trường hợp Giấy chứng nhận đủ điều kiện sản xuất phân bón hết hạn:  * Trước thời hạn 03 tháng kể từ ngày Giấy chứng nhận đủ điều kiện sản xuất phân bón hết hạn, tổ chức, cá nhân sản xuất phân bón có nhu cầu tiếp tục sản xuất phân bón phải nộp hồ sơ gồm:: Bản thuyết minh về điều kiện sản xuất phân bón theo Mẫu số 26 Phụ lục I ban hành kèm theo Nghị định số  33/2026/NĐ-CP\n(ii) Trường hợp hồ sơ không thay đổi: Đơn đề nghị cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón theo Mẫu số 25 Phụ lục I ban hành kèm theo Nghị định số  33/2026/NĐ-CP\n(iii) Trường hợp thay đổi nội dung thông tin tổ chức, cá nhân ghi trên Giấy chứng nhận đủ điều kiện sản xuất phân bón: *Đơn đề nghị cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón theo Mẫu số 25 Phụ lục I ban hành kèm theo Nghị định số 33/2026/NĐ-CP\n(iv) Trường hợp thay đổi về địa điểm sản xuất phân bón: .Đơn đề nghị cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón theo Mẫu số 25 Phụ lục I ban hành kèm theo Nghị định số 33/2026/NĐ-CP\n(iv) Trường hợp thay đổi về địa điểm sản xuất phân bón: +Bản thuyết minh về điều kiện sản xuất phân bón theo Mẫu số 26 Phụ lục I ban hành kèm theo Nghị định số 33/2026/NĐ-CP\n(v)Trường hợp thay đổi về loại phân bón, dạng phân bón, công suất sản xuất trong Giấy chứng nhận đủ điều kiện sản xuất phân bón: *Bản thuyết minh về điều kiện sản xuất phân bón theo Mẫu số 26 Phụ lục I ban hành kèm theo Nghị định số 33/2026/NĐ-CP\n(v)Trường hợp thay đổi về loại phân bón, dạng phân bón, công suất sản xuất trong Giấy chứng nhận đủ điều kiện sản xuất phân bón: ,Đơn đề nghị cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón theo Mẫu số 25 Phụ lục I ban hành kèm theo Nghị định số 33/2026/NĐ-CP\n(i) Trường hợp Giấy chứng nhận đủ điều kiện sản xuất phân bón hết hạn:  * Trước thời hạn 03 tháng kể từ ngày Giấy chứng nhận đủ điều kiện sản xuất phân bón hết hạn, tổ chức, cá nhân sản xuất phân bón có nhu cầu tiếp tục sản xuất phân bón phải nộp hồ sơ gồm:: -Bản sao Bằng tốt nghiệp đại học trở lên của người trực tiếp điều hành sản xuất quy định tại điểm e khoản 2 Điều 41 Luật Trồng trọt\n(iii) Trường hợp thay đổi nội dung thông tin tổ chức, cá nhân ghi trên Giấy chứng nhận đủ điều kiện sản xuất phân bón: Bản chính Giấy chứng nhận đủ điều kiện sản xuất phân bón đã được cấp\n(iv) Trường hợp thay đổi về địa điểm sản xuất phân bón: *Bản chính Giấy chứng nhận đủ điều kiện sản xuất phân bón đã được cấp\n(iv) Trường hợp thay đổi về địa điểm sản xuất phân bón: +Bản sao Bằng tốt nghiệp đại học trở lên của người trực tiếp điều hành sản xuất quy định tại điểm e khoản 2 Điều 41 Luật Trồng trọt\n(v)Trường hợp thay đổi về loại phân bón, dạng phân bón, công suất sản xuất trong Giấy chứng nhận đủ điều kiện sản xuất phân bón: .Bản chính Giấy chứng nhận đủ điều kiện sản xuất phân bón đã được cấp",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 20 ngày làm việc\nQua dịch vụ bưu chính: 20 ngày làm việc\nTrực tiếp: 20 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "quy định chi tiết một số điều của Luật Bảo vệ và kiểm dịch thực vật, Luật Trồng trọt và sửa đổi, bổ sung một số điều của các thông tư trong lĩnh vực trồng trọt và bảo vệ thực vật - số 07/2026/TT-BNNMT\nsửa đổi, bổ sung một số điều của các Nghị định trong lĩnh vực trồng trọt và bảo vệ thực vật - Nghị định số 33/2026/NĐ-CP\nLuật sửa đổi, bổ sung một số điều của 15 luật trong lĩnh vực nông nghiệp và môi trường - Luật số 146/2025/QH15\nLuật Trồng trọt - Luật số 31/2018/QH14\nThông tư 14/2018/TT-BTC - 14/2018/TT-BCT\nquy định về quản lý phân bón - Nghị định 84/2019/NĐ-CP\nVề cắt giảm, phân cấp, đơn giản hóa thủ tục hành chính và cắt giảm, đơn giản hóa điều kiện kinh doanh thuộc phạm vi quản lý của Bộ Nông nghiệp và Môi trường - 17/2026/NQ-CP",
+    "CƠ QUAN THỰC HIỆN": "Cơ quan chức năng do Ủy ban nhân dân cấp tỉnh chỉ định",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "Điều kiện cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón bao gồm:\n- Có địa điểm sản xuất, diện tích nhà xưởng phù hợp với quy mô sản xuất: Khu sản xuất có tường, trần, vách ngăn, cửa bảo đảm yêu cầu về kiểm soát chất lượng.\n- Có dây chuyền, máy móc, thiết bị phù hợp với quy trình sản xuất từng loại, dạng phân bón: Dây chuyền, máy móc, thiết bị sản xuất phân bón phải phù hợp với quy trình sản xuât từng loại phân bón, dạng phân bón quy định tại Phụ lục II ban hành kèm theo Nghị định số 84/2019/NĐ-CP.\n- Có khu vực chứa nguyên liệu và khu vực thành phẩm riêng biệt;\n- Người trực tiếp điều hành sản xuất phải có trình độ từ đại học trở lên thuộc một trong các chuyên ngành về trồng trọt, bảo vệ thực vật, nông hóa thổ nhưỡng, khoa học đất, nông học, hóa học, sinh học.",
+    "KẾT QUẢ XỬ LÝ": "-Giấy chứng nhận đủ điều kiện sản xuất phân bón (theo Mẫu số 28 Phụ lục I ban hành kèm theo Nghị định số 33/2026/NĐ-CP) - KQ.G10.001357",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "Điều kiện cấp lại Giấy chứng nhận đủ điều kiện sản xuất phân bón bao gồm:\n- Có địa điểm sản xuất, diện tích nhà xưởng phù hợp với quy mô sản xuất: Khu sản xuất có tường, trần, vách ngăn, cửa bảo đảm yêu cầu về kiểm soát chất lượng.\n- Có dây chuyền, máy móc, thiết bị phù hợp với quy trình sản xuất từng loại, dạng phân bón: Dây chuyền, máy móc, thiết bị sản xuất phân bón phải phù hợp với quy trình sản xuât từng loại phân bón, dạng phân bón quy định tại Phụ lục II ban hành kèm theo Nghị định số 84/2019/NĐ-CP.\n- Có khu vực chứa nguyên liệu và khu vực thành phẩm riêng biệt;\n- Người trực tiếp điều hành sản xuất phải có trình độ từ đại học trở lên thuộc một trong các chuyên ngành về trồng trọt, bảo vệ thực vật, nông hóa thổ nhưỡng, khoa học đất, nông học, hóa học, sinh học."
+  },
+  "classification": {
+    "sector": {
+      "name": "Trồng trọt và Bảo vệ thực vật",
+      "slug": "trong-trot-va-bao-ve-thuc-vat"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Doanh nghiệp Việt Nam",
+        "slug": "doanh-nghiep-viet-nam"
+      },
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Người nước ngoài",
+        "slug": "nguoi-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      },
+      {
+        "name": "Hợp tác xã",
+        "slug": "hop-tac-xa"
+      },
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Người Việt Nam định cư ở nước ngoài",
+        "slug": "nguoi-viet-nam-inh-cu-o-nuoc-ngoai"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Cơ quan chức năng do Ủy ban nhân dân cấp tỉnh chỉ định",
+        "slug": "co-quan-chuc-nang-do-uy-ban-nhan-dan-cap-tinh-chi-inh"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

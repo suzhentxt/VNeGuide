@@ -1,0 +1,280 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfb-d77c-7514-8e03-9ace6223bb2c",
+  "procedure_code": "1.001710",
+  "title": "Giải quyết điều chỉnh, hủy quyết định, chấm dứt hưởng BHXH",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfb-d77c-7514-8e03-9ace6223bb2c",
+    "source_file": "chi-tiet-thu-tuc-1.001710.pdf",
+    "source_path": "procedures/huu-tri/1.001710/chi-tiet-thu-tuc-1.001710.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T04:58:32.278958+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "e2ca8111f061e9420115c1a1c84168b955345efa19a79b4e027896828652dd42"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1474/QĐ-BTC",
+  "implementation_level": "Cấp tỉnh, Cấp xã, Cơ quan ngành dọc",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Thực hiện chính sách BHXH",
+  "target_users": [
+    "Doanh nghiệp có vốn đầu tư nước ngoài",
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Người Việt Nam định cư ở nước ngoài",
+    "Công dân Việt Nam",
+    "Doanh nghiệp",
+    "Hợp tác xã",
+    "Cán bộ, công chức, viên chức",
+    "Tổ chức nước ngoài"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Bảo hiểm xã hội tỉnh, Công đoàn cơ quan BHXH Việt Nam"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1. Lập, nộp hồ sơ",
+      "description": "- Đơn vị SDLĐ lập hồ sơ theo quy định tại mục 14.3 (Thành phần hồ sơ) nộp cho cơ quan BHXH nơi đơn vị SDLĐ đóng BHXH.\n- NLĐ lập hồ sơ theo quy định tại mục 14.3 (Thành phần hồ sơ); nộp cho cơ quan BHXH nơi đang chi trả BHXH hàng tháng hoặc cơ quan BHXH (đối với trường hợp hưởng BHXH một lần).\n- Người đang hưởng BHXH hàng tháng hoặc thân nhân người hưởng BHXH hàng tháng chết đề nghị cập nhật thông tin nhân thân theo căn cước công dân: Lập hồ sơ theo quy định tại mục 14.3 (thành phần hồ sơ), nộp hồ sơ cho cơ quan BHXH nơi đang chi trả BHXH hàng tháng.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 2,
+      "title": "Bước 2.",
+      "description": "Cơ quan BHXH tiếp nhận hồ sơ và giải quyết theo quy định.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 3,
+      "title": "Bước 3. Nhận kết quả giải quyết",
+      "description": "- Đơn vị SDLĐ: Nhận hồ sơ, giấy tờ liên quan để trả cho NLĐ.\n- NLĐ: Nhận quyết định điều chỉnh, hủy quyết định hưởng hoặc chấm dứt hưởng; tiền truy lĩnh hoặc nộp tiền phải thu hồi (nếu có).\n- Người đang hưởng BHXH hàng tháng hoặc thân nhân người hưởng BHXH hàng tháng chết nhận: Xác nhận cập nhật thông tin nhân thân theo căn cước công dân (Mẫu 29-HSB).",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "(Trường hợp không quy định là bản chính thì có thể nộp bản sao hợp lệ. Trường hợp nộp hồ sơ trực tuyến: thành phần hồ sơ quy định là bản sao nhưng NLĐ có thể nộp bản chính điện tử).: c) Bản chính Mẫu 2-CBH ban hành kèm theo Quyết định số 686/QĐ-BHXH trong trường hợp người đang hưởng BHXH hàng tháng hoặc thân nhân người hưởng BHXH hàng tháng chết đề nghị cập nhật thông tin nhân thân theo căn cước công dân",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "(Trường hợp không quy định là bản chính thì có thể nộp bản sao hợp lệ. Trường hợp nộp hồ sơ trực tuyến: thành phần hồ sơ quy định là bản sao nhưng NLĐ có thể nộp bản chính điện tử).: a) Bản chính Đơn đề nghị (mẫu số 14-HSB) trong trường hợp NLĐ có yêu cầu điều chỉnh",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "(Trường hợp không quy định là bản chính thì có thể nộp bản sao hợp lệ. Trường hợp nộp hồ sơ trực tuyến: thành phần hồ sơ quy định là bản sao nhưng NLĐ có thể nộp bản chính điện tử).: b) Hồ sơ, giấy tờ, văn bản làm căn cứ điều chỉnh, hủy quyết định hưởng hoặc chấm dứt hưởng BHXH.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "12",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "12",
+      "fee": "0",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "12",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Thông tư 01/2016/TT-BLĐTBXH",
+      "document_number": "01/2016/TT-BLĐTBXH",
+      "source_page": 3
+    },
+    {
+      "title": "BAN HÀNH QUY TRÌNH GIẢI QUYẾT HƯỞNG CÁC CHẾ ĐỘ BẢO HIỂM XÃ HỘI, CHI TRẢ CÁC CHẾ ĐỘ BẢO HIỂM XÃ HỘI, BẢO HIỂM THẤT NGHIỆP",
+      "document_number": "2222/QĐ-BHXH",
+      "source_page": 3
+    },
+    {
+      "title": "Nghị định 115/2015/NĐ-CP",
+      "document_number": "115/2015/NĐ-CP",
+      "source_page": 3
+    },
+    {
+      "title": "Nghị định 134/2015/NĐ-CP",
+      "document_number": "134/2015/NĐ-CP",
+      "source_page": 3
+    },
+    {
+      "title": "LUẬT  Bảo hiểm xã hội",
+      "document_number": "58/2014/QH13",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Tiền truy lĩnh hoặc tiền phải nộp thu hồi (nếu có)",
+      "code": "KQ.G12.001240",
+      "source_page": 3
+    },
+    {
+      "title": "Quyết định điều chỉnh, hủy quyết định hưởng hoặc chấm dứt hưởng (Các Mẫu: 6A-HSB, 6B-HSB, 6C-HSB)",
+      "code": "KQ.G12.001242",
+      "source_page": 4
+    },
+    {
+      "title": "Quyết định về việc điều chỉnh chế độ BHXH",
+      "code": "KQ.G24.000021",
+      "source_page": 3
+    },
+    {
+      "title": "Quyết định về việc hủy quyết định hưởng chế độ BHXH",
+      "code": "KQ.G24.000022",
+      "source_page": 3
+    },
+    {
+      "title": "Xác nhận cập nhật thông tin nhân thân theo căn cước công dân (Mẫu 29-HSB) trong trường hợp NLĐ có yêu cầu",
+      "code": "KQ.G24.000072",
+      "source_page": 3
+    },
+    {
+      "title": "Quyết định về việc chấm dứt hưởng chế độ BHXH",
+      "code": "KQ.G24.000023",
+      "source_page": 4
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "- Đơn vị SDLĐ lập hồ sơ theo quy định tại mục 14.3 (Thành phần hồ sơ) nộp cho cơ quan BHXH nơi đơn vị SDLĐ đóng BHXH.\n- NLĐ lập hồ sơ theo quy định tại mục 14.3 (Thành phần hồ sơ); nộp cho cơ quan BHXH nơi đang chi trả BHXH hàng tháng hoặc cơ quan BHXH (đối với trường hợp hưởng BHXH một lần).\n- Người đang hưởng BHXH hàng tháng hoặc thân nhân người hưởng BHXH hàng tháng chết đề nghị cập nhật thông tin nhân thân theo căn cước công dân: Lập hồ sơ theo quy định tại mục 14.3 (thành phần hồ sơ), nộp hồ sơ cho cơ quan BHXH nơi đang chi trả BHXH hàng tháng.\nCơ quan BHXH tiếp nhận hồ sơ và giải quyết theo quy định.\n- Đơn vị SDLĐ: Nhận hồ sơ, giấy tờ liên quan để trả cho NLĐ.\n- NLĐ: Nhận quyết định điều chỉnh, hủy quyết định hưởng hoặc chấm dứt hưởng; tiền truy lĩnh hoặc nộp tiền phải thu hồi (nếu có).\n- Người đang hưởng BHXH hàng tháng hoặc thân nhân người hưởng BHXH hàng tháng chết nhận: Xác nhận cập nhật thông tin nhân thân theo căn cước công dân (Mẫu 29-HSB).",
+    "THÀNH PHẦN HỒ SƠ": "(Trường hợp không quy định là bản chính thì có thể nộp bản sao hợp lệ. Trường hợp nộp hồ sơ trực tuyến: thành phần hồ sơ quy định là bản sao nhưng NLĐ có thể nộp bản chính điện tử).: c) Bản chính Mẫu 2-CBH ban hành kèm theo Quyết định số 686/QĐ-BHXH trong trường hợp người đang hưởng BHXH hàng tháng hoặc thân nhân người hưởng BHXH hàng tháng chết đề nghị cập nhật thông tin nhân thân theo căn cước công dân\n(Trường hợp không quy định là bản chính thì có thể nộp bản sao hợp lệ. Trường hợp nộp hồ sơ trực tuyến: thành phần hồ sơ quy định là bản sao nhưng NLĐ có thể nộp bản chính điện tử).: a) Bản chính Đơn đề nghị (mẫu số 14-HSB) trong trường hợp NLĐ có yêu cầu điều chỉnh\n(Trường hợp không quy định là bản chính thì có thể nộp bản sao hợp lệ. Trường hợp nộp hồ sơ trực tuyến: thành phần hồ sơ quy định là bản sao nhưng NLĐ có thể nộp bản chính điện tử).: b) Hồ sơ, giấy tờ, văn bản làm căn cứ điều chỉnh, hủy quyết định hưởng hoặc chấm dứt hưởng BHXH.",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 12\nQua dịch vụ bưu chính: 12\nTrực tiếp: 12",
+    "CĂN CỨ PHÁP LÝ": "Thông tư 01/2016/TT-BLĐTBXH - 01/2016/TT-BLĐTBXH\nBAN HÀNH QUY TRÌNH GIẢI QUYẾT HƯỞNG CÁC CHẾ ĐỘ BẢO HIỂM XÃ HỘI, CHI TRẢ CÁC CHẾ ĐỘ BẢO HIỂM XÃ HỘI, BẢO HIỂM THẤT NGHIỆP - 2222/QĐ-BHXH\nNghị định 115/2015/NĐ-CP - 115/2015/NĐ-CP\nNghị định 134/2015/NĐ-CP - 134/2015/NĐ-CP\nLUẬT  Bảo hiểm xã hội - 58/2014/QH13",
+    "CƠ QUAN THỰC HIỆN": "Bảo hiểm xã hội tỉnh, Công đoàn cơ quan BHXH Việt Nam",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Tiền truy lĩnh hoặc tiền phải nộp thu hồi (nếu có) - KQ.G12.001240\nQuyết định điều chỉnh, hủy quyết định hưởng hoặc chấm dứt hưởng (Các Mẫu: 6A-HSB, 6B-HSB, 6C-HSB) - KQ.G12.001242\nQuyết định về việc điều chỉnh chế độ BHXH - KQ.G24.000021\nQuyết định về việc hủy quyết định hưởng chế độ BHXH - KQ.G24.000022\nXác nhận cập nhật thông tin nhân thân theo căn cước công dân (Mẫu 29-HSB) trong trường hợp NLĐ có yêu cầu - KQ.G24.000072\nQuyết định về việc chấm dứt hưởng chế độ BHXH - KQ.G24.000023",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Thực hiện chính sách BHXH",
+      "slug": "thuc-hien-chinh-sach-bhxh"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      },
+      {
+        "name": "Cấp xã",
+        "slug": "cap-xa"
+      },
+      {
+        "name": "Cơ quan ngành dọc",
+        "slug": "co-quan-nganh-doc"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Người Việt Nam định cư ở nước ngoài",
+        "slug": "nguoi-viet-nam-inh-cu-o-nuoc-ngoai"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Hợp tác xã",
+        "slug": "hop-tac-xa"
+      },
+      {
+        "name": "Cán bộ, công chức, viên chức",
+        "slug": "can-bo-cong-chuc-vien-chuc"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Bảo hiểm xã hội tỉnh",
+        "slug": "bao-hiem-xa-hoi-tinh"
+      },
+      {
+        "name": "Công đoàn cơ quan BHXH Việt Nam",
+        "slug": "cong-oan-co-quan-bhxh-viet-nam"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

@@ -1,0 +1,224 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019e6db7-1cc7-7241-bd57-e4df4cc65adb",
+  "procedure_code": "6.006658",
+  "title": "Thủ tục thành lập tổ chức thanh niên xung phong ở trung ương (Cấp Trung ương)",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019e6db7-1cc7-7241-bd57-e4df4cc65adb",
+    "source_file": "chi-tiet-thu-tuc-6.006658.pdf",
+    "source_path": "procedures/viec-lam/6.006658/chi-tiet-thu-tuc-6.006658.pdf",
+    "page_count": 7,
+    "extracted_at": "2026-07-18T05:02:43.726383+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "da9cddfd9f5f403ebcee5cb6f9eb2c8d61c63c537d8cff20074ec314d0dd184f"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "525/QĐ-BNV",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "CENTRAL_REGULATION",
+  "sector": "Công tác thanh niên",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Bộ Nội vụ"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "- Trung ương Đoàn Thanh niên Cộng sản Hồ Chí Minh gửi hồ sơ đến Bộ Nội vụ đề nghị cho ý kiến để làm cơ sở cho việc ra quyết định thành lập tổ chức thanh niên xung phong ở Trung ương.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "- Bộ Nội vụ cho ý kiến bằng văn bản về việc chấp thuận hoặc không chấp thuận việc thành lập tổ chức thanh niên xung phong.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "- Trung ương Đoàn Thanh niên Cộng sản Hồ Chí Minh ra quyết định thành lập tổ chức thanh niên xung phong trong trường hợp được sự chấp thuận của Bộ Nội vụ.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "- Văn bản của Trung ương Đoàn Thanh niên Cộng sản Hồ Chí Minh đề nghị Bộ Nội vụ cho ý kiến về việc thành lập tổ chức thanh niên xung phong.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Văn bản chấp thuận của Ban Tổ chức Trung ương Đảng về việc thành lập tổ chức thanh niên xung phong.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "+ Đề án thành lập tổ chức thanh niên xung phong, gồm các nội dung:: (1) Loại hình tổ chức cần thành lập thanh niên xung phong;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "+ Đề án thành lập tổ chức thanh niên xung phong, gồm các nội dung:: (2) Sự cần thiết và cơ sở pháp lý thành lập tổ chức thanh niên xung phong; (3) Mục tiêu, chức năng, nhiệm vụ của tổ chức thanh niên xung phong;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "+ Đề án thành lập tổ chức thanh niên xung phong, gồm các nội dung:: (3) Cơ cấu của tổ chức thanh niên xung phong;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "+ Đề án thành lập tổ chức thanh niên xung phong, gồm các nội dung:: (4) Nguồn lực và các điều kiện cần thiết khác bảo đảm để tổ chức thanh niên xung phong mới được thành lập hoạt động. Trong đó, dự kiến về nhân sự, biên chế, kinh phí hoạt động, trụ sở làm việc và trang thiết bị, phương tiện cần thiết của tổ chức thanh niên xung phong;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "+ Đề án thành lập tổ chức thanh niên xung phong, gồm các nội dung:: (5) Thời gian dự kiến kế hoạch hoạt động của tổ chức thanh niên xung phong;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "+ Đề án thành lập tổ chức thanh niên xung phong, gồm các nội dung:: (6) Kiến nghị của cơ quan xây dựng đề án thành lập tổ chức thanh niên xung phong (nếu có).",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Đối với việc thành lập Trung tâm, Trường giáo dục lao động xã hội, ngoài các nội dung nêu trên, Đề án còn phải có ý kiến bằng văn bản của các cơ quan quản lý chuyên ngành liên quan cấp Trung ương bao gồm: Bộ Giáo dục và Đào tạo, Bộ Lao động Thương binh và Xã hội, Bộ Kế hoạch và Đầu tư, Bộ Tài chính.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "- Tài liệu chứng minh điều kiện để được thành lập tổ chức thanh niên xung phong theo quy định tại Điều 4 Nghị định số 12/2011/NĐ-CP.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "Các tài liệu khác có liên quan (nếu có)",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      }
+    ],
+    "normally_required": [],
+    "conditional": []
+  },
+  "submission_methods": [
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "15 ngày làm việc",
+      "fee": null,
+      "description": "Trung ương Đoàn Thanh niên Cộng sản Hồ Chí Minh có nhu cầu thành lập tổ chức thanh niên xung phong lập 01 bộ hồ sơ theo quy định gửi trực tiếp đến Bộ Nội vụ đề nghị cho ý kiến để làm cơ sở cho việc ra quyết định thành lập. Trong thời hạn 15 ngày làm việc kể từ ngày nhận đủ hồ sơ hợp lệ, Bộ Nội vụ có trách nhiệm xem xét, cho ý kiến chấp thuận bằng văn bản việc thành lập tổ chức thanh niên xung phong. Trong trường hợp không chấp thuận phải trả lời bằng văn bản và nêu rõ lý do.",
+      "source_page": 4
+    },
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "15 ngày làm việc",
+      "fee": null,
+      "description": "Trung ương Đoàn Thanh niên Cộng sản Hồ Chí Minh có nhu cầu thành lập tổ chức thanh niên xung phong lập 01 bộ hồ sơ theo quy định gửi trực tiếp đến Bộ Nội vụ đề nghị cho ý kiến để làm cơ sở cho việc ra quyết định thành lập. Trong thời hạn 15 ngày làm việc kể từ ngày nhận đủ hồ sơ hợp lệ, Bộ Nội vụ có trách nhiệm xem xét, cho ý kiến chấp thuận bằng văn bản việc thành lập tổ chức thanh niên xung phong. Trong trường hợp không chấp thuận phải trả lời bằng văn bản và nêu rõ lý do.",
+      "source_page": 4
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "15 ngày làm việc",
+      "fee": null,
+      "description": "Trung ương Đoàn Thanh niên Cộng sản Hồ Chí Minh có nhu cầu thành lập tổ chức thanh niên xung phong lập 01 bộ hồ sơ theo quy định gửi trực tiếp đến Bộ Nội vụ đề nghị cho ý kiến để làm cơ sở cho việc ra quyết định thành lập. Trong thời hạn 15 ngày làm việc kể từ ngày nhận đủ hồ sơ hợp lệ, Bộ Nội vụ có trách nhiệm xem xét, cho ý kiến chấp thuận bằng văn bản việc thành lập tổ chức thanh niên xung phong. Trong trường hợp không chấp thuận phải trả lời bằng văn bản và nêu rõ lý do.",
+      "source_page": 4
+    }
+  ],
+  "fees": {
+    "summary": "",
+    "status": "not_specified",
+    "currency": "VND",
+    "items": []
+  },
+  "legal_bases": [
+    {
+      "title": "Thông tư số 11/2011/TT-BNV ngày 26/9/2011 của Bộ trưởng Bộ Nội vụ Hướng dẫn thi hành một số điều của Nghị định số 12/2011/NĐ-CP ngày 30 tháng 01 năm 2011 của Chính phủ về tổ chức và chính sách đối với thanh niên xung phong",
+      "document_number": "11/2011/TT-BNV",
+      "source_page": 6
+    },
+    {
+      "title": "Nghị định số 12/2011/NĐ-CP ngày 30/01/2011 của Chính phủ về tổ chức và chính sách đối với thanh niên xung phong",
+      "document_number": "12/2011/NĐ-CP",
+      "source_page": 6
+    }
+  ],
+  "conditions": "Không có.",
+  "results": [
+    {
+      "title": "- Ý kiến bằng văn bản của Bộ Nội vụ về việc thành lập tổ chức thanh niên xung phong;",
+      "code": "KQ.G09.000539",
+      "source_page": 7
+    },
+    {
+      "title": "- Quyết định thành lập tổ chức thanh niên xung phong của Trung ương Đoàn Thanh niên Cộng sản Hồ Chí Minh trong trường hợp được Bộ Nội vụ chấp thuận.",
+      "code": "KQ.G09.000540",
+      "source_page": 7
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "- Trung ương Đoàn Thanh niên Cộng sản Hồ Chí Minh gửi hồ sơ đến Bộ Nội vụ đề nghị cho ý kiến để làm cơ sở cho việc ra quyết định thành lập tổ chức thanh niên xung phong ở Trung ương.\n- Bộ Nội vụ cho ý kiến bằng văn bản về việc chấp thuận hoặc không chấp thuận việc thành lập tổ chức thanh niên xung phong.\n- Trung ương Đoàn Thanh niên Cộng sản Hồ Chí Minh ra quyết định thành lập tổ chức thanh niên xung phong trong trường hợp được sự chấp thuận của Bộ Nội vụ.",
+    "THÀNH PHẦN HỒ SƠ": "- Văn bản của Trung ương Đoàn Thanh niên Cộng sản Hồ Chí Minh đề nghị Bộ Nội vụ cho ý kiến về việc thành lập tổ chức thanh niên xung phong.\n- Văn bản chấp thuận của Ban Tổ chức Trung ương Đảng về việc thành lập tổ chức thanh niên xung phong.\n+ Đề án thành lập tổ chức thanh niên xung phong, gồm các nội dung:: (1) Loại hình tổ chức cần thành lập thanh niên xung phong;\n+ Đề án thành lập tổ chức thanh niên xung phong, gồm các nội dung:: (2) Sự cần thiết và cơ sở pháp lý thành lập tổ chức thanh niên xung phong; (3) Mục tiêu, chức năng, nhiệm vụ của tổ chức thanh niên xung phong;\n+ Đề án thành lập tổ chức thanh niên xung phong, gồm các nội dung:: (3) Cơ cấu của tổ chức thanh niên xung phong;\n+ Đề án thành lập tổ chức thanh niên xung phong, gồm các nội dung:: (4) Nguồn lực và các điều kiện cần thiết khác bảo đảm để tổ chức thanh niên xung phong mới được thành lập hoạt động. Trong đó, dự kiến về nhân sự, biên chế, kinh phí hoạt động, trụ sở làm việc và trang thiết bị, phương tiện cần thiết của tổ chức thanh niên xung phong;\n+ Đề án thành lập tổ chức thanh niên xung phong, gồm các nội dung:: (5) Thời gian dự kiến kế hoạch hoạt động của tổ chức thanh niên xung phong;\n+ Đề án thành lập tổ chức thanh niên xung phong, gồm các nội dung:: (6) Kiến nghị của cơ quan xây dựng đề án thành lập tổ chức thanh niên xung phong (nếu có).\n- Đối với việc thành lập Trung tâm, Trường giáo dục lao động xã hội, ngoài các nội dung nêu trên, Đề án còn phải có ý kiến bằng văn bản của các cơ quan quản lý chuyên ngành liên quan cấp Trung ương bao gồm: Bộ Giáo dục và Đào tạo, Bộ Lao động Thương binh và Xã hội, Bộ Kế hoạch và Đầu tư, Bộ Tài chính.\n- Tài liệu chứng minh điều kiện để được thành lập tổ chức thanh niên xung phong theo quy định tại Điều 4 Nghị định số 12/2011/NĐ-CP.\nCác tài liệu khác có liên quan (nếu có)",
+    "CÁCH THỨC THỰC HIỆN": "Trực tiếp: 15 ngày làm việc\nTrực tuyến: 15 ngày làm việc\nQua dịch vụ bưu chính: 15 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Thông tư số 11/2011/TT-BNV ngày 26/9/2011 của Bộ trưởng Bộ Nội vụ Hướng dẫn thi hành một số điều của Nghị định số 12/2011/NĐ-CP ngày 30 tháng 01 năm 2011 của Chính phủ về tổ chức và chính sách đối với thanh niên xung phong - 11/2011/TT-BNV\nNghị định số 12/2011/NĐ-CP ngày 30/01/2011 của Chính phủ về tổ chức và chính sách đối với thanh niên xung phong - 12/2011/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Bộ Nội vụ",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "Không có.",
+    "KẾT QUẢ XỬ LÝ": "- Ý kiến bằng văn bản của Bộ Nội vụ về việc thành lập tổ chức thanh niên xung phong; - KQ.G09.000539\n- Quyết định thành lập tổ chức thanh niên xung phong của Trung ương Đoàn Thanh niên Cộng sản Hồ Chí Minh trong trường hợp được Bộ Nội vụ chấp thuận. - KQ.G09.000540",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "Không có."
+  },
+  "classification": {
+    "sector": {
+      "name": "Công tác thanh niên",
+      "slug": "cong-tac-thanh-nien"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Bộ Nội vụ",
+        "slug": "bo-noi-vu"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

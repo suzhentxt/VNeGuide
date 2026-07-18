@@ -1,0 +1,197 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bf7-cd13-735d-823e-027467911f4f",
+  "procedure_code": "3.000403",
+  "title": "Chấp thuận tổ chức, cá nhân đưa xe ô tô có tay lái bên phải vào tham gia giao thông tại Việt Nam không phải mục đích du lịch",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bf7-cd13-735d-823e-027467911f4f",
+    "source_file": "chi-tiet-thu-tuc-3.000403.pdf",
+    "source_path": "procedures/phuong-tien-va-nguoi-lai/3.000403/chi-tiet-thu-tuc-3.000403.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T04:59:05.248866+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "cbf997ce798bc2996d48de0a7585c9a2c178c6e67647a2717431d71d75fc7d8c"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1842/QĐ-BCA",
+  "implementation_level": "Cấp bộ, Cơ quan ngành dọc",
+  "procedure_type": "OTHER",
+  "sector": "Bảo đảm trật tự, an toàn giao thông đường bộ",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Công dân Việt Nam"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Cục cảnh sát giao thông"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1: Tổ chức, cá nhân đưa xe ô tô có tay lái bên phải vào tham gia giao thông tại Việt Nam không phải mục đích du lịch gửi hồ sơ đến Cục Cảnh sát giao thông.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "Bước 2: Cục Cảnh sát giao thông tiếp nhận hồ sơ, kiểm tra và xử lý hồ sơ.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "Bước 3: Trả kết quả.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Văn bản đề nghị chấp thuận kèm theo danh sách  người điều khiển và thông tin về xe cơ giới.",
+        "quantity": "1 bản chính",
+        "attachment": "4.ChpthuntchccnhnaxetctaylibnphivothamgiagiaothngtiVitNamkhngphimcchdulch.docx",
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Công hàm của cơ quan đại diện ngoại giao, cơ quan lãnh sự hoặc cơ quan đại diện của tổ chức quốc tế liên Chính phủ tại Việt Nam đề nghị và nêu rõ lý do cho phương tiện tham gia giao thông tại  Việt Nam.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "5 ngày làm việc",
+      "fee": "0",
+      "description": "05 ngày làm việc, kể từ ngày nhận đủ hồ sơ hợp lệ.",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "5 ngày làm việc",
+      "fee": "0",
+      "description": "05 ngày làm việc, kể từ ngày nhận đủ hồ sơ hợp lệ.",
+      "source_page": 2
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "5 ngày làm việc",
+      "fee": "0",
+      "description": "05 ngày làm việc, kể từ ngày nhận đủ hồ sơ hợp lệ.",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Luật Trật tự, an toàn giao thông đường bộ",
+      "document_number": "36/2024/QH15",
+      "source_page": 3
+    },
+    {
+      "title": "Nghị định số 151/2024/NĐ-CP của Chính phủ: Quy định chi tiết một số điều và biện pháp thi hành Luật Trật tự, an toàn giao thông đường bộ",
+      "document_number": "151/2024/NĐ-CP",
+      "source_page": 3
+    }
+  ],
+  "conditions": "Theo quy định tại khoản 2 Điều 32 Nghị định 151/2024/NĐ-CP ngày 15/11/2024 của Chính phủ, cụ thể: xe ô tô của người nước ngoài có tay lái ở bên phải tham gia giao thông tại Việt Nam không phải mục đích du lịch là xe ô tô chở người.",
+  "results": [
+    {
+      "title": "Văn bản chấp thuận hoặc văn bản không chấp thuận việc đưa xe ô tô có tay lái bên phải vào tham gia giao thông tại Việt Nam không phải mục đích du lịch",
+      "code": "KQ.G01.000217",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1: Tổ chức, cá nhân đưa xe ô tô có tay lái bên phải vào tham gia giao thông tại Việt Nam không phải mục đích du lịch gửi hồ sơ đến Cục Cảnh sát giao thông.\nBước 2: Cục Cảnh sát giao thông tiếp nhận hồ sơ, kiểm tra và xử lý hồ sơ.\nBước 3: Trả kết quả.",
+    "THÀNH PHẦN HỒ SƠ": "Văn bản đề nghị chấp thuận kèm theo danh sách  người điều khiển và thông tin về xe cơ giới.\nCông hàm của cơ quan đại diện ngoại giao, cơ quan lãnh sự hoặc cơ quan đại diện của tổ chức quốc tế liên Chính phủ tại Việt Nam đề nghị và nêu rõ lý do cho phương tiện tham gia giao thông tại  Việt Nam.",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 5 ngày làm việc\nQua dịch vụ bưu chính: 5 ngày làm việc\nTrực tiếp: 5 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Luật Trật tự, an toàn giao thông đường bộ - 36/2024/QH15\nNghị định số 151/2024/NĐ-CP của Chính phủ: Quy định chi tiết một số điều và biện pháp thi hành Luật Trật tự, an toàn giao thông đường bộ - 151/2024/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Cục cảnh sát giao thông",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "Theo quy định tại khoản 2 Điều 32 Nghị định 151/2024/NĐ-CP ngày 15/11/2024 của Chính phủ, cụ thể: xe ô tô của người nước ngoài có tay lái ở bên phải tham gia giao thông tại Việt Nam không phải mục đích du lịch là xe ô tô chở người.",
+    "KẾT QUẢ XỬ LÝ": "Văn bản chấp thuận hoặc văn bản không chấp thuận việc đưa xe ô tô có tay lái bên phải vào tham gia giao thông tại Việt Nam không phải mục đích du lịch - KQ.G01.000217",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "Theo quy định tại khoản 2 Điều 32 Nghị định 151/2024/NĐ-CP ngày 15/11/2024 của Chính phủ, cụ thể: xe ô tô của người nước ngoài có tay lái ở bên phải tham gia giao thông tại Việt Nam không phải mục đích du lịch là xe ô tô chở người."
+  },
+  "classification": {
+    "sector": {
+      "name": "Bảo đảm trật tự, an toàn giao thông đường bộ",
+      "slug": "bao-am-trat-tu-an-toan-giao-thong-uong-bo"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      },
+      {
+        "name": "Cơ quan ngành dọc",
+        "slug": "co-quan-nganh-doc"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Cục cảnh sát giao thông",
+        "slug": "cuc-canh-sat-giao-thong"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

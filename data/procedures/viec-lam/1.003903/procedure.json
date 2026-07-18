@@ -1,0 +1,304 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfa-28a9-7739-a14e-24d46b476229",
+  "procedure_code": "1.003903",
+  "title": "Cấp giấy phép CITES xuất khẩu, tái xuất khẩu mẫu vật loài động vật, thực vật thuộc Phụ lục CITES",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfa-28a9-7739-a14e-24d46b476229",
+    "source_file": "chi-tiet-thu-tuc-1.003903.pdf",
+    "source_path": "procedures/viec-lam/1.003903/chi-tiet-thu-tuc-1.003903.pdf",
+    "page_count": 6,
+    "extracted_at": "2026-07-18T05:00:07.120960+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "eabe65a368c4e7a6d9caabfdada6d38ac5469a4d52dd747f8082517d00aa2e52"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "04/QĐ-BNNMT",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Kiểm lâm",
+  "target_users": [
+    "Công dân Việt Nam",
+    "Doanh nghiệp",
+    "Người nước ngoài",
+    "Tổ chức nước ngoài",
+    "Hợp tác xã",
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Người Việt Nam định cư ở nước ngoài",
+    "Doanh nghiệp có vốn đầu tư nước ngoài"
+  ],
+  "agency": {
+    "competent_agency": "Cơ quan thẩm quyền quản lý CITES Việt Nam",
+    "executing_agency": "Cơ quan thẩm quyền quản lý CITES Việt Nam"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "- Bước 1: Nộp hồ sơ\nTổ chức, cá nhân nộp 01 bộ hồ sơ đến Cơ quan thẩm quyền quản lý CITES Việt Nam theo cách thức trực tiếp hoặc qua môi trường điện tử hoặc qua dịch vụ bưu chính công ích hoặc dịch vụ bưu chính;",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "- Bước 2: Kiểm tra tính đầy đủ, hợp lệ của hồ sơ\n         Cơ quan thẩm quyền quản lý CITES Việt Nam kiểm tra và tiếp nhận ngay khi hồ sơ đảm bảo tính đầy đủ và hợp lệ đối với hồ sơ nộp trực tiếp; kiểm tra và tiếp nhận trong 01 ngày làm việc đối với hồ sơ nộp qua môi trường điện tử hoặc qua dịch vụ bưu chính công ích hoặc dịch vụ bưu chính, trường hợp thành phần hồ sơ không đầy đủ hoặc không hợp lệ thì trả lời bằng văn bản và nêu rõ lý do.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "- Bước 3: Xử lý hồ sơ\n           Trong thời hạn 05 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ, Cơ quan thẩm quyền quản lý CITES Việt Nam xem xét cấp giấy phép CITES xuất khẩu, tái xuất khẩu theo Mẫu số 35 Phụ lục II ban hành kèm theo Thông tư số 85/2025/TT-BNNMT ; trường hợp không cấp giấy phép, thông báo bằng văn bản và nêu rõ lý do; \n        Trường hợp cần tham vấn về ảnh hưởng của việc xuất khẩu, tái xuất khẩu tới sự tồn tại của loài hoặc đề nghị cơ quan quản lý chuyên ngành phối hợp với các cơ quan liên quan xác minh, kiểm tra thực tế khi có nghi ngờ về tính hợp pháp của mẫu vật, trong thời hạn 03 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ, Cơ quan thẩm quyền quản lý CITES Việt Nam gửi văn bản đề nghị đến Cơ quan khoa học CITES Việt Nam hoặc cơ quan quản lý chuyên ngành liên quan;\n        Trong thời hạn 06 ngày làm việc kể từ ngày nhận được văn bản đề nghị tham vấn hoặc đề nghị xác minh, kiểm tra, các cơ quan có văn bản trả lời Cơ quan thẩm quyền quản lý CITES Việt Nam;\n        Trong thời hạn 01 ngày làm việc kể từ ngày nhận được văn bản của các cơ quan liên quan, Cơ quan thẩm quyền quản lý CITES Việt Nam thực hiện cấp giấy phép CITES xuất khẩu, tái xuất khẩu theo Mẫu số 35 Phụ lục II ban hành kèm theo Thông tư số 85/2025/TT-BNNMT ; trường hợp không cấp giấy phép CITES hoặc không nhận được kết quả tham vấn, xác minh, thông báo bằng văn bản và nêu rõ lý do.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "a) Bản chính đề nghị cấp giấy phép CITES theo Mẫu số 36 Phụ lục II ban hành kèm theo Thông tư số 85/2025/TT-BNNMT",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu số 36..docx",
+        "source_page": 3
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "e) Trường hợp tái xuất khẩu mẫu vật bị tịch thu cho quốc gia nơi khai thác hoặc quốc gia xuất khẩu: ngoài thành phần hồ sơ quy định tại điểm a, nộp thêm bản sao bảng kê lâm sản do tổ chức được giao xử lý tài sản lập.",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "b) Bản sao bảng kê lâm sản có xác nhận của cơ quan kiểm lâm sở tại theo quy định của Bộ trưởng Bộ Nông nghiệp và Môi trường về quản lý lâm sản; xử lý lâm sản, thủy sản là tài sản được xác lập quyền sở hữu toàn dân hoặc bản sao Giấy xác nhận nguồn gốc thủy sản theo quy định của pháp luật thủy sản. Trường hợp pháp luật chuyên ngành lâm nghiệp, thủy sản chưa có quy định về xác nhận nguồn gốc đối với mẫu vật động vật, thực vật đề nghị tái xuất khẩu, tổ chức, cá nhân nộp bản sao Giấy phép CITES xuất khẩu/tái xuất khẩu và bản sao tờ khai hải quan nhập khẩu",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "đ) Trường hợp xuất khẩu, tái xuất khẩu mẫu vật sống phục vụ triển lãm, biểu diễn xiếc: ngoài thành phần hồ sơ quy định tại điểm a và điểm b, nộp thêm bản sao quyết định cử đi tham dự triển lãm, biểu diễn xiếc ở nước ngoài của cơ quan có thẩm quyền hoặc giấy mời tham dự của tổ chức nước ngoài",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "d) Trường hợp xuất khẩu, tái xuất khẩu mẫu vật thuộc Phụ lục I CITES, trừ mẫu vật thuộc Phụ lục I có nguồn gốc từ cơ sở đã được Ban Thư ký CITES cấp mã số cơ sở nuôi, trồng: ngoài thành phần hồ sơ quy định tại điểm a và điểm b, nộp thêm bản sao giấy phép nhập khẩu do Cơ quan thẩm quyền quản lý CITES nước nhập khẩu cấp;",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "c) Trường hợp xuất khẩu, tái xuất khẩu mẫu vật khai thác từ tự nhiên phục vụ nghiên cứu khoa học, quan hệ đối ngoại: Ngoài thành phần hồ sơ quy định tại điểm a và điểm b, nộp thêm một trong các bản sao tài liệu sau: văn bản ký kết về chương trình hợp tác nghiên cứu khoa học đối với trường hợp nghiên cứu khoa học, văn bản xác nhận quà biếu, tặng ngoại giao do cơ quan có thẩm quyền xác nhận đối với trường hợp phục vụ quan hệ đối ngoại;",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 3
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "5 ngày làm việc",
+      "fee": "0",
+      "description": "- Trường hợp không tham vấn: 05 ngày làm việc  kể từ ngày nhận được hồ sơ hợp lệ",
+      "source_page": 4
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "10 ngày làm việc",
+      "fee": "0",
+      "description": "- Trường hợp tham vấn, xác minh: 10 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ.",
+      "source_page": 4
+    },
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "5 ngày làm việc",
+      "fee": "0",
+      "description": "- Trường hợp không tham vấn: 05 ngày làm việc  kể từ ngày nhận được hồ sơ hợp lệ",
+      "source_page": 4
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "10 ngày làm việc",
+      "fee": "0",
+      "description": "- Trường hợp tham vấn, xác minh: 10 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ.",
+      "source_page": 4
+    },
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "10 ngày làm việc",
+      "fee": "0",
+      "description": "- Trường hợp tham vấn, xác minh: 10 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ.",
+      "source_page": 4
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "5 ngày làm việc",
+      "fee": "0",
+      "description": "- Trường hợp không tham vấn: 05 ngày làm việc  kể từ ngày nhận được hồ sơ hợp lệ",
+      "source_page": 4
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 4
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 4
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị định Quy định phân quyền, phân cấp trong lĩnh vực nông nghiệp",
+      "document_number": "136/2025/NĐ-CP",
+      "source_page": 6
+    },
+    {
+      "title": "Luật Lâm nghiệp",
+      "document_number": "116/2017/QH14",
+      "source_page": 6
+    },
+    {
+      "title": "Thông tư số 27/2025/TT-BNNMT",
+      "document_number": "27/2025/TT-BNNMT",
+      "source_page": 6
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Giấy phép CITES quy định tại Mẫu số 35 Phụ lục II ban hành kèm theo Thông tư số 85/2025/TT-BNNMT.",
+      "code": "KQ.G10.001222",
+      "source_page": 6
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "- Bước 1: Nộp hồ sơ\nTổ chức, cá nhân nộp 01 bộ hồ sơ đến Cơ quan thẩm quyền quản lý CITES Việt Nam theo cách thức trực tiếp hoặc qua môi trường điện tử hoặc qua dịch vụ bưu chính công ích hoặc dịch vụ bưu chính;\n- Bước 2: Kiểm tra tính đầy đủ, hợp lệ của hồ sơ\n         Cơ quan thẩm quyền quản lý CITES Việt Nam kiểm tra và tiếp nhận ngay khi hồ sơ đảm bảo tính đầy đủ và hợp lệ đối với hồ sơ nộp trực tiếp; kiểm tra và tiếp nhận trong 01 ngày làm việc đối với hồ sơ nộp qua môi trường điện tử hoặc qua dịch vụ bưu chính công ích hoặc dịch vụ bưu chính, trường hợp thành phần hồ sơ không đầy đủ hoặc không hợp lệ thì trả lời bằng văn bản và nêu rõ lý do.\n- Bước 3: Xử lý hồ sơ\n           Trong thời hạn 05 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ, Cơ quan thẩm quyền quản lý CITES Việt Nam xem xét cấp giấy phép CITES xuất khẩu, tái xuất khẩu theo Mẫu số 35 Phụ lục II ban hành kèm theo Thông tư số 85/2025/TT-BNNMT ; trường hợp không cấp giấy phép, thông báo bằng văn bản và nêu rõ lý do; \n        Trường hợp cần tham vấn về ảnh hưởng của việc xuất khẩu, tái xuất khẩu tới sự tồn tại của loài hoặc đề nghị cơ quan quản lý chuyên ngành phối hợp với các cơ quan liên quan xác minh, kiểm tra thực tế khi có nghi ngờ về tính hợp pháp của mẫu vật, trong thời hạn 03 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ, Cơ quan thẩm quyền quản lý CITES Việt Nam gửi văn bản đề nghị đến Cơ quan khoa học CITES Việt Nam hoặc cơ quan quản lý chuyên ngành liên quan;\n        Trong thời hạn 06 ngày làm việc kể từ ngày nhận được văn bản đề nghị tham vấn hoặc đề nghị xác minh, kiểm tra, các cơ quan có văn bản trả lời Cơ quan thẩm quyền quản lý CITES Việt Nam;\n        Trong thời hạn 01 ngày làm việc kể từ ngày nhận được văn bản của các cơ quan liên quan, Cơ quan thẩm quyền quản lý CITES Việt Nam thực hiện cấp giấy phép CITES xuất khẩu, tái xuất khẩu theo Mẫu số 35 Phụ lục II ban hành kèm theo Thông tư số 85/2025/TT-BNNMT ; trường hợp không cấp giấy phép CITES hoặc không nhận được kết quả tham vấn, xác minh, thông báo bằng văn bản và nêu rõ lý do.",
+    "THÀNH PHẦN HỒ SƠ": "a) Bản chính đề nghị cấp giấy phép CITES theo Mẫu số 36 Phụ lục II ban hành kèm theo Thông tư số 85/2025/TT-BNNMT\ne) Trường hợp tái xuất khẩu mẫu vật bị tịch thu cho quốc gia nơi khai thác hoặc quốc gia xuất khẩu: ngoài thành phần hồ sơ quy định tại điểm a, nộp thêm bản sao bảng kê lâm sản do tổ chức được giao xử lý tài sản lập.\nb) Bản sao bảng kê lâm sản có xác nhận của cơ quan kiểm lâm sở tại theo quy định của Bộ trưởng Bộ Nông nghiệp và Môi trường về quản lý lâm sản; xử lý lâm sản, thủy sản là tài sản được xác lập quyền sở hữu toàn dân hoặc bản sao Giấy xác nhận nguồn gốc thủy sản theo quy định của pháp luật thủy sản. Trường hợp pháp luật chuyên ngành lâm nghiệp, thủy sản chưa có quy định về xác nhận nguồn gốc đối với mẫu vật động vật, thực vật đề nghị tái xuất khẩu, tổ chức, cá nhân nộp bản sao Giấy phép CITES xuất khẩu/tái xuất khẩu và bản sao tờ khai hải quan nhập khẩu\nđ) Trường hợp xuất khẩu, tái xuất khẩu mẫu vật sống phục vụ triển lãm, biểu diễn xiếc: ngoài thành phần hồ sơ quy định tại điểm a và điểm b, nộp thêm bản sao quyết định cử đi tham dự triển lãm, biểu diễn xiếc ở nước ngoài của cơ quan có thẩm quyền hoặc giấy mời tham dự của tổ chức nước ngoài\nd) Trường hợp xuất khẩu, tái xuất khẩu mẫu vật thuộc Phụ lục I CITES, trừ mẫu vật thuộc Phụ lục I có nguồn gốc từ cơ sở đã được Ban Thư ký CITES cấp mã số cơ sở nuôi, trồng: ngoài thành phần hồ sơ quy định tại điểm a và điểm b, nộp thêm bản sao giấy phép nhập khẩu do Cơ quan thẩm quyền quản lý CITES nước nhập khẩu cấp;\nc) Trường hợp xuất khẩu, tái xuất khẩu mẫu vật khai thác từ tự nhiên phục vụ nghiên cứu khoa học, quan hệ đối ngoại: Ngoài thành phần hồ sơ quy định tại điểm a và điểm b, nộp thêm một trong các bản sao tài liệu sau: văn bản ký kết về chương trình hợp tác nghiên cứu khoa học đối với trường hợp nghiên cứu khoa học, văn bản xác nhận quà biếu, tặng ngoại giao do cơ quan có thẩm quyền xác nhận đối với trường hợp phục vụ quan hệ đối ngoại;",
+    "CÁCH THỨC THỰC HIỆN": "Trực tiếp: 5 ngày làm việc\nQua dịch vụ bưu chính: 10 ngày làm việc\nTrực tuyến: 5 ngày làm việc\nTrực tiếp: 10 ngày làm việc\nTrực tuyến: 10 ngày làm việc\nQua dịch vụ bưu chính: 5 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Nghị định Quy định phân quyền, phân cấp trong lĩnh vực nông nghiệp - 136/2025/NĐ-CP\nLuật Lâm nghiệp - 116/2017/QH14\nThông tư số 27/2025/TT-BNNMT - 27/2025/TT-BNNMT",
+    "CƠ QUAN THỰC HIỆN": "Cơ quan thẩm quyền quản lý CITES Việt Nam",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Giấy phép CITES quy định tại Mẫu số 35 Phụ lục II ban hành kèm theo Thông tư số 85/2025/TT-BNNMT. - KQ.G10.001222",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Kiểm lâm",
+      "slug": "kiem-lam"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Người nước ngoài",
+        "slug": "nguoi-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      },
+      {
+        "name": "Hợp tác xã",
+        "slug": "hop-tac-xa"
+      },
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Người Việt Nam định cư ở nước ngoài",
+        "slug": "nguoi-viet-nam-inh-cu-o-nuoc-ngoai"
+      },
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Cơ quan thẩm quyền quản lý CITES Việt Nam",
+        "slug": "co-quan-tham-quyen-quan-ly-cites-viet-nam"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

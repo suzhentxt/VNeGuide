@@ -1,0 +1,229 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfe-3b2d-7628-a3de-9c9046135ad7",
+  "procedure_code": "1.004050",
+  "title": "Đến cảng biển đối với tàu thuyền nước ngoài có động cơ chạy bằng năng lượng hạt nhân hoặc tàu vận chuyển chất phóng xạ",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfe-3b2d-7628-a3de-9c9046135ad7",
+    "source_file": "chi-tiet-thu-tuc-1.004050.pdf",
+    "source_path": "procedures/phuong-tien-va-nguoi-lai/1.004050/chi-tiet-thu-tuc-1.004050.pdf",
+    "page_count": 5,
+    "extracted_at": "2026-07-18T04:58:43.376962+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "9771f9872c840189be2abdfe6599cce64ea7ffe3a66c66b08a00be61afce64c2"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "647/QĐ-BXD",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Hàng hải và đường thủy nội địa",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Người Việt Nam định cư ở nước ngoài",
+    "Hợp tác xã",
+    "Công dân Việt Nam",
+    "Doanh nghiệp",
+    "Người nước ngoài",
+    "Tổ chức nước ngoài"
+  ],
+  "agency": {
+    "competent_agency": "Thủ tướng Chính phủ",
+    "executing_agency": "Bộ Xây dựng, Thủ tướng Chính phủ"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "a) Nộp hồ sơ TTHC:\nNgười làm thủ tục gửi hồ sơ đề nghị cho phép tàu biển nước ngoài có động cơ chạy bằng năng lượng hạt nhân hoặc tàu vận chuyển chất phóng xạ đến cảng biển đến Bộ Xây dựng. \nb) Giải quyết TTHC:\nTrong thời hạn 7 ngày làm việc, kể từ ngày nhận đủ giấy tờ hợp lệ, Bộ Xây dựng báo cáo Thủ tướng Chính phủ xem xét, chấp thuận và có văn bản trả lời về việc cho phép tàu biển nước ngoài có động cơ chạy bằng năng lượng hạt nhân hoặc tàu vận chuyển chất phóng xạ đến cảng biển.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "a) Thành phần hồ sơ:: Văn bản đề nghị cho phép tàu biển nước ngoài có động cơ chạy bằng năng lượng hạt nhân hoặc tàu vận chuyển chất phóng xạ đến cảng biển theo mẫu",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu đơn đề nghị cho phép tàu biển nước ngoài có động cơ chạy bằng năng.docx",
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "a) Thành phần hồ sơ:: Bản sao Giấy chứng nhận đăng ký tàu biển",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "a) Thành phần hồ sơ:: Bản sao các giấy chứng nhận về an toàn hàng hải, an ninh hàng hải và phòng ngừa ô nhiễm môi trường của tàu thuyền đó",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "7 ngày làm việc",
+      "fee": "0",
+      "description": "Trong thời hạn 7 ngày làm việc, kể từ ngày nhận đủ giấy tờ hợp lệ, Bộ Xây dựng báo cáo Thủ tướng Chính phủ xem xét, chấp thuận và có văn bản trả lời về việc cho phép tàu biển nước ngoài có động cơ chạy bằng năng lượng hạt nhân hoặc tàu vận chuyển chất phóng xạ đến cảng biển.",
+      "source_page": 1
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "7 ngày làm việc",
+      "fee": "0",
+      "description": "Trong thời hạn 7 ngày làm việc, kể từ ngày nhận đủ giấy tờ hợp lệ, Bộ Xây dựng báo cáo Thủ tướng Chính phủ xem xét, chấp thuận và có văn bản trả lời về việc cho phép tàu biển nước ngoài có động cơ chạy bằng năng lượng hạt nhân hoặc tàu vận chuyển chất phóng xạ đến cảng biển.",
+      "source_page": 1
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "7 ngày làm việc",
+      "fee": "0",
+      "description": "Trong thời hạn 7 ngày làm việc, kể từ ngày nhận đủ giấy tờ hợp lệ, Bộ Xây dựng báo cáo Thủ tướng Chính phủ xem xét, chấp thuận và có văn bản trả lời về việc cho phép tàu biển nước ngoài có động cơ chạy bằng năng lượng hạt nhân hoặc tàu vận chuyển chất phóng xạ đến cảng biển.",
+      "source_page": 1
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị định quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Xây dựng",
+      "document_number": "33/2025/NĐ-CP",
+      "source_page": 4
+    },
+    {
+      "title": "Bộ luật Hàng hải Việt Nam",
+      "document_number": "95/2015/QH13",
+      "source_page": 4
+    },
+    {
+      "title": "Nghị định sửa đổi, bổ sung một số điều của các Nghị định trong lĩnh vực hàng hải",
+      "document_number": "34/2025/NĐ-CP",
+      "source_page": 4
+    },
+    {
+      "title": "Nghị định quy định chi tiết một số điều của Bộ luật Hàng hải Việt Nam về quản lý hoạt động hàng hải",
+      "document_number": "58/2017/NĐ-CP",
+      "source_page": 4
+    },
+    {
+      "title": "Nghị quyết số 24/2026/NQ-CP ngày 29/4/2026 của Chính phủ cắt giảm, phân cấp, đơn giản hóa thủ tục hành chính, điều kiện kinh doanh lĩnh vực quốc phòng, nội vụ, tài chính, xây dựng, ngoại giao, tư pháp, ngân hàng.",
+      "document_number": "24/2026/NQ-CP",
+      "source_page": 4
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Văn bản trả lời về việc cho phép tàu biển nước ngoài có động cơ chạy bằng năng lượng hạt nhân hoặc tàu vận chuyển chất phóng xạ đến cảng biển",
+      "code": "000.00.00.G04-KQ0216",
+      "source_page": 1
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "a) Nộp hồ sơ TTHC:\nNgười làm thủ tục gửi hồ sơ đề nghị cho phép tàu biển nước ngoài có động cơ chạy bằng năng lượng hạt nhân hoặc tàu vận chuyển chất phóng xạ đến cảng biển đến Bộ Xây dựng. \nb) Giải quyết TTHC:\nTrong thời hạn 7 ngày làm việc, kể từ ngày nhận đủ giấy tờ hợp lệ, Bộ Xây dựng báo cáo Thủ tướng Chính phủ xem xét, chấp thuận và có văn bản trả lời về việc cho phép tàu biển nước ngoài có động cơ chạy bằng năng lượng hạt nhân hoặc tàu vận chuyển chất phóng xạ đến cảng biển.",
+    "THÀNH PHẦN HỒ SƠ": "a) Thành phần hồ sơ:: Văn bản đề nghị cho phép tàu biển nước ngoài có động cơ chạy bằng năng lượng hạt nhân hoặc tàu vận chuyển chất phóng xạ đến cảng biển theo mẫu\na) Thành phần hồ sơ:: Bản sao Giấy chứng nhận đăng ký tàu biển\na) Thành phần hồ sơ:: Bản sao các giấy chứng nhận về an toàn hàng hải, an ninh hàng hải và phòng ngừa ô nhiễm môi trường của tàu thuyền đó",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 7 ngày làm việc\nQua dịch vụ bưu chính: 7 ngày làm việc\nTrực tiếp: 7 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Nghị định quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Xây dựng - 33/2025/NĐ-CP\nBộ luật Hàng hải Việt Nam - 95/2015/QH13\nNghị định sửa đổi, bổ sung một số điều của các Nghị định trong lĩnh vực hàng hải - 34/2025/NĐ-CP\nNghị định quy định chi tiết một số điều của Bộ luật Hàng hải Việt Nam về quản lý hoạt động hàng hải - 58/2017/NĐ-CP\nNghị quyết số 24/2026/NQ-CP ngày 29/4/2026 của Chính phủ cắt giảm, phân cấp, đơn giản hóa thủ tục hành chính, điều kiện kinh doanh lĩnh vực quốc phòng, nội vụ, tài chính, xây dựng, ngoại giao, tư pháp, ngân hàng. - 24/2026/NQ-CP",
+    "CƠ QUAN THỰC HIỆN": "Bộ Xây dựng, Thủ tướng Chính phủ",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Văn bản trả lời về việc cho phép tàu biển nước ngoài có động cơ chạy bằng năng lượng hạt nhân hoặc tàu vận chuyển chất phóng xạ đến cảng biển - 000.00.00.G04-KQ0216",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Hàng hải và đường thủy nội địa",
+      "slug": "hang-hai-va-uong-thuy-noi-ia"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Người Việt Nam định cư ở nước ngoài",
+        "slug": "nguoi-viet-nam-inh-cu-o-nuoc-ngoai"
+      },
+      {
+        "name": "Hợp tác xã",
+        "slug": "hop-tac-xa"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Người nước ngoài",
+        "slug": "nguoi-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Bộ Xây dựng",
+        "slug": "bo-xay-dung"
+      },
+      {
+        "name": "Thủ tướng Chính phủ",
+        "slug": "thu-tuong-chinh-phu"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

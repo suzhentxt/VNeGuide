@@ -1,0 +1,184 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfc-b2a3-705c-bd07-40df26f452cd",
+  "procedure_code": "1.010370",
+  "title": "Chi trả phí bảo hiểm khai thác hải sản được ngân sách nhà nước hỗ trợ cho các doanh nghiệp bảo hiểm",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfc-b2a3-705c-bd07-40df26f452cd",
+    "source_file": "chi-tiet-thu-tuc-1.010370.pdf",
+    "source_path": "procedures/viec-lam/1.010370/chi-tiet-thu-tuc-1.010370.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T05:00:46.245244+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "85e9212947788fb5f6ed33b094663bdec3b6220ac6ef8e13edfc2975cd78aebf"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "2044/QĐ-BTC",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Bảo hiểm",
+  "target_users": [
+    "Doanh nghiệp"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Sở Nông nghiệp và Phát triển nông thôn tỉnh Sơn La, Sở Tài chính tỉnh Sơn La"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "+ Bước 1: Doanh nghiệp bảo hiểm nộp hồ sơ gửi Sở Nông nghiệp và Phát triển nông thôn.",
+      "example": null,
+      "source_page": null
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "+ Bước 2: Sở Nông nghiệp và Phát triển nông thôn chủ trì, phối hợp với Sở Tài chính xem xét, thẩm định hồ sơ đề nghị;",
+      "example": null,
+      "source_page": null
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "+ Bước 3: Sở Nông nghiệp và Phát triển nông thôn trình Uỷ ban nhân dân tỉnh, thành phố trực thuộc Trung ương xem xét, quyết định.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 4,
+      "title": "Bước 4",
+      "description": "+ Bước 4: Uỷ ban nhân dân tỉnh, thành phố trực thuộc Trung ương, cơ quan chức năng của tỉnh hoàn thành việc chi trả cho DNBH toàn bộ phí bảo hiểm khai thác hải sản được ngân sách trung ương và ngân sách địa phương hỗ trợ.",
+      "example": null,
+      "source_page": 3
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "+ Bảng kê (kèm theo bản sao) Giấy chứng nhận bảo hiểm do doanh nghiệp bảo hiểm cấp cho chủ tàu theo mẫu quy định tại Phụ lục 4, Phụ lục 5 ban hành kèm theo Thông tư 115/2014/TT-BTC.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "+ Xác nhận của Ủy ban nhân dân cấp xã về đối tượng được hỗ trợ theo mẫu quy định tại Phụ lục 3 ban hành kèm theo Thông tư 115/2014/TT-BTC.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "+ Đơn đề nghị chi trả phí bảo hiểm khai thác hải sản theo mẫu quy định tại Phụ lục 2 ban hành kèm theo Thông tư 115/2014/TT-BTC.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "20 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "20 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Thông tư 115/2014/TT-BTC",
+      "document_number": "115/2014/TT-BTC",
+      "source_page": 2
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Chi trả cho doanh nghiệp bảo hiểm toàn bộ phí bảo hiểm khai thác hải sản được ngân sách trung ương và ngân sách địa phương hỗ trợ",
+      "code": "KQ.G12.001188",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "+ Bước 1: Doanh nghiệp bảo hiểm nộp hồ sơ gửi Sở Nông nghiệp và Phát triển nông thôn.\n+ Bước 2: Sở Nông nghiệp và Phát triển nông thôn chủ trì, phối hợp với Sở Tài chính xem xét, thẩm định hồ sơ đề nghị;\n+ Bước 3: Sở Nông nghiệp và Phát triển nông thôn trình Uỷ ban nhân dân tỉnh, thành phố trực thuộc Trung ương xem xét, quyết định.\n+ Bước 4: Uỷ ban nhân dân tỉnh, thành phố trực thuộc Trung ương, cơ quan chức năng của tỉnh hoàn thành việc chi trả cho DNBH toàn bộ phí bảo hiểm khai thác hải sản được ngân sách trung ương và ngân sách địa phương hỗ trợ.",
+    "THÀNH PHẦN HỒ SƠ": "+ Bảng kê (kèm theo bản sao) Giấy chứng nhận bảo hiểm do doanh nghiệp bảo hiểm cấp cho chủ tàu theo mẫu quy định tại Phụ lục 4, Phụ lục 5 ban hành kèm theo Thông tư 115/2014/TT-BTC.\n+ Xác nhận của Ủy ban nhân dân cấp xã về đối tượng được hỗ trợ theo mẫu quy định tại Phụ lục 3 ban hành kèm theo Thông tư 115/2014/TT-BTC.\n+ Đơn đề nghị chi trả phí bảo hiểm khai thác hải sản theo mẫu quy định tại Phụ lục 2 ban hành kèm theo Thông tư 115/2014/TT-BTC.",
+    "CÁCH THỨC THỰC HIỆN": "Qua dịch vụ bưu chính: 20 ngày\nTrực tiếp: 20 ngày",
+    "CĂN CỨ PHÁP LÝ": "Thông tư 115/2014/TT-BTC - 115/2014/TT-BTC",
+    "CƠ QUAN THỰC HIỆN": "Sở Nông nghiệp và Phát triển nông thôn tỉnh Sơn La, Sở Tài chính tỉnh Sơn La",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Chi trả cho doanh nghiệp bảo hiểm toàn bộ phí bảo hiểm khai thác hải sản được ngân sách trung ương và ngân sách địa phương hỗ trợ - KQ.G12.001188",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Bảo hiểm",
+      "slug": "bao-hiem"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Sở Nông nghiệp và Phát triển nông thôn tỉnh Sơn La",
+        "slug": "so-nong-nghiep-va-phat-trien-nong-thon-tinh-son-la"
+      },
+      {
+        "name": "Sở Tài chính tỉnh Sơn La",
+        "slug": "so-tai-chinh-tinh-son-la"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

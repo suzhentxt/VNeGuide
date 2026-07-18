@@ -1,0 +1,204 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfb-4a52-722d-90e3-52eae73487a0",
+  "procedure_code": "2.002821",
+  "title": "Hỗ trợ đào tạo nghề cho người lao động ở khu vực nông thôn, người lao động là thanh niên",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfb-4a52-722d-90e3-52eae73487a0",
+    "source_file": "chi-tiet-thu-tuc-2.002821.pdf",
+    "source_path": "procedures/viec-lam/2.002821/chi-tiet-thu-tuc-2.002821.pdf",
+    "page_count": 5,
+    "extracted_at": "2026-07-18T05:02:29.882518+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "a8fa9a2404ae5b51330d90619cd6af8a255e23a6db5afd80b3b8377c84a063c7"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1561/QĐ-BNV",
+  "implementation_level": "Cấp xã",
+  "procedure_type": "NOT_ASSIGNED_REGULATION",
+  "sector": "Việc làm",
+  "target_users": [
+    "Công dân Việt Nam"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": ""
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1: Người lao động nộp hồ sơ hỗ trợ đào tạo nghề.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "Bước 2: Trong thời hạn 07 ngày làm việc, kể từ ngày nhận đủ hồ sơ hỗ trợ đào tạo nghề, Ủy ban nhân dân cấp xã nơi ở hiện tại của người lao động quyết định việc hỗ trợ và thanh toán tiền hỗ trợ cho người lao động. Trường hợp không hỗ trợ thì phải thông báo bằng văn bản và nêu rõ lý do.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "(1) Đối với người lao động ở khu vực nông thôn: - Bản sao từ sổ gốc hoặc bản sao kèm bản chính để đối chiếu hoặc bản sao có chứng thực điện tử hoặc bản sao điện tử từ sổ gốc của chứng chỉ sơ cấp hoặc chứng nhận hoàn thành khoá học, trừ trường hợp đặt hàng đào tạo theo quy định tại khoản 3 Điều 28 Nghị định số 338/2025/NĐ-CP;",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "(1) Đối với người lao động ở khu vực nông thôn: - Giấy đề nghị hỗ trợ theo Mẫu số 01 Phụ lục I kèm theo Nghị định số 338/2025/NĐ-CP;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "(1) Đối với người lao động ở khu vực nông thôn: - Hóa đơn hoặc biên lai thu tiền đào tạo trình độ sơ cấp, đào tạo dưới 03 tháng, trừ trường hợp đặt hàng đào tạo theo quy định tại khoản 3 Điều 28 Nghị định số 338/2025/NĐ-CP.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "(2) Đối với người lao động là thanh niên hoàn thành nghĩa vụ quân sự, nghĩa vụ tham gia Công an nhân dân: - Bản sao từ sổ gốc hoặc bản sao kèm bản chính để đối chiếu hoặc bản sao có chứng thực điện tử hoặc bản sao điện tử từ sổ gốc của một trong các giấy tờ sau: quyết định xuất ngũ đối với thanh niên hoàn thành nghĩa vụ quân sự hoặc nghĩa vụ tham gia Công an nhân dân; quyết định hoàn thành nghĩa vụ quân sự tại ngũ trong thời bình đối với dân quân thường trực;",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "(3) Đối với người lao động là thanh niên tình nguyện hoàn thành nhiệm vụ thực hiện chương trình, dự án phát triển kinh tế - xã hội: Giấy chứng nhận tham gia hoạt động tình nguyện (Bản sao từ sổ gốc hoặc bản sao kèm bản chính để đối chiếu hoặc bản sao có chứng thực điện tử hoặc bản sao điện tử từ sổ gốc)",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "(4) Đối với trí thức trẻ tình nguyện hoàn thành nhiệm vụ công tác tại khu kinh tế - quốc phòng: Giấy chứng nhận trí thức trẻ tình nguyện hoàn thành nhiệm vụ công tác tại khu kinh tế - quốc phòng (Bản sao từ sổ gốc hoặc bản sao kèm bản chính để đối chiếu hoặc bản sao có chứng thực điện tử hoặc bản sao điện tử từ sổ gốc)",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 3
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "7 ngày làm việc",
+      "fee": "0",
+      "description": "Trực tuyến tại Cổng Dịch vụ công quốc gia",
+      "source_page": 3
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "7 ngày làm việc",
+      "fee": "0",
+      "description": "Trực tiếp đến Trung tâm Phục vụ hành chính công nơi ở hiện tại",
+      "source_page": 3
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "7 ngày làm việc",
+      "fee": "0",
+      "description": "Thông qua dịch vụ bưu chính công ích hoặc qua thuê dịch vụ của doanh nghiệp, cá nhân hoặc qua ủy quyền đến Trung tâm Phục vụ hành chính công nơi ở hiện tại",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Luật Việc làm",
+      "document_number": "74/2025/QH15",
+      "source_page": 4
+    },
+    {
+      "title": "V/v quy định chi tiết một số điều của Luật Việc làm về chính sách hỗ trợ tạo việc làm;",
+      "document_number": "338/2025/NĐ-CP",
+      "source_page": 4
+    }
+  ],
+  "conditions": "a) Người lao động ở khu vực nông thôn được hỗ trợ đào tạo trình độ sơ cấp, đào tạo dưới 03 tháng khi có nhu cầu.\nb) Người lao động là thanh niên thuộc một trong các trường hợp sau:\n- Thanh niên hoàn thành nghĩa vụ quân sự, nghĩa vụ tham gia Công an nhân dân;\n- Thanh niên tình nguyện hoàn thành nhiệm vụ thực hiện chương trình, dự án phát triển kinh tế - xã hội;\n- Trí thức trẻ tình nguyện sau khi hoàn thành nhiệm vụ công tác tại khu kinh tế - quốc phòng.\nVà có đủ các điều kiện sau:\n- Có nhu cầu đào tạo trong thời hạn 60 tháng, kể từ ngày hoàn thành nghĩa vụ quân sự hoặc nghĩa vụ tham gia Công an nhân dân hoặc hoàn thành nhiệm vụ thực hiện chương trình, dự án phát triển kinh tế - xã hội hoặc hoàn thành nhiệm vụ công tác tại khu kinh tế - quốc phòng;\n- Chưa được hỗ trợ đào tạo nghề từ nguồn kinh phí của ngân sách nhà nước kể từ ngày hoàn thành nghĩa vụ quân sự hoặc nghĩa vụ tham gia Công an nhân dân hoặc hoàn thành nhiệm vụ thực hiện chương trình, dự án phát triển kinh tế - xã hội hoặc hoàn thành nhiệm vụ công tác tại khu kinh tế - quốc phòng.",
+  "results": [
+    {
+      "title": "Quyết định việc hỗ trợ và thanh toán tiền hỗ trợ cho người lao động",
+      "code": "KQ.G09.000508",
+      "source_page": 1
+    },
+    {
+      "title": "Văn bản thông báo trong trường hợp không hỗ trợ và nêu rõ lý do",
+      "code": "KQ.G09.000509",
+      "source_page": 4
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1: Người lao động nộp hồ sơ hỗ trợ đào tạo nghề.\nBước 2: Trong thời hạn 07 ngày làm việc, kể từ ngày nhận đủ hồ sơ hỗ trợ đào tạo nghề, Ủy ban nhân dân cấp xã nơi ở hiện tại của người lao động quyết định việc hỗ trợ và thanh toán tiền hỗ trợ cho người lao động. Trường hợp không hỗ trợ thì phải thông báo bằng văn bản và nêu rõ lý do.",
+    "THÀNH PHẦN HỒ SƠ": "(1) Đối với người lao động ở khu vực nông thôn: - Bản sao từ sổ gốc hoặc bản sao kèm bản chính để đối chiếu hoặc bản sao có chứng thực điện tử hoặc bản sao điện tử từ sổ gốc của chứng chỉ sơ cấp hoặc chứng nhận hoàn thành khoá học, trừ trường hợp đặt hàng đào tạo theo quy định tại khoản 3 Điều 28 Nghị định số 338/2025/NĐ-CP;\n(1) Đối với người lao động ở khu vực nông thôn: - Giấy đề nghị hỗ trợ theo Mẫu số 01 Phụ lục I kèm theo Nghị định số 338/2025/NĐ-CP;\n(1) Đối với người lao động ở khu vực nông thôn: - Hóa đơn hoặc biên lai thu tiền đào tạo trình độ sơ cấp, đào tạo dưới 03 tháng, trừ trường hợp đặt hàng đào tạo theo quy định tại khoản 3 Điều 28 Nghị định số 338/2025/NĐ-CP.\n(2) Đối với người lao động là thanh niên hoàn thành nghĩa vụ quân sự, nghĩa vụ tham gia Công an nhân dân: - Bản sao từ sổ gốc hoặc bản sao kèm bản chính để đối chiếu hoặc bản sao có chứng thực điện tử hoặc bản sao điện tử từ sổ gốc của một trong các giấy tờ sau: quyết định xuất ngũ đối với thanh niên hoàn thành nghĩa vụ quân sự hoặc nghĩa vụ tham gia Công an nhân dân; quyết định hoàn thành nghĩa vụ quân sự tại ngũ trong thời bình đối với dân quân thường trực;\n(3) Đối với người lao động là thanh niên tình nguyện hoàn thành nhiệm vụ thực hiện chương trình, dự án phát triển kinh tế - xã hội: Giấy chứng nhận tham gia hoạt động tình nguyện (Bản sao từ sổ gốc hoặc bản sao kèm bản chính để đối chiếu hoặc bản sao có chứng thực điện tử hoặc bản sao điện tử từ sổ gốc)\n(4) Đối với trí thức trẻ tình nguyện hoàn thành nhiệm vụ công tác tại khu kinh tế - quốc phòng: Giấy chứng nhận trí thức trẻ tình nguyện hoàn thành nhiệm vụ công tác tại khu kinh tế - quốc phòng (Bản sao từ sổ gốc hoặc bản sao kèm bản chính để đối chiếu hoặc bản sao có chứng thực điện tử hoặc bản sao điện tử từ sổ gốc)",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 7 ngày làm việc\nQua dịch vụ bưu chính: 7 ngày làm việc\nTrực tiếp: 7 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Luật Việc làm - 74/2025/QH15\nV/v quy định chi tiết một số điều của Luật Việc làm về chính sách hỗ trợ tạo việc làm; - 338/2025/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "a) Người lao động ở khu vực nông thôn được hỗ trợ đào tạo trình độ sơ cấp, đào tạo dưới 03 tháng khi có nhu cầu.\nb) Người lao động là thanh niên thuộc một trong các trường hợp sau:\n- Thanh niên hoàn thành nghĩa vụ quân sự, nghĩa vụ tham gia Công an nhân dân;\n- Thanh niên tình nguyện hoàn thành nhiệm vụ thực hiện chương trình, dự án phát triển kinh tế - xã hội;\n- Trí thức trẻ tình nguyện sau khi hoàn thành nhiệm vụ công tác tại khu kinh tế - quốc phòng.\nVà có đủ các điều kiện sau:\n- Có nhu cầu đào tạo trong thời hạn 60 tháng, kể từ ngày hoàn thành nghĩa vụ quân sự hoặc nghĩa vụ tham gia Công an nhân dân hoặc hoàn thành nhiệm vụ thực hiện chương trình, dự án phát triển kinh tế - xã hội hoặc hoàn thành nhiệm vụ công tác tại khu kinh tế - quốc phòng;\n- Chưa được hỗ trợ đào tạo nghề từ nguồn kinh phí của ngân sách nhà nước kể từ ngày hoàn thành nghĩa vụ quân sự hoặc nghĩa vụ tham gia Công an nhân dân hoặc hoàn thành nhiệm vụ thực hiện chương trình, dự án phát triển kinh tế - xã hội hoặc hoàn thành nhiệm vụ công tác tại khu kinh tế - quốc phòng.",
+    "KẾT QUẢ XỬ LÝ": "Quyết định việc hỗ trợ và thanh toán tiền hỗ trợ cho người lao động - KQ.G09.000508\nVăn bản thông báo trong trường hợp không hỗ trợ và nêu rõ lý do - KQ.G09.000509",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "a) Người lao động ở khu vực nông thôn được hỗ trợ đào tạo trình độ sơ cấp, đào tạo dưới 03 tháng khi có nhu cầu.\nb) Người lao động là thanh niên thuộc một trong các trường hợp sau:\n- Thanh niên hoàn thành nghĩa vụ quân sự, nghĩa vụ tham gia Công an nhân dân;\n- Thanh niên tình nguyện hoàn thành nhiệm vụ thực hiện chương trình, dự án phát triển kinh tế - xã hội;\n- Trí thức trẻ tình nguyện sau khi hoàn thành nhiệm vụ công tác tại khu kinh tế - quốc phòng.\nVà có đủ các điều kiện sau:\n- Có nhu cầu đào tạo trong thời hạn 60 tháng, kể từ ngày hoàn thành nghĩa vụ quân sự hoặc nghĩa vụ tham gia Công an nhân dân hoặc hoàn thành nhiệm vụ thực hiện chương trình, dự án phát triển kinh tế - xã hội hoặc hoàn thành nhiệm vụ công tác tại khu kinh tế - quốc phòng;\n- Chưa được hỗ trợ đào tạo nghề từ nguồn kinh phí của ngân sách nhà nước kể từ ngày hoàn thành nghĩa vụ quân sự hoặc nghĩa vụ tham gia Công an nhân dân hoặc hoàn thành nhiệm vụ thực hiện chương trình, dự án phát triển kinh tế - xã hội hoặc hoàn thành nhiệm vụ công tác tại khu kinh tế - quốc phòng."
+  },
+  "classification": {
+    "sector": {
+      "name": "Việc làm",
+      "slug": "viec-lam"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp xã",
+        "slug": "cap-xa"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      }
+    ],
+    "agencies": [],
+    "administrative_scope": "not_specified"
+  }
+}

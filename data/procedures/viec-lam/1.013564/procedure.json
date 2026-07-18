@@ -1,0 +1,170 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d7731-7b16-7299-b3ed-0d5acb08450b",
+  "procedure_code": "1.013564",
+  "title": "Thủ tục cấp Giấy phép xuống tàu cho người Việt Nam và người nước ngoài thuộc các cơ quan, doanh nghiệp có nhu cầu thường xuyên xuống tàu thuyền nước ngoài làm việc.",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d7731-7b16-7299-b3ed-0d5acb08450b",
+    "source_file": "chi-tiet-thu-tuc-1.013564.pdf",
+    "source_path": "procedures/viec-lam/1.013564/chi-tiet-thu-tuc-1.013564.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T05:01:18.240232+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "7d295f8544af9aecf0da2adc0f5f96cae1686b70ee0e36badaf0cefff0413e69"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1909/QĐ-BQP",
+  "implementation_level": "Cấp xã, Cơ quan ngành dọc",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Quản lý biên giới",
+  "target_users": [
+    "Công dân Việt Nam",
+    "Doanh nghiệp",
+    "Người nước ngoài"
+  ],
+  "agency": {
+    "competent_agency": "Biên phòng cửa khẩu cảng",
+    "executing_agency": "Đội Thủ tục Biên phòng cửa khẩu cảng"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Trình tự thực hiện",
+      "description": "- Bước 1: Người đề nghị cấp Giấy phép xuống tàu hoặc đại diện cơ quan, doanh nghiệp chủ quản nộp và xuất trình cho Biên phòng cửa khẩu cảng các loại giấy tờ theo quy định;\n- Bước 2: Biên phòng cửa khẩu cảng tiếp nhận, kiểm tra các loại giấy tờ, cấp Giấy phép xuống tàu hoặc gửi văn bản nêu rõ lý do trong trường hợp từ chối cấp Giấy phép xuống tàu.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Thành phần hồ sơ phải nộp: 01 danh sách trích ngang của người đề nghị cấp Giấy phép xuống tàu",
+        "quantity": "1 bản chính",
+        "attachment": "Danh sách trích ngang đề nghị cấp phép xuống tàu.docx",
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Thành phần hồ sơ phải nộp: Giấy giới thiệu hoặc công văn đề nghị cấp Giấy phép xuống tàu của cơ quan, doanh nghiệp chủ quản",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Thành phần hồ sơ phải nộp: 01 ảnh màu cỡ 02 cm x 03 cm (Giấy phép xuống tàu thời hạn 12 tháng)",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Thành phần hồ sơ phải phải xuất trình đối với người nước ngoài: Hộ chiếu hoặc giấy tờ có giá trị đi lại quốc tế",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "0",
+      "fee": "Theo quy địnhThông tư số 138/2016/TT-BTC ngày 16/9/2016 của Bộ Tài chính quy định mức thu, chế độ thu, nộp lệ phí cấp giấy phép lên bờ cho thuyền viên nước ngoài, giấy phép xuống tàu nước ngoài, giấy phép cho người điều khiển phương tiện Việt Nam cặp mạn tàu nước ngoài và giấy phép cho người Việt Nam và người nước ngoài thực hiện các hoạt động báo chí, nghiên cứu khoa học, tham quan du lịch có liên quan đến tàu, thuyền nước ngoài: 30.000 đồng/Giấy phép xuống tàu (1,5 USD/Giấy phép xuống tàu).",
+      "description": "Người đề nghị cấp Giấy phép xuống tàu hoặc đại diện cơ quan, doanh nghiệp chủ quản nộp và xuất trình các loại giấy tờ tại trụ sở Biên phòng cửa khẩu cảng.",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "Theo quy địnhThông tư số 138/2016/TT-BTC ngày 16/9/2016 của Bộ Tài chính quy định mức thu, chế độ thu, nộp lệ phí cấp giấy phép lên bờ cho thuyền viên nước ngoài, giấy phép xuống tàu nước ngoài, giấy phép cho người điều khiển phương tiện Việt Nam cặp mạn tàu nước ngoài và giấy phép cho người Việt Nam và người nước ngoài thực hiện các hoạt động báo chí, nghiên cứu khoa học, tham quan du lịch có liên quan đến tàu, thuyền nước ngoài: 30.000 đồng/Giấy phép xuống tàu (1,5 USD/Giấy phép xuống tàu).",
+    "status": "varies_by_submission_method",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "Theo quy địnhThông tư số 138/2016/TT-BTC ngày 16/9/2016 của Bộ Tài chính quy định mức thu, chế độ thu, nộp lệ phí cấp giấy phép lên bờ cho thuyền viên nước ngoài, giấy phép xuống tàu nước ngoài, giấy phép cho người điều khiển phương tiện Việt Nam cặp mạn tàu nước ngoài và giấy phép cho người Việt Nam và người nước ngoài thực hiện các hoạt động báo chí, nghiên cứu khoa học, tham quan du lịch có liên quan đến tàu, thuyền nước ngoài: 30.000 đồng/Giấy phép xuống tàu (1,5 USD/Giấy phép xuống tàu).",
+        "is_free": false,
+        "source_page": null
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Quy định về quản lý, bảo an ninh, trật tự tại cửa khẩu cảng",
+      "document_number": "77/2017/NĐ-CP",
+      "source_page": 2
+    },
+    {
+      "title": "Thông tư 138/2016/TT-BTC",
+      "document_number": "138/2016/TT-BTC",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Giấy phép xuống tàu thời hạn 03 tháng, 12 tháng do Biên phòng cửa khẩu cảng cấp",
+      "code": "KQ.G11.000270",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "- Bước 1: Người đề nghị cấp Giấy phép xuống tàu hoặc đại diện cơ quan, doanh nghiệp chủ quản nộp và xuất trình cho Biên phòng cửa khẩu cảng các loại giấy tờ theo quy định;\n- Bước 2: Biên phòng cửa khẩu cảng tiếp nhận, kiểm tra các loại giấy tờ, cấp Giấy phép xuống tàu hoặc gửi văn bản nêu rõ lý do trong trường hợp từ chối cấp Giấy phép xuống tàu.",
+    "THÀNH PHẦN HỒ SƠ": "Thành phần hồ sơ phải nộp: 01 danh sách trích ngang của người đề nghị cấp Giấy phép xuống tàu\nThành phần hồ sơ phải nộp: Giấy giới thiệu hoặc công văn đề nghị cấp Giấy phép xuống tàu của cơ quan, doanh nghiệp chủ quản\nThành phần hồ sơ phải nộp: 01 ảnh màu cỡ 02 cm x 03 cm (Giấy phép xuống tàu thời hạn 12 tháng)\nThành phần hồ sơ phải phải xuất trình đối với người nước ngoài: Hộ chiếu hoặc giấy tờ có giá trị đi lại quốc tế",
+    "CÁCH THỨC THỰC HIỆN": "Trực tiếp: 0",
+    "CĂN CỨ PHÁP LÝ": "Quy định về quản lý, bảo an ninh, trật tự tại cửa khẩu cảng - 77/2017/NĐ-CP\nThông tư 138/2016/TT-BTC - 138/2016/TT-BTC",
+    "CƠ QUAN THỰC HIỆN": "Đội Thủ tục Biên phòng cửa khẩu cảng",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Giấy phép xuống tàu thời hạn 03 tháng, 12 tháng do Biên phòng cửa khẩu cảng cấp - KQ.G11.000270",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Quản lý biên giới",
+      "slug": "quan-ly-bien-gioi"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp xã",
+        "slug": "cap-xa"
+      },
+      {
+        "name": "Cơ quan ngành dọc",
+        "slug": "co-quan-nganh-doc"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Người nước ngoài",
+        "slug": "nguoi-nuoc-ngoai"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Đội Thủ tục Biên phòng cửa khẩu cảng",
+        "slug": "oi-thu-tuc-bien-phong-cua-khau-cang"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

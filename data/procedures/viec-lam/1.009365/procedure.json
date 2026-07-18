@@ -1,0 +1,191 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfd-dc91-74ec-bee5-fc1f290a59b7",
+  "procedure_code": "1.009365",
+  "title": "Cấp, cấp lại giấy phép hoạt động báo in",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfd-dc91-74ec-bee5-fc1f290a59b7",
+    "source_file": "chi-tiet-thu-tuc-1.009365.pdf",
+    "source_path": "procedures/viec-lam/1.009365/chi-tiet-thu-tuc-1.009365.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T05:00:31.322003+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "f48398701a81948f8d96e8a73ef684dc455663edd34a732147f16b8e54814d7f"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "682/QĐ-BVHTTDL",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Báo chí",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)"
+  ],
+  "agency": {
+    "competent_agency": "Bộ Văn hóa, Thể thao và Du lịch",
+    "executing_agency": "Cục Báo chí"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Cấp, cấp lại giấy phép hoạt động báo in",
+      "description": "Cơ quan, tổ chức quy định tại Điều 14 Luật Báo chí, đủ điều kiện theo quy định tại Điều 17 Luật Báo chí, có nhu cầu hoạt động báo in gửi 01 bộ hồ sơ đề nghị cấp giấy phép hoạt động báo in đến Bộ VHTTDL.\nCơ quan báo chí thực hiện cấp lại giấy phép hoạt động báo in, cơ quan chủ quản báo chí gửi 01 bộ hồ sơ đề nghị cấp lại giấy phép hoạt động báo in đến Bộ VHTTDL.\nTrong thời hạn 90 ngày kể từ ngày nhận đủ hồ sơ hợp lệ, Bộ VHTTDL có trách nhiệm cấp, cấp lại giấy phép hoạt động báo in; trường hợp từ chối cấp phải thông báo bằng văn bản và nêu rõ lý do.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Cấp, cấp lại giấy phép hoạt động báo in: - Sơ yếu lý lịch người dự kiến là Tổng biên tập;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Cấp, cấp lại giấy phép hoạt động báo in: - Đề án hoạt động báo in (có chữ ký của người có thẩm quyền và đóng dấu hoặc ký số của cơ quan, tổ chức đề nghị cấp giấy phép) và các tài liệu kèm theo, gồm các nội dung sau:  + Sự cần thiết và cơ sở pháp lý;  + Trình bày việc đáp ứng đầy đủ các điều kiện quy định tại Điều 17 Luật Báo chí;  + Kết cấu và nội dung chính của ấn phẩm;  + Quy trình xuất bản và quản lý nội dung.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Cấp, cấp lại giấy phép hoạt động báo in: Mẫu trình bày tên gọi ấn phẩm báo in có xác nhận của cơ quan, tổ chức đề nghị cấp giấy phép",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Cấp, cấp lại giấy phép hoạt động báo in: - Danh sách dự kiến nhân sự của báo in;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Cấp, cấp lại giấy phép hoạt động báo in: - Tờ khai đề nghị cấp giấy phép hoạt động báo in;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "90 ngày",
+      "fee": "Không",
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "90 ngày",
+      "fee": "Không",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "90 ngày",
+      "fee": "Không",
+      "description": "",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "Không",
+    "status": "varies_by_submission_method",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "Không",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "Không",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "Không",
+        "is_free": false,
+        "source_page": null
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Luật báo chí",
+      "document_number": "103/2016/QH13",
+      "source_page": 1
+    },
+    {
+      "title": "Thông tư 41/2020/TT-BTTTT",
+      "document_number": "41/2020/TT-BTTTT",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Giấy phép hoạt động báo in",
+      "code": "KQ.G14.000009",
+      "source_page": 1
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Cơ quan, tổ chức quy định tại Điều 14 Luật Báo chí, đủ điều kiện theo quy định tại Điều 17 Luật Báo chí, có nhu cầu hoạt động báo in gửi 01 bộ hồ sơ đề nghị cấp giấy phép hoạt động báo in đến Bộ VHTTDL.\nCơ quan báo chí thực hiện cấp lại giấy phép hoạt động báo in, cơ quan chủ quản báo chí gửi 01 bộ hồ sơ đề nghị cấp lại giấy phép hoạt động báo in đến Bộ VHTTDL.\nTrong thời hạn 90 ngày kể từ ngày nhận đủ hồ sơ hợp lệ, Bộ VHTTDL có trách nhiệm cấp, cấp lại giấy phép hoạt động báo in; trường hợp từ chối cấp phải thông báo bằng văn bản và nêu rõ lý do.",
+    "THÀNH PHẦN HỒ SƠ": "Cấp, cấp lại giấy phép hoạt động báo in: - Sơ yếu lý lịch người dự kiến là Tổng biên tập;\nCấp, cấp lại giấy phép hoạt động báo in: - Đề án hoạt động báo in (có chữ ký của người có thẩm quyền và đóng dấu hoặc ký số của cơ quan, tổ chức đề nghị cấp giấy phép) và các tài liệu kèm theo, gồm các nội dung sau:  + Sự cần thiết và cơ sở pháp lý;  + Trình bày việc đáp ứng đầy đủ các điều kiện quy định tại Điều 17 Luật Báo chí;  + Kết cấu và nội dung chính của ấn phẩm;  + Quy trình xuất bản và quản lý nội dung.\nCấp, cấp lại giấy phép hoạt động báo in: Mẫu trình bày tên gọi ấn phẩm báo in có xác nhận của cơ quan, tổ chức đề nghị cấp giấy phép\nCấp, cấp lại giấy phép hoạt động báo in: - Danh sách dự kiến nhân sự của báo in;\nCấp, cấp lại giấy phép hoạt động báo in: - Tờ khai đề nghị cấp giấy phép hoạt động báo in;",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 90 ngày\nQua dịch vụ bưu chính: 90 ngày\nTrực tiếp: 90 ngày",
+    "CĂN CỨ PHÁP LÝ": "Luật báo chí - 103/2016/QH13\nThông tư 41/2020/TT-BTTTT - 41/2020/TT-BTTTT",
+    "CƠ QUAN THỰC HIỆN": "Cục Báo chí",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Giấy phép hoạt động báo in - KQ.G14.000009",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Báo chí",
+      "slug": "bao-chi"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Cục Báo chí",
+        "slug": "cuc-bao-chi"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

@@ -1,0 +1,252 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfc-6c92-7020-ab68-23b605834a3e",
+  "procedure_code": "1.008593",
+  "title": "Thông báo phương pháp trích khấu hao tài sản cố định/Thông báo về việc chuyển lợi nhuận ra nước ngoài",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfc-6c92-7020-ab68-23b605834a3e",
+    "source_file": "chi-tiet-thu-tuc-1.008593.pdf",
+    "source_path": "procedures/viec-lam/1.008593/chi-tiet-thu-tuc-1.008593.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T05:00:27.561296+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "d58f072d9709b88eed06d83ab7228d87de637c22de81a8a982a9baef81289322"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "4472/QĐ-BTC",
+  "implementation_level": "Cấp tỉnh, Cấp xã, Cơ quan ngành dọc",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Thuế",
+  "target_users": [
+    "Doanh nghiệp",
+    "Tổ chức nước ngoài",
+    "Hợp tác xã",
+    "Doanh nghiệp có vốn đầu tư nước ngoài",
+    "Doanh nghiệp Việt Nam",
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Công dân Việt Nam"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Thuế tỉnh, thành phố; Thuế cơ sở"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "+ Bước 1:\n(i) Đối với Thông báo phương pháp trích khấu hao tài sản cố định: Doanh nghiệp lập thông báo phương pháp trích khấu hao tài sản cố định mà doanh nghiệp lựa chọn áp dụng và gửi đến cơ quan thuế trực tiếp quản lý trước khi thực hiện trích khấu hao theo quy định.\n(ii) Đối với Thông báo về việc chuyển lợi nhuận ra nước ngoài: Nhà đầu tư nước ngoài trực tiếp hoặc uỷ quyền cho doanh nghiệp mà nhà đầu tư nước ngoài tham gia đầu tư thực hiện thông báo việc chuyển lợi nhuận ra nước ngoài theo mẫu và gửi cho cơ quan thuế trực tiếp quản lý doanh nghiệp mà nhà đầu tư nước ngoài tham gia đầu tư, trước khi thực hiện chuyển lợi nhuận ra nước ngoài ít nhất 7 ngày làm việc.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "+  Bước 2. Cơ quan thuế tiếp nhận:\n++ Trường hợp hồ sơ được nộp trực tiếp tại cơ quan thuế, công chức thuế tiếp nhận và đóng dấu tiếp nhận hồ sơ, ghi thời gian nhận hồ sơ, ghi nhận số lượng tài liệu trong hồ sơ và ghi vào sổ văn thư của cơ quan thuế.\n++ Trường hợp hồ sơ được gửi qua đường bưu chính, công chức thuế đóng dấu ghi ngày nhận hồ sơ và ghi vào sổ văn thư của cơ quan thuế.\n++ Trường hợp hồ sơ được nộp thông qua giao dịch điện tử, việc tiếp nhận, kiểm tra, chấp nhận hồ sơ khai thuế do cơ quan thuế thực hiện thông qua hệ thống xử lý dữ liệu điện tử.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Mẫu thông báo chuyển lợi nhuận ra nước ngoài ban hành kèm theo Thông tư số 186/2011/TT-BTC",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Đối với Thông báo phương pháp trích khấu hao tài sản cố định: Thông báo phương pháp trích khấu hao tài sản cố định",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "1",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "1",
+      "fee": "0",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "1",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "sửa đổi một số điều của Thông tư 19/2021/TT-BTC ngày 18/3/2021 của Bộ trưởng Bộ Tài chính hướng dẫn giao dịch điện tử trong lĩnh vực thuế",
+      "document_number": "46/2024/TT-BTC",
+      "source_page": 3
+    },
+    {
+      "title": "Nghị định số 91/2022/NĐ-CP sửa đổi bổ sung một số điều của Nghị định số 126/2020/NĐ-CP ngày 19/10/2020 của Chính phủ quy định chi tiết một số điều của Luật Quản lý thuế",
+      "document_number": "91/2022/NĐ-CP",
+      "source_page": 3
+    },
+    {
+      "title": "Luật Quản lý thuế",
+      "document_number": "38/2019/QH14",
+      "source_page": 3
+    },
+    {
+      "title": "Nghị định 126/2020/NĐ-CP",
+      "document_number": "126/2020/NĐ-CP",
+      "source_page": 3
+    },
+    {
+      "title": "Thông tư số 19/2021/TT-BTC ngày 18/3/2021 của Bộ Tài chính hướng dẫn Giao dịch điện tử trong lĩnh vực thuế",
+      "document_number": "19/2021/TT-BTC",
+      "source_page": 3
+    },
+    {
+      "title": "Thông tư 80/2021/TT-BTC",
+      "document_number": "80/2021/TT-BTC",
+      "source_page": 3
+    },
+    {
+      "title": "hướng dẫn chế độ quản lý, sử dụng và trích khấu hao tài sản cố định",
+      "document_number": "45/2013/TT-BTC",
+      "source_page": 3
+    },
+    {
+      "title": "Thông tư 186/2010/TT-BTC",
+      "document_number": "186/2010/TT-BTC",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Hồ sơ gửi đến cơ quan thuế không có kết quả giải quyết",
+      "code": "KQ.G12.000429",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "+ Bước 1:\n(i) Đối với Thông báo phương pháp trích khấu hao tài sản cố định: Doanh nghiệp lập thông báo phương pháp trích khấu hao tài sản cố định mà doanh nghiệp lựa chọn áp dụng và gửi đến cơ quan thuế trực tiếp quản lý trước khi thực hiện trích khấu hao theo quy định.\n(ii) Đối với Thông báo về việc chuyển lợi nhuận ra nước ngoài: Nhà đầu tư nước ngoài trực tiếp hoặc uỷ quyền cho doanh nghiệp mà nhà đầu tư nước ngoài tham gia đầu tư thực hiện thông báo việc chuyển lợi nhuận ra nước ngoài theo mẫu và gửi cho cơ quan thuế trực tiếp quản lý doanh nghiệp mà nhà đầu tư nước ngoài tham gia đầu tư, trước khi thực hiện chuyển lợi nhuận ra nước ngoài ít nhất 7 ngày làm việc.\n+  Bước 2. Cơ quan thuế tiếp nhận:\n++ Trường hợp hồ sơ được nộp trực tiếp tại cơ quan thuế, công chức thuế tiếp nhận và đóng dấu tiếp nhận hồ sơ, ghi thời gian nhận hồ sơ, ghi nhận số lượng tài liệu trong hồ sơ và ghi vào sổ văn thư của cơ quan thuế.\n++ Trường hợp hồ sơ được gửi qua đường bưu chính, công chức thuế đóng dấu ghi ngày nhận hồ sơ và ghi vào sổ văn thư của cơ quan thuế.\n++ Trường hợp hồ sơ được nộp thông qua giao dịch điện tử, việc tiếp nhận, kiểm tra, chấp nhận hồ sơ khai thuế do cơ quan thuế thực hiện thông qua hệ thống xử lý dữ liệu điện tử.",
+    "THÀNH PHẦN HỒ SƠ": "Mẫu thông báo chuyển lợi nhuận ra nước ngoài ban hành kèm theo Thông tư số 186/2011/TT-BTC\nĐối với Thông báo phương pháp trích khấu hao tài sản cố định: Thông báo phương pháp trích khấu hao tài sản cố định",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 1\nQua dịch vụ bưu chính: 1\nTrực tiếp: 1",
+    "CĂN CỨ PHÁP LÝ": "sửa đổi một số điều của Thông tư 19/2021/TT-BTC ngày 18/3/2021 của Bộ trưởng Bộ Tài chính hướng dẫn giao dịch điện tử trong lĩnh vực thuế - 46/2024/TT-BTC\nNghị định số 91/2022/NĐ-CP sửa đổi bổ sung một số điều của Nghị định số 126/2020/NĐ-CP ngày 19/10/2020 của Chính phủ quy định chi tiết một số điều của Luật Quản lý thuế - 91/2022/NĐ-CP\nLuật Quản lý thuế - 38/2019/QH14\nNghị định 126/2020/NĐ-CP - 126/2020/NĐ-CP\nThông tư số 19/2021/TT-BTC ngày 18/3/2021 của Bộ Tài chính hướng dẫn Giao dịch điện tử trong lĩnh vực thuế - 19/2021/TT-BTC\nThông tư 80/2021/TT-BTC - 80/2021/TT-BTC\nhướng dẫn chế độ quản lý, sử dụng và trích khấu hao tài sản cố định - 45/2013/TT-BTC\nThông tư 186/2010/TT-BTC - 186/2010/TT-BTC",
+    "CƠ QUAN THỰC HIỆN": "Thuế tỉnh, thành phố; Thuế cơ sở",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Hồ sơ gửi đến cơ quan thuế không có kết quả giải quyết - KQ.G12.000429",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Thuế",
+      "slug": "thue"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      },
+      {
+        "name": "Cấp xã",
+        "slug": "cap-xa"
+      },
+      {
+        "name": "Cơ quan ngành dọc",
+        "slug": "co-quan-nganh-doc"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      },
+      {
+        "name": "Hợp tác xã",
+        "slug": "hop-tac-xa"
+      },
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      },
+      {
+        "name": "Doanh nghiệp Việt Nam",
+        "slug": "doanh-nghiep-viet-nam"
+      },
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Thuế tỉnh, thành phố",
+        "slug": "thue-tinh-thanh-pho"
+      },
+      {
+        "name": "Thuế cơ sở",
+        "slug": "thue-co-so"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

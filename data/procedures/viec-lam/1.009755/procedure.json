@@ -1,0 +1,259 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfc-9b62-70d8-94fe-e68646914587",
+  "procedure_code": "1.009755",
+  "title": "Thủ tục chấp thuận nhà đầu tư thuộc thẩm quyền của Ban quản lý khu kinh tế",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfc-9b62-70d8-94fe-e68646914587",
+    "source_file": "chi-tiet-thu-tuc-1.009755.pdf",
+    "source_path": "procedures/viec-lam/1.009755/chi-tiet-thu-tuc-1.009755.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T05:00:38.659398+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "d32bc1c485429670a251382454fe9e9eb9996b0d834e27c3fdfc2be8fbad4302"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1165/QĐ-BTC",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Đầu tư tại Việt nam",
+  "target_users": [
+    "Doanh nghiệp có vốn đầu tư nước ngoài",
+    "Công dân Việt Nam",
+    "Doanh nghiệp",
+    "Người nước ngoài",
+    "Tổ chức nước ngoài",
+    "Hợp tác xã",
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Người Việt Nam định cư ở nước ngoài"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Ban quản lý khu công nghiệp, khu kinh tế, khu chế xuất, khu công nghệ cao các tỉnh, thành phố"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Trình tự thực hiện:\n- Bước 1: Nhà đầu tư nộp 01 bộ hồ sơ và kèm theo bản điện tử của hồ sơ gửi cho Ban quản lý khu kinh tế.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "- Bước 2: Trong thời hạn 02 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ, Ban quản lý khu kinh tế gửi hồ sơ lấy ý kiến của các cơ quan nhà nước tại địa phương có liên quan. Đối với dự án đầu tư thực hiện tại khu vực có ảnh hưởng đến quốc phòng, an ninh, Ban quản lý khu kinh tế lấy ý kiến của Bộ Chỉ huy quân sự cấp tỉnh, Công an cấp tỉnh về việc đáp ứng các điều kiện bảo đảm quốc phòng, an ninh;.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "- Bước 3: Trong thời hạn 07 ngày làm việc kể từ ngày nhận được đề nghị của Ban quản lý khu kinh tế, cơ quan được lấy ý kiến có ý kiến về nội dung thuộc phạm vi quản lý nhà nước của mình, gửi Ban quản lý khu kinh tế.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 4,
+      "title": "Bước 4",
+      "description": "- Bước 4: Trong thời hạn 17 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ, Ban quản lý khu kinh tế xem xét, chấp thuận nhà đầu tư.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "(Trường hợp khai thác, sử dụng được thông tin về tài liệu tư cách pháp lý của nhà đầu tư, Giấy chứng nhận đăng ký đầu tư, Quyết định chấp thuận chủ trương đầu tư, Giấy chứng nhận quyền sử dụng đất hoặc các văn bản, giấy tờ khác mà đã có trong các cơ sở dữ liệu để thay thế thành phần hồ sơ giải quyết thủ tục hành chính thì hồ sơ không bao gồm bản sao của các giấy tờ này): + Văn bản đề nghị chấp thuận nhà đầu tư;",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu I.1.4.docx",
+        "source_page": 2
+      },
+      {
+        "name": "(Trường hợp khai thác, sử dụng được thông tin về tài liệu tư cách pháp lý của nhà đầu tư, Giấy chứng nhận đăng ký đầu tư, Quyết định chấp thuận chủ trương đầu tư, Giấy chứng nhận quyền sử dụng đất hoặc các văn bản, giấy tờ khác mà đã có trong các cơ sở dữ liệu để thay thế thành phần hồ sơ giải quyết thủ tục hành chính thì hồ sơ không bao gồm bản sao của các giấy tờ này): Hợp đồng BCC đối với dự án đầu tư theo hình thức hợp đồng BCC",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": null
+      },
+      {
+        "name": "(Trường hợp khai thác, sử dụng được thông tin về tài liệu tư cách pháp lý của nhà đầu tư, Giấy chứng nhận đăng ký đầu tư, Quyết định chấp thuận chủ trương đầu tư, Giấy chứng nhận quyền sử dụng đất hoặc các văn bản, giấy tờ khác mà đã có trong các cơ sở dữ liệu để thay thế thành phần hồ sơ giải quyết thủ tục hành chính thì hồ sơ không bao gồm bản sao của các giấy tờ này): Tài liệu về tư cách pháp lý của nhà đầu tư",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 3
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "(Trường hợp khai thác, sử dụng được thông tin về tài liệu tư cách pháp lý của nhà đầu tư, Giấy chứng nhận đăng ký đầu tư, Quyết định chấp thuận chủ trương đầu tư, Giấy chứng nhận quyền sử dụng đất hoặc các văn bản, giấy tờ khác mà đã có trong các cơ sở dữ liệu để thay thế thành phần hồ sơ giải quyết thủ tục hành chính thì hồ sơ không bao gồm bản sao của các giấy tờ này): + Nội dung giải trình về công nghệ sử dụng trong dự án đầu tư đối với dự án thuộc diện thẩm định, lấy ý kiến về công nghệ theo quy định của pháp luật về chuyển giao công nghệ;",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "(Trường hợp khai thác, sử dụng được thông tin về tài liệu tư cách pháp lý của nhà đầu tư, Giấy chứng nhận đăng ký đầu tư, Quyết định chấp thuận chủ trương đầu tư, Giấy chứng nhận quyền sử dụng đất hoặc các văn bản, giấy tờ khác mà đã có trong các cơ sở dữ liệu để thay thế thành phần hồ sơ giải quyết thủ tục hành chính thì hồ sơ không bao gồm bản sao của các giấy tờ này): + Tài liệu khác liên quan đến dự án đầu tư, yêu cầu về điều kiện, năng lực của nhà đầu tư theo quy định của pháp luật (nếu có).",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "(Trường hợp khai thác, sử dụng được thông tin về tài liệu tư cách pháp lý của nhà đầu tư, Giấy chứng nhận đăng ký đầu tư, Quyết định chấp thuận chủ trương đầu tư, Giấy chứng nhận quyền sử dụng đất hoặc các văn bản, giấy tờ khác mà đã có trong các cơ sở dữ liệu để thay thế thành phần hồ sơ giải quyết thủ tục hành chính thì hồ sơ không bao gồm bản sao của các giấy tờ này): + Tài liệu chứng minh năng lực tài chính của nhà đầu tư gồm ít nhất một trong các tài liệu sau: báo cáo tài chính 02 năm gần nhất của nhà đầu tư; cam kết hỗ trợ tài chính của công ty mẹ; cam kết hỗ trợ tài chính của tổ chức tài chính; bảo lãnh về năng lực tài chính của nhà đầu tư; tài liệu khác chứng minh năng lực tài chính của nhà đầu tư;",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "17",
+      "fee": "Không có",
+      "description": "",
+      "source_page": 3
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "17",
+      "fee": "Không có",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "17",
+      "fee": "Không có",
+      "description": "",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "Không có",
+    "status": "varies_by_submission_method",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "Không có",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "Không có",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "Không có",
+        "is_free": false,
+        "source_page": null
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "định số 96/2026/NĐ-CP ngày 31/3/2026;",
+      "document_number": "96/2026/NĐ-CP",
+      "source_page": 3
+    },
+    {
+      "title": "Thông tư số 55/2026/TT-BTC ngày 15/5/2026.",
+      "document_number": "55/2026/TT-BTC",
+      "source_page": 3
+    },
+    {
+      "title": "Luật Đầu tư số 143/2025/QH15 ngày 11/12/2025;",
+      "document_number": "143/2025/QH15",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Quyết định chấp thuận điều chỉnh nhà đầu tư theo Mẫu I.2.5.a hoặc I.2.5.b ban hành kèm theo Thông tư số 55/2026/TT-BTC hoặc văn bản từ chối, nêu rõ lý do.",
+      "code": "KQ.G12.001144",
+      "source_page": 4
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Trình tự thực hiện:\n- Bước 1: Nhà đầu tư nộp 01 bộ hồ sơ và kèm theo bản điện tử của hồ sơ gửi cho Ban quản lý khu kinh tế.\n- Bước 2: Trong thời hạn 02 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ, Ban quản lý khu kinh tế gửi hồ sơ lấy ý kiến của các cơ quan nhà nước tại địa phương có liên quan. Đối với dự án đầu tư thực hiện tại khu vực có ảnh hưởng đến quốc phòng, an ninh, Ban quản lý khu kinh tế lấy ý kiến của Bộ Chỉ huy quân sự cấp tỉnh, Công an cấp tỉnh về việc đáp ứng các điều kiện bảo đảm quốc phòng, an ninh;.\n- Bước 3: Trong thời hạn 07 ngày làm việc kể từ ngày nhận được đề nghị của Ban quản lý khu kinh tế, cơ quan được lấy ý kiến có ý kiến về nội dung thuộc phạm vi quản lý nhà nước của mình, gửi Ban quản lý khu kinh tế.\n- Bước 4: Trong thời hạn 17 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ, Ban quản lý khu kinh tế xem xét, chấp thuận nhà đầu tư.",
+    "THÀNH PHẦN HỒ SƠ": "(Trường hợp khai thác, sử dụng được thông tin về tài liệu tư cách pháp lý của nhà đầu tư, Giấy chứng nhận đăng ký đầu tư, Quyết định chấp thuận chủ trương đầu tư, Giấy chứng nhận quyền sử dụng đất hoặc các văn bản, giấy tờ khác mà đã có trong các cơ sở dữ liệu để thay thế thành phần hồ sơ giải quyết thủ tục hành chính thì hồ sơ không bao gồm bản sao của các giấy tờ này): + Văn bản đề nghị chấp thuận nhà đầu tư;\n(Trường hợp khai thác, sử dụng được thông tin về tài liệu tư cách pháp lý của nhà đầu tư, Giấy chứng nhận đăng ký đầu tư, Quyết định chấp thuận chủ trương đầu tư, Giấy chứng nhận quyền sử dụng đất hoặc các văn bản, giấy tờ khác mà đã có trong các cơ sở dữ liệu để thay thế thành phần hồ sơ giải quyết thủ tục hành chính thì hồ sơ không bao gồm bản sao của các giấy tờ này): Hợp đồng BCC đối với dự án đầu tư theo hình thức hợp đồng BCC\n(Trường hợp khai thác, sử dụng được thông tin về tài liệu tư cách pháp lý của nhà đầu tư, Giấy chứng nhận đăng ký đầu tư, Quyết định chấp thuận chủ trương đầu tư, Giấy chứng nhận quyền sử dụng đất hoặc các văn bản, giấy tờ khác mà đã có trong các cơ sở dữ liệu để thay thế thành phần hồ sơ giải quyết thủ tục hành chính thì hồ sơ không bao gồm bản sao của các giấy tờ này): Tài liệu về tư cách pháp lý của nhà đầu tư\n(Trường hợp khai thác, sử dụng được thông tin về tài liệu tư cách pháp lý của nhà đầu tư, Giấy chứng nhận đăng ký đầu tư, Quyết định chấp thuận chủ trương đầu tư, Giấy chứng nhận quyền sử dụng đất hoặc các văn bản, giấy tờ khác mà đã có trong các cơ sở dữ liệu để thay thế thành phần hồ sơ giải quyết thủ tục hành chính thì hồ sơ không bao gồm bản sao của các giấy tờ này): + Nội dung giải trình về công nghệ sử dụng trong dự án đầu tư đối với dự án thuộc diện thẩm định, lấy ý kiến về công nghệ theo quy định của pháp luật về chuyển giao công nghệ;\n(Trường hợp khai thác, sử dụng được thông tin về tài liệu tư cách pháp lý của nhà đầu tư, Giấy chứng nhận đăng ký đầu tư, Quyết định chấp thuận chủ trương đầu tư, Giấy chứng nhận quyền sử dụng đất hoặc các văn bản, giấy tờ khác mà đã có trong các cơ sở dữ liệu để thay thế thành phần hồ sơ giải quyết thủ tục hành chính thì hồ sơ không bao gồm bản sao của các giấy tờ này): + Tài liệu khác liên quan đến dự án đầu tư, yêu cầu về điều kiện, năng lực của nhà đầu tư theo quy định của pháp luật (nếu có).\n(Trường hợp khai thác, sử dụng được thông tin về tài liệu tư cách pháp lý của nhà đầu tư, Giấy chứng nhận đăng ký đầu tư, Quyết định chấp thuận chủ trương đầu tư, Giấy chứng nhận quyền sử dụng đất hoặc các văn bản, giấy tờ khác mà đã có trong các cơ sở dữ liệu để thay thế thành phần hồ sơ giải quyết thủ tục hành chính thì hồ sơ không bao gồm bản sao của các giấy tờ này): + Tài liệu chứng minh năng lực tài chính của nhà đầu tư gồm ít nhất một trong các tài liệu sau: báo cáo tài chính 02 năm gần nhất của nhà đầu tư; cam kết hỗ trợ tài chính của công ty mẹ; cam kết hỗ trợ tài chính của tổ chức tài chính; bảo lãnh về năng lực tài chính của nhà đầu tư; tài liệu khác chứng minh năng lực tài chính của nhà đầu tư;",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 17\nQua dịch vụ bưu chính: 17\nTrực tiếp: 17",
+    "CĂN CỨ PHÁP LÝ": "định số 96/2026/NĐ-CP ngày 31/3/2026; - 96/2026/NĐ-CP\nThông tư số 55/2026/TT-BTC ngày 15/5/2026. - 55/2026/TT-BTC\nLuật Đầu tư số 143/2025/QH15 ngày 11/12/2025; - 143/2025/QH15",
+    "CƠ QUAN THỰC HIỆN": "Ban quản lý khu công nghiệp, khu kinh tế, khu chế xuất, khu công nghệ cao các tỉnh, thành phố",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Quyết định chấp thuận điều chỉnh nhà đầu tư theo Mẫu I.2.5.a hoặc I.2.5.b ban hành kèm theo Thông tư số 55/2026/TT-BTC hoặc văn bản từ chối, nêu rõ lý do. - KQ.G12.001144",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Đầu tư tại Việt nam",
+      "slug": "au-tu-tai-viet-nam"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Người nước ngoài",
+        "slug": "nguoi-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      },
+      {
+        "name": "Hợp tác xã",
+        "slug": "hop-tac-xa"
+      },
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Người Việt Nam định cư ở nước ngoài",
+        "slug": "nguoi-viet-nam-inh-cu-o-nuoc-ngoai"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Ban quản lý khu công nghiệp, khu kinh tế, khu chế xuất, khu công nghệ cao các tỉnh, thành phố",
+        "slug": "ban-quan-ly-khu-cong-nghiep-khu-kinh-te-khu-che-xuat-khu-cong-nghe-cao-cac-tinh-thanh-pho"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

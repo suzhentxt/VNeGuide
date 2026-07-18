@@ -1,0 +1,211 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfb-2325-700f-b8e3-a9b1178da7dc",
+  "procedure_code": "1.013937",
+  "title": "Công nhận tài liệu lưu trữ có giá trị đặc biệt.",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfb-2325-700f-b8e3-a9b1178da7dc",
+    "source_file": "chi-tiet-thu-tuc-1.013937.pdf",
+    "source_path": "procedures/viec-lam/1.013937/chi-tiet-thu-tuc-1.013937.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T05:01:24.532123+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "9783eb2a51b5fb7fd62f508eb978dc26d0844936ca358a89dc939116c995ead3"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "647/QĐ-BNV",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Văn thư và Lưu trữ nhà nước",
+  "target_users": [
+    "Công dân Việt Nam",
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Ủy ban nhân dân cấp tỉnh"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "- Bước 1: Sở Nội vụ tiếp nhận hồ sơ đề nghị công nhận tài liệu lưu trữ có giá trị đặc biệt đối với tài liệu lưu trữ tư và tài liệu lưu trữ của cơ quan, tổ chức thuộc địa bàn quản lý, trừ các cơ quan, tổ chức thuộc thẩm quyền tiếp nhận của Cục Văn thư và Lưu trữ nhà nước.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "- Bước 2: Sở Nội vụ kiểm tra và nhận hồ sơ đối với trường hợp hồ sơ đầy đủ, chính xác theo quy định; yêu cầu cơ quan, tổ chức bổ sung, hoàn thiện hồ sơ đối với trường hợp hồ sơ chưa đầy đủ, chưa chính xác; trường hợp từ chối nhận hồ sơ phải nêu rõ lý do.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "- Bước 3: Hội đồng Xác định tài liệu lưu trữ có giá trị đặc biệt xem xét hồ sơ, đánh giá giá trị của tài liệu và kiểm tra trực tiếp tài liệu trong trường hợp cần thiết; trình Chủ tịch Ủy ban nhân dân cấp tỉnh xem xét, công nhận tài liệu lưu trữ có giá trị đặc biệt.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 4,
+      "title": "Bước 4",
+      "description": "- Bước 4: Chủ tịch Ủy ban nhân dân cấp tỉnh ban hành quyết định công nhận tài liệu lưu trữ có giá trị đặc biệt.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "- Bản sao hoặc ảnh chụp tài liệu lưu trữ thể hiện được các thông tin cơ bản của tài liệu",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Tư liệu, tài liệu khác chứng minh giá trị đặc biệt của tài liệu lưu trữ (nếu có)",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Văn bản đề nghị công nhận tài liệu lưu trữ có giá trị đặc biệt của cơ quan, tổ chức hoặc đơn đề nghị công nhận tài liệu lưu trữ có giá trị đặc biệt của cá nhân",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Bản thuyết minh tài liệu lưu trữ",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "60 ngày",
+      "fee": "0",
+      "description": "Chậm nhất là 60 ngày kể từ ngày nhận hồ sơ đầy đủ, chính xác theo quy định.\nCơ quan, tổ chức nộp hồ sơ trực tuyến hoặc nộp hồ sơ trực tiếp hoặc qua dịch vụ bưu chính.",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "60 ngày",
+      "fee": "0",
+      "description": "Chậm nhất là 60 ngày kể từ ngày nhận hồ sơ đầy đủ, chính xác theo quy định.\nCơ quan, tổ chức nộp hồ sơ trực tuyến hoặc nộp hồ sơ trực tiếp hoặc qua dịch vụ bưu chính.",
+      "source_page": 2
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "60 ngày",
+      "fee": "0",
+      "description": "Chậm nhất là 60 ngày kể từ ngày nhận hồ sơ đầy đủ, chính xác theo quy định.\nCơ quan, tổ chức nộp hồ sơ trực tuyến hoặc nộp hồ sơ trực tiếp hoặc qua dịch vụ bưu chính.",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 1
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Luật Lưu trữ",
+      "document_number": "33/2024/QH15",
+      "source_page": 3
+    },
+    {
+      "title": "quy định chi tiết một số điều của Luật Lưu trữ",
+      "document_number": "06/2025/TT-BNV",
+      "source_page": 3
+    }
+  ],
+  "conditions": "a) Tài liệu đề nghị công nhận là tài liệu lưu trữ có giá trị đặc biệt phải đáp ứng một trong các tiêu chí về nội dung quy định tại khoản 2 Điều 38 Luật Lưu trữ năm 2024 và một trong các tiêu chí về hình thức, xuất xứ quy định tại khoản 3 Điều 38 Luật Lưu trữ năm 2024, cụ thể:\n- Tiêu chí về nội dung bao gồm:\n+ Phản ánh lịch sử hình thành và phát triển của quốc gia, dân tộc, của ngành, lĩnh vực;\n+ Quá trình hình thành, xác lập và thực thi chủ quyền lãnh thổ Việt Nam, biên giới quốc gia;\n+ Công trình khoa học, sản phẩm tiêu biểu của ngành, lĩnh vực;\n+ Thân thế, sự nghiệp và đóng góp của cá nhân, gia đình, dòng họ tiêu biểu;\n+ Tài liệu lưu trữ khác có tầm quan trọng đặc biệt đối với quốc gia, dân tộc hoặc thế giới.\n- Tiêu chí về hình thức, xuất xứ bao gồm:\n+ Phương pháp, kỹ thuật trình bày đặc sắc, có tính thẩm mỹ và nghệ thuật;\n+ Đặc trưng, điển hình của thời kỳ lịch sử;\n+ Hình thành trong hoàn cảnh lịch sử đặc biệt về thời gian, địa điểm hoặc tác giả.\nb) Hồ sơ đề nghị công nhận tài liệu lưu trữ có giá trị đặc biệt không thuộc trường hợp đang tranh chấp về quyền sở hữu, quyền quản lý.",
+  "results": [
+    {
+      "title": "Quyết định công nhận tài liệu lưu trữ có giá trị đặc biệt.",
+      "code": "KQ.G09.000352",
+      "source_page": 1
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "- Bước 1: Sở Nội vụ tiếp nhận hồ sơ đề nghị công nhận tài liệu lưu trữ có giá trị đặc biệt đối với tài liệu lưu trữ tư và tài liệu lưu trữ của cơ quan, tổ chức thuộc địa bàn quản lý, trừ các cơ quan, tổ chức thuộc thẩm quyền tiếp nhận của Cục Văn thư và Lưu trữ nhà nước.\n- Bước 2: Sở Nội vụ kiểm tra và nhận hồ sơ đối với trường hợp hồ sơ đầy đủ, chính xác theo quy định; yêu cầu cơ quan, tổ chức bổ sung, hoàn thiện hồ sơ đối với trường hợp hồ sơ chưa đầy đủ, chưa chính xác; trường hợp từ chối nhận hồ sơ phải nêu rõ lý do.\n- Bước 3: Hội đồng Xác định tài liệu lưu trữ có giá trị đặc biệt xem xét hồ sơ, đánh giá giá trị của tài liệu và kiểm tra trực tiếp tài liệu trong trường hợp cần thiết; trình Chủ tịch Ủy ban nhân dân cấp tỉnh xem xét, công nhận tài liệu lưu trữ có giá trị đặc biệt.\n- Bước 4: Chủ tịch Ủy ban nhân dân cấp tỉnh ban hành quyết định công nhận tài liệu lưu trữ có giá trị đặc biệt.",
+    "THÀNH PHẦN HỒ SƠ": "- Bản sao hoặc ảnh chụp tài liệu lưu trữ thể hiện được các thông tin cơ bản của tài liệu\n- Tư liệu, tài liệu khác chứng minh giá trị đặc biệt của tài liệu lưu trữ (nếu có)\n- Văn bản đề nghị công nhận tài liệu lưu trữ có giá trị đặc biệt của cơ quan, tổ chức hoặc đơn đề nghị công nhận tài liệu lưu trữ có giá trị đặc biệt của cá nhân\n- Bản thuyết minh tài liệu lưu trữ",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 60 ngày\nQua dịch vụ bưu chính: 60 ngày\nTrực tiếp: 60 ngày",
+    "CĂN CỨ PHÁP LÝ": "Luật Lưu trữ - 33/2024/QH15\nquy định chi tiết một số điều của Luật Lưu trữ - 06/2025/TT-BNV",
+    "CƠ QUAN THỰC HIỆN": "Ủy ban nhân dân cấp tỉnh",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "a) Tài liệu đề nghị công nhận là tài liệu lưu trữ có giá trị đặc biệt phải đáp ứng một trong các tiêu chí về nội dung quy định tại khoản 2 Điều 38 Luật Lưu trữ năm 2024 và một trong các tiêu chí về hình thức, xuất xứ quy định tại khoản 3 Điều 38 Luật Lưu trữ năm 2024, cụ thể:\n- Tiêu chí về nội dung bao gồm:\n+ Phản ánh lịch sử hình thành và phát triển của quốc gia, dân tộc, của ngành, lĩnh vực;\n+ Quá trình hình thành, xác lập và thực thi chủ quyền lãnh thổ Việt Nam, biên giới quốc gia;\n+ Công trình khoa học, sản phẩm tiêu biểu của ngành, lĩnh vực;\n+ Thân thế, sự nghiệp và đóng góp của cá nhân, gia đình, dòng họ tiêu biểu;\n+ Tài liệu lưu trữ khác có tầm quan trọng đặc biệt đối với quốc gia, dân tộc hoặc thế giới.\n- Tiêu chí về hình thức, xuất xứ bao gồm:\n+ Phương pháp, kỹ thuật trình bày đặc sắc, có tính thẩm mỹ và nghệ thuật;\n+ Đặc trưng, điển hình của thời kỳ lịch sử;\n+ Hình thành trong hoàn cảnh lịch sử đặc biệt về thời gian, địa điểm hoặc tác giả.\nb) Hồ sơ đề nghị công nhận tài liệu lưu trữ có giá trị đặc biệt không thuộc trường hợp đang tranh chấp về quyền sở hữu, quyền quản lý.",
+    "KẾT QUẢ XỬ LÝ": "Quyết định công nhận tài liệu lưu trữ có giá trị đặc biệt. - KQ.G09.000352",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "a) Tài liệu đề nghị công nhận là tài liệu lưu trữ có giá trị đặc biệt phải đáp ứng một trong các tiêu chí về nội dung quy định tại khoản 2 Điều 38 Luật Lưu trữ năm 2024 và một trong các tiêu chí về hình thức, xuất xứ quy định tại khoản 3 Điều 38 Luật Lưu trữ năm 2024, cụ thể:\n- Tiêu chí về nội dung bao gồm:\n+ Phản ánh lịch sử hình thành và phát triển của quốc gia, dân tộc, của ngành, lĩnh vực;\n+ Quá trình hình thành, xác lập và thực thi chủ quyền lãnh thổ Việt Nam, biên giới quốc gia;\n+ Công trình khoa học, sản phẩm tiêu biểu của ngành, lĩnh vực;\n+ Thân thế, sự nghiệp và đóng góp của cá nhân, gia đình, dòng họ tiêu biểu;\n+ Tài liệu lưu trữ khác có tầm quan trọng đặc biệt đối với quốc gia, dân tộc hoặc thế giới.\n- Tiêu chí về hình thức, xuất xứ bao gồm:\n+ Phương pháp, kỹ thuật trình bày đặc sắc, có tính thẩm mỹ và nghệ thuật;\n+ Đặc trưng, điển hình của thời kỳ lịch sử;\n+ Hình thành trong hoàn cảnh lịch sử đặc biệt về thời gian, địa điểm hoặc tác giả.\nb) Hồ sơ đề nghị công nhận tài liệu lưu trữ có giá trị đặc biệt không thuộc trường hợp đang tranh chấp về quyền sở hữu, quyền quản lý."
+  },
+  "classification": {
+    "sector": {
+      "name": "Văn thư và Lưu trữ nhà nước",
+      "slug": "van-thu-va-luu-tru-nha-nuoc"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Ủy ban nhân dân cấp tỉnh",
+        "slug": "uy-ban-nhan-dan-cap-tinh"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

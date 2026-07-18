@@ -1,0 +1,202 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bf8-b09e-708f-b073-b1cdce00da20",
+  "procedure_code": "1.008721",
+  "title": "Chuyển đổi cơ sở giáo dục phổ thông tư thục do cơ quan đại diện ngoại giao nước ngoài, tổ chức quốc tế liên chính phủ đề nghị sang cơ sở giáo dục phổ thông tư thục hoạt động không vì lợi nhuận",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bf8-b09e-708f-b073-b1cdce00da20",
+    "source_file": "chi-tiet-thu-tuc-1.008721.pdf",
+    "source_path": "procedures/hoc-tap/1.008721/chi-tiet-thu-tuc-1.008721.pdf",
+    "page_count": 5,
+    "extracted_at": "2026-07-18T04:58:15.094734+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "f5afc4994ad1fbb63ba692bc1cef27eca79fcf538e0e20fc9748e4bf5609ced3"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "843/QĐ-BGDĐT",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Giáo dục, đào tạo với nước ngoài",
+  "target_users": [
+    "Doanh nghiệp có vốn đầu tư nước ngoài",
+    "Tổ chức nước ngoài"
+  ],
+  "agency": {
+    "competent_agency": "Chủ tịch ủy ban nhân dân cấp tỉnh",
+    "executing_agency": "Sở Giáo dục và Đào tạo"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "a)  Cơ sở giáo dục gửi 01 bộ hồ sơ qua cổng dịch vụ công trực tuyến hoặc bưu chính hoặc trực tiếp đến Trung tâm Phục vụ hành chính công cấp tỉnh (Sở Giáo dục và Đào tạo);\nb) Trong thời hạn 05 ngày làm việc, kể từ ngày nhận được hồ sơ, nếu hồ sơ không hợp lệ, Sở Giáo dục và Đào tạo thông báo bằng văn bản cho cơ sở giáo dục để sửa đổi, bổ sung;\nc) Trong thời hạn 05 ngày làm việc kể từ ngày nhận đủ hồ sơ theo quy định, Sở Giáo dục và Đào tạo có trách nhiệm kiểm tra tính hợp lệ của hồ sơ và gửi hồ sơ xin ý kiến của các cơ quan, đơn vị có liên quan. Trong thời hạn 10 ngày làm việc kể từ ngày nhận được công văn xin ý kiến của Sở Giáo dục và Đào tạo, cơ quan, đơn vị được hỏi ý kiến phải có văn bản trả lời;\nd) Trong thời hạn 15 ngày làm việc kể từ ngày nhận đủ ý kiến, Sở Giáo dục và Đào tạo lập báo cáo thẩm định; nếu đủ điều kiện thì Giám đốc Sở Giáo dục và Đào tạo trình Chủ tịch Ủy ban nhân dân cấp tỉnh quyết định; nếu chưa đủ điều kiện thì thông báo thông báo bằng văn bản cho cơ sở giáo dục, trong đó nêu rõ lý do.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "d) Bản sao được cấp từ sổ gốc, bản sao được chứng thực từ bản chính hoặc bản sao kèm theo bản chính để đối chiếu báo cáo kết quả kiểm toán; thỏa thuận giải quyết phần vốn góp cho nhà đầu tư không đồng ý chuyển đổi sang cơ sở giáo dục hoạt động không vì lợi nhuận (nếu có); các giấy tờ, tài liệu về đất đai, tài sản, tài chính, tổ chức và nhân sự của cơ sở giáo dục;",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "e) Quyết định thành lập, quyết định công nhận hội đồng trường đương nhiệm, quyết định công nhận hiệu trưởng đương nhiệm và các tài liệu liên quan khác (nếu có).",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "c) Dự thảo quy chế tổ chức và hoạt động; dự thảo quy chế tài chính nội bộ của cơ sở giáo dục hoạt động không vì lợi nhuận;",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "a) Tờ trình đề nghị chuyển đổi sang hoạt động không vì lợi nhuận, trong đó nêu rõ sự cần thiết phải chuyển đổi; tôn chỉ, mục đích hoạt động không vì lợi nhuận; phần vốn góp, phần tài sản thuộc sở hữu chung hợp nhất không phân chia của cơ sở giáo dục (nếu có);",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "b) Văn bản cam kết của các nhà đầu tư đại diện ít nhất 75% tổng số vốn góp của cơ sở giáo dục, bảo đảm thực hiện hoạt động không vì lợi nhuận, không rút vốn, không hưởng lợi tức; phần lợi nhuận tích lũy hằng năm thuộc sở hữu chung hợp nhất không phân chia để tiếp tục đầu tư phát triển cơ sở giáo dục;",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "đ) Báo cáo đánh giá tác động của việc chuyển đổi về nhân sự, tài chính, tài sản và phương án xử lý;",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": null,
+        "source_page": 3
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "0",
+      "fee": "0",
+      "description": "- Trường hợp không hợp lệ: Trong thời hạn 05 ngày làm việc, kể từ ngày nhận được hồ sơ, nếu hồ sơ không hợp lệ, Sở Giáo dục và Đào tạo thông báo bằng văn bản cho cơ sở giáo dục để sửa đổi, bổ sung\n- Trường hợp hợp lệ: 30 ngày làm việc, kể từ ngày nhận đủ hồ sơ.",
+      "source_page": 3
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "0",
+      "fee": "0",
+      "description": "- Trường hợp không hợp lệ: Trong thời hạn 05 ngày làm việc, kể từ ngày nhận được hồ sơ, nếu hồ sơ không hợp lệ, Sở Giáo dục và Đào tạo thông báo bằng văn bản cho cơ sở giáo dục để sửa đổi, bổ sung\n- Trường hợp hợp lệ: 30 ngày làm việc, kể từ ngày nhận đủ hồ sơ.",
+      "source_page": 3
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "0",
+      "fee": "0",
+      "description": "- Trường hợp không hợp lệ: Trong thời hạn 05 ngày làm việc, kể từ ngày nhận được hồ sơ, nếu hồ sơ không hợp lệ, Sở Giáo dục và Đào tạo thông báo bằng văn bản cho cơ sở giáo dục để sửa đổi, bổ sung\n- Trường hợp hợp lệ: 30 ngày làm việc, kể từ ngày nhận đủ hồ sơ.",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị định 84/2020/NĐ-CP",
+      "document_number": "84/2020/NĐ-CP",
+      "source_page": 5
+    },
+    {
+      "title": "Nghị định quy định về phân quyền, phân cấp trong lĩnh vực quản lý nhà nước của Bộ Giáo dục và Đào tạo.",
+      "document_number": "143/2025/NĐ-CP",
+      "source_page": 5
+    }
+  ],
+  "conditions": "Cơ sở giáo dục phổ thông tư thục do cơ quan đại diện ngoại giao nước ngoài, tổ chức quốc tế liên chính phủ đề nghị thành lập bảo đảm điều kiện hoạt động.",
+  "results": [
+    {
+      "title": "Quyết định về việc chuyển đổi cơ sở giáo dục phổ thông tư thục do cơ quan đại diện ngoại giao nước ngoài, tổ chức quốc tế liên chính phủ đề nghị thành lập sang cơ sở giáo dục phổ thông tư thục hoạt động không vì lợi nhuận",
+      "code": "KQ.G03.000438",
+      "source_page": 5
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "a)  Cơ sở giáo dục gửi 01 bộ hồ sơ qua cổng dịch vụ công trực tuyến hoặc bưu chính hoặc trực tiếp đến Trung tâm Phục vụ hành chính công cấp tỉnh (Sở Giáo dục và Đào tạo);\nb) Trong thời hạn 05 ngày làm việc, kể từ ngày nhận được hồ sơ, nếu hồ sơ không hợp lệ, Sở Giáo dục và Đào tạo thông báo bằng văn bản cho cơ sở giáo dục để sửa đổi, bổ sung;\nc) Trong thời hạn 05 ngày làm việc kể từ ngày nhận đủ hồ sơ theo quy định, Sở Giáo dục và Đào tạo có trách nhiệm kiểm tra tính hợp lệ của hồ sơ và gửi hồ sơ xin ý kiến của các cơ quan, đơn vị có liên quan. Trong thời hạn 10 ngày làm việc kể từ ngày nhận được công văn xin ý kiến của Sở Giáo dục và Đào tạo, cơ quan, đơn vị được hỏi ý kiến phải có văn bản trả lời;\nd) Trong thời hạn 15 ngày làm việc kể từ ngày nhận đủ ý kiến, Sở Giáo dục và Đào tạo lập báo cáo thẩm định; nếu đủ điều kiện thì Giám đốc Sở Giáo dục và Đào tạo trình Chủ tịch Ủy ban nhân dân cấp tỉnh quyết định; nếu chưa đủ điều kiện thì thông báo thông báo bằng văn bản cho cơ sở giáo dục, trong đó nêu rõ lý do.",
+    "THÀNH PHẦN HỒ SƠ": "d) Bản sao được cấp từ sổ gốc, bản sao được chứng thực từ bản chính hoặc bản sao kèm theo bản chính để đối chiếu báo cáo kết quả kiểm toán; thỏa thuận giải quyết phần vốn góp cho nhà đầu tư không đồng ý chuyển đổi sang cơ sở giáo dục hoạt động không vì lợi nhuận (nếu có); các giấy tờ, tài liệu về đất đai, tài sản, tài chính, tổ chức và nhân sự của cơ sở giáo dục;\ne) Quyết định thành lập, quyết định công nhận hội đồng trường đương nhiệm, quyết định công nhận hiệu trưởng đương nhiệm và các tài liệu liên quan khác (nếu có).\nc) Dự thảo quy chế tổ chức và hoạt động; dự thảo quy chế tài chính nội bộ của cơ sở giáo dục hoạt động không vì lợi nhuận;\na) Tờ trình đề nghị chuyển đổi sang hoạt động không vì lợi nhuận, trong đó nêu rõ sự cần thiết phải chuyển đổi; tôn chỉ, mục đích hoạt động không vì lợi nhuận; phần vốn góp, phần tài sản thuộc sở hữu chung hợp nhất không phân chia của cơ sở giáo dục (nếu có);\nb) Văn bản cam kết của các nhà đầu tư đại diện ít nhất 75% tổng số vốn góp của cơ sở giáo dục, bảo đảm thực hiện hoạt động không vì lợi nhuận, không rút vốn, không hưởng lợi tức; phần lợi nhuận tích lũy hằng năm thuộc sở hữu chung hợp nhất không phân chia để tiếp tục đầu tư phát triển cơ sở giáo dục;\nđ) Báo cáo đánh giá tác động của việc chuyển đổi về nhân sự, tài chính, tài sản và phương án xử lý;",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 0\nQua dịch vụ bưu chính: 0\nTrực tiếp: 0",
+    "CĂN CỨ PHÁP LÝ": "Nghị định 84/2020/NĐ-CP - 84/2020/NĐ-CP\nNghị định quy định về phân quyền, phân cấp trong lĩnh vực quản lý nhà nước của Bộ Giáo dục và Đào tạo. - 143/2025/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Sở Giáo dục và Đào tạo",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "Cơ sở giáo dục phổ thông tư thục do cơ quan đại diện ngoại giao nước ngoài, tổ chức quốc tế liên chính phủ đề nghị thành lập bảo đảm điều kiện hoạt động.",
+    "KẾT QUẢ XỬ LÝ": "Quyết định về việc chuyển đổi cơ sở giáo dục phổ thông tư thục do cơ quan đại diện ngoại giao nước ngoài, tổ chức quốc tế liên chính phủ đề nghị thành lập sang cơ sở giáo dục phổ thông tư thục hoạt động không vì lợi nhuận - KQ.G03.000438",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "Cơ sở giáo dục phổ thông tư thục do cơ quan đại diện ngoại giao nước ngoài, tổ chức quốc tế liên chính phủ đề nghị thành lập bảo đảm điều kiện hoạt động."
+  },
+  "classification": {
+    "sector": {
+      "name": "Giáo dục, đào tạo với nước ngoài",
+      "slug": "giao-duc-ao-tao-voi-nuoc-ngoai"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Sở Giáo dục và Đào tạo",
+        "slug": "so-giao-duc-va-ao-tao"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

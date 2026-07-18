@@ -1,0 +1,182 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019dc467-0ce6-77ed-9b38-00888093cf8d",
+  "procedure_code": "1.014473",
+  "title": "Phê duyệt dự án, kế hoạch liên kết trong các ngành, nghề, lĩnh vực khác không thuộc lĩnh vực sản xuất, tiêu thụ sản phẩm nông nghiệp thuộc các Chương trình mục tiêu quốc gia",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019dc467-0ce6-77ed-9b38-00888093cf8d",
+    "source_file": "chi-tiet-thu-tuc-1.014473.pdf",
+    "source_path": "procedures/viec-lam/1.014473/chi-tiet-thu-tuc-1.014473.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T05:01:37.460505+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "8e0e949662306b7875bcafea0e6d73ef4cf011c204b95d64317b2d9394d1a6b7"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1343/QĐ-UBND",
+  "implementation_level": "Cấp tỉnh, Cấp xã",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Kinh tế hợp tác và Phát triển nông thôn",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)"
+  ],
+  "agency": {
+    "competent_agency": "Ủy ban nhân dân cấp xã",
+    "executing_agency": "Phòng Kinh tế, Hạ tầng và Đô thị cấp xã; Phòng Kinh tế cấp xã"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1: \n- Sau khi nhận đủ hồ sơ dự án, kế hoạch liên kết theo quy định. Chủ tịch Ủy ban nhân dân cấp xã thành lập Hội đồng thẩm định và Tổ giúp việc cho Hội đồng, Chủ tịch Hội đồng là Phó Chủ tịch Ủy ban nhân dân cấp xã quản lý lĩnh vực dự án, kế hoạch, thành viên là đại diện các phòng có liên quan, các chuyên gia (nếu cần thiết). \n- Trong thời gian 15 ngày làm việc sau khi nhận được hồ sơ hợp lệ, Hội đồng tổ chức thẩm định, nếu hồ sơ đủ điều kiện, Phòng Kinh tế hoặc Phòng Kinh tế, Hạ tầng và Đô thị trình Chủ tịch Ủy ban nhân dân cấp xã phê duyệt dự án.\n- Trường hợp hồ sơ không đủ điều kiện theo quy định, thì trong vòng 10 ngày làm việc kể từ khi thẩm định, Ủy ban nhân dân cấp xã phải có văn bản trả lời và nêu rõ lý do cho chủ trì dự án liên kết được biết.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "Bước 2: Trong thời hạn 10 ngày làm việc sau khi nhận được tờ trình đề nghị phê duyệt dự án, kế hoạch liên kết, Chủ tịch Ủy ban nhân dân cấp xã quyết định phê duyệt dự án, kế hoạch liên kết thuộc phạm vi quản lý cấp xã.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "Bước 3: Ủy ban nhân dân cấp xã trả kết quả cho tổ chức, cá nhân theo quy định.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Đơn đề nghị về việc hỗ trợ thực hiện dự án, kế hoạch phát triển sản xuất liên kết theo chuỗi giá trị",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Nội dung dự án, kế hoạch liên kết",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Bản thỏa thuận cử đơn vị làm chủ trì liên kết.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Giấy chứng nhận đăng ký kinh doanh hoặc Giấy chứng nhận đăng ký hợp tác xã hoặc Quyết định thành lập đơn vị",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Văn bản chứng minh năng lực của đơn vị chủ trì liên kết.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Giấy chứng nhận tiêu chuẩn chất lượng sản phẩm, hàng hóa, dịch vụ hoặc Bản cam kết về tiêu chuẩn chất lượng sản phẩm, hàng hóa, dịch vụ",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": ".Hợp đồng liên kết",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": []
+  },
+  "submission_methods": [
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "25 ngày làm việc",
+      "fee": null,
+      "description": "25 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "",
+    "status": "not_specified",
+    "currency": "VND",
+    "items": []
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị quyết số 08/2025/NQ-HĐND ngày 24 tháng 10 năm 2025 của Hội đồng nhân dân tỉnh quy định chính sách hỗ trợ liên kết sản xuất và tiêu thụ sản phẩm nông nghiệp; định mức, nội dung hỗ trợ, mẫu hồ sơ, trình tự, thủ tục, tiêu chí lựa chọn dự án, kế hoạch, phương án hỗ trợ phát triển sản xuất thuộc vốn chương trình mục tiêu quốc gia trên địa bàn tỉnh Tuyên Quang.",
+      "document_number": "08/2025/NQ-HĐND",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Quyết định phê duyệt dự án, kế hoạch hỗ trợ phát triển sản xuất liên kết theo chuỗi giá trị thuộc các Chương trình mục tiêu quốc gia",
+      "code": "KQ.H60.000413",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1: \n- Sau khi nhận đủ hồ sơ dự án, kế hoạch liên kết theo quy định. Chủ tịch Ủy ban nhân dân cấp xã thành lập Hội đồng thẩm định và Tổ giúp việc cho Hội đồng, Chủ tịch Hội đồng là Phó Chủ tịch Ủy ban nhân dân cấp xã quản lý lĩnh vực dự án, kế hoạch, thành viên là đại diện các phòng có liên quan, các chuyên gia (nếu cần thiết). \n- Trong thời gian 15 ngày làm việc sau khi nhận được hồ sơ hợp lệ, Hội đồng tổ chức thẩm định, nếu hồ sơ đủ điều kiện, Phòng Kinh tế hoặc Phòng Kinh tế, Hạ tầng và Đô thị trình Chủ tịch Ủy ban nhân dân cấp xã phê duyệt dự án.\n- Trường hợp hồ sơ không đủ điều kiện theo quy định, thì trong vòng 10 ngày làm việc kể từ khi thẩm định, Ủy ban nhân dân cấp xã phải có văn bản trả lời và nêu rõ lý do cho chủ trì dự án liên kết được biết.\nBước 2: Trong thời hạn 10 ngày làm việc sau khi nhận được tờ trình đề nghị phê duyệt dự án, kế hoạch liên kết, Chủ tịch Ủy ban nhân dân cấp xã quyết định phê duyệt dự án, kế hoạch liên kết thuộc phạm vi quản lý cấp xã.\nBước 3: Ủy ban nhân dân cấp xã trả kết quả cho tổ chức, cá nhân theo quy định.",
+    "THÀNH PHẦN HỒ SƠ": "Đơn đề nghị về việc hỗ trợ thực hiện dự án, kế hoạch phát triển sản xuất liên kết theo chuỗi giá trị\n- Nội dung dự án, kế hoạch liên kết\n- Bản thỏa thuận cử đơn vị làm chủ trì liên kết.\nGiấy chứng nhận đăng ký kinh doanh hoặc Giấy chứng nhận đăng ký hợp tác xã hoặc Quyết định thành lập đơn vị\nVăn bản chứng minh năng lực của đơn vị chủ trì liên kết.\nGiấy chứng nhận tiêu chuẩn chất lượng sản phẩm, hàng hóa, dịch vụ hoặc Bản cam kết về tiêu chuẩn chất lượng sản phẩm, hàng hóa, dịch vụ\n.Hợp đồng liên kết",
+    "CÁCH THỨC THỰC HIỆN": "Trực tiếp: 25 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Nghị quyết số 08/2025/NQ-HĐND ngày 24 tháng 10 năm 2025 của Hội đồng nhân dân tỉnh quy định chính sách hỗ trợ liên kết sản xuất và tiêu thụ sản phẩm nông nghiệp; định mức, nội dung hỗ trợ, mẫu hồ sơ, trình tự, thủ tục, tiêu chí lựa chọn dự án, kế hoạch, phương án hỗ trợ phát triển sản xuất thuộc vốn chương trình mục tiêu quốc gia trên địa bàn tỉnh Tuyên Quang. - 08/2025/NQ-HĐND",
+    "CƠ QUAN THỰC HIỆN": "Phòng Kinh tế, Hạ tầng và Đô thị cấp xã; Phòng Kinh tế cấp xã",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Quyết định phê duyệt dự án, kế hoạch hỗ trợ phát triển sản xuất liên kết theo chuỗi giá trị thuộc các Chương trình mục tiêu quốc gia - KQ.H60.000413",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Kinh tế hợp tác và Phát triển nông thôn",
+      "slug": "kinh-te-hop-tac-va-phat-trien-nong-thon"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      },
+      {
+        "name": "Cấp xã",
+        "slug": "cap-xa"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Phòng Kinh tế, Hạ tầng và Đô thị cấp xã",
+        "slug": "phong-kinh-te-ha-tang-va-o-thi-cap-xa"
+      },
+      {
+        "name": "Phòng Kinh tế cấp xã",
+        "slug": "phong-kinh-te-cap-xa"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

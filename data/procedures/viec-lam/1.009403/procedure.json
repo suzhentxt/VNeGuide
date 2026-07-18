@@ -1,0 +1,177 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfd-e44a-7705-a455-715147e76fb7",
+  "procedure_code": "1.009403",
+  "title": "Thủ tục ra nước ngoài dự thi người đẹp, người mẫu",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfd-e44a-7705-a455-715147e76fb7",
+    "source_file": "chi-tiet-thu-tuc-1.009403.pdf",
+    "source_path": "procedures/viec-lam/1.009403/chi-tiet-thu-tuc-1.009403.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T05:00:32.106666+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "8d98f2c452cd9acd486779b8c29a2b21a4b18b35ae42bb26d6939f8c60d217de"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "776/QĐ-BVHTTDL",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Nghệ thuật biểu diễn",
+  "target_users": [
+    "Công dân Việt Nam"
+  ],
+  "agency": {
+    "competent_agency": "Sở Văn hóa, Thể thao và Du lịch; Sở Văn hóa và Thể thao Thành phố Hà Nội",
+    "executing_agency": "Sở Văn hóa, Thể thao và Du lịch, Sở Văn hóa và Thể thao Thành phố Hà Nội"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "a) Cá nhân gửi 01 bộ hồ sơ trực tiếp; qua bưu chính hoặc trực tuyến tới cơ quan nhà nước có thẩm quyền;\nb) Trường hợp hồ sơ chưa hợp lệ, trong thời hạn 03 ngày làm việc kể từ ngày nhận được hồ sơ, cơ quan nhà nước có thẩm quyền có văn bản thông báo yêu cầu hoàn thiện hồ sơ;\nc) Trường hợp hồ sơ đầy đủ theo quy định, trong thời hạn 05 ngày làm việc kể từ ngày nhận hồ sơ, cơ quan nhà nước có thẩm quyền cấp văn bản xác nhận (theo Mẫu số 11 tại Phụ lục ban hành kèm theo Nghị định số 144/2020/NĐ-CP) đồng thời đăng tải trên hệ thống thông tin điện tử. Trường hợp không xác nhận, phải trả lời bằng văn bản nêu rõ lý do;\nd) Trường hợp thay đổi nội dung đã được xác nhận, cá nhân có văn bản nêu rõ lý do gửi trực tiếp; qua bưu chính hoặc trực tuyến tới cơ quan đã xác nhận. Trong thời hạn 02 ngày làm việc, kể từ ngày nhận đủ hồ sơ hợp lệ, cơ quan đã xác nhận phải xem xét, quyết định và thông báo kết quả bằng văn bản tới cá nhân đề nghị.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Bản sao giấy mời dự thi kèm theo bản dịch tiếng Việt",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Tờ khai về việc ra nước ngoài dự thi người đẹp, người mẫu (theo Mẫu số 10 tại Phụ lục ban hành kèm theo Nghị định số 144/2020/NĐ-CP);",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "5 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": 1
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "5 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "5 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": 1
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 1
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 1
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị định quy định về hoạt động nghệ thuật biểu diễn",
+      "document_number": "144/2020/NĐ-CP",
+      "source_page": 2
+    },
+    {
+      "title": "Nghị định sửa đổi, bổ sung một số điều của các Nghị định có quy định thủ tục hành chính liên quan đến hoạt động sản xuất, kinh doanh thuộc phạm vi quản lý của Bộ Văn hóa, Thể thao và Du lịch.",
+      "document_number": "116/2026/NĐ-CP",
+      "source_page": 2
+    }
+  ],
+  "conditions": "- Có giấy mời của tổ chức, cá nhân tổ chức cuộc thi.\n- Không trong thời gian bị áp dụng biện pháp xử lý hành chính; không có án tích hoặc không phải là người đang bị buộc tội theo quy định của pháp luật về tố tụng hình sự.\n- Không trong thời gian bị đình chỉ hoạt động biểu diễn nghệ thuật theo quyết định của cơ quan nhà nước có thẩm quyền.",
+  "results": [
+    {
+      "title": "Văn bản xác nhận cá nhân Việt Nam dự thi người đẹp, người mẫu ở nước ngoài",
+      "code": "KQ.G16.000004",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "a) Cá nhân gửi 01 bộ hồ sơ trực tiếp; qua bưu chính hoặc trực tuyến tới cơ quan nhà nước có thẩm quyền;\nb) Trường hợp hồ sơ chưa hợp lệ, trong thời hạn 03 ngày làm việc kể từ ngày nhận được hồ sơ, cơ quan nhà nước có thẩm quyền có văn bản thông báo yêu cầu hoàn thiện hồ sơ;\nc) Trường hợp hồ sơ đầy đủ theo quy định, trong thời hạn 05 ngày làm việc kể từ ngày nhận hồ sơ, cơ quan nhà nước có thẩm quyền cấp văn bản xác nhận (theo Mẫu số 11 tại Phụ lục ban hành kèm theo Nghị định số 144/2020/NĐ-CP) đồng thời đăng tải trên hệ thống thông tin điện tử. Trường hợp không xác nhận, phải trả lời bằng văn bản nêu rõ lý do;\nd) Trường hợp thay đổi nội dung đã được xác nhận, cá nhân có văn bản nêu rõ lý do gửi trực tiếp; qua bưu chính hoặc trực tuyến tới cơ quan đã xác nhận. Trong thời hạn 02 ngày làm việc, kể từ ngày nhận đủ hồ sơ hợp lệ, cơ quan đã xác nhận phải xem xét, quyết định và thông báo kết quả bằng văn bản tới cá nhân đề nghị.",
+    "THÀNH PHẦN HỒ SƠ": "Bản sao giấy mời dự thi kèm theo bản dịch tiếng Việt\nTờ khai về việc ra nước ngoài dự thi người đẹp, người mẫu (theo Mẫu số 10 tại Phụ lục ban hành kèm theo Nghị định số 144/2020/NĐ-CP);",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 5 ngày làm việc\nQua dịch vụ bưu chính: 5 ngày làm việc\nTrực tiếp: 5 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Nghị định quy định về hoạt động nghệ thuật biểu diễn - 144/2020/NĐ-CP\nNghị định sửa đổi, bổ sung một số điều của các Nghị định có quy định thủ tục hành chính liên quan đến hoạt động sản xuất, kinh doanh thuộc phạm vi quản lý của Bộ Văn hóa, Thể thao và Du lịch. - 116/2026/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Sở Văn hóa, Thể thao và Du lịch, Sở Văn hóa và Thể thao Thành phố Hà Nội",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "- Có giấy mời của tổ chức, cá nhân tổ chức cuộc thi.\n- Không trong thời gian bị áp dụng biện pháp xử lý hành chính; không có án tích hoặc không phải là người đang bị buộc tội theo quy định của pháp luật về tố tụng hình sự.\n- Không trong thời gian bị đình chỉ hoạt động biểu diễn nghệ thuật theo quyết định của cơ quan nhà nước có thẩm quyền.",
+    "KẾT QUẢ XỬ LÝ": "Văn bản xác nhận cá nhân Việt Nam dự thi người đẹp, người mẫu ở nước ngoài - KQ.G16.000004",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "- Có giấy mời của tổ chức, cá nhân tổ chức cuộc thi.\n- Không trong thời gian bị áp dụng biện pháp xử lý hành chính; không có án tích hoặc không phải là người đang bị buộc tội theo quy định của pháp luật về tố tụng hình sự.\n- Không trong thời gian bị đình chỉ hoạt động biểu diễn nghệ thuật theo quyết định của cơ quan nhà nước có thẩm quyền."
+  },
+  "classification": {
+    "sector": {
+      "name": "Nghệ thuật biểu diễn",
+      "slug": "nghe-thuat-bieu-dien"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Sở Văn hóa, Thể thao và Du lịch",
+        "slug": "so-van-hoa-the-thao-va-du-lich"
+      },
+      {
+        "name": "Sở Văn hóa và Thể thao Thành phố Hà Nội",
+        "slug": "so-van-hoa-va-the-thao-thanh-pho-ha-noi"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

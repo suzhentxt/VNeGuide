@@ -1,0 +1,212 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfe-4254-736c-bcab-3ac73cf3c96d",
+  "procedure_code": "1.004284",
+  "title": "Công bố mở cảng cạn",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfe-4254-736c-bcab-3ac73cf3c96d",
+    "source_file": "chi-tiet-thu-tuc-1.004284.pdf",
+    "source_path": "procedures/phuong-tien-va-nguoi-lai/1.004284/chi-tiet-thu-tuc-1.004284.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T04:58:44.631920+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "206569f491ffc1679e77f91c89fff7fa031721e360ead0752ac63045ef1142d9"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "569/QĐ-BXD",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Hàng hải và đường thủy nội địa",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Người Việt Nam định cư ở nước ngoài",
+    "Hợp tác xã",
+    "Công dân Việt Nam",
+    "Doanh nghiệp",
+    "Người nước ngoài",
+    "Tổ chức nước ngoài"
+  ],
+  "agency": {
+    "competent_agency": "Bộ Xây dựng",
+    "executing_agency": "Bộ Xây dựng, Cục Hàng hải và Đường thủy Việt Nam"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "a) Nộp hồ sơ TTHC:\nChủ đầu tư gửi hồ sơ đề nghị mở cảng cạn đến Cục Hàng hải và Đường thủy Việt Nam.\nb) Giải quyết TTHC:\n- Cục Hàng hải và Đường thủy Việt Nam tiếp nhận hồ sơ. Trường hợp hồ sơ\nchưa hợp lệ hoặc cơ quan giải quyết thủ tục hành chính không khai thác được\nthông tin hoặc thông tin khai thác được trên Cơ sở dữ liệu quốc gia về đất đai\nkhông đầy đủ, không chính xác, chậm nhất 02 ngày làm việc kể từ ngày nhận hồ\nsơ Cục Hàng hải và Đường thủy Việt Nam có văn bản gửi chủ đầu tư qua hệ thống\nbưu chính hoặc trực tuyến trên Cổng Dịch vụ công quốc gia, nêu rõ lý do và yêu\ncầu bổ sung, hoàn thiện hồ sơ, nộp bản sao hoặc bản sao điện tử các giấy tờ hợp\npháp theo quy định.\nTrường hợp hồ sơ hợp lệ, chậm nhất 04 ngày làm việc kể từ khi nhận đủ hồ\nsơ, Cục Hàng hải và Đường thủy Việt Nam thẩm định và có văn bản đề nghị Bộ\nXây dựng công bố mở cảng cạn theo quy định.\n- Trong thời hạn 02 ngày làm việc kể từ ngày nhận được văn bản của Cục\nHàng hải và Đường thủy Việt Nam, Bộ Xây dựng quyết định công bố mở cảng\ncạn theo mẫu và gửi đến chủ đầu tư qua hệ thống bưu chính hoặc trực tuyến trên\nCổng Dịch vụ công quốc gia; trường hợp không chấp thuận phải có văn bản trả\nlời chủ đầu tư và nêu rõ lý do. Quyết định công bố mở cảng cạn được trả bằng\nbản giấy và bản điện tử và có giá trị pháp lý như nhau",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Tờ khai về việc mở cảng cạn theo mẫu",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu Tờ khai về việc mở cảng cạn.docx",
+        "source_page": 3
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Bản sao hoặc bản sao điện tử Biên bản nghiệm thu hoàn thành đưa công trình cảng cạn vào sử dụng kèm theo bản vẽ mặt bằng hoàn công các công trình chủ yếu quy định tại khoản 2 Điều 7 Nghị định số 106/2026/NĐ-CP ngày 31/3/2026 của Chính phủ",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Bản sao chụp có chứng thực Văn bản nghiệm thu về phòng cháy và chữa cháy theo quy định",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Bản sao hoặc bản sao điện tử Quyết định phê duyệt dự án đầu tư xây dựng cảng cạn được cấp có thẩm quyền phê duyệt theo quy định của pháp luật hoặc bản sao hoặc bản sao điện tử văn bản hoặc Quyết định công nhận địa điểm thông quan hàng hóa xuất khẩu, nhập khẩu của cơ quan có thẩm quyền (đối với trường hợp công bố địa điểm làm thủ tục hải quan thành cảng cạn)",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Bản sao hoặc bản sao điện tử Quyết định phê duyệt báo cáo đánh giá tác động môi trường của Dự án theo quy định",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "Bản sao hoặc bản sao điện tử các giấy tờ hợp pháp chứng minh về quyền sử dụng đất theo quy định. Tổ chức, cá nhân không phải nộp các giấy tờ hợp pháp chứng minh về quyền sử dụng đất khi cơ quan giải quyết thủ tục hành chính khai thác được thông tin trên Cơ sở dữ liệu quốc gia",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 3
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "8 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Bộ luật Hàng hải Việt Nam",
+      "document_number": "95/2015/QH13",
+      "source_page": 3
+    },
+    {
+      "title": "Về đầu tư xây dựng, quản lý khai thác cảng cạn",
+      "document_number": "38/2017/NĐ-CP",
+      "source_page": 3
+    },
+    {
+      "title": "Quyết định",
+      "document_number": "461/QĐ-BXD",
+      "source_page": 1
+    },
+    {
+      "title": "Nghị định này quy định chi tiết về đầu tư xây dựng, quản lý khai thác cảng cạn.",
+      "document_number": "106/2026/NĐ-CP",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Quyết định công bố mở cảng cạn",
+      "code": "KQ.G04.000152",
+      "source_page": 2
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "a) Nộp hồ sơ TTHC:\nChủ đầu tư gửi hồ sơ đề nghị mở cảng cạn đến Cục Hàng hải và Đường thủy Việt Nam.\nb) Giải quyết TTHC:\n- Cục Hàng hải và Đường thủy Việt Nam tiếp nhận hồ sơ. Trường hợp hồ sơ\nchưa hợp lệ hoặc cơ quan giải quyết thủ tục hành chính không khai thác được\nthông tin hoặc thông tin khai thác được trên Cơ sở dữ liệu quốc gia về đất đai\nkhông đầy đủ, không chính xác, chậm nhất 02 ngày làm việc kể từ ngày nhận hồ\nsơ Cục Hàng hải và Đường thủy Việt Nam có văn bản gửi chủ đầu tư qua hệ thống\nbưu chính hoặc trực tuyến trên Cổng Dịch vụ công quốc gia, nêu rõ lý do và yêu\ncầu bổ sung, hoàn thiện hồ sơ, nộp bản sao hoặc bản sao điện tử các giấy tờ hợp\npháp theo quy định.\nTrường hợp hồ sơ hợp lệ, chậm nhất 04 ngày làm việc kể từ khi nhận đủ hồ\nsơ, Cục Hàng hải và Đường thủy Việt Nam thẩm định và có văn bản đề nghị Bộ\nXây dựng công bố mở cảng cạn theo quy định.\n- Trong thời hạn 02 ngày làm việc kể từ ngày nhận được văn bản của Cục\nHàng hải và Đường thủy Việt Nam, Bộ Xây dựng quyết định công bố mở cảng\ncạn theo mẫu và gửi đến chủ đầu tư qua hệ thống bưu chính hoặc trực tuyến trên\nCổng Dịch vụ công quốc gia; trường hợp không chấp thuận phải có văn bản trả\nlời chủ đầu tư và nêu rõ lý do. Quyết định công bố mở cảng cạn được trả bằng\nbản giấy và bản điện tử và có giá trị pháp lý như nhau",
+    "THÀNH PHẦN HỒ SƠ": "Tờ khai về việc mở cảng cạn theo mẫu\nBản sao hoặc bản sao điện tử Biên bản nghiệm thu hoàn thành đưa công trình cảng cạn vào sử dụng kèm theo bản vẽ mặt bằng hoàn công các công trình chủ yếu quy định tại khoản 2 Điều 7 Nghị định số 106/2026/NĐ-CP ngày 31/3/2026 của Chính phủ\nBản sao chụp có chứng thực Văn bản nghiệm thu về phòng cháy và chữa cháy theo quy định\nBản sao hoặc bản sao điện tử Quyết định phê duyệt dự án đầu tư xây dựng cảng cạn được cấp có thẩm quyền phê duyệt theo quy định của pháp luật hoặc bản sao hoặc bản sao điện tử văn bản hoặc Quyết định công nhận địa điểm thông quan hàng hóa xuất khẩu, nhập khẩu của cơ quan có thẩm quyền (đối với trường hợp công bố địa điểm làm thủ tục hải quan thành cảng cạn)\nBản sao hoặc bản sao điện tử Quyết định phê duyệt báo cáo đánh giá tác động môi trường của Dự án theo quy định\nBản sao hoặc bản sao điện tử các giấy tờ hợp pháp chứng minh về quyền sử dụng đất theo quy định. Tổ chức, cá nhân không phải nộp các giấy tờ hợp pháp chứng minh về quyền sử dụng đất khi cơ quan giải quyết thủ tục hành chính khai thác được thông tin trên Cơ sở dữ liệu quốc gia",
+    "CÁCH THỨC THỰC HIỆN": "Trực tiếp: 8 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Bộ luật Hàng hải Việt Nam - 95/2015/QH13\nVề đầu tư xây dựng, quản lý khai thác cảng cạn - 38/2017/NĐ-CP\nQuyết định - 461/QĐ-BXD\nNghị định này quy định chi tiết về đầu tư xây dựng, quản lý khai thác cảng cạn. - 106/2026/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Bộ Xây dựng, Cục Hàng hải và Đường thủy Việt Nam",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Quyết định công bố mở cảng cạn - KQ.G04.000152",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Hàng hải và đường thủy nội địa",
+      "slug": "hang-hai-va-uong-thuy-noi-ia"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Người Việt Nam định cư ở nước ngoài",
+        "slug": "nguoi-viet-nam-inh-cu-o-nuoc-ngoai"
+      },
+      {
+        "name": "Hợp tác xã",
+        "slug": "hop-tac-xa"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Người nước ngoài",
+        "slug": "nguoi-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Bộ Xây dựng",
+        "slug": "bo-xay-dung"
+      },
+      {
+        "name": "Cục Hàng hải và Đường thủy Việt Nam",
+        "slug": "cuc-hang-hai-va-uong-thuy-viet-nam"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

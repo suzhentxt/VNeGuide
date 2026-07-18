@@ -1,0 +1,193 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfa-307d-70ba-89c0-7009910e241f",
+  "procedure_code": "1.004237",
+  "title": "Khai thác và sử dụng thông tin, dữ liệu tài nguyên và môi trường (cấp tỉnh)",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfa-307d-70ba-89c0-7009910e241f",
+    "source_file": "chi-tiet-thu-tuc-1.004237.pdf",
+    "source_path": "procedures/dien-luc-nha-o-dat-dai/1.004237/chi-tiet-thu-tuc-1.004237.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T04:55:49.834177+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "5e730bdb354cfa6f4a542074d85aff1ed47a50d2708c85b324c7dd852185b59b"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "704/QĐ-BNNMT",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Tổng hợp",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Người Việt Nam định cư ở nước ngoài",
+    "Doanh nghiệp có vốn đầu tư nước ngoài",
+    "Công dân Việt Nam",
+    "Người nước ngoài",
+    "Doanh nghiệp"
+  ],
+  "agency": {
+    "competent_agency": "Sở Nông nghiệp và Môi trường",
+    "executing_agency": "Sở Nông nghiệp và Môi trường"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "a) Bước 1: Nộp hồ sơ\nTổ chức, cá nhân nộp Phiếu yêu cầu cung cấp thông tin, dữ liệu tài nguyên và môi trường (theo Mẫu số 02 hoặc Mẫu số 03 tại Phụ lục ban hành kèm theo Nghị định số 73/2017/NĐ-CP đã sửa đổi theo quy định của Nghị định số 22/2023/NĐ-CP) qua Hệ thống thông tin giải quyết thủ tục hành chính cấp tỉnh, Cổng dịch vụ công quốc gia theo địa chỉ https://dichvucong.gov.vn hoặc trực tiếp hoặc gửi qua dịch vụ bưu chính đến Sở Nông nghiệp và Môi trường các tỉnh, thành phố trực thuộc Trung ương.\nb) Bước 2: Kiểm tra hồ sơ \nSở Nông nghiệp và Môi trường các tỉnh, thành phố trực thuộc Trung ương (sau đây gọi là Cơ quan quản lý thông tin, dữ liệu) có trách nhiệm kiểm tra yêu cầu khai thác và sử dụng thông tin, dữ liệu của tổ chức, cá nhân, đảm bảo được thuận tiện, dễ dàng và đúng kết quả.\nc) Bước 3: Thông báo và trả kết quả hồ sơ\nTrường hợp thông tin yêu cầu hợp lệ, cơ quan quản lý thông tin, dữ liệu thực hiện việc cung cấp thông tin, dữ liệu cho tổ chức, cá nhân.  \nTrường hợp từ chối cung cấp thông tin, dữ liệu thì cơ quan quản lý thông tin, dữ liệu phải gửi thông tin thông báo nêu rõ lý do cho tổ chức, cá nhân.\nTrường hợp tạm ngừng cung cấp thông tin, dữ liệu, dịch vụ có liên quan trên môi trường mạng, cơ quan cung cấp thông tin, dữ liệu có trách nhiệm thông báo công khai chậm nhất là 07 ngày làm việc trước khi chủ động tạm ngừng cung cấp trừ trường hợp bất khả kháng.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "- Mẫu số 03: Mẫu phiếu yêu cầu cung cấp thông tin, dữ liệu tài nguyên và môi trường đối với cá nhân nước ngoài tại Việt Nam..",
+        "quantity": "1 bản chính",
+        "attachment": "Mauso03.docx",
+        "source_page": 2
+      },
+      {
+        "name": "- Mẫu số 02: Mẫu văn bản, phiếu yêu cầu cung cấp thông tin, dữ liệu tài nguyên và môi trường ..",
+        "quantity": "1 bản chính",
+        "attachment": "Mauso02.docx",
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": []
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "5 ngày làm việc",
+      "fee": "Thực hiện theo quy định pháp luật về phí và lệ phí.",
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "5 ngày làm việc",
+      "fee": "Thực hiện theo quy định pháp luật về phí và lệ phí.",
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "5 ngày làm việc",
+      "fee": "Thực hiện theo quy định pháp luật về phí và lệ phí.",
+      "description": "",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "Thực hiện theo quy định pháp luật về phí và lệ phí.",
+    "status": "varies_by_submission_method",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "Thực hiện theo quy định pháp luật về phí và lệ phí.",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "Thực hiện theo quy định pháp luật về phí và lệ phí.",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "Thực hiện theo quy định pháp luật về phí và lệ phí.",
+        "is_free": false,
+        "source_page": null
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị định số 22/2023/NĐ-CP ngày 12 tháng 5 năm 2023 của Chính phủ sửa đổi, bổ sung một số điều của các nghị định liên quan đến hoạt động kinh doanh trong lĩnh vực tài nguyên và môi trường",
+      "document_number": "22/2023/NĐ-CP",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Thông tin, dữ liệu tài nguyên, môi trường",
+      "code": "KQ.G10.001131",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "a) Bước 1: Nộp hồ sơ\nTổ chức, cá nhân nộp Phiếu yêu cầu cung cấp thông tin, dữ liệu tài nguyên và môi trường (theo Mẫu số 02 hoặc Mẫu số 03 tại Phụ lục ban hành kèm theo Nghị định số 73/2017/NĐ-CP đã sửa đổi theo quy định của Nghị định số 22/2023/NĐ-CP) qua Hệ thống thông tin giải quyết thủ tục hành chính cấp tỉnh, Cổng dịch vụ công quốc gia theo địa chỉ https://dichvucong.gov.vn hoặc trực tiếp hoặc gửi qua dịch vụ bưu chính đến Sở Nông nghiệp và Môi trường các tỉnh, thành phố trực thuộc Trung ương.\nb) Bước 2: Kiểm tra hồ sơ \nSở Nông nghiệp và Môi trường các tỉnh, thành phố trực thuộc Trung ương (sau đây gọi là Cơ quan quản lý thông tin, dữ liệu) có trách nhiệm kiểm tra yêu cầu khai thác và sử dụng thông tin, dữ liệu của tổ chức, cá nhân, đảm bảo được thuận tiện, dễ dàng và đúng kết quả.\nc) Bước 3: Thông báo và trả kết quả hồ sơ\nTrường hợp thông tin yêu cầu hợp lệ, cơ quan quản lý thông tin, dữ liệu thực hiện việc cung cấp thông tin, dữ liệu cho tổ chức, cá nhân.  \nTrường hợp từ chối cung cấp thông tin, dữ liệu thì cơ quan quản lý thông tin, dữ liệu phải gửi thông tin thông báo nêu rõ lý do cho tổ chức, cá nhân.\nTrường hợp tạm ngừng cung cấp thông tin, dữ liệu, dịch vụ có liên quan trên môi trường mạng, cơ quan cung cấp thông tin, dữ liệu có trách nhiệm thông báo công khai chậm nhất là 07 ngày làm việc trước khi chủ động tạm ngừng cung cấp trừ trường hợp bất khả kháng.",
+    "THÀNH PHẦN HỒ SƠ": "- Mẫu số 03: Mẫu phiếu yêu cầu cung cấp thông tin, dữ liệu tài nguyên và môi trường đối với cá nhân nước ngoài tại Việt Nam..\n- Mẫu số 02: Mẫu văn bản, phiếu yêu cầu cung cấp thông tin, dữ liệu tài nguyên và môi trường ..",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 5 ngày làm việc\nQua dịch vụ bưu chính: 5 ngày làm việc\nTrực tiếp: 5 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Nghị định số 22/2023/NĐ-CP ngày 12 tháng 5 năm 2023 của Chính phủ sửa đổi, bổ sung một số điều của các nghị định liên quan đến hoạt động kinh doanh trong lĩnh vực tài nguyên và môi trường - 22/2023/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Sở Nông nghiệp và Môi trường",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Thông tin, dữ liệu tài nguyên, môi trường - KQ.G10.001131",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Tổng hợp",
+      "slug": "tong-hop"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Người Việt Nam định cư ở nước ngoài",
+        "slug": "nguoi-viet-nam-inh-cu-o-nuoc-ngoai"
+      },
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Người nước ngoài",
+        "slug": "nguoi-nuoc-ngoai"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Sở Nông nghiệp và Môi trường",
+        "slug": "so-nong-nghiep-va-moi-truong"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

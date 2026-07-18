@@ -1,0 +1,275 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bf7-8e69-723e-9a63-33c657dee945",
+  "procedure_code": "1.012538",
+  "title": "Giải quyết chế độ, chính sách cho người tham gia lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở chưa tham gia bảo hiểm xã hội mà bị tai nạn, chết khi thực hiện nhiệm vụ",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bf7-8e69-723e-9a63-33c657dee945",
+    "source_file": "chi-tiet-thu-tuc-1.012538.pdf",
+    "source_path": "procedures/viec-lam/1.012538/chi-tiet-thu-tuc-1.012538.pdf",
+    "page_count": 12,
+    "extracted_at": "2026-07-18T05:01:02.399128+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "d7e290c9d0fc8621fa007952e7209c80159d01e9936c3f3429c4dd307f917f0b"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "8211/QĐ-BCA",
+  "implementation_level": "Cấp xã",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Chính sách",
+  "target_users": [
+    "Công dân Việt Nam"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Ủy ban nhân dân cấp xã"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "- Bước 1: Cá nhân chuẩn bị hồ sơ theo quy định của pháp luật.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "- Bước 2: Nộp hồ sơ cho Ủy ban nhân dân cấp xã.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "- Bước 3: Ủy ban nhân dân cấp xã có trách nhiệm tổ chức tiếp nhận, kiểm tra hồ sơ. Trường hợp hồ sơ chưa hợp lệ phải có trách nhiệm hướng dẫn ngay để hoàn thiện. Trong thời hạn 02 ngày làm việc, kể từ ngày nhận đủ hồ sơ hợp lệ phải có trách nhiệm hướng dẫn ngay để hoàn thiện.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 4,
+      "title": "Bước 4",
+      "description": "- Bước 4: Ủy ban nhân dân cấp xã có trách nhiệm phân công cơ quan trực thuộc thẩm định hồ sơ trong thời hạn 05 ngày làm việc, kể từ ngày nhận đủ hồ sơ hợp lệ. Trường hợp hồ sơ không đủ điều kiện giải quyết thì cơ quan thẩm định phải có văn bản trả lời, nêu rõ lý do.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 5,
+      "title": "Bước 5",
+      "description": "- Bước 5: Trong thời hạn 03 ngày làm việc, kể từ ngày cơ quan thẩm định báo cáo hồ sơ đủ điều kiện giải quyết, Chủ tịch Ủy ban nhân dân cấp xã ra quyết định chi trả và tổ chức chi trả trợ cấp cho người bị tai nạn, thân nhân người đã chết. Việc chi trả bằng hình thức chuyển khoản hoặc qua đường bưu chính hoặc trực tiếp nhận tại cơ quan chi trả.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "* Hồ sơ đề nghị hưởng trợ cấp tai nạn, gồm:: Đơn đề nghị trợ cấp tai nạn, trợ cấp tiền tuất, tiền mai táng phí (Mẫu số 02 ban hành kèm theo Nghị định số 40/2024/NĐ-CP).",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": "Mus02-nnghtrcptainntutN40.2024suatheoN184.2025.docx",
+        "source_page": 2
+      },
+      {
+        "name": "* Hồ sơ đề nghị hưởng trợ cấp tiền tuất, tiền mai táng phí, gồm:: Đơn đề nghị trợ cấp tai nạn, trợ cấp tiền tuất, tiền mai táng phí (Mẫu số 02 ban hành kèm theo Nghị định số 40/2024/NĐ-CP).",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": "Mus02-nnghtrcptainntutN40.2024suatheoN184.2025.docx",
+        "source_page": 2
+      },
+      {
+        "name": "Bao gồm: Khi các cơ quan quản lý nhà nước hoàn thành việc kết nối, chia sẻ dữ liệu thông tin có trong thành phần hồ sơ quy định tại khoản này thì cơ quan có thẩm quyền giải quyết thủ tục phải khai thác trực tuyến để giải quyết mà không được yêu cầu người đề nghị cung cấp hồ sơ giấy.",
+        "quantity": null,
+        "attachment": null,
+        "source_page": 3
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "* Hồ sơ đề nghị hưởng trợ cấp tai nạn, gồm:: - Giấy ra viện hoặc trích sao hồ sơ bệnh án sau khi điều trị tai nạn đối với trường hợp điều trị nội trú hoặc bản sao giấy chứng nhận thương tích do cơ sở y tế nơi đã cấp cứu, điều trị cấp.",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "* Hồ sơ đề nghị hưởng trợ cấp tai nạn, gồm:: - Trường hợp bị tai nạn giao thông thì có thêm biên bản của cơ quan  Công an.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "* Hồ sơ đề nghị hưởng trợ cấp tai nạn, gồm:: - Biên bản giám định mức suy giảm khả năng lao động của hội đồng giám định y khoa bệnh viện cấp tỉnh và tương đương trở lên.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "* Hồ sơ đề nghị hưởng trợ cấp tiền tuất, tiền mai táng phí, gồm:: - Giấy ra viện hoặc trích sao hồ sơ bệnh án sau khi điều trị tai nạn đối với trường hợp điều trị nội trú.",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "* Hồ sơ đề nghị hưởng trợ cấp tiền tuất, tiền mai táng phí, gồm:: - Bản sao giấy chứng tử hoặc trích lục khai tử.",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "* Hồ sơ đề nghị hưởng trợ cấp tiền tuất, tiền mai táng phí, gồm:: - Trường hợp bị tai nạn giao thông dẫn đến chết thì có thêm biên bản của cơ quan Công an.",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": null,
+        "source_page": 3
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "2 ngày làm việc",
+      "fee": null,
+      "description": "* Nộp trực tuyến tại Cổng dịch vụ công quốc gia hoặc Hệ thống thông tin giải quyết thủ tục hành chính cấp tỉnh. - Bộ phận một cửa: tổ chức tiếp nhận, kiểm tra hồ sơ, thông báo hoàn thiện hồ sơ trong thời hạn 02 ngày làm việc.",
+      "source_page": 4
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "2 ngày làm việc",
+      "fee": null,
+      "description": "* Nộp hồ sơ về Ủy ban nhân dân cấp xã qua dịch vụ bưu chính hoặc thuê dịch vụ của doanh nghiệp, cá nhân. - Bộ phận một cửa: tổ chức tiếp nhận, kiểm tra hồ sơ, thông báo hoàn thiện hồ sơ trong thời hạn 02 ngày làm việc.",
+      "source_page": 4
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "2 ngày làm việc",
+      "fee": null,
+      "description": "- Trực tiếp: Nộp hồ sơ trực tiếp tại Ủy ban nhân dân cấp xã. - Bộ phận một cửa: tổ chức tiếp nhận, kiểm tra hồ sơ, thông báo hoàn thiện hồ sơ trong thời hạn 02 ngày làm việc",
+      "source_page": 4
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "5 ngày làm việc",
+      "fee": null,
+      "description": "- Cơ quan chuyên môn thuộc Ủy ban nhân dân cấp xã: thẩm định hồ sơ trong thời hạn 05 ngày làm việc",
+      "source_page": 4
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "3 ngày làm việc",
+      "fee": null,
+      "description": "- Chủ tịch Ủy ban nhân dân cấp xã: Trong thời hạn 03 ngày làm việc, kể từ ngày cơ quan thẩm định báo cáo hồ sơ đủ điều kiện giải quyết.",
+      "source_page": 4
+    },
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "5 ngày làm việc",
+      "fee": null,
+      "description": "- Cơ quan chuyên môn thuộc Ủy ban nhân dân cấp xã: thẩm định hồ sơ trong thời hạn 05 ngày làm việc",
+      "source_page": 4
+    },
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "3 ngày làm việc",
+      "fee": null,
+      "description": "- Chủ tịch Ủy ban nhân dân cấp xã: Trong thời hạn 03 ngày làm việc, kể từ ngày cơ quan thẩm định báo cáo hồ sơ đủ điều kiện giải quyết.",
+      "source_page": 4
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "3 ngày làm việc",
+      "fee": null,
+      "description": "- Chủ tịch Ủy ban nhân dân cấp xã: Trong thời hạn 03 ngày làm việc, kể từ ngày cơ quan thẩm định báo cáo hồ sơ đủ điều kiện giải quyết.",
+      "source_page": 4
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "5 ngày làm việc",
+      "fee": null,
+      "description": "- Cơ quan chuyên môn thuộc Ủy ban nhân dân cấp xã: thẩm định hồ sơ trong thời hạn 05 ngày làm việc",
+      "source_page": 4
+    }
+  ],
+  "fees": {
+    "summary": "",
+    "status": "not_specified",
+    "currency": "VND",
+    "items": []
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị định số 184/2025/NĐ-CP của Chính phủ: Quy định phân định thẩm quyền khi tổ chức chính quyền địa phương 02 cấp và sửa đổi, bổ sung một số điều của các Nghị định của Chính phủ trong lĩnh vực an ninh, trật tự",
+      "document_number": "184/2025/NĐ-CP",
+      "source_page": 11
+    },
+    {
+      "title": "Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở",
+      "document_number": "30/2023/QH15",
+      "source_page": 11
+    },
+    {
+      "title": "Nghị định số 40/2024/NĐ-CP của Chính phủ: Quy định chi tiết một số điều của Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở",
+      "document_number": "40/2024/NĐ-CP",
+      "source_page": 11
+    }
+  ],
+  "conditions": "Người tham gia lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở bảo đảm điều kiện quy định tại khoản 1 và khoản 2 Điều 6 Nghị định số 40/2024/NĐ-CP của Chính phủ, cụ thể là:\n1. Điều kiện được hưởng chế độ, chính sách theo quy định tại khoản 3 Điều 24 Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở trong các trường hợp sau:\na) Trong thời gian thực hiện nhiệm vụ theo sự phân công, kế hoạch của cấp có thẩm quyền hoặc khi được điều động, huy động thực hiện nhiệm vụ;\nb) Trong khoảng thời gian và tuyến đường đi và về từ nơi ở đến nơi thực hiện nhiệm vụ.\n2. Các trường hợp quy định tại khoản 2 Điều 5 Nghị định này bị tai nạn, chết không được hưởng chế độ trợ cấp.",
+  "results": [
+    {
+      "title": "Quyết định chi trả trợ cấp tai nạn, trợ cấp tiền tuất, tiền mai táng phí.",
+      "code": "KQ.G01.000139",
+      "source_page": 12
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "- Bước 1: Cá nhân chuẩn bị hồ sơ theo quy định của pháp luật.\n- Bước 2: Nộp hồ sơ cho Ủy ban nhân dân cấp xã.\n- Bước 3: Ủy ban nhân dân cấp xã có trách nhiệm tổ chức tiếp nhận, kiểm tra hồ sơ. Trường hợp hồ sơ chưa hợp lệ phải có trách nhiệm hướng dẫn ngay để hoàn thiện. Trong thời hạn 02 ngày làm việc, kể từ ngày nhận đủ hồ sơ hợp lệ phải có trách nhiệm hướng dẫn ngay để hoàn thiện.\n- Bước 4: Ủy ban nhân dân cấp xã có trách nhiệm phân công cơ quan trực thuộc thẩm định hồ sơ trong thời hạn 05 ngày làm việc, kể từ ngày nhận đủ hồ sơ hợp lệ. Trường hợp hồ sơ không đủ điều kiện giải quyết thì cơ quan thẩm định phải có văn bản trả lời, nêu rõ lý do.\n- Bước 5: Trong thời hạn 03 ngày làm việc, kể từ ngày cơ quan thẩm định báo cáo hồ sơ đủ điều kiện giải quyết, Chủ tịch Ủy ban nhân dân cấp xã ra quyết định chi trả và tổ chức chi trả trợ cấp cho người bị tai nạn, thân nhân người đã chết. Việc chi trả bằng hình thức chuyển khoản hoặc qua đường bưu chính hoặc trực tiếp nhận tại cơ quan chi trả.",
+    "THÀNH PHẦN HỒ SƠ": "* Hồ sơ đề nghị hưởng trợ cấp tai nạn, gồm:: Đơn đề nghị trợ cấp tai nạn, trợ cấp tiền tuất, tiền mai táng phí (Mẫu số 02 ban hành kèm theo Nghị định số 40/2024/NĐ-CP).\n* Hồ sơ đề nghị hưởng trợ cấp tiền tuất, tiền mai táng phí, gồm:: Đơn đề nghị trợ cấp tai nạn, trợ cấp tiền tuất, tiền mai táng phí (Mẫu số 02 ban hành kèm theo Nghị định số 40/2024/NĐ-CP).\nBao gồm: Khi các cơ quan quản lý nhà nước hoàn thành việc kết nối, chia sẻ dữ liệu thông tin có trong thành phần hồ sơ quy định tại khoản này thì cơ quan có thẩm quyền giải quyết thủ tục phải khai thác trực tuyến để giải quyết mà không được yêu cầu người đề nghị cung cấp hồ sơ giấy.\n* Hồ sơ đề nghị hưởng trợ cấp tai nạn, gồm:: - Giấy ra viện hoặc trích sao hồ sơ bệnh án sau khi điều trị tai nạn đối với trường hợp điều trị nội trú hoặc bản sao giấy chứng nhận thương tích do cơ sở y tế nơi đã cấp cứu, điều trị cấp.\n* Hồ sơ đề nghị hưởng trợ cấp tai nạn, gồm:: - Trường hợp bị tai nạn giao thông thì có thêm biên bản của cơ quan  Công an.\n* Hồ sơ đề nghị hưởng trợ cấp tai nạn, gồm:: - Biên bản giám định mức suy giảm khả năng lao động của hội đồng giám định y khoa bệnh viện cấp tỉnh và tương đương trở lên.\n* Hồ sơ đề nghị hưởng trợ cấp tiền tuất, tiền mai táng phí, gồm:: - Giấy ra viện hoặc trích sao hồ sơ bệnh án sau khi điều trị tai nạn đối với trường hợp điều trị nội trú.\n* Hồ sơ đề nghị hưởng trợ cấp tiền tuất, tiền mai táng phí, gồm:: - Bản sao giấy chứng tử hoặc trích lục khai tử.\n* Hồ sơ đề nghị hưởng trợ cấp tiền tuất, tiền mai táng phí, gồm:: - Trường hợp bị tai nạn giao thông dẫn đến chết thì có thêm biên bản của cơ quan Công an.",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 2 ngày làm việc\nQua dịch vụ bưu chính: 2 ngày làm việc\nTrực tiếp: 2 ngày làm việc\nTrực tiếp: 5 ngày làm việc\nTrực tiếp: 3 ngày làm việc\nTrực tuyến: 5 ngày làm việc\nTrực tuyến: 3 ngày làm việc\nQua dịch vụ bưu chính: 3 ngày làm việc\nQua dịch vụ bưu chính: 5 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Nghị định số 184/2025/NĐ-CP của Chính phủ: Quy định phân định thẩm quyền khi tổ chức chính quyền địa phương 02 cấp và sửa đổi, bổ sung một số điều của các Nghị định của Chính phủ trong lĩnh vực an ninh, trật tự - 184/2025/NĐ-CP\nLuật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở - 30/2023/QH15\nNghị định số 40/2024/NĐ-CP của Chính phủ: Quy định chi tiết một số điều của Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở - 40/2024/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Ủy ban nhân dân cấp xã",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "Người tham gia lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở bảo đảm điều kiện quy định tại khoản 1 và khoản 2 Điều 6 Nghị định số 40/2024/NĐ-CP của Chính phủ, cụ thể là:\n1. Điều kiện được hưởng chế độ, chính sách theo quy định tại khoản 3 Điều 24 Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở trong các trường hợp sau:\na) Trong thời gian thực hiện nhiệm vụ theo sự phân công, kế hoạch của cấp có thẩm quyền hoặc khi được điều động, huy động thực hiện nhiệm vụ;\nb) Trong khoảng thời gian và tuyến đường đi và về từ nơi ở đến nơi thực hiện nhiệm vụ.\n2. Các trường hợp quy định tại khoản 2 Điều 5 Nghị định này bị tai nạn, chết không được hưởng chế độ trợ cấp.",
+    "KẾT QUẢ XỬ LÝ": "Quyết định chi trả trợ cấp tai nạn, trợ cấp tiền tuất, tiền mai táng phí. - KQ.G01.000139",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "Người tham gia lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở bảo đảm điều kiện quy định tại khoản 1 và khoản 2 Điều 6 Nghị định số 40/2024/NĐ-CP của Chính phủ, cụ thể là:\n1. Điều kiện được hưởng chế độ, chính sách theo quy định tại khoản 3 Điều 24 Luật Lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở trong các trường hợp sau:\na) Trong thời gian thực hiện nhiệm vụ theo sự phân công, kế hoạch của cấp có thẩm quyền hoặc khi được điều động, huy động thực hiện nhiệm vụ;\nb) Trong khoảng thời gian và tuyến đường đi và về từ nơi ở đến nơi thực hiện nhiệm vụ.\n2. Các trường hợp quy định tại khoản 2 Điều 5 Nghị định này bị tai nạn, chết không được hưởng chế độ trợ cấp."
+  },
+  "classification": {
+    "sector": {
+      "name": "Chính sách",
+      "slug": "chinh-sach"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp xã",
+        "slug": "cap-xa"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Ủy ban nhân dân cấp xã",
+        "slug": "uy-ban-nhan-dan-cap-xa"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

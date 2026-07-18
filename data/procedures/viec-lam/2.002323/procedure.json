@@ -1,0 +1,219 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfc-e9be-7375-9ffc-cca1347c17f3",
+  "procedure_code": "2.002323",
+  "title": "Thủ tục cấp sổ ATA thay thế",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfc-e9be-7375-9ffc-cca1347c17f3",
+    "source_file": "chi-tiet-thu-tuc-2.002323.pdf",
+    "source_path": "procedures/viec-lam/2.002323/chi-tiet-thu-tuc-2.002323.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T05:02:24.286792+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "687fc3d0b0bf49d344f8a86e5d5a15c8999ed80cb4964f6d66c2ba8d3f261590"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1032/QĐ-TCHQ",
+  "implementation_level": "Cơ quan khác, Cơ quan ngành dọc",
+  "procedure_type": "NOT_ASSIGNED_REGULATION",
+  "sector": "Hải quan",
+  "target_users": [
+    "Doanh nghiệp có vốn đầu tư nước ngoài",
+    "Doanh nghiệp"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Trung tâm Thông tin Công nghiệp và Thương mại"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1: Chủ sổ nộp hồ sơ đến VCCI đề nghị cấp sổ ATA thay thế.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "Bước 2: VCC I tiếp nhận, kiểm tra tính đầy đủ, hợp lệ của hồ sơ.\n\tTrường hợp hồ sơ đầy đủ, hợp lệ, trong thời hạn 07 ngày làm việc kể từ ngày nhận được đầy hồ sơ đủ hợp lệ, VCCI thực hiện cấp sổ ATA thay thế.\nTrường hợp hồ sơ không đầy đủ, hợp lệ, chậm nhất trong 01 ngày làm việc kể từ ngày nhận được hồ sơ, VCCI có văn bản yêu cầu chủ sổ cung cấp bổ sung thông tin, chứng từ; \nTrường hợp không thuộc trường hợp được cấp sổ ATA thay thế, VCCI có văn bản từ chối trong thời hạn 02 ngày làm việc kể từ ngày nhận hồ sơ đề nghị cấp sổ ATA thay thế và hướng dẫn chủ sổ thực hiện thủ tục tái nhập trên tờ khai hải quan giấy theo quy định của pháp luật",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "Bước 3: Chủ sổ nộp phí cấp sổ ATA thay thế cho VCCI.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 4,
+      "title": "Bước 4",
+      "description": "Bước 4: VCCI cấp sổ ATA thay thế cho chủ sổ",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Mẫu sổ ATA đã được khai báo (đánh máy) đầy đủ các thông tin tại mặt trước và mặt sau của trang bìa",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Thư bảo lãnh do tổ chức tín dụng, chi nhánh ngân hàng nước ngoài phát hành hoặc giấy nộp tiền cho VCCI (đối với trường hợp hàng hóa không thể tái nhập vào Việt Nam trước ngày sổ ATA hết hạn)",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Văn bản xác nhận của cơ quan có thẩm quyền về tổ chức hoặc tham dự sự kiện",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Giấy ủy quyền theo mẫu số 03/GUQ trong trường hợp người đề nghị cấp sổ ATA không phải là chủ sổ",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Sổ ATA đề nghị thay thế (trong trường hợp sổ ATA cũ còn hạn tối thiểu 20 ngày hoặc sổ ATA cũ bị rách nát):",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Chứng từ liên quan đến thông tin sửa đổi, bổ sung (nếu có)",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Chứng từ chứng minh sổ ATA bị mất hoặc bị phá hủy (đối với trường hợp bị mất hoặc bị phá hủy",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Đơn đề nghị cấp sổ ATA",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "7 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "7 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị định số 64/2020/NĐ-CP ngày 10/6/2020 của Chính phủ hướng dẫn thực hiện cơ chế tạm quản theo Công ước Istanbul.",
+      "document_number": "64/2020/NĐ-CP",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Sổ ATA thay thế",
+      "code": "KQ.G12.000390",
+      "source_page": 1
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1: Chủ sổ nộp hồ sơ đến VCCI đề nghị cấp sổ ATA thay thế.\nBước 2: VCC I tiếp nhận, kiểm tra tính đầy đủ, hợp lệ của hồ sơ.\n\tTrường hợp hồ sơ đầy đủ, hợp lệ, trong thời hạn 07 ngày làm việc kể từ ngày nhận được đầy hồ sơ đủ hợp lệ, VCCI thực hiện cấp sổ ATA thay thế.\nTrường hợp hồ sơ không đầy đủ, hợp lệ, chậm nhất trong 01 ngày làm việc kể từ ngày nhận được hồ sơ, VCCI có văn bản yêu cầu chủ sổ cung cấp bổ sung thông tin, chứng từ; \nTrường hợp không thuộc trường hợp được cấp sổ ATA thay thế, VCCI có văn bản từ chối trong thời hạn 02 ngày làm việc kể từ ngày nhận hồ sơ đề nghị cấp sổ ATA thay thế và hướng dẫn chủ sổ thực hiện thủ tục tái nhập trên tờ khai hải quan giấy theo quy định của pháp luật\nBước 3: Chủ sổ nộp phí cấp sổ ATA thay thế cho VCCI.\nBước 4: VCCI cấp sổ ATA thay thế cho chủ sổ",
+    "THÀNH PHẦN HỒ SƠ": "Mẫu sổ ATA đã được khai báo (đánh máy) đầy đủ các thông tin tại mặt trước và mặt sau của trang bìa\nThư bảo lãnh do tổ chức tín dụng, chi nhánh ngân hàng nước ngoài phát hành hoặc giấy nộp tiền cho VCCI (đối với trường hợp hàng hóa không thể tái nhập vào Việt Nam trước ngày sổ ATA hết hạn)\nVăn bản xác nhận của cơ quan có thẩm quyền về tổ chức hoặc tham dự sự kiện\nGiấy ủy quyền theo mẫu số 03/GUQ trong trường hợp người đề nghị cấp sổ ATA không phải là chủ sổ\nSổ ATA đề nghị thay thế (trong trường hợp sổ ATA cũ còn hạn tối thiểu 20 ngày hoặc sổ ATA cũ bị rách nát):\nChứng từ liên quan đến thông tin sửa đổi, bổ sung (nếu có)\nChứng từ chứng minh sổ ATA bị mất hoặc bị phá hủy (đối với trường hợp bị mất hoặc bị phá hủy\nĐơn đề nghị cấp sổ ATA",
+    "CÁCH THỨC THỰC HIỆN": "Qua dịch vụ bưu chính: 7 ngày\nTrực tiếp: 7 ngày",
+    "CĂN CỨ PHÁP LÝ": "Nghị định số 64/2020/NĐ-CP ngày 10/6/2020 của Chính phủ hướng dẫn thực hiện cơ chế tạm quản theo Công ước Istanbul. - 64/2020/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Trung tâm Thông tin Công nghiệp và Thương mại",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Sổ ATA thay thế - KQ.G12.000390",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Hải quan",
+      "slug": "hai-quan"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cơ quan khác",
+        "slug": "co-quan-khac"
+      },
+      {
+        "name": "Cơ quan ngành dọc",
+        "slug": "co-quan-nganh-doc"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Trung tâm Thông tin Công nghiệp và Thương mại",
+        "slug": "trung-tam-thong-tin-cong-nghiep-va-thuong-mai"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

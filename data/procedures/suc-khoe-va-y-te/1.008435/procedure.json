@@ -1,0 +1,211 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bff-0dd2-76fa-810a-3e4fa8b921a8",
+  "procedure_code": "1.008435",
+  "title": "Cấp, Cấp lại Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm đạt yêu cầu Thực hành sản xuất tốt (GMP) thực phẩm bảo vệ sức khỏe",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bff-0dd2-76fa-810a-3e4fa8b921a8",
+    "source_file": "chi-tiet-thu-tuc-1.008435.pdf",
+    "source_path": "procedures/suc-khoe-va-y-te/1.008435/chi-tiet-thu-tuc-1.008435.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T04:59:15.887138+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "5ba2ac03db608e519d3b67f7531561dfc65a61a7889a719baf9f3d2e17b1b488"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "2495/QĐ-BYT",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "An toàn thực phẩm",
+  "target_users": [
+    "Doanh nghiệp"
+  ],
+  "agency": {
+    "competent_agency": "Bộ Y tế",
+    "executing_agency": "Cục An toàn thực phẩm - Bộ Y tế"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1: Cơ sở lập hồ sơ theo quy định tại khoản 1 Điều 29 Nghị định số 15/2018/NĐ-CP ngày 2/2/2018 của Chính phủ và nộp qua hệ thống dịch vụ công trực tuyến hoặc nộp qua đường bưu điện hoặc trực tiếp đến Cục An toàn thực phẩm;",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "Bước 2:\nTrong thời hạn 15 ngày làm việc kể từ khi nhận đủ hồ sơ hợp lệ, cơ quan tiếp nhận hồ sơ có trách nhiệm thành lập đoàn thẩm định và tiến hành đánh giá thực tế tại cơ sở và lập Biên bản thẩm định theo Mẫu số 13 Phụ lục I ban hành kèm theo Nghị định số 15/2018/NĐ-CP ngày 2/2/2018 của Chính phủ",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "Bước 3:\nTrong trường hợp kết quả thẩm định đạt yêu cầu, cơ quan tiếp nhận hồ sơ cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm đạt yêu cầu Thực hành sản xuất tốt (GMP) thực phẩm bảo vệ sức khỏe theo Mẫu số 14 Phụ lục I ban hành kèm theo Nghị định số 15/2018/NĐ-CP ngày 2/2/2018 của Chính phủ. Thời gian cấp Giấy chứng phận cơ sở đủ điều kiện an toàn thực phẩm đạt yêu cầu Thực hành sản xuất tốt (GMP) thực phẩm bảo vệ sức khỏe không quá 30 ngày làm việc kể từ ngày nhận đủ hồ sơ hợp lệ;",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 4,
+      "title": "Bước 4",
+      "description": "Bước 4:\nTrong trường hợp kết quả thẩm định tại cơ sở không đạt yêu cầu, Đoàn thẩm định ghi rõ nội dung không đạt yêu cầu trong biên bản thẩm định để cơ sở khắc phục. Sau khi khắc phục, cơ sở gửi thông báo kết quả khắc phục bằng văn bản đến Đoàn thẩm định. Trong thời hạn 07 (bảy) ngày làm việc kể từ ngày nhận được văn bản thông báo kết quả khắc phục, đoàn thẩm định có trách nhiệm xem xét để trình Bộ Y tế cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm đạt yêu cầu Thực hành sản xuất tốt (GMP) thực phẩm bảo vệ sức khỏe. Quá thời hạn 03 (ba) tháng kể từ ngày kết thúc thẩm định, nếu cơ sở không hoàn thành việc khắc phục theo yêu cầu và thông báo kết quả khắc phục tới Đoàn thẩm định thì hồ sơ cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm đạt yêu cầu Thực hành sản xuất tốt (GMP) thực phẩm bảo vệ sức khỏe không còn giá trị.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Mẫu số 12 Phụ lục I Nghị định số 15/2018/NĐ-CP ngày 2/2/2018 của Chính phủ: Đơn đề nghị cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm đạt yêu cầu Thực hành sản xuất tốt (GMP) thực phẩm bảo vệ sức khỏe",
+        "quantity": "1 bản chính",
+        "attachment": "Mau 12 PL I ND15.2018.docx",
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Sơ đồ các khu vực sản xuất và dây chuyền sản xuất (có xác nhận của tổ chức, cá nhân);",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Danh mục các thiết bị chính được sử dụng tại cơ sở (có xác nhận của tổ chức, cá nhân).",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "30 ngày làm việc",
+      "fee": "Phí: 11.250.000đ /lần/cơ sở",
+      "description": "30 ngày làm việc kể từ khi nhận đủ hồ sơ hợp lệ",
+      "source_page": 3
+    },
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "30 ngày làm việc",
+      "fee": "Phí: 11.250.000đ /lần/cơ sở",
+      "description": "30 ngày làm việc kể từ khi nhận đủ hồ sơ hợp lệ",
+      "source_page": 3
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "30 ngày làm việc",
+      "fee": "Phí: 11.250.000đ /lần/cơ sở",
+      "description": "30 ngày làm việc kể từ khi nhận đủ hồ sơ hợp lệ",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "Phí: 11.250.000đ /lần/cơ sở",
+    "status": "varies_by_submission_method",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "Phí: 11.250.000đ /lần/cơ sở",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "Phí: 11.250.000đ /lần/cơ sở",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "Phí: 11.250.000đ /lần/cơ sở",
+        "is_free": false,
+        "source_page": null
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Thông tư quy định mức thu, miễn một số khoản phí, lệ phí nhằm hỗ trợ cho doanh nghiệp, người dân",
+      "document_number": "64/2025/TT-BTC",
+      "source_page": 3
+    },
+    {
+      "title": "quy định mức thu, chế độ thu, nộp, quản lý và sử dụng phí trong công tác an toàn thực phẩm",
+      "document_number": "67/2021/TT-BTC",
+      "source_page": 3
+    },
+    {
+      "title": "Quy định chi tiết thi hành một số điều của Luật an toàn thực phẩm",
+      "document_number": "15/2018/NĐ-CP",
+      "source_page": 3
+    },
+    {
+      "title": "Luật An toàn thực phẩm",
+      "document_number": "55/2010/QH12",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm đạt yêu cầu thực hành sản xuất tốt (GMP) thực phẩm bảo vệ sức khỏe",
+      "code": "KQ.G18.000093",
+      "source_page": 1
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1: Cơ sở lập hồ sơ theo quy định tại khoản 1 Điều 29 Nghị định số 15/2018/NĐ-CP ngày 2/2/2018 của Chính phủ và nộp qua hệ thống dịch vụ công trực tuyến hoặc nộp qua đường bưu điện hoặc trực tiếp đến Cục An toàn thực phẩm;\nBước 2:\nTrong thời hạn 15 ngày làm việc kể từ khi nhận đủ hồ sơ hợp lệ, cơ quan tiếp nhận hồ sơ có trách nhiệm thành lập đoàn thẩm định và tiến hành đánh giá thực tế tại cơ sở và lập Biên bản thẩm định theo Mẫu số 13 Phụ lục I ban hành kèm theo Nghị định số 15/2018/NĐ-CP ngày 2/2/2018 của Chính phủ\nBước 3:\nTrong trường hợp kết quả thẩm định đạt yêu cầu, cơ quan tiếp nhận hồ sơ cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm đạt yêu cầu Thực hành sản xuất tốt (GMP) thực phẩm bảo vệ sức khỏe theo Mẫu số 14 Phụ lục I ban hành kèm theo Nghị định số 15/2018/NĐ-CP ngày 2/2/2018 của Chính phủ. Thời gian cấp Giấy chứng phận cơ sở đủ điều kiện an toàn thực phẩm đạt yêu cầu Thực hành sản xuất tốt (GMP) thực phẩm bảo vệ sức khỏe không quá 30 ngày làm việc kể từ ngày nhận đủ hồ sơ hợp lệ;\nBước 4:\nTrong trường hợp kết quả thẩm định tại cơ sở không đạt yêu cầu, Đoàn thẩm định ghi rõ nội dung không đạt yêu cầu trong biên bản thẩm định để cơ sở khắc phục. Sau khi khắc phục, cơ sở gửi thông báo kết quả khắc phục bằng văn bản đến Đoàn thẩm định. Trong thời hạn 07 (bảy) ngày làm việc kể từ ngày nhận được văn bản thông báo kết quả khắc phục, đoàn thẩm định có trách nhiệm xem xét để trình Bộ Y tế cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm đạt yêu cầu Thực hành sản xuất tốt (GMP) thực phẩm bảo vệ sức khỏe. Quá thời hạn 03 (ba) tháng kể từ ngày kết thúc thẩm định, nếu cơ sở không hoàn thành việc khắc phục theo yêu cầu và thông báo kết quả khắc phục tới Đoàn thẩm định thì hồ sơ cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm đạt yêu cầu Thực hành sản xuất tốt (GMP) thực phẩm bảo vệ sức khỏe không còn giá trị.",
+    "THÀNH PHẦN HỒ SƠ": "Mẫu số 12 Phụ lục I Nghị định số 15/2018/NĐ-CP ngày 2/2/2018 của Chính phủ: Đơn đề nghị cấp Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm đạt yêu cầu Thực hành sản xuất tốt (GMP) thực phẩm bảo vệ sức khỏe\nSơ đồ các khu vực sản xuất và dây chuyền sản xuất (có xác nhận của tổ chức, cá nhân);\nDanh mục các thiết bị chính được sử dụng tại cơ sở (có xác nhận của tổ chức, cá nhân).",
+    "CÁCH THỨC THỰC HIỆN": "Trực tiếp: 30 ngày làm việc\nTrực tuyến: 30 ngày làm việc\nQua dịch vụ bưu chính: 30 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Thông tư quy định mức thu, miễn một số khoản phí, lệ phí nhằm hỗ trợ cho doanh nghiệp, người dân - 64/2025/TT-BTC\nquy định mức thu, chế độ thu, nộp, quản lý và sử dụng phí trong công tác an toàn thực phẩm - 67/2021/TT-BTC\nQuy định chi tiết thi hành một số điều của Luật an toàn thực phẩm - 15/2018/NĐ-CP\nLuật An toàn thực phẩm - 55/2010/QH12",
+    "CƠ QUAN THỰC HIỆN": "Cục An toàn thực phẩm - Bộ Y tế",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm đạt yêu cầu thực hành sản xuất tốt (GMP) thực phẩm bảo vệ sức khỏe - KQ.G18.000093",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "An toàn thực phẩm",
+      "slug": "an-toan-thuc-pham"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Cục An toàn thực phẩm - Bộ Y tế",
+        "slug": "cuc-an-toan-thuc-pham-bo-y-te"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

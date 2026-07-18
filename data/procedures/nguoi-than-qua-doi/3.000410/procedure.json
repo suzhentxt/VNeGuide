@@ -1,0 +1,193 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfd-10d2-72d8-803c-ef49c81b6fb4",
+  "procedure_code": "3.000410",
+  "title": "Quyết định xác lập quyền sở hữu toàn dân đối với tài sản không có người thừa kế",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfd-10d2-72d8-803c-ef49c81b6fb4",
+    "source_file": "chi-tiet-thu-tuc-3.000410.pdf",
+    "source_path": "procedures/nguoi-than-qua-doi/3.000410/chi-tiet-thu-tuc-3.000410.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T04:58:35.302276+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "a7c83426bccbaa21b357404759c7e6f2f8d9484eaf6b60b482cb5f3aa99c66de"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "4191/QĐ-BTC",
+  "implementation_level": "Cấp tỉnh, Cấp xã",
+  "procedure_type": "OTHER",
+  "sector": "Quản lý công sản",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Chủ tịch ủy ban nhân dân cấp tỉnh, Chủ tịch Ủy ban nhân dân xã"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Trình tự thực hiện: \na1) Trong thời hạn 07 ngày, kể từ ngày nhận được văn bản từ chối quyền hưởng di sản của người thừa kế hoặc bản án, quyết định của Tòa án xác định người đó không được quyền hưởng di sản thừa kế theo quy định của pháp luật về dân sự hoặc kể từ ngày hết thời hiệu yêu cầu chia di sản mà không có người chiếm hữu theo quy định của pháp luật dân sự hoặc kể từ ngày nhận được văn bản từ bỏ phần quyền sở hữu đối với tài sản sở hữu chung quy định tại khoản 4 Điều 218 Bộ luật Dân sự, tổ chức hành nghề công chứng nơi mở thừa kế có trách nhiệm lập 01 bộ hồ sơ gửi cơ quan chuyên môn về tài chính thuộc Ủy ban nhân dân cấp xã. \na2) Đối với di sản không có người thừa kế thuộc thẩm quyền xác lập quyền sở hữu toàn dân về tài sản của Chủ tịch Ủy ban nhân dân cấp xã, trong thời hạn 07 ngày, kể từ ngày nhận đủ hồ sơ quy định tại khoản a1, cơ quan chuyên môn về tài chính thuộc Ủy ban nhân dân cấp xã có trách nhiệm lập Tờ trình kèm hồ sơ quy định tại khoản a1 trình Chủ tịch Ủy ban nhân dân cấp xã xem xét, quyết định xác lập quyền sở hữu toàn dân về tài sản.\na3) Đối với di sản không có người thừa kế thuộc thẩm quyền xác lập quyền sở hữu toàn dân về tài sản của Chủ tịch Ủy ban nhân dân cấp tỉnh, trong thời hạn 07 ngày, kể từ ngày nhận đủ hồ sơ quy định tại khoản a1, cơ quan chuyên môn được Ủy ban nhân dân cấp xã giao thực hiện có trách nhiệm lập Tờ trình kèm bản sao hồ sơ quy định tại khoản a1, gửi Ủy ban nhân dân cấp xã để tổng hợp gửi Sở Tài chính trình Chủ tịch Ủy ban nhân dân cấp tỉnh xem xét, quyết định xác lập quyền sở hữu toàn dân về tài sản.\nTrong thời hạn 07 ngày, kể từ ngày nhận đủ hồ sơ do Ủy ban nhân dân cấp xã gửi, Sở Tài chính trình Chủ tịch Ủy ban nhân dân cấp tỉnh xem xét, quyết định xác lập quyền sở hữu toàn dân về tài sản.\na4) Trong thời hạn 15 ngày, kể từ ngày nhận đủ hồ sơ do cơ quan chuyên môn về tài chính thuộc Ủy ban nhân dân cấp xã, Sở Tài chính trình theo quy định tại khoản a2, khoản a3, Chủ tịch Ủy ban nhân dân cấp xã, Chủ tịch Ủy ban nhân dân cấp tỉnh xem xét, quyết định xác lập quyền sở hữu toàn dân về tài sản. Trường hợp tài sản là di sản không có người thừa kế là bất động sản thì Quyết định xác lập quyền sở hữu toàn dân về tài sản được gửi đến cơ quan có chức năng quản lý đất đai cấp tỉnh hoặc tổ chức đăng ký đất đai và các cơ quan, tổ chức, đơn vị có liên quan.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Báo cáo quá trình mở thừa kế đối với di sản",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Các hồ sơ, tài liệu liên quan đến quá trình mở thừa kế, văn bản từ chối quyền hưởng di sản, bản án hoặc quyết định của Tòa án xác định người không được quyền hưởng di sản thừa kế (nếu có)",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Bảng kê chủng loại, số lượng, khối lượng, hiện trạng của di sản, giá trị (nếu có thông tin về giá trị)",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Văn bản từ bỏ phần quyền sở hữu đối với tài sản sở hữu chung quy định tại khoản 4 Điều 218 Bộ luật Dân sự",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "29 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": 3
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "29 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "29 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị định số 77/NĐ-CP ngày 01/4/2025 của Chính phủ quy định thẩm quyền, thủ tục xác lập quyền sở hữu toàn dân về tài sản và xử lý đối với tài sản được xác lập quyền sở hữu toàn dân",
+      "document_number": "77/NĐ-CP",
+      "source_page": 3
+    },
+    {
+      "title": "Nghị định 286/2025/NĐ-CP ngày 03/11/2025 của Chính phủ sửa đổi, bổ sung một số điều của các Nghị định trong lĩnh vực quản lý, sử dụng tài sản công",
+      "document_number": "286/2025/NĐ-CP",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Quyết định xác lập quyền sở hữu toàn dân về tài sản",
+      "code": "KQ.G12.000866",
+      "source_page": 2
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Trình tự thực hiện: \na1) Trong thời hạn 07 ngày, kể từ ngày nhận được văn bản từ chối quyền hưởng di sản của người thừa kế hoặc bản án, quyết định của Tòa án xác định người đó không được quyền hưởng di sản thừa kế theo quy định của pháp luật về dân sự hoặc kể từ ngày hết thời hiệu yêu cầu chia di sản mà không có người chiếm hữu theo quy định của pháp luật dân sự hoặc kể từ ngày nhận được văn bản từ bỏ phần quyền sở hữu đối với tài sản sở hữu chung quy định tại khoản 4 Điều 218 Bộ luật Dân sự, tổ chức hành nghề công chứng nơi mở thừa kế có trách nhiệm lập 01 bộ hồ sơ gửi cơ quan chuyên môn về tài chính thuộc Ủy ban nhân dân cấp xã. \na2) Đối với di sản không có người thừa kế thuộc thẩm quyền xác lập quyền sở hữu toàn dân về tài sản của Chủ tịch Ủy ban nhân dân cấp xã, trong thời hạn 07 ngày, kể từ ngày nhận đủ hồ sơ quy định tại khoản a1, cơ quan chuyên môn về tài chính thuộc Ủy ban nhân dân cấp xã có trách nhiệm lập Tờ trình kèm hồ sơ quy định tại khoản a1 trình Chủ tịch Ủy ban nhân dân cấp xã xem xét, quyết định xác lập quyền sở hữu toàn dân về tài sản.\na3) Đối với di sản không có người thừa kế thuộc thẩm quyền xác lập quyền sở hữu toàn dân về tài sản của Chủ tịch Ủy ban nhân dân cấp tỉnh, trong thời hạn 07 ngày, kể từ ngày nhận đủ hồ sơ quy định tại khoản a1, cơ quan chuyên môn được Ủy ban nhân dân cấp xã giao thực hiện có trách nhiệm lập Tờ trình kèm bản sao hồ sơ quy định tại khoản a1, gửi Ủy ban nhân dân cấp xã để tổng hợp gửi Sở Tài chính trình Chủ tịch Ủy ban nhân dân cấp tỉnh xem xét, quyết định xác lập quyền sở hữu toàn dân về tài sản.\nTrong thời hạn 07 ngày, kể từ ngày nhận đủ hồ sơ do Ủy ban nhân dân cấp xã gửi, Sở Tài chính trình Chủ tịch Ủy ban nhân dân cấp tỉnh xem xét, quyết định xác lập quyền sở hữu toàn dân về tài sản.\na4) Trong thời hạn 15 ngày, kể từ ngày nhận đủ hồ sơ do cơ quan chuyên môn về tài chính thuộc Ủy ban nhân dân cấp xã, Sở Tài chính trình theo quy định tại khoản a2, khoản a3, Chủ tịch Ủy ban nhân dân cấp xã, Chủ tịch Ủy ban nhân dân cấp tỉnh xem xét, quyết định xác lập quyền sở hữu toàn dân về tài sản. Trường hợp tài sản là di sản không có người thừa kế là bất động sản thì Quyết định xác lập quyền sở hữu toàn dân về tài sản được gửi đến cơ quan có chức năng quản lý đất đai cấp tỉnh hoặc tổ chức đăng ký đất đai và các cơ quan, tổ chức, đơn vị có liên quan.",
+    "THÀNH PHẦN HỒ SƠ": "Báo cáo quá trình mở thừa kế đối với di sản\nCác hồ sơ, tài liệu liên quan đến quá trình mở thừa kế, văn bản từ chối quyền hưởng di sản, bản án hoặc quyết định của Tòa án xác định người không được quyền hưởng di sản thừa kế (nếu có)\nBảng kê chủng loại, số lượng, khối lượng, hiện trạng của di sản, giá trị (nếu có thông tin về giá trị)\nVăn bản từ bỏ phần quyền sở hữu đối với tài sản sở hữu chung quy định tại khoản 4 Điều 218 Bộ luật Dân sự",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 29 ngày\nQua dịch vụ bưu chính: 29 ngày\nTrực tiếp: 29 ngày",
+    "CĂN CỨ PHÁP LÝ": "Nghị định số 77/NĐ-CP ngày 01/4/2025 của Chính phủ quy định thẩm quyền, thủ tục xác lập quyền sở hữu toàn dân về tài sản và xử lý đối với tài sản được xác lập quyền sở hữu toàn dân - 77/NĐ-CP\nNghị định 286/2025/NĐ-CP ngày 03/11/2025 của Chính phủ sửa đổi, bổ sung một số điều của các Nghị định trong lĩnh vực quản lý, sử dụng tài sản công - 286/2025/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Chủ tịch ủy ban nhân dân cấp tỉnh, Chủ tịch Ủy ban nhân dân xã",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Quyết định xác lập quyền sở hữu toàn dân về tài sản - KQ.G12.000866",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Quản lý công sản",
+      "slug": "quan-ly-cong-san"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      },
+      {
+        "name": "Cấp xã",
+        "slug": "cap-xa"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Chủ tịch ủy ban nhân dân cấp tỉnh",
+        "slug": "chu-tich-uy-ban-nhan-dan-cap-tinh"
+      },
+      {
+        "name": "Chủ tịch Ủy ban nhân dân xã",
+        "slug": "chu-tich-uy-ban-nhan-dan-xa"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

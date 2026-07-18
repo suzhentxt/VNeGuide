@@ -1,0 +1,314 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019f17da-ba95-7625-8d2a-3922eca641e8",
+  "procedure_code": "1.115500",
+  "title": "Giao đất, cho thuê đất đối với trường hợp giao đất, cho thuê đất thông qua đấu giá quyền sử dụng đất",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019f17da-ba95-7625-8d2a-3922eca641e8",
+    "source_file": "chi-tiet-thu-tuc-1.115500.pdf",
+    "source_path": "procedures/dien-luc-nha-o-dat-dai/1.115500/chi-tiet-thu-tuc-1.115500.pdf",
+    "page_count": 6,
+    "extracted_at": "2026-07-18T04:57:01.408679+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "39dae92ce621ab8913a97bca184f981d4335cb4f98523fcc3c03349c6022b8af"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "2252/QĐ-VP",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Đất đai",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Doanh nghiệp",
+    "Tổ chức nước ngoài",
+    "Hợp tác xã",
+    "Tổ chức Đảng",
+    "Doanh nghiệp Việt Nam",
+    "Doanh nghiệp có vốn đầu tư nước ngoài"
+  ],
+  "agency": {
+    "competent_agency": "Chủ tịch ủy ban nhân dân cấp tỉnh",
+    "executing_agency": "Sở Nông nghiệp và Môi trường"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1: Sau khi nhận được thông báo của cơ quan thuế về việc người trúng đấu giá đã hoàn thành việc nộp tiền sử dụng đất, tiền thuê đất; Người trúng đấu giá nộp hồ sơ giao đất, cho thuê đát thông qua đấu giá quyền sử dụng đất đến Bộ phận Một cửa.\nKhi nộp hồ sơ, người nộp hồ sơ được lựa chọn nộp bản sao giấy tờ và xuất trình bản chính để cán bộ tiếp nhận hồ sơ kiểm tra, đối chiếu hoặc nộp bản chính giấy tờ hoặc nộp bản sao giấy tờ đã có công chứng hoặc chứng thực theo quy định của pháp luật về công chứng, chứng thực. Trường hợp nộp hồ sơ theo hình thức trực tuyến thì hồ sơ nộp phải được số hóa từ bản chính hoặc bản sao giấy tờ đã được công chứng, chứng thực.\nBộ phận Một cửa tiếp nhận hồ sơ và chuyển hồ sơ đến Sở Nông nghiệp và Môi trường.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "Bước 2: Sở Nông nghiệp và Môi trường thực hiện:\n- Lập Tờ trình trình Chủ tịch Ủy ban nhân dân tỉnh ban hành quyết định giao đất, cho thuê đất (hồ sơ gồm: tờ trình theo Mẫu số 13, dự thảo Quyết định theo Mẫu số 14 tại phụ lục IV ban hành kèm theo Quyết định này);",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "Bước 3: Chủ tịch Ủy ban nhân dân tỉnh ban hành quyết định giao đất, cho thuê đất theo Mẫu số 14 tại phụ lục IV ban hành kèm theo Quyết định này.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 4,
+      "title": "Bước 4",
+      "description": "Bước 4: Sở Nông nghiệp và Môi trường thực hiện:\n- Ký hợp đồng thuê đất theo Mẫu số 37 tại Phụ lục IV kèm theo Quyết định này, bàn giao đất trên thực địa đối với trường hợp thuê đất; bàn giao đất trên thực địa đối với trường hợp giao đất\n- Chuyển thông tin theo Mẫu số 15 tại Phụ lục IV ban hành kèm theo Quyết định này đến cơ quan thuế (kèm theo hồ sơ kê khai xác định nghĩa vụ tài chính) trong thời gian 03 ngày kể từ thời điểm có quyết định giao đất, cho thuê đất;",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 5,
+      "title": "Bước 5",
+      "description": "Bước 5: Cơ quan Thuế thực hiện thủ tục xác định các nghĩa vụ về thuế, phí, lệ phí phải nộp theo quy định; ban hành thông báo nộp tiền gửi cho người sử dụng đất;\n- Người sử dụng đất ký hợp đồng thuê đất theo Mẫu số 37 tại Phụ lục IV kèm theo Quyết định này với Sở Nông nghiệp và Môi trường trong trường hợp thuê đất;",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 6,
+      "title": "Bước 6",
+      "description": "Bước 6: Sở Nông nghiệp và Môi trường bàn giao đất trên thực địa thực hiện theo Mẫu số 12 Phụ lục IV ban hành kèm theo Quyết định này; ký Giấy chứng nhận theo thẩm quyền; chuyển Giấy chứng nhận quyền sử dụng đất, quyền sở hữu tài sản gắn liền với đất sang cho Bộ phận Một cửa để trao cho người sử dụng đất;",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Mẫu số 10 Đơn đề nghị giao đất; cho thuê đất đối với trường hợp giao đất, cho thuê đất thông qua đấu giá quyền sử dụng đất",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu số 10.docx",
+        "source_page": 2
+      },
+      {
+        "name": "Bản trích lục bản đồ địa chính hoặc trích đo địa chính khu đất",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": []
+  },
+  "submission_methods": [
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "10 ngày làm việc",
+      "fee": "Theo Quyết định số 2252/QĐ-VP ngày 02/7/2026 của Văn phòng Ủy ban nhân dân tỉnh Thanh Hóa",
+      "description": "Đối với các xã miền núi, hải đảo, vùng sâu, vùng xa, vùng có điều kiện kinh tế - xã hội khó khăn, vùng có điều kiện kinh tế - xã hội đặc biệt khó khăn thì thời gian thực hiện không quá 20 ngày làm việc.",
+      "source_page": 3
+    },
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "10 ngày làm việc",
+      "fee": "Theo Quyết định số 2252/QĐ-VP ngày 02/7/2026 của Văn phòng Ủy ban nhân dân tỉnh Thanh Hóa",
+      "description": "Đối với các xã miền núi, hải đảo, vùng sâu, vùng xa, vùng có điều kiện kinh tế - xã hội khó khăn, vùng có điều kiện kinh tế - xã hội đặc biệt khó khăn thì thời gian thực hiện không quá 20 ngày làm việc.",
+      "source_page": 3
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "10 ngày làm việc",
+      "fee": "Theo Quyết định số 2252/QĐ-VP ngày 02/7/2026 của Văn phòng Ủy ban nhân dân tỉnh Thanh Hóa",
+      "description": "Đối với các xã miền núi, hải đảo, vùng sâu, vùng xa, vùng có điều kiện kinh tế - xã hội khó khăn, vùng có điều kiện kinh tế - xã hội đặc biệt khó khăn thì thời gian thực hiện không quá 20 ngày làm việc.",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "Theo Quyết định số 2252/QĐ-VP ngày 02/7/2026 của Văn phòng Ủy ban nhân dân tỉnh Thanh Hóa",
+    "status": "varies_by_submission_method",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "Theo Quyết định số 2252/QĐ-VP ngày 02/7/2026 của Văn phòng Ủy ban nhân dân tỉnh Thanh Hóa",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "Theo Quyết định số 2252/QĐ-VP ngày 02/7/2026 của Văn phòng Ủy ban nhân dân tỉnh Thanh Hóa",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "Theo Quyết định số 2252/QĐ-VP ngày 02/7/2026 của Văn phòng Ủy ban nhân dân tỉnh Thanh Hóa",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "Theo Quyết định số 2252/QĐ-VP ngày 02/7/2026 của Văn phòng Ủy ban nhân dân tỉnh Thanh Hóa",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "Theo Quyết định số 2252/QĐ-VP ngày 02/7/2026 của Văn phòng Ủy ban nhân dân tỉnh Thanh Hóa",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "Theo Quyết định số 2252/QĐ-VP ngày 02/7/2026 của Văn phòng Ủy ban nhân dân tỉnh Thanh Hóa",
+        "is_free": false,
+        "source_page": null
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị định số 118/2025/NĐ-CP của Chính phủ: Về thực hiện thủ tục hành chính theo cơ chế một cửa, một cửa liên thông tại Bộ phận Một cửa và Cổng Dịch vụ công quốc gia",
+      "document_number": "118/2025/NĐ-CP",
+      "source_page": 4
+    },
+    {
+      "title": "quy định chi tiết và hướng dẫn một số điều của Nghị quyết số 254/2025/QH15 của Quốc hội quy định một số cơ chế, chính sách tháo gỡ khó khăn vướng mắc trong tổ chức thi hành Luật Đất đai",
+      "document_number": "49/2026/NĐ-CP",
+      "source_page": 4
+    },
+    {
+      "title": "Nghị quyết số 12/2025/NQ-HĐND ngày 24/6/2025 của Hội đồng nhân dân tỉnh Thanh Hóa về việc sửa đổi một số điều của Quy định mức thu, miễn, giảm, thu, nộp, quản lý và sử dụng các khoản phí, lệ phí thuộc thẩm quyền của Hội đồng nhân dân tỉnh ban hành kèm theo Nghị quyết số 28/2024/NQ-HĐND ngày 10/7/2024 của Hội đồng nhân dân tỉnh.",
+      "document_number": "12/2025/NQ-HĐND",
+      "source_page": 4
+    },
+    {
+      "title": "Sửa đổi, bổ sung một số điều của các nghị định  quy định chi tiết thi hành Luật Đất đai",
+      "document_number": "226/2025/NĐ-CP",
+      "source_page": 4
+    },
+    {
+      "title": "Luật Đất đai số 31/2024/QH15 ngày 18/01/2024 được sửa đổi bổ sung  một số điều bởi Luật số 43/2024/QH15, Luật số 47/2024/QH15 và Luật số 58/2024/QH15 của Quốc hội.",
+      "document_number": "31/2024/QH15",
+      "source_page": 4
+    },
+    {
+      "title": "Nghị định quy định về điều tra cơ bản đất đai, đăng ký, cấp Giấy chứng nhận quyền sử dụng đất, quyền sở hữu tài sản gắn liền với đất và Hệ thống thông tin đất đai.",
+      "document_number": "101/2024/NĐ-CP",
+      "source_page": 4
+    },
+    {
+      "title": "Nghị định 102/2024/NĐ-CP ngày 30/7/2024 của Chính phủ quy định chi tiết thi hành một số điều của Luật Đất đai.",
+      "document_number": "102/2024/NĐ-CP",
+      "source_page": 4
+    },
+    {
+      "title": "Quy định về phân định thẩm quyền của chính quyền địa phương 02 cấp, phân quyền, phân cấp trong lĩnh vực đất đai",
+      "document_number": "151/2025/NĐ-CP",
+      "source_page": 5
+    },
+    {
+      "title": "Nghị quyết 28/2024/NQ-HĐND ngày 10/7/2024 của Hội đồng nhân dân tỉnh Thanh Hóa ban hành quy định mức thu, miễn, giảm, thu, nộp, quản lý và sử dụng các khoản phí, lệ phí thuộc thẩm quyền của Hội đồng nhân tỉnh",
+      "document_number": "28/2024/NQ-HĐND",
+      "source_page": 5
+    },
+    {
+      "title": "Nghị quyết số 190/2025/QH15 của Quốc hội: Quy định về xử lý một số vấn đề liên quan đến sắp xếp tổ chức bộ máy nhà nước",
+      "document_number": "190/2025/QH15",
+      "source_page": 5
+    },
+    {
+      "title": "Quy định chi tiết một số điều của Nghị quyết số 254/2025/QH15 ngày 11 tháng 12 năm 2025 của Quốc hội quy định một số cơ chế, chính sách tháo gỡ khó khăn, vướng mắc trong tổ chức thi hành Luật Đất đai về tiền sử dụng đất, tiền thuê đất",
+      "document_number": "Nghị định số 50/2026/NĐ-CP",
+      "source_page": 5
+    },
+    {
+      "title": "Quy định một số cơ chế, chính sách tháo gỡ khó khăn vướng mắc trong tổ chức thi hành Luật Đất đai",
+      "document_number": "254/2025/QH15",
+      "source_page": 4
+    },
+    {
+      "title": "Ban hành Quy định trình tự, thủ tục hành chính về đất đai trên địa bàn tỉnh Thanh Hóa",
+      "document_number": "55/2026/QĐ",
+      "source_page": 5
+    }
+  ],
+  "conditions": "Sau khi nhận được thông báo của cơ quan thuế về việc người trúng đấu giá đã hoàn thành việc nộp tiền sử dụng đất, tiền thuê đất",
+  "results": [
+    {
+      "title": "Quyết định giao đất, cho thuê đất",
+      "code": "KQ-H56.0000033",
+      "source_page": 2
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1: Sau khi nhận được thông báo của cơ quan thuế về việc người trúng đấu giá đã hoàn thành việc nộp tiền sử dụng đất, tiền thuê đất; Người trúng đấu giá nộp hồ sơ giao đất, cho thuê đát thông qua đấu giá quyền sử dụng đất đến Bộ phận Một cửa.\nKhi nộp hồ sơ, người nộp hồ sơ được lựa chọn nộp bản sao giấy tờ và xuất trình bản chính để cán bộ tiếp nhận hồ sơ kiểm tra, đối chiếu hoặc nộp bản chính giấy tờ hoặc nộp bản sao giấy tờ đã có công chứng hoặc chứng thực theo quy định của pháp luật về công chứng, chứng thực. Trường hợp nộp hồ sơ theo hình thức trực tuyến thì hồ sơ nộp phải được số hóa từ bản chính hoặc bản sao giấy tờ đã được công chứng, chứng thực.\nBộ phận Một cửa tiếp nhận hồ sơ và chuyển hồ sơ đến Sở Nông nghiệp và Môi trường.\nBước 2: Sở Nông nghiệp và Môi trường thực hiện:\n- Lập Tờ trình trình Chủ tịch Ủy ban nhân dân tỉnh ban hành quyết định giao đất, cho thuê đất (hồ sơ gồm: tờ trình theo Mẫu số 13, dự thảo Quyết định theo Mẫu số 14 tại phụ lục IV ban hành kèm theo Quyết định này);\nBước 3: Chủ tịch Ủy ban nhân dân tỉnh ban hành quyết định giao đất, cho thuê đất theo Mẫu số 14 tại phụ lục IV ban hành kèm theo Quyết định này.\nBước 4: Sở Nông nghiệp và Môi trường thực hiện:\n- Ký hợp đồng thuê đất theo Mẫu số 37 tại Phụ lục IV kèm theo Quyết định này, bàn giao đất trên thực địa đối với trường hợp thuê đất; bàn giao đất trên thực địa đối với trường hợp giao đất\n- Chuyển thông tin theo Mẫu số 15 tại Phụ lục IV ban hành kèm theo Quyết định này đến cơ quan thuế (kèm theo hồ sơ kê khai xác định nghĩa vụ tài chính) trong thời gian 03 ngày kể từ thời điểm có quyết định giao đất, cho thuê đất;\nBước 5: Cơ quan Thuế thực hiện thủ tục xác định các nghĩa vụ về thuế, phí, lệ phí phải nộp theo quy định; ban hành thông báo nộp tiền gửi cho người sử dụng đất;\n- Người sử dụng đất ký hợp đồng thuê đất theo Mẫu số 37 tại Phụ lục IV kèm theo Quyết định này với Sở Nông nghiệp và Môi trường trong trường hợp thuê đất;\nBước 6: Sở Nông nghiệp và Môi trường bàn giao đất trên thực địa thực hiện theo Mẫu số 12 Phụ lục IV ban hành kèm theo Quyết định này; ký Giấy chứng nhận theo thẩm quyền; chuyển Giấy chứng nhận quyền sử dụng đất, quyền sở hữu tài sản gắn liền với đất sang cho Bộ phận Một cửa để trao cho người sử dụng đất;",
+    "THÀNH PHẦN HỒ SƠ": "Mẫu số 10 Đơn đề nghị giao đất; cho thuê đất đối với trường hợp giao đất, cho thuê đất thông qua đấu giá quyền sử dụng đất\nBản trích lục bản đồ địa chính hoặc trích đo địa chính khu đất",
+    "CÁCH THỨC THỰC HIỆN": "Trực tiếp: 10 ngày làm việc\nTrực tuyến: 10 ngày làm việc\nQua dịch vụ bưu chính: 10 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Nghị định số 118/2025/NĐ-CP của Chính phủ: Về thực hiện thủ tục hành chính theo cơ chế một cửa, một cửa liên thông tại Bộ phận Một cửa và Cổng Dịch vụ công quốc gia - 118/2025/NĐ-CP\nquy định chi tiết và hướng dẫn một số điều của Nghị quyết số 254/2025/QH15 của Quốc hội quy định một số cơ chế, chính sách tháo gỡ khó khăn vướng mắc trong tổ chức thi hành Luật Đất đai - 49/2026/NĐ-CP\nNghị quyết số 12/2025/NQ-HĐND ngày 24/6/2025 của Hội đồng nhân dân tỉnh Thanh Hóa về việc sửa đổi một số điều của Quy định mức thu, miễn, giảm, thu, nộp, quản lý và sử dụng các khoản phí, lệ phí thuộc thẩm quyền của Hội đồng nhân dân tỉnh ban hành kèm theo Nghị quyết số 28/2024/NQ-HĐND ngày 10/7/2024 của Hội đồng nhân dân tỉnh. - 12/2025/NQ-HĐND\nSửa đổi, bổ sung một số điều của các nghị định  quy định chi tiết thi hành Luật Đất đai - 226/2025/NĐ-CP\nLuật Đất đai số 31/2024/QH15 ngày 18/01/2024 được sửa đổi bổ sung  một số điều bởi Luật số 43/2024/QH15, Luật số 47/2024/QH15 và Luật số 58/2024/QH15 của Quốc hội. - 31/2024/QH15\nNghị định quy định về điều tra cơ bản đất đai, đăng ký, cấp Giấy chứng nhận quyền sử dụng đất, quyền sở hữu tài sản gắn liền với đất và Hệ thống thông tin đất đai. - 101/2024/NĐ-CP\nNghị định 102/2024/NĐ-CP ngày 30/7/2024 của Chính phủ quy định chi tiết thi hành một số điều của Luật Đất đai. - 102/2024/NĐ-CP\nQuy định về phân định thẩm quyền của chính quyền địa phương 02 cấp, phân quyền, phân cấp trong lĩnh vực đất đai - 151/2025/NĐ-CP\nNghị quyết 28/2024/NQ-HĐND ngày 10/7/2024 của Hội đồng nhân dân tỉnh Thanh Hóa ban hành quy định mức thu, miễn, giảm, thu, nộp, quản lý và sử dụng các khoản phí, lệ phí thuộc thẩm quyền của Hội đồng nhân tỉnh - 28/2024/NQ-HĐND\nNghị quyết số 190/2025/QH15 của Quốc hội: Quy định về xử lý một số vấn đề liên quan đến sắp xếp tổ chức bộ máy nhà nước - 190/2025/QH15\nQuy định chi tiết một số điều của Nghị quyết số 254/2025/QH15 ngày 11 tháng 12 năm 2025 của Quốc hội quy định một số cơ chế, chính sách tháo gỡ khó khăn, vướng mắc trong tổ chức thi hành Luật Đất đai về tiền sử dụng đất, tiền thuê đất - Nghị định số 50/2026/NĐ-CP\nQuy định một số cơ chế, chính sách tháo gỡ khó khăn vướng mắc trong tổ chức thi hành Luật Đất đai - 254/2025/QH15\nBan hành Quy định trình tự, thủ tục hành chính về đất đai trên địa bàn tỉnh Thanh Hóa - 55/2026/QĐ",
+    "CƠ QUAN THỰC HIỆN": "Sở Nông nghiệp và Môi trường",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "Sau khi nhận được thông báo của cơ quan thuế về việc người trúng đấu giá đã hoàn thành việc nộp tiền sử dụng đất, tiền thuê đất",
+    "KẾT QUẢ XỬ LÝ": "Quyết định giao đất, cho thuê đất - KQ-H56.0000033",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "Sau khi nhận được thông báo của cơ quan thuế về việc người trúng đấu giá đã hoàn thành việc nộp tiền sử dụng đất, tiền thuê đất"
+  },
+  "classification": {
+    "sector": {
+      "name": "Đất đai",
+      "slug": "at-ai"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      },
+      {
+        "name": "Hợp tác xã",
+        "slug": "hop-tac-xa"
+      },
+      {
+        "name": "Tổ chức Đảng",
+        "slug": "to-chuc-ang"
+      },
+      {
+        "name": "Doanh nghiệp Việt Nam",
+        "slug": "doanh-nghiep-viet-nam"
+      },
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Sở Nông nghiệp và Môi trường",
+        "slug": "so-nong-nghiep-va-moi-truong"
+      }
+    ],
+    "administrative_scope": "non_territorial"
+  }
+}

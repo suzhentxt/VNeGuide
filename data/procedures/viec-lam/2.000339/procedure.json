@@ -1,0 +1,196 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bf8-2b1f-76e0-8e9a-a7546cfea501",
+  "procedure_code": "2.000339",
+  "title": "Điều chỉnh tên, mã số doanh nghiệp, địa chỉ trụ sở chính, tên, địa chỉ của cơ sở bán lẻ, loại hình của cơ sở bán lẻ, điều chỉnh giảm diện tích của cơ sở bán lẻ trên Giấy phép lập cơ sở bán lẻ",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bf8-2b1f-76e0-8e9a-a7546cfea501",
+    "source_file": "chi-tiet-thu-tuc-2.000339.pdf",
+    "source_path": "procedures/viec-lam/2.000339/chi-tiet-thu-tuc-2.000339.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T05:02:08.249887+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "2ef2dd5e8d3c37a33042a52baaf68194ef5fb6bb0f149320cb9f46a49a10a1ff"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "2866/QĐ-BCT",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "NOT_ASSIGNED_REGULATION",
+  "sector": "Thương mại quốc tế",
+  "target_users": [
+    "Doanh nghiệp có vốn đầu tư nước ngoài",
+    "Tổ chức nước ngoài"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Sở Công Thương"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "a) Hồ sơ 01 bộ gửi trực tiếp hoặc qua đường bưu chính hoặc qua mạng điện tử (nếu đủ điều kiện áp dụng) đến Cơ quan cấp Giấy phép;\nb) Trong thời hạn 03 ngày làm việc kể từ ngày nhận được hồ sơ, Cơ quan cấp Giấy phép kiểm tra và yêu cầu sửa đổi, bổ sung nếu hồ sơ chưa đủ và hợp lệ; \nc) Trong thời hạn 05 ngày làm việc kể từ ngày nhận được hồ sơ đủ và hợp lệ, Cơ quan cấp giấy phép điều chỉnh Giấy phép lập cơ sở bán lẻ, trường hợp từ chối phải có văn bản trả lời và nêu rõ lý do.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "a) Đơn đề nghị điều chỉnh Giấy phép lập cơ sở bán lẻ (Mẫu số 05 Phụ lục ban hành kèm theo Nghị định).",
+        "quantity": "1 bản chính",
+        "attachment": "05MĐ-Đơn điều chỉnh GPBL.doc",
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "b) Trường hợp thay đổi tên, địa chỉ trụ sở chính: Bản sao Giấy phép kinh doanh ghi nhận nội dung điều chỉnh.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "d) Trường hợp giảm diện tích cơ sở bán lẻ: Các giấy tờ có liên quan.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "c) Trường hợp thay đổi địa chỉ của cơ sở bán lẻ: Bản sao văn bản của cơ quan có thẩm quyền cấp phường, xã, thị trấn xác nhận việc thay đổi địa chỉ.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "5 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "5 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "5 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": 1
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 1
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Luật quản lý ngoại thương",
+      "document_number": "05/2017/QH14",
+      "source_page": 2
+    },
+    {
+      "title": "Nghị định số 146/2025/NĐ-CP",
+      "document_number": "nghị định 146/2025",
+      "source_page": 2
+    },
+    {
+      "title": "Quy định chi tiết Luật thương mại và Luật Quản lý ngoại thương về hoạt động mua bán hàng hóa và các hoạt động liên quan trực tiếp đến mua bán hàng hóa của nhà đầu tư nước ngoài, tổ chức kinh tế có vốn đầu tư nước ngoài tại Việt Nam",
+      "document_number": "09/2018/NĐ-CP",
+      "source_page": 2
+    }
+  ],
+  "conditions": "- Điều kiện chung:\nĐảm bảo các điều kiện chung được quy định tại Điều 22 Nghị định số 09/2018/NĐ-CP\n- Điều kiện riêng:\nTrường hợp tổ chức kinh tế có vốn đầu tư nước ngoài có nhu cầu điều chỉnh tên, mã số doanh nghiệp, địa chỉ trụ sở chính, tên, địa chỉ của cơ sở bán lẻ, loại hình của cơ sở bán lẻ, điều chỉnh giảm diện tích của cơ sở bán lẻ trên Giấy phép lập cơ sở bán lẻ",
+  "results": [
+    {
+      "title": "GIẤY PHÉP LẬP CƠ SỞ BÁN LẺ",
+      "code": "KQ.G02.000091",
+      "source_page": 1
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "a) Hồ sơ 01 bộ gửi trực tiếp hoặc qua đường bưu chính hoặc qua mạng điện tử (nếu đủ điều kiện áp dụng) đến Cơ quan cấp Giấy phép;\nb) Trong thời hạn 03 ngày làm việc kể từ ngày nhận được hồ sơ, Cơ quan cấp Giấy phép kiểm tra và yêu cầu sửa đổi, bổ sung nếu hồ sơ chưa đủ và hợp lệ; \nc) Trong thời hạn 05 ngày làm việc kể từ ngày nhận được hồ sơ đủ và hợp lệ, Cơ quan cấp giấy phép điều chỉnh Giấy phép lập cơ sở bán lẻ, trường hợp từ chối phải có văn bản trả lời và nêu rõ lý do.",
+    "THÀNH PHẦN HỒ SƠ": "a) Đơn đề nghị điều chỉnh Giấy phép lập cơ sở bán lẻ (Mẫu số 05 Phụ lục ban hành kèm theo Nghị định).\nb) Trường hợp thay đổi tên, địa chỉ trụ sở chính: Bản sao Giấy phép kinh doanh ghi nhận nội dung điều chỉnh.\nd) Trường hợp giảm diện tích cơ sở bán lẻ: Các giấy tờ có liên quan.\nc) Trường hợp thay đổi địa chỉ của cơ sở bán lẻ: Bản sao văn bản của cơ quan có thẩm quyền cấp phường, xã, thị trấn xác nhận việc thay đổi địa chỉ.",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 5 ngày làm việc\nQua dịch vụ bưu chính: 5 ngày làm việc\nTrực tiếp: 5 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Luật quản lý ngoại thương - 05/2017/QH14\nNghị định số 146/2025/NĐ-CP - nghị định 146/2025\nQuy định chi tiết Luật thương mại và Luật Quản lý ngoại thương về hoạt động mua bán hàng hóa và các hoạt động liên quan trực tiếp đến mua bán hàng hóa của nhà đầu tư nước ngoài, tổ chức kinh tế có vốn đầu tư nước ngoài tại Việt Nam - 09/2018/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Sở Công Thương",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "- Điều kiện chung:\nĐảm bảo các điều kiện chung được quy định tại Điều 22 Nghị định số 09/2018/NĐ-CP\n- Điều kiện riêng:\nTrường hợp tổ chức kinh tế có vốn đầu tư nước ngoài có nhu cầu điều chỉnh tên, mã số doanh nghiệp, địa chỉ trụ sở chính, tên, địa chỉ của cơ sở bán lẻ, loại hình của cơ sở bán lẻ, điều chỉnh giảm diện tích của cơ sở bán lẻ trên Giấy phép lập cơ sở bán lẻ",
+    "KẾT QUẢ XỬ LÝ": "GIẤY PHÉP LẬP CƠ SỞ BÁN LẺ - KQ.G02.000091",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "- Điều kiện chung:\nĐảm bảo các điều kiện chung được quy định tại Điều 22 Nghị định số 09/2018/NĐ-CP\n- Điều kiện riêng:\nTrường hợp tổ chức kinh tế có vốn đầu tư nước ngoài có nhu cầu điều chỉnh tên, mã số doanh nghiệp, địa chỉ trụ sở chính, tên, địa chỉ của cơ sở bán lẻ, loại hình của cơ sở bán lẻ, điều chỉnh giảm diện tích của cơ sở bán lẻ trên Giấy phép lập cơ sở bán lẻ"
+  },
+  "classification": {
+    "sector": {
+      "name": "Thương mại quốc tế",
+      "slug": "thuong-mai-quoc-te"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Sở Công Thương",
+        "slug": "so-cong-thuong"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

@@ -1,0 +1,173 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bf8-4a88-761c-a413-252b766cc878",
+  "procedure_code": "2.002620",
+  "title": "Thông báo về việc thực hiện hoạt động bán hàng không tại địa điểm giao dịch thường xuyên",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bf8-4a88-761c-a413-252b766cc878",
+    "source_file": "chi-tiet-thu-tuc-2.002620.pdf",
+    "source_path": "procedures/phuong-tien-va-nguoi-lai/2.002620/chi-tiet-thu-tuc-2.002620.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T04:59:02.854880+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "5ebce6318a13199d0b491a9c3e0ee347ffab5673cf5568c3bf078672adcfbf29"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "2017/QĐ-BCT",
+  "implementation_level": "Cấp xã",
+  "procedure_type": "NOT_ASSIGNED_REGULATION",
+  "sector": "bảo vệ quyền lợi người tiêu dùng",
+  "target_users": [
+    "Công dân Việt Nam",
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Uỷ ban Nhân dân cấp xã, phường, thị trấn"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "- Tổ chức, cá nhân kinh doanh thực hiện thông báo đến Ủy ban nhân dân cấp xã tại nơi tổ chức bán sản phẩm, hàng hóa, cung cấp dịch vụ.\n- Hồ sơ thông báo phải được gửi đến Ủy ban nhân dân cấp xã tối thiểu 03 ngày làm việc trước khi thực hiện hoạt động (căn cứ theo ngày Ủy ban nhân dân cấp xã nhận ghi trên vận đơn bưu điện hoặc các hình thức có giá trị tương đương trong trường hợp gửi qua đường bưu điện, căn cứ theo ngày ghi trên giấy tiếp nhận hồ sơ trong trường hợp nộp trực tiếp, căn cứ theo thời gian ghi nhận trên hệ thống thư điện tử hoặc căn cứ theo ngày ghi nhận trên hệ thống trong trường hợp nộp qua hệ thống dịch vụ công trực tuyến).\n- Trường hợp sửa đổi, bổ sung nội dung hoạt động đã được thông báo đến Ủy ban nhân dân cấp xã trước đó, tổ chức, cá nhân kinh doanh thực hiện thông báo sửa đổi, bổ sung nội dung hoạt động đến Ủy ban nhân dân cấp xã nơi đã thông báo. \nUỷ ban nhân dân cấp xã công khai đầy đủ nội dung thông báo của tổ chức, cá nhân kinh doanh bằng hình thức phù hợp để người tiêu dùng tại địa bàn được biết. Việc công khai được thực hiện trước và trong thời gian thực hiện hoạt động bán hàng, cung cấp dịch vụ của tổ chức, cá nhân kinh doanh tại địa bàn.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "+) Lần đầu: 01 Thông báo thực hiện bán hàng không tại địa điểm giao dịch thường xuyên theo Mẫu số 10 Phụ lục ban hành kèm theo Nghị định số 55/2024/NĐ-CP.",
+        "quantity": "1 bản chính",
+        "attachment": "mẫu đơn số 10.doc",
+        "source_page": 2
+      },
+      {
+        "name": "+) Trường hợp sửa đổi bổ sung thông báo: 01 thông báo sửa đổi, bổ sung theo Mẫu số 11 Phụ lục ban hành kèm theo Nghị định số 55/2024/NĐ-CP.",
+        "quantity": "1 bản chính",
+        "attachment": "mẫu đơn 11.doc",
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": []
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "0",
+      "fee": "0",
+      "description": "không quy định",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "0",
+      "fee": "0",
+      "description": "không quy định",
+      "source_page": 2
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "0",
+      "fee": "0",
+      "description": "không quy định",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Quy định chi tiết một số điều của Luật Bảo vệ quyền lợi người tiêu dùng",
+      "document_number": "55/2024/NĐ-CP",
+      "source_page": 3
+    }
+  ],
+  "conditions": "- Tổ chức, cá nhân kinh doanh theo quy định tại Luật Bảo vệ quyền lợi người tiêu dùng. \n- Thực hiện hoạt động bán hàng không tại địa điểm giao dịch thường xuyên.",
+  "results": [
+    {
+      "title": "Tổ chức, cá nhân kinh doanh thực hiện hoạt động bán hàng không tại địa điểm giao dịch thường xuyên sau khi thông báo.",
+      "code": "KQ.G02.000351",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "- Tổ chức, cá nhân kinh doanh thực hiện thông báo đến Ủy ban nhân dân cấp xã tại nơi tổ chức bán sản phẩm, hàng hóa, cung cấp dịch vụ.\n- Hồ sơ thông báo phải được gửi đến Ủy ban nhân dân cấp xã tối thiểu 03 ngày làm việc trước khi thực hiện hoạt động (căn cứ theo ngày Ủy ban nhân dân cấp xã nhận ghi trên vận đơn bưu điện hoặc các hình thức có giá trị tương đương trong trường hợp gửi qua đường bưu điện, căn cứ theo ngày ghi trên giấy tiếp nhận hồ sơ trong trường hợp nộp trực tiếp, căn cứ theo thời gian ghi nhận trên hệ thống thư điện tử hoặc căn cứ theo ngày ghi nhận trên hệ thống trong trường hợp nộp qua hệ thống dịch vụ công trực tuyến).\n- Trường hợp sửa đổi, bổ sung nội dung hoạt động đã được thông báo đến Ủy ban nhân dân cấp xã trước đó, tổ chức, cá nhân kinh doanh thực hiện thông báo sửa đổi, bổ sung nội dung hoạt động đến Ủy ban nhân dân cấp xã nơi đã thông báo. \nUỷ ban nhân dân cấp xã công khai đầy đủ nội dung thông báo của tổ chức, cá nhân kinh doanh bằng hình thức phù hợp để người tiêu dùng tại địa bàn được biết. Việc công khai được thực hiện trước và trong thời gian thực hiện hoạt động bán hàng, cung cấp dịch vụ của tổ chức, cá nhân kinh doanh tại địa bàn.",
+    "THÀNH PHẦN HỒ SƠ": "+) Lần đầu: 01 Thông báo thực hiện bán hàng không tại địa điểm giao dịch thường xuyên theo Mẫu số 10 Phụ lục ban hành kèm theo Nghị định số 55/2024/NĐ-CP.\n+) Trường hợp sửa đổi bổ sung thông báo: 01 thông báo sửa đổi, bổ sung theo Mẫu số 11 Phụ lục ban hành kèm theo Nghị định số 55/2024/NĐ-CP.",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 0\nQua dịch vụ bưu chính: 0\nTrực tiếp: 0",
+    "CĂN CỨ PHÁP LÝ": "Quy định chi tiết một số điều của Luật Bảo vệ quyền lợi người tiêu dùng - 55/2024/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Uỷ ban Nhân dân cấp xã, phường, thị trấn",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "- Tổ chức, cá nhân kinh doanh theo quy định tại Luật Bảo vệ quyền lợi người tiêu dùng. \n- Thực hiện hoạt động bán hàng không tại địa điểm giao dịch thường xuyên.",
+    "KẾT QUẢ XỬ LÝ": "Tổ chức, cá nhân kinh doanh thực hiện hoạt động bán hàng không tại địa điểm giao dịch thường xuyên sau khi thông báo. - KQ.G02.000351",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "- Tổ chức, cá nhân kinh doanh theo quy định tại Luật Bảo vệ quyền lợi người tiêu dùng. \n- Thực hiện hoạt động bán hàng không tại địa điểm giao dịch thường xuyên."
+  },
+  "classification": {
+    "sector": {
+      "name": "bảo vệ quyền lợi người tiêu dùng",
+      "slug": "bao-ve-quyen-loi-nguoi-tieu-dung"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp xã",
+        "slug": "cap-xa"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Uỷ ban Nhân dân cấp xã, phường, thị trấn",
+        "slug": "uy-ban-nhan-dan-cap-xa-phuong-thi-tran"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

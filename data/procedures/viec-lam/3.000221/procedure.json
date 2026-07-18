@@ -1,0 +1,226 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bf9-ab5b-738c-8f2c-ee8574e4548c",
+  "procedure_code": "3.000221",
+  "title": "Thủ tục đề nghị thay đổi, điều chỉnh trong quá trình thực hiện nhiệm vụ khoa học và công nghệ cấp quốc gia thuộc Chương trình quốc gia hỗ trợ doanh nghiệp nâng cao năng suất và chất lượng sản phẩm, hàng hóa giai đoạn 2021-2030",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bf9-ab5b-738c-8f2c-ee8574e4548c",
+    "source_file": "chi-tiet-thu-tuc-3.000221.pdf",
+    "source_path": "procedures/viec-lam/3.000221/chi-tiet-thu-tuc-3.000221.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T05:02:36.368018+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "156a677fe992c89cd2042fea0285ebfc033291f54d16c8887e82a8b288bc0fee"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "2687/QĐ-BKHCN",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "OTHER",
+  "sector": "Tiêu chuẩn đo lường chất lượng",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Doanh nghiệp Việt Nam",
+    "Công dân Việt Nam",
+    "Doanh nghiệp",
+    "Cán bộ, công chức, viên chức"
+  ],
+  "agency": {
+    "competent_agency": "Bộ Khoa học và Công nghệ",
+    "executing_agency": "Ủy ban Tiêu chuẩn Đo lường Chất lượng Quốc gia"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "- Bước 1: Khi có phát sinh thay đổi, điều chỉnh (thay đổi tên, mục tiêu, sản phẩm, nội dung của nhiệm vụ đối với nhiệm vụ thực hiện theo phương thức khoán một phần; kinh phí từ ngân sách nhà nước thực hiện nhiệm vụ; thay đổi tổ chức chủ trì nhiệm vụ; thời gian thực hiện nhiệm vụ hoặc điều chỉnh khác đối với nhiệm vụ), tổ chức chủ trì và chủ nhiệm nhiệm vụ gửi văn bản đề nghị thay đổi, điều chỉnh và các tài liệu khác có liên quan gửi đến Ủy ban Tiêu chuẩn Đo lường Chất lượng Quốc gia.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "- Bước 2: Ủy ban Tiêu chuẩn Đo lường Chất lượng Quốc gia tiếp nhận hồ sơ, xem xét các quy định có liên quan đến từng trường hợp cụ thể trước khi báo cáo Bộ trưởng Bộ Khoa học và Công nghệ quyết định hoặc quyết định theo thẩm quyền.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "- Bước 3: Ủy ban Tiêu chuẩn Đo lường Chất lượng Quốc gia trình Bộ trưởng Bộ Khoa học và Công nghệ xem xét, quyết định trong trường hợp điều chỉnh về tên nhiệm vụ, mục tiêu, sản phẩm, thời gian của nhiệm vụ và điều chỉnh, thay đổi tổ chức chủ trì nhiệm vụ trong trường hợp có quyết định của cơ quan có thẩm quyền về vệc sát nhập, chia tách, giải thể tổ chức chủ trì nhiệm vụ.\nỦy ban Tiêu chuẩn Đo lường Chất lượng Quốc gia xem xét, quyết định điều chỉnh các nội dung còn lại.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 4,
+      "title": "Bước 4",
+      "description": "- Bước 4: Ủy ban Tiêu chuẩn Đo lường Chất lượng Quốc gia gửi văn bản quyết định điều chỉnh hoặc văn bản trả lời tới tổ chức chủ trì nhiệm vụ nêu rõ lý do trong trường hợp không đồng ý điều chỉnh.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Biên bản kiểm tra định kỳ hoặc đột xuất (nếu có)",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Văn bản đề nghị của tổ chức chủ trì nhiệm vụ",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Tài liệu khác có liên quan (nếu có)",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Ý kiến chuyên gia, biên bản họp hội đồng tư vấn (nếu có)",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "30 ngày làm việc",
+      "fee": "0",
+      "description": "Trong thời hạn 30 ngày kể từ thời điểm nhận được hồ sơ hợp lệ",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "30 ngày làm việc",
+      "fee": "0",
+      "description": "Trong thời hạn 30 ngày kể từ thời điểm nhận được hồ sơ hợp lệ",
+      "source_page": 2
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "30 ngày làm việc",
+      "fee": "0",
+      "description": "Nộp hồ sơ trực tiếp qua dịch vụ bưu chính đến Tổng cục Tiêu chuẩn Đo lường Chất lượng. Trong thời hạn 30 ngày kể từ thời điểm nhận được hồ sơ hợp lệ.",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Phê duyệt Chương trình quốc gia hỗ trợ doanh nghiệp nâng cao năng suất và chất lượng sản phẩm, hàng hóa giai đoạn 2021-2030",
+      "document_number": "1322/QĐ-TTg",
+      "source_page": 3
+    },
+    {
+      "title": "Quy định quản lý Chương trình quốc gia hỗ trợ doanh nghiệp nâng cao năng suất và chất lượng sản phẩm, hàng hóa giai đoạn 2021-2030",
+      "document_number": "15/2022/TT-BKHCN",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Quyết định phê duyệt điều chỉnh nhiệm vụ",
+      "code": "KQ.G06.000356",
+      "source_page": 4
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "- Bước 1: Khi có phát sinh thay đổi, điều chỉnh (thay đổi tên, mục tiêu, sản phẩm, nội dung của nhiệm vụ đối với nhiệm vụ thực hiện theo phương thức khoán một phần; kinh phí từ ngân sách nhà nước thực hiện nhiệm vụ; thay đổi tổ chức chủ trì nhiệm vụ; thời gian thực hiện nhiệm vụ hoặc điều chỉnh khác đối với nhiệm vụ), tổ chức chủ trì và chủ nhiệm nhiệm vụ gửi văn bản đề nghị thay đổi, điều chỉnh và các tài liệu khác có liên quan gửi đến Ủy ban Tiêu chuẩn Đo lường Chất lượng Quốc gia.\n- Bước 2: Ủy ban Tiêu chuẩn Đo lường Chất lượng Quốc gia tiếp nhận hồ sơ, xem xét các quy định có liên quan đến từng trường hợp cụ thể trước khi báo cáo Bộ trưởng Bộ Khoa học và Công nghệ quyết định hoặc quyết định theo thẩm quyền.\n- Bước 3: Ủy ban Tiêu chuẩn Đo lường Chất lượng Quốc gia trình Bộ trưởng Bộ Khoa học và Công nghệ xem xét, quyết định trong trường hợp điều chỉnh về tên nhiệm vụ, mục tiêu, sản phẩm, thời gian của nhiệm vụ và điều chỉnh, thay đổi tổ chức chủ trì nhiệm vụ trong trường hợp có quyết định của cơ quan có thẩm quyền về vệc sát nhập, chia tách, giải thể tổ chức chủ trì nhiệm vụ.\nỦy ban Tiêu chuẩn Đo lường Chất lượng Quốc gia xem xét, quyết định điều chỉnh các nội dung còn lại.\n- Bước 4: Ủy ban Tiêu chuẩn Đo lường Chất lượng Quốc gia gửi văn bản quyết định điều chỉnh hoặc văn bản trả lời tới tổ chức chủ trì nhiệm vụ nêu rõ lý do trong trường hợp không đồng ý điều chỉnh.",
+    "THÀNH PHẦN HỒ SƠ": "Biên bản kiểm tra định kỳ hoặc đột xuất (nếu có)\nVăn bản đề nghị của tổ chức chủ trì nhiệm vụ\nTài liệu khác có liên quan (nếu có)\nÝ kiến chuyên gia, biên bản họp hội đồng tư vấn (nếu có)",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 30 ngày làm việc\nQua dịch vụ bưu chính: 30 ngày làm việc\nTrực tiếp: 30 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Phê duyệt Chương trình quốc gia hỗ trợ doanh nghiệp nâng cao năng suất và chất lượng sản phẩm, hàng hóa giai đoạn 2021-2030 - 1322/QĐ-TTg\nQuy định quản lý Chương trình quốc gia hỗ trợ doanh nghiệp nâng cao năng suất và chất lượng sản phẩm, hàng hóa giai đoạn 2021-2030 - 15/2022/TT-BKHCN",
+    "CƠ QUAN THỰC HIỆN": "Ủy ban Tiêu chuẩn Đo lường Chất lượng Quốc gia",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Quyết định phê duyệt điều chỉnh nhiệm vụ - KQ.G06.000356",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Tiêu chuẩn đo lường chất lượng",
+      "slug": "tieu-chuan-o-luong-chat-luong"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Doanh nghiệp Việt Nam",
+        "slug": "doanh-nghiep-viet-nam"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Cán bộ, công chức, viên chức",
+        "slug": "can-bo-cong-chuc-vien-chuc"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Ủy ban Tiêu chuẩn Đo lường Chất lượng Quốc gia",
+        "slug": "uy-ban-tieu-chuan-o-luong-chat-luong-quoc-gia"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

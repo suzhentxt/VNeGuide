@@ -1,0 +1,150 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019dc540-3103-715f-9bc0-d5c75382ba50",
+  "procedure_code": "1.013352",
+  "title": "Xét công nhận và tổ chức công bố Làng văn hoá du lịch tiêu biểu gắn với Chương trình mỗi xã một sản phẩm OCCOP tỉnh Hà Giang",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019dc540-3103-715f-9bc0-d5c75382ba50",
+    "source_file": "chi-tiet-thu-tuc-1.013352.pdf",
+    "source_path": "procedures/viec-lam/1.013352/chi-tiet-thu-tuc-1.013352.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T05:01:13.719978+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "bb3c3a81267df4b7c131fb613b9aeb7bf22c8891a9d6b68f289530a7af1af6b0"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "290/QĐ-UBND",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Di sản văn hóa",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Công dân Việt Nam"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Sở Văn hóa, Thể thao và Du lịch tỉnh Tuyên Quang"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Gửi trực tiếp hoặc qua DV BCCI: tại Trung tâm Phục vụ hành chính công tỉnh \nGửi qua Dịch vụ công trực tuyến toàn trình: trên Cổng dịch vụ công quốc gia (dichvucong.gov.vn)",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Tờ trình về việc xét công nhận Làng văn hóa du lịch tiêu biểu",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 1
+      }
+    ],
+    "normally_required": [],
+    "conditional": []
+  },
+  "submission_methods": [
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "30 ngày làm việc",
+      "fee": null,
+      "description": "kể từ ngày nhận đủ hồ sơ hợp lệ",
+      "source_page": 2
+    },
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "30 ngày làm việc",
+      "fee": null,
+      "description": "kể từ ngày nhận đủ hồ sơ hợp lệ",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "30 ngày làm việc",
+      "fee": null,
+      "description": "kể từ ngày nhận đủ hồ sơ hợp lệ",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "",
+    "status": "not_specified",
+    "currency": "VND",
+    "items": []
+  },
+  "legal_bases": [
+    {
+      "title": "63/2010/NĐ-CP",
+      "document_number": "63/2010/NĐ-CP",
+      "source_page": 2
+    },
+    {
+      "title": "Nghị quyết số 50/2018/NQ-HĐND ngày 07/12/2018 của Hội đồng nhân tỉnh Hà Giang.",
+      "document_number": "50/2018/NQ-HĐND",
+      "source_page": 2
+    }
+  ],
+  "conditions": "- Quyết định số 44/2024/QĐ- UBND ngày 07/10/2024 của UBND tỉnh Hà Giang.\n- Quyết định số 790/QĐ-UBND ngày 27/6/2024 của UBND tỉnh",
+  "results": [
+    {
+      "title": "Quyết định xét công nhận Làng văn hóa du lịch tiêu biểu tỉnh Hà Giang",
+      "code": "KQ.H22.000345",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Gửi trực tiếp hoặc qua DV BCCI: tại Trung tâm Phục vụ hành chính công tỉnh \nGửi qua Dịch vụ công trực tuyến toàn trình: trên Cổng dịch vụ công quốc gia (dichvucong.gov.vn)",
+    "THÀNH PHẦN HỒ SƠ": "Tờ trình về việc xét công nhận Làng văn hóa du lịch tiêu biểu",
+    "CÁCH THỨC THỰC HIỆN": "Trực tiếp: 30 ngày làm việc\nTrực tuyến: 30 ngày làm việc\nQua dịch vụ bưu chính: 30 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "63/2010/NĐ-CP - 63/2010/NĐ-CP\nNghị quyết số 50/2018/NQ-HĐND ngày 07/12/2018 của Hội đồng nhân tỉnh Hà Giang. - 50/2018/NQ-HĐND",
+    "CƠ QUAN THỰC HIỆN": "Sở Văn hóa, Thể thao và Du lịch tỉnh Tuyên Quang",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "- Quyết định số 44/2024/QĐ- UBND ngày 07/10/2024 của UBND tỉnh Hà Giang.\n- Quyết định số 790/QĐ-UBND ngày 27/6/2024 của UBND tỉnh",
+    "KẾT QUẢ XỬ LÝ": "Quyết định xét công nhận Làng văn hóa du lịch tiêu biểu tỉnh Hà Giang - KQ.H22.000345",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "- Quyết định số 44/2024/QĐ- UBND ngày 07/10/2024 của UBND tỉnh Hà Giang.\n- Quyết định số 790/QĐ-UBND ngày 27/6/2024 của UBND tỉnh"
+  },
+  "classification": {
+    "sector": {
+      "name": "Di sản văn hóa",
+      "slug": "di-san-van-hoa"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Sở Văn hóa, Thể thao và Du lịch tỉnh Tuyên Quang",
+        "slug": "so-van-hoa-the-thao-va-du-lich-tinh-tuyen-quang"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

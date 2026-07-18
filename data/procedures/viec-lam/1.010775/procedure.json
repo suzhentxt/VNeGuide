@@ -1,0 +1,225 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfa-fbf7-70d3-9bf0-ea139ebdac2b",
+  "procedure_code": "1.010775",
+  "title": "Cấp Bằng “Tổ quốc ghi công” đối với người hy sinh thuộc các trường hợp quy định tại Điều 14 Pháp lệnh nhưng chưa được cấp Bằng “Tổ quốc ghi công” mà thân nhân đã được giải quyết chế độ ưu đãi từ ngày 01 tháng 01 năm 1995 đến ngày 30 tháng 9 năm 2006",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfa-fbf7-70d3-9bf0-ea139ebdac2b",
+    "source_file": "chi-tiet-thu-tuc-1.010775.pdf",
+    "source_path": "procedures/viec-lam/1.010775/chi-tiet-thu-tuc-1.010775.pdf",
+    "page_count": 5,
+    "extracted_at": "2026-07-18T05:00:47.851117+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "eb749c7dc4c5869a1ef4a912706fa4cfa38bec1c8a023ec4efdf577e58dd936f"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "556/QĐ-BNV",
+  "implementation_level": "Cấp bộ, Cấp tỉnh, Cấp xã",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Người có công",
+  "target_users": [
+    "Công dân Việt Nam"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Bộ Nội vụ, Thủ tướng Chính phủ, Sở Nội vụ, Ủy ban nhân dân cấp tỉnh"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1: Thân nhân hoặc đại diện gia đình họ tộc người hy sinh làm đơn đề nghị theo Mẫu số 15 Phụ lục I Nghị định số 131/2021/NĐ-CP gửi trên Cổng Dịch vụ công quốc gia hoặc qua dịch vụ bưu chính hoặc trực tiếp đến Trung tâm Phục vụ hành chính công.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "Bước 2: Sở Nội vụ nơi quản lý hồ sơ và thực hiện chế độ ưu đãi trong thời gian 07 ngày làm việc kể từ ngày tiếp nhận đơn, có trách nhiệm rà soát hồ sơ, tài liệu đang quản lý, nếu không thuộc các trường hợp bị chấm dứt chế độ ưu đãi quy định tại khoản 3 Điều 54 và khoản 1 Điều 55 của Pháp lệnh ưu đãi người có công với cách mạng và hồ sơ đúng quy định thì có văn bản kèm hồ sơ và bản sao y danh sách chi trả trình Ủy ban nhân dân cấp tỉnh.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "Bước 3: Ủy ban nhân dân cấp tỉnh trong thời gian 05 ngày làm việc kể từ ngày nhận đủ giấy tờ, có trách nhiệm kiểm tra, lập tờ trình, danh sách, dự thảo Quyết định cấp Bằng “Tổ quốc ghi công” của Thủ tướng Chính phủ kèm theo phôi Bằng “Tổ quốc ghi công” trình Thủ tướng Chính phủ.\nTrong thời gian 05 ngày làm việc kể từ ngày nhận quyết định cấp bằng và Bằng “Tổ quốc ghi công”, chuyển hồ sơ kèm Bằng “Tổ quốc ghi công” đến cơ quan, đơn vị cấp giấy chứng nhận hy sinh.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 4,
+      "title": "Bước 4",
+      "description": "Bước 4: Cơ quan, đơn vị cấp giấy chứng nhận hy sinh trong thời gian 10 ngày làm việc kể từ ngày nhận được Bằng “Tổ quốc ghi công” kèm hồ sơ, có trách nhiệm:\nThông báo cho thân nhân của liệt sĩ; chủ trì, phối hợp với Ủy ban nhân dân cấp xã nơi đại diện thân nhân liệt sĩ thường trú tổ chức lễ truy điệu và trao Bằng “Tổ quốc ghi công” cho đại diện thân nhân liệt sĩ; bàn giao hồ sơ liệt sĩ về Sở Nội vụ nơi đại diện thân nhân liệt sĩ thường trú.\nTrường hợp không còn thân nhân thì bàn giao hồ sơ liệt sĩ, Bằng “Tổ quốc ghi công” về Sở Nội vụ nơi liệt sĩ thường trú trước khi hy sinh để trao Bằng cho người hưởng trợ cấp thờ cúng liệt sĩ.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Đơn đề nghị theo Mẫu số 15 Phụ lục I Nghị định số 131/2021/NĐ-CP.",
+        "quantity": "1 bản chính",
+        "attachment": "Mau so 15.docx",
+        "source_page": 1
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "- Hồ sơ công nhận và hưởng chế độ ưu đãi được xác lập đủ và đúng quy định tại từng thời điểm hiện đang lưu tại Sở Lao động - Thương binh và Xã hội, kèm danh sách chi trả trợ cấp hằng tháng hoặc trợ cấp một lần có ký nhận của người hưởng trợ cấp.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "27 ngày làm việc",
+      "fee": "0",
+      "description": "Trực tuyến hoặc qua dịch vụ bưu chính hoặc trực tiếp đến Trung tâm Phục vụ hành chính công. 27 ngày làm việc kể từ ngày nhận đủ hồ sơ (Thời gian giải quyết chưa tính thời gian trình Thủ tướng Chính phủ)",
+      "source_page": 3
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "27 ngày làm việc",
+      "fee": "0",
+      "description": "Trực tuyến hoặc qua dịch vụ bưu chính hoặc trực tiếp đến Trung tâm Phục vụ hành chính công. 27 ngày làm việc kể từ ngày nhận đủ hồ sơ (Thời gian giải quyết chưa tính thời gian trình Thủ tướng Chính phủ)",
+      "source_page": 3
+    },
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "27 ngày làm việc",
+      "fee": "0",
+      "description": "Trực tuyến hoặc qua dịch vụ bưu chính hoặc trực tiếp đến Trung tâm Phục vụ hành chính công. 27 ngày làm việc kể từ ngày nhận đủ hồ sơ (Thời gian giải quyết chưa tính thời gian trình Thủ tướng Chính phủ)",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 1
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 1
+      },
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "QUY ĐỊNH CHI TIẾT VÀ BIỆN PHÁP THI HÀNH PHÁP LỆNH ƯU ĐÃI NGƯỜI CÓ CÔNG VỚI CÁCH MẠNG",
+      "document_number": "Nghị định số 131/2021/NĐ-CP",
+      "source_page": 4
+    },
+    {
+      "title": "ƯU ĐÃI NGƯỜI CÓ CÔNG VỚI CÁCH MẠNG",
+      "document_number": "Pháp lệnh số: 02/2020/UBTVQH14",
+      "source_page": 1
+    },
+    {
+      "title": "Nghị định số 25/2025/NĐ-CP ngày 21 tháng 02 năm 2025 của Chính phủ quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Nội vụ",
+      "document_number": "Nghị định số 25/2025/NĐ-CP",
+      "source_page": 4
+    },
+    {
+      "title": "Nghị quyết số 190/2025/QH15 của Quốc hội: Quy định về xử lý một số vấn đề liên quan đến sắp xếp tổ chức bộ máy nhà nước",
+      "document_number": "190/2025/NQ-QH15",
+      "source_page": 4
+    }
+  ],
+  "conditions": "Đủ điều kiện, tiêu chuẩn xem xét công nhận.",
+  "results": [
+    {
+      "title": "Quyết định cấp Bằng “Tổ quốc ghi công” và Bằng “Tổ quốc ghi công”.",
+      "code": "KQ.G09.000411",
+      "source_page": 5
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1: Thân nhân hoặc đại diện gia đình họ tộc người hy sinh làm đơn đề nghị theo Mẫu số 15 Phụ lục I Nghị định số 131/2021/NĐ-CP gửi trên Cổng Dịch vụ công quốc gia hoặc qua dịch vụ bưu chính hoặc trực tiếp đến Trung tâm Phục vụ hành chính công.\nBước 2: Sở Nội vụ nơi quản lý hồ sơ và thực hiện chế độ ưu đãi trong thời gian 07 ngày làm việc kể từ ngày tiếp nhận đơn, có trách nhiệm rà soát hồ sơ, tài liệu đang quản lý, nếu không thuộc các trường hợp bị chấm dứt chế độ ưu đãi quy định tại khoản 3 Điều 54 và khoản 1 Điều 55 của Pháp lệnh ưu đãi người có công với cách mạng và hồ sơ đúng quy định thì có văn bản kèm hồ sơ và bản sao y danh sách chi trả trình Ủy ban nhân dân cấp tỉnh.\nBước 3: Ủy ban nhân dân cấp tỉnh trong thời gian 05 ngày làm việc kể từ ngày nhận đủ giấy tờ, có trách nhiệm kiểm tra, lập tờ trình, danh sách, dự thảo Quyết định cấp Bằng “Tổ quốc ghi công” của Thủ tướng Chính phủ kèm theo phôi Bằng “Tổ quốc ghi công” trình Thủ tướng Chính phủ.\nTrong thời gian 05 ngày làm việc kể từ ngày nhận quyết định cấp bằng và Bằng “Tổ quốc ghi công”, chuyển hồ sơ kèm Bằng “Tổ quốc ghi công” đến cơ quan, đơn vị cấp giấy chứng nhận hy sinh.\nBước 4: Cơ quan, đơn vị cấp giấy chứng nhận hy sinh trong thời gian 10 ngày làm việc kể từ ngày nhận được Bằng “Tổ quốc ghi công” kèm hồ sơ, có trách nhiệm:\nThông báo cho thân nhân của liệt sĩ; chủ trì, phối hợp với Ủy ban nhân dân cấp xã nơi đại diện thân nhân liệt sĩ thường trú tổ chức lễ truy điệu và trao Bằng “Tổ quốc ghi công” cho đại diện thân nhân liệt sĩ; bàn giao hồ sơ liệt sĩ về Sở Nội vụ nơi đại diện thân nhân liệt sĩ thường trú.\nTrường hợp không còn thân nhân thì bàn giao hồ sơ liệt sĩ, Bằng “Tổ quốc ghi công” về Sở Nội vụ nơi liệt sĩ thường trú trước khi hy sinh để trao Bằng cho người hưởng trợ cấp thờ cúng liệt sĩ.",
+    "THÀNH PHẦN HỒ SƠ": "Đơn đề nghị theo Mẫu số 15 Phụ lục I Nghị định số 131/2021/NĐ-CP.\n- Hồ sơ công nhận và hưởng chế độ ưu đãi được xác lập đủ và đúng quy định tại từng thời điểm hiện đang lưu tại Sở Lao động - Thương binh và Xã hội, kèm danh sách chi trả trợ cấp hằng tháng hoặc trợ cấp một lần có ký nhận của người hưởng trợ cấp.",
+    "CÁCH THỨC THỰC HIỆN": "Qua dịch vụ bưu chính: 27 ngày làm việc\nTrực tiếp: 27 ngày làm việc\nTrực tuyến: 27 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "QUY ĐỊNH CHI TIẾT VÀ BIỆN PHÁP THI HÀNH PHÁP LỆNH ƯU ĐÃI NGƯỜI CÓ CÔNG VỚI CÁCH MẠNG - Nghị định số 131/2021/NĐ-CP\nƯU ĐÃI NGƯỜI CÓ CÔNG VỚI CÁCH MẠNG - Pháp lệnh số: 02/2020/UBTVQH14\nNghị định số 25/2025/NĐ-CP ngày 21 tháng 02 năm 2025 của Chính phủ quy định chức năng, nhiệm vụ, quyền hạn và cơ cấu tổ chức của Bộ Nội vụ - Nghị định số 25/2025/NĐ-CP\nNghị quyết số 190/2025/QH15 của Quốc hội: Quy định về xử lý một số vấn đề liên quan đến sắp xếp tổ chức bộ máy nhà nước - 190/2025/NQ-QH15",
+    "CƠ QUAN THỰC HIỆN": "Bộ Nội vụ, Thủ tướng Chính phủ, Sở Nội vụ, Ủy ban nhân dân cấp tỉnh",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "Đủ điều kiện, tiêu chuẩn xem xét công nhận.",
+    "KẾT QUẢ XỬ LÝ": "Quyết định cấp Bằng “Tổ quốc ghi công” và Bằng “Tổ quốc ghi công”. - KQ.G09.000411",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "Đủ điều kiện, tiêu chuẩn xem xét công nhận."
+  },
+  "classification": {
+    "sector": {
+      "name": "Người có công",
+      "slug": "nguoi-co-cong"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      },
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      },
+      {
+        "name": "Cấp xã",
+        "slug": "cap-xa"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Bộ Nội vụ",
+        "slug": "bo-noi-vu"
+      },
+      {
+        "name": "Thủ tướng Chính phủ",
+        "slug": "thu-tuong-chinh-phu"
+      },
+      {
+        "name": "Sở Nội vụ",
+        "slug": "so-noi-vu"
+      },
+      {
+        "name": "Ủy ban nhân dân cấp tỉnh",
+        "slug": "uy-ban-nhan-dan-cap-tinh"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

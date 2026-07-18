@@ -1,0 +1,250 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfc-8ba8-728b-bb19-5def3796307f",
+  "procedure_code": "1.009540",
+  "title": "Giải thể công ty quản lý quỹ đầu tư chứng khoán, chi nhánh công ty quản lý quỹ nước ngoài tại Việt Nam",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfc-8ba8-728b-bb19-5def3796307f",
+    "source_file": "chi-tiet-thu-tuc-1.009540.pdf",
+    "source_path": "procedures/viec-lam/1.009540/chi-tiet-thu-tuc-1.009540.pdf",
+    "page_count": 5,
+    "extracted_at": "2026-07-18T05:00:34.871787+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "ed6dc437157d3bac1479ed125da14ede18e7ba289dbd4d0a31821a751454cd96"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "3169/QĐ-BTC",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Chứng khoán",
+  "target_users": [
+    "Doanh nghiệp"
+  ],
+  "agency": {
+    "competent_agency": "Ủy ban Chứng khoán Nhà nước - Bộ tài chính",
+    "executing_agency": "Ủy ban Chứng khoán Nhà nước - Bộ tài chính"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1: Công ty quản lý quỹ đầu tư chứng khoán, chi nhánh công ty quản lý quỹ nước ngoài tại Việt Nam gửi hồ sơ đề nghị chấp thuận giải thể đến UBCKNN.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "Bước 2: UBCKNN (Bộ phận một cửa) tiếp nhận và kiểm tra danh mục hồ sơ. Trường hợp danh mục chưa đầy đủ, UBCKNN hướng dẫn bổ sung hồ sơ theo quy định.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "Bước 3: UBCKNN thẩm định tính đầy đủ, hợp lệ của nội dung hồ sơ. Trường hợp nội dung chưa đầy đủ, chưa hợp lệ, trong thời hạn 07 ngày làm việc kể từ ngày nhận được hồ sơ, UBCKNN trả lời bằng văn bản và nêu rõ nội dung yêu cầu sửa đổi, bổ sung.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 4,
+      "title": "Bước 4",
+      "description": "Bước 4: Trong thời hạn 60 ngày kể từ ngày UBCKNN có văn bản yêu cầu sửa đổi, bổ sung hồ sơ, tổ chức kinh doanh chứng khoán nước ngoài hoàn thiện hồ sơ và gửi đến UBCKNN.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 5,
+      "title": "Bước 5",
+      "description": "Bước 5: Trong thời hạn 20 ngày kể từ ngày nhận được hồ sơ đề nghị chấp thuận giải thể đầy đủ và hợp lệ, UBCKNN có văn bản chấp thuận việc giải thể công ty quản lý quỹ đầu tư chứng khoán, chi nhánh công ty quản lý quỹ nước ngoài tại Việt Nam theo phương án đã được phê duyệt; trường hợp từ chối, phải trả lời bằng văn bản và nêu rõ lý do. \nLưu ý: trình tự thanh lý và phân chia tài sản cho cổ đông, thành viên góp vốn theo quy định của pháp luật về giải thể doanh nghiệp.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 6,
+      "title": "Bước 6",
+      "description": "Bước 6: Trong thời hạn 10 ngày kể từ ngày hoàn tất việc thanh lý tài sản, hoàn trả đầy đủ các khoản nợ, phân chia tài sản cho các cổ đông, thành viên góp vốn, người đại diện theo pháp luật của công ty phải báo cáo kết quả thanh lý tài sản cho Ủy ban Chứng khoán Nhà nước.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 7,
+      "title": "Bước 7",
+      "description": "Bước 7: Trong thời hạn 10 ngày kể từ ngày nhận được hồ sơ báo cáo kết quả thanh lý tài sản đầy đủ, hợp lệ, UBCKNN ra quyết định thu hồi Giấy phép thành lập và hoạt động kinh doanh chứng khoán. Trường hợp từ chối, UBCKNN trả lời bằng văn bản và nêu rõ lý do.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "2) Hồ sơ báo cáo kết quả thanh lý tài sản:: + Báo cáo về việc thanh lý tài sản của công ty quản lý quỹ đầu tư chứng khoán, chi nhánh công ty quản lý quỹ nước ngoài tại Việt Nam; việc trả nợ và thực hiện các nghĩa vụ tài sản khác đối với các chủ nợ, những người có quyền lợi và nghĩa vụ khác, kể cả các nghĩa vụ tài chính đối với nhà nước, các khoản nợ thuế và nợ tiền đóng bảo hiểm xã hội. Báo cáo phải đính kèm danh sách chủ nợ và số nợ đã thanh toán; danh sách cổ đông, thành viên góp vốn, tỷ lệ vốn góp và số tiền, khối lượng tài sản đã thanh toán;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "2) Hồ sơ báo cáo kết quả thanh lý tài sản:: + Danh sách người lao động và quyền lợi người lao động đã được giải quyết;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "2) Hồ sơ báo cáo kết quả thanh lý tài sản:: + Văn bản xác nhận của cơ quan thuế về việc đã hoàn thành các nghĩa vụ về thuế; Giấy xác nhận đã nộp con dấu của cơ quan có thẩm quyền; bản gốc Giấy phép thành lập và hoạt động kinh doanh chứng khoán và các giấy phép sửa đổi, bổ sung.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "2) Hồ sơ báo cáo kết quả thanh lý tài sản:: Trường hợp bàn giao quyền, trách nhiệm và danh mục đầu tư của quỹ, công ty đầu tư chứng khoán, khách hàng ủy thác cho công ty quản lý quỹ đầu tư chứng khoán thay thế, báo cáo phải kèm theo các tài liệu về việc bàn giao quyền và nghĩa vụ đối với khách hàng ủy thác cho công ty quản lý quỹ đầu tư chứng khoán thay thế có xác nhận bởi các ngân hàng giám sát, ngân hàng lưu ký cũ và mới;",
+        "quantity": null,
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "2) Hồ sơ báo cáo kết quả thanh lý tài sản:: + Báo cáo có xác nhận của các ngân hàng lưu ký, ngân hàng giám sát và ban đại diện quỹ, hội đồng quản trị công ty đầu tư chứng khoán, khách hàng ủy thác về việc thanh lý hợp đồng, kèm theo biên bản thanh lý hợp đồng, có xác nhận của ngân hàng giám sát, ngân hàng lưu ký; tài liệu về việc giải thể quỹ theo quy định của pháp luật về việc thành lập và quản lý quỹ đầu tư chứng khoán.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "Hồ sơ đề nghị chấp thuận giải thể công ty quản lý quỹ đầu tư chứng khoán, chi nhánh công ty quản lý quỹ nước ngoài tại Việt Nam:: Giấy đề nghị chấp thuận giải thể;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "Hồ sơ đề nghị chấp thuận giải thể công ty quản lý quỹ đầu tư chứng khoán, chi nhánh công ty quản lý quỹ nước ngoài tại Việt Nam:: Biên bản họp và nghị quyết của đại hội đồng cổ đông, hội đồng thành viên, hoặc quyết định của chủ sở hữu công ty hoặc quyết định của tổ chức kinh doanh chứng khoán nước ngoài thông qua việc giải thể, phương án giải thể công ty quản lý quỹ đầu tư chứng khoán, chi nhánh công ty quản lý quỹ nước ngoài tại Việt Nam. Phương án giải thể phải bao gồm các nội dung xử lý các nghĩa vụ phát sinh từ các hợp đồng còn hiệu lực, hợp đồng lao động, kèm theo danh sách các công ty quản lý quỹ đầu tư chứng khoán dự kiến thay thế.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "20 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": 4
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "20 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "20 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": 4
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 4
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 4
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị định sửa đổi, bổ sung một số điều của Nghị định số 155/2020/NĐ-CP ngày 31 tháng 12 năm 2020 của Chính phủ quy định chi tiết thi hành một số điều của Luật Chứng khoán",
+      "document_number": "245/2025/NĐ-CP",
+      "source_page": 4
+    },
+    {
+      "title": "Nghị định 155/2020/NĐ-CP",
+      "document_number": "155/2020/NĐ-CP",
+      "source_page": 4
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "+ Văn bản từ chối (nêu rõ lý do).",
+      "code": "KQ.G12.001213",
+      "source_page": 4
+    },
+    {
+      "title": "Quyết định thu hồi Giấy phép thành lập và hoạt động kinh doanh chứng khoán",
+      "code": "KQ.G12.000139",
+      "source_page": 2
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1: Công ty quản lý quỹ đầu tư chứng khoán, chi nhánh công ty quản lý quỹ nước ngoài tại Việt Nam gửi hồ sơ đề nghị chấp thuận giải thể đến UBCKNN.\nBước 2: UBCKNN (Bộ phận một cửa) tiếp nhận và kiểm tra danh mục hồ sơ. Trường hợp danh mục chưa đầy đủ, UBCKNN hướng dẫn bổ sung hồ sơ theo quy định.\nBước 3: UBCKNN thẩm định tính đầy đủ, hợp lệ của nội dung hồ sơ. Trường hợp nội dung chưa đầy đủ, chưa hợp lệ, trong thời hạn 07 ngày làm việc kể từ ngày nhận được hồ sơ, UBCKNN trả lời bằng văn bản và nêu rõ nội dung yêu cầu sửa đổi, bổ sung.\nBước 4: Trong thời hạn 60 ngày kể từ ngày UBCKNN có văn bản yêu cầu sửa đổi, bổ sung hồ sơ, tổ chức kinh doanh chứng khoán nước ngoài hoàn thiện hồ sơ và gửi đến UBCKNN.\nBước 5: Trong thời hạn 20 ngày kể từ ngày nhận được hồ sơ đề nghị chấp thuận giải thể đầy đủ và hợp lệ, UBCKNN có văn bản chấp thuận việc giải thể công ty quản lý quỹ đầu tư chứng khoán, chi nhánh công ty quản lý quỹ nước ngoài tại Việt Nam theo phương án đã được phê duyệt; trường hợp từ chối, phải trả lời bằng văn bản và nêu rõ lý do. \nLưu ý: trình tự thanh lý và phân chia tài sản cho cổ đông, thành viên góp vốn theo quy định của pháp luật về giải thể doanh nghiệp.\nBước 6: Trong thời hạn 10 ngày kể từ ngày hoàn tất việc thanh lý tài sản, hoàn trả đầy đủ các khoản nợ, phân chia tài sản cho các cổ đông, thành viên góp vốn, người đại diện theo pháp luật của công ty phải báo cáo kết quả thanh lý tài sản cho Ủy ban Chứng khoán Nhà nước.\nBước 7: Trong thời hạn 10 ngày kể từ ngày nhận được hồ sơ báo cáo kết quả thanh lý tài sản đầy đủ, hợp lệ, UBCKNN ra quyết định thu hồi Giấy phép thành lập và hoạt động kinh doanh chứng khoán. Trường hợp từ chối, UBCKNN trả lời bằng văn bản và nêu rõ lý do.",
+    "THÀNH PHẦN HỒ SƠ": "2) Hồ sơ báo cáo kết quả thanh lý tài sản:: + Báo cáo về việc thanh lý tài sản của công ty quản lý quỹ đầu tư chứng khoán, chi nhánh công ty quản lý quỹ nước ngoài tại Việt Nam; việc trả nợ và thực hiện các nghĩa vụ tài sản khác đối với các chủ nợ, những người có quyền lợi và nghĩa vụ khác, kể cả các nghĩa vụ tài chính đối với nhà nước, các khoản nợ thuế và nợ tiền đóng bảo hiểm xã hội. Báo cáo phải đính kèm danh sách chủ nợ và số nợ đã thanh toán; danh sách cổ đông, thành viên góp vốn, tỷ lệ vốn góp và số tiền, khối lượng tài sản đã thanh toán;\n2) Hồ sơ báo cáo kết quả thanh lý tài sản:: + Danh sách người lao động và quyền lợi người lao động đã được giải quyết;\n2) Hồ sơ báo cáo kết quả thanh lý tài sản:: + Văn bản xác nhận của cơ quan thuế về việc đã hoàn thành các nghĩa vụ về thuế; Giấy xác nhận đã nộp con dấu của cơ quan có thẩm quyền; bản gốc Giấy phép thành lập và hoạt động kinh doanh chứng khoán và các giấy phép sửa đổi, bổ sung.\n2) Hồ sơ báo cáo kết quả thanh lý tài sản:: Trường hợp bàn giao quyền, trách nhiệm và danh mục đầu tư của quỹ, công ty đầu tư chứng khoán, khách hàng ủy thác cho công ty quản lý quỹ đầu tư chứng khoán thay thế, báo cáo phải kèm theo các tài liệu về việc bàn giao quyền và nghĩa vụ đối với khách hàng ủy thác cho công ty quản lý quỹ đầu tư chứng khoán thay thế có xác nhận bởi các ngân hàng giám sát, ngân hàng lưu ký cũ và mới;\n2) Hồ sơ báo cáo kết quả thanh lý tài sản:: + Báo cáo có xác nhận của các ngân hàng lưu ký, ngân hàng giám sát và ban đại diện quỹ, hội đồng quản trị công ty đầu tư chứng khoán, khách hàng ủy thác về việc thanh lý hợp đồng, kèm theo biên bản thanh lý hợp đồng, có xác nhận của ngân hàng giám sát, ngân hàng lưu ký; tài liệu về việc giải thể quỹ theo quy định của pháp luật về việc thành lập và quản lý quỹ đầu tư chứng khoán.\nHồ sơ đề nghị chấp thuận giải thể công ty quản lý quỹ đầu tư chứng khoán, chi nhánh công ty quản lý quỹ nước ngoài tại Việt Nam:: Giấy đề nghị chấp thuận giải thể;\nHồ sơ đề nghị chấp thuận giải thể công ty quản lý quỹ đầu tư chứng khoán, chi nhánh công ty quản lý quỹ nước ngoài tại Việt Nam:: Biên bản họp và nghị quyết của đại hội đồng cổ đông, hội đồng thành viên, hoặc quyết định của chủ sở hữu công ty hoặc quyết định của tổ chức kinh doanh chứng khoán nước ngoài thông qua việc giải thể, phương án giải thể công ty quản lý quỹ đầu tư chứng khoán, chi nhánh công ty quản lý quỹ nước ngoài tại Việt Nam. Phương án giải thể phải bao gồm các nội dung xử lý các nghĩa vụ phát sinh từ các hợp đồng còn hiệu lực, hợp đồng lao động, kèm theo danh sách các công ty quản lý quỹ đầu tư chứng khoán dự kiến thay thế.",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 20 ngày\nQua dịch vụ bưu chính: 20 ngày\nTrực tiếp: 20 ngày",
+    "CĂN CỨ PHÁP LÝ": "Nghị định sửa đổi, bổ sung một số điều của Nghị định số 155/2020/NĐ-CP ngày 31 tháng 12 năm 2020 của Chính phủ quy định chi tiết thi hành một số điều của Luật Chứng khoán - 245/2025/NĐ-CP\nNghị định 155/2020/NĐ-CP - 155/2020/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Ủy ban Chứng khoán Nhà nước - Bộ tài chính",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "+ Văn bản từ chối (nêu rõ lý do). - KQ.G12.001213\nQuyết định thu hồi Giấy phép thành lập và hoạt động kinh doanh chứng khoán - KQ.G12.000139",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Chứng khoán",
+      "slug": "chung-khoan"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Ủy ban Chứng khoán Nhà nước - Bộ tài chính",
+        "slug": "uy-ban-chung-khoan-nha-nuoc-bo-tai-chinh"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

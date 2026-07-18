@@ -1,0 +1,194 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bff-8376-7428-96b2-a13415fedf2f",
+  "procedure_code": "1.000221",
+  "title": "Thủ tục thông báo hạn mức chiết khấu giấy tờ có giá của NHNN đối với các tổ chức tín dụng, chi nhánh ngân hàng nước ngoài",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bff-8376-7428-96b2-a13415fedf2f",
+    "source_file": "chi-tiet-thu-tuc-1.000221.pdf",
+    "source_path": "procedures/viec-lam/1.000221/chi-tiet-thu-tuc-1.000221.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T04:59:44.011803+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "dc80af4b6e0305a2b6b26dba7e70c85b3d2a9fa9754e7aa271e5f5d98dd18dda"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1985/QĐ-NHNN",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Hoạt động tiền tệ",
+  "target_users": [
+    "Doanh nghiệp",
+    "Tổ chức nước ngoài"
+  ],
+  "agency": {
+    "competent_agency": "Ngân hàng Nhà nước Việt Nam",
+    "executing_agency": "Ngân hàng Nhà nước Việt Nam"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1:\nTổ chức tín dụng, chi nhánh ngân hàng nước ngoài gửi 01 bộ hồ sơ đề nghị thông báo hạn mức chiết khấu đến NHNN (chậm nhất vào ngày 15 tháng đầu tiên hàng quý).",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "Bước 2:\nNgân hàng Nhà nước xem xét, thẩm định hồ sơ.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "Bước 3:\nSau khi xem xét, thẩm định hồ sơ, chậm nhất vào ngày 20 tháng đầu tiên hàng quý, trên cơ sở tổng hạn mức chiết khấu được phân bổ trong quý đối với lĩnh vực ưu tiên chiết khấu trong từng thời kỳ, NHNN thông báo hạn mức chiết khấu cho các tổ chức tín dụng, chi nhánh ngân hàng nước ngoài có đề nghị.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Giấy đề nghị Ngân hàng Nhà nước thông báo hạn mức chiết khấu (Mẫu số 01/NHNN-CK);",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu 01-1985.docx",
+        "source_page": 2
+      },
+      {
+        "name": "Bảng kê các giấy tờ có giá đủ điều kiện chiết khấu tại Ngân hàng Nhà nước (Mẫu số 02/NHNN-CK).",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu 02-1985.docx",
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Bảng cân đối tài khoản kế toán của tháng gần nhất của các tổ chức tín dụng, chi nhánh ngân hàng nước ngoài",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "0",
+      "fee": "0",
+      "description": "Cấp mới và hủy mã khóa truy cập, mã chữ ký điện tử cho các chức danh tham gia nghiệp vụ chiết khấu của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài. Chậm nhất vào ngày 20 tháng đầu tiên hàng quý",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "0",
+      "fee": "0",
+      "description": "Chậm nhất vào ngày 20 tháng đầu tiên hàng quý . Qua fax",
+      "source_page": 2
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "0",
+      "fee": "0",
+      "description": "Chậm nhất vào ngày 20 tháng đầu tiên hàng quý. Chậm nhất vào ngày 20 tháng đầu tiên hàng quý",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Thông tư 01/2022/TT-NHNN",
+      "document_number": "01/2022/TT-NHNN",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Giấy thông báo hạn mức chiết khấu",
+      "code": "KQ.G19.000002",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1:\nTổ chức tín dụng, chi nhánh ngân hàng nước ngoài gửi 01 bộ hồ sơ đề nghị thông báo hạn mức chiết khấu đến NHNN (chậm nhất vào ngày 15 tháng đầu tiên hàng quý).\nBước 2:\nNgân hàng Nhà nước xem xét, thẩm định hồ sơ.\nBước 3:\nSau khi xem xét, thẩm định hồ sơ, chậm nhất vào ngày 20 tháng đầu tiên hàng quý, trên cơ sở tổng hạn mức chiết khấu được phân bổ trong quý đối với lĩnh vực ưu tiên chiết khấu trong từng thời kỳ, NHNN thông báo hạn mức chiết khấu cho các tổ chức tín dụng, chi nhánh ngân hàng nước ngoài có đề nghị.",
+    "THÀNH PHẦN HỒ SƠ": "Giấy đề nghị Ngân hàng Nhà nước thông báo hạn mức chiết khấu (Mẫu số 01/NHNN-CK);\nBảng kê các giấy tờ có giá đủ điều kiện chiết khấu tại Ngân hàng Nhà nước (Mẫu số 02/NHNN-CK).\nBảng cân đối tài khoản kế toán của tháng gần nhất của các tổ chức tín dụng, chi nhánh ngân hàng nước ngoài",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 0\nQua dịch vụ bưu chính: 0\nTrực tiếp: 0",
+    "CĂN CỨ PHÁP LÝ": "Thông tư 01/2022/TT-NHNN - 01/2022/TT-NHNN",
+    "CƠ QUAN THỰC HIỆN": "Ngân hàng Nhà nước Việt Nam",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Giấy thông báo hạn mức chiết khấu - KQ.G19.000002",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Hoạt động tiền tệ",
+      "slug": "hoat-ong-tien-te"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Ngân hàng Nhà nước Việt Nam",
+        "slug": "ngan-hang-nha-nuoc-viet-nam"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

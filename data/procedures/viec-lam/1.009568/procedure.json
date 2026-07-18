@@ -1,0 +1,807 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfc-9362-765e-99ac-6133a1ddcad0",
+  "procedure_code": "1.009568",
+  "title": "Đăng ký chào bán chứng khoán ra công chúng của tổ chức tín dụng được kiểm soát đặt biệt",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfc-9362-765e-99ac-6133a1ddcad0",
+    "source_file": "chi-tiet-thu-tuc-1.009568.pdf",
+    "source_path": "procedures/viec-lam/1.009568/chi-tiet-thu-tuc-1.009568.pdf",
+    "page_count": 23,
+    "extracted_at": "2026-07-18T05:00:37.323671+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "e4327d1b5c3fe82441c1c243089d4c94e89e8373301a9292d3b9a4938a3765e3"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "936/QĐ-BTC",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Chứng khoán",
+  "target_users": [
+    "Doanh nghiệp"
+  ],
+  "agency": {
+    "competent_agency": "Ủy ban Chứng khoán Nhà nước - Bộ tài chính",
+    "executing_agency": "Ủy ban Chứng khoán Nhà nước - Bộ tài chính"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "+ Bước 1: Tổ chức tín dụng được kiểm soát đặc biệt nộp hồ sơ đề nghị đăng ký chào bán cổ phiếu ra công chúng cho Ủy ban Chứng khoán Nhà nước (UBCKNN).",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "+ Bước 2: UBCKNN tiếp nhận, xem xét hồ sơ.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "+ Bước 3: Sau khi nhận đầy đủ hồ sơ hợp lệ, UBCKNN cấp Giấy chứng nhận đăng ký chào bán chứng khoán ra công chúng cho tổ chức tín dụng được kiểm soát đặc biệt. Trường hợp từ chối, UBCKNN phải trả lời bằng văn bản và nêu rõ lý do.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Giấy đăng ký chào bán theo Mẫu số 05 Phụ lục ban hành kèm theo Nghị định 155/2020/NĐ-CP.",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu số 05.docx",
+        "source_page": 4
+      },
+      {
+        "name": "2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Cam kết bảo lãnh phát hành (nếu có) theo Mẫu số 04 Phụ lục ban hành kèm theo Nghị định 155/2020/NĐ-CP. Trường hợp có tổ hợp bảo lãnh phát hành, cam kết bảo lãnh phát hành của tổ chức bảo lãnh phát hành chính phải kèm theo hợp đồng giữa các tổ chức bảo lãnh phát hành. Các tài liệu này phải được gửi đến Ủy ban Chứng khoán Nhà nước trước ngày cấp Giấy chứng nhận đăng ký chào bán",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu 04.docx",
+        "source_page": 4
+      },
+      {
+        "name": "1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Giấy đăng ký chào bán theo Mẫu số 03 Phụ lục ban hành kèm theo Nghị định 155/2020/NĐ-CP;",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu giấy đăng ký chào bán lần đầu ra công chúng.docx",
+        "source_page": 4
+      },
+      {
+        "name": "1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Bản cáo bạch theo quy định tại Điều 19 Luật Chứng khoán;",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu số 09.docx; Phụ lục số 05.docx",
+        "source_page": 5
+      },
+      {
+        "name": "1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Cam kết bảo lãnh phát hành (nếu có) theo Mẫu số 04 Phụ lục ban hành kèm theo Nghị định 155/2020/NĐ-CP. Trường hợp có tổ hợp bảo lãnh phát hành, cam kết bảo lãnh phát hành của tổ chức bảo lãnh phát hành chính phải kèm theo hợp đồng giữa các tổ chức bảo lãnh phát hành. Các tài liệu này phải được gửi đến Ủy ban Chứng khoán Nhà nước trước ngày cấp Giấy chứng nhận đăng ký chào bán",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu 04.docx",
+        "source_page": 4
+      },
+      {
+        "name": "8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: +Giấy đăng ký chào bán theo Mẫu số 07 Phụ lục ban hành kèm theo Nghị định 155/2020/NĐ-CP",
+        "quantity": "1 bản chính",
+        "attachment": "3 Mẫu số 07.docx",
+        "source_page": 14
+      },
+      {
+        "name": "8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: +Bản cáo bạch theo quy định tại Điều 19 Luật Chứng khoán. Đối với trường hợp Hồ sơ đăng ký chào bán trái phiếu ra công chúng cho nhiều đợt chào bán, Bản cáo bạch nêu rõ các nội dung: c)\tDự án hoặc kế hoạch sử dụng vốn làm nhiều đợt; d)\tKế hoạch chào bán trong đó nêu rõ đối tượng, số lượng, thời gian dự kiến chào bán của từng đợt.",
+        "quantity": "1 bản chính",
+        "attachment": "Phụ lục số 05.docx; Mẫu số 09.docx",
+        "source_page": 14
+      },
+      {
+        "name": "8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Cam kết bảo lãnh phát hành (nếu có) bao gồm các nội dung tối thiểu theo Mẫu số 08 Phụ lục ban hành kèm theo Nghị định 155/2020/NĐ-CP. Trường hợp có tổ hợp bảo lãnh phát hành, cam kết bảo lãnh phát hành của tổ chức bảo lãnh phát hành chính phải kèm theo hợp đồng giữa các tổ chức bảo lãnh phát hành. Các tài liệu này phải được gửi đến Ủy ban Chứng khoán Nhà nước trước ngày cấp Giấy chứng nhận đăng ký chào bán.",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu số 08.docx",
+        "source_page": 15
+      },
+      {
+        "name": "9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Giấy đăng ký chào bán theo Mẫu số 07 Phụ lục ban hành kèm theo Nghị định số 245/2025/NĐ-CP sửa đổi, bổ sung một số điều của Nghị định số 155/2020/NĐ-CP.",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu số 07.docx",
+        "source_page": 16
+      },
+      {
+        "name": "9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Bản cáo bạch theo quy định tại Điều 19 Luật Chứng khoán. Đối với trường hợp đăng ký chào trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng cho nhiều đợt chào bán của công ty đại chúng, Bản cáo bạch nêu rõ các nội dung: c)\tDự án hoặc kế hoạch sử dụng vốn làm nhiều đợt; d)\tKế hoạch chào bán trong đó nêu rõ đối tượng, số lượng, thời gian dự kiến chào bán của từng đợt.",
+        "quantity": "1 bản chính",
+        "attachment": "Phụ lục số 05.docx; Mẫu số 09.docx",
+        "source_page": 14
+      },
+      {
+        "name": "9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Cam kết bảo lãnh phát hành (nếu có) bao gồm các nội dung tối thiểu theo Mẫu số 08 Phụ lục ban hành kèm theo Nghị định này. Trường hợp có tổ hợp bảo lãnh phát hành, cam kết bảo lãnh phát hành của tổ chức bảo lãnh phát hành chính phải kèm theo hợp đồng giữa các tổ chức bảo lãnh phát hành. Các tài liệu này phải được gửi đến Ủy ban Chứng khoán Nhà nước trước ngày cấp Giấy chứng nhận đăng ký chào bán.",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu số 08.docx",
+        "source_page": 19
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Điều lệ của tổ chức phát hành;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Cam kết tổ chức phát hành không thuộc trường hợp đang bị truy cứu trách nhiệm hình sự hoặc bị kết án về một trong các tội phạm trật tự quản lý kinh tế mà chưa được xóa án tích",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Quyết định của Đại hội đồng cổ đông thông qua phương án phát hành cổ phiếu mới làm cơ sở cho chào bán chứng chỉ lưu ký tại nước ngoài; thông qua phương án sử dụng vốn thu được từ đợt phát hành; thông qua việc niêm yết cổ phiếu trên hệ thống giao dịch chứng khoán sau khi kết thúc đợt phát hành, trong đó: a) Phương án phát hành phải nêu rõ: số lượng cổ phiếu phát hành; giá phát hành hoặc nguyên tắc xác định giá phát hành hoặc ủy quyền cho Hội đồng quản trị xác định giá phát hành; thông qua hoặc ủy quyền cho Hội đồng quản trị thông qua phương án đảm bảo việc phát hành cổ phiếu đáp ứng quy định về tỷ lệ sở hữu nước ngoài. Trường hợp phương án phát hành không nêu cụ thể giá phát hành, nguyên tắc xác định giá phát hành thì giá phát hành được xác định theo quy định tại Luật Doanh nghiệp. b) Đối với đợt phát hành nhằm mục đích huy động phần vốn để thực hiện dự án của tổ chức phát hành chứng khoán cơ sở, phương án sử dụng vốn phải xác định tỷ lệ phát hành thành công cho mục đích thực hiện dự án tối thiểu là 70% tổng số cổ phiếu dự kiến phát hành để thực hiện các dự án. Phương án sử dụng vốn phải bao gồm nội dung về phương án bù đắp phần thiếu hụt vốn dự kiến huy động từ đợt chào bán để thực hiện dự án.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Quyết định của Hội đồng quản trị thông qua hồ sơ đăng ký chào bán cổ phiếu ra công chúng. Đối với việc chào bán cổ phiếu ra công chúng của tổ chức tín dụng, hồ sơ phải có văn bản chấp thuận của Ngân hàng Nhà nước Việt Nam về thay đổi vốn điều lệ. Đối với việc chào bán cổ phiếu ra công chúng của tổ chức kinh doanh bảo hiểm, hồ sơ phải có văn bản chấp thuận của Bộ Tài chính về thay đổi vốn điều lệ.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Báo cáo tài chính của tổ chức phát hành trong 02 năm gần nhất phải đáp ứng quy định tại Điều 20 Luật Chứng khoán, trong đó: a) Trường hợp hồ sơ được nộp trong thời gian 60 ngày kể từ ngày kết thúc kỳ kế toán năm, báo cáo tài chính năm của năm trước đó trong hồ sơ ban đầu có thể là báo cáo tài chính chưa có kiểm toán, nhưng phải có báo cáo tài chính được kiểm toán của 02 năm trước liền kề. Trường hợp tổ chức phát hành hoàn thiện hồ sơ sau 90 ngày kể từ ngày kết thúc kỳ kế toán năm, tổ chức phát hành phải bổ sung báo cáo tài chính năm gần nhất được kiểm toán; b) Trường hợp tổ chức phát hành thực hiện phát hành cổ phiếu để tăng vốn điều lệ sau ngày kết thúc kỳ kế toán gần nhất được kiểm toán hoặc soát xét (trừ trường hợp phát hành cổ phiếu để trả cổ tức, phát hành cổ phiếu để tăng vốn cổ phần từ nguồn vốn chủ sở hữu, phát hành cổ phiếu thưởng cho người lao động, phát hành cổ phiếu để chuyển đổi trái phiếu), tổ chức phát hành phải bổ sung báo cáo về vốn góp của chủ sở hữu được kiểm toán bởi tổ chức kiểm toán được chấp thuận.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Bản cáo bạch",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Quyết định của cơ quan có thẩm quyền phê duyệt dự án, phương án bù đắp phần thiếu hụt vốn dự kiến huy động từ đợt chào bán để thực hiện dự án đối với trường hợp quy định tại điểm d khoản 2 Điều 15 của Luật Chứng khoán;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Văn bản xác nhận của ngân hàng, chi nhánh ngân hàng nước ngoài về việc mở tài khoản phong tỏa nhận tiền mua cổ phiếu của đợt chào bán.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Hợp đồng tư vấn hồ sơ đăng ký chào bán cổ phiếu ra công chúng với công ty chứng khoán, trừ trường hợp tổ chức phát hành là công ty chứng khoán",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Văn bản cam kết của Hội đồng quản trị triển khai niêm yết hoặc đăng ký giao dịch cổ phiếu trên hệ thống giao dịch chứng khoán yết hoặc đăng ký giao dịch cổ phiếu",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 4
+      },
+      {
+        "name": "2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Báo cáo sử dụng vốn thu được từ đợt chào bán gần nhất được kiểm toán trong 02 năm tính đến thời điểm nộp hồ sơ, trừ trường hợp báo cáo tài chính được kiểm toán đã có thuyết minh chi tiết việc sử dụng vốn thu được từ đợt chào bán gần nhất;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 4
+      },
+      {
+        "name": "3. Trường hợp Đăng ký chào bán thêm cổ phiếu ra công chúng với giá thấp hơn mệnh giá:: + Tổ chức phát hành bổ sung thêm  Bảng thống kê giá tham chiếu cổ phiếu của 60 ngày giao dịch liên tiếp liền trước ngày chốt danh sách cổ đông để lấy ý kiến hoặc họp Đại hội đồng cổ đông thông qua phương án phát hành có xác nhận của tổ chức tư vấn hồ sơ đăng ký chào bán cổ phiếu ra công chúng.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 4
+      },
+      {
+        "name": "1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Quyết định của Đại hội đồng cổ đông thông qua phương án phát hành, thông qua phương án sử dụng vốn thu được từ đợt chào bán ngoại trừ trường hợp chào bán cổ phiếu thuộc sở hữu của cổ đông theo hình thức quy định tại điểm b khoản 1 Điều 10 Nghị định này, thông qua việc niêm yết hoặc đăng ký giao dịch cổ phiếu trên hệ thống giao dịch chứng khoán, trong đó: a) Phương án phát hành phải nêu rõ: giá chào bán hoặc nguyên tắc xác định giá chào bán hoặc ủy quyền cho Hội đồng quản trị xác định giá chào bán (trừ trường hợp chào bán cổ phiếu thuộc sở hữu của cổ đông theo hình thức quy định tại điểm b khoản 1 Điều 10 Nghị định này); số lượng cổ phiếu chào bán; thông qua hoặc ủy quyền cho Hội đồng quản trị thông qua phương án đảm bảo việc phát hành cổ phiếu đáp ứng quy định về tỷ lệ sở hữu nước ngoài. Trường hợp phương án phát hành không nêu cụ thể giá chào bán, nguyên tắc xác định giá chào bán thì giá chào bán được xác định theo quy định tại Luật Doanh nghiệp; b) Phương án sử dụng vốn là phương án sử dụng số vốn được huy động thêm. Trường hợp chào bán nhằm mục đích huy động phần vốn để thực hiện dự án, phương án sử dụng vốn phải bao gồm nội dung về phương án bù đắp phần thiếu hụt vốn dự kiến huy động từ đợt chào bán để thực hiện dự án; c) Trường hợp chào bán cổ phiếu lần đầu ra công chúng kết hợp giữa phát hành huy động thêm vốn cho tổ chức phát hành và chào bán cổ phiếu thuộc sở hữu của cổ đông, phương án phát hành phải nêu rõ nguyên tắc ưu tiên phân phối cổ phiếu.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 5
+      },
+      {
+        "name": "1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Báo cáo tài chính của tổ chức phát hành trong 02 năm gần nhất phải đáp ứng quy định tại Điều 20 Luật Chứng khoán, trong đó: a) Trường hợp hồ sơ được nộp trong thời gian 60 ngày kể từ ngày kết thúc kỳ kế toán năm, báo cáo tài chính năm của năm trước đó trong hồ sơ ban đầu có thể là báo cáo tài chính chưa có kiểm toán, nhưng phải có báo cáo tài chính được kiểm toán của 02 năm trước liền kề. Trường hợp tổ chức phát hành hoàn thiện hồ sơ sau 90 ngày kể từ ngày kết thúc kỳ kế toán năm, tổ chức phát hành phải bổ sung báo cáo tài chính năm gần nhất được kiểm toán; b) Trường hợp tổ chức phát hành thực hiện phát hành cổ phiếu để tăng vốn điều lệ sau ngày kết thúc kỳ kế toán gần nhất được kiểm toán hoặc soát xét (trừ trường hợp phát hành cổ phiếu để trả cổ tức, phát hành cổ phiếu để tăng vốn cổ phần từ nguồn vốn chủ sở hữu, phát hành cổ phiếu thưởng cho người lao động, phát hành cổ phiếu để chuyển đổi trái phiếu), tổ chức phát hành phải bổ sung báo cáo về vốn góp của chủ sở hữu được kiểm toán bởi tổ chức kiểm toán được chấp thuận.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Hợp đồng tư vấn hồ sơ đăng ký chào bán cổ phiếu ra công chúng với công ty chứng khoán, trừ trường hợp tổ chức phát hành là công ty chứng khoán",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Quyết định của Hội đồng quản trị thông qua hồ sơ đăng ký chào bán cổ phiếu ra công chúng. Đối với việc chào bán cổ phiếu ra công chúng của tổ chức tín dụng, hồ sơ phải có văn bản chấp thuận của Ngân hàng Nhà nước Việt Nam về đề nghị tăng vốn điều lệ theo quy định của pháp luật về các tổ chức tín dụng. Đối với việc chào bán cổ phiếu ra công chúng của tổ chức kinh doanh bảo hiểm, hồ sơ phải có văn bản chấp thuận của Bộ Tài chính về tăng vốn điều lệ theo quy định của pháp luật về kinh doanh bảo hiểm;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 6
+      },
+      {
+        "name": "1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: Văn bản cam kết của Hội đồng quản trị triển khai niêm yết hoặc đăng ký giao dịch cổ phiếu trên hệ thống giao dịch chứng khoán.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 4
+      },
+      {
+        "name": "1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Văn bản thỏa thuận giữa 4cổ đông sở hữu cổ phiếu được chào bán với công ty về phương án chào bán, giá chào bán trong trường hợp chào bán cổ phiếu thuộc sở hữu của cổ đông;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 7
+      },
+      {
+        "name": "1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Điều lệ của tổ chức phát hành;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Văn bản cam kết tối thiểu là 15% số cổ phiếu có quyền biểu quyết của tổ chức phát hành phải được bán cho ít nhất 100 nhà đầu tư không phải là cổ đông lớn; trường hợp vốn điều lệ của tổ chức phát hành từ 1.000 tỷ đồng trở lên, tỷ lệ tối thiểu là 10% số cổ phiếu có quyền biểu quyết của tổ chức phát hành và văn bản cam kết Tổ chức phát hành không thuộc trường hợp đang bị truy cứu trách nhiệm hình sự hoặc đã bị kết án về một trong các tội xâm phạm trật tự quản lý kinh tế mà chưa được xóa án tích;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 7
+      },
+      {
+        "name": "1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Văn bản cam kết của các cổ đông lớn trước thời điểm chào bán cổ phiếu lần đầu ra công chúng của tổ chức phát hành về việc cùng nhau nắm giữ ít nhất 20% vốn điều lệ của tổ chức phát hành tối thiểu là 01 năm kể từ ngày kết thúc đợt chào bán;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 7
+      },
+      {
+        "name": "1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Văn bản xác nhận của ngân hàng, chi nhánh ngân hàng nước ngoài về việc mở tài khoản phong tỏa nhận tiền mua cổ phiếu của đợt chào bán.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Báo cáo về vốn điều lệ đã góp tính đến thời điểm đăng ký chào bán cổ phiếu lần đầu ra công chúng được kiểm toán bởi tổ chức kiểm toán độc lập theo quy định của Bộ trưởng Bộ Tài chính.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 7
+      },
+      {
+        "name": "\t4 Trường hợp chào bán cổ phiếu ra công chúng của công ty sau quá trình tái cơ cấu doanh nghiệp:: 1a. Đối với trường hợp công ty đại chúng sau quá trình cơ cấu lại doanh nghiệp chào bán thêm cổ phiếu ra công chúng, chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng, công ty sau quá trình cơ cấu lại doanh nghiệp chào bán trái phiếu ra công chúng, hồ sơ đăng ký chào bán chứng khoán theo quy định tại khoản 1, 2, 3, 4 Điều này.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 7
+      },
+      {
+        "name": "\t4 Trường hợp chào bán cổ phiếu ra công chúng của công ty sau quá trình tái cơ cấu doanh nghiệp:: 1. Trường hợp công ty đăng ký chào bán trong năm cơ cấu lại, hồ sơ đăng ký chào bán theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng, trong đó báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của 02 năm trước liền kề năm đăng ký chào bán được thay bằng các báo cáo sau: a) Báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của các doanh nghiệp tham gia cơ cấu lại của 02 năm trước liền kề năm cơ cấu lại; b) Báo cáo tổng hợp thông tin tài chính theo quy ước năm trước liền kề năm cơ cấu lại được đảm bảo bởi tổ chức kiểm toán được chấp thuận của tổ chức phát hành; c) Báo cáo tài chính kỳ kế toán cuối cùng trước thời điểm cơ cấu lại của các doanh nghiệp tham gia cơ cấu lại (đối với trường hợp hợp nhất).",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 8
+      },
+      {
+        "name": "\t4 Trường hợp chào bán cổ phiếu ra công chúng của công ty sau quá trình tái cơ cấu doanh nghiệp:: 2. Trường hợp công ty đăng ký chào bán trong năm liền sau năm cơ cấu lại, hồ sơ đăng ký chào bán theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng, trong đó báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của 02 năm trước liền kề năm đăng ký chào bán được thay bằng các báo cáo sau: a) Báo cáo tài chính kỳ kế toán đầu tiên sau thời điểm cơ cấu lại của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận đáp ứng quy định tại khoản 3 Điều 20 Luật Chứng khoán và báo cáo tổng hợp thông tin tài chính theo quy ước cho kỳ kế toán cuối cùng trước thời điểm cơ cấu lại của tổ chức phát hành được đảm bảo bởi tổ chức kiểm toán được chấp thuận (đối với trường hợp hợp nhất); b) Báo cáo tài chính năm cơ cấu lại được kiểm toán bởi tổ chức kiểm toán được chấp thuận của tổ chức phát hành (đối với trường hợp sáp nhập, mua lại doanh nghiệp, bán tài sản); c) Báo cáo tài chính năm trước liền kề năm cơ cấu lại được kiểm toán bởi tổ chức kiểm toán được chấp thuận của các doanh nghiệp tham gia cơ cấu lại.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 8
+      },
+      {
+        "name": "\t4 Trường hợp chào bán cổ phiếu ra công chúng của công ty sau quá trình tái cơ cấu doanh nghiệp:: 3. Trường hợp công ty đăng ký chào bán trong năm thứ hai liền sau năm cơ cấu lại (đối với trường hợp hợp nhất), hồ sơ đăng ký chào bán bao gồm: a) Hồ sơ đăng ký chào bán theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng, trong đó báo cáo tài chính năm thứ hai liền trước năm đăng ký chào bán được thay bằng các báo cáo sau: báo cáo tài chính kỳ kế toán đầu tiên sau thời điểm cơ cấu lại của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận đáp ứng quy định tại khoản 3 Điều 20 Luật Chứng khoán; báo cáo tài chính kỳ kế toán cuối cùng trước thời điểm cơ cấu lại được kiểm toán bởi tổ chức kiểm toán được chấp thuận của các doanh nghiệp tham gia cơ cấu lại; b) Báo cáo tài chính năm trước liền kề năm cơ cấu lại được kiểm toán của các doanh nghiệp tham gia cơ cấu lại.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 9
+      },
+      {
+        "name": "\t4 Trường hợp chào bán cổ phiếu ra công chúng của công ty sau quá trình tái cơ cấu doanh nghiệp:: 4. Trường hợp công ty đăng ký chào bán từ năm thứ hai sau năm cơ cấu lại (trường hợp sáp nhập, mua lại doanh nghiệp, bán tài sản), đăng ký chào bán từ năm thứ ba sau năm cơ cấu lại (trường hợp hợp nhất), hồ sơ đăng ký chào bán theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 9
+      },
+      {
+        "name": "\t4 Trường hợp chào bán cổ phiếu ra công chúng của công ty sau quá trình tái cơ cấu doanh nghiệp:: 5. Đối với trường hợp công ty sau quá trình cơ cấu lại doanh nghiệp chào bán cổ phiếu lần đầu ra công chúng, hồ sơ đăng ký chào bán theo quy định về hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng, trong đó báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của 02 năm trước liền kề năm đăng ký chào bán được thay bằng các báo cáo sau: a) Trường hợp công ty chào bán trong năm cơ cấu lại: Báo cáo tài chính năm của 02 năm gần nhất được kiểm toán bởi tổ chức kiểm toán được chấp thuận và báo cáo tổng hợp thông tin tài chính theo quy ước cho 02 năm liền trước năm đăng ký chào bán của tổ chức phát hành được đảm bảo bởi tổ chức kiểm toán được chấp thuận với ý kiến chấp nhận toàn phần; Đối với trường hợp hợp nhất: báo cáo tài chính năm của 02 năm gần nhất của các doanh nghiệp tham gia cơ cấu lại được kiểm toán và báo cáo tài chính kỳ kế toán cuối cùng trước thời điểm cơ cấu lại của các doanh nghiệp tham gia cơ cấu lại được kiểm toán; báo cáo tổng hợp thông tin tài chính theo quy ước cho 02 năm liền trước năm hợp nhất của tổ chức phát hành được đảm bảo bởi tổ chức kiểm toán được chấp thuận. b) Trường hợp công ty đăng ký chào bán trong năm liền sau năm cơ cấu lại: Báo cáo tài chính năm của 02 năm liền trước năm đăng ký chào bán của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận và báo cáo tổng hợp thông tin tài chính theo quy ước năm liền trước năm cơ cấu lại của tổ chức phát hành được đảm bảo bởi tổ chức kiểm toán được chấp thuận với ý kiến chấp nhận toàn phần;  Đối với trường hợp hợp nhất: báo cáo tài chính năm của năm liền trước năm hợp nhất và báo cáo tài chính kỳ kế toán cuối cùng từ ngày bắt đầu năm tài chính tính đến thời điểm hợp nhất của các doanh nghiệp tham gia hợp nhất được kiểm toán; báo cáo tổng hợp thông tin tài chính theo quy ước cho năm liền trước năm hợp nhất của tổ chức phát hành được đảm bảo bởi tổ chức kiểm toán được chấp thuận; báo cáo tổng hợp thông tin tài chính theo quy ước cho kỳ kế toán cuối cùng từ ngày bắt đầu năm tài chính đến thời điểm hợp nhất của công ty hợp nhất được đảm bảo bởi tổ chức kiểm toán được chấp thuận và báo cáo tài chính kỳ kế toán đầu tiên từ thời điểm hợp nhất đến thời điểm kết thúc năm tài chính của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận. c) Trường hợp công ty đăng ký chào bán trong năm thứ hai liền sau năm cơ cấu lại: Báo cáo tài chính năm của 02 năm liền trước năm đăng ký chào bán của tổ chức phát hành. Đối với trường hợp hợp nhất: báo cáo tài chính năm của năm liền trước năm hợp nhất và báo cáo tài chính kỳ kế toán cuối cùng từ ngày bắt đầu năm tài chính tính đến thời điểm hợp nhất của các công ty bị hợp nhất được kiểm toán; báo cáo tổng hợp thông tin tài chính theo quy ước cho kỳ kế toán cuối cùng từ ngày bắt đầu năm tài chính đến thời điểm hợp nhất được đảm bảo bởi tổ chức kiểm toán được chấp thuận và báo cáo tài chính kỳ kế toán đầu tiên từ thời điểm hợp nhất đến thời điểm kết thúc năm tài chính của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận; báo cáo tài chính năm liền trước năm đăng ký chào bán của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận. d) Trường hợp công ty đăng ký chào bán từ năm thứ ba liền sau năm cơ cấu lại, hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng theo quy định tại Điều 11 Nghị định này.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 9
+      },
+      {
+        "name": "\t5 Trường hợp Đăng ký chào bán chứng khoán ra công chúng của công ty hình thành sau hợp nhất công ty không thuộc trường hợp tái cơ cấu doanh nghiệp: 1. Trường hợp công ty đăng ký chào bán trong năm hợp nhất, hồ sơ đăng ký chào bán bao gồm: a) Hồ sơ đăng ký chào bán theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng, trong đó báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của 02 năm trước liền kề năm đăng ký chào bán được thay bằng: Báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của công ty có tổng giá trị tài sản lớn nhất trong số các công ty bị hợp nhất của 02 năm gần nhất. Báo cáo tài chính kỳ kế toán cuối cùng trước thời điểm hợp nhất của công ty có tổng giá trị tài sản lớn nhất trong số các công ty bị hợp nhất. b) Báo cáo tài chính năm gần nhất được kiểm toán của các công ty bị hợp nhất còn lại.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 11
+      },
+      {
+        "name": "\t5 Trường hợp Đăng ký chào bán chứng khoán ra công chúng của công ty hình thành sau hợp nhất công ty không thuộc trường hợp tái cơ cấu doanh nghiệp: 2. Trường hợp công ty đăng ký chào bán trong năm liền sau năm hợp nhất, hồ sơ đăng ký chào bán bao gồm: a) Hồ sơ đăng ký chào bán theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng, trong đó báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của 02 năm trước liền kề năm đăng ký chào bán được thay bằng các báo cáo sau: Báo cáo tài chính kỳ kế toán đầu tiên sau thời điểm hợp nhất của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận đáp ứng quy định tại khoản 3 Điều 20 Luật Chứng khoán và báo cáo tài chính kỳ kế toán cuối cùng trước thời điểm hợp nhất được kiểm toán bởi tổ chức kiểm toán được chấp thuận của công ty có tổng giá trị tài sản lớn nhất trong số các công ty bị hợp nhất đáp ứng quy định tại khoản 3 Điều 20 Luật Chứng khoán; Báo cáo tài chính năm trước liền kề năm hợp nhất được kiểm toán bởi tổ chức kiểm toán được chấp thuận của công ty có tổng giá trị tài sản lớn nhất trong số các công ty bị hợp nhất. b) Báo cáo tài chính năm trước liền kề năm hợp nhất được kiểm toán của các công ty bị hợp nhất còn lại.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 11
+      },
+      {
+        "name": "\t5 Trường hợp Đăng ký chào bán chứng khoán ra công chúng của công ty hình thành sau hợp nhất công ty không thuộc trường hợp tái cơ cấu doanh nghiệp: 3. Trường hợp công ty đăng ký chào bán trong năm thứ hai sau năm hợp nhất, hồ sơ đăng ký chào bán bao gồm: a) Hồ sơ đăng ký chào bán theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng, trong đó báo cáo tài chính năm thứ hai liền trước năm đăng ký chào bán được thay bằng: báo cáo tài chính kỳ kế toán đầu tiên sau thời điểm hợp nhất của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận đáp ứng quy định tại khoản 3 Điều 20 Luật Chứng khoán; báo cáo tài chính kỳ kế toán cuối cùng trước thời điểm hợp nhất được kiểm toán bởi tổ chức kiểm toán được chấp thuận của công ty có tổng giá trị tài sản lớn nhất trong số các công ty bị hợp nhất đáp ứng quy định tại khoản 3 Điều 20 Luật Chứng khoán; b) Báo cáo tài chính năm trước liền kề năm hợp nhất được kiểm toán của các công ty bị hợp nhất.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 12
+      },
+      {
+        "name": "\t5 Trường hợp Đăng ký chào bán chứng khoán ra công chúng của công ty hình thành sau hợp nhất công ty không thuộc trường hợp tái cơ cấu doanh nghiệp: 4. Trường hợp công ty đăng ký chào bán từ năm thứ ba sau năm hợp nhất trở đi, hồ sơ đăng ký chào bán theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 12
+      },
+      {
+        "name": "6 Trường hợp Đăng ký chào bán chứng khoán ra công chúng của công ty sau chia, tách công ty: 1. Trường hợp công ty đăng ký chào bán trong năm tách công ty, hồ sơ đăng ký chào bán của công ty bị tách theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng, trong đó báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của 02 năm trước liền kề năm đăng ký chào bán được thay bằng các báo cáo sau: a) Trường hợp tổng giá trị tài sản các công ty được tách dưới 35% tổng giá trị tài sản của công ty trước khi tách: báo cáo tài chính năm của 02 năm liền trước năm tách được kiểm toán bởi tổ chức kiểm toán được chấp thuận của công ty trước khi tách; b) Trường hợp tổng giá trị tài sản các công ty được tách từ 35% tổng giá trị tài sản trở lên của công ty trước khi tách: báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của công ty trước khi tách của 02 năm liền trước năm tách, báo cáo tổng hợp thông tin tài chính theo quy ước năm trước liền kề năm tách công ty của tổ chức phát hành được đảm bảo bởi tổ chức kiểm toán được chấp thuận.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 8
+      },
+      {
+        "name": "6 Trường hợp Đăng ký chào bán chứng khoán ra công chúng của công ty sau chia, tách công ty: 2. Trường hợp công ty đăng ký chào bán trong năm liền sau năm tách, hồ sơ đăng ký chào bán của công ty bị tách theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng, trong đó báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của 02 năm trước liền kề năm đăng ký chào bán được thay bằng các báo cáo sau: a) Báo cáo tài chính năm liền trước năm đăng ký chào bán của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận; b) Báo cáo tài chính năm liền trước năm tách của công ty trước khi tách được kiểm toán bởi tổ chức kiểm toán được chấp thuận.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 13
+      },
+      {
+        "name": "6 Trường hợp Đăng ký chào bán chứng khoán ra công chúng của công ty sau chia, tách công ty: 3. Trường hợp công ty đăng ký chào bán từ năm thứ hai sau năm tách trở đi, hồ sơ đăng ký chào bán của công ty bị tách theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 13
+      },
+      {
+        "name": "6 Trường hợp Đăng ký chào bán chứng khoán ra công chúng của công ty sau chia, tách công ty: 4. Hồ sơ đăng ký chào bán chứng khoán ra công chúng của công ty hình thành sau chia công ty theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 13
+      },
+      {
+        "name": "7 Trường hợp Hồ sơ đăng ký chào bán thêm cổ phiếu cho nhiều đợt chào bán, ngoài các tài liệu như Hồ sơ đăng ký chào bán thêm cổ phiếu, Hồ sơ Công ty cần có thêm:: Trước mỗi đợt chào bán, tổ chức phát hành phải bổ sung các tài liệu sau: a) Tài liệu về tình hình công ty nếu có thay đổi và Bản thông tin cập nhật Bản cáo bạch theo Mẫu số 09 Phụ lục ban hành kèm theo Nghị định này cập nhật các thông tin thay đổi (nếu có);",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 14
+      },
+      {
+        "name": "7 Trường hợp Hồ sơ đăng ký chào bán thêm cổ phiếu cho nhiều đợt chào bán, ngoài các tài liệu như Hồ sơ đăng ký chào bán thêm cổ phiếu, Hồ sơ Công ty cần có thêm:: b) Báo cáo sử dụng vốn thu được từ đợt chào bán trước được kiểm toán bởi tổ chức kiểm toán được chấp thuận trong trường hợp đợt chào bán sau cách ngày kết thúc đợt chào bán trước từ 06 tháng trở lên.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 14
+      },
+      {
+        "name": "8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Quyết định của Đại hội đồng cổ đông hoặc Hội đồng quản trị hoặc Hội đồng thành viên hoặc chủ sở hữu công ty thông qua phương án phát hành, phương án sử dụng và trả nợ vốn thu được từ đợt chào bán trái phiếu ra công chúng, thông qua việc niêm yết trái phiếu trên hệ thống giao dịch chứng khoán, trong đó: c)\tPhương án phát hành phải nêu rõ: loại trái phiếu chào bán, số lượng trái phiếu từng loại chào bán, lãi suất trái phiếu hoặc nguyên tắc xác định lãi suất trái phiếu; kỳ hạn trái phiếu; d)\tTrường hợp đợt chào bán nhằm mục đích huy động phần vốn để thực hiện dự án, phương án sử dụng vốn phải bao gồm nội dung về phương án bù đắp phần thiếu hụt vốn dự kiến huy động từ đợt chào bán để thực hiện dự án",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 14
+      },
+      {
+        "name": "8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Báo cáo tài chính của tổ chức phát hành trong 02 năm gần nhất phải đáp ứng quy định tại Điều 20 Luật Chứng khoán, trong đó: trường hợp hồ sơ được nộp trong thời gian 60 ngày kể từ ngày kết thúc kỳ kế toán năm, báo cáo tài chính năm của năm trước đó trong hồ sơ ban đầu có thể là báo cáo tài chính chưa có kiểm toán, nhưng phải có báo cáo tài chính được kiểm toán của 02 năm trước liền kề; trường hợp tổ chức phát hành hoàn thiện hồ sơ sau 90 ngày kể từ ngày kết thúc kỳ kế toán năm, tổ chức phát hành phải bổ sung báo cáo tài chính năm gần nhất được kiểm toán.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 15
+      },
+      {
+        "name": "8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Hợp đồng tư vấn hồ sơ đăng ký chào bán trái phiếu ra công chúng với công ty chứng khoán, trừ trường hợp tổ chức phát hành là công ty chứng khoán.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 15
+      },
+      {
+        "name": "8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Báo cáo kết quả xếp hạng tín nhiệm đối với tổ chức phát hành hoặc trái phiếu đăng ký chào bán trong thời hạn 12 tháng tính đến ngày nộp hồ sơ đăng ký chào bán (nếu có).",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 15
+      },
+      {
+        "name": "8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Văn bản cam kết của Hội đồng quản trị hoặc Chủ tịch Hội đồng thành viên hoặc Chủ tịch công ty về việc triển khai niêm yết trái phiếu trên hệ thống giao dịch chứng khoán sau khi kết thúc đợt chào bán",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 15
+      },
+      {
+        "name": "8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Quyết định của Hội đồng quản trị hoặc Hội đồng thành viên hoặc chủ sở hữu công ty thông qua hồ sơ đăng ký chào bán trái phiếu ra công chúng.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 15
+      },
+      {
+        "name": "8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Điều lệ của tổ chức phát hành.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Cam kết thực hiện nghĩa vụ của tổ chức phát hành đối với nhà đầu tư về điều kiện phát hành, thanh toán, bảo đảm quyền và lợi ích hợp pháp của nhà đầu tư và các điều kiện khác.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 16
+      },
+      {
+        "name": "8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Văn bản xác nhận của ngân hàng, chi nhánh ngân hàng nước ngoài về việc mở tài khoản phong tỏa nhận tiền mua trái phiếu của đợt chào bán.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 16
+      },
+      {
+        "name": "8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Hợp đồng giữa tổ chức phát hành với đại diện người sở hữu trái phiếu",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 16
+      },
+      {
+        "name": "8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Văn bản cam kết đáp ứng quy định tổ chức phát hành không thuộc trường hợp đang bị truy cứu trách nhiệm hình sự hoặc đã bị kết án về một trong các tội xâm phạm trật tự quản lý kinh tế mà chưa được xóa án tích",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 16
+      },
+      {
+        "name": "9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Quyết định của Đại hội đồng cổ đông thông qua phương án phát hành, phương án sử dụng vốn thu được từ đợt chào bán, việc niêm yết trái phiếu trên hệ thống giao dịch chứng khoán: a)\tPhương án phát hành nêu rõ: loại trái phiếu; số lượng trái phiếu từng loại; lãi suất hoặc nguyên tắc tính lãi suất trái phiếu; kỳ hạn trái phiếu; phương án chuyển đổi trái phiếu (điều kiện, thời hạn, tỷ lệ hoặc phương pháp tính giá chuyển đổi, việc trả nợ vốn trong trường hợp không chuyển đổi trái phiếu, thông qua hoặc ủy quyền cho Hội đồng quản trị thông qua phương án đảm bảo việc phát hành cổ phiếu để chuyển đổi đáp ứng quy định về tỷ lệ sở hữu nước ngoài, các điều khoản khác); phương án thực hiện quyền của chứng quyền (điều kiện, thời hạn, tỷ lệ thực hiện quyền; giá hoặc phương pháp tính giá phát hành; việc trả nợ vốn; thông qua hoặc ủy quyền cho Hội đồng quản trị thông qua phương án đảm bảo việc phát hành cổ+ Quyết định của Đại hội đồng cổ đông thông qua phương án phát hành, phương án sử dụng vốn thu được từ đợt chào bán, việc niêm yết trái phiếu trên hệ thống giao dịch chứng khoán: c)\tPhương án phát hành nêu rõ: loại trái phiếu; số lượng trái phiếu từng loại; lãi suất hoặc nguyên tắc tính lãi suất trái phiếu; kỳ hạn trái phiếu; phương án chuyển đổi trái phiếu (điều kiện, thời hạn, tỷ lệ hoặc phương pháp tính giá chuyển đổi, việc trả nợ vốn trong trường hợp không chuyển đổi trái phiếu, thông qua hoặc ủy quyền cho Hội đồng quản trị thông qua phương án đảm bảo việc phát hành cổ phiếu để chuyển đổi đáp ứng quy định về tỷ lệ sở hữu nước ngoài, các điều khoản khác); phương án thực hiện quyền của chứng quyền (điều kiện, thời hạn, tỷ lệ thực hiện quyền; giá hoặc phương pháp tính giá phát hành; việc trả nợ vốn; thông qua hoặc ủy quyền cho Hội đồng quản trị thông qua phương án đảm bảo việc phát hành cổ phiếu để thực hiện quyền đáp ứng quy định về tỷ lệ sở hữu nước ngoài; các điều khoản khác). Trường hợp giá chuyển đổi, giá phát hành cổ phiếu để thực hiện quyền thấp hơn mệnh giá, việc chuyển đổi, thực hiện quyền chỉ được thực hiện khi tổ chức phát hành có đủ thặng dư vốn cổ phần để bù đắp phần thặng dư âm phát sinh do phát hành cổ phiếu dưới mệnh giá; d)\tPhương án sử dụng vốn thu được từ đợt chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền; phương án dự kiến sử dụng vốn thu được từ việc phát hành cổ phiếu để thực hiện quyền của chứng quyền. Phương án sử dụng vốn thu được từ đợt chào bán trái phiếu phải xác định rõ tỷ lệ chào bán thành công cho mục đích thực hiện dự án tối thiểu 70% tổng số trái phiếu chào bán để thực hiện các dự án (trừ trường hợp chào bán cho các cổ đông hiện hữu theo tỷ lệ sở hữu). Phương án sử dụng vốn phải bao gồm nội dung về phương án bù đắp phần thiếu hụt vốn dự kiến huy động từ đợt chào bán để thực hiện các dự án.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 17
+      },
+      {
+        "name": "9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Hợp đồng tư vấn hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng với công ty chứng khoán, trừ trường hợp tổ chức phát hành là công ty chứng khoán.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 18
+      },
+      {
+        "name": "9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Các tài liệu khác liên quan đến việc chuyển đổi thành cổ phiếu (nếu có).",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 18
+      },
+      {
+        "name": "9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Văn bản cam kết của Hội đồng quản trị về việc triển khai niêm yết trái phiếu trên hệ thống giao dịch chứng khoán sau khi kết thúc đợt chào bán.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 18
+      },
+      {
+        "name": "9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Quyết định của Hội đồng quản trị thông qua hồ sơ đăng ký chào bán. Đối với việc chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của tổ chức tín dụng, hồ sơ phải có văn bản chấp thuận của Ngân hàng Nhà nước Việt Nam về phương án phát hành trái phiếu ra công chúng theo quy định của pháp luật về các tổ chức tín dụng;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 18
+      },
+      {
+        "name": "9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Điều lệ của tổ chức phát hành.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Văn bản xác nhận của ngân hàng, chi nhánh ngân hàng nước ngoài về việc mở tài khoản phong tỏa nhận tiền mua trái phiếu của đợt chào bán.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 16
+      },
+      {
+        "name": "9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Báo cáo sử dụng vốn thu được từ đợt chào bán gần nhất được kiểm toán trong 02 năm tính đến thời điểm nộp hồ sơ, trừ trường hợp báo cáo tài chính được kiểm toán đã có thuyết minh chi tiết việc sử dụng vốn thu được từ đợt chào bán gần nhất.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 4
+      },
+      {
+        "name": "9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Cam kết thực hiện nghĩa vụ của tổ chức phát hành đối với nhà đầu tư về điều kiện phát hành, thanh toán, bảo đảm quyền và lợi ích hợp pháp của nhà đầu tư và các điều kiện khác.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 16
+      },
+      {
+        "name": "9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Báo cáo tài chính của tổ chức phát hành trong 02 năm gần nhất phải đáp ứng quy định tại Điều 20 Luật Chứng khoán, trong đó: trường hợp hồ sơ được nộp trong thời gian 60 ngày kể từ ngày kết thúc kỳ kế toán năm, báo cáo tài chính năm của năm trước đó trong hồ sơ ban đầu có thể là báo cáo tài chính chưa có kiểm toán, nhưng phải có báo cáo tài chính được kiểm toán của 02 năm trước liền kề; trường hợp tổ chức phát hành hoàn thiện hồ sơ sau 90 ngày kể từ ngày kết thúc kỳ kế toán năm, tổ chức phát hành phải bổ sung báo cáo tài chính năm gần nhất được kiểm toán.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 15
+      },
+      {
+        "name": "9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Văn bản cam kết đáp ứng quy định tổ chức phát hành không thuộc trường hợp đang bị truy cứu trách nhiệm hình sự hoặc đã bị kết án về một trong các tội xâm phạm trật tự quản lý kinh tế mà chưa được xóa án tích.; Trường hợp khai thác được thông tin trong Cơ sở dữ liệu quốc gia về đăng ký doanh nghiệp: Tổ chức, cá nhân, doanh nghiệp không phải nộp Bản sao Giấy chứng nhận đăng ký doanh nghiệp",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 19
+      },
+      {
+        "name": "9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Quyết định của cấp có thẩm quyền phê duyệt phương án cơ cấu lại tổ chức tín dụng được kiểm soát đặc biệt.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 19
+      },
+      {
+        "name": "9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Văn bản của Ngân hàng Nhà nước Việt Nam chấp thuận đề nghị tăng vốn điều lệ theo quy định của pháp luật về các tổ chức tín dụng.; Trường hợp khai thác được thông tin trong Cơ sở dữ liệu quốc gia về đăng ký doanh nghiệp: Tổ chức, cá nhân, doanh nghiệp không phải nộp Bản sao Giấy chứng nhận đăng ký doanh nghiệp",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 19
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "30 ngày",
+      "fee": "* Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Dưới 50 tỷ: 10 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 50 tỷ đến dưới 150 tỷ: 20 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 150 tỷ đến dưới 250 tỷ: 35 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 250 tỷ trở lên: 50 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): + Dưới 50 tỷ: 05 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): Từ 50 tỷ đến dưới 150 tỷ: 10 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): + Từ 150 tỷ đến dưới 250 tỷ: 17,5 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): Từ 250 tỷ trở lên: 25 triệu đồng/ Giấy chứng nhận",
+      "description": "+ Đối với Hồ sơ đăng ký chào bán chứng khoán: 30 ngày kể từ ngày nhận hồ sơ đầy đủ và hợp lệ.",
+      "source_page": 20
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "30 ngày",
+      "fee": "* Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Dưới 50 tỷ: 10 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 50 tỷ đến dưới 150 tỷ: 20 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 150 tỷ đến dưới 250 tỷ: 35 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 250 tỷ trở lên: 50 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): + Dưới 50 tỷ: 05 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): Từ 50 tỷ đến dưới 150 tỷ: 10 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): + Từ 150 tỷ đến dưới 250 tỷ: 17,5 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): Từ 250 tỷ trở lên: 25 triệu đồng/ Giấy chứng nhận",
+      "description": "+ Đối với Hồ sơ đăng ký chào bán chứng khoán: 30 ngày kể từ ngày nhận hồ sơ đầy đủ và hợp lệ.",
+      "source_page": 20
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "30 ngày",
+      "fee": "* Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Dưới 50 tỷ: 10 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 50 tỷ đến dưới 150 tỷ: 20 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 150 tỷ đến dưới 250 tỷ: 35 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 250 tỷ trở lên: 50 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): + Dưới 50 tỷ: 05 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): Từ 50 tỷ đến dưới 150 tỷ: 10 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): + Từ 150 tỷ đến dưới 250 tỷ: 17,5 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): Từ 250 tỷ trở lên: 25 triệu đồng/ Giấy chứng nhận",
+      "description": "+ Đối với Hồ sơ đăng ký chào bán chứng khoán: 30 ngày kể từ ngày nhận hồ sơ đầy đủ và hợp lệ.",
+      "source_page": 20
+    }
+  ],
+  "fees": {
+    "summary": "* Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Dưới 50 tỷ: 10 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 50 tỷ đến dưới 150 tỷ: 20 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 150 tỷ đến dưới 250 tỷ: 35 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 250 tỷ trở lên: 50 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): + Dưới 50 tỷ: 05 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): Từ 50 tỷ đến dưới 150 tỷ: 10 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): + Từ 150 tỷ đến dưới 250 tỷ: 17,5 triệu đồng/ Giấy chứng nhận; * Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): Từ 250 tỷ trở lên: 25 triệu đồng/ Giấy chứng nhận",
+    "status": "varies_by_submission_method",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "* Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Dưới 50 tỷ: 10 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "* Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 50 tỷ đến dưới 150 tỷ: 20 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "* Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 150 tỷ đến dưới 250 tỷ: 35 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "* Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 250 tỷ trở lên: 50 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "* Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): + Dưới 50 tỷ: 05 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "* Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): Từ 50 tỷ đến dưới 150 tỷ: 10 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "* Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): + Từ 150 tỷ đến dưới 250 tỷ: 17,5 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "* Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): Từ 250 tỷ trở lên: 25 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "* Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Dưới 50 tỷ: 10 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "* Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 50 tỷ đến dưới 150 tỷ: 20 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "* Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 150 tỷ đến dưới 250 tỷ: 35 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "* Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 250 tỷ trở lên: 50 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "* Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): + Dưới 50 tỷ: 05 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "* Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): Từ 50 tỷ đến dưới 150 tỷ: 10 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "* Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): + Từ 150 tỷ đến dưới 250 tỷ: 17,5 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "* Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): Từ 250 tỷ trở lên: 25 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "* Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Dưới 50 tỷ: 10 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "* Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 50 tỷ đến dưới 150 tỷ: 20 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "* Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 150 tỷ đến dưới 250 tỷ: 35 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "* Theo quy định tại Thông tư số 25/2022/TT-BTC ngày 28/4/2022: + Từ 250 tỷ trở lên: 50 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "* Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): + Dưới 50 tỷ: 05 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "* Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): Từ 50 tỷ đến dưới 150 tỷ: 10 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "* Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): + Từ 150 tỷ đến dưới 250 tỷ: 17,5 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "* Theo quy định tại Thông tư 64/2025/TT-BTC ngày 30/6/2025  (kể từ ngày 01/7/2025 đến hết ngày 31/12/2026): Từ 250 tỷ trở lên: 25 triệu đồng/ Giấy chứng nhận",
+        "is_free": false,
+        "source_page": null
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Thông tư quy định mức thu, chế độ thu, nộp, quản lý và sử dụng lệ phí trong lĩnh vực chứng khoán",
+      "document_number": "25/2022/TT-BTC",
+      "source_page": 21
+    },
+    {
+      "title": "Nghị định sửa đổi, bổ sung một số điều của Nghị định số 155/2020/NĐ-CP ngày 31 tháng 12 năm 2020 của Chính phủ quy định chi tiết thi hành một số điều của Luật Chứng khoán",
+      "document_number": "245/2025/NĐ-CP",
+      "source_page": 21
+    },
+    {
+      "title": "Thông tư quy định mức thu, miễn một số khoản phí, lệ phí nhằm hỗ trợ cho doanh nghiệp, người dân",
+      "document_number": "64/2025/TT-BTC",
+      "source_page": 21
+    },
+    {
+      "title": "Sửa đổi, bổ sung một số điều của Thông tư số 118/2020/TT-BTC ngày 31 tháng 12 năm 2020 của Bộ trưởng Bộ Tài chính hướng dẫn một số nội dung về chào bán, phát hành chứng khoán, chào mua công khai, mua lại cổ phiếu, đăng ký công ty đại chúng và hủy tư cách công ty đại chúng",
+      "document_number": "115/2025/TT-BTC",
+      "source_page": 21
+    },
+    {
+      "title": "Nghị quyết số 66.7/2025/NQ-CP của Chính phủ: Quy định cắt giảm, đơn giản hóa thủ tục hành chính dựa trên dữ liệu",
+      "document_number": "66.7/2025/NQ-CP",
+      "source_page": 21
+    },
+    {
+      "title": "Luật số 56/2024/QH15 của Quốc hội: Luật sửa đổi, bổ sung một số điều của Luật Chứng khoán, Luật Kế toán, Luật Kiểm toán độc lập, Luật Ngân sách nhà nước, Luật Quản lý, sử dụng tài sản công, Luật Quản lý thuế, Luật Thuế thu nhập cá nhân, Luật Dự trữ quốc gia, Luật Xử lý vi phạm hành chính",
+      "document_number": "56/2024/QH15",
+      "source_page": 21
+    },
+    {
+      "title": "Nghị định 155/2020/NĐ-CP",
+      "document_number": "155/2020/NĐ-CP",
+      "source_page": 4
+    },
+    {
+      "title": "Luật 54/2019/QH14",
+      "document_number": "54/2019/QH14",
+      "source_page": 21
+    },
+    {
+      "title": "Luật sửa đổi, bổ sung một số điều của Luật Doanh nghiệp 2020",
+      "document_number": "76/2025/QH15",
+      "source_page": 21
+    }
+  ],
+  "conditions": "+ Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: điều kiện thực hiện thủ tục theo quy định tương ứng điều kiện thực hiện thủ tục đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.\n+ Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: điều kiện thực hiện thủ tục theo quy định tương ứng điều kiện thực hiện thủ tục đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng.\n+ Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: điều kiện thực hiện thủ tục theo quy định tương ứng điều kiện thực hiện thủ tục đăng ký chào bán trái phiếu ra công chúng.\n+ Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: điều kiện thực hiện thủ tục theo quy định tương ứng điều kiện thực hiện thủ tục đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.\n+ Ngoại trừ điều kiện không có các khoản nợ phải trả quá hạn trên 01 năm (đối với chào bán trái phiếu không chuyển đổi, không kèm chứng quyền) và điều kiện về hoạt động kinh doanh có lãi, không có lỗ lũy kế.\n+ Có phương án cơ cấu lại tổ chức tín dụng được kiểm soát đặc biệt được cấp có thẩm quyền phê duyệt.\n+ Được Ngân hàng Nhà nước Việt Nam chấp thuận đề nghị tăng vốn điều lệ theo quy định của pháp luật về các tổ chức tín dụng.",
+  "results": [
+    {
+      "title": "Công văn từ chối nếu Hồ sơ không đáp ứng điều kiện hoặc không bổ sung đầy đủ, hợp lệ theo quy định",
+      "code": "KQ.G12.001145",
+      "source_page": 22
+    },
+    {
+      "title": "Giấy chứng nhận đăng ký chào bán chứng khoán ra công chúng",
+      "code": "KQ.G12.001206",
+      "source_page": 1
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "+ Bước 1: Tổ chức tín dụng được kiểm soát đặc biệt nộp hồ sơ đề nghị đăng ký chào bán cổ phiếu ra công chúng cho Ủy ban Chứng khoán Nhà nước (UBCKNN).\n+ Bước 2: UBCKNN tiếp nhận, xem xét hồ sơ.\n+ Bước 3: Sau khi nhận đầy đủ hồ sơ hợp lệ, UBCKNN cấp Giấy chứng nhận đăng ký chào bán chứng khoán ra công chúng cho tổ chức tín dụng được kiểm soát đặc biệt. Trường hợp từ chối, UBCKNN phải trả lời bằng văn bản và nêu rõ lý do.",
+    "THÀNH PHẦN HỒ SƠ": "2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Giấy đăng ký chào bán theo Mẫu số 05 Phụ lục ban hành kèm theo Nghị định 155/2020/NĐ-CP.\n2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Cam kết bảo lãnh phát hành (nếu có) theo Mẫu số 04 Phụ lục ban hành kèm theo Nghị định 155/2020/NĐ-CP. Trường hợp có tổ hợp bảo lãnh phát hành, cam kết bảo lãnh phát hành của tổ chức bảo lãnh phát hành chính phải kèm theo hợp đồng giữa các tổ chức bảo lãnh phát hành. Các tài liệu này phải được gửi đến Ủy ban Chứng khoán Nhà nước trước ngày cấp Giấy chứng nhận đăng ký chào bán\n1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Giấy đăng ký chào bán theo Mẫu số 03 Phụ lục ban hành kèm theo Nghị định 155/2020/NĐ-CP;\n1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Bản cáo bạch theo quy định tại Điều 19 Luật Chứng khoán;\n1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Cam kết bảo lãnh phát hành (nếu có) theo Mẫu số 04 Phụ lục ban hành kèm theo Nghị định 155/2020/NĐ-CP. Trường hợp có tổ hợp bảo lãnh phát hành, cam kết bảo lãnh phát hành của tổ chức bảo lãnh phát hành chính phải kèm theo hợp đồng giữa các tổ chức bảo lãnh phát hành. Các tài liệu này phải được gửi đến Ủy ban Chứng khoán Nhà nước trước ngày cấp Giấy chứng nhận đăng ký chào bán\n8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: +Giấy đăng ký chào bán theo Mẫu số 07 Phụ lục ban hành kèm theo Nghị định 155/2020/NĐ-CP\n8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: +Bản cáo bạch theo quy định tại Điều 19 Luật Chứng khoán. Đối với trường hợp Hồ sơ đăng ký chào bán trái phiếu ra công chúng cho nhiều đợt chào bán, Bản cáo bạch nêu rõ các nội dung: c)\tDự án hoặc kế hoạch sử dụng vốn làm nhiều đợt; d)\tKế hoạch chào bán trong đó nêu rõ đối tượng, số lượng, thời gian dự kiến chào bán của từng đợt.\n8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Cam kết bảo lãnh phát hành (nếu có) bao gồm các nội dung tối thiểu theo Mẫu số 08 Phụ lục ban hành kèm theo Nghị định 155/2020/NĐ-CP. Trường hợp có tổ hợp bảo lãnh phát hành, cam kết bảo lãnh phát hành của tổ chức bảo lãnh phát hành chính phải kèm theo hợp đồng giữa các tổ chức bảo lãnh phát hành. Các tài liệu này phải được gửi đến Ủy ban Chứng khoán Nhà nước trước ngày cấp Giấy chứng nhận đăng ký chào bán.\n9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Giấy đăng ký chào bán theo Mẫu số 07 Phụ lục ban hành kèm theo Nghị định số 245/2025/NĐ-CP sửa đổi, bổ sung một số điều của Nghị định số 155/2020/NĐ-CP.\n9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Bản cáo bạch theo quy định tại Điều 19 Luật Chứng khoán. Đối với trường hợp đăng ký chào trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng cho nhiều đợt chào bán của công ty đại chúng, Bản cáo bạch nêu rõ các nội dung: c)\tDự án hoặc kế hoạch sử dụng vốn làm nhiều đợt; d)\tKế hoạch chào bán trong đó nêu rõ đối tượng, số lượng, thời gian dự kiến chào bán của từng đợt.\n9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Cam kết bảo lãnh phát hành (nếu có) bao gồm các nội dung tối thiểu theo Mẫu số 08 Phụ lục ban hành kèm theo Nghị định này. Trường hợp có tổ hợp bảo lãnh phát hành, cam kết bảo lãnh phát hành của tổ chức bảo lãnh phát hành chính phải kèm theo hợp đồng giữa các tổ chức bảo lãnh phát hành. Các tài liệu này phải được gửi đến Ủy ban Chứng khoán Nhà nước trước ngày cấp Giấy chứng nhận đăng ký chào bán.\n2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Điều lệ của tổ chức phát hành;\n2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Cam kết tổ chức phát hành không thuộc trường hợp đang bị truy cứu trách nhiệm hình sự hoặc bị kết án về một trong các tội phạm trật tự quản lý kinh tế mà chưa được xóa án tích\n2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Quyết định của Đại hội đồng cổ đông thông qua phương án phát hành cổ phiếu mới làm cơ sở cho chào bán chứng chỉ lưu ký tại nước ngoài; thông qua phương án sử dụng vốn thu được từ đợt phát hành; thông qua việc niêm yết cổ phiếu trên hệ thống giao dịch chứng khoán sau khi kết thúc đợt phát hành, trong đó: a) Phương án phát hành phải nêu rõ: số lượng cổ phiếu phát hành; giá phát hành hoặc nguyên tắc xác định giá phát hành hoặc ủy quyền cho Hội đồng quản trị xác định giá phát hành; thông qua hoặc ủy quyền cho Hội đồng quản trị thông qua phương án đảm bảo việc phát hành cổ phiếu đáp ứng quy định về tỷ lệ sở hữu nước ngoài. Trường hợp phương án phát hành không nêu cụ thể giá phát hành, nguyên tắc xác định giá phát hành thì giá phát hành được xác định theo quy định tại Luật Doanh nghiệp. b) Đối với đợt phát hành nhằm mục đích huy động phần vốn để thực hiện dự án của tổ chức phát hành chứng khoán cơ sở, phương án sử dụng vốn phải xác định tỷ lệ phát hành thành công cho mục đích thực hiện dự án tối thiểu là 70% tổng số cổ phiếu dự kiến phát hành để thực hiện các dự án. Phương án sử dụng vốn phải bao gồm nội dung về phương án bù đắp phần thiếu hụt vốn dự kiến huy động từ đợt chào bán để thực hiện dự án.\n2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Quyết định của Hội đồng quản trị thông qua hồ sơ đăng ký chào bán cổ phiếu ra công chúng. Đối với việc chào bán cổ phiếu ra công chúng của tổ chức tín dụng, hồ sơ phải có văn bản chấp thuận của Ngân hàng Nhà nước Việt Nam về thay đổi vốn điều lệ. Đối với việc chào bán cổ phiếu ra công chúng của tổ chức kinh doanh bảo hiểm, hồ sơ phải có văn bản chấp thuận của Bộ Tài chính về thay đổi vốn điều lệ.\n2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Báo cáo tài chính của tổ chức phát hành trong 02 năm gần nhất phải đáp ứng quy định tại Điều 20 Luật Chứng khoán, trong đó: a) Trường hợp hồ sơ được nộp trong thời gian 60 ngày kể từ ngày kết thúc kỳ kế toán năm, báo cáo tài chính năm của năm trước đó trong hồ sơ ban đầu có thể là báo cáo tài chính chưa có kiểm toán, nhưng phải có báo cáo tài chính được kiểm toán của 02 năm trước liền kề. Trường hợp tổ chức phát hành hoàn thiện hồ sơ sau 90 ngày kể từ ngày kết thúc kỳ kế toán năm, tổ chức phát hành phải bổ sung báo cáo tài chính năm gần nhất được kiểm toán; b) Trường hợp tổ chức phát hành thực hiện phát hành cổ phiếu để tăng vốn điều lệ sau ngày kết thúc kỳ kế toán gần nhất được kiểm toán hoặc soát xét (trừ trường hợp phát hành cổ phiếu để trả cổ tức, phát hành cổ phiếu để tăng vốn cổ phần từ nguồn vốn chủ sở hữu, phát hành cổ phiếu thưởng cho người lao động, phát hành cổ phiếu để chuyển đổi trái phiếu), tổ chức phát hành phải bổ sung báo cáo về vốn góp của chủ sở hữu được kiểm toán bởi tổ chức kiểm toán được chấp thuận.\n2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Bản cáo bạch\n2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Quyết định của cơ quan có thẩm quyền phê duyệt dự án, phương án bù đắp phần thiếu hụt vốn dự kiến huy động từ đợt chào bán để thực hiện dự án đối với trường hợp quy định tại điểm d khoản 2 Điều 15 của Luật Chứng khoán;\n2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Văn bản xác nhận của ngân hàng, chi nhánh ngân hàng nước ngoài về việc mở tài khoản phong tỏa nhận tiền mua cổ phiếu của đợt chào bán.\n2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Hợp đồng tư vấn hồ sơ đăng ký chào bán cổ phiếu ra công chúng với công ty chứng khoán, trừ trường hợp tổ chức phát hành là công ty chứng khoán\n2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Văn bản cam kết của Hội đồng quản trị triển khai niêm yết hoặc đăng ký giao dịch cổ phiếu trên hệ thống giao dịch chứng khoán yết hoặc đăng ký giao dịch cổ phiếu\n2 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng: + Báo cáo sử dụng vốn thu được từ đợt chào bán gần nhất được kiểm toán trong 02 năm tính đến thời điểm nộp hồ sơ, trừ trường hợp báo cáo tài chính được kiểm toán đã có thuyết minh chi tiết việc sử dụng vốn thu được từ đợt chào bán gần nhất;\n3. Trường hợp Đăng ký chào bán thêm cổ phiếu ra công chúng với giá thấp hơn mệnh giá:: + Tổ chức phát hành bổ sung thêm  Bảng thống kê giá tham chiếu cổ phiếu của 60 ngày giao dịch liên tiếp liền trước ngày chốt danh sách cổ đông để lấy ý kiến hoặc họp Đại hội đồng cổ đông thông qua phương án phát hành có xác nhận của tổ chức tư vấn hồ sơ đăng ký chào bán cổ phiếu ra công chúng.\n1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Quyết định của Đại hội đồng cổ đông thông qua phương án phát hành, thông qua phương án sử dụng vốn thu được từ đợt chào bán ngoại trừ trường hợp chào bán cổ phiếu thuộc sở hữu của cổ đông theo hình thức quy định tại điểm b khoản 1 Điều 10 Nghị định này, thông qua việc niêm yết hoặc đăng ký giao dịch cổ phiếu trên hệ thống giao dịch chứng khoán, trong đó: a) Phương án phát hành phải nêu rõ: giá chào bán hoặc nguyên tắc xác định giá chào bán hoặc ủy quyền cho Hội đồng quản trị xác định giá chào bán (trừ trường hợp chào bán cổ phiếu thuộc sở hữu của cổ đông theo hình thức quy định tại điểm b khoản 1 Điều 10 Nghị định này); số lượng cổ phiếu chào bán; thông qua hoặc ủy quyền cho Hội đồng quản trị thông qua phương án đảm bảo việc phát hành cổ phiếu đáp ứng quy định về tỷ lệ sở hữu nước ngoài. Trường hợp phương án phát hành không nêu cụ thể giá chào bán, nguyên tắc xác định giá chào bán thì giá chào bán được xác định theo quy định tại Luật Doanh nghiệp; b) Phương án sử dụng vốn là phương án sử dụng số vốn được huy động thêm. Trường hợp chào bán nhằm mục đích huy động phần vốn để thực hiện dự án, phương án sử dụng vốn phải bao gồm nội dung về phương án bù đắp phần thiếu hụt vốn dự kiến huy động từ đợt chào bán để thực hiện dự án; c) Trường hợp chào bán cổ phiếu lần đầu ra công chúng kết hợp giữa phát hành huy động thêm vốn cho tổ chức phát hành và chào bán cổ phiếu thuộc sở hữu của cổ đông, phương án phát hành phải nêu rõ nguyên tắc ưu tiên phân phối cổ phiếu.\n1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Báo cáo tài chính của tổ chức phát hành trong 02 năm gần nhất phải đáp ứng quy định tại Điều 20 Luật Chứng khoán, trong đó: a) Trường hợp hồ sơ được nộp trong thời gian 60 ngày kể từ ngày kết thúc kỳ kế toán năm, báo cáo tài chính năm của năm trước đó trong hồ sơ ban đầu có thể là báo cáo tài chính chưa có kiểm toán, nhưng phải có báo cáo tài chính được kiểm toán của 02 năm trước liền kề. Trường hợp tổ chức phát hành hoàn thiện hồ sơ sau 90 ngày kể từ ngày kết thúc kỳ kế toán năm, tổ chức phát hành phải bổ sung báo cáo tài chính năm gần nhất được kiểm toán; b) Trường hợp tổ chức phát hành thực hiện phát hành cổ phiếu để tăng vốn điều lệ sau ngày kết thúc kỳ kế toán gần nhất được kiểm toán hoặc soát xét (trừ trường hợp phát hành cổ phiếu để trả cổ tức, phát hành cổ phiếu để tăng vốn cổ phần từ nguồn vốn chủ sở hữu, phát hành cổ phiếu thưởng cho người lao động, phát hành cổ phiếu để chuyển đổi trái phiếu), tổ chức phát hành phải bổ sung báo cáo về vốn góp của chủ sở hữu được kiểm toán bởi tổ chức kiểm toán được chấp thuận.\n1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Hợp đồng tư vấn hồ sơ đăng ký chào bán cổ phiếu ra công chúng với công ty chứng khoán, trừ trường hợp tổ chức phát hành là công ty chứng khoán\n1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Quyết định của Hội đồng quản trị thông qua hồ sơ đăng ký chào bán cổ phiếu ra công chúng. Đối với việc chào bán cổ phiếu ra công chúng của tổ chức tín dụng, hồ sơ phải có văn bản chấp thuận của Ngân hàng Nhà nước Việt Nam về đề nghị tăng vốn điều lệ theo quy định của pháp luật về các tổ chức tín dụng. Đối với việc chào bán cổ phiếu ra công chúng của tổ chức kinh doanh bảo hiểm, hồ sơ phải có văn bản chấp thuận của Bộ Tài chính về tăng vốn điều lệ theo quy định của pháp luật về kinh doanh bảo hiểm;\n1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: Văn bản cam kết của Hội đồng quản trị triển khai niêm yết hoặc đăng ký giao dịch cổ phiếu trên hệ thống giao dịch chứng khoán.\n1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Văn bản thỏa thuận giữa 4cổ đông sở hữu cổ phiếu được chào bán với công ty về phương án chào bán, giá chào bán trong trường hợp chào bán cổ phiếu thuộc sở hữu của cổ đông;\n1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Điều lệ của tổ chức phát hành;\n1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Văn bản cam kết tối thiểu là 15% số cổ phiếu có quyền biểu quyết của tổ chức phát hành phải được bán cho ít nhất 100 nhà đầu tư không phải là cổ đông lớn; trường hợp vốn điều lệ của tổ chức phát hành từ 1.000 tỷ đồng trở lên, tỷ lệ tối thiểu là 10% số cổ phiếu có quyền biểu quyết của tổ chức phát hành và văn bản cam kết Tổ chức phát hành không thuộc trường hợp đang bị truy cứu trách nhiệm hình sự hoặc đã bị kết án về một trong các tội xâm phạm trật tự quản lý kinh tế mà chưa được xóa án tích;\n1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Văn bản cam kết của các cổ đông lớn trước thời điểm chào bán cổ phiếu lần đầu ra công chúng của tổ chức phát hành về việc cùng nhau nắm giữ ít nhất 20% vốn điều lệ của tổ chức phát hành tối thiểu là 01 năm kể từ ngày kết thúc đợt chào bán;\n1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Văn bản xác nhận của ngân hàng, chi nhánh ngân hàng nước ngoài về việc mở tài khoản phong tỏa nhận tiền mua cổ phiếu của đợt chào bán.\n1 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.: + Báo cáo về vốn điều lệ đã góp tính đến thời điểm đăng ký chào bán cổ phiếu lần đầu ra công chúng được kiểm toán bởi tổ chức kiểm toán độc lập theo quy định của Bộ trưởng Bộ Tài chính.\n\t4 Trường hợp chào bán cổ phiếu ra công chúng của công ty sau quá trình tái cơ cấu doanh nghiệp:: 1a. Đối với trường hợp công ty đại chúng sau quá trình cơ cấu lại doanh nghiệp chào bán thêm cổ phiếu ra công chúng, chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng, công ty sau quá trình cơ cấu lại doanh nghiệp chào bán trái phiếu ra công chúng, hồ sơ đăng ký chào bán chứng khoán theo quy định tại khoản 1, 2, 3, 4 Điều này.\n\t4 Trường hợp chào bán cổ phiếu ra công chúng của công ty sau quá trình tái cơ cấu doanh nghiệp:: 1. Trường hợp công ty đăng ký chào bán trong năm cơ cấu lại, hồ sơ đăng ký chào bán theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng, trong đó báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của 02 năm trước liền kề năm đăng ký chào bán được thay bằng các báo cáo sau: a) Báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của các doanh nghiệp tham gia cơ cấu lại của 02 năm trước liền kề năm cơ cấu lại; b) Báo cáo tổng hợp thông tin tài chính theo quy ước năm trước liền kề năm cơ cấu lại được đảm bảo bởi tổ chức kiểm toán được chấp thuận của tổ chức phát hành; c) Báo cáo tài chính kỳ kế toán cuối cùng trước thời điểm cơ cấu lại của các doanh nghiệp tham gia cơ cấu lại (đối với trường hợp hợp nhất).\n\t4 Trường hợp chào bán cổ phiếu ra công chúng của công ty sau quá trình tái cơ cấu doanh nghiệp:: 2. Trường hợp công ty đăng ký chào bán trong năm liền sau năm cơ cấu lại, hồ sơ đăng ký chào bán theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng, trong đó báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của 02 năm trước liền kề năm đăng ký chào bán được thay bằng các báo cáo sau: a) Báo cáo tài chính kỳ kế toán đầu tiên sau thời điểm cơ cấu lại của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận đáp ứng quy định tại khoản 3 Điều 20 Luật Chứng khoán và báo cáo tổng hợp thông tin tài chính theo quy ước cho kỳ kế toán cuối cùng trước thời điểm cơ cấu lại của tổ chức phát hành được đảm bảo bởi tổ chức kiểm toán được chấp thuận (đối với trường hợp hợp nhất); b) Báo cáo tài chính năm cơ cấu lại được kiểm toán bởi tổ chức kiểm toán được chấp thuận của tổ chức phát hành (đối với trường hợp sáp nhập, mua lại doanh nghiệp, bán tài sản); c) Báo cáo tài chính năm trước liền kề năm cơ cấu lại được kiểm toán bởi tổ chức kiểm toán được chấp thuận của các doanh nghiệp tham gia cơ cấu lại.\n\t4 Trường hợp chào bán cổ phiếu ra công chúng của công ty sau quá trình tái cơ cấu doanh nghiệp:: 3. Trường hợp công ty đăng ký chào bán trong năm thứ hai liền sau năm cơ cấu lại (đối với trường hợp hợp nhất), hồ sơ đăng ký chào bán bao gồm: a) Hồ sơ đăng ký chào bán theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng, trong đó báo cáo tài chính năm thứ hai liền trước năm đăng ký chào bán được thay bằng các báo cáo sau: báo cáo tài chính kỳ kế toán đầu tiên sau thời điểm cơ cấu lại của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận đáp ứng quy định tại khoản 3 Điều 20 Luật Chứng khoán; báo cáo tài chính kỳ kế toán cuối cùng trước thời điểm cơ cấu lại được kiểm toán bởi tổ chức kiểm toán được chấp thuận của các doanh nghiệp tham gia cơ cấu lại; b) Báo cáo tài chính năm trước liền kề năm cơ cấu lại được kiểm toán của các doanh nghiệp tham gia cơ cấu lại.\n\t4 Trường hợp chào bán cổ phiếu ra công chúng của công ty sau quá trình tái cơ cấu doanh nghiệp:: 4. Trường hợp công ty đăng ký chào bán từ năm thứ hai sau năm cơ cấu lại (trường hợp sáp nhập, mua lại doanh nghiệp, bán tài sản), đăng ký chào bán từ năm thứ ba sau năm cơ cấu lại (trường hợp hợp nhất), hồ sơ đăng ký chào bán theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng.\n\t4 Trường hợp chào bán cổ phiếu ra công chúng của công ty sau quá trình tái cơ cấu doanh nghiệp:: 5. Đối với trường hợp công ty sau quá trình cơ cấu lại doanh nghiệp chào bán cổ phiếu lần đầu ra công chúng, hồ sơ đăng ký chào bán theo quy định về hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng, trong đó báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của 02 năm trước liền kề năm đăng ký chào bán được thay bằng các báo cáo sau: a) Trường hợp công ty chào bán trong năm cơ cấu lại: Báo cáo tài chính năm của 02 năm gần nhất được kiểm toán bởi tổ chức kiểm toán được chấp thuận và báo cáo tổng hợp thông tin tài chính theo quy ước cho 02 năm liền trước năm đăng ký chào bán của tổ chức phát hành được đảm bảo bởi tổ chức kiểm toán được chấp thuận với ý kiến chấp nhận toàn phần; Đối với trường hợp hợp nhất: báo cáo tài chính năm của 02 năm gần nhất của các doanh nghiệp tham gia cơ cấu lại được kiểm toán và báo cáo tài chính kỳ kế toán cuối cùng trước thời điểm cơ cấu lại của các doanh nghiệp tham gia cơ cấu lại được kiểm toán; báo cáo tổng hợp thông tin tài chính theo quy ước cho 02 năm liền trước năm hợp nhất của tổ chức phát hành được đảm bảo bởi tổ chức kiểm toán được chấp thuận. b) Trường hợp công ty đăng ký chào bán trong năm liền sau năm cơ cấu lại: Báo cáo tài chính năm của 02 năm liền trước năm đăng ký chào bán của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận và báo cáo tổng hợp thông tin tài chính theo quy ước năm liền trước năm cơ cấu lại của tổ chức phát hành được đảm bảo bởi tổ chức kiểm toán được chấp thuận với ý kiến chấp nhận toàn phần;  Đối với trường hợp hợp nhất: báo cáo tài chính năm của năm liền trước năm hợp nhất và báo cáo tài chính kỳ kế toán cuối cùng từ ngày bắt đầu năm tài chính tính đến thời điểm hợp nhất của các doanh nghiệp tham gia hợp nhất được kiểm toán; báo cáo tổng hợp thông tin tài chính theo quy ước cho năm liền trước năm hợp nhất của tổ chức phát hành được đảm bảo bởi tổ chức kiểm toán được chấp thuận; báo cáo tổng hợp thông tin tài chính theo quy ước cho kỳ kế toán cuối cùng từ ngày bắt đầu năm tài chính đến thời điểm hợp nhất của công ty hợp nhất được đảm bảo bởi tổ chức kiểm toán được chấp thuận và báo cáo tài chính kỳ kế toán đầu tiên từ thời điểm hợp nhất đến thời điểm kết thúc năm tài chính của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận. c) Trường hợp công ty đăng ký chào bán trong năm thứ hai liền sau năm cơ cấu lại: Báo cáo tài chính năm của 02 năm liền trước năm đăng ký chào bán của tổ chức phát hành. Đối với trường hợp hợp nhất: báo cáo tài chính năm của năm liền trước năm hợp nhất và báo cáo tài chính kỳ kế toán cuối cùng từ ngày bắt đầu năm tài chính tính đến thời điểm hợp nhất của các công ty bị hợp nhất được kiểm toán; báo cáo tổng hợp thông tin tài chính theo quy ước cho kỳ kế toán cuối cùng từ ngày bắt đầu năm tài chính đến thời điểm hợp nhất được đảm bảo bởi tổ chức kiểm toán được chấp thuận và báo cáo tài chính kỳ kế toán đầu tiên từ thời điểm hợp nhất đến thời điểm kết thúc năm tài chính của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận; báo cáo tài chính năm liền trước năm đăng ký chào bán của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận. d) Trường hợp công ty đăng ký chào bán từ năm thứ ba liền sau năm cơ cấu lại, hồ sơ đăng ký chào bán cổ phiếu lần đầu ra công chúng theo quy định tại Điều 11 Nghị định này.\n\t5 Trường hợp Đăng ký chào bán chứng khoán ra công chúng của công ty hình thành sau hợp nhất công ty không thuộc trường hợp tái cơ cấu doanh nghiệp: 1. Trường hợp công ty đăng ký chào bán trong năm hợp nhất, hồ sơ đăng ký chào bán bao gồm: a) Hồ sơ đăng ký chào bán theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng, trong đó báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của 02 năm trước liền kề năm đăng ký chào bán được thay bằng: Báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của công ty có tổng giá trị tài sản lớn nhất trong số các công ty bị hợp nhất của 02 năm gần nhất. Báo cáo tài chính kỳ kế toán cuối cùng trước thời điểm hợp nhất của công ty có tổng giá trị tài sản lớn nhất trong số các công ty bị hợp nhất. b) Báo cáo tài chính năm gần nhất được kiểm toán của các công ty bị hợp nhất còn lại.\n\t5 Trường hợp Đăng ký chào bán chứng khoán ra công chúng của công ty hình thành sau hợp nhất công ty không thuộc trường hợp tái cơ cấu doanh nghiệp: 2. Trường hợp công ty đăng ký chào bán trong năm liền sau năm hợp nhất, hồ sơ đăng ký chào bán bao gồm: a) Hồ sơ đăng ký chào bán theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng, trong đó báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của 02 năm trước liền kề năm đăng ký chào bán được thay bằng các báo cáo sau: Báo cáo tài chính kỳ kế toán đầu tiên sau thời điểm hợp nhất của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận đáp ứng quy định tại khoản 3 Điều 20 Luật Chứng khoán và báo cáo tài chính kỳ kế toán cuối cùng trước thời điểm hợp nhất được kiểm toán bởi tổ chức kiểm toán được chấp thuận của công ty có tổng giá trị tài sản lớn nhất trong số các công ty bị hợp nhất đáp ứng quy định tại khoản 3 Điều 20 Luật Chứng khoán; Báo cáo tài chính năm trước liền kề năm hợp nhất được kiểm toán bởi tổ chức kiểm toán được chấp thuận của công ty có tổng giá trị tài sản lớn nhất trong số các công ty bị hợp nhất. b) Báo cáo tài chính năm trước liền kề năm hợp nhất được kiểm toán của các công ty bị hợp nhất còn lại.\n\t5 Trường hợp Đăng ký chào bán chứng khoán ra công chúng của công ty hình thành sau hợp nhất công ty không thuộc trường hợp tái cơ cấu doanh nghiệp: 3. Trường hợp công ty đăng ký chào bán trong năm thứ hai sau năm hợp nhất, hồ sơ đăng ký chào bán bao gồm: a) Hồ sơ đăng ký chào bán theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng, trong đó báo cáo tài chính năm thứ hai liền trước năm đăng ký chào bán được thay bằng: báo cáo tài chính kỳ kế toán đầu tiên sau thời điểm hợp nhất của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận đáp ứng quy định tại khoản 3 Điều 20 Luật Chứng khoán; báo cáo tài chính kỳ kế toán cuối cùng trước thời điểm hợp nhất được kiểm toán bởi tổ chức kiểm toán được chấp thuận của công ty có tổng giá trị tài sản lớn nhất trong số các công ty bị hợp nhất đáp ứng quy định tại khoản 3 Điều 20 Luật Chứng khoán; b) Báo cáo tài chính năm trước liền kề năm hợp nhất được kiểm toán của các công ty bị hợp nhất.\n\t5 Trường hợp Đăng ký chào bán chứng khoán ra công chúng của công ty hình thành sau hợp nhất công ty không thuộc trường hợp tái cơ cấu doanh nghiệp: 4. Trường hợp công ty đăng ký chào bán từ năm thứ ba sau năm hợp nhất trở đi, hồ sơ đăng ký chào bán theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng.\n6 Trường hợp Đăng ký chào bán chứng khoán ra công chúng của công ty sau chia, tách công ty: 1. Trường hợp công ty đăng ký chào bán trong năm tách công ty, hồ sơ đăng ký chào bán của công ty bị tách theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng, trong đó báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của 02 năm trước liền kề năm đăng ký chào bán được thay bằng các báo cáo sau: a) Trường hợp tổng giá trị tài sản các công ty được tách dưới 35% tổng giá trị tài sản của công ty trước khi tách: báo cáo tài chính năm của 02 năm liền trước năm tách được kiểm toán bởi tổ chức kiểm toán được chấp thuận của công ty trước khi tách; b) Trường hợp tổng giá trị tài sản các công ty được tách từ 35% tổng giá trị tài sản trở lên của công ty trước khi tách: báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của công ty trước khi tách của 02 năm liền trước năm tách, báo cáo tổng hợp thông tin tài chính theo quy ước năm trước liền kề năm tách công ty của tổ chức phát hành được đảm bảo bởi tổ chức kiểm toán được chấp thuận.\n6 Trường hợp Đăng ký chào bán chứng khoán ra công chúng của công ty sau chia, tách công ty: 2. Trường hợp công ty đăng ký chào bán trong năm liền sau năm tách, hồ sơ đăng ký chào bán của công ty bị tách theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng, trong đó báo cáo tài chính năm được kiểm toán bởi tổ chức kiểm toán được chấp thuận của 02 năm trước liền kề năm đăng ký chào bán được thay bằng các báo cáo sau: a) Báo cáo tài chính năm liền trước năm đăng ký chào bán của tổ chức phát hành được kiểm toán bởi tổ chức kiểm toán được chấp thuận; b) Báo cáo tài chính năm liền trước năm tách của công ty trước khi tách được kiểm toán bởi tổ chức kiểm toán được chấp thuận.\n6 Trường hợp Đăng ký chào bán chứng khoán ra công chúng của công ty sau chia, tách công ty: 3. Trường hợp công ty đăng ký chào bán từ năm thứ hai sau năm tách trở đi, hồ sơ đăng ký chào bán của công ty bị tách theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng.\n6 Trường hợp Đăng ký chào bán chứng khoán ra công chúng của công ty sau chia, tách công ty: 4. Hồ sơ đăng ký chào bán chứng khoán ra công chúng của công ty hình thành sau chia công ty theo quy định tương ứng về hồ sơ đăng ký chào bán thêm cổ phiếu ra công chúng.\n7 Trường hợp Hồ sơ đăng ký chào bán thêm cổ phiếu cho nhiều đợt chào bán, ngoài các tài liệu như Hồ sơ đăng ký chào bán thêm cổ phiếu, Hồ sơ Công ty cần có thêm:: Trước mỗi đợt chào bán, tổ chức phát hành phải bổ sung các tài liệu sau: a) Tài liệu về tình hình công ty nếu có thay đổi và Bản thông tin cập nhật Bản cáo bạch theo Mẫu số 09 Phụ lục ban hành kèm theo Nghị định này cập nhật các thông tin thay đổi (nếu có);\n7 Trường hợp Hồ sơ đăng ký chào bán thêm cổ phiếu cho nhiều đợt chào bán, ngoài các tài liệu như Hồ sơ đăng ký chào bán thêm cổ phiếu, Hồ sơ Công ty cần có thêm:: b) Báo cáo sử dụng vốn thu được từ đợt chào bán trước được kiểm toán bởi tổ chức kiểm toán được chấp thuận trong trường hợp đợt chào bán sau cách ngày kết thúc đợt chào bán trước từ 06 tháng trở lên.\n8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Quyết định của Đại hội đồng cổ đông hoặc Hội đồng quản trị hoặc Hội đồng thành viên hoặc chủ sở hữu công ty thông qua phương án phát hành, phương án sử dụng và trả nợ vốn thu được từ đợt chào bán trái phiếu ra công chúng, thông qua việc niêm yết trái phiếu trên hệ thống giao dịch chứng khoán, trong đó: c)\tPhương án phát hành phải nêu rõ: loại trái phiếu chào bán, số lượng trái phiếu từng loại chào bán, lãi suất trái phiếu hoặc nguyên tắc xác định lãi suất trái phiếu; kỳ hạn trái phiếu; d)\tTrường hợp đợt chào bán nhằm mục đích huy động phần vốn để thực hiện dự án, phương án sử dụng vốn phải bao gồm nội dung về phương án bù đắp phần thiếu hụt vốn dự kiến huy động từ đợt chào bán để thực hiện dự án\n8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Báo cáo tài chính của tổ chức phát hành trong 02 năm gần nhất phải đáp ứng quy định tại Điều 20 Luật Chứng khoán, trong đó: trường hợp hồ sơ được nộp trong thời gian 60 ngày kể từ ngày kết thúc kỳ kế toán năm, báo cáo tài chính năm của năm trước đó trong hồ sơ ban đầu có thể là báo cáo tài chính chưa có kiểm toán, nhưng phải có báo cáo tài chính được kiểm toán của 02 năm trước liền kề; trường hợp tổ chức phát hành hoàn thiện hồ sơ sau 90 ngày kể từ ngày kết thúc kỳ kế toán năm, tổ chức phát hành phải bổ sung báo cáo tài chính năm gần nhất được kiểm toán.\n8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Hợp đồng tư vấn hồ sơ đăng ký chào bán trái phiếu ra công chúng với công ty chứng khoán, trừ trường hợp tổ chức phát hành là công ty chứng khoán.\n8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Báo cáo kết quả xếp hạng tín nhiệm đối với tổ chức phát hành hoặc trái phiếu đăng ký chào bán trong thời hạn 12 tháng tính đến ngày nộp hồ sơ đăng ký chào bán (nếu có).\n8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Văn bản cam kết của Hội đồng quản trị hoặc Chủ tịch Hội đồng thành viên hoặc Chủ tịch công ty về việc triển khai niêm yết trái phiếu trên hệ thống giao dịch chứng khoán sau khi kết thúc đợt chào bán\n8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Quyết định của Hội đồng quản trị hoặc Hội đồng thành viên hoặc chủ sở hữu công ty thông qua hồ sơ đăng ký chào bán trái phiếu ra công chúng.\n8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Điều lệ của tổ chức phát hành.\n8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Cam kết thực hiện nghĩa vụ của tổ chức phát hành đối với nhà đầu tư về điều kiện phát hành, thanh toán, bảo đảm quyền và lợi ích hợp pháp của nhà đầu tư và các điều kiện khác.\n8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Văn bản xác nhận của ngân hàng, chi nhánh ngân hàng nước ngoài về việc mở tài khoản phong tỏa nhận tiền mua trái phiếu của đợt chào bán.\n8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Hợp đồng giữa tổ chức phát hành với đại diện người sở hữu trái phiếu\n8  Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu ra công chúng.: + Văn bản cam kết đáp ứng quy định tổ chức phát hành không thuộc trường hợp đang bị truy cứu trách nhiệm hình sự hoặc đã bị kết án về một trong các tội xâm phạm trật tự quản lý kinh tế mà chưa được xóa án tích\n9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Quyết định của Đại hội đồng cổ đông thông qua phương án phát hành, phương án sử dụng vốn thu được từ đợt chào bán, việc niêm yết trái phiếu trên hệ thống giao dịch chứng khoán: a)\tPhương án phát hành nêu rõ: loại trái phiếu; số lượng trái phiếu từng loại; lãi suất hoặc nguyên tắc tính lãi suất trái phiếu; kỳ hạn trái phiếu; phương án chuyển đổi trái phiếu (điều kiện, thời hạn, tỷ lệ hoặc phương pháp tính giá chuyển đổi, việc trả nợ vốn trong trường hợp không chuyển đổi trái phiếu, thông qua hoặc ủy quyền cho Hội đồng quản trị thông qua phương án đảm bảo việc phát hành cổ phiếu để chuyển đổi đáp ứng quy định về tỷ lệ sở hữu nước ngoài, các điều khoản khác); phương án thực hiện quyền của chứng quyền (điều kiện, thời hạn, tỷ lệ thực hiện quyền; giá hoặc phương pháp tính giá phát hành; việc trả nợ vốn; thông qua hoặc ủy quyền cho Hội đồng quản trị thông qua phương án đảm bảo việc phát hành cổ+ Quyết định của Đại hội đồng cổ đông thông qua phương án phát hành, phương án sử dụng vốn thu được từ đợt chào bán, việc niêm yết trái phiếu trên hệ thống giao dịch chứng khoán: c)\tPhương án phát hành nêu rõ: loại trái phiếu; số lượng trái phiếu từng loại; lãi suất hoặc nguyên tắc tính lãi suất trái phiếu; kỳ hạn trái phiếu; phương án chuyển đổi trái phiếu (điều kiện, thời hạn, tỷ lệ hoặc phương pháp tính giá chuyển đổi, việc trả nợ vốn trong trường hợp không chuyển đổi trái phiếu, thông qua hoặc ủy quyền cho Hội đồng quản trị thông qua phương án đảm bảo việc phát hành cổ phiếu để chuyển đổi đáp ứng quy định về tỷ lệ sở hữu nước ngoài, các điều khoản khác); phương án thực hiện quyền của chứng quyền (điều kiện, thời hạn, tỷ lệ thực hiện quyền; giá hoặc phương pháp tính giá phát hành; việc trả nợ vốn; thông qua hoặc ủy quyền cho Hội đồng quản trị thông qua phương án đảm bảo việc phát hành cổ phiếu để thực hiện quyền đáp ứng quy định về tỷ lệ sở hữu nước ngoài; các điều khoản khác). Trường hợp giá chuyển đổi, giá phát hành cổ phiếu để thực hiện quyền thấp hơn mệnh giá, việc chuyển đổi, thực hiện quyền chỉ được thực hiện khi tổ chức phát hành có đủ thặng dư vốn cổ phần để bù đắp phần thặng dư âm phát sinh do phát hành cổ phiếu dưới mệnh giá; d)\tPhương án sử dụng vốn thu được từ đợt chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền; phương án dự kiến sử dụng vốn thu được từ việc phát hành cổ phiếu để thực hiện quyền của chứng quyền. Phương án sử dụng vốn thu được từ đợt chào bán trái phiếu phải xác định rõ tỷ lệ chào bán thành công cho mục đích thực hiện dự án tối thiểu 70% tổng số trái phiếu chào bán để thực hiện các dự án (trừ trường hợp chào bán cho các cổ đông hiện hữu theo tỷ lệ sở hữu). Phương án sử dụng vốn phải bao gồm nội dung về phương án bù đắp phần thiếu hụt vốn dự kiến huy động từ đợt chào bán để thực hiện các dự án.\n9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Hợp đồng tư vấn hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng với công ty chứng khoán, trừ trường hợp tổ chức phát hành là công ty chứng khoán.\n9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Các tài liệu khác liên quan đến việc chuyển đổi thành cổ phiếu (nếu có).\n9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Văn bản cam kết của Hội đồng quản trị về việc triển khai niêm yết trái phiếu trên hệ thống giao dịch chứng khoán sau khi kết thúc đợt chào bán.\n9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Quyết định của Hội đồng quản trị thông qua hồ sơ đăng ký chào bán. Đối với việc chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của tổ chức tín dụng, hồ sơ phải có văn bản chấp thuận của Ngân hàng Nhà nước Việt Nam về phương án phát hành trái phiếu ra công chúng theo quy định của pháp luật về các tổ chức tín dụng;\n9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Điều lệ của tổ chức phát hành.\n9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Văn bản xác nhận của ngân hàng, chi nhánh ngân hàng nước ngoài về việc mở tài khoản phong tỏa nhận tiền mua trái phiếu của đợt chào bán.\n9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Báo cáo sử dụng vốn thu được từ đợt chào bán gần nhất được kiểm toán trong 02 năm tính đến thời điểm nộp hồ sơ, trừ trường hợp báo cáo tài chính được kiểm toán đã có thuyết minh chi tiết việc sử dụng vốn thu được từ đợt chào bán gần nhất.\n9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Cam kết thực hiện nghĩa vụ của tổ chức phát hành đối với nhà đầu tư về điều kiện phát hành, thanh toán, bảo đảm quyền và lợi ích hợp pháp của nhà đầu tư và các điều kiện khác.\n9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Báo cáo tài chính của tổ chức phát hành trong 02 năm gần nhất phải đáp ứng quy định tại Điều 20 Luật Chứng khoán, trong đó: trường hợp hồ sơ được nộp trong thời gian 60 ngày kể từ ngày kết thúc kỳ kế toán năm, báo cáo tài chính năm của năm trước đó trong hồ sơ ban đầu có thể là báo cáo tài chính chưa có kiểm toán, nhưng phải có báo cáo tài chính được kiểm toán của 02 năm trước liền kề; trường hợp tổ chức phát hành hoàn thiện hồ sơ sau 90 ngày kể từ ngày kết thúc kỳ kế toán năm, tổ chức phát hành phải bổ sung báo cáo tài chính năm gần nhất được kiểm toán.\n9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Văn bản cam kết đáp ứng quy định tổ chức phát hành không thuộc trường hợp đang bị truy cứu trách nhiệm hình sự hoặc đã bị kết án về một trong các tội xâm phạm trật tự quản lý kinh tế mà chưa được xóa án tích.; Trường hợp khai thác được thông tin trong Cơ sở dữ liệu quốc gia về đăng ký doanh nghiệp: Tổ chức, cá nhân, doanh nghiệp không phải nộp Bản sao Giấy chứng nhận đăng ký doanh nghiệp\n9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Quyết định của cấp có thẩm quyền phê duyệt phương án cơ cấu lại tổ chức tín dụng được kiểm soát đặc biệt.\n9 Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: thủ tục hồ sơ theo quy định tương ứng hồ sơ đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.: + Văn bản của Ngân hàng Nhà nước Việt Nam chấp thuận đề nghị tăng vốn điều lệ theo quy định của pháp luật về các tổ chức tín dụng.; Trường hợp khai thác được thông tin trong Cơ sở dữ liệu quốc gia về đăng ký doanh nghiệp: Tổ chức, cá nhân, doanh nghiệp không phải nộp Bản sao Giấy chứng nhận đăng ký doanh nghiệp",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 30 ngày\nTrực tiếp: 30 ngày\nQua dịch vụ bưu chính: 30 ngày",
+    "CĂN CỨ PHÁP LÝ": "Thông tư quy định mức thu, chế độ thu, nộp, quản lý và sử dụng lệ phí trong lĩnh vực chứng khoán - 25/2022/TT-BTC\nNghị định sửa đổi, bổ sung một số điều của Nghị định số 155/2020/NĐ-CP ngày 31 tháng 12 năm 2020 của Chính phủ quy định chi tiết thi hành một số điều của Luật Chứng khoán - 245/2025/NĐ-CP\nThông tư quy định mức thu, miễn một số khoản phí, lệ phí nhằm hỗ trợ cho doanh nghiệp, người dân - 64/2025/TT-BTC\nSửa đổi, bổ sung một số điều của Thông tư số 118/2020/TT-BTC ngày 31 tháng 12 năm 2020 của Bộ trưởng Bộ Tài chính hướng dẫn một số nội dung về chào bán, phát hành chứng khoán, chào mua công khai, mua lại cổ phiếu, đăng ký công ty đại chúng và hủy tư cách công ty đại chúng - 115/2025/TT-BTC\nNghị quyết số 66.7/2025/NQ-CP của Chính phủ: Quy định cắt giảm, đơn giản hóa thủ tục hành chính dựa trên dữ liệu - 66.7/2025/NQ-CP\nLuật số 56/2024/QH15 của Quốc hội: Luật sửa đổi, bổ sung một số điều của Luật Chứng khoán, Luật Kế toán, Luật Kiểm toán độc lập, Luật Ngân sách nhà nước, Luật Quản lý, sử dụng tài sản công, Luật Quản lý thuế, Luật Thuế thu nhập cá nhân, Luật Dự trữ quốc gia, Luật Xử lý vi phạm hành chính - 56/2024/QH15\nNghị định 155/2020/NĐ-CP - 155/2020/NĐ-CP\nLuật 54/2019/QH14 - 54/2019/QH14\nLuật sửa đổi, bổ sung một số điều của Luật Doanh nghiệp 2020 - 76/2025/QH15",
+    "CƠ QUAN THỰC HIỆN": "Ủy ban Chứng khoán Nhà nước - Bộ tài chính",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "+ Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: điều kiện thực hiện thủ tục theo quy định tương ứng điều kiện thực hiện thủ tục đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.\n+ Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: điều kiện thực hiện thủ tục theo quy định tương ứng điều kiện thực hiện thủ tục đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng.\n+ Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: điều kiện thực hiện thủ tục theo quy định tương ứng điều kiện thực hiện thủ tục đăng ký chào bán trái phiếu ra công chúng.\n+ Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: điều kiện thực hiện thủ tục theo quy định tương ứng điều kiện thực hiện thủ tục đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.\n+ Ngoại trừ điều kiện không có các khoản nợ phải trả quá hạn trên 01 năm (đối với chào bán trái phiếu không chuyển đổi, không kèm chứng quyền) và điều kiện về hoạt động kinh doanh có lãi, không có lỗ lũy kế.\n+ Có phương án cơ cấu lại tổ chức tín dụng được kiểm soát đặc biệt được cấp có thẩm quyền phê duyệt.\n+ Được Ngân hàng Nhà nước Việt Nam chấp thuận đề nghị tăng vốn điều lệ theo quy định của pháp luật về các tổ chức tín dụng.",
+    "KẾT QUẢ XỬ LÝ": "Công văn từ chối nếu Hồ sơ không đáp ứng điều kiện hoặc không bổ sung đầy đủ, hợp lệ theo quy định - KQ.G12.001145\nGiấy chứng nhận đăng ký chào bán chứng khoán ra công chúng - KQ.G12.001206",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "+ Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán cổ phiếu lần đầu ra công chúng: điều kiện thực hiện thủ tục theo quy định tương ứng điều kiện thực hiện thủ tục đăng ký chào bán cổ phiếu lần đầu ra công chúng của công ty cổ phần.\n+ Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán thêm cổ phiếu ra công chúng: điều kiện thực hiện thủ tục theo quy định tương ứng điều kiện thực hiện thủ tục đăng ký chào bán thêm cổ phiếu ra công chúng của công ty đại chúng.\n+ Trường  hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu ra công chúng: điều kiện thực hiện thủ tục theo quy định tương ứng điều kiện thực hiện thủ tục đăng ký chào bán trái phiếu ra công chúng.\n+ Trường hợp tổ chức tín dụng được kiểm soát đặc biệt đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng: điều kiện thực hiện thủ tục theo quy định tương ứng điều kiện thực hiện thủ tục đăng ký chào bán trái phiếu chuyển đổi, trái phiếu kèm chứng quyền ra công chúng của công ty đại chúng.\n+ Ngoại trừ điều kiện không có các khoản nợ phải trả quá hạn trên 01 năm (đối với chào bán trái phiếu không chuyển đổi, không kèm chứng quyền) và điều kiện về hoạt động kinh doanh có lãi, không có lỗ lũy kế.\n+ Có phương án cơ cấu lại tổ chức tín dụng được kiểm soát đặc biệt được cấp có thẩm quyền phê duyệt.\n+ Được Ngân hàng Nhà nước Việt Nam chấp thuận đề nghị tăng vốn điều lệ theo quy định của pháp luật về các tổ chức tín dụng."
+  },
+  "classification": {
+    "sector": {
+      "name": "Chứng khoán",
+      "slug": "chung-khoan"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Ủy ban Chứng khoán Nhà nước - Bộ tài chính",
+        "slug": "uy-ban-chung-khoan-nha-nuoc-bo-tai-chinh"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

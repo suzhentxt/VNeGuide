@@ -1,0 +1,202 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfb-a84e-7416-bf9d-26a6741c746c",
+  "procedure_code": "1.013570",
+  "title": "Thủ tục biên phòng đối với tàu thuyền có trọng tải từ 200 tấn trở xuống, mang quốc tịch của quốc gia có chung biên giới với Việt Nam nhập cảnh, xuất cảnh tại cửa khẩu cảng thuộc khu vực biên giới của Việt Nam với quốc gia đó",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfb-a84e-7416-bf9d-26a6741c746c",
+    "source_file": "chi-tiet-thu-tuc-1.013570.pdf",
+    "source_path": "procedures/cu-tru-va-giay-to-tuy-than/1.013570/chi-tiet-thu-tuc-1.013570.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T04:55:40.586789+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "11508b91bff9feb985b9ff8d98779ddedefe8e8c6e19a29bc28ff9a7564b5e1a"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1909/QĐ-BQP",
+  "implementation_level": "Cấp xã, Cơ quan ngành dọc",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Quản lý biên giới",
+  "target_users": [
+    "Công dân Việt Nam",
+    "Doanh nghiệp",
+    "Người nước ngoài",
+    "Tổ chức nước ngoài"
+  ],
+  "agency": {
+    "competent_agency": "Biên phòng cửa khẩu cảng",
+    "executing_agency": "Đội Thủ tục Biên phòng cửa khẩu cảng"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1: Chậm nhất 04 giờ trước khi tàu thuyền dự kiến đến cảng, người làm thủ tục phải khai báo thông tin liên quan đến tàu thuyền, thuyền viên, hành khách nhập cảnh; chậm nhất 02 giờ trước khi tàu thuyền dự kiến rời cảng, người làm thủ tục phải khai báo thông tin liên quan đến tàu thuyền, thuyền viên, hành khách xuất cảnh theo mẫu biểu quy định trên Cổng thông tin một cửa quốc gia hoặc trên Cổng thông tin thủ tục biên phòng điện tử cảng biển (trường hợp Cổng thông tin một cửa quốc gia có sự cố);\nBước 2: Biên phòng cửa khẩu cảng tiếp nhận khai báo của người làm thủ tục từ Cổng thông tin một cửa quốc gia chuyển đến Cổng thông tin thủ tục biên phòng điện tử cảng biển hoặc trực tiếp trên Cổng thông tin thủ tục biên phòng điện tử cảng biển (trường hợp Cổng thông tin một cửa quốc gia có sự cố);\nBước 3: Biên phòng cửa khẩu cảng thực hiện kiểm tra, xử lý thông tin khai báo, thực hiện thủ tục biên phòng điện tử và gửi xác nhận hoàn thành thủ tục biên phòng điện tử hoặc thông báo từ chối thực hiện thủ tục biên phòng điện tử cho người làm thủ tục thông qua Cổng thông tin một cửa quốc gia hoặc Cổng thông tin thủ tục biên phòng điện tử cảng (trường hợp Cổng thông tin một cửa quốc gia có sự cố);\nBước 4: Chậm nhất 10 giờ sau khi tàu thuyền nhập cảnh neo đậu an toàn tại cảng, chậm nhất ngay trước khi tàu thuyền xuất cảnh rời cảng, người làm thủ tục phải xuất trình các loại giấy tờ tùy thân của thuyền viên, hành khách cho Biên phòng cửa khẩu cảng.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Thành phần hồ sơ khai báo trên Cổng Thông tin một cửa quốc gia hoặc Cổng thông tin thủ tục biên phòng điện tử cảng biển: + Bản khai chung;",
+        "quantity": "1 bản chính",
+        "attachment": "Bản khai chung.docx",
+        "source_page": 2
+      },
+      {
+        "name": "Thành phần hồ sơ khai báo trên Cổng Thông tin một cửa quốc gia hoặc Cổng thông tin thủ tục biên phòng điện tử cảng biển: + Danh sách thuyền viên;",
+        "quantity": "1 bản chính",
+        "attachment": "Danh sách thuyền viên.docx",
+        "source_page": 2
+      },
+      {
+        "name": "Thành phần hồ sơ khai báo trên Cổng Thông tin một cửa quốc gia hoặc Cổng thông tin thủ tục biên phòng điện tử cảng biển: + Danh sách hành khách (nếu có);",
+        "quantity": "1 bản chính",
+        "attachment": "Danh sách hành khách.docx",
+        "source_page": 2
+      },
+      {
+        "name": "Thành phần hồ sơ khai báo trên Cổng Thông tin một cửa quốc gia hoặc Cổng thông tin thủ tục biên phòng điện tử cảng biển: + Bản khai vũ khí và vật liệu nổ (nếu có);",
+        "quantity": "1 bản chính",
+        "attachment": "Bản khai vũ khí vật liệu nổ.docx",
+        "source_page": 2
+      },
+      {
+        "name": "Thành phần hồ sơ khai báo trên Cổng Thông tin một cửa quốc gia hoặc Cổng thông tin thủ tục biên phòng điện tử cảng biển: + Bản khai người trốn trên tàu (nếu có).",
+        "quantity": "1 bản chính",
+        "attachment": "Bản khai người trốn trên tàu.docx",
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Thành phần hồ sơ phải xuất trình: Hộ chiếu hoặc giấy tờ có giá trị đi lại quốc tế của thuyền viên và hành khách hoặc sổ thuyền viên đối với thuyền viên nước ngoài thuộc trường hợp quy định tại khoản 3 Điều 13 Nghị định số 77/2017/NĐ-CP ngày 03/7/2017 của Chính phủ quy định về quản lý, bảo vệ an ninh, trật tự tại cửa khẩu cảng  hoặc giấy tờ theo quy định của điều ước, thỏa thuận đã được ký kết giữa Việt Nam với quốc gia đó.",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": null,
+        "source_page": 3
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "1 giờ",
+      "fee": "0",
+      "description": "Người làm thủ tục gửi hồ sơ và nhận kết quả qua Cổng thông tin một cửa quốc gia hoặc Cổng thông tin thủ tục biên phòng điện tử tại địa chỉ http://thutucbienphong.gov.vn (trong trường hợp Cổng thông tin một cử quốc gia có sự cố).",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Quyết định số 31/2025/QĐ-TTg của Thủ tướng Chính phủ: Sửa đổi, bổ sung một số điều các Quyết định của Thủ tướng Chính phủ về thực hiện thủ tục biên phòng điện tử tại các cửa khẩu do Bộ Quốc phòng quản lý",
+      "document_number": "31/2025/QĐ-TTg",
+      "source_page": 3
+    },
+    {
+      "title": "Về thực hiện thủ tục biên phòng điện tử cảng biển",
+      "document_number": "10/2016/QĐ-TTg",
+      "source_page": 3
+    },
+    {
+      "title": "Nghị định quy định chi tiết một số điều của Bộ luật Hàng hải Việt Nam về quản lý hoạt động hàng hải",
+      "document_number": "58/2017/NĐ-CP",
+      "source_page": 3
+    },
+    {
+      "title": "Quy định về quản lý, bảo an ninh, trật tự tại cửa khẩu cảng",
+      "document_number": "77/2017/NĐ-CP",
+      "source_page": 3
+    },
+    {
+      "title": "Nghị định sửa đổi, bổ sung một số điều của các Nghị định trong lĩnh vực hàng hải",
+      "document_number": "34/2025/NĐ-CP",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Bản điện tử xác nhận hoàn thành thủ tục biên phòng điện tử cảng biển hoặc từ chối thực hiện thủ tục biên phòng điện tử cảng biển của Biên phòng cửa khẩu cảng gửi người làm thủ tục",
+      "code": "KQ.G11.000237",
+      "source_page": 4
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1: Chậm nhất 04 giờ trước khi tàu thuyền dự kiến đến cảng, người làm thủ tục phải khai báo thông tin liên quan đến tàu thuyền, thuyền viên, hành khách nhập cảnh; chậm nhất 02 giờ trước khi tàu thuyền dự kiến rời cảng, người làm thủ tục phải khai báo thông tin liên quan đến tàu thuyền, thuyền viên, hành khách xuất cảnh theo mẫu biểu quy định trên Cổng thông tin một cửa quốc gia hoặc trên Cổng thông tin thủ tục biên phòng điện tử cảng biển (trường hợp Cổng thông tin một cửa quốc gia có sự cố);\nBước 2: Biên phòng cửa khẩu cảng tiếp nhận khai báo của người làm thủ tục từ Cổng thông tin một cửa quốc gia chuyển đến Cổng thông tin thủ tục biên phòng điện tử cảng biển hoặc trực tiếp trên Cổng thông tin thủ tục biên phòng điện tử cảng biển (trường hợp Cổng thông tin một cửa quốc gia có sự cố);\nBước 3: Biên phòng cửa khẩu cảng thực hiện kiểm tra, xử lý thông tin khai báo, thực hiện thủ tục biên phòng điện tử và gửi xác nhận hoàn thành thủ tục biên phòng điện tử hoặc thông báo từ chối thực hiện thủ tục biên phòng điện tử cho người làm thủ tục thông qua Cổng thông tin một cửa quốc gia hoặc Cổng thông tin thủ tục biên phòng điện tử cảng (trường hợp Cổng thông tin một cửa quốc gia có sự cố);\nBước 4: Chậm nhất 10 giờ sau khi tàu thuyền nhập cảnh neo đậu an toàn tại cảng, chậm nhất ngay trước khi tàu thuyền xuất cảnh rời cảng, người làm thủ tục phải xuất trình các loại giấy tờ tùy thân của thuyền viên, hành khách cho Biên phòng cửa khẩu cảng.",
+    "THÀNH PHẦN HỒ SƠ": "Thành phần hồ sơ khai báo trên Cổng Thông tin một cửa quốc gia hoặc Cổng thông tin thủ tục biên phòng điện tử cảng biển: + Bản khai chung;\nThành phần hồ sơ khai báo trên Cổng Thông tin một cửa quốc gia hoặc Cổng thông tin thủ tục biên phòng điện tử cảng biển: + Danh sách thuyền viên;\nThành phần hồ sơ khai báo trên Cổng Thông tin một cửa quốc gia hoặc Cổng thông tin thủ tục biên phòng điện tử cảng biển: + Danh sách hành khách (nếu có);\nThành phần hồ sơ khai báo trên Cổng Thông tin một cửa quốc gia hoặc Cổng thông tin thủ tục biên phòng điện tử cảng biển: + Bản khai vũ khí và vật liệu nổ (nếu có);\nThành phần hồ sơ khai báo trên Cổng Thông tin một cửa quốc gia hoặc Cổng thông tin thủ tục biên phòng điện tử cảng biển: + Bản khai người trốn trên tàu (nếu có).\nThành phần hồ sơ phải xuất trình: Hộ chiếu hoặc giấy tờ có giá trị đi lại quốc tế của thuyền viên và hành khách hoặc sổ thuyền viên đối với thuyền viên nước ngoài thuộc trường hợp quy định tại khoản 3 Điều 13 Nghị định số 77/2017/NĐ-CP ngày 03/7/2017 của Chính phủ quy định về quản lý, bảo vệ an ninh, trật tự tại cửa khẩu cảng  hoặc giấy tờ theo quy định của điều ước, thỏa thuận đã được ký kết giữa Việt Nam với quốc gia đó.",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 1 giờ",
+    "CĂN CỨ PHÁP LÝ": "Quyết định số 31/2025/QĐ-TTg của Thủ tướng Chính phủ: Sửa đổi, bổ sung một số điều các Quyết định của Thủ tướng Chính phủ về thực hiện thủ tục biên phòng điện tử tại các cửa khẩu do Bộ Quốc phòng quản lý - 31/2025/QĐ-TTg\nVề thực hiện thủ tục biên phòng điện tử cảng biển - 10/2016/QĐ-TTg\nNghị định quy định chi tiết một số điều của Bộ luật Hàng hải Việt Nam về quản lý hoạt động hàng hải - 58/2017/NĐ-CP\nQuy định về quản lý, bảo an ninh, trật tự tại cửa khẩu cảng - 77/2017/NĐ-CP\nNghị định sửa đổi, bổ sung một số điều của các Nghị định trong lĩnh vực hàng hải - 34/2025/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Đội Thủ tục Biên phòng cửa khẩu cảng",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Bản điện tử xác nhận hoàn thành thủ tục biên phòng điện tử cảng biển hoặc từ chối thực hiện thủ tục biên phòng điện tử cảng biển của Biên phòng cửa khẩu cảng gửi người làm thủ tục - KQ.G11.000237",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Quản lý biên giới",
+      "slug": "quan-ly-bien-gioi"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp xã",
+        "slug": "cap-xa"
+      },
+      {
+        "name": "Cơ quan ngành dọc",
+        "slug": "co-quan-nganh-doc"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Người nước ngoài",
+        "slug": "nguoi-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Đội Thủ tục Biên phòng cửa khẩu cảng",
+        "slug": "oi-thu-tuc-bien-phong-cua-khau-cang"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

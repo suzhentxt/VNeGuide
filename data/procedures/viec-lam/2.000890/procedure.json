@@ -1,0 +1,180 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfd-8e5d-7569-812a-28f4c6c738c3",
+  "procedure_code": "2.000890",
+  "title": "Cấp phép thành lập văn phòng giám định tư pháp",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfd-8e5d-7569-812a-28f4c6c738c3",
+    "source_file": "chi-tiet-thu-tuc-2.000890.pdf",
+    "source_path": "procedures/viec-lam/2.000890/chi-tiet-thu-tuc-2.000890.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T05:02:12.544578+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "11a65f352dce5599e4489c3523a0f4b0bcf34f725a85044dc6c0a015d34831f2"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "524/QĐ-BTP",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "NOT_ASSIGNED_REGULATION",
+  "sector": "Giám định tư pháp",
+  "target_users": [
+    "Công dân Việt Nam"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Sở Tư pháp"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Giám định viên tư pháp muốn thành lập Văn phòng giám định tư pháp nộp hồ sơ xin cấp phép thành lập Văn phòng giám định tư pháp tại Sở Tư pháp. \nTrong thời hạn 30 ngày, kể từ ngày nhận đủ hồ sơ hợp lệ, Giám đốc Sở Tư pháp xem xét, thẩm định hồ sơ xin phép thành lập Văn phòng giám định tư pháp, thống nhất ý kiến với người đứng đầu cơ quan chuyên môn thuộc Ủy ban nhân dân cấp tỉnh quản lý lĩnh vực giám định tư pháp, trình Chủ tịch Ủy ban nhân dân cấp tỉnh xem xét, quyết định.\nChủ tịch Uỷ ban nhân dân cấp tỉnh nơi đặt trụ sở hoạt động xem xét, quyết định cho phép thành lập Văn phòng giám định tư pháp theo đề nghị của Giám đốc Sở Tư pháp",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Bản sao Quyết định bổ nhiệm giám định viên tư pháp",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Dự thảo Quy chế tổ chức, hoạt động của Văn phòng giám định tư pháp",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Đơn xin phép thành lập",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Đề án thành lập Văn phòng giám định tư pháp phải nêu rõ mục đích thành lập; dự kiến về tên gọi, nhân sự, địa điểm đặt trụ sở; điều kiện về cơ sở vật chất, trang thiết bị, phương tiện giám định theo quy định của bộ, cơ quan ngang bộ quản lý chuyên môn về lĩnh vực giám định và kế hoạch triển khai thực hiện",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "30 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "30 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Luật Giám định tư pháp năm 2012",
+      "document_number": "13/2012/QH13",
+      "source_page": 2
+    },
+    {
+      "title": "Nghị định số 85/2013/NĐ-CP ngày 29/7/2013 của Chính phủ quy định chi tiết và biện pháp thi hành Luật Giám định tư pháp",
+      "document_number": "85/2013/NĐ-CP",
+      "source_page": 2
+    },
+    {
+      "title": "Nghị định số 157/2020/NĐ-CP ngày 31/12/2020 của Chính phủ sửa đổi, bổ sung một số điều của Nghị định số 85/2013/NĐ-CP ngày 29/7/2013 của Chính phủ quy định chi tiết và biện pháp thi hành Luật Giám định tư pháp",
+      "document_number": "157/2020/NĐ-CP",
+      "source_page": 2
+    },
+    {
+      "title": "Luật sửa đổi, bổ sung một số điều của Luật Giám định tư pháp năm 2020",
+      "document_number": "56/2020/QH14",
+      "source_page": 2
+    }
+  ],
+  "conditions": "Giám định viên tư pháp được thành lập Văn phòng giám định tư pháp khi có đủ các điều kiện sau đây:\n+ Có từ đủ 03 năm trở lên là giám định viên tư pháp và có hoạt động giám định trong lĩnh vực đề nghị thành lập Văn phòng;  \n+ Có Đề án thành lập theo quy định tại điểm d khoản 2 Điều 16 của Luật giám định tư pháp.\n- Cán bộ, công chức, viên chức, sĩ quan quân đội, sĩ quan công an nhân dân, quân nhân chuyên nghiệp, công nhân quốc phòng không được thành lập Văn phòng giám định tư pháp.",
+  "results": [
+    {
+      "title": "Quyết định cho phép thành lập Văn phòng giám định tư pháp",
+      "code": "KQ.G15.000183",
+      "source_page": 1
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Giám định viên tư pháp muốn thành lập Văn phòng giám định tư pháp nộp hồ sơ xin cấp phép thành lập Văn phòng giám định tư pháp tại Sở Tư pháp. \nTrong thời hạn 30 ngày, kể từ ngày nhận đủ hồ sơ hợp lệ, Giám đốc Sở Tư pháp xem xét, thẩm định hồ sơ xin phép thành lập Văn phòng giám định tư pháp, thống nhất ý kiến với người đứng đầu cơ quan chuyên môn thuộc Ủy ban nhân dân cấp tỉnh quản lý lĩnh vực giám định tư pháp, trình Chủ tịch Ủy ban nhân dân cấp tỉnh xem xét, quyết định.\nChủ tịch Uỷ ban nhân dân cấp tỉnh nơi đặt trụ sở hoạt động xem xét, quyết định cho phép thành lập Văn phòng giám định tư pháp theo đề nghị của Giám đốc Sở Tư pháp",
+    "THÀNH PHẦN HỒ SƠ": "Bản sao Quyết định bổ nhiệm giám định viên tư pháp\nDự thảo Quy chế tổ chức, hoạt động của Văn phòng giám định tư pháp\nĐơn xin phép thành lập\nĐề án thành lập Văn phòng giám định tư pháp phải nêu rõ mục đích thành lập; dự kiến về tên gọi, nhân sự, địa điểm đặt trụ sở; điều kiện về cơ sở vật chất, trang thiết bị, phương tiện giám định theo quy định của bộ, cơ quan ngang bộ quản lý chuyên môn về lĩnh vực giám định và kế hoạch triển khai thực hiện",
+    "CÁCH THỨC THỰC HIỆN": "Qua dịch vụ bưu chính: 30 ngày\nTrực tiếp: 30 ngày",
+    "CĂN CỨ PHÁP LÝ": "Luật Giám định tư pháp năm 2012 - 13/2012/QH13\nNghị định số 85/2013/NĐ-CP ngày 29/7/2013 của Chính phủ quy định chi tiết và biện pháp thi hành Luật Giám định tư pháp - 85/2013/NĐ-CP\nNghị định số 157/2020/NĐ-CP ngày 31/12/2020 của Chính phủ sửa đổi, bổ sung một số điều của Nghị định số 85/2013/NĐ-CP ngày 29/7/2013 của Chính phủ quy định chi tiết và biện pháp thi hành Luật Giám định tư pháp - 157/2020/NĐ-CP\nLuật sửa đổi, bổ sung một số điều của Luật Giám định tư pháp năm 2020 - 56/2020/QH14",
+    "CƠ QUAN THỰC HIỆN": "Sở Tư pháp",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "Giám định viên tư pháp được thành lập Văn phòng giám định tư pháp khi có đủ các điều kiện sau đây:\n+ Có từ đủ 03 năm trở lên là giám định viên tư pháp và có hoạt động giám định trong lĩnh vực đề nghị thành lập Văn phòng;  \n+ Có Đề án thành lập theo quy định tại điểm d khoản 2 Điều 16 của Luật giám định tư pháp.\n- Cán bộ, công chức, viên chức, sĩ quan quân đội, sĩ quan công an nhân dân, quân nhân chuyên nghiệp, công nhân quốc phòng không được thành lập Văn phòng giám định tư pháp.",
+    "KẾT QUẢ XỬ LÝ": "Quyết định cho phép thành lập Văn phòng giám định tư pháp - KQ.G15.000183",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "Giám định viên tư pháp được thành lập Văn phòng giám định tư pháp khi có đủ các điều kiện sau đây:\n+ Có từ đủ 03 năm trở lên là giám định viên tư pháp và có hoạt động giám định trong lĩnh vực đề nghị thành lập Văn phòng;  \n+ Có Đề án thành lập theo quy định tại điểm d khoản 2 Điều 16 của Luật giám định tư pháp.\n- Cán bộ, công chức, viên chức, sĩ quan quân đội, sĩ quan công an nhân dân, quân nhân chuyên nghiệp, công nhân quốc phòng không được thành lập Văn phòng giám định tư pháp."
+  },
+  "classification": {
+    "sector": {
+      "name": "Giám định tư pháp",
+      "slug": "giam-inh-tu-phap"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Sở Tư pháp",
+        "slug": "so-tu-phap"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

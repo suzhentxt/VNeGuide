@@ -1,0 +1,186 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfc-f94e-74af-88d2-7791a60b54a9",
+  "procedure_code": "3.000030",
+  "title": "Mua hàng dự trữ quốc gia theo phương thức mua trực tiếp rộng rãi của mọi đối tượng",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfc-f94e-74af-88d2-7791a60b54a9",
+    "source_file": "chi-tiet-thu-tuc-3.000030.pdf",
+    "source_path": "procedures/viec-lam/3.000030/chi-tiet-thu-tuc-3.000030.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T05:02:31.812279+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "a3e15b7482f834ed02a745bb81d4b0db59508320469834f709aba4515a5d2649"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1014/QĐ-BTC",
+  "implementation_level": "Cấp tỉnh, Cơ quan ngành dọc",
+  "procedure_type": "OTHER",
+  "sector": "Dự trữ",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Công dân Việt Nam",
+    "Doanh nghiệp"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Chi cục Dự trữ Nhà nước, Cục Dự trữ Nhà nước khu vực"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1: Thông báo công khai kế hoạch mua thóc DTQG\nCăn cứ Quyết định của Tổng cục trưởng Tổng cục DTNN về việc phê duyệt kế hoạch mua thóc dự trữ quốc gia theo phương thức mua trực tiếp rộng rãi của mọi đối tượng, Cục DTNN KV thông báo kế hoạch mua thóc dự trữ quốc gia trên báo (03 kỳ liên tiếp) hoặc trên đài truyền hình (03 lần liên tiếp) của địa phương và tại địa điểm mua thóc; Trang thông tin điện tử của Bộ Tài chính, của Tổng cục Dự trữ Nhà nước. Nội dung kế hoạch thông báo gồm:\n- Số lượng,\n- Tiêu chuẩn chất lượng,\n- Địa điểm nhập hàng;\n- Giá mua thóc,\n- Thời điểm mở cửa kho,\n- Thời hạn kết thúc mua thóc.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "Bước 2: Thực hiện mua thóc trực tiếp, rộng rãi từ mọi đối tượng\nCục trưởng Cục Dự trữ Nhà nước khu vực tổ chức triển khai thực hiện mua đủ số lượng, chất lượng thóc mua phải đảm bảo theo đúng quy định, không để xảy ra tiêu cực, thất thoát tài sản nhà nước và chịu trách nhiệm trước pháp luật và trước Tổng cục trưởng Tổng cục Dự trữ Nhà nước về việc thực hiện kế hoạch mua thóc của mình. Trường hợp áp dụng hình thức mua thông qua hợp đồng: Cục Dự trữ Nhà nước khu vực ký kết hoặc ủy quyền cho Chi cục DTNN ký kết hợp đồng mua bán với các tổ chức, đơn vị, cá nhân có nhu cầu bán thóc cho DTQG.\nThời gian thực hiện: Theo quy định tại Quyết định phê duyệt kế hoạch mua thốc theo phương thức trực tiếp rộng rãi của mọi đối tượng của Tổng cục trưởng Tổng cục DTNN.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "- Trường hợp mua không qua hợp đồng:: Chi cục DTNN lập bảng kê, trong đó phản ánh đầy đủ các thông tin: Tên, số chứng minh thư nhân dân và địa chỉ của người bán hàng, ngày, tháng mua thóc; phiếu nhập kho.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Trường hợp mua thông qua hợp đồng:: + Biên bản thanh lý hợp đồng.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Trường hợp mua thông qua hợp đồng:: + Hóa đơn bán hàng theo quy định của Bộ Tài chính (đối với tổ chức, đơn vị);",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Trường hợp mua thông qua hợp đồng:: + Hợp đồng mua, bán;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Trường hợp mua thông qua hợp đồng:: + Biên bản giao nhận hàng giữa Chi cục Dự trữ Nhà nước và bên bán;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "1",
+      "fee": "0",
+      "description": "",
+      "source_page": 1
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 1
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Luật dự trữ quốc gia",
+      "document_number": "22/2012/QH13",
+      "source_page": 3
+    },
+    {
+      "title": "Thông tư 89/2015/TT-BTC",
+      "document_number": "89/2015/TT-BTC",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Mua thóc nhập kho dự trữ quốc gia",
+      "code": "KQ.G12.000596",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1: Thông báo công khai kế hoạch mua thóc DTQG\nCăn cứ Quyết định của Tổng cục trưởng Tổng cục DTNN về việc phê duyệt kế hoạch mua thóc dự trữ quốc gia theo phương thức mua trực tiếp rộng rãi của mọi đối tượng, Cục DTNN KV thông báo kế hoạch mua thóc dự trữ quốc gia trên báo (03 kỳ liên tiếp) hoặc trên đài truyền hình (03 lần liên tiếp) của địa phương và tại địa điểm mua thóc; Trang thông tin điện tử của Bộ Tài chính, của Tổng cục Dự trữ Nhà nước. Nội dung kế hoạch thông báo gồm:\n- Số lượng,\n- Tiêu chuẩn chất lượng,\n- Địa điểm nhập hàng;\n- Giá mua thóc,\n- Thời điểm mở cửa kho,\n- Thời hạn kết thúc mua thóc.\nBước 2: Thực hiện mua thóc trực tiếp, rộng rãi từ mọi đối tượng\nCục trưởng Cục Dự trữ Nhà nước khu vực tổ chức triển khai thực hiện mua đủ số lượng, chất lượng thóc mua phải đảm bảo theo đúng quy định, không để xảy ra tiêu cực, thất thoát tài sản nhà nước và chịu trách nhiệm trước pháp luật và trước Tổng cục trưởng Tổng cục Dự trữ Nhà nước về việc thực hiện kế hoạch mua thóc của mình. Trường hợp áp dụng hình thức mua thông qua hợp đồng: Cục Dự trữ Nhà nước khu vực ký kết hoặc ủy quyền cho Chi cục DTNN ký kết hợp đồng mua bán với các tổ chức, đơn vị, cá nhân có nhu cầu bán thóc cho DTQG.\nThời gian thực hiện: Theo quy định tại Quyết định phê duyệt kế hoạch mua thốc theo phương thức trực tiếp rộng rãi của mọi đối tượng của Tổng cục trưởng Tổng cục DTNN.",
+    "THÀNH PHẦN HỒ SƠ": "- Trường hợp mua không qua hợp đồng:: Chi cục DTNN lập bảng kê, trong đó phản ánh đầy đủ các thông tin: Tên, số chứng minh thư nhân dân và địa chỉ của người bán hàng, ngày, tháng mua thóc; phiếu nhập kho.\n- Trường hợp mua thông qua hợp đồng:: + Biên bản thanh lý hợp đồng.\n- Trường hợp mua thông qua hợp đồng:: + Hóa đơn bán hàng theo quy định của Bộ Tài chính (đối với tổ chức, đơn vị);\n- Trường hợp mua thông qua hợp đồng:: + Hợp đồng mua, bán;\n- Trường hợp mua thông qua hợp đồng:: + Biên bản giao nhận hàng giữa Chi cục Dự trữ Nhà nước và bên bán;",
+    "CÁCH THỨC THỰC HIỆN": "Trực tiếp: 1",
+    "CĂN CỨ PHÁP LÝ": "Luật dự trữ quốc gia - 22/2012/QH13\nThông tư 89/2015/TT-BTC - 89/2015/TT-BTC",
+    "CƠ QUAN THỰC HIỆN": "Chi cục Dự trữ Nhà nước, Cục Dự trữ Nhà nước khu vực",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Mua thóc nhập kho dự trữ quốc gia - KQ.G12.000596",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Dự trữ",
+      "slug": "du-tru"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      },
+      {
+        "name": "Cơ quan ngành dọc",
+        "slug": "co-quan-nganh-doc"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Chi cục Dự trữ Nhà nước",
+        "slug": "chi-cuc-du-tru-nha-nuoc"
+      },
+      {
+        "name": "Cục Dự trữ Nhà nước khu vực",
+        "slug": "cuc-du-tru-nha-nuoc-khu-vuc"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

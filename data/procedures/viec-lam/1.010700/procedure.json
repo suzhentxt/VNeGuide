@@ -1,0 +1,215 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfc-b2f1-7188-93aa-29a1d6c3aea9",
+  "procedure_code": "1.010700",
+  "title": "Đăng ký tổ chức lớp cập nhật kiến thức/ Thông báo kế hoạch, báo cáo kết quả tổ chức lớp cập nhật kiến thức",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfc-b2f1-7188-93aa-29a1d6c3aea9",
+    "source_file": "chi-tiet-thu-tuc-1.010700.pdf",
+    "source_path": "procedures/viec-lam/1.010700/chi-tiet-thu-tuc-1.010700.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T05:00:46.984080+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "a6da9f0702841defdfb784911b228bcf4e787c9ba673cfe717882d43423f6702"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "4472/QĐ-BTC",
+  "implementation_level": "Cấp bộ, Cấp tỉnh, Cơ quan ngành dọc",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Thuế",
+  "target_users": [
+    "Doanh nghiệp có vốn đầu tư nước ngoài",
+    "Doanh nghiệp",
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Cục Thuế - Bộ tài chính"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1: Cơ sở đào tạo, tổ chức xã hội nghề nghiệp về đại lý thuế, đơn vị tổ chức cập nhật kiến thức thực hiện:\n++ Trường hợp (1) đăng ký tổ chức lớp cập nhật kiến thức: Cơ sở đào tạo, tổ chức xã hội nghề nghiệp về đại lý thuế nếu đáp ứng điều kiện theo quy định tại khoản 3, Điều 21 Thông tư số 10/2021/TT-BTC ngày 26/01/2021 của Bộ Tài chính hướng dẫn quản lý hành nghề dịch vụ làm thủ tục về thuế và có nhu cầu thì lập hồ sơ đăng ký tổ chức cập nhật kiến thức gửi đến Cục Thuế;\n++ Trường hợp (2) thông báo kế hoạch, báo cáo kết quả tổ chức lớp cập nhật kiến thức: Đơn vị tổ chức cập nhật kiến thức gửi thông báo kế hoạch các lớp cập nhật kiến thức trong quý I hàng năm; gửi báo cáo kết quả tổ chức cập nhật trong thời hạn 05 ngày làm việc kể từ ngày kết thúc lớp học đến Cục Thuế.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "Bước 2: Cục Thuế thực hiện tiếp nhận hồ sơ theo quy định. Đối với trường hợp (1), Cục Thuế giải quyết và trả kết quả.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Trường hợp (1) đăng ký tổ chức lớp cập nhật kiến thức: +++ Bản đăng ký tổ chức cập nhật kiến thức hành nghề dịch vụ làm thủ tục về thuế theo Mẫu số 01/CNKT tại Phụ lục ban hành kèm theo Quy chế tổ chức cập nhật kiến thức hành nghề dịch vụ làm thủ tục về thuế theo Quyết định số 811/QĐ-TCT ngày 11/6/2021 của Tổng cục Thuế về việc ban hành Quy chế tổ chức cập nhật kiến thức hành nghề dịch vụ làm thủ tục về thuế",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Trường hợp (1) đăng ký tổ chức lớp cập nhật kiến thức: +++ Bản sao có chứng thực quyết định thành lập cơ sở đào tạo, tổ chức xã hội nghề nghiệp do cơ quan nhà nước có thẩm quyền cấp;",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Trường hợp (1) đăng ký tổ chức lớp cập nhật kiến thức: +++ Tài liệu chứng minh đáp ứng điều kiện giảng viên",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Trường hợp (2) thông báo kế hoạch, báo cáo kết quả tổ chức lớp cập nhật kiến thức: Báo cáo kết quả tổ chức lớp cập nhật kiến thức Mẫu 2.5 tại Phụ lục ban hành kèm theo Thông tư số 10/2021/TT-BTC ngày 26/01/2021 của Bộ Tài chính hướng dẫn quản lý hành nghề dịch vụ làm thủ tục về thuế",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "10 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "10 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "10 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Luật Quản lý thuế",
+      "document_number": "38/2019/QH14",
+      "source_page": 3
+    },
+    {
+      "title": "Thông tư 10/2021/TT-BTC",
+      "document_number": "10/2021/TT-BTC",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Hồ sơ gửi đến cơ quan thuế không có kết quả giải quyết",
+      "code": "KQ.G12.000429",
+      "source_page": 3
+    },
+    {
+      "title": "GGiấy xác nhận đủ điều kiện tổ chức cập nhật kiến thức",
+      "code": "KQ.G12.000240",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1: Cơ sở đào tạo, tổ chức xã hội nghề nghiệp về đại lý thuế, đơn vị tổ chức cập nhật kiến thức thực hiện:\n++ Trường hợp (1) đăng ký tổ chức lớp cập nhật kiến thức: Cơ sở đào tạo, tổ chức xã hội nghề nghiệp về đại lý thuế nếu đáp ứng điều kiện theo quy định tại khoản 3, Điều 21 Thông tư số 10/2021/TT-BTC ngày 26/01/2021 của Bộ Tài chính hướng dẫn quản lý hành nghề dịch vụ làm thủ tục về thuế và có nhu cầu thì lập hồ sơ đăng ký tổ chức cập nhật kiến thức gửi đến Cục Thuế;\n++ Trường hợp (2) thông báo kế hoạch, báo cáo kết quả tổ chức lớp cập nhật kiến thức: Đơn vị tổ chức cập nhật kiến thức gửi thông báo kế hoạch các lớp cập nhật kiến thức trong quý I hàng năm; gửi báo cáo kết quả tổ chức cập nhật trong thời hạn 05 ngày làm việc kể từ ngày kết thúc lớp học đến Cục Thuế.\nBước 2: Cục Thuế thực hiện tiếp nhận hồ sơ theo quy định. Đối với trường hợp (1), Cục Thuế giải quyết và trả kết quả.",
+    "THÀNH PHẦN HỒ SƠ": "Trường hợp (1) đăng ký tổ chức lớp cập nhật kiến thức: +++ Bản đăng ký tổ chức cập nhật kiến thức hành nghề dịch vụ làm thủ tục về thuế theo Mẫu số 01/CNKT tại Phụ lục ban hành kèm theo Quy chế tổ chức cập nhật kiến thức hành nghề dịch vụ làm thủ tục về thuế theo Quyết định số 811/QĐ-TCT ngày 11/6/2021 của Tổng cục Thuế về việc ban hành Quy chế tổ chức cập nhật kiến thức hành nghề dịch vụ làm thủ tục về thuế\nTrường hợp (1) đăng ký tổ chức lớp cập nhật kiến thức: +++ Bản sao có chứng thực quyết định thành lập cơ sở đào tạo, tổ chức xã hội nghề nghiệp do cơ quan nhà nước có thẩm quyền cấp;\nTrường hợp (1) đăng ký tổ chức lớp cập nhật kiến thức: +++ Tài liệu chứng minh đáp ứng điều kiện giảng viên\nTrường hợp (2) thông báo kế hoạch, báo cáo kết quả tổ chức lớp cập nhật kiến thức: Báo cáo kết quả tổ chức lớp cập nhật kiến thức Mẫu 2.5 tại Phụ lục ban hành kèm theo Thông tư số 10/2021/TT-BTC ngày 26/01/2021 của Bộ Tài chính hướng dẫn quản lý hành nghề dịch vụ làm thủ tục về thuế",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 10 ngày làm việc\nQua dịch vụ bưu chính: 10 ngày làm việc\nTrực tiếp: 10 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Luật Quản lý thuế - 38/2019/QH14\nThông tư 10/2021/TT-BTC - 10/2021/TT-BTC",
+    "CƠ QUAN THỰC HIỆN": "Cục Thuế - Bộ tài chính",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Hồ sơ gửi đến cơ quan thuế không có kết quả giải quyết - KQ.G12.000429\nGGiấy xác nhận đủ điều kiện tổ chức cập nhật kiến thức - KQ.G12.000240",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Thuế",
+      "slug": "thue"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      },
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      },
+      {
+        "name": "Cơ quan ngành dọc",
+        "slug": "co-quan-nganh-doc"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Cục Thuế - Bộ tài chính",
+        "slug": "cuc-thue-bo-tai-chinh"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

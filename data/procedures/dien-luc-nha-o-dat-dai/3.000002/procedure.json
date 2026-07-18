@@ -1,0 +1,264 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2c00-00a2-741d-886e-003c1feda196",
+  "procedure_code": "3.000002",
+  "title": "Cấp điện mới từ lưới điện trung áp",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2c00-00a2-741d-886e-003c1feda196",
+    "source_file": "chi-tiet-thu-tuc-3.000002.pdf",
+    "source_path": "procedures/dien-luc-nha-o-dat-dai/3.000002/chi-tiet-thu-tuc-3.000002.pdf",
+    "page_count": 5,
+    "extracted_at": "2026-07-18T04:57:57.649233+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "d2e2b4873bf647f5e260127a0b5cf2b9159c778524860f63721c4f26a9e23e1d"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "4221/EVN-KDMBD",
+  "implementation_level": "Cấp bộ, Cơ quan khác",
+  "procedure_type": "OTHER",
+  "sector": "Dịch vụ cung cấp điện mới",
+  "target_users": [
+    "Doanh nghiệp có vốn đầu tư nước ngoài",
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Công dân Việt Nam",
+    "Doanh nghiệp",
+    "Người nước ngoài",
+    "Tổ chức nước ngoài",
+    "Hợp tác xã"
+  ],
+  "agency": {
+    "competent_agency": "Tập đoàn Điện lực Việt Nam",
+    "executing_agency": "Tập đoàn Điện lực Việt Nam"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Tiếp nhận yêu cầu\nKhảo sát hiện trường\nThỏa thuận đấu nối  \nKý kết HĐMBĐ, nghiệm thu và đóng điện",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Trường hợp khách hàng mua buôn điện nông thôn: Giấy phép hoạt động Điện lực (trường hợp mua buôn điện có công suất lớn hơn 50kVA)",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Trường hợp khách hàng mua buôn điện nông thôn: Giấy đề nghị mua điện",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Trường hợp khách hàng mua buôn điện nông thôn: Giấy tờ tùy thân của cá nhân hoặc người đại diện hợp pháp của tổ chức; là một trong những loại giấy tờ sau: Giấy chứng minh nhân dân; Giấy chứng minh công an nhân dân; Giấy chứng minh sỹ quan quân đội nhân dân; Thẻ căn cước công dân; Hộ chiếu hoặc Giấy xác nhận nhân thân của công an phường, xã (có ảnh đóng dấu giáp lai).",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Trường hợp khách hàng mua buôn điện nông thôn: Giấy tờ xác định chủ thể HĐMBĐ là một trong các loại giấy tờ có tên của Tổ chức/cá nhân  tại địa điểm mua điện sau: Hộ khẩu thường trú; Sổ tạm trú; Giấy chứng nhận quyền sở hữu nhà; Quyết định phân nhà; Hợp đồng mua bán nhà; Hợp đồng thuê nhà có thời hạn từ 01 năm trở lên và đồng ý của chủ sở hữu; Giấy chứng nhận quyền sử dụng đất; Hợp đồng ủy quyền quản lý và sử dụng nhà/đất; Hợp đồng thuê địa điểm và đồng ý của chủ sở hữu; Giấy chứng nhận đăng ký doanh nghiệp; Giấy chứng nhận đăng ký kinh doanh; Giấy chứng nhận đăng ký hộ kinh doanh; Giấy chứng nhận đăng ký hoạt động chi nhánh, văn phòng đại diện; Giấy phép đầu tư; Quyết định thành lập đơn vị.",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Trường hợp khách hàng mua buôn điện nông thôn: Thông tin đăng ký đấu nối",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Trường hợp khách hàng mua điện ngoài sinh hoạt: Giấy tờ xác định chủ thể HĐMBĐ là một trong các loại giấy tờ có tên của Tổ chức/cá nhân  tại địa điểm mua điện sau: Hộ khẩu thường trú; Sổ tạm trú; Giấy chứng nhận quyền sở hữu nhà; Quyết định phân nhà; Hợp đồng mua bán nhà; Hợp đồng thuê nhà có thời hạn từ 01 năm trở lên và đồng ý của chủ sở hữu; Giấy chứng nhận quyền sử dụng đất; Hợp đồng ủy quyền quản lý và sử dụng nhà/đất; Hợp đồng thuê địa điểm và đồng ý của chủ sở hữu; Giấy chứng nhận đăng ký doanh nghiệp; Giấy chứng nhận đăng ký kinh doanh; Giấy chứng nhận đăng ký hộ kinh doanh; Giấy chứng nhận đăng ký hoạt động chi nhánh, văn phòng đại diện; Giấy phép đầu tư; Quyết định thành lập đơn vị.",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Trường hợp khách hàng mua điện ngoài sinh hoạt: Giấy tờ xác định mục đích sử dụng điện là một trong những loại giấy tờ sau: Giấy chứng nhận đăng ký doanh nghiệp; Giấy chứng nhận đăng ký kinh doanh; Giấy chứng nhận đăng ký hộ kinh doanh; Giấy chứng nhận đăng ký hoạt động chi nhánh, văn phòng đại diện; Giấy phép đầu tư; Quyết định thành lập đơn vị; Biên bản khảo sát cấp điện của Điện lực/Công ty Điện lực; Thông tin của doanh nghiệp trên Cổng thông tin đăng ký doanh nghiệp quốc gia tại địa chỉ http://www.dangkykinhdoanh.gov.vn.",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "Trường hợp khách hàng mua điện ngoài sinh hoạt: Giấy tờ tùy thân của cá nhân hoặc người đại diện hợp pháp của tổ chức; là một trong những loại giấy tờ sau: Giấy chứng minh nhân dân; Giấy chứng minh công an nhân dân; Giấy chứng minh sỹ quan quân đội nhân dân; Thẻ căn cước công dân; Hộ chiếu hoặc Giấy xác nhận nhân thân của công an phường, xã (có ảnh đóng dấu giáp lai).",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Trường hợp khách hàng mua điện ngoài sinh hoạt: Thông tin đăng ký đấu nối",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Trường hợp khách hàng mua điện ngoài sinh hoạt: Giấy đề nghị mua điện",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Trường hợp khách hàng mua điện sinh hoạt: Giấy tờ xác định chủ thể HĐMBĐ là một trong các loại giấy tờ có tên của Tổ chức/cá nhân  tại địa điểm mua điện sau: Hộ khẩu thường trú; Sổ tạm trú; Giấy chứng nhận quyền sở hữu nhà; Quyết định phân nhà; Hợp đồng mua bán nhà; Hợp đồng thuê nhà có thời hạn từ 01 năm trở lên và đồng ý của chủ sở hữu; Giấy chứng nhận quyền sử dụng đất; Hợp đồng ủy quyền quản lý và sử dụng nhà/đất; Hợp đồng thuê địa điểm và đồng ý của chủ sở hữu; Giấy chứng nhận đăng ký doanh nghiệp; Giấy chứng nhận đăng ký kinh doanh; Giấy chứng nhận đăng ký hộ kinh doanh; Giấy chứng nhận đăng ký hoạt động chi nhánh, văn phòng đại diện; Giấy phép đầu tư; Quyết định thành lập đơn vị.",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Trường hợp khách hàng mua điện sinh hoạt: Giấy tờ tùy thân của cá nhân hoặc người đại diện hợp pháp của tổ chức; là một trong những loại giấy tờ sau: Giấy chứng minh nhân dân; Giấy chứng minh công an nhân dân; Giấy chứng minh sỹ quan quân đội nhân dân; Thẻ căn cước công dân; Hộ chiếu hoặc Giấy xác nhận nhân thân của công an phường, xã (có ảnh đóng dấu giáp lai).",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Trường hợp khách hàng mua điện sinh hoạt: Giấy đề nghị mua điện",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Trường hợp khách hàng mua điện sinh hoạt: Thông tin đăng ký đấu nối",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "7 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": 4
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "7 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": 4
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 4
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 4
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị định 18",
+      "document_number": "18/2025/NĐ-CP",
+      "source_page": 4
+    },
+    {
+      "title": "Luật điện lực",
+      "document_number": "61/2024/QH15",
+      "source_page": 4
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Hợp đồng mua bán điện",
+      "code": "KQ.0100100079.000001",
+      "source_page": 5
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Tiếp nhận yêu cầu\nKhảo sát hiện trường\nThỏa thuận đấu nối  \nKý kết HĐMBĐ, nghiệm thu và đóng điện",
+    "THÀNH PHẦN HỒ SƠ": "Trường hợp khách hàng mua buôn điện nông thôn: Giấy phép hoạt động Điện lực (trường hợp mua buôn điện có công suất lớn hơn 50kVA)\nTrường hợp khách hàng mua buôn điện nông thôn: Giấy đề nghị mua điện\nTrường hợp khách hàng mua buôn điện nông thôn: Giấy tờ tùy thân của cá nhân hoặc người đại diện hợp pháp của tổ chức; là một trong những loại giấy tờ sau: Giấy chứng minh nhân dân; Giấy chứng minh công an nhân dân; Giấy chứng minh sỹ quan quân đội nhân dân; Thẻ căn cước công dân; Hộ chiếu hoặc Giấy xác nhận nhân thân của công an phường, xã (có ảnh đóng dấu giáp lai).\nTrường hợp khách hàng mua buôn điện nông thôn: Giấy tờ xác định chủ thể HĐMBĐ là một trong các loại giấy tờ có tên của Tổ chức/cá nhân  tại địa điểm mua điện sau: Hộ khẩu thường trú; Sổ tạm trú; Giấy chứng nhận quyền sở hữu nhà; Quyết định phân nhà; Hợp đồng mua bán nhà; Hợp đồng thuê nhà có thời hạn từ 01 năm trở lên và đồng ý của chủ sở hữu; Giấy chứng nhận quyền sử dụng đất; Hợp đồng ủy quyền quản lý và sử dụng nhà/đất; Hợp đồng thuê địa điểm và đồng ý của chủ sở hữu; Giấy chứng nhận đăng ký doanh nghiệp; Giấy chứng nhận đăng ký kinh doanh; Giấy chứng nhận đăng ký hộ kinh doanh; Giấy chứng nhận đăng ký hoạt động chi nhánh, văn phòng đại diện; Giấy phép đầu tư; Quyết định thành lập đơn vị.\nTrường hợp khách hàng mua buôn điện nông thôn: Thông tin đăng ký đấu nối\nTrường hợp khách hàng mua điện ngoài sinh hoạt: Giấy tờ xác định chủ thể HĐMBĐ là một trong các loại giấy tờ có tên của Tổ chức/cá nhân  tại địa điểm mua điện sau: Hộ khẩu thường trú; Sổ tạm trú; Giấy chứng nhận quyền sở hữu nhà; Quyết định phân nhà; Hợp đồng mua bán nhà; Hợp đồng thuê nhà có thời hạn từ 01 năm trở lên và đồng ý của chủ sở hữu; Giấy chứng nhận quyền sử dụng đất; Hợp đồng ủy quyền quản lý và sử dụng nhà/đất; Hợp đồng thuê địa điểm và đồng ý của chủ sở hữu; Giấy chứng nhận đăng ký doanh nghiệp; Giấy chứng nhận đăng ký kinh doanh; Giấy chứng nhận đăng ký hộ kinh doanh; Giấy chứng nhận đăng ký hoạt động chi nhánh, văn phòng đại diện; Giấy phép đầu tư; Quyết định thành lập đơn vị.\nTrường hợp khách hàng mua điện ngoài sinh hoạt: Giấy tờ xác định mục đích sử dụng điện là một trong những loại giấy tờ sau: Giấy chứng nhận đăng ký doanh nghiệp; Giấy chứng nhận đăng ký kinh doanh; Giấy chứng nhận đăng ký hộ kinh doanh; Giấy chứng nhận đăng ký hoạt động chi nhánh, văn phòng đại diện; Giấy phép đầu tư; Quyết định thành lập đơn vị; Biên bản khảo sát cấp điện của Điện lực/Công ty Điện lực; Thông tin của doanh nghiệp trên Cổng thông tin đăng ký doanh nghiệp quốc gia tại địa chỉ http://www.dangkykinhdoanh.gov.vn.\nTrường hợp khách hàng mua điện ngoài sinh hoạt: Giấy tờ tùy thân của cá nhân hoặc người đại diện hợp pháp của tổ chức; là một trong những loại giấy tờ sau: Giấy chứng minh nhân dân; Giấy chứng minh công an nhân dân; Giấy chứng minh sỹ quan quân đội nhân dân; Thẻ căn cước công dân; Hộ chiếu hoặc Giấy xác nhận nhân thân của công an phường, xã (có ảnh đóng dấu giáp lai).\nTrường hợp khách hàng mua điện ngoài sinh hoạt: Thông tin đăng ký đấu nối\nTrường hợp khách hàng mua điện ngoài sinh hoạt: Giấy đề nghị mua điện\nTrường hợp khách hàng mua điện sinh hoạt: Giấy tờ xác định chủ thể HĐMBĐ là một trong các loại giấy tờ có tên của Tổ chức/cá nhân  tại địa điểm mua điện sau: Hộ khẩu thường trú; Sổ tạm trú; Giấy chứng nhận quyền sở hữu nhà; Quyết định phân nhà; Hợp đồng mua bán nhà; Hợp đồng thuê nhà có thời hạn từ 01 năm trở lên và đồng ý của chủ sở hữu; Giấy chứng nhận quyền sử dụng đất; Hợp đồng ủy quyền quản lý và sử dụng nhà/đất; Hợp đồng thuê địa điểm và đồng ý của chủ sở hữu; Giấy chứng nhận đăng ký doanh nghiệp; Giấy chứng nhận đăng ký kinh doanh; Giấy chứng nhận đăng ký hộ kinh doanh; Giấy chứng nhận đăng ký hoạt động chi nhánh, văn phòng đại diện; Giấy phép đầu tư; Quyết định thành lập đơn vị.\nTrường hợp khách hàng mua điện sinh hoạt: Giấy tờ tùy thân của cá nhân hoặc người đại diện hợp pháp của tổ chức; là một trong những loại giấy tờ sau: Giấy chứng minh nhân dân; Giấy chứng minh công an nhân dân; Giấy chứng minh sỹ quan quân đội nhân dân; Thẻ căn cước công dân; Hộ chiếu hoặc Giấy xác nhận nhân thân của công an phường, xã (có ảnh đóng dấu giáp lai).\nTrường hợp khách hàng mua điện sinh hoạt: Giấy đề nghị mua điện\nTrường hợp khách hàng mua điện sinh hoạt: Thông tin đăng ký đấu nối",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 7 ngày làm việc\nTrực tiếp: 7 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Nghị định 18 - 18/2025/NĐ-CP\nLuật điện lực - 61/2024/QH15",
+    "CƠ QUAN THỰC HIỆN": "Tập đoàn Điện lực Việt Nam",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Hợp đồng mua bán điện - KQ.0100100079.000001",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Dịch vụ cung cấp điện mới",
+      "slug": "dich-vu-cung-cap-ien-moi"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      },
+      {
+        "name": "Cơ quan khác",
+        "slug": "co-quan-khac"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Người nước ngoài",
+        "slug": "nguoi-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      },
+      {
+        "name": "Hợp tác xã",
+        "slug": "hop-tac-xa"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Tập đoàn Điện lực Việt Nam",
+        "slug": "tap-oan-ien-luc-viet-nam"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

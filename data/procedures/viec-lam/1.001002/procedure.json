@@ -1,0 +1,143 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d91a7-e98e-76a4-b960-31911f903bad",
+  "procedure_code": "1.001002",
+  "title": "Gia hạn Thẻ phóng viên nước ngoài cho phóng viên thường trú tại Việt Nam",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d91a7-e98e-76a4-b960-31911f903bad",
+    "source_file": "chi-tiet-thu-tuc-1.001002.pdf",
+    "source_path": "procedures/viec-lam/1.001002/chi-tiet-thu-tuc-1.001002.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T04:59:50.928079+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "1751af2540990bf8bb016f4e8f94fcec0c673f72dc4b38f433b0fce2e8130e8f"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "3174/QĐ-BNG",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Báo chí",
+  "target_users": [
+    "Người nước ngoài",
+    "Tổ chức nước ngoài"
+  ],
+  "agency": {
+    "competent_agency": "Bộ Ngoại giao",
+    "executing_agency": "Vụ Thông tin Báo chí - Bộ Ngoại giao"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Nộp hồ sơ\nPhóng viên thường trú có yêu cầu gia hạn Thẻ phóng viên nước ngoài nộp hoặc gửi hồ sơ tới Bộ Ngoại giao\t\nThẩm định hồ sơ\nBộ Ngoại giao thẩm định hồ sơ và gia hạn Thẻ phóng viên nước ngoài. Trường hợp từ chối gia hạn, Bộ Ngoại giao có thông báo bằng văn bản.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Thẻ phóng viên nước ngoài của phóng viên thường trú",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Văn bản thông báo tiếp tục cử phóng viên thường trú tại Việt Nam của người có thẩm quyền của cơ quan báo chí nước ngoài theo mẫu do Bộ Ngoại giao ban hành",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Bản chụp hộ chiếu của phóng viên thường trú.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "3 ngày làm việc",
+      "fee": null,
+      "description": "03 ngày làm việc kể từ khi nhận đủ hồ sơ đề nghị",
+      "source_page": null
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "3 ngày làm việc",
+      "fee": null,
+      "description": "03 ngày làm việc kể từ khi nhận đủ hồ sơ đề nghị",
+      "source_page": null
+    }
+  ],
+  "fees": {
+    "summary": "",
+    "status": "not_specified",
+    "currency": "VND",
+    "items": []
+  },
+  "legal_bases": [],
+  "conditions": "1.\tChậm nhất 15 ngày làm việc trước khi Thẻ phóng viên nước ngoài hết hạn, phóng viên thường trú phải làm thủ tục gia hạn Thẻ phóng viên nước ngoài.\n2.\tThẻ phóng viên nước ngoài có giá trị không quá 12 tháng, phù hợp với thời hạn thị thực nhập – xuất cảnh của phóng viên.\n3.\tTrường hợp từ chối, Bộ Ngoại giao thông báo bằng văn bản cho phóng viên nước ngoài.",
+  "results": [
+    {
+      "title": "Thẻ phóng viên nước ngoài",
+      "code": "KQ.G08.000085",
+      "source_page": 1
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Nộp hồ sơ\nPhóng viên thường trú có yêu cầu gia hạn Thẻ phóng viên nước ngoài nộp hoặc gửi hồ sơ tới Bộ Ngoại giao\t\nThẩm định hồ sơ\nBộ Ngoại giao thẩm định hồ sơ và gia hạn Thẻ phóng viên nước ngoài. Trường hợp từ chối gia hạn, Bộ Ngoại giao có thông báo bằng văn bản.",
+    "THÀNH PHẦN HỒ SƠ": "Thẻ phóng viên nước ngoài của phóng viên thường trú\n- Văn bản thông báo tiếp tục cử phóng viên thường trú tại Việt Nam của người có thẩm quyền của cơ quan báo chí nước ngoài theo mẫu do Bộ Ngoại giao ban hành\nBản chụp hộ chiếu của phóng viên thường trú.",
+    "CÁCH THỨC THỰC HIỆN": "Trực tiếp: 3 ngày làm việc\nQua dịch vụ bưu chính: 3 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "",
+    "CƠ QUAN THỰC HIỆN": "Vụ Thông tin Báo chí - Bộ Ngoại giao",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "1.\tChậm nhất 15 ngày làm việc trước khi Thẻ phóng viên nước ngoài hết hạn, phóng viên thường trú phải làm thủ tục gia hạn Thẻ phóng viên nước ngoài.\n2.\tThẻ phóng viên nước ngoài có giá trị không quá 12 tháng, phù hợp với thời hạn thị thực nhập – xuất cảnh của phóng viên.\n3.\tTrường hợp từ chối, Bộ Ngoại giao thông báo bằng văn bản cho phóng viên nước ngoài.",
+    "KẾT QUẢ XỬ LÝ": "Thẻ phóng viên nước ngoài - KQ.G08.000085",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "1.\tChậm nhất 15 ngày làm việc trước khi Thẻ phóng viên nước ngoài hết hạn, phóng viên thường trú phải làm thủ tục gia hạn Thẻ phóng viên nước ngoài.\n2.\tThẻ phóng viên nước ngoài có giá trị không quá 12 tháng, phù hợp với thời hạn thị thực nhập – xuất cảnh của phóng viên.\n3.\tTrường hợp từ chối, Bộ Ngoại giao thông báo bằng văn bản cho phóng viên nước ngoài."
+  },
+  "classification": {
+    "sector": {
+      "name": "Báo chí",
+      "slug": "bao-chi"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Người nước ngoài",
+        "slug": "nguoi-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Vụ Thông tin Báo chí - Bộ Ngoại giao",
+        "slug": "vu-thong-tin-bao-chi-bo-ngoai-giao"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

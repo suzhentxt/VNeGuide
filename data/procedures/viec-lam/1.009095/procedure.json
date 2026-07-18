@@ -1,0 +1,296 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfc-7bc8-760d-b666-15b15683cd0d",
+  "procedure_code": "1.009095",
+  "title": "Thủ tục hải quan đối với tàu hỏa xuất cảnh, nhập cảnh, quá cảnh",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfc-7bc8-760d-b666-15b15683cd0d",
+    "source_file": "chi-tiet-thu-tuc-1.009095.pdf",
+    "source_path": "procedures/viec-lam/1.009095/chi-tiet-thu-tuc-1.009095.pdf",
+    "page_count": 5,
+    "extracted_at": "2026-07-18T05:00:30.296489+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "29765faf0063b740af99917c3420e49771f718dcafbab8936f797f5ff639d27e"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "2902/QĐ-BTC",
+  "implementation_level": "Cấp xã, Cơ quan ngành dọc",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Hải quan",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Công dân Việt Nam",
+    "Người nước ngoài",
+    "Tổ chức nước ngoài"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Hải quan cửa khẩu"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "- Bước 1: Người khai hải quan nộp các chứng từ thuộc hồ sơ hải quan cho cơ quan hải quan",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "- Bước 2: Cơ quan hải quan tiếp nhận, đối chiếu thông tin; niêm phong hải quan (nếu có); Bàn giao hàng hàng XNK cho Hải quan tại ga đường sắt liên vận quốc tế biên giới/nội địa; Xác nhận lên các chứng từ do người khai hải quan cung cấp hoặc xử lý vi phạm trong trường hợp phát hiện có dấu hiệu vi phạm.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 3,
+      "title": "Thời hạn cung cấp hồ sơ hải quan:",
+      "description": "+ Đối với tàu nhập cảnh: Người khai hải quan nộp chứng từ thông qua Hệ thống xử lý dữ liệu điện tử hải quan trước khi tàu đến ga liên vận quốc tế ở biên giới hoặc trước khi tàu đến ga liên vận quốc tế trong nội địa.\nTrường hợp Hệ thống xử lý dữ liệu điện tử hải quan gặp sự cố hoặc chưa đáp ứng thì người khai hải quan nộp cho hải quan ga liên vận quốc tế ở biên giới chứng từ giấy khi tàu đến ga liên vận quốc tế ở biên giới và nộp cho hải quan ga liên vận quốc tế trong nội địa các chứng từ khi tàu đến ga liên vận quốc tế trong nội địa. \n+ Đối với tàu xuất cảnh: Người khai hải quan nộp chứng từ thông qua Hệ thống xử lý dữ liệu điện tử hải quan trước khi tàu rời ga 30 phút đối với tàu khách và 01 giờ đối với tàu hàng\nTrường hợp Hệ thống xử lý dữ liệu điện tử hải quan gặp sự cố hoặc chưa đáp ứng thì người khai hải quan nộp cho hải quan ga liên vận quốc tế trong nội địa chứng từ giấy trước khi tàu rời ga 30 phút đối với tàu khách và 01 giờ đối với tàu hàng. Nộp, xuất trình cho hải quan ga liên vận quốc tế ở biên giới các chứng từ quy định trước khi tàu rời ga 30 phút đối với tàu khách và 01 giờ đối với tàu hàng.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Tàu nhập cảnh tại ga đường sắt liên vận quốc tế trong nội địa: Bản trích lược khai hàng hóa nhập khẩu dỡ xuống từng ga đường sắt liên vận quốc tế theo mẫu do Bộ Tài chính ban hành",
+        "quantity": "2 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Tàu nhập cảnh tại ga đường sắt liên vận quốc tế trong nội địa: Vận đơn",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": null
+      },
+      {
+        "name": "Tàu nhập cảnh tại ga đường sắt liên vận quốc tế trong nội địa: Danh sách hành khách đối với tàu khách và hành khách làm thủ tục tại ga đường sắt liên vận quốc tế trong nội địa (nếu có)",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Tàu nhập cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Danh sách hành khách đối với tàu khách và hành khách làm thủ tục tại ga đường sắt liên vận quốc tế ở biên giới (nếu có)",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Tàu nhập cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Vận đơn",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": null
+      },
+      {
+        "name": "Tàu nhập cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Giấy giao tiếp hàng hóa",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "Tàu nhập cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Bảng kê nhiên liệu, dụng cụ, thực phẩm mang theo của tàu (nếu có)",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "Tàu nhập cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Bản trích lược khai hàng hóa nhập khẩu dỡ xuống từng ga đường sắt liên vận quốc tế theo mẫu do Bộ Tài chính ban hành",
+        "quantity": "2 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Tàu xuất cảnh tại ga liên vận quốc tế trong nội địa: Bản trích lược khai hàng hóa tại ga liên vận quốc tế trong nội địa theo mẫu do Bộ Tài chính ban hành",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "Tàu xuất cảnh tại ga liên vận quốc tế trong nội địa: Vận đơn (nếu có)",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "Tàu xuất cảnh tại ga liên vận quốc tế trong nội địa: Danh sách hành khách đối với tàu khách và hành khách làm thủ tục hải quan tại ga liên vận quốc tế trong nội địa (nếu có)",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "Tàu xuất cảnh tại ga liên vận quốc tế trong nội địa: Bản xác báo thứ tự lập tàu đối với tàu khách làm thủ tục hải quan tại ga liên vận quốc tế trong nội địa",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "Tàu xuất cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Bản xác báo thứ tự lập tàu",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "Tàu xuất cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Vận đơn (nếu có)",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "Tàu xuất cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Danh sách hành khách đối với tàu khách và hành khách làm thủ tục hải quan tại ga đường sắt liên vận quốc tế ở biên giới (nếu có)",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "Tàu xuất cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Bản trích lược khai hàng hóa tại ga liên vận quốc tế trong nội địa theo mẫu do Bộ Tài chính ban hành; Giấy giao tiếp hàng hóa",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "Tàu xuất cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Giấy giao tiếp hàng hóa",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "1 giờ",
+      "fee": "20000",
+      "description": "",
+      "source_page": 4
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "1 giờ",
+      "fee": "20000",
+      "description": "",
+      "source_page": 4
+    }
+  ],
+  "fees": {
+    "summary": "20000",
+    "status": "varies_by_submission_method",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "20000",
+        "is_free": false,
+        "source_page": 4
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "20000",
+        "is_free": false,
+        "source_page": 4
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị định 08/2015/NĐ-CP",
+      "document_number": "08/2015/NĐ-CP",
+      "source_page": 4
+    },
+    {
+      "title": "Luật 54/2014/QH13",
+      "document_number": "54/2014/QH13",
+      "source_page": 4
+    },
+    {
+      "title": "Thông tư 50/2018/TT-BTC",
+      "document_number": "50/2018/TT-BTC",
+      "source_page": 4
+    },
+    {
+      "title": "Thông tư quy định mức thu, chế độ thu, nộp, quản lý và sử dụng phí hải quan và lệ phí hàng hóa, phương tiện vận tải quá cảnh",
+      "document_number": "14/2021/TT-BTC",
+      "source_page": 4
+    },
+    {
+      "title": "Nghị định số 167/2025/NĐ-CP ngày 30/6/2025 của Chính phủ",
+      "document_number": "167/2025",
+      "source_page": 4
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Xác nhận thông quan",
+      "code": "KQ.G12.000327",
+      "source_page": 5
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "- Bước 1: Người khai hải quan nộp các chứng từ thuộc hồ sơ hải quan cho cơ quan hải quan\n- Bước 2: Cơ quan hải quan tiếp nhận, đối chiếu thông tin; niêm phong hải quan (nếu có); Bàn giao hàng hàng XNK cho Hải quan tại ga đường sắt liên vận quốc tế biên giới/nội địa; Xác nhận lên các chứng từ do người khai hải quan cung cấp hoặc xử lý vi phạm trong trường hợp phát hiện có dấu hiệu vi phạm.\n+ Đối với tàu nhập cảnh: Người khai hải quan nộp chứng từ thông qua Hệ thống xử lý dữ liệu điện tử hải quan trước khi tàu đến ga liên vận quốc tế ở biên giới hoặc trước khi tàu đến ga liên vận quốc tế trong nội địa.\nTrường hợp Hệ thống xử lý dữ liệu điện tử hải quan gặp sự cố hoặc chưa đáp ứng thì người khai hải quan nộp cho hải quan ga liên vận quốc tế ở biên giới chứng từ giấy khi tàu đến ga liên vận quốc tế ở biên giới và nộp cho hải quan ga liên vận quốc tế trong nội địa các chứng từ khi tàu đến ga liên vận quốc tế trong nội địa. \n+ Đối với tàu xuất cảnh: Người khai hải quan nộp chứng từ thông qua Hệ thống xử lý dữ liệu điện tử hải quan trước khi tàu rời ga 30 phút đối với tàu khách và 01 giờ đối với tàu hàng\nTrường hợp Hệ thống xử lý dữ liệu điện tử hải quan gặp sự cố hoặc chưa đáp ứng thì người khai hải quan nộp cho hải quan ga liên vận quốc tế trong nội địa chứng từ giấy trước khi tàu rời ga 30 phút đối với tàu khách và 01 giờ đối với tàu hàng. Nộp, xuất trình cho hải quan ga liên vận quốc tế ở biên giới các chứng từ quy định trước khi tàu rời ga 30 phút đối với tàu khách và 01 giờ đối với tàu hàng.",
+    "THÀNH PHẦN HỒ SƠ": "Tàu nhập cảnh tại ga đường sắt liên vận quốc tế trong nội địa: Bản trích lược khai hàng hóa nhập khẩu dỡ xuống từng ga đường sắt liên vận quốc tế theo mẫu do Bộ Tài chính ban hành\nTàu nhập cảnh tại ga đường sắt liên vận quốc tế trong nội địa: Vận đơn\nTàu nhập cảnh tại ga đường sắt liên vận quốc tế trong nội địa: Danh sách hành khách đối với tàu khách và hành khách làm thủ tục tại ga đường sắt liên vận quốc tế trong nội địa (nếu có)\nTàu nhập cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Danh sách hành khách đối với tàu khách và hành khách làm thủ tục tại ga đường sắt liên vận quốc tế ở biên giới (nếu có)\nTàu nhập cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Vận đơn\nTàu nhập cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Giấy giao tiếp hàng hóa\nTàu nhập cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Bảng kê nhiên liệu, dụng cụ, thực phẩm mang theo của tàu (nếu có)\nTàu nhập cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Bản trích lược khai hàng hóa nhập khẩu dỡ xuống từng ga đường sắt liên vận quốc tế theo mẫu do Bộ Tài chính ban hành\nTàu xuất cảnh tại ga liên vận quốc tế trong nội địa: Bản trích lược khai hàng hóa tại ga liên vận quốc tế trong nội địa theo mẫu do Bộ Tài chính ban hành\nTàu xuất cảnh tại ga liên vận quốc tế trong nội địa: Vận đơn (nếu có)\nTàu xuất cảnh tại ga liên vận quốc tế trong nội địa: Danh sách hành khách đối với tàu khách và hành khách làm thủ tục hải quan tại ga liên vận quốc tế trong nội địa (nếu có)\nTàu xuất cảnh tại ga liên vận quốc tế trong nội địa: Bản xác báo thứ tự lập tàu đối với tàu khách làm thủ tục hải quan tại ga liên vận quốc tế trong nội địa\nTàu xuất cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Bản xác báo thứ tự lập tàu\nTàu xuất cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Vận đơn (nếu có)\nTàu xuất cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Danh sách hành khách đối với tàu khách và hành khách làm thủ tục hải quan tại ga đường sắt liên vận quốc tế ở biên giới (nếu có)\nTàu xuất cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Bản trích lược khai hàng hóa tại ga liên vận quốc tế trong nội địa theo mẫu do Bộ Tài chính ban hành; Giấy giao tiếp hàng hóa\nTàu xuất cảnh tại ga đường sắt liên vận quốc tế ở biên giới: Giấy giao tiếp hàng hóa",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 1 giờ\nTrực tiếp: 1 giờ",
+    "CĂN CỨ PHÁP LÝ": "Nghị định 08/2015/NĐ-CP - 08/2015/NĐ-CP\nLuật 54/2014/QH13 - 54/2014/QH13\nThông tư 50/2018/TT-BTC - 50/2018/TT-BTC\nThông tư quy định mức thu, chế độ thu, nộp, quản lý và sử dụng phí hải quan và lệ phí hàng hóa, phương tiện vận tải quá cảnh - 14/2021/TT-BTC\nNghị định số 167/2025/NĐ-CP ngày 30/6/2025 của Chính phủ - 167/2025",
+    "CƠ QUAN THỰC HIỆN": "Hải quan cửa khẩu",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Xác nhận thông quan - KQ.G12.000327",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Hải quan",
+      "slug": "hai-quan"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp xã",
+        "slug": "cap-xa"
+      },
+      {
+        "name": "Cơ quan ngành dọc",
+        "slug": "co-quan-nganh-doc"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Người nước ngoài",
+        "slug": "nguoi-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Hải quan cửa khẩu",
+        "slug": "hai-quan-cua-khau"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

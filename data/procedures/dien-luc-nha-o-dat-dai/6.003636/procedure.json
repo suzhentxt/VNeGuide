@@ -1,0 +1,186 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019df1ec-0ee8-715b-918c-87e5386c1c6c",
+  "procedure_code": "6.003636",
+  "title": "Chấp thuận nhà đầu tư dự án cải tạo, xây dựng lại nhà chung cư đối với trường hợp có 01 nhà đầu tư quan tâm đáp ứng điều kiện theo quy định của Chính phủ",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019df1ec-0ee8-715b-918c-87e5386c1c6c",
+    "source_file": "chi-tiet-thu-tuc-6.003636.pdf",
+    "source_path": "procedures/dien-luc-nha-o-dat-dai/6.003636/chi-tiet-thu-tuc-6.003636.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T04:58:00.030443+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "2f00aeaa78577ee2c7e830e9ce0432115d6c32076341c9ed3df8909616349e17"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "497/QĐ-BXD",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "LOCAL_REGULATION",
+  "sector": "Nhà ở và công sở",
+  "target_users": [
+    "Cán bộ, công chức, viên chức"
+  ],
+  "agency": {
+    "competent_agency": "Ủy ban nhân dân cấp tỉnh",
+    "executing_agency": "Văn phòng Sở Xây dựng"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "+ Sở Xây dựng lập tờ trình đề nghị chấp thuận nhà đầu tư kèm theo hồ sơ mời quan tâm, kết quả phê duyệt hồ sơ mời quan tâm và các tài liệu liên quan khác trong quá trình tổ chức, đánh giá hồ sơ mời quan tâm gửi Ủy ban nhân dân cấp tỉnh xem xét, phê duyệt;",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "+ Trong thời hạn 15 ngày kể từ ngày nhận được hồ sơ của Sở Xây dựng, Ủy ban nhân dân cấp tỉnh xem xét, chấp thuận nhà đầu tư theo Mẫu số 06 quy định tại Phụ lục ban hành kèm theo Nghị định số 98/2024/NĐ-CP ngày 25/7/2024 của Chính phủ quy định chi tiết một số điều của Luật Nhà ở về cải tạo, xây dựng lại nhà chung cư; trường hợp không chấp thuận thì Ủy ban nhân dân cấp tỉnh phải có văn bản nêu rõ lý do gửi Sở Xây dựng và nhà đầu tư.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Tờ trình đề nghị chấp thuận nhà đầu tư theo Mẫu số 05 quy định tại Phụ lục ban hành kèm theo Nghị định số 98/2024/NĐ-CP ngày 25/7/2024 của Chính phủ quy định chi tiết một số điều của Luật Nhà ở về cải tạo, xây dựng lại nhà chung cư",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Hồ sơ mời quan tâm, kết quả phê duyệt hồ sơ mời quan tâm",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 1
+      },
+      {
+        "name": "Các tài liệu liên quan khác trong quá trình tổ chức, đánh giá hồ sơ mời quan tâm",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 1
+      }
+    ],
+    "normally_required": [],
+    "conditional": []
+  },
+  "submission_methods": [
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "15 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "15 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "15 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": null
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Luật Nhà ở số 27/2023/QH15",
+      "document_number": "27/2023/QH15",
+      "source_page": 2
+    },
+    {
+      "title": "Nghị định",
+      "document_number": "98/2024/NĐ-CP",
+      "source_page": 1
+    }
+  ],
+  "conditions": "Thông báo mời quan tâm, hồ sơ mời quan tâm, kết quả đánh giá hồ sơ đăng ký thực hiện dự án, phê duyệt kết quả mời quan tâm.",
+  "results": [
+    {
+      "title": "Quyết định chấp thuận nhà đầu tư.",
+      "code": "KQ.H43.000038",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "+ Sở Xây dựng lập tờ trình đề nghị chấp thuận nhà đầu tư kèm theo hồ sơ mời quan tâm, kết quả phê duyệt hồ sơ mời quan tâm và các tài liệu liên quan khác trong quá trình tổ chức, đánh giá hồ sơ mời quan tâm gửi Ủy ban nhân dân cấp tỉnh xem xét, phê duyệt;\n+ Trong thời hạn 15 ngày kể từ ngày nhận được hồ sơ của Sở Xây dựng, Ủy ban nhân dân cấp tỉnh xem xét, chấp thuận nhà đầu tư theo Mẫu số 06 quy định tại Phụ lục ban hành kèm theo Nghị định số 98/2024/NĐ-CP ngày 25/7/2024 của Chính phủ quy định chi tiết một số điều của Luật Nhà ở về cải tạo, xây dựng lại nhà chung cư; trường hợp không chấp thuận thì Ủy ban nhân dân cấp tỉnh phải có văn bản nêu rõ lý do gửi Sở Xây dựng và nhà đầu tư.",
+    "THÀNH PHẦN HỒ SƠ": "Tờ trình đề nghị chấp thuận nhà đầu tư theo Mẫu số 05 quy định tại Phụ lục ban hành kèm theo Nghị định số 98/2024/NĐ-CP ngày 25/7/2024 của Chính phủ quy định chi tiết một số điều của Luật Nhà ở về cải tạo, xây dựng lại nhà chung cư\nHồ sơ mời quan tâm, kết quả phê duyệt hồ sơ mời quan tâm\nCác tài liệu liên quan khác trong quá trình tổ chức, đánh giá hồ sơ mời quan tâm",
+    "CÁCH THỨC THỰC HIỆN": "Trực tiếp: 15 ngày\nTrực tuyến: 15 ngày\nQua dịch vụ bưu chính: 15 ngày",
+    "CĂN CỨ PHÁP LÝ": "Luật Nhà ở số 27/2023/QH15 - 27/2023/QH15\nNghị định - 98/2024/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Văn phòng Sở Xây dựng",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "Thông báo mời quan tâm, hồ sơ mời quan tâm, kết quả đánh giá hồ sơ đăng ký thực hiện dự án, phê duyệt kết quả mời quan tâm.",
+    "KẾT QUẢ XỬ LÝ": "Quyết định chấp thuận nhà đầu tư. - KQ.H43.000038",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "Thông báo mời quan tâm, hồ sơ mời quan tâm, kết quả đánh giá hồ sơ đăng ký thực hiện dự án, phê duyệt kết quả mời quan tâm."
+  },
+  "classification": {
+    "sector": {
+      "name": "Nhà ở và công sở",
+      "slug": "nha-o-va-cong-so"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Cán bộ, công chức, viên chức",
+        "slug": "can-bo-cong-chuc-vien-chuc"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Văn phòng Sở Xây dựng",
+        "slug": "van-phong-so-xay-dung"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

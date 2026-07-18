@@ -1,0 +1,161 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019db985-fcce-7208-8c0f-a92f67524e5b",
+  "procedure_code": "5.003800",
+  "title": "Phê duyệt kế hoạch quản lý, bảo trì công trình đường thủy nội địa",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019db985-fcce-7208-8c0f-a92f67524e5b",
+    "source_file": "chi-tiet-thu-tuc-5.003800.pdf",
+    "source_path": "procedures/phuong-tien-va-nguoi-lai/5.003800/chi-tiet-thu-tuc-5.003800.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T04:59:07.021170+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "a730144733c0fe6ab2dff7f7be065a2dd0d1a3bb5d4fcc494c583abe6892b969"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "497/QĐ-BXD",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "CENTRAL_REGULATION",
+  "sector": "Hàng hải và đường thủy nội địa",
+  "target_users": [
+    "Cán bộ, công chức, viên chức"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Bộ Xây dựng, Cục Hàng hải và Đường thủy Việt Nam"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "+ Cục Hàng hải và Đường thủy Việt Nam tổ chức rà soát danh mục công trình, hạng mục công trình cần thiết, lập kế hoạch và dự kiến kinh phí bảo trì công trình đường thủy nội địa, trình Bộ Xây dựng chậm nhất 10 ngày, kể từ ngày nhận được thông báo dự toán chi ngân sách nhà nước của Bộ Xây dựng.\n+ Bộ Xây dựng tổ chức phê duyệt kế hoạch bảo trì công trình đường thủy nội địa chậm nhất 15 ngày, kể từ ngày nhận được Tờ trình của Cục Hàng hải và Đường thủy Việt Nam.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Tờ trình phê duyệt kế hoạch",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Quyết định phê duyệt dự án, báo cáo kinh tế - kỹ thuật, thiết kế bản vẽ thi công, dự toán công trình",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Hồ sơ phê duyệt dự án, báo cáo kinh tế - kỹ thuật, thiết kế bản vẽ thi công, dự toán công trình",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": []
+  },
+  "submission_methods": [
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "15 ngày",
+      "fee": null,
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "15 ngày",
+      "fee": null,
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "15 ngày",
+      "fee": null,
+      "description": "",
+      "source_page": null
+    }
+  ],
+  "fees": {
+    "summary": "",
+    "status": "not_specified",
+    "currency": "VND",
+    "items": []
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị định 33/2013/NĐ-CP",
+      "document_number": "33/2013/NĐ-CP",
+      "source_page": 2
+    },
+    {
+      "title": "Thông tư quy định về quản lý, bảo trì công trình thuộc kết cấu hạ tầng đường thủy nội địa",
+      "document_number": "21/2022/TT-BGTVT",
+      "source_page": 2
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Quyết định phê duyệt kế hoạch bảo trì công trình đường thủy nội địa quốc gia",
+      "code": "KQ.G04.000474",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "+ Cục Hàng hải và Đường thủy Việt Nam tổ chức rà soát danh mục công trình, hạng mục công trình cần thiết, lập kế hoạch và dự kiến kinh phí bảo trì công trình đường thủy nội địa, trình Bộ Xây dựng chậm nhất 10 ngày, kể từ ngày nhận được thông báo dự toán chi ngân sách nhà nước của Bộ Xây dựng.\n+ Bộ Xây dựng tổ chức phê duyệt kế hoạch bảo trì công trình đường thủy nội địa chậm nhất 15 ngày, kể từ ngày nhận được Tờ trình của Cục Hàng hải và Đường thủy Việt Nam.",
+    "THÀNH PHẦN HỒ SƠ": "Tờ trình phê duyệt kế hoạch\nQuyết định phê duyệt dự án, báo cáo kinh tế - kỹ thuật, thiết kế bản vẽ thi công, dự toán công trình\nHồ sơ phê duyệt dự án, báo cáo kinh tế - kỹ thuật, thiết kế bản vẽ thi công, dự toán công trình",
+    "CÁCH THỨC THỰC HIỆN": "Trực tiếp: 15 ngày\nTrực tuyến: 15 ngày\nQua dịch vụ bưu chính: 15 ngày",
+    "CĂN CỨ PHÁP LÝ": "Nghị định 33/2013/NĐ-CP - 33/2013/NĐ-CP\nThông tư quy định về quản lý, bảo trì công trình thuộc kết cấu hạ tầng đường thủy nội địa - 21/2022/TT-BGTVT",
+    "CƠ QUAN THỰC HIỆN": "Bộ Xây dựng, Cục Hàng hải và Đường thủy Việt Nam",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Quyết định phê duyệt kế hoạch bảo trì công trình đường thủy nội địa quốc gia - KQ.G04.000474",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Hàng hải và đường thủy nội địa",
+      "slug": "hang-hai-va-uong-thuy-noi-ia"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Cán bộ, công chức, viên chức",
+        "slug": "can-bo-cong-chuc-vien-chuc"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Bộ Xây dựng",
+        "slug": "bo-xay-dung"
+      },
+      {
+        "name": "Cục Hàng hải và Đường thủy Việt Nam",
+        "slug": "cuc-hang-hai-va-uong-thuy-viet-nam"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

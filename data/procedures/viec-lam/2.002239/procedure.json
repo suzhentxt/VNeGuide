@@ -1,0 +1,174 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfc-e978-705c-889a-1a1344a8e628",
+  "procedure_code": "2.002239",
+  "title": "Bán hàng DTQG theo phương thức trực tiếp rộng rãi cho mọi đối tượng",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfc-e978-705c-889a-1a1344a8e628",
+    "source_file": "chi-tiet-thu-tuc-2.002239.pdf",
+    "source_path": "procedures/viec-lam/2.002239/chi-tiet-thu-tuc-2.002239.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T05:02:23.689158+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "97362de978ac9a50eb698c6c5193d42d48bc2d0352b40e59e97aa855bff2eaf5"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1014/QĐ-BTC",
+  "implementation_level": "Cấp tỉnh, Cơ quan ngành dọc",
+  "procedure_type": "NOT_ASSIGNED_REGULATION",
+  "sector": "Dự trữ",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Công dân Việt Nam",
+    "Doanh nghiệp"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Cục Dự trữ Nhà nước khu vực, Chi cục Dự trữ Nhà nước"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1: Thông báo công khai kế hoạch bán hàng DTQG\nCăn cứ vào Quyết định của Tổng cục trưởng Tổng cục Dự trữ Nhà nước về việc phê duyệt Kế hoạch bán hàng DTQG theo phương thức bán trực tiếp rộng rãi cho mọi đối tượng, Cục DTNN khu vực thông báo kế hoạch bán hàng dự trữ quốc gia trên báo (03 kỳ liên tiếp) hoặc trên đài truyền hình (03 lần liên tiếp) của địa phương và tại điểm kho bán hàng; trên Trang thông tin điện tử của Bộ Tài chính, của Tổng cục Dự trữ Nhà nước. Nội dung kế hoạch thông báo gồm:\n- Danh mục, quy cách, số lượng;\n- Tình trạng chất lượng;\n- Điểm kho xuất bán hàng;\n- Giá bán;\n- Thời điểm mở cửa kho;\n- Thời điểm kết thúc bán.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "Bước 2: Đơn vị DTQG thực hiện quy trình bán hàng DTQG, cụ thể:\n- Tổ chức kiểm tra chất lượng hàng trước khi xuất bán;\n- Mở kho xuất bán hàng đúng thời gian quy định;\n- Thu tiền bán hàng trước, xuất hàng sau;\n- Mở sổ theo dõi xuất kho, ghi chép hóa đơn, chứng từ theo quy định, đối chiếu tiền, hàng trong ngày;\n- Thực hiện chế độ báo cáo xuất bán hàng dự trữ quốc gia theo quy định.\nTrường hợp bán hàng DTQG thông qua hợp đồng, Cục DTNN KV ký kết hợp đồng mua bán hàng dự trữ quốc gia; tổ chức giao hàng cho cá nhân, tổ chức mua hàng DTQG tại cửa kho DTQG sau khi nhận tiền thanh toán cho việc mua hàng; Thanh lý hợp đồng sau khi hai bên hoàn thành nghĩa vụ quy định tại hợp đồng.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "(Đối với người mua hàng): - Biên bản thanh lý hợp đồng (nếu có).",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "(Đối với người mua hàng): - Phiếu thu tiền;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "(Đối với người mua hàng): - Hợp đồng mua, bán (nếu có);",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "1",
+      "fee": "0",
+      "description": "",
+      "source_page": 1
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 1
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Thông tư 89/2015/TT-BTC",
+      "document_number": "89/2015/TT-BTC",
+      "source_page": 3
+    },
+    {
+      "title": "Luật dự trữ quốc gia",
+      "document_number": "22/2012/QH13",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Hàng dự trữ quốc gia được bán theo đúng kế hoạch được Tổng cục trưởng Tổng cục DTNN phê duyệt",
+      "code": "KQ.G12.000597",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1: Thông báo công khai kế hoạch bán hàng DTQG\nCăn cứ vào Quyết định của Tổng cục trưởng Tổng cục Dự trữ Nhà nước về việc phê duyệt Kế hoạch bán hàng DTQG theo phương thức bán trực tiếp rộng rãi cho mọi đối tượng, Cục DTNN khu vực thông báo kế hoạch bán hàng dự trữ quốc gia trên báo (03 kỳ liên tiếp) hoặc trên đài truyền hình (03 lần liên tiếp) của địa phương và tại điểm kho bán hàng; trên Trang thông tin điện tử của Bộ Tài chính, của Tổng cục Dự trữ Nhà nước. Nội dung kế hoạch thông báo gồm:\n- Danh mục, quy cách, số lượng;\n- Tình trạng chất lượng;\n- Điểm kho xuất bán hàng;\n- Giá bán;\n- Thời điểm mở cửa kho;\n- Thời điểm kết thúc bán.\nBước 2: Đơn vị DTQG thực hiện quy trình bán hàng DTQG, cụ thể:\n- Tổ chức kiểm tra chất lượng hàng trước khi xuất bán;\n- Mở kho xuất bán hàng đúng thời gian quy định;\n- Thu tiền bán hàng trước, xuất hàng sau;\n- Mở sổ theo dõi xuất kho, ghi chép hóa đơn, chứng từ theo quy định, đối chiếu tiền, hàng trong ngày;\n- Thực hiện chế độ báo cáo xuất bán hàng dự trữ quốc gia theo quy định.\nTrường hợp bán hàng DTQG thông qua hợp đồng, Cục DTNN KV ký kết hợp đồng mua bán hàng dự trữ quốc gia; tổ chức giao hàng cho cá nhân, tổ chức mua hàng DTQG tại cửa kho DTQG sau khi nhận tiền thanh toán cho việc mua hàng; Thanh lý hợp đồng sau khi hai bên hoàn thành nghĩa vụ quy định tại hợp đồng.",
+    "THÀNH PHẦN HỒ SƠ": "(Đối với người mua hàng): - Biên bản thanh lý hợp đồng (nếu có).\n(Đối với người mua hàng): - Phiếu thu tiền;\n(Đối với người mua hàng): - Hợp đồng mua, bán (nếu có);",
+    "CÁCH THỨC THỰC HIỆN": "Trực tiếp: 1",
+    "CĂN CỨ PHÁP LÝ": "Thông tư 89/2015/TT-BTC - 89/2015/TT-BTC\nLuật dự trữ quốc gia - 22/2012/QH13",
+    "CƠ QUAN THỰC HIỆN": "Cục Dự trữ Nhà nước khu vực, Chi cục Dự trữ Nhà nước",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Hàng dự trữ quốc gia được bán theo đúng kế hoạch được Tổng cục trưởng Tổng cục DTNN phê duyệt - KQ.G12.000597",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Dự trữ",
+      "slug": "du-tru"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      },
+      {
+        "name": "Cơ quan ngành dọc",
+        "slug": "co-quan-nganh-doc"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Cục Dự trữ Nhà nước khu vực",
+        "slug": "cuc-du-tru-nha-nuoc-khu-vuc"
+      },
+      {
+        "name": "Chi cục Dự trữ Nhà nước",
+        "slug": "chi-cuc-du-tru-nha-nuoc"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

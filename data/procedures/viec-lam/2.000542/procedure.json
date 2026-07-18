@@ -1,0 +1,177 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bff-c9c8-752e-91c8-73aaa53d8afa",
+  "procedure_code": "2.000542",
+  "title": "Thủ tục thu hồi giấy chứng nhận đăng ký hoạt động nhận ủy thác đầu tư gián tiếp ra nước ngoài đối với tổ chức nhận ủy thác là ngân hàng thương mại",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bff-c9c8-752e-91c8-73aaa53d8afa",
+    "source_file": "chi-tiet-thu-tuc-2.000542.pdf",
+    "source_path": "procedures/viec-lam/2.000542/chi-tiet-thu-tuc-2.000542.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T05:02:09.624278+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "765d4a8c66c740607658882eee0993bb10509afc830d8b1bee8c82e801fd22e5"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "4093/QĐ-NHNN",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "NOT_ASSIGNED_REGULATION",
+  "sector": "Hoạt động ngoại hối",
+  "target_users": [
+    "Doanh nghiệp"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Ngân hàng Nhà nước Việt Nam"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1: Ngân hàng thương mại nộp trực tiếp hoặc gửi qua đường bưu điện 01 (một) bộ hồ sơ bằng Tiếng Việt đề nghị thu hồi giấy chứng nhận đăng ký hoạt động nhận ủy thác đầu tư gián tiếp ra nước ngoài đến Ngân hàng Nhà nước.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "Bước 2: Thời hạn kiểm tra tính đầy đủ của hồ sơ là 03 (ba) ngày làm việc kể từ khi Bộ phận Một cửa của Ngân hàng Nhà nước tiếp nhận hồ sơ theo phương thức trực tiếp hoặc qua dịch vụ bưu chính.\n- Trường hợp hồ sơ chưa đáp ứng điều kiện giải quyết, trong thời hạn 05 (năm) ngày làm việc kể từ ngày nhận được hồ sơ, Ngân hàng Nhà nước có văn bản yêu cầu ngân hàng thương mại bổ sung, hoàn thiện hồ sơ;",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "Bước 3: Trong thời hạn 05 (năm) ngày làm việc kể từ ngày nhận được hồ sơ đầy đủ, hợp lệ, Ngân hàng Nhà nước ra quyết định thu hồi giấy chứng nhận đăng ký hoạt động nhận ủy thác đầu tư gián tiếp ra nước ngoài của ngân hàng thương mại.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "- Văn bản chấp thuận của cấp có thẩm quyền theo Điều lệ của ngân hàng thương mại về việc chấm dứt hoạt động nhận ủy thác đầu tư gián tiếp ra nước ngoài kèm báo cáo kết quả xử lý các khoản đầu tư gián tiếp ra nước ngoài đang thực hiện.",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Đơn đề nghị thu hồi giấy chứng nhận đăng ký hoạt động nhận ủy thác đầu tư gián tiếp ra nước ngoài (theo mẫu tại Phụ lục số 06 Thông tư số 10/2016/TT-NHNN được sửa đổi, bổ sung tại Thông tư số 78/2025/TT-NHNN);",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "5 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "5 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Thông tư sửa đổi, bổ sung, bãi bỏ một số quy định tại các văn bản quy phạm pháp luật trong lĩnh vực quản lý ngoại hối đối với các giao dịch vốn để thực thi phương án cắt giảm, đơn giản hóa thủ tục hành chính",
+      "document_number": "78/2025/TT-NHNN",
+      "source_page": 3
+    },
+    {
+      "title": "Thông tư 10/2016/TT-NHNN",
+      "document_number": "10/2016/TT-NHNN",
+      "source_page": 3
+    },
+    {
+      "title": "Nghị định 135/2015/NĐ-CP",
+      "document_number": "135/2015/NĐ-CP",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Quyết định thu hồi giấy chứng nhận đăng ký hoạt động nhận ủy thác đầu tư gián tiếp ra nước ngoài",
+      "code": "KQ.G19.000053",
+      "source_page": 2
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1: Ngân hàng thương mại nộp trực tiếp hoặc gửi qua đường bưu điện 01 (một) bộ hồ sơ bằng Tiếng Việt đề nghị thu hồi giấy chứng nhận đăng ký hoạt động nhận ủy thác đầu tư gián tiếp ra nước ngoài đến Ngân hàng Nhà nước.\nBước 2: Thời hạn kiểm tra tính đầy đủ của hồ sơ là 03 (ba) ngày làm việc kể từ khi Bộ phận Một cửa của Ngân hàng Nhà nước tiếp nhận hồ sơ theo phương thức trực tiếp hoặc qua dịch vụ bưu chính.\n- Trường hợp hồ sơ chưa đáp ứng điều kiện giải quyết, trong thời hạn 05 (năm) ngày làm việc kể từ ngày nhận được hồ sơ, Ngân hàng Nhà nước có văn bản yêu cầu ngân hàng thương mại bổ sung, hoàn thiện hồ sơ;\nBước 3: Trong thời hạn 05 (năm) ngày làm việc kể từ ngày nhận được hồ sơ đầy đủ, hợp lệ, Ngân hàng Nhà nước ra quyết định thu hồi giấy chứng nhận đăng ký hoạt động nhận ủy thác đầu tư gián tiếp ra nước ngoài của ngân hàng thương mại.",
+    "THÀNH PHẦN HỒ SƠ": "- Văn bản chấp thuận của cấp có thẩm quyền theo Điều lệ của ngân hàng thương mại về việc chấm dứt hoạt động nhận ủy thác đầu tư gián tiếp ra nước ngoài kèm báo cáo kết quả xử lý các khoản đầu tư gián tiếp ra nước ngoài đang thực hiện.\n- Đơn đề nghị thu hồi giấy chứng nhận đăng ký hoạt động nhận ủy thác đầu tư gián tiếp ra nước ngoài (theo mẫu tại Phụ lục số 06 Thông tư số 10/2016/TT-NHNN được sửa đổi, bổ sung tại Thông tư số 78/2025/TT-NHNN);",
+    "CÁCH THỨC THỰC HIỆN": "Qua dịch vụ bưu chính: 5 ngày làm việc\nTrực tiếp: 5 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Thông tư sửa đổi, bổ sung, bãi bỏ một số quy định tại các văn bản quy phạm pháp luật trong lĩnh vực quản lý ngoại hối đối với các giao dịch vốn để thực thi phương án cắt giảm, đơn giản hóa thủ tục hành chính - 78/2025/TT-NHNN\nThông tư 10/2016/TT-NHNN - 10/2016/TT-NHNN\nNghị định 135/2015/NĐ-CP - 135/2015/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Ngân hàng Nhà nước Việt Nam",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Quyết định thu hồi giấy chứng nhận đăng ký hoạt động nhận ủy thác đầu tư gián tiếp ra nước ngoài - KQ.G19.000053",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Hoạt động ngoại hối",
+      "slug": "hoat-ong-ngoai-hoi"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Ngân hàng Nhà nước Việt Nam",
+        "slug": "ngan-hang-nha-nuoc-viet-nam"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

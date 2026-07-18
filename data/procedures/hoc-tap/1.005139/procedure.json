@@ -1,0 +1,157 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bf8-b069-774d-860a-82d2d280d0e1",
+  "procedure_code": "1.005139",
+  "title": "Bổ nhiệm chức danh giáo sư, phó giáo sư",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bf8-b069-774d-860a-82d2d280d0e1",
+    "source_file": "chi-tiet-thu-tuc-1.005139.pdf",
+    "source_path": "procedures/hoc-tap/1.005139/chi-tiet-thu-tuc-1.005139.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T04:58:14.295483+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "ab6e3cfca870f11f5705413ec0cce5512bbec58e4b84fbe86ed34371cdf70b53"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "2108/QĐ-BGDĐT",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Tiêu chuẩn nhà giáo, cán bộ quản lý giáo dục",
+  "target_users": [
+    "Cán bộ, công chức, viên chức"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Bộ Giáo dục và Đào tạo"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "- Căn cứ quy định hiện hành và nhu cầu của cơ sở giáo dục đại học, hàng năm người đứng đầu cơ sở giáo dục đại học công khai vị trí, số lượng, tiêu chuẩn và điều kiện bổnhiệm chức danh giáo sư, phó giáo sư ở từng bộ môn hoặc chuyên ngành đào tạo của cơ sở trước khi thu nhận hồ sơ đăng ký bổ nhiệm.\n- Cơ sở giáo dục đại học tổ chức thu nhận hồ sơ đăng ký xét bổ nhiệm chức danh giáo sư, phó giáo sư; phân loại theo ngành, chuyên ngành khoa học.\n- Người đứng đầu cơ sở giáo dục đại học quyết định thành lập Hội đồng xét bổ nhiệm chức danh giáo sư, phó giáo sư.\n- Thành viên Hội đồng trao đổi, thảo luận công khai đối với từng hồ sơ của ứng viên. Mỗi hồ sơ phải được trên 1/2 tổng số thành viên Hội đồng nhất trí đưa vào danh sách bổ nhiệm. Kết quả xét phải được công bố công khai trên trang thông tin điện tử của cơ sở giáo dục đại học.\n- Sau thời hạn 15 ngày công khai kết quả xét bổ nhiệm, người đứng đầu cơ sở giáo dục đại học ra quyết định bổ nhiệm chức danh giáo sư, phó giáo sư đối với ứng viên có đủ điều kiện, phù hợp với cơ cấu vị trí cần bổ nhiệm. Trong quyết định bổ nhiệm phải nêu rõ ngành hoặc chuyên ngành khoa học của ứng viên và tên cơ sở giáo dục đại học bổ nhiệm.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "- Bản đăng ký xét bổ nhiệm chức danh giáo sư, phó giáo sư (theo Mẫu số 15).",
+        "quantity": "1 bản chính",
+        "attachment": "Phu luc II.docx",
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "- Bản sao quyết định công nhận đạt tiêu chuẩn chức danh phó giáo sư đối với ứng viên đăng ký bổ nhiệm chức danh phó giáo sư.",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Bản sao quyết định bổ nhiệm chức danh phó giáo sư và quyết định công nhận đạt tiêu chuẩn chức danh giáo sư đối với ứng viên đăng ký bổ nhiệm chức danh giáo sư.",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Minh chứng được bổ nhiệm chức danh giáo sư hoặc phó giáo sư ở cơ sở giáo dục đại học nước ngoài (nếu có).",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Các bản sao phải được chứng thực hoặc công chứng theo quy định của pháp luật hoặc đối chiếu với bản chính khi nộp hồ sơ.",
+        "quantity": null,
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "15 ngày",
+      "fee": "0",
+      "description": "15 ngày công khai kết quả xét bổ nhiệm, người đứng đầu cơ sở giáo dục đại học ra quyết định bổ nhiệm chức danh giáo sư, phó giáo sư đối với ứng viên có đủ điều kiện, phù hợp với cơ cấu vị trí cần bổ nhiệm.",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "quy định tiêu chuẩn, thủ tục xét công nhận đạt tiêu chuẩn và bổ nhiệm chức danh giáo sư, phó giáo sư; thủ tục xét hủy bỏ công nhận chức danh và miễn nhiệm chức danh giáo sư, phó giáo sư",
+      "document_number": "37/2018/QĐ-TTg",
+      "source_page": 3
+    }
+  ],
+  "conditions": "quy định tiêu chuẩn, thủ tục xét công nhận đạt tiêu chuẩn và bổ nhiệm chức danh giáo sư, phó giáo sư; thủ tục xét hủy bỏ công nhận chức danh và miễn nhiệm chức danh giáo sư, phó giáo sư",
+  "results": [
+    {
+      "title": "Quyết định bổ nhiệm chức danh giáo sư, phó giáo sư của người đứng đầu cơ sở giáo dục đại học",
+      "code": "KQ.G03.000163",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "- Căn cứ quy định hiện hành và nhu cầu của cơ sở giáo dục đại học, hàng năm người đứng đầu cơ sở giáo dục đại học công khai vị trí, số lượng, tiêu chuẩn và điều kiện bổnhiệm chức danh giáo sư, phó giáo sư ở từng bộ môn hoặc chuyên ngành đào tạo của cơ sở trước khi thu nhận hồ sơ đăng ký bổ nhiệm.\n- Cơ sở giáo dục đại học tổ chức thu nhận hồ sơ đăng ký xét bổ nhiệm chức danh giáo sư, phó giáo sư; phân loại theo ngành, chuyên ngành khoa học.\n- Người đứng đầu cơ sở giáo dục đại học quyết định thành lập Hội đồng xét bổ nhiệm chức danh giáo sư, phó giáo sư.\n- Thành viên Hội đồng trao đổi, thảo luận công khai đối với từng hồ sơ của ứng viên. Mỗi hồ sơ phải được trên 1/2 tổng số thành viên Hội đồng nhất trí đưa vào danh sách bổ nhiệm. Kết quả xét phải được công bố công khai trên trang thông tin điện tử của cơ sở giáo dục đại học.\n- Sau thời hạn 15 ngày công khai kết quả xét bổ nhiệm, người đứng đầu cơ sở giáo dục đại học ra quyết định bổ nhiệm chức danh giáo sư, phó giáo sư đối với ứng viên có đủ điều kiện, phù hợp với cơ cấu vị trí cần bổ nhiệm. Trong quyết định bổ nhiệm phải nêu rõ ngành hoặc chuyên ngành khoa học của ứng viên và tên cơ sở giáo dục đại học bổ nhiệm.",
+    "THÀNH PHẦN HỒ SƠ": "- Bản đăng ký xét bổ nhiệm chức danh giáo sư, phó giáo sư (theo Mẫu số 15).\n- Bản sao quyết định công nhận đạt tiêu chuẩn chức danh phó giáo sư đối với ứng viên đăng ký bổ nhiệm chức danh phó giáo sư.\n- Bản sao quyết định bổ nhiệm chức danh phó giáo sư và quyết định công nhận đạt tiêu chuẩn chức danh giáo sư đối với ứng viên đăng ký bổ nhiệm chức danh giáo sư.\n- Minh chứng được bổ nhiệm chức danh giáo sư hoặc phó giáo sư ở cơ sở giáo dục đại học nước ngoài (nếu có).\nCác bản sao phải được chứng thực hoặc công chứng theo quy định của pháp luật hoặc đối chiếu với bản chính khi nộp hồ sơ.",
+    "CÁCH THỨC THỰC HIỆN": "Trực tiếp: 15 ngày",
+    "CĂN CỨ PHÁP LÝ": "quy định tiêu chuẩn, thủ tục xét công nhận đạt tiêu chuẩn và bổ nhiệm chức danh giáo sư, phó giáo sư; thủ tục xét hủy bỏ công nhận chức danh và miễn nhiệm chức danh giáo sư, phó giáo sư - 37/2018/QĐ-TTg",
+    "CƠ QUAN THỰC HIỆN": "Bộ Giáo dục và Đào tạo",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "quy định tiêu chuẩn, thủ tục xét công nhận đạt tiêu chuẩn và bổ nhiệm chức danh giáo sư, phó giáo sư; thủ tục xét hủy bỏ công nhận chức danh và miễn nhiệm chức danh giáo sư, phó giáo sư",
+    "KẾT QUẢ XỬ LÝ": "Quyết định bổ nhiệm chức danh giáo sư, phó giáo sư của người đứng đầu cơ sở giáo dục đại học - KQ.G03.000163",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "quy định tiêu chuẩn, thủ tục xét công nhận đạt tiêu chuẩn và bổ nhiệm chức danh giáo sư, phó giáo sư; thủ tục xét hủy bỏ công nhận chức danh và miễn nhiệm chức danh giáo sư, phó giáo sư"
+  },
+  "classification": {
+    "sector": {
+      "name": "Tiêu chuẩn nhà giáo, cán bộ quản lý giáo dục",
+      "slug": "tieu-chuan-nha-giao-can-bo-quan-ly-giao-duc"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Cán bộ, công chức, viên chức",
+        "slug": "can-bo-cong-chuc-vien-chuc"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Bộ Giáo dục và Đào tạo",
+        "slug": "bo-giao-duc-va-ao-tao"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

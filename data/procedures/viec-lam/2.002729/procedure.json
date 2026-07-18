@@ -1,0 +1,213 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfc-f927-744a-9111-1e147eff4b9b",
+  "procedure_code": "2.002729",
+  "title": "Thủ tục cấp/cấp lại Giấy chứng nhận doanh nghiệp sinh thái",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfc-f927-744a-9111-1e147eff4b9b",
+    "source_file": "chi-tiet-thu-tuc-2.002729.pdf",
+    "source_path": "procedures/viec-lam/2.002729/chi-tiet-thu-tuc-2.002729.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T05:02:28.068457+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "aabd290cc598c8e4a6bdf2e890d4910ed235b33d75a112b33ee91fa23dbbe0e2"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1474/QĐ-BTC",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "NOT_ASSIGNED_REGULATION",
+  "sector": "Quản lý nhà nước về khu công nghiệp, khu kinh tế",
+  "target_users": [
+    "Doanh nghiệp có vốn đầu tư nước ngoài",
+    "Doanh nghiệp"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Ban quản lý"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "- Bước 1: Nhà đầu tư nộp 05 bộ hồ sơ đăng ký chứng nhận doanh nghiệp sinh thái cho Ban quản lý khu công nghiệp, khu kinh tế (sau đây gọi chung là Ban quản lý).",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "- Bước 2: Trong thời hạn 03 ngày làm việc kể từ ngày nhận đủ hồ sơ, Ban quản lý khu công nghiệp, khu kinh tế gửi hồ sơ lấy ý kiến các Sở: Tài nguyên và Môi trường, Khoa học và Công nghệ, Công Thương, Xây dựng.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "- Bước 3: Trong thời hạn 07 ngày làm việc kể từ ngày nhận đủ hồ sơ, cơ quan được lấy ý kiến có ý kiến về việc đáp ứng các tiêu chí xác định doanh nghiệp sinh thái theo quy định tại khoản 2 Điều 37 của Nghị định số 35/2022/NĐ-CP.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 4,
+      "title": "Bước 4",
+      "description": "- Bước 4: Trong thời hạn 20 ngày kể từ ngày nhận đủ hồ sơ, Ban quản lý khu công nghiệp, khu kinh tế tổ chức đánh giá hồ sơ và lập báo cáo đánh giá việc đáp ứng các tiêu chí xác định doanh nghiệp sinh thái theo quy định tại khoản 2 Điều 37 của Nghị định số 35/2022/NĐ-CP.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 5,
+      "title": "Bước 5",
+      "description": "- Bước 5: Trường hợp kết quả đánh giá đạt yêu cầu, Ban quản lý khu công nghiệp, khu kinh tế cấp Giấy chứng nhận doanh nghiệp sinh thái cho doanh nghiệp.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "- Văn bản đăng ký chứng nhận doanh nghiệp sinh thái.",
+        "quantity": "1 bản chính, 4 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Báo cáo về tình hình hoạt động của doanh nghiệp trong khu công nghiệp sinh thái.",
+        "quantity": "1 bản chính, 4 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Đánh giá và giải trình khả năng đáp ứng các tiêu chí xác định doanh nghiệp sinh thái theo quy định tại khoản 2 Điều 37 Nghị định số 35/2022/NĐ-CP (kèm theo các tài liệu có liên quan), gồm: + Tuân thủ quy định của pháp luật về đầu tư, pháp luật về doanh nghiệp, pháp luật về xây dựng, pháp luật về đất đai, pháp luật về bảo vệ môi trường và pháp luật về lao động trong vòng 03 năm trước thời điểm đăng ký chứng nhận khu công nghiệp sinh thái; + Thực hiện ít nhất 01 cộng sinh công nghiệp và các doanh nghiệp tham gia cộng sinh công nghiệp trong khu công nghiệp áp dụng hệ thống quản lý sản xuất và môi trường theo các tiêu chuẩn của Tổ chức tiêu chuẩn hóa quốc tế (ISO) phù hợp; + Tối thiểu 20% doanh nghiệp trong khu công nghiệp áp dụng các giải pháp sử dụng hiệu quả tài nguyên, sản xuất sạch hơn đạt kết quả tiết kiệm nguyên liệu, vật liệu, nước, năng lượng, hóa chất, chất thải, phế liệu và giảm phát thải ra môi trường.",
+        "quantity": "1 bản chính, 4 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Các tài liệu khác có liên quan đến việc thực hiện trách nhiệm môi trường, xã hội của doanh nghiệp: + Báo cáo theo dõi, giám sát thực hiện doanh nghiệp sinh thái. + Các chỉ số đánh giá hiệu quả môi trường, xã hội của doanh nghiệp sinh thái.",
+        "quantity": "1 bản chính, 4 bản sao",
+        "attachment": null,
+        "source_page": 3
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "30 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": 3
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "30 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "30 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị định số 35/2022/NĐ-CP của Chính phủ: Quy định về quản lý khu công nghiệp và khu kinh tế",
+      "document_number": "35/2022/NĐ-CP",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Giấy chứng nhận khu công nghiệp sinh thái",
+      "code": "KQ.G12.001374",
+      "source_page": 4
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "- Bước 1: Nhà đầu tư nộp 05 bộ hồ sơ đăng ký chứng nhận doanh nghiệp sinh thái cho Ban quản lý khu công nghiệp, khu kinh tế (sau đây gọi chung là Ban quản lý).\n- Bước 2: Trong thời hạn 03 ngày làm việc kể từ ngày nhận đủ hồ sơ, Ban quản lý khu công nghiệp, khu kinh tế gửi hồ sơ lấy ý kiến các Sở: Tài nguyên và Môi trường, Khoa học và Công nghệ, Công Thương, Xây dựng.\n- Bước 3: Trong thời hạn 07 ngày làm việc kể từ ngày nhận đủ hồ sơ, cơ quan được lấy ý kiến có ý kiến về việc đáp ứng các tiêu chí xác định doanh nghiệp sinh thái theo quy định tại khoản 2 Điều 37 của Nghị định số 35/2022/NĐ-CP.\n- Bước 4: Trong thời hạn 20 ngày kể từ ngày nhận đủ hồ sơ, Ban quản lý khu công nghiệp, khu kinh tế tổ chức đánh giá hồ sơ và lập báo cáo đánh giá việc đáp ứng các tiêu chí xác định doanh nghiệp sinh thái theo quy định tại khoản 2 Điều 37 của Nghị định số 35/2022/NĐ-CP.\n- Bước 5: Trường hợp kết quả đánh giá đạt yêu cầu, Ban quản lý khu công nghiệp, khu kinh tế cấp Giấy chứng nhận doanh nghiệp sinh thái cho doanh nghiệp.",
+    "THÀNH PHẦN HỒ SƠ": "- Văn bản đăng ký chứng nhận doanh nghiệp sinh thái.\n- Báo cáo về tình hình hoạt động của doanh nghiệp trong khu công nghiệp sinh thái.\n- Đánh giá và giải trình khả năng đáp ứng các tiêu chí xác định doanh nghiệp sinh thái theo quy định tại khoản 2 Điều 37 Nghị định số 35/2022/NĐ-CP (kèm theo các tài liệu có liên quan), gồm: + Tuân thủ quy định của pháp luật về đầu tư, pháp luật về doanh nghiệp, pháp luật về xây dựng, pháp luật về đất đai, pháp luật về bảo vệ môi trường và pháp luật về lao động trong vòng 03 năm trước thời điểm đăng ký chứng nhận khu công nghiệp sinh thái; + Thực hiện ít nhất 01 cộng sinh công nghiệp và các doanh nghiệp tham gia cộng sinh công nghiệp trong khu công nghiệp áp dụng hệ thống quản lý sản xuất và môi trường theo các tiêu chuẩn của Tổ chức tiêu chuẩn hóa quốc tế (ISO) phù hợp; + Tối thiểu 20% doanh nghiệp trong khu công nghiệp áp dụng các giải pháp sử dụng hiệu quả tài nguyên, sản xuất sạch hơn đạt kết quả tiết kiệm nguyên liệu, vật liệu, nước, năng lượng, hóa chất, chất thải, phế liệu và giảm phát thải ra môi trường.\n- Các tài liệu khác có liên quan đến việc thực hiện trách nhiệm môi trường, xã hội của doanh nghiệp: + Báo cáo theo dõi, giám sát thực hiện doanh nghiệp sinh thái. + Các chỉ số đánh giá hiệu quả môi trường, xã hội của doanh nghiệp sinh thái.",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 30 ngày\nQua dịch vụ bưu chính: 30 ngày\nTrực tiếp: 30 ngày",
+    "CĂN CỨ PHÁP LÝ": "Nghị định số 35/2022/NĐ-CP của Chính phủ: Quy định về quản lý khu công nghiệp và khu kinh tế - 35/2022/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Ban quản lý",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Giấy chứng nhận khu công nghiệp sinh thái - KQ.G12.001374",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Quản lý nhà nước về khu công nghiệp, khu kinh tế",
+      "slug": "quan-ly-nha-nuoc-ve-khu-cong-nghiep-khu-kinh-te"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Ban quản lý",
+        "slug": "ban-quan-ly"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

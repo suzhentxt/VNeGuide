@@ -1,0 +1,229 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2c00-009b-747f-89bc-b5c3ddc311ab",
+  "procedure_code": "3.000165",
+  "title": "Đăng ký cấp sao bản án, tài liệu trong hồ sơ vụ án",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2c00-009b-747f-89bc-b5c3ddc311ab",
+    "source_file": "chi-tiet-thu-tuc-3.000165.pdf",
+    "source_path": "procedures/giai-quyet-khieu-kien/3.000165/chi-tiet-thu-tuc-3.000165.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T04:58:09.758040+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "0f6456ee5dae8c6719b39c2afeccfea8bcb205452b8c7b36d8578aad96e8b93d"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "01/QĐCB",
+  "implementation_level": "Cấp bộ, Cấp tỉnh, Cấp xã, Cơ quan ngành dọc",
+  "procedure_type": "OTHER",
+  "sector": "Tòa án",
+  "target_users": [
+    "Công dân Việt Nam",
+    "Doanh nghiệp",
+    "Cán bộ, công chức, viên chức",
+    "Người nước ngoài",
+    "Hợp tác xã",
+    "Tổ chức nước ngoài",
+    "Doanh nghiệp có vốn đầu tư nước ngoài",
+    "Doanh nghiệp Việt Nam",
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Người Việt Nam định cư ở nước ngoài"
+  ],
+  "agency": {
+    "competent_agency": "Tòa án nhân dân tỉnh, thành phố trực thuộc trung ương; Tòa án nhân dân; Tòa án nhân dân khu vực; Tòa án nhân dân tối cao, Viện kiểm sát nhân dân tối cao",
+    "executing_agency": "Tòa án nhân dân tỉnh, thành phố trực thuộc trung ương, Tòa án nhân dân tối cao"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1. Cá nhân, tổ chức đề nghị cấp bản sao trích lục bản án tại cơ quan Tòa án.\nTrường hợp thực hiện trực tuyến, cá nhân, tổ chức đăng nhập Cổng Dịch vụ công Quốc gia/Cổng thông tin điện tử của Tòa án nhân dân và lựa chọn dịch vụ, thực hiện nộp đăng ký trực tuyến.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "Bước 2. Cơ quan Tòa án xử lý đề nghị của cá nhân, tổ chức.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "Bước 3. Cơ quan Tòa án thông báo kết quả và phí cấp bản sao. \nTrường hợp thực hiện trực tuyến, thông báo sẽ được gửi trực tuyến đến cá nhân, tổ chức. Cá nhân, tổ chức thực hiện đóng phí cấp bản sao trực tuyến.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 4,
+      "title": "Bước 4",
+      "description": "Bước 4. Cá nhân, tổ chức nộp phí cấp bản sao và nhận kết quả tại Cơ quan Tòa án hoặc nhận kết quả qua đường bưu điện.\nTrường hợp thực hiện trực tuyến, cá nhân, tổ chức có thể nhận kết quả là các văn bản điện tử.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Đơn đăng ký cấp sao tài liệu",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Chứng minh nhân dân/Căn cước công dân",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "1",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "1",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      }
+    ]
+  },
+  "legal_bases": [],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Văn bản tố tụng của Tòa án theo tiến trình giải quyết",
+      "code": "VBTT",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1. Cá nhân, tổ chức đề nghị cấp bản sao trích lục bản án tại cơ quan Tòa án.\nTrường hợp thực hiện trực tuyến, cá nhân, tổ chức đăng nhập Cổng Dịch vụ công Quốc gia/Cổng thông tin điện tử của Tòa án nhân dân và lựa chọn dịch vụ, thực hiện nộp đăng ký trực tuyến.\nBước 2. Cơ quan Tòa án xử lý đề nghị của cá nhân, tổ chức.\nBước 3. Cơ quan Tòa án thông báo kết quả và phí cấp bản sao. \nTrường hợp thực hiện trực tuyến, thông báo sẽ được gửi trực tuyến đến cá nhân, tổ chức. Cá nhân, tổ chức thực hiện đóng phí cấp bản sao trực tuyến.\nBước 4. Cá nhân, tổ chức nộp phí cấp bản sao và nhận kết quả tại Cơ quan Tòa án hoặc nhận kết quả qua đường bưu điện.\nTrường hợp thực hiện trực tuyến, cá nhân, tổ chức có thể nhận kết quả là các văn bản điện tử.",
+    "THÀNH PHẦN HỒ SƠ": "Đơn đăng ký cấp sao tài liệu\nChứng minh nhân dân/Căn cước công dân",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 1\nTrực tiếp: 1",
+    "CĂN CỨ PHÁP LÝ": "",
+    "CƠ QUAN THỰC HIỆN": "Tòa án nhân dân tỉnh, thành phố trực thuộc trung ương, Tòa án nhân dân tối cao",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Văn bản tố tụng của Tòa án theo tiến trình giải quyết - VBTT",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Tòa án",
+      "slug": "toa-an"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      },
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      },
+      {
+        "name": "Cấp xã",
+        "slug": "cap-xa"
+      },
+      {
+        "name": "Cơ quan ngành dọc",
+        "slug": "co-quan-nganh-doc"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Cán bộ, công chức, viên chức",
+        "slug": "can-bo-cong-chuc-vien-chuc"
+      },
+      {
+        "name": "Người nước ngoài",
+        "slug": "nguoi-nuoc-ngoai"
+      },
+      {
+        "name": "Hợp tác xã",
+        "slug": "hop-tac-xa"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      },
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      },
+      {
+        "name": "Doanh nghiệp Việt Nam",
+        "slug": "doanh-nghiep-viet-nam"
+      },
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Người Việt Nam định cư ở nước ngoài",
+        "slug": "nguoi-viet-nam-inh-cu-o-nuoc-ngoai"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Tòa án nhân dân tỉnh, thành phố trực thuộc trung ương",
+        "slug": "toa-an-nhan-dan-tinh-thanh-pho-truc-thuoc-trung-uong"
+      },
+      {
+        "name": "Tòa án nhân dân tối cao",
+        "slug": "toa-an-nhan-dan-toi-cao"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

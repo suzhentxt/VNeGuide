@@ -1,0 +1,240 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfb-b7f8-7679-80b1-ae74edb4a30a",
+  "procedure_code": "1.014692",
+  "title": "Thủ tục chấp thuận điều kiện nhập khẩu, tạm nhập tái xuất, tạm xuất tái nhập tàu bay không người lái và phương tiện bay khác; động cơ tàu bay, cánh quạt tàu bay và trang bị, thiết bị của tàu bay không người lái và phương tiện bay khác",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfb-b7f8-7679-80b1-ae74edb4a30a",
+    "source_file": "chi-tiet-thu-tuc-1.014692.pdf",
+    "source_path": "procedures/phuong-tien-va-nguoi-lai/1.014692/chi-tiet-thu-tuc-1.014692.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T04:58:59.106174+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "5d37790bbef0557803d5a6ac10bbf0ac26134e5b26a23d50ce3fd0e58ac2da1f"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "2506/QĐ-BQP",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Quản lý vùng trời",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Công dân Việt Nam"
+  ],
+  "agency": {
+    "competent_agency": "Chủ tịch ủy ban nhân dân cấp tỉnh",
+    "executing_agency": "Cơ quan phân cấp, ủy quyền của UBND cấp tỉnh"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1: Tổ chức, cá nhân có hoạt động nhập khẩu, xuất khẩu, tạm nhập tái xuất, tạm xuất tái nhập gửi 01 bộ hồ sơ quy định tại Điều 7 Nghị định số 288/2025/NĐ-CP ngày 05/11/2025 của Chính phủ đến Ủy ban nhân dân cấp tỉnh theo hình thức trực tuyến, qua dịch vụ bưu chính hoặc trực tiếp.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "Bước 2: Trong thời hạn 03 ngày làm việc, kể từ khi nhận đủ hồ sơ, Ủy ban nhân dân cấp tỉnh có văn bản kèm theo hồ sơ của tổ chức, cá nhân gửi Bộ Quốc phòng, Bộ Công an.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "Bước 3: Trong thời hạn 05 ngày làm việc, kể từ khi nhận được văn bản của Ủy ban nhân dân cấp tỉnh; Bộ Quốc phòng, Bộ Công an có văn bản trả lời gửi Ủy ban nhân dân cấp tỉnh; trong thời hạn 03 ngày làm việc, Ủy ban nhân dân cấp tỉnh căn cứ ý kiến của Bộ Quốc phòng, Bộ Công an quyết định việc cấp phép theo quy định và gửi thông tin về việc cấp phép cho Bộ Quốc phòng, Bộ Công an và cập nhật giấy phép trên Cổng Dịch vụ công quốc gia; trường hợp không cấp phép, Ủy ban nhân dân cấp tỉnh trả lời bằng văn bản và nêu rõ lý do.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 4,
+      "title": "Bước 4",
+      "description": "Bước 4: Trường hợp hồ sơ không hợp lệ, trong thời hạn 03 ngày làm việc, Ủy ban nhân dân cấp tỉnh yêu cầu tổ chức, cá nhân hoàn thiện hồ sơ; thời gian hoàn thiện hồ sơ không tính vào thời hạn giải quyết.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Văn bản đề nghị cấp phép của tổ chức, cá nhân: 01 bản chính theo Mẫu số 01 hoặc Mẫu số 01a tại Phụ lục ban hành kèm theo Nghị định số 288/2025/NĐ-CP ngày 05/11/2025 của Chính phủ",
+        "quantity": "1 bản chính",
+        "attachment": "Đơn đề nghị cấp GCN.docx; Đơn đề nghị Mẫu số 01a.docx",
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Hình ảnh tổng quan và ảnh ký hiệu, số xuất xưởng (nếu có) của tàu bay không người lái và phương tiện bay khác (khổ A4).",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Bảng thông số kỹ thuật của tàu bay không người lái và phương tiện bay khác do nhà sản xuất cung cấp 01 bản sao hợp lệ.",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Danh mục các trang bị, thiết bị riêng lẻ cấu thành tàu bay không người lái và phương tiện bay khác.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Hồ sơ hoặc tài liệu về tiêu chuẩn, quy chuẩn kỹ thuật của tàu bay không người lái và phương tiện bay khác, trừ trường hợp tạm xuất tái nhập.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Trường hợp nhập khẩu theo hình thức ủy thác phải có văn bản, thỏa thuận giữa bên ủy thác và nhận ủy thác; bên ủy thác nhập khẩu phải đáp ứng quy định tại khoản 2 Điều 5 Nghị định số 288/2025/NĐ-CP ngày 05/11/2025 của Chính phủ.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Trường hợp các tổ chức, cá nhân, người nước ngoài đã tích hợp các thông tin và các cơ quan quản lý nhà nước hoàn thành việc kết nối, chia sẻ thông tin trên môi trường điện tử thì không cần các thành phần hồ sơ quy định tại khoản 2 Điều 7 Nghị định số 288/2025/NĐ-CP ngày 05/11/2025 của Chính phủ.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "11 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "11 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "11 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Thông tư quy định nội dung, chương trình cơ bản đào tạo về kiến thức hàng không, thực hành điều khiển tàu bay không người lái và phương tiện bay khác; phân cấp giải quyết thủ tục hành chính và thực hiện một số nội dung trong lĩnh vực quản lý tàu bay không người lái và phương tiện bay khác.",
+      "document_number": "146/2025/TT-BQP",
+      "source_page": 3
+    },
+    {
+      "title": "NGHỊ ĐİNH Quy định về quản lý tàu bay không người lái và phương tiện bay khác",
+      "document_number": "288/2025/NĐ-CP",
+      "source_page": 3
+    },
+    {
+      "title": "Luật Phòng không nhân dân",
+      "document_number": "49/2024/QH15",
+      "source_page": 3
+    },
+    {
+      "title": "Nghị quyết số 24/2026/NQ-CP ngày 29/4/2026 của Chính phủ cắt giảm, phân cấp, đơn giản hóa thủ tục hành chính, điều kiện kinh doanh lĩnh vực quốc phòng, nội vụ, tài chính, xây dựng, ngoại giao, tư pháp, ngân hàng.",
+      "document_number": "24/2026/NQ-CP",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Văn bản chấp thuận hoặc không chấp thuận.",
+      "code": "KQ.G11.000415",
+      "source_page": 4
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1: Tổ chức, cá nhân có hoạt động nhập khẩu, xuất khẩu, tạm nhập tái xuất, tạm xuất tái nhập gửi 01 bộ hồ sơ quy định tại Điều 7 Nghị định số 288/2025/NĐ-CP ngày 05/11/2025 của Chính phủ đến Ủy ban nhân dân cấp tỉnh theo hình thức trực tuyến, qua dịch vụ bưu chính hoặc trực tiếp.\nBước 2: Trong thời hạn 03 ngày làm việc, kể từ khi nhận đủ hồ sơ, Ủy ban nhân dân cấp tỉnh có văn bản kèm theo hồ sơ của tổ chức, cá nhân gửi Bộ Quốc phòng, Bộ Công an.\nBước 3: Trong thời hạn 05 ngày làm việc, kể từ khi nhận được văn bản của Ủy ban nhân dân cấp tỉnh; Bộ Quốc phòng, Bộ Công an có văn bản trả lời gửi Ủy ban nhân dân cấp tỉnh; trong thời hạn 03 ngày làm việc, Ủy ban nhân dân cấp tỉnh căn cứ ý kiến của Bộ Quốc phòng, Bộ Công an quyết định việc cấp phép theo quy định và gửi thông tin về việc cấp phép cho Bộ Quốc phòng, Bộ Công an và cập nhật giấy phép trên Cổng Dịch vụ công quốc gia; trường hợp không cấp phép, Ủy ban nhân dân cấp tỉnh trả lời bằng văn bản và nêu rõ lý do.\nBước 4: Trường hợp hồ sơ không hợp lệ, trong thời hạn 03 ngày làm việc, Ủy ban nhân dân cấp tỉnh yêu cầu tổ chức, cá nhân hoàn thiện hồ sơ; thời gian hoàn thiện hồ sơ không tính vào thời hạn giải quyết.",
+    "THÀNH PHẦN HỒ SƠ": "Văn bản đề nghị cấp phép của tổ chức, cá nhân: 01 bản chính theo Mẫu số 01 hoặc Mẫu số 01a tại Phụ lục ban hành kèm theo Nghị định số 288/2025/NĐ-CP ngày 05/11/2025 của Chính phủ\nHình ảnh tổng quan và ảnh ký hiệu, số xuất xưởng (nếu có) của tàu bay không người lái và phương tiện bay khác (khổ A4).\nBảng thông số kỹ thuật của tàu bay không người lái và phương tiện bay khác do nhà sản xuất cung cấp 01 bản sao hợp lệ.\nDanh mục các trang bị, thiết bị riêng lẻ cấu thành tàu bay không người lái và phương tiện bay khác.\nHồ sơ hoặc tài liệu về tiêu chuẩn, quy chuẩn kỹ thuật của tàu bay không người lái và phương tiện bay khác, trừ trường hợp tạm xuất tái nhập.\nTrường hợp nhập khẩu theo hình thức ủy thác phải có văn bản, thỏa thuận giữa bên ủy thác và nhận ủy thác; bên ủy thác nhập khẩu phải đáp ứng quy định tại khoản 2 Điều 5 Nghị định số 288/2025/NĐ-CP ngày 05/11/2025 của Chính phủ.\nTrường hợp các tổ chức, cá nhân, người nước ngoài đã tích hợp các thông tin và các cơ quan quản lý nhà nước hoàn thành việc kết nối, chia sẻ thông tin trên môi trường điện tử thì không cần các thành phần hồ sơ quy định tại khoản 2 Điều 7 Nghị định số 288/2025/NĐ-CP ngày 05/11/2025 của Chính phủ.",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 11 ngày làm việc\nQua dịch vụ bưu chính: 11 ngày làm việc\nTrực tiếp: 11 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Thông tư quy định nội dung, chương trình cơ bản đào tạo về kiến thức hàng không, thực hành điều khiển tàu bay không người lái và phương tiện bay khác; phân cấp giải quyết thủ tục hành chính và thực hiện một số nội dung trong lĩnh vực quản lý tàu bay không người lái và phương tiện bay khác. - 146/2025/TT-BQP\nNGHỊ ĐİNH Quy định về quản lý tàu bay không người lái và phương tiện bay khác - 288/2025/NĐ-CP\nLuật Phòng không nhân dân - 49/2024/QH15\nNghị quyết số 24/2026/NQ-CP ngày 29/4/2026 của Chính phủ cắt giảm, phân cấp, đơn giản hóa thủ tục hành chính, điều kiện kinh doanh lĩnh vực quốc phòng, nội vụ, tài chính, xây dựng, ngoại giao, tư pháp, ngân hàng. - 24/2026/NQ-CP",
+    "CƠ QUAN THỰC HIỆN": "Cơ quan phân cấp, ủy quyền của UBND cấp tỉnh",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Văn bản chấp thuận hoặc không chấp thuận. - KQ.G11.000415",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Quản lý vùng trời",
+      "slug": "quan-ly-vung-troi"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Cơ quan phân cấp, ủy quyền của UBND cấp tỉnh",
+        "slug": "co-quan-phan-cap-uy-quyen-cua-ubnd-cap-tinh"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

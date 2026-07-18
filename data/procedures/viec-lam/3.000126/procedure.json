@@ -1,0 +1,249 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfa-bd56-7219-b0b7-e4e44ca48225",
+  "procedure_code": "3.000126",
+  "title": "Công nhận dòng, giống vật nuôi mới",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfa-bd56-7219-b0b7-e4e44ca48225",
+    "source_file": "chi-tiet-thu-tuc-3.000126.pdf",
+    "source_path": "procedures/viec-lam/3.000126/chi-tiet-thu-tuc-3.000126.pdf",
+    "page_count": 5,
+    "extracted_at": "2026-07-18T05:02:34.034136+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "80063e4069ca2981fd07407f95ea4600496703aaf0754da670031cb6cd70db57"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1878/QĐ-BNNMT",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "OTHER",
+  "sector": "Chăn nuôi",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Người Việt Nam định cư ở nước ngoài",
+    "Doanh nghiệp có vốn đầu tư nước ngoài",
+    "Công dân Việt Nam",
+    "Doanh nghiệp",
+    "Người nước ngoài",
+    "Tổ chức nước ngoài",
+    "Hợp tác xã",
+    "Cán bộ, công chức, viên chức"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Bộ Nông nghiệp và Môi trường"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "* Trường hợp dòng, giống vật nuôi mới có kết quả khảo nghiệm đã được công nhận:",
+      "description": "Tổ chức, cá nhân nộp đơn đề nghị công nhận dòng, giống vật nuôi mới đến Cục Chăn nuôi và Thú y.\nSau khi nhận được đề nghị của tổ chức, cá nhân trong thời hạn 05 (năm) ngày làm việc, Cục Chăn nuôi và Thú y trình Bộ trưởng Bộ Nông nghiệp và Môi trường công nhận dòng, giống vật nuôi mới. Trường hợp không công nhận trả lời bằng văn bản và nêu rõ lý do.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "* Trường hợp dòng, giống vật nuôi mới là kết quả nghiên cứu, chọn tạo của tổ chức, cá nhân:",
+      "description": "Tổ chức, cá nhân đề nghị công nhận dòng, giống vật nuôi mới nộp 01 bộ hồ sơ theo đến Cục Chăn nuôi và Thú y.\nCục Chăn nuôi và Thú y trả lời ngay tính đầy đủ của hồ sơ đối với trường hợp tổ chức, cá nhân nộp trực tiếp; trả lời tính đầy đủ của hồ sơ trong 03 (ba) ngày làm việc kể từ ngày nhận được hồ sơ đối với trường hợp tổ chức, cá nhân nộp hồ sơ qua môi trường mạng hoặc qua dịch vụ bưu chính bằng văn bản.\nTrong thời hạn 10 (mười) ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ, Cục Chăn nuôi và Thú y trình Bộ Nông nghiệp và Môi trường thành lập Hội đồng đánh giá kết quả nhiệm vụ khoa học công nghệ của tổ chức, cá nhân thực hiện để công nhận dòng, giống vật nuôi mới. Thành phần hội đồng gồm: đại diện  Cục Chăn nuôi và Thú y, Vụ Khoa học và Công nghệ, các cơ quan, đơn vị có liên quan và các chuyên gia chuyên ngành. \nTrong thời hạn 05 (năm) ngày làm việc kể từ ngày nhận được hồ sơ hoàn thiện theo ý kiến của Hội đồng, Cục Chăn nuôi và Thú y xem xét, trình Bộ trưởng Bộ Nông nghiệp và Môi trường công nhận dòng, giống vật nuôi mới theo Mẫu số 15 Phụ lục I ban hành kèm theo Thông tư số 94/2025/TT-BNNMT; trường hợp không công nhận trả lời bằng văn bản và nêu rõ lý do.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 3,
+      "title": "Trường hợp dòng, giống vật nuôi mới được tạo ra từ kết quả nhiệm vụ khoa học và công nghệ cấp Bộ, cấp quốc gia đã được công nhận:",
+      "description": "Không thực hiện theo trình tự thủ tục quy định tại khoản 2 và khoản 3 Điều 12 Thông tư số 94/2025/TT-BNNMT.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "* Trường hợp dòng, giống vật nuôi mới là kết quả nghiên cứu, chọn tạo của tổ chức, cá nhân: -\tThuyết minh nghiên cứu, chọn tạo dòng, giống vật nuôi của tổ chức, cá nhân theo Mẫu số 13 Phụ lục I ban hành kèm theo Thông tư số 94/2025/TT-BNNMT",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": "Thuyết minh nhiệm vụ khoa học công nghệ.docx",
+        "source_page": 2
+      },
+      {
+        "name": "* Trường hợp dòng, giống vật nuôi mới là kết quả nghiên cứu, chọn tạo của tổ chức, cá nhân: -\tBáo cáo kết quả nghiên cứu, chọn tạo dòng, giống vật nuôi mới của tổ chức, cá nhân theo Mẫu số 14 Phụ lục I ban hành kèm theo Thông tư số 94/2025/TT-BNNMT",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": "Báo cáo kết quả nhiệm vụ khoa học công nghệ.docx",
+        "source_page": 2
+      },
+      {
+        "name": "* Trường hợp dòng, giống vật nuôi mới là kết quả nghiên cứu, chọn tạo của tổ chức, cá nhân: -\tĐơn đề nghị công nhận dòng, giống vật nuôi mới theo Mẫu số 12 Phụ lục I ban hành kèm theo Thông tư số 94/2025/TT-BNNMT",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": "Đơn đề nghị công nhận dòng, giống vật nuôi.docx",
+        "source_page": 2
+      },
+      {
+        "name": "* Trường hợp dòng, giống vật nuôi mới là kết quả nghiên cứu, chọn tạo của tổ chức, cá nhân: Quy trình chăn nuôi",
+        "quantity": "1 bản chính",
+        "attachment": "Quy trình chăn nuôi.docx",
+        "source_page": 3
+      }
+    ],
+    "normally_required": [],
+    "conditional": []
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "15 ngày làm việc",
+      "fee": "750.000 đồng 01 dòng, giống/lần.",
+      "description": "* Trường hợp dòng, giống vật nuôi mới có kết quả khảo nghiệm đã được công nhận: Thời hạn giải quyết: 6 ngày làm việc.\n* Trường hợp dòng, giống vật nuôi mới là kết quả nghiên cứu, chọn tạo của tổ chức, cá nhân: Thời hạn giải quyết: 15 ngày làm việc",
+      "source_page": 3
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "15 ngày làm việc",
+      "fee": "750.000 đồng 01 dòng, giống/lần.",
+      "description": "* Trường hợp dòng, giống vật nuôi mới có kết quả khảo nghiệm đã được công nhận: Thời hạn giải quyết: 6 ngày làm việc.\n* Trường hợp dòng, giống vật nuôi mới là kết quả nghiên cứu, chọn tạo của tổ chức, cá nhân: Thời hạn giải quyết: 15 ngày làm việc",
+      "source_page": 3
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "15 ngày làm việc",
+      "fee": "750.000 đồng 01 dòng, giống/lần.",
+      "description": "* Trường hợp dòng, giống vật nuôi mới có kết quả khảo nghiệm đã được công nhận: Thời hạn giải quyết: 6 ngày làm việc.\n* Trường hợp dòng, giống vật nuôi mới là kết quả nghiên cứu, chọn tạo của tổ chức, cá nhân: Thời hạn giải quyết: 15 ngày làm việc",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "750.000 đồng 01 dòng, giống/lần.",
+    "status": "varies_by_submission_method",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "750.000 đồng 01 dòng, giống/lần.",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "750.000 đồng 01 dòng, giống/lần.",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "750.000 đồng 01 dòng, giống/lần.",
+        "is_free": false,
+        "source_page": null
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Luật Chăn nuôi",
+      "document_number": "32/2018/QH14",
+      "source_page": 5
+    },
+    {
+      "title": "Luật sửa đổi, bổ sung một số điều của 15 luật trong lĩnh vực nông nghiệp và môi trường",
+      "document_number": "Luật số 146/2025/QH15",
+      "source_page": 5
+    },
+    {
+      "title": "Thông tư 24/2021/TT-BTC ngày 31/3/2021 của Bộ Tài chính quy định mức thu, chế độ thu, nộp, quản lý và sử dụng phí trong chăn nuôi.",
+      "document_number": "24/2021/TT-BTC",
+      "source_page": 4
+    },
+    {
+      "title": "Nghị định số 94/2025/NĐ-CP ngày 29 tháng 4 năm 2025 của Chính phủ quy định về Cơ chế thử nghiệm có kiểm soát trong lĩnh vực ngân hàng.",
+      "document_number": "94/2025/NĐ-CP",
+      "source_page": 4
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Quyết định công nhận dòng, giống vật nuôi mới theo Mẫu số 15 Phụ lục I ban hành kèm theo Thông tư số 94/2025/TT-BNNMT.",
+      "code": "KQ.G10.001304",
+      "source_page": 5
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Tổ chức, cá nhân nộp đơn đề nghị công nhận dòng, giống vật nuôi mới đến Cục Chăn nuôi và Thú y.\nSau khi nhận được đề nghị của tổ chức, cá nhân trong thời hạn 05 (năm) ngày làm việc, Cục Chăn nuôi và Thú y trình Bộ trưởng Bộ Nông nghiệp và Môi trường công nhận dòng, giống vật nuôi mới. Trường hợp không công nhận trả lời bằng văn bản và nêu rõ lý do.\nTổ chức, cá nhân đề nghị công nhận dòng, giống vật nuôi mới nộp 01 bộ hồ sơ theo đến Cục Chăn nuôi và Thú y.\nCục Chăn nuôi và Thú y trả lời ngay tính đầy đủ của hồ sơ đối với trường hợp tổ chức, cá nhân nộp trực tiếp; trả lời tính đầy đủ của hồ sơ trong 03 (ba) ngày làm việc kể từ ngày nhận được hồ sơ đối với trường hợp tổ chức, cá nhân nộp hồ sơ qua môi trường mạng hoặc qua dịch vụ bưu chính bằng văn bản.\nTrong thời hạn 10 (mười) ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ, Cục Chăn nuôi và Thú y trình Bộ Nông nghiệp và Môi trường thành lập Hội đồng đánh giá kết quả nhiệm vụ khoa học công nghệ của tổ chức, cá nhân thực hiện để công nhận dòng, giống vật nuôi mới. Thành phần hội đồng gồm: đại diện  Cục Chăn nuôi và Thú y, Vụ Khoa học và Công nghệ, các cơ quan, đơn vị có liên quan và các chuyên gia chuyên ngành. \nTrong thời hạn 05 (năm) ngày làm việc kể từ ngày nhận được hồ sơ hoàn thiện theo ý kiến của Hội đồng, Cục Chăn nuôi và Thú y xem xét, trình Bộ trưởng Bộ Nông nghiệp và Môi trường công nhận dòng, giống vật nuôi mới theo Mẫu số 15 Phụ lục I ban hành kèm theo Thông tư số 94/2025/TT-BNNMT; trường hợp không công nhận trả lời bằng văn bản và nêu rõ lý do.\nKhông thực hiện theo trình tự thủ tục quy định tại khoản 2 và khoản 3 Điều 12 Thông tư số 94/2025/TT-BNNMT.",
+    "THÀNH PHẦN HỒ SƠ": "* Trường hợp dòng, giống vật nuôi mới là kết quả nghiên cứu, chọn tạo của tổ chức, cá nhân: -\tThuyết minh nghiên cứu, chọn tạo dòng, giống vật nuôi của tổ chức, cá nhân theo Mẫu số 13 Phụ lục I ban hành kèm theo Thông tư số 94/2025/TT-BNNMT\n* Trường hợp dòng, giống vật nuôi mới là kết quả nghiên cứu, chọn tạo của tổ chức, cá nhân: -\tBáo cáo kết quả nghiên cứu, chọn tạo dòng, giống vật nuôi mới của tổ chức, cá nhân theo Mẫu số 14 Phụ lục I ban hành kèm theo Thông tư số 94/2025/TT-BNNMT\n* Trường hợp dòng, giống vật nuôi mới là kết quả nghiên cứu, chọn tạo của tổ chức, cá nhân: -\tĐơn đề nghị công nhận dòng, giống vật nuôi mới theo Mẫu số 12 Phụ lục I ban hành kèm theo Thông tư số 94/2025/TT-BNNMT\n* Trường hợp dòng, giống vật nuôi mới là kết quả nghiên cứu, chọn tạo của tổ chức, cá nhân: Quy trình chăn nuôi",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 15 ngày làm việc\nTrực tiếp: 15 ngày làm việc\nQua dịch vụ bưu chính: 15 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Luật Chăn nuôi - 32/2018/QH14\nLuật sửa đổi, bổ sung một số điều của 15 luật trong lĩnh vực nông nghiệp và môi trường - Luật số 146/2025/QH15\nThông tư 24/2021/TT-BTC ngày 31/3/2021 của Bộ Tài chính quy định mức thu, chế độ thu, nộp, quản lý và sử dụng phí trong chăn nuôi. - 24/2021/TT-BTC\nNghị định số 94/2025/NĐ-CP ngày 29 tháng 4 năm 2025 của Chính phủ quy định về Cơ chế thử nghiệm có kiểm soát trong lĩnh vực ngân hàng. - 94/2025/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Bộ Nông nghiệp và Môi trường",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Quyết định công nhận dòng, giống vật nuôi mới theo Mẫu số 15 Phụ lục I ban hành kèm theo Thông tư số 94/2025/TT-BNNMT. - KQ.G10.001304",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Chăn nuôi",
+      "slug": "chan-nuoi"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Người Việt Nam định cư ở nước ngoài",
+        "slug": "nguoi-viet-nam-inh-cu-o-nuoc-ngoai"
+      },
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Người nước ngoài",
+        "slug": "nguoi-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      },
+      {
+        "name": "Hợp tác xã",
+        "slug": "hop-tac-xa"
+      },
+      {
+        "name": "Cán bộ, công chức, viên chức",
+        "slug": "can-bo-cong-chuc-vien-chuc"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Bộ Nông nghiệp và Môi trường",
+        "slug": "bo-nong-nghiep-va-moi-truong"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

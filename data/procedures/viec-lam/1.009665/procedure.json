@@ -1,0 +1,190 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfc-9b20-763e-ba63-a1d49810af7a",
+  "procedure_code": "1.009665",
+  "title": "Thủ tục cấp lại và hiệu đính thông tin trên Giấy chứng nhận đăng ký đầu tư",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfc-9b20-763e-ba63-a1d49810af7a",
+    "source_file": "chi-tiet-thu-tuc-1.009665.pdf",
+    "source_path": "procedures/viec-lam/1.009665/chi-tiet-thu-tuc-1.009665.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T05:00:38.064352+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "7b121f42a495159e0958e9c2ff80a38a04c8a24d102bcdf9e4181bc755971435"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1165/QĐ-BTC",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Đầu tư tại Việt nam",
+  "target_users": [
+    "Công dân Việt Nam",
+    "Doanh nghiệp",
+    "Người nước ngoài",
+    "Tổ chức nước ngoài",
+    "Doanh nghiệp có vốn đầu tư nước ngoài",
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Sở tài chính"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Trình tự thực hiện:\n- Bước 1: Nhà đầu tư nộp văn bản đề nghị cấp lại/hiệu đính Giấy chứng nhận đăng ký đầu tư cho Cơ quan đăng ký đầu tư.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "- Bước 2: Trong thời hạn 03 ngày làm việc kể từ ngày nhận được văn bản đề nghị, Cơ quan đăng ký đầu tư cấp lại/hiệu đính thông tin trên Giấy chứng nhận đăng ký đầu tư.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Văn bản đề nghị cấp lại hoặc hiệu đính",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu I.1.17.docx; Mẫu I.1.18.docx",
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": []
+  },
+  "submission_methods": [
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "3 ngày làm việc",
+      "fee": null,
+      "description": "03 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ.",
+      "source_page": 2
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "3 ngày làm việc",
+      "fee": "Không có",
+      "description": "03 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ.",
+      "source_page": 2
+    },
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "3 ngày làm việc",
+      "fee": null,
+      "description": "03 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ.",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "Không có",
+    "status": "varies_by_submission_method",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "Không có",
+        "is_free": false,
+        "source_page": 3
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "định số 96/2026/NĐ-CP ngày 31/3/2026;",
+      "document_number": "96/2026/NĐ-CP",
+      "source_page": 2
+    },
+    {
+      "title": "Thông tư số 55/2026/TT-BTC ngày 15/5/2026.",
+      "document_number": "55/2026/TT-BTC",
+      "source_page": 2
+    },
+    {
+      "title": "Luật Đầu tư số 143/2025/QH15 ngày 11/12/2025;",
+      "document_number": "143/2025/QH15",
+      "source_page": 2
+    }
+  ],
+  "conditions": "- Giấy chứng nhận đăng ký đầu tư bị mất hoặc bị hỏng;\n- Hoặc Giấy chứng nhận đăng ký đầu tư được lưu dưới dạng dữ liệu điện tử trong Hệ thống thông tin quốc gia về đầu tư có nội dung khác so với Giấy chứng nhận đăng ký đầu tư;\n- Hoặc thông tin trên Giấy chứng nhận đăng ký đầu tư chưa chính xác so với thông tin đăng ký tại hồ sơ thực hiện thủ tục đầu tư.",
+  "results": [
+    {
+      "title": "Giấy chứng nhận đăng ký đầu tư theo mẫu I.2.8 ban hành kèm theo Thông tư số 55/2026/TT-BTC hoặc văn bản từ chối, nêu rõ lý do.",
+      "code": "TP-G12.0001128",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Trình tự thực hiện:\n- Bước 1: Nhà đầu tư nộp văn bản đề nghị cấp lại/hiệu đính Giấy chứng nhận đăng ký đầu tư cho Cơ quan đăng ký đầu tư.\n- Bước 2: Trong thời hạn 03 ngày làm việc kể từ ngày nhận được văn bản đề nghị, Cơ quan đăng ký đầu tư cấp lại/hiệu đính thông tin trên Giấy chứng nhận đăng ký đầu tư.",
+    "THÀNH PHẦN HỒ SƠ": "Văn bản đề nghị cấp lại hoặc hiệu đính",
+    "CÁCH THỨC THỰC HIỆN": "Qua dịch vụ bưu chính: 3 ngày làm việc\nTrực tiếp: 3 ngày làm việc\nTrực tuyến: 3 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "định số 96/2026/NĐ-CP ngày 31/3/2026; - 96/2026/NĐ-CP\nThông tư số 55/2026/TT-BTC ngày 15/5/2026. - 55/2026/TT-BTC\nLuật Đầu tư số 143/2025/QH15 ngày 11/12/2025; - 143/2025/QH15",
+    "CƠ QUAN THỰC HIỆN": "Sở tài chính",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "- Giấy chứng nhận đăng ký đầu tư bị mất hoặc bị hỏng;\n- Hoặc Giấy chứng nhận đăng ký đầu tư được lưu dưới dạng dữ liệu điện tử trong Hệ thống thông tin quốc gia về đầu tư có nội dung khác so với Giấy chứng nhận đăng ký đầu tư;\n- Hoặc thông tin trên Giấy chứng nhận đăng ký đầu tư chưa chính xác so với thông tin đăng ký tại hồ sơ thực hiện thủ tục đầu tư.",
+    "KẾT QUẢ XỬ LÝ": "Giấy chứng nhận đăng ký đầu tư theo mẫu I.2.8 ban hành kèm theo Thông tư số 55/2026/TT-BTC hoặc văn bản từ chối, nêu rõ lý do. - TP-G12.0001128",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "- Giấy chứng nhận đăng ký đầu tư bị mất hoặc bị hỏng;\n- Hoặc Giấy chứng nhận đăng ký đầu tư được lưu dưới dạng dữ liệu điện tử trong Hệ thống thông tin quốc gia về đầu tư có nội dung khác so với Giấy chứng nhận đăng ký đầu tư;\n- Hoặc thông tin trên Giấy chứng nhận đăng ký đầu tư chưa chính xác so với thông tin đăng ký tại hồ sơ thực hiện thủ tục đầu tư."
+  },
+  "classification": {
+    "sector": {
+      "name": "Đầu tư tại Việt nam",
+      "slug": "au-tu-tai-viet-nam"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Người nước ngoài",
+        "slug": "nguoi-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      },
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Sở tài chính",
+        "slug": "so-tai-chinh"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

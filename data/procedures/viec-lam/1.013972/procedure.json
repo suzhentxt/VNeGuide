@@ -1,0 +1,246 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bf9-6c7f-70fd-b8a8-fc3591178682",
+  "procedure_code": "1.013972",
+  "title": "Thủ tục cấp phó bản, cấp lại Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp.",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bf9-6c7f-70fd-b8a8-fc3591178682",
+    "source_file": "chi-tiet-thu-tuc-1.013972.pdf",
+    "source_path": "procedures/viec-lam/1.013972/chi-tiet-thu-tuc-1.013972.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T05:01:25.432495+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "f12420b1f22881fdbacd2331e508eb5b8585b7595d94cf9b056ddd775a2fea7e"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "2075/QĐ-BKHCN",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Sở hữu trí tuệ",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Người Việt Nam định cư ở nước ngoài",
+    "Công dân Việt Nam",
+    "Doanh nghiệp",
+    "Người nước ngoài",
+    "Tổ chức nước ngoài",
+    "Hợp tác xã",
+    "Doanh nghiệp có vốn đầu tư nước ngoài"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Ủy ban nhân dân cấp tỉnh"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "- Bước 1: Tiếp nhận đơn\nTổ chức, cá nhân nộp 01 bộ hồ sơ yêu cầu cấp phó bản, cấp lại Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp đến Cục Sở hữu trí tuệ.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "- Bước 2: Xử lý đơn\n+ Trong trường hợp yêu cầu cấp phó bản, cấp lại Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp đáp ứng các quy định, Cục Sở hữu trí tuệ ra quyết định cấp phó bản, cấp lại Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp và ghi nhận vào mục đăng bạ của Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp tương ứng trong Sổ đăng ký quốc gia về sở hữu công nghiệp;\n+ Trong trường hợp yêu cầu cấp phó bản, cấp lại Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp không đáp ứng được các quy định, Cục Sở hữu trí tuệ ra thông báo và ấn định thời hạn 02 tháng kể từ ngày ra thông báo để người yêu cầu sửa chữa thiếu sót hoặc có ý kiến phản hồi. Nếu kết thúc thời hạn nêu trên, người yêu cầu không sửa chữa thiếu sót hoặc sửa chữa thiếu sót không đạt yêu cầu, không có ý kiến phản đối hoặc có ý kiến phản đối không xác đáng, Cục Sở hữu trí tuệ ra quyết định từ chối cấp phó bản, cấp lại Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp  (có nêu rõ lý do).",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Văn bản ủy quyền (nếu có)...",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Tờ khai yêu cầu cấp phó bản Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp, cấp lại Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp/phó bản Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Hợp đồng (bản gốc hoặc bản sao kèm theo bản gốc)",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Bản sao chứng từ nộp phí, lệ phí",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "30 ngày",
+      "fee": "Phí đăng bạ",
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "30 ngày",
+      "fee": "Phí đăng bạ",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "30 ngày",
+      "fee": "Phí công bố",
+      "description": "",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "Phí đăng bạ; Phí công bố",
+    "status": "varies_by_submission_method",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "Phí đăng bạ",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "Phí đăng bạ",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "Phí công bố",
+        "is_free": false,
+        "source_page": null
+      }
+    ]
+  },
+  "legal_bases": [],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Thông báo kết quả thẩm định hồ sơ yêu cầu cấp phó bản, cấp lại Giấy chứng nhận đăng ký đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp",
+      "code": "KQ.G06.000579",
+      "source_page": 3
+    },
+    {
+      "title": "Thông báo từ chối yêu cầu rút đơn yêu cầu cấp phó bản, cấp lại Giấy chứng nhận đăng ký đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp",
+      "code": "KQ.G06.000582",
+      "source_page": 3
+    },
+    {
+      "title": "Bản phó bản/bản cấp lại Giấy chứng nhận chuyển quyền sử dụng đối tượng SHCN",
+      "code": "KQ.G06.000585",
+      "source_page": 4
+    },
+    {
+      "title": "Thông báo kết quả thẩm định yêu cầu rút đơn yêu cầu cấp phó bản, cấp lại Giấy chứng nhận đăng ký đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp",
+      "code": "KQ.G06.000580",
+      "source_page": 3
+    },
+    {
+      "title": "Quyết định cấp phó bản, cấp lại Giấy chứng nhận đăng ký đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp",
+      "code": "KQ.G06.000583",
+      "source_page": 3
+    },
+    {
+      "title": "Thông báo chấp nhận yêu cầu rút đơn yêu cầu cấp phó bản, cấp lại Giấy chứng nhận đăng ký đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp",
+      "code": "KQ.G06.000581",
+      "source_page": 3
+    },
+    {
+      "title": "Quyết định từ chối cấp phó bản, cấp lại Giấy chứng nhận đăng ký đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp",
+      "code": "KQ.G06.000584",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "- Bước 1: Tiếp nhận đơn\nTổ chức, cá nhân nộp 01 bộ hồ sơ yêu cầu cấp phó bản, cấp lại Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp đến Cục Sở hữu trí tuệ.\n- Bước 2: Xử lý đơn\n+ Trong trường hợp yêu cầu cấp phó bản, cấp lại Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp đáp ứng các quy định, Cục Sở hữu trí tuệ ra quyết định cấp phó bản, cấp lại Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp và ghi nhận vào mục đăng bạ của Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp tương ứng trong Sổ đăng ký quốc gia về sở hữu công nghiệp;\n+ Trong trường hợp yêu cầu cấp phó bản, cấp lại Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp không đáp ứng được các quy định, Cục Sở hữu trí tuệ ra thông báo và ấn định thời hạn 02 tháng kể từ ngày ra thông báo để người yêu cầu sửa chữa thiếu sót hoặc có ý kiến phản hồi. Nếu kết thúc thời hạn nêu trên, người yêu cầu không sửa chữa thiếu sót hoặc sửa chữa thiếu sót không đạt yêu cầu, không có ý kiến phản đối hoặc có ý kiến phản đối không xác đáng, Cục Sở hữu trí tuệ ra quyết định từ chối cấp phó bản, cấp lại Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp  (có nêu rõ lý do).",
+    "THÀNH PHẦN HỒ SƠ": "Văn bản ủy quyền (nếu có)...\nTờ khai yêu cầu cấp phó bản Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp, cấp lại Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp/phó bản Giấy chứng nhận đăng ký hợp đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp\nHợp đồng (bản gốc hoặc bản sao kèm theo bản gốc)\nBản sao chứng từ nộp phí, lệ phí",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 30 ngày\nQua dịch vụ bưu chính: 30 ngày\nTrực tiếp: 30 ngày",
+    "CĂN CỨ PHÁP LÝ": "",
+    "CƠ QUAN THỰC HIỆN": "Ủy ban nhân dân cấp tỉnh",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Thông báo kết quả thẩm định hồ sơ yêu cầu cấp phó bản, cấp lại Giấy chứng nhận đăng ký đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp - KQ.G06.000579\nThông báo từ chối yêu cầu rút đơn yêu cầu cấp phó bản, cấp lại Giấy chứng nhận đăng ký đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp - KQ.G06.000582\nBản phó bản/bản cấp lại Giấy chứng nhận chuyển quyền sử dụng đối tượng SHCN - KQ.G06.000585\nThông báo kết quả thẩm định yêu cầu rút đơn yêu cầu cấp phó bản, cấp lại Giấy chứng nhận đăng ký đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp - KQ.G06.000580\nQuyết định cấp phó bản, cấp lại Giấy chứng nhận đăng ký đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp - KQ.G06.000583\nThông báo chấp nhận yêu cầu rút đơn yêu cầu cấp phó bản, cấp lại Giấy chứng nhận đăng ký đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp - KQ.G06.000581\nQuyết định từ chối cấp phó bản, cấp lại Giấy chứng nhận đăng ký đồng chuyển quyền sử dụng đối tượng sở hữu công nghiệp - KQ.G06.000584",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Sở hữu trí tuệ",
+      "slug": "so-huu-tri-tue"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Người Việt Nam định cư ở nước ngoài",
+        "slug": "nguoi-viet-nam-inh-cu-o-nuoc-ngoai"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      },
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Người nước ngoài",
+        "slug": "nguoi-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      },
+      {
+        "name": "Hợp tác xã",
+        "slug": "hop-tac-xa"
+      },
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Ủy ban nhân dân cấp tỉnh",
+        "slug": "uy-ban-nhan-dan-cap-tinh"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

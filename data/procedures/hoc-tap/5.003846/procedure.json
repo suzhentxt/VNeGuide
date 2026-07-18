@@ -1,0 +1,153 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019edde6-3e39-75e2-9aad-4c3ec0ffd1b2",
+  "procedure_code": "5.003846",
+  "title": "Công nhận xã đạt chuẩn phổ cập giáo dục, xóa mù chữ",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019edde6-3e39-75e2-9aad-4c3ec0ffd1b2",
+    "source_file": "chi-tiet-thu-tuc-5.003846.pdf",
+    "source_path": "procedures/hoc-tap/5.003846/chi-tiet-thu-tuc-5.003846.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T04:58:26.140119+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "a98fb83a23a072a4cee7ef8d7ccede2c26fcf01ad767054c6078583a66987e3f"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "2827/QĐ-BGDĐT",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "CENTRAL_REGULATION",
+  "sector": "Giáo dục và Đào tạo thuộc hệ thống giáo dục quốc dân",
+  "target_users": [
+    "Cán bộ, công chức, viên chức"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Ủy ban nhân dân cấp tỉnh"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "a) Bước 1: Đơn vị cấp xã lập hồ sơ đề nghị Uỷ ban nhân dân cấp tỉnh kiểm tra công nhận xã đạt chuẩn phổ cập giáo dục, xoá mù chữ.\nb) Bước 2: Uỷ ban nhân dân cấp tỉnh xem xét hồ sơ và kiểm tra đơn vị cấp xã.\nc) Bước 3: Uỷ ban nhân dân cấp tỉnh ra quyết định công nhận đạt chuẩn phổ cập giáo dục, xoá mù chữ đối với xã nếu đủ tiêu chuẩn theo quy định tại Nghị định số 20/2014/NĐ-CP.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Hồ sơ đề nghị công nhận xã đạt chuẩn bao gồm: a) Phiếu điều tra phổ cập giáo dục, xóa mù chữ;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Hồ sơ đề nghị công nhận xã đạt chuẩn bao gồm: b) Sổ theo dõi phổ cập giáo dục, xóa mù chữ;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Hồ sơ đề nghị công nhận xã đạt chuẩn bao gồm: c) Danh sách trẻ em hoàn thành chương trình giáo dục mầm non (đối với phổ cập giáo dục mầm non); danh sách học sinh hoàn thành chương trình giáo dục tiểu học (đối với phổ cập giáo dục tiểu học); danh sách học sinh tốt nghiệp trung học cơ sở; danh sách học sinh có chứng chỉ nghề (đối với phổ cập giáo dục trung học cơ sở); danh sách học viên được công nhận biết chữ theo các mức độ (đối với xóa mù chữ).",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Hồ sơ đề nghị công nhận xã đạt chuẩn bao gồm: a) Báo cáo quá trình thực hiện và kết quả phổ cập giáo dục hoặc xóa mù chữ kèm theo các biểu thống kê.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Hồ sơ đề nghị công nhận xã đạt chuẩn bao gồm: Biên bản tự kiểm tra phổ cập giáo dục hoặc xóa mù chữ.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": []
+  },
+  "submission_methods": [
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "1 giờ",
+      "fee": null,
+      "description": "không quy định",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "",
+    "status": "not_specified",
+    "currency": "VND",
+    "items": []
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị định số 142/2025/NĐ-CP của Chính phủ: Quy định về phân định thẩm quyền của chính quyền địa phương hai cấp trong lĩnh vực quản lý nhà nước của Bộ Giáo dục và Đào tạo",
+      "document_number": "Nghị định số 142/2025/NĐ-CP",
+      "source_page": 2
+    },
+    {
+      "title": "Về phổ cập giáo dục, xóa mù chữ",
+      "document_number": "20/2014/NĐ-CP",
+      "source_page": 2
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Quyết định công nhận đạt chuẩn phổ cập giáo dục, xóa mù chữ đối với xã.",
+      "code": "KQ.H61.000073",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "a) Bước 1: Đơn vị cấp xã lập hồ sơ đề nghị Uỷ ban nhân dân cấp tỉnh kiểm tra công nhận xã đạt chuẩn phổ cập giáo dục, xoá mù chữ.\nb) Bước 2: Uỷ ban nhân dân cấp tỉnh xem xét hồ sơ và kiểm tra đơn vị cấp xã.\nc) Bước 3: Uỷ ban nhân dân cấp tỉnh ra quyết định công nhận đạt chuẩn phổ cập giáo dục, xoá mù chữ đối với xã nếu đủ tiêu chuẩn theo quy định tại Nghị định số 20/2014/NĐ-CP.",
+    "THÀNH PHẦN HỒ SƠ": "Hồ sơ đề nghị công nhận xã đạt chuẩn bao gồm: a) Phiếu điều tra phổ cập giáo dục, xóa mù chữ;\nHồ sơ đề nghị công nhận xã đạt chuẩn bao gồm: b) Sổ theo dõi phổ cập giáo dục, xóa mù chữ;\nHồ sơ đề nghị công nhận xã đạt chuẩn bao gồm: c) Danh sách trẻ em hoàn thành chương trình giáo dục mầm non (đối với phổ cập giáo dục mầm non); danh sách học sinh hoàn thành chương trình giáo dục tiểu học (đối với phổ cập giáo dục tiểu học); danh sách học sinh tốt nghiệp trung học cơ sở; danh sách học sinh có chứng chỉ nghề (đối với phổ cập giáo dục trung học cơ sở); danh sách học viên được công nhận biết chữ theo các mức độ (đối với xóa mù chữ).\nHồ sơ đề nghị công nhận xã đạt chuẩn bao gồm: a) Báo cáo quá trình thực hiện và kết quả phổ cập giáo dục hoặc xóa mù chữ kèm theo các biểu thống kê.\nHồ sơ đề nghị công nhận xã đạt chuẩn bao gồm: Biên bản tự kiểm tra phổ cập giáo dục hoặc xóa mù chữ.",
+    "CÁCH THỨC THỰC HIỆN": "Trực tiếp: 1 giờ",
+    "CĂN CỨ PHÁP LÝ": "Nghị định số 142/2025/NĐ-CP của Chính phủ: Quy định về phân định thẩm quyền của chính quyền địa phương hai cấp trong lĩnh vực quản lý nhà nước của Bộ Giáo dục và Đào tạo - Nghị định số 142/2025/NĐ-CP\nVề phổ cập giáo dục, xóa mù chữ - 20/2014/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Ủy ban nhân dân cấp tỉnh",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Quyết định công nhận đạt chuẩn phổ cập giáo dục, xóa mù chữ đối với xã. - KQ.H61.000073",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Giáo dục và Đào tạo thuộc hệ thống giáo dục quốc dân",
+      "slug": "giao-duc-va-ao-tao-thuoc-he-thong-giao-duc-quoc-dan"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Cán bộ, công chức, viên chức",
+        "slug": "can-bo-cong-chuc-vien-chuc"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Ủy ban nhân dân cấp tỉnh",
+        "slug": "uy-ban-nhan-dan-cap-tinh"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

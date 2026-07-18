@@ -1,0 +1,224 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019f49f0-f3b0-73fc-b3f3-278a21f4fb03",
+  "procedure_code": "1.115666",
+  "title": "Đăng ký, cấp Giấy chứng nhận đối với trường hợp đã chuyển quyền sử dụng đất trước ngày 01 tháng 8 năm 2024 mà bên chuyển quyền đã được cấp Giấy chứng nhận nhưng chưa thực hiện thủ tục chuyển quyền theo quy định",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019f49f0-f3b0-73fc-b3f3-278a21f4fb03",
+    "source_file": "chi-tiet-thu-tuc-1.115666.pdf",
+    "source_path": "procedures/dien-luc-nha-o-dat-dai/1.115666/chi-tiet-thu-tuc-1.115666.pdf",
+    "page_count": 6,
+    "extracted_at": "2026-07-18T04:57:29.722639+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "f7730ab03c6f3de1bd8cf564c46c585c8d61981ee0cf3845f9a52b0bec6a99bc"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "2296/QĐ-UBND",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Đất đai",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+    "Công dân Việt Nam"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Văn phòng Đăng ký đất đai"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1:",
+      "description": "Người sử dụng đất có nhu cầu nộp hồ sơ trực tiếp tại Trung tâm Phục vụ hành chính công cấp tỉnh (hoặc cấp xã) hoặc qua dịch vụ bưu chính hoặc trực tuyến trên Cổng dịch vụ công hoặc tại địa điểm theo thỏa thuận giữa người yêu cầu đăng ký và Văn phòng Đăng ký đất đai, Chi nhánh Văn phòng Đăng ký đất đai.\nĐối với trường hợp thực hiện xác nhận thay đổi trên Giấy chứng nhận đã cấp thì người yêu cầu đăng ký nộp bản gốc Giấy chứng nhận đã cấp.\nTrường hợp nộp bản sao hoặc bản số hóa các loại giấy tờ thì khi nhận kết quả giải quyết thủ tục hành chính người yêu cầu đăng ký phải nộp bản chính các giấy tờ thuộc thành phần hồ sơ theo quy định.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Bước 2: Tiếp nhận hồ sơ",
+      "description": "- Trường hợp nộp hồ sơ trực tiếp tại Trung tâm Phục vụ hành chính công, cán bộ tiếp nhận kiểm tra ngay tính đầy đủ, hợp lệ của hồ sơ và chuyển đến Văn phòng Đăng ký đất đai hoặc Chi nhánh Văn phòng Đăng ký đất đai.\n- Trường hợp nộp hồ sơ qua dịch vụ bưu chính hoặc trực tuyến trên Cổng dịch vụ công hoặc tại địa điểm theo thỏa thuận giữa người yêu cầu đăng ký và Văn phòng Đăng ký đất đai, Chi nhánh Văn phòng Đăng ký đất đai, cơ quan tiếp nhận hồ sơ kiểm tra tính đầy đủ, hợp lệ của hồ sơ. Trường hợp hồ sơ đầy đủ, hợp lệ tiếp nhận hồ sơ theo quy định. Trường hợp hồ sơ chưa đầy đủ, hợp lệ thì cơ quan tiếp nhận trả lại hồ sơ, đồng thời, hướng dẫn bổ sung, hoàn thiện hồ sơ theo mẫu Phiếu yêu cầu bổ sung, hoàn thiện hồ sơ.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 3,
+      "title": "Bước 3: Xử lý hồ sơ",
+      "description": "Văn phòng Đăng ký đất đai, Chi nhánh Văn phòng Đăng ký đất đai thông báo bằng văn bản cho Ủy ban nhân dân cấp xã nơi có đất để niêm yết công khai về việc làm thủ tục cấp Giấy chứng nhận cho người nhận chuyển quyền; thông báo bằng văn bản cho bên chuyển quyền về việc làm thủ tục cấp Giấy chứng nhận cho người nhận chuyển quyền.\nTrường hợp không rõ địa chỉ của người chuyển quyền để thông báo thì thực hiện đăng tin 03 lần trên phương tiện thông tin đại chúng ở địa phương, chi phí đăng tin do người đề nghị cấp Giấy chứng nhận trả.\nSau thời hạn 30 ngày, kể từ ngày có thông báo hoặc đăng tin lần đầu tiên mà không có đơn đề nghị giải quyết tranh chấp thì gửi Phiếu chuyển thông tin để xác định nghĩa vụ tài chính về đất đai theo Mẫu số 25 ban hành kèm theo Quyết định số 47/2026/QĐ-UBND; thực hiện cấp Giấy chứng nhận cho bên nhận chuyển quyền khi có thông tin từ cơ sở dữ liệu được liên thông hoặc chứng từ hoặc giấy tờ chứng minh đã hoàn thành nghĩa vụ tài chính; trường hợp bên chuyển quyền không nộp Giấy chứng nhận đã cấp thì thực hiện việc hủy Giấy chứng nhận đã cấp. Trường hợp có đơn đề nghị giải quyết tranh chấp thì hướng dẫn các bên nộp đơn đến cơ quan nhà nước có thẩm quyền giải quyết tranh chấp theo quy định.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "a) Trường hợp người đang sử dụng đất do nhận chuyển quyền sử dụng đất trước ngày 01 tháng 8 năm 2024 nhưng chỉ có hợp đồng, văn bản về chuyển quyền sử dụng đất đã lập theo quy định mà bên chuyển quyền không trao Giấy chứng nhận cho bên nhận chuyển quyền thì hồ sơ gồm:: Đơn đăng ký biến động đất đai, tài sản gắn liền với đất theo Mẫu số 24 ban hành kèm theo Quyết định số 47/2026/QĐ-UBND ngày 28 tháng 6 năm 2026 của UBND tỉnh Lào Cai",
+        "quantity": "1 bản chính",
+        "attachment": "mẫu số 24.docx",
+        "source_page": 3
+      },
+      {
+        "name": "a) Trường hợp người đang sử dụng đất do nhận chuyển quyền sử dụng đất trước ngày 01 tháng 8 năm 2024 nhưng chỉ có hợp đồng, văn bản về chuyển quyền sử dụng đất đã lập theo quy định mà bên chuyển quyền không trao Giấy chứng nhận cho bên nhận chuyển quyền thì hồ sơ gồm:: Hợp đồng, văn bản về chuyển quyền sử dụng đất đã lập theo quy định",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "b) Trường hợp bên nhận chuyển quyền sử dụng đất chỉ có Giấy chứng nhận đã cấp của bên chuyển quyền nhưng không có hợp đồng, văn bản về chuyển quyền sử dụng đất theo quy định thì hồ sơ gồm:: Đơn đăng ký biến động đất đai, tài sản gắn liền với đất theo Mẫu số 24 ban hành kèm theo Quyết định số 47/2026/QĐ-UBND ngày 28 tháng 6 năm 2026 của UBND tỉnh Lào Cai",
+        "quantity": "1 bản chính",
+        "attachment": "mẫu số 24.docx",
+        "source_page": 3
+      },
+      {
+        "name": "b) Trường hợp bên nhận chuyển quyền sử dụng đất chỉ có Giấy chứng nhận đã cấp của bên chuyển quyền nhưng không có hợp đồng, văn bản về chuyển quyền sử dụng đất theo quy định thì hồ sơ gồm:: Bản gốc Giấy chứng nhận đã cấp",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "b) Trường hợp bên nhận chuyển quyền sử dụng đất chỉ có Giấy chứng nhận đã cấp của bên chuyển quyền nhưng không có hợp đồng, văn bản về chuyển quyền sử dụng đất theo quy định thì hồ sơ gồm:: Giấy tờ về việc chuyển quyền sử dụng đất có đủ chữ ký của bên chuyển quyền và bên nhận chuyển quyền",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      }
+    ],
+    "normally_required": [],
+    "conditional": []
+  },
+  "submission_methods": [
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "8 ngày làm việc",
+      "fee": "Theo quy định của Luật phí và lệ phí và các văn bản quy phạm pháp luật hướng dẫn Luật phí và lệ phí",
+      "description": "Không quá 08 ngày làm việc.\nĐối với các xã miền núi, biên giới; vùng có điều kiện kinh tế - xã hội khó khăn; vùng có điều kiện kinh tế - xã hội đặc biệt khó khăn thì thời gian thực hiện được tăng thêm 10 ngày.",
+      "source_page": 4
+    },
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "8 ngày làm việc",
+      "fee": "Theo quy định của Luật phí và lệ phí và các văn bản quy phạm pháp luật hướng dẫn Luật phí và lệ phí",
+      "description": "Không quá 08 ngày làm việc.\nĐối với các xã miền núi, biên giới; vùng có điều kiện kinh tế - xã hội khó khăn; vùng có điều kiện kinh tế - xã hội đặc biệt khó khăn thì thời gian thực hiện được tăng thêm 10 ngày.",
+      "source_page": 4
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "8 ngày làm việc",
+      "fee": "Theo quy định của Luật phí và lệ phí và các văn bản quy phạm pháp luật hướng dẫn Luật phí và lệ phí",
+      "description": "Không quá 08 ngày làm việc.\nĐối với các xã miền núi, biên giới; vùng có điều kiện kinh tế - xã hội khó khăn; vùng có điều kiện kinh tế - xã hội đặc biệt khó khăn thì thời gian thực hiện được tăng thêm 10 ngày.",
+      "source_page": 4
+    }
+  ],
+  "fees": {
+    "summary": "Theo quy định của Luật phí và lệ phí và các văn bản quy phạm pháp luật hướng dẫn Luật phí và lệ phí",
+    "status": "varies_by_submission_method",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "Theo quy định của Luật phí và lệ phí và các văn bản quy phạm pháp luật hướng dẫn Luật phí và lệ phí",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "Theo quy định của Luật phí và lệ phí và các văn bản quy phạm pháp luật hướng dẫn Luật phí và lệ phí",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "Theo quy định của Luật phí và lệ phí và các văn bản quy phạm pháp luật hướng dẫn Luật phí và lệ phí",
+        "is_free": false,
+        "source_page": null
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Sửa đổi, bổ sung một số điều của các nghị định  quy định chi tiết thi hành Luật Đất đai",
+      "document_number": "226/2025/NĐ-CP",
+      "source_page": 5
+    },
+    {
+      "title": "Luật Đất đai số 31/2024/QH15 ngày 18/01/2024 được sửa đổi bổ sung  một số điều bởi Luật số 43/2024/QH15, Luật số 47/2024/QH15 và Luật số 58/2024/QH15 của Quốc hội.",
+      "document_number": "31/2024/QH15",
+      "source_page": 5
+    },
+    {
+      "title": "Nghị định quy định về điều tra cơ bản đất đai, đăng ký, cấp Giấy chứng nhận quyền sử dụng đất, quyền sở hữu tài sản gắn liền với đất và Hệ thống thông tin đất đai.",
+      "document_number": "101/2024/NĐ-CP",
+      "source_page": 5
+    },
+    {
+      "title": "Quyết định số 47/2026/QĐ-UBND ngày 28/6/2026 của Ủy ban nhân dân tỉnh Lào Cai về ban hành Quy định trình tự, thủ tục hành chính về đất đai trên địa bàn tỉnh Lào Cai",
+      "document_number": "47/2026/QĐ-UBND",
+      "source_page": 5
+    }
+  ],
+  "conditions": "Không",
+  "results": [
+    {
+      "title": "Giấy chứng nhận",
+      "code": "H38-KQ000288",
+      "source_page": 1
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Người sử dụng đất có nhu cầu nộp hồ sơ trực tiếp tại Trung tâm Phục vụ hành chính công cấp tỉnh (hoặc cấp xã) hoặc qua dịch vụ bưu chính hoặc trực tuyến trên Cổng dịch vụ công hoặc tại địa điểm theo thỏa thuận giữa người yêu cầu đăng ký và Văn phòng Đăng ký đất đai, Chi nhánh Văn phòng Đăng ký đất đai.\nĐối với trường hợp thực hiện xác nhận thay đổi trên Giấy chứng nhận đã cấp thì người yêu cầu đăng ký nộp bản gốc Giấy chứng nhận đã cấp.\nTrường hợp nộp bản sao hoặc bản số hóa các loại giấy tờ thì khi nhận kết quả giải quyết thủ tục hành chính người yêu cầu đăng ký phải nộp bản chính các giấy tờ thuộc thành phần hồ sơ theo quy định.\n- Trường hợp nộp hồ sơ trực tiếp tại Trung tâm Phục vụ hành chính công, cán bộ tiếp nhận kiểm tra ngay tính đầy đủ, hợp lệ của hồ sơ và chuyển đến Văn phòng Đăng ký đất đai hoặc Chi nhánh Văn phòng Đăng ký đất đai.\n- Trường hợp nộp hồ sơ qua dịch vụ bưu chính hoặc trực tuyến trên Cổng dịch vụ công hoặc tại địa điểm theo thỏa thuận giữa người yêu cầu đăng ký và Văn phòng Đăng ký đất đai, Chi nhánh Văn phòng Đăng ký đất đai, cơ quan tiếp nhận hồ sơ kiểm tra tính đầy đủ, hợp lệ của hồ sơ. Trường hợp hồ sơ đầy đủ, hợp lệ tiếp nhận hồ sơ theo quy định. Trường hợp hồ sơ chưa đầy đủ, hợp lệ thì cơ quan tiếp nhận trả lại hồ sơ, đồng thời, hướng dẫn bổ sung, hoàn thiện hồ sơ theo mẫu Phiếu yêu cầu bổ sung, hoàn thiện hồ sơ.\nVăn phòng Đăng ký đất đai, Chi nhánh Văn phòng Đăng ký đất đai thông báo bằng văn bản cho Ủy ban nhân dân cấp xã nơi có đất để niêm yết công khai về việc làm thủ tục cấp Giấy chứng nhận cho người nhận chuyển quyền; thông báo bằng văn bản cho bên chuyển quyền về việc làm thủ tục cấp Giấy chứng nhận cho người nhận chuyển quyền.\nTrường hợp không rõ địa chỉ của người chuyển quyền để thông báo thì thực hiện đăng tin 03 lần trên phương tiện thông tin đại chúng ở địa phương, chi phí đăng tin do người đề nghị cấp Giấy chứng nhận trả.\nSau thời hạn 30 ngày, kể từ ngày có thông báo hoặc đăng tin lần đầu tiên mà không có đơn đề nghị giải quyết tranh chấp thì gửi Phiếu chuyển thông tin để xác định nghĩa vụ tài chính về đất đai theo Mẫu số 25 ban hành kèm theo Quyết định số 47/2026/QĐ-UBND; thực hiện cấp Giấy chứng nhận cho bên nhận chuyển quyền khi có thông tin từ cơ sở dữ liệu được liên thông hoặc chứng từ hoặc giấy tờ chứng minh đã hoàn thành nghĩa vụ tài chính; trường hợp bên chuyển quyền không nộp Giấy chứng nhận đã cấp thì thực hiện việc hủy Giấy chứng nhận đã cấp. Trường hợp có đơn đề nghị giải quyết tranh chấp thì hướng dẫn các bên nộp đơn đến cơ quan nhà nước có thẩm quyền giải quyết tranh chấp theo quy định.",
+    "THÀNH PHẦN HỒ SƠ": "a) Trường hợp người đang sử dụng đất do nhận chuyển quyền sử dụng đất trước ngày 01 tháng 8 năm 2024 nhưng chỉ có hợp đồng, văn bản về chuyển quyền sử dụng đất đã lập theo quy định mà bên chuyển quyền không trao Giấy chứng nhận cho bên nhận chuyển quyền thì hồ sơ gồm:: Đơn đăng ký biến động đất đai, tài sản gắn liền với đất theo Mẫu số 24 ban hành kèm theo Quyết định số 47/2026/QĐ-UBND ngày 28 tháng 6 năm 2026 của UBND tỉnh Lào Cai\na) Trường hợp người đang sử dụng đất do nhận chuyển quyền sử dụng đất trước ngày 01 tháng 8 năm 2024 nhưng chỉ có hợp đồng, văn bản về chuyển quyền sử dụng đất đã lập theo quy định mà bên chuyển quyền không trao Giấy chứng nhận cho bên nhận chuyển quyền thì hồ sơ gồm:: Hợp đồng, văn bản về chuyển quyền sử dụng đất đã lập theo quy định\nb) Trường hợp bên nhận chuyển quyền sử dụng đất chỉ có Giấy chứng nhận đã cấp của bên chuyển quyền nhưng không có hợp đồng, văn bản về chuyển quyền sử dụng đất theo quy định thì hồ sơ gồm:: Đơn đăng ký biến động đất đai, tài sản gắn liền với đất theo Mẫu số 24 ban hành kèm theo Quyết định số 47/2026/QĐ-UBND ngày 28 tháng 6 năm 2026 của UBND tỉnh Lào Cai\nb) Trường hợp bên nhận chuyển quyền sử dụng đất chỉ có Giấy chứng nhận đã cấp của bên chuyển quyền nhưng không có hợp đồng, văn bản về chuyển quyền sử dụng đất theo quy định thì hồ sơ gồm:: Bản gốc Giấy chứng nhận đã cấp\nb) Trường hợp bên nhận chuyển quyền sử dụng đất chỉ có Giấy chứng nhận đã cấp của bên chuyển quyền nhưng không có hợp đồng, văn bản về chuyển quyền sử dụng đất theo quy định thì hồ sơ gồm:: Giấy tờ về việc chuyển quyền sử dụng đất có đủ chữ ký của bên chuyển quyền và bên nhận chuyển quyền",
+    "CÁCH THỨC THỰC HIỆN": "Trực tiếp: 8 ngày làm việc\nTrực tuyến: 8 ngày làm việc\nQua dịch vụ bưu chính: 8 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Sửa đổi, bổ sung một số điều của các nghị định  quy định chi tiết thi hành Luật Đất đai - 226/2025/NĐ-CP\nLuật Đất đai số 31/2024/QH15 ngày 18/01/2024 được sửa đổi bổ sung  một số điều bởi Luật số 43/2024/QH15, Luật số 47/2024/QH15 và Luật số 58/2024/QH15 của Quốc hội. - 31/2024/QH15\nNghị định quy định về điều tra cơ bản đất đai, đăng ký, cấp Giấy chứng nhận quyền sử dụng đất, quyền sở hữu tài sản gắn liền với đất và Hệ thống thông tin đất đai. - 101/2024/NĐ-CP\nQuyết định số 47/2026/QĐ-UBND ngày 28/6/2026 của Ủy ban nhân dân tỉnh Lào Cai về ban hành Quy định trình tự, thủ tục hành chính về đất đai trên địa bàn tỉnh Lào Cai - 47/2026/QĐ-UBND",
+    "CƠ QUAN THỰC HIỆN": "Văn phòng Đăng ký đất đai",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "Không",
+    "KẾT QUẢ XỬ LÝ": "Giấy chứng nhận - H38-KQ000288",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "Không"
+  },
+  "classification": {
+    "sector": {
+      "name": "Đất đai",
+      "slug": "at-ai"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      },
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Văn phòng Đăng ký đất đai",
+        "slug": "van-phong-ang-ky-at-ai"
+      },
+      {
+        "name": "Chi nhánh Văn phòng đăng ký đất đai khu vực",
+        "slug": "chi-nhanh-van-phong-ang-ky-at-ai-khu-vuc"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

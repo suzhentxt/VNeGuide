@@ -1,0 +1,159 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bff-aa7c-72db-ba70-4a0fdb073f51",
+  "procedure_code": "1.002144",
+  "title": "Thủ tục chấm dứt tư cách thành viên nghiệp vụ thị trường mở",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bff-aa7c-72db-ba70-4a0fdb073f51",
+    "source_file": "chi-tiet-thu-tuc-1.002144.pdf",
+    "source_path": "procedures/viec-lam/1.002144/chi-tiet-thu-tuc-1.002144.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T04:59:58.937164+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "29797eb95217c877ae2b949de2e5d1861d3a8277df54bc4b46b1df5e0dc4dd4a"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "364/QĐ-NHNN",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Hoạt động tiền tệ",
+  "target_users": [
+    "Doanh nghiệp có vốn đầu tư nước ngoài",
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Ngân hàng Nhà nước Việt Nam"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "- Bước 1: Tổ chức tín dụng, chi nhánh ngân hàng nước ngoài có nhu cầu chấm dứt tư cách thành viên và hoàn thành các nghĩa vụ đối với Ngân hàng Nhà nước trong các giao dịch nghiệp vụ thị trường mở, gửi trực tiếp hoặc qua đường bưu điện Giấy đề nghị chấm dứt tư cách thành viên tham gia nghiệp vụ thị trường mở đến Ngân hàng Nhà nước.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "- Bước 2: Trong thời hạn 05 ngày làm việc kể từ ngày nhận được Giấy đề nghị chấm dứt tư cách thành viên tham gia nghiệp vụ thị trường mở của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài, Ngân hàng Nhà nước có văn bản thông báo về việc chấm dứt tư cách thành viên gửi cho thành viên.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Giấy đề nghị chấm dứt tư cách thành viên tham gia nghiệp vụ thị trường mở theo mẫu quy định",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "5 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "5 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": 1
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 1
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Thông tư 42/2015/TT-NHNN",
+      "document_number": "42/2015/TT-NHNN",
+      "source_page": 2
+    }
+  ],
+  "conditions": "+ Hoàn thành các nghĩa vụ đối với Ngân hàng Nhà nước trong các giao dịch nghiệp vụ thị trường mở.",
+  "results": [
+    {
+      "title": "Văn bản thông báo chấm dứt thành viên nghiệp vụ thị trường mở",
+      "code": "KQ.G19.000022",
+      "source_page": null
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "- Bước 1: Tổ chức tín dụng, chi nhánh ngân hàng nước ngoài có nhu cầu chấm dứt tư cách thành viên và hoàn thành các nghĩa vụ đối với Ngân hàng Nhà nước trong các giao dịch nghiệp vụ thị trường mở, gửi trực tiếp hoặc qua đường bưu điện Giấy đề nghị chấm dứt tư cách thành viên tham gia nghiệp vụ thị trường mở đến Ngân hàng Nhà nước.\n- Bước 2: Trong thời hạn 05 ngày làm việc kể từ ngày nhận được Giấy đề nghị chấm dứt tư cách thành viên tham gia nghiệp vụ thị trường mở của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài, Ngân hàng Nhà nước có văn bản thông báo về việc chấm dứt tư cách thành viên gửi cho thành viên.",
+    "THÀNH PHẦN HỒ SƠ": "Giấy đề nghị chấm dứt tư cách thành viên tham gia nghiệp vụ thị trường mở theo mẫu quy định",
+    "CÁCH THỨC THỰC HIỆN": "Qua dịch vụ bưu chính: 5 ngày\nTrực tiếp: 5 ngày",
+    "CĂN CỨ PHÁP LÝ": "Thông tư 42/2015/TT-NHNN - 42/2015/TT-NHNN",
+    "CƠ QUAN THỰC HIỆN": "Ngân hàng Nhà nước Việt Nam",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "+ Hoàn thành các nghĩa vụ đối với Ngân hàng Nhà nước trong các giao dịch nghiệp vụ thị trường mở.",
+    "KẾT QUẢ XỬ LÝ": "Văn bản thông báo chấm dứt thành viên nghiệp vụ thị trường mở - KQ.G19.000022",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "+ Hoàn thành các nghĩa vụ đối với Ngân hàng Nhà nước trong các giao dịch nghiệp vụ thị trường mở."
+  },
+  "classification": {
+    "sector": {
+      "name": "Hoạt động tiền tệ",
+      "slug": "hoat-ong-tien-te"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp có vốn đầu tư nước ngoài",
+        "slug": "doanh-nghiep-co-von-au-tu-nuoc-ngoai"
+      },
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Ngân hàng Nhà nước Việt Nam",
+        "slug": "ngan-hang-nha-nuoc-viet-nam"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

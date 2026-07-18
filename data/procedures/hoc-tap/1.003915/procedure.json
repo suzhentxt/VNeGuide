@@ -1,0 +1,200 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfd-66ed-7278-a70a-2d6bcb6ba95c",
+  "procedure_code": "1.003915",
+  "title": "Cấp Chứng chỉ hành nghề đấu giá",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfd-66ed-7278-a70a-2d6bcb6ba95c",
+    "source_file": "chi-tiet-thu-tuc-1.003915.pdf",
+    "source_path": "procedures/hoc-tap/1.003915/chi-tiet-thu-tuc-1.003915.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T04:58:13.414800+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "a98ea4bf16436492b647e7bf000e914c356796caead1c3c76fd289e8e348fa8d"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1458/QĐ-BTP",
+  "implementation_level": "Cấp tỉnh",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Đấu giá tài sản",
+  "target_users": [
+    "Công dân Việt Nam"
+  ],
+  "agency": {
+    "competent_agency": "Chủ tịch ủy ban nhân dân cấp tỉnh",
+    "executing_agency": "Sở Tư pháp"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Người đủ tiêu chuẩn theo quy định tại Điều 10 của Luật Đấu giá tài sản nộp 01 bộ hồ sơ đề nghị cấp Chứng chỉ hành nghề đấu giá gửi trực tiếp hoặc qua dịch vụ bưu chính đến Sở Tư pháp nơi đã đăng ký tập sự hoặc trực tuyến trên Cổng dịch vụ công quốc gia.\nTrong thời hạn 05 ngày làm việc kể từ ngày nhận đủ hồ sơ hợp lệ, Sở Tư pháp thẩm định, trình Chủ tịch Ủy ban nhân dân cấp tỉnh xem xét, quyết định cấp Chứng chỉ hành nghề đấu giá. Trong thời hạn 05 ngày làm việc kể từ ngày nhận được văn bản đề nghị của Sở Tư pháp, Chủ tịch Ủy ban nhân dân cấp tỉnh cấp Chứng chỉ hành nghề đấu giá; trường hợp từ chối phải thông báo bằng văn bản và nêu rõ lý do.\nNgười yêu cầu nhận kết quả tại Sở Tư pháp nơi mình nộp hồ sơ hoặc qua dịch vụ bưu chính, trừ trường hợp pháp luật có quy định khác.\nTrong quá trình thẩm tra hồ sơ cấp Chứng chỉ hành nghề đấu giá, Sở Tư pháp có quyền yêu cầu cơ quan quản lý cơ sở dữ liệu về lý lịch tư pháp cung cấp thông tin lý lịch tư pháp của người đề nghị cấp Chứng chỉ hành nghề đấu giá.\nCơ quan quản lý cơ sở dữ liệu lý lịch tư pháp có trách nhiệm cung cấp thông tin cho cơ quan yêu cầu trong thời hạn 03 ngày làm việc kể từ ngày nhận được yêu cầu. Thời gian phối hợp cung cấp thông tin lý lịch tư pháp không tính vào thời gian giải quyết thủ tục hành chính.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Văn bản đề nghị cấp Chứng chỉ hành nghề đấu giá (Mẫu 01-PLIII-ĐGTS Thông tư số 08/2025/TT-BTP)",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu số 01-PLIII-ĐGTS.docx",
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Bản sao có chứng thực hoặc bản sao kèm theo bản chính để đối chiếu bằng tốt nghiệp từ đại học trở lên thuộc một trong các ngành luật, kinh tế, quản trị kinh doanh, kế toán, kiểm toán, tài chính, ngân hàng",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Một ảnh màu cỡ 3 cm x 4 cm",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "10 ngày làm việc",
+      "fee": "áp dụng mức phí 400.000 đồng/hồ sơ kể từ ngày 01/7/2025 đến hết ngày 31/12/2026 theo Thông tư số 64/2025/TT-BTC",
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "10 ngày làm việc",
+      "fee": "áp dụng mức phí 400.000 đồng/hồ sơ kể từ ngày 01/7/2025 đến hết ngày 31/12/2026 theo Thông tư số 64/2025/TT-BTC",
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "10 ngày làm việc",
+      "fee": "áp dụng mức phí 400.000 đồng/hồ sơ kể từ ngày 01/7/2025 đến hết ngày 31/12/2026 theo Thông tư số 64/2025/TT-BTC",
+      "description": "",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "áp dụng mức phí 400.000 đồng/hồ sơ kể từ ngày 01/7/2025 đến hết ngày 31/12/2026 theo Thông tư số 64/2025/TT-BTC",
+    "status": "varies_by_submission_method",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "áp dụng mức phí 400.000 đồng/hồ sơ kể từ ngày 01/7/2025 đến hết ngày 31/12/2026 theo Thông tư số 64/2025/TT-BTC",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "áp dụng mức phí 400.000 đồng/hồ sơ kể từ ngày 01/7/2025 đến hết ngày 31/12/2026 theo Thông tư số 64/2025/TT-BTC",
+        "is_free": false,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "áp dụng mức phí 400.000 đồng/hồ sơ kể từ ngày 01/7/2025 đến hết ngày 31/12/2026 theo Thông tư số 64/2025/TT-BTC",
+        "is_free": false,
+        "source_page": null
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị định số 121/2025/NĐ-CP ngày 11/6/2025 của Chính phủ quy định về phân quyền, phân cấp trong lĩnh vực quản lý nhà nước của Bộ Tư pháp",
+      "document_number": "121/2025/NĐ-CP",
+      "source_page": 3
+    },
+    {
+      "title": "Thông tư số 08/2025/TT-BTP ngày 12/6/2025 của Bộ trưởng Bộ Tư pháp quy định về phân định thẩm quyền của chính quyền địa phương 02 cấp và phân cấp trong lĩnh vực quản lý nhà nước của Bộ Tư pháp",
+      "document_number": "08/2025/TT-BTP",
+      "source_page": 3
+    },
+    {
+      "title": "5.\tThông tư 64/2025/TT-BTC ngày 30/6/2025 của Bộ Tài chính về việc quy định mức thu, miễn một số khoản phí, lệ phí nhằm hỗ trợ cho doanh nghiệp, người dân.",
+      "document_number": "Thông tư 64/2025/TT-BTC",
+      "source_page": 3
+    },
+    {
+      "title": "quy định mức thu, chế độ thu, nộp, quản lý và sử dụng phí thẩm định tiêu chuẩn hành nghề đấu giá tài sản, phí thẩm định điều kiện đăng ký hoạt động của doanh nghiệp đấu giá tài sản",
+      "document_number": "Thông tư số 106/2017/TT-BTC",
+      "source_page": 3
+    },
+    {
+      "title": "Luật Đấu giá tài sản năm 2016",
+      "document_number": "01/2016/QH14",
+      "source_page": 3
+    },
+    {
+      "title": "Luật sửa đổi, bổ sung một số điều của Luật Đấu giá tài sản năm 2024",
+      "document_number": "37/2024/QH15",
+      "source_page": 3
+    }
+  ],
+  "conditions": "Người thuộc một trong những trường hợp sau đây thì không được cấp chứng chỉ hành nghề đấu giá:\n- Không đủ tiêu chuẩn quy định tại Điều 10 của Luật đấu giá tài sản.\n- Đang là sĩ quan, quân nhân chuyên nghiệp, công nhân, viên chức quốc phòng trong cơ quan, đơn vị thuộc Quân đội nhân dân; sĩ quan, hạ sĩ quan nghiệp vụ, sĩ quan, hạ sĩ quan chuyên môn kỹ thuật trong cơ quan, đơn vị thuộc Công an nhân dân; cán bộ, công chức, viên chức, trừ trường hợp là công chức, viên chức được đề nghị cấp Chứng chỉ hành nghề đấu giá để làm việc cho Trung tâm dịch vụ đấu giá tài sản.\n- Bị mất hoặc bị hạn chế năng lực hành vi dân sự; có khó khăn trong nhận thức, làm chủ hành vi.\n- Đang bị truy cứu trách nhiệm hình sự; bị kết án và bản án đã có hiệu lực pháp luật; đã bị kết án mà chưa được xóa án tích; đã bị kết án về tội vi phạm quy định về hoạt động bán đấu giá tài sản, tội lừa đảo chiếm đoạt tài sản, các tội về tham nhũng kể cả trường hợp đã được xóa án tích.\n- Đang bị áp dụng biện pháp xử lý hành chính đưa vào cơ sở cai nghiện bắt buộc, cơ sở giáo dục bắt buộc theo quy định của pháp luật về xử lý vi phạm hành chính.",
+  "results": [
+    {
+      "title": "Quyết định cấp chứng chỉ hành nghề đấu giá",
+      "code": "KQ.G15.000128",
+      "source_page": 2
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Người đủ tiêu chuẩn theo quy định tại Điều 10 của Luật Đấu giá tài sản nộp 01 bộ hồ sơ đề nghị cấp Chứng chỉ hành nghề đấu giá gửi trực tiếp hoặc qua dịch vụ bưu chính đến Sở Tư pháp nơi đã đăng ký tập sự hoặc trực tuyến trên Cổng dịch vụ công quốc gia.\nTrong thời hạn 05 ngày làm việc kể từ ngày nhận đủ hồ sơ hợp lệ, Sở Tư pháp thẩm định, trình Chủ tịch Ủy ban nhân dân cấp tỉnh xem xét, quyết định cấp Chứng chỉ hành nghề đấu giá. Trong thời hạn 05 ngày làm việc kể từ ngày nhận được văn bản đề nghị của Sở Tư pháp, Chủ tịch Ủy ban nhân dân cấp tỉnh cấp Chứng chỉ hành nghề đấu giá; trường hợp từ chối phải thông báo bằng văn bản và nêu rõ lý do.\nNgười yêu cầu nhận kết quả tại Sở Tư pháp nơi mình nộp hồ sơ hoặc qua dịch vụ bưu chính, trừ trường hợp pháp luật có quy định khác.\nTrong quá trình thẩm tra hồ sơ cấp Chứng chỉ hành nghề đấu giá, Sở Tư pháp có quyền yêu cầu cơ quan quản lý cơ sở dữ liệu về lý lịch tư pháp cung cấp thông tin lý lịch tư pháp của người đề nghị cấp Chứng chỉ hành nghề đấu giá.\nCơ quan quản lý cơ sở dữ liệu lý lịch tư pháp có trách nhiệm cung cấp thông tin cho cơ quan yêu cầu trong thời hạn 03 ngày làm việc kể từ ngày nhận được yêu cầu. Thời gian phối hợp cung cấp thông tin lý lịch tư pháp không tính vào thời gian giải quyết thủ tục hành chính.",
+    "THÀNH PHẦN HỒ SƠ": "Văn bản đề nghị cấp Chứng chỉ hành nghề đấu giá (Mẫu 01-PLIII-ĐGTS Thông tư số 08/2025/TT-BTP)\nBản sao có chứng thực hoặc bản sao kèm theo bản chính để đối chiếu bằng tốt nghiệp từ đại học trở lên thuộc một trong các ngành luật, kinh tế, quản trị kinh doanh, kế toán, kiểm toán, tài chính, ngân hàng\nMột ảnh màu cỡ 3 cm x 4 cm",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 10 ngày làm việc\nQua dịch vụ bưu chính: 10 ngày làm việc\nTrực tiếp: 10 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Nghị định số 121/2025/NĐ-CP ngày 11/6/2025 của Chính phủ quy định về phân quyền, phân cấp trong lĩnh vực quản lý nhà nước của Bộ Tư pháp - 121/2025/NĐ-CP\nThông tư số 08/2025/TT-BTP ngày 12/6/2025 của Bộ trưởng Bộ Tư pháp quy định về phân định thẩm quyền của chính quyền địa phương 02 cấp và phân cấp trong lĩnh vực quản lý nhà nước của Bộ Tư pháp - 08/2025/TT-BTP\n5.\tThông tư 64/2025/TT-BTC ngày 30/6/2025 của Bộ Tài chính về việc quy định mức thu, miễn một số khoản phí, lệ phí nhằm hỗ trợ cho doanh nghiệp, người dân. - Thông tư 64/2025/TT-BTC\nquy định mức thu, chế độ thu, nộp, quản lý và sử dụng phí thẩm định tiêu chuẩn hành nghề đấu giá tài sản, phí thẩm định điều kiện đăng ký hoạt động của doanh nghiệp đấu giá tài sản - Thông tư số 106/2017/TT-BTC\nLuật Đấu giá tài sản năm 2016 - 01/2016/QH14\nLuật sửa đổi, bổ sung một số điều của Luật Đấu giá tài sản năm 2024 - 37/2024/QH15",
+    "CƠ QUAN THỰC HIỆN": "Sở Tư pháp",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "Người thuộc một trong những trường hợp sau đây thì không được cấp chứng chỉ hành nghề đấu giá:\n- Không đủ tiêu chuẩn quy định tại Điều 10 của Luật đấu giá tài sản.\n- Đang là sĩ quan, quân nhân chuyên nghiệp, công nhân, viên chức quốc phòng trong cơ quan, đơn vị thuộc Quân đội nhân dân; sĩ quan, hạ sĩ quan nghiệp vụ, sĩ quan, hạ sĩ quan chuyên môn kỹ thuật trong cơ quan, đơn vị thuộc Công an nhân dân; cán bộ, công chức, viên chức, trừ trường hợp là công chức, viên chức được đề nghị cấp Chứng chỉ hành nghề đấu giá để làm việc cho Trung tâm dịch vụ đấu giá tài sản.\n- Bị mất hoặc bị hạn chế năng lực hành vi dân sự; có khó khăn trong nhận thức, làm chủ hành vi.\n- Đang bị truy cứu trách nhiệm hình sự; bị kết án và bản án đã có hiệu lực pháp luật; đã bị kết án mà chưa được xóa án tích; đã bị kết án về tội vi phạm quy định về hoạt động bán đấu giá tài sản, tội lừa đảo chiếm đoạt tài sản, các tội về tham nhũng kể cả trường hợp đã được xóa án tích.\n- Đang bị áp dụng biện pháp xử lý hành chính đưa vào cơ sở cai nghiện bắt buộc, cơ sở giáo dục bắt buộc theo quy định của pháp luật về xử lý vi phạm hành chính.",
+    "KẾT QUẢ XỬ LÝ": "Quyết định cấp chứng chỉ hành nghề đấu giá - KQ.G15.000128",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "Người thuộc một trong những trường hợp sau đây thì không được cấp chứng chỉ hành nghề đấu giá:\n- Không đủ tiêu chuẩn quy định tại Điều 10 của Luật đấu giá tài sản.\n- Đang là sĩ quan, quân nhân chuyên nghiệp, công nhân, viên chức quốc phòng trong cơ quan, đơn vị thuộc Quân đội nhân dân; sĩ quan, hạ sĩ quan nghiệp vụ, sĩ quan, hạ sĩ quan chuyên môn kỹ thuật trong cơ quan, đơn vị thuộc Công an nhân dân; cán bộ, công chức, viên chức, trừ trường hợp là công chức, viên chức được đề nghị cấp Chứng chỉ hành nghề đấu giá để làm việc cho Trung tâm dịch vụ đấu giá tài sản.\n- Bị mất hoặc bị hạn chế năng lực hành vi dân sự; có khó khăn trong nhận thức, làm chủ hành vi.\n- Đang bị truy cứu trách nhiệm hình sự; bị kết án và bản án đã có hiệu lực pháp luật; đã bị kết án mà chưa được xóa án tích; đã bị kết án về tội vi phạm quy định về hoạt động bán đấu giá tài sản, tội lừa đảo chiếm đoạt tài sản, các tội về tham nhũng kể cả trường hợp đã được xóa án tích.\n- Đang bị áp dụng biện pháp xử lý hành chính đưa vào cơ sở cai nghiện bắt buộc, cơ sở giáo dục bắt buộc theo quy định của pháp luật về xử lý vi phạm hành chính."
+  },
+  "classification": {
+    "sector": {
+      "name": "Đấu giá tài sản",
+      "slug": "au-gia-tai-san"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Sở Tư pháp",
+        "slug": "so-tu-phap"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

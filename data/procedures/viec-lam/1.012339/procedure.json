@@ -1,0 +1,172 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfc-c248-709e-a78f-a95621596661",
+  "procedure_code": "1.012339",
+  "title": "Đăng ký/thay đổi phương pháp, cơ sở tính phí của sản phẩm bảo hiểm vi mô",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfc-c248-709e-a78f-a95621596661",
+    "source_file": "chi-tiet-thu-tuc-1.012339.pdf",
+    "source_path": "procedures/viec-lam/1.012339/chi-tiet-thu-tuc-1.012339.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T05:00:59.436306+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "fc10600642b03dd09feaf4fa50b5d2b874311fd6d90a40d145e27ddeff79eff1"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "795/QĐ-BTC",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Bảo hiểm",
+  "target_users": [
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)"
+  ],
+  "agency": {
+    "competent_agency": "Bộ Tài chính",
+    "executing_agency": "Bộ Tài chính"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "1.1. Đăng ký phương pháp, cơ sở tính phí của sản phẩm bảo hiểm vi mô",
+      "description": "- Trình tự thực hiện\n+ Tổ chức cung cấp bảo hiểm vi mô phải nộp Bộ Tài chính 01 bộ hồ sơ đăng ký cơ sở và phương pháp tính phí bảo hiểm của các sản phẩm bảo hiểm vi mô trước khi triển khai.\n+ Trong thời hạn 14 ngày kể từ ngày nhận được đủ hồ sơ hợp lệ, Bộ Tài chính có văn bản chấp thuận cơ sở và phương pháp tính phí bảo hiểm của tổ chức cung cấp bảo hiểm vi mô. Trường hợp từ chối chấp thuận, Bộ Tài chính có văn bản giải thích rõ lý do.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "1.2. Đăng ký thay đổi phương pháp, cơ sở tính phí của sản phẩm bảo hiểm vi mô",
+      "description": "- Trình tự thực hiện\n+ Trường hợp thay đổi cơ sở và phương pháp tính phí bảo hiểm của sản phẩm bảo hiểm vi mô, tổ chức cung cấp bảo hiểm vi mô nộp Bộ Tài chính 01 bộ hồ sơ đề nghị chấp thuận sửa đổi, bổ sung cơ sở và phương pháp tính phí bảo hiểm;\n+ Bộ Tài chính có văn bản chấp thuận việc sửa đổi, bổ sung cơ sở và phương pháp tính phí của tổ chức cung cấp bảo hiểm vi mô. Trường hợp từ chối chấp thuận, Bộ Tài chính có văn bản giải thích rõ lý do.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "1.1. Đăng ký phương pháp, cơ sở tính phí của sản phẩm bảo hiểm vi mô: c. Công thức, phương pháp, cơ sở tính phí bảo hiểm thuần, phí bảo hiểm gộp và tài liệu giải trình về cơ sở dùng để tính phí bảo hiểm của sản phẩm bảo hiểm vi mô dự kiến triển khai; nguyên tắc tăng, giảm phí bảo hiểm (nếu có). Các tài liệu này phải có xác nhận của Chuyên gia tính toán bảo hiểm vi mô.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "1.1. Đăng ký phương pháp, cơ sở tính phí của sản phẩm bảo hiểm vi mô: b. Bản tóm tắt các quyền lợi bảo hiểm và điều khoản loại trừ trách nhiệm bảo hiểm của sản phẩm bảo hiểm dự kiến triển khai.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "1.1. Đăng ký phương pháp, cơ sở tính phí của sản phẩm bảo hiểm vi mô: a. Văn bản đề nghị đăng ký cơ sở và phương pháp tính phí bảo hiểm theo mẫu số 06 quy định tại Phụ lục ban hành kèm theo Nghị định 21/2023/NĐ-CP ngày 5/5/2023.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "1.2. Đăng ký thay đổi phương pháp, cơ sở tính phí của sản phẩm bảo hiểm vi mô: a) Văn bản đề nghị sửa đổi, bổ sung cơ sở, phương pháp tính phí bảo hiểm theo Mẫu số 06 quy định tại Phụ lục ban hành kèm theo Nghị định 21/2023/NĐ-CP;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "1.2. Đăng ký thay đổi phương pháp, cơ sở tính phí của sản phẩm bảo hiểm vi mô: b) Tài liệu giải trình các nội dung sửa đổi, bổ sung, có xác nhận của chuyên gia tính toán bảo hiểm vi mô.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "14 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "14 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      }
+    ]
+  },
+  "legal_bases": [],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Văn bản chấp thuận hoặc từ chối chấp thuận của Bộ Tài chính trong lĩnh vực kinh doanh bảo hiểm",
+      "code": "KQ.G12.000028",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "- Trình tự thực hiện\n+ Tổ chức cung cấp bảo hiểm vi mô phải nộp Bộ Tài chính 01 bộ hồ sơ đăng ký cơ sở và phương pháp tính phí bảo hiểm của các sản phẩm bảo hiểm vi mô trước khi triển khai.\n+ Trong thời hạn 14 ngày kể từ ngày nhận được đủ hồ sơ hợp lệ, Bộ Tài chính có văn bản chấp thuận cơ sở và phương pháp tính phí bảo hiểm của tổ chức cung cấp bảo hiểm vi mô. Trường hợp từ chối chấp thuận, Bộ Tài chính có văn bản giải thích rõ lý do.\n- Trình tự thực hiện\n+ Trường hợp thay đổi cơ sở và phương pháp tính phí bảo hiểm của sản phẩm bảo hiểm vi mô, tổ chức cung cấp bảo hiểm vi mô nộp Bộ Tài chính 01 bộ hồ sơ đề nghị chấp thuận sửa đổi, bổ sung cơ sở và phương pháp tính phí bảo hiểm;\n+ Bộ Tài chính có văn bản chấp thuận việc sửa đổi, bổ sung cơ sở và phương pháp tính phí của tổ chức cung cấp bảo hiểm vi mô. Trường hợp từ chối chấp thuận, Bộ Tài chính có văn bản giải thích rõ lý do.",
+    "THÀNH PHẦN HỒ SƠ": "1.1. Đăng ký phương pháp, cơ sở tính phí của sản phẩm bảo hiểm vi mô: c. Công thức, phương pháp, cơ sở tính phí bảo hiểm thuần, phí bảo hiểm gộp và tài liệu giải trình về cơ sở dùng để tính phí bảo hiểm của sản phẩm bảo hiểm vi mô dự kiến triển khai; nguyên tắc tăng, giảm phí bảo hiểm (nếu có). Các tài liệu này phải có xác nhận của Chuyên gia tính toán bảo hiểm vi mô.\n1.1. Đăng ký phương pháp, cơ sở tính phí của sản phẩm bảo hiểm vi mô: b. Bản tóm tắt các quyền lợi bảo hiểm và điều khoản loại trừ trách nhiệm bảo hiểm của sản phẩm bảo hiểm dự kiến triển khai.\n1.1. Đăng ký phương pháp, cơ sở tính phí của sản phẩm bảo hiểm vi mô: a. Văn bản đề nghị đăng ký cơ sở và phương pháp tính phí bảo hiểm theo mẫu số 06 quy định tại Phụ lục ban hành kèm theo Nghị định 21/2023/NĐ-CP ngày 5/5/2023.\n1.2. Đăng ký thay đổi phương pháp, cơ sở tính phí của sản phẩm bảo hiểm vi mô: a) Văn bản đề nghị sửa đổi, bổ sung cơ sở, phương pháp tính phí bảo hiểm theo Mẫu số 06 quy định tại Phụ lục ban hành kèm theo Nghị định 21/2023/NĐ-CP;\n1.2. Đăng ký thay đổi phương pháp, cơ sở tính phí của sản phẩm bảo hiểm vi mô: b) Tài liệu giải trình các nội dung sửa đổi, bổ sung, có xác nhận của chuyên gia tính toán bảo hiểm vi mô.",
+    "CÁCH THỨC THỰC HIỆN": "Qua dịch vụ bưu chính: 14 ngày\nTrực tiếp: 14 ngày",
+    "CĂN CỨ PHÁP LÝ": "",
+    "CƠ QUAN THỰC HIỆN": "Bộ Tài chính",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Văn bản chấp thuận hoặc từ chối chấp thuận của Bộ Tài chính trong lĩnh vực kinh doanh bảo hiểm - KQ.G12.000028",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Bảo hiểm",
+      "slug": "bao-hiem"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Bộ Tài chính",
+        "slug": "bo-tai-chinh"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

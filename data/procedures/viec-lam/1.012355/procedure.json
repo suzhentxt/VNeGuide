@@ -1,0 +1,269 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfc-c27b-7168-94d2-0f6e60a05da5",
+  "procedure_code": "1.012355",
+  "title": "Thay đổi nội dung, phạm vi, thời hạn hoạt động của doanh nghiệp bảo hiểm, doanh nghiệp tái bảo hiểm, chi nhánh nước ngoài tại Việt Nam, doanh nghiệp môi giới bảo hiểm.",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfc-c27b-7168-94d2-0f6e60a05da5",
+    "source_file": "chi-tiet-thu-tuc-1.012355.pdf",
+    "source_path": "procedures/viec-lam/1.012355/chi-tiet-thu-tuc-1.012355.pdf",
+    "page_count": 6,
+    "extracted_at": "2026-07-18T05:01:00.451372+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "b29b7c95a4953795c56f79c09d0440b7b40d2dc964e15579546e039ea8a7b4d4"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "220/QĐ-BTC",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Bảo hiểm",
+  "target_users": [
+    "Doanh nghiệp"
+  ],
+  "agency": {
+    "competent_agency": "Bộ Tài chính",
+    "executing_agency": "Bộ Tài chính"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Mở rộng nội dung, phạm vi, thời hạn hoạt động",
+      "description": "+ Bước 1: Doanh nghiệp bảo hiểm, doanh nghiệp tái bảo hiểm, chi nhánh nước ngoài tại Việt Nam, doanh nghiệp môi giới bảo hiểm muốn mở rộng nội dung, phạm vi, thời hạn hoạt động được quy định trong Giấy phép thành lập và hoạt động nộp hồ sơ đề nghị mở rộng nội dung, phạm vi và thời hạn hoạt động\n+ Trong thời hạn 20 ngày kể từ ngày nhận đủ hồ sơ hợp lệ, Bộ Tài chính cấp Giấy phép điều chỉnh theo mẫu quy định tại Phụ lục V ban hành kèm theo Nghị định 46/2023/NĐ-CP. Trường hợp từ chối chấp thuận, Bộ Tài chính có văn bản giải thích rõ lý do.",
+      "example": null,
+      "source_page": 2
+    },
+    {
+      "order": 2,
+      "title": "Thu hẹp nội dung, phạm vi hoạt động",
+      "description": "+ Bước 1: Doanh nghiệp bảo hiểm, doanh nghiệp tái bảo hiểm, chi nhánh nước ngoài tại Việt Nam, doanh nghiệp môi giới bảo hiểm nộp hồ sơ đề nghị thu hẹp nội dung, phạm vi hoạt động\n+ Trong thời hạn 20 ngày kể từ ngày nhận đủ hồ sơ hợp lệ, Bộ Tài chính cấp Giấy phép điều chỉnh theo mẫu quy định tại Phụ lục V ban hành kèm theo Nghị định 46/2023/NĐ-CP. Trường hợp từ chối chấp thuận, Bộ Tài chính có văn bản giải thích rõ lý do.",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "+++ Giải trình cơ sở vật chất kỹ thuật bảo đảm cho việc triển khai sản phẩm bảo hiểm liên kết đầu tư, bao gồm: Hệ thống công nghệ thông tin; hệ thống kế toán, trong đó có mô tả chi tiết phương án xử lý của doanh nghiệp bảo hiểm đối với quỹ liên kết đầu tư trong các trường hợp: Khách hàng yêu cầu trả tiền bảo hiểm khi có sự kiện bảo hiểm; khách hàng yêu cầu chấm dứt hợp đồng bảo hiểm trước hạn; khách hàng yêu cầu rút một phần phí bảo hiểm, tạm ứng từ giá trị hoàn lại, đáo hạn hợp đồng bảo hiểm; khách hàng yêu cầu chuyển đổi quỹ liên kết đơn vị; quỹ liên kết đơn vị bị định giá sai trong trường hợp triển khai sản phẩm bảo hiểm liên kết đơn vị và các trường hợp khác theo quy định tại quy tắc, điều khoản sản phẩm dự kiến triển khai;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "+ Trường hợp mở rộng nội dung hoạt động để triển khai nghiệp vụ bảo hiểm liên kết đầu tư, bảo hiểm hưu trí, ngoài các tài liệu quy định tại các điểm a, b và c khoản này, doanh nghiệp bảo hiểm phải cung cấp thêm các tài liệu tại các khoản 4, 5 Điều 21 Nghị định 46/2023/NĐ-CP , cụ thể:",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "+++ Quy trình tuyển chọn, đào tạo, quản lý đại lý phân phối sản phẩm bảo hiểm liên kết đầu tư; nội dung và chương trình đào tạo đại lý bảo hiểm về sản phẩm bảo hiểm liên kết đầu tư; kênh phân phối và cách thức quản lý các đại lý thực hiện tư vấn, giới thiệu, chào bán và thu xếp việc giao kết sản phẩm bảo hiểm liên kết đầu tư đảm bảo tuân thủ quy định của pháp luật;",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "+ Văn bản của cấp có thẩm quyền theo quy định tại Điều lệ công ty (đối với doanh nghiệp bảo hiểm, doanh nghiệp tái bảo hiểm, doanh nghiệp môi giới bảo hiểm) hoặc Quy chế tổ chức và hoạt động (đối với chi nhánh nước ngoài tại Việt Nam) về việc thay đổi nội dung, phạm vi và thời hạn hoạt động;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "+++ Cam kết bằng văn bản kèm theo giải trình chi tiết về việc doanh nghiệp bảo hiểm đáp ứng các điều kiện quy định tại điểm c khoản 1 Điều 21 Nghị định 46/2023/NĐ-CP .",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "+++ Chi tiết phương án xử lý và các tài liệu cung cấp cho khách hàng của doanh nghiệp bảo hiểm đối với việc triển khai sản phẩm bảo hiểm hưu trí trong các trường hợp: Khách hàng yêu cầu trả tiền bảo hiểm khi có sự kiện bảo hiểm; khách hàng yêu cầu chuyển giao tài khoản bảo hiểm hưu trí; đáo hạn hợp đồng bảo hiểm và các trường hợp khác theo quy định tại quy tắc, điều khoản;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "++ Trường hợp mở rộng nội dung hoạt động để triển khai nghiệp vụ bảo hiểm hưu trí, ngoài các tài liệu quy định tại các điểm a, b và c khoản 3 Điều 21 Nghị định 46/2023/NĐ-CP , doanh nghiệp bảo hiểm cung cấp các tài liệu sau:",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "+++ Đối với trường hợp mở rộng triển khai sản phẩm bảo hiểm liên kết đơn vị thuộc nghiệp vụ bảo hiểm liên kết đầu tư, doanh nghiệp bảo hiểm phải cung cấp thêm các tài liệu sau: Danh sách quỹ liên kết đơn vị, chính sách đầu tư mà doanh nghiệp bảo hiểm dự kiến áp dụng đối với các tài sản thuộc từng quỹ liên kết đơn vị; cơ sở phân bổ các khoản phí bảo hiểm và chi phí giữa các quỹ liên kết đơn vị; phương pháp định giá các đơn vị quỹ liên kết đơn vị; văn bằng chứng minh trình độ, năng lực, kinh nghiệm chuyên môn của các thành viên Hội đồng đầu tư đáp ứng các điều kiện quy định tại Điều 112 Nghị định này; tài liệu chứng minh việc Công ty quản lý quỹ đáp ứng các điều kiện quy định tại Điều 100 Nghị định 46/2023/NĐ-CP;",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 3
+      },
+      {
+        "name": "++ Trường hợp mở rộng nội dung hoạt động để triển khai nghiệp vụ bảo hiểm liên kết đầu tư, ngoài các tài liệu quy định tại các điểm a, b và c khoản 3 Điều 21 Nghị định 46/2023/NĐ-CP , doanh nghiệp bảo hiểm phải cung cấp các tài liệu sau:",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 4
+      },
+      {
+        "name": "+ Các tài liệu chứng minh doanh nghiệp, chi nhánh đáp ứng các điều kiện quy định tại khoản 1 Điều 21 Nghị định 46/2023/NĐ-CP trừ tài liệu quy định tại điểm b khoản 1 Điều 21 Nghị định 46/2023/NĐ-CP ;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 4
+      },
+      {
+        "name": "+ Văn bản đề nghị mở rộng nội dung, phạm vi và thời hạn hoạt động theo mẫu quy định tại Phụ lục III ban hành kèm theo Nghị định này;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 4
+      },
+      {
+        "name": "+++ Giải trình cơ sở vật chất kỹ thuật bảo đảm cho việc triển khai sản phẩm bảo hiểm hưu trí, bao gồm: Hệ thống công nghệ thông tin; hệ thống kế toán; quy trình tuyển chọn, đào tạo, quản lý đại lý phân phối sản phẩm; nội dung và chương trình đào tạo đại lý bảo hiểm hưu trí;",
+        "quantity": null,
+        "attachment": null,
+        "source_page": 4
+      },
+      {
+        "name": "+++ Tóm tắt nội dung chính của sản phẩm bảo hiểm liên kết đầu tư dự kiến triển khai; chính sách đầu tư của quỹ liên kết đầu tư; phương pháp, cơ sở tính phí; tài liệu giới thiệu sản phẩm; tài liệu minh họa bán hàng, mẫu giấy yêu cầu bảo hiểm; mẫu giấy chứng nhận bảo hiểm; bảng phân tích nhu cầu tham gia bảo hiểm của khách hàng và các loại giấy tờ khác mà khách hàng phải kê khai và ký vào khi mua bảo hiểm hoặc khi điều chỉnh hợp đồng bảo hiểm;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 4
+      },
+      {
+        "name": "+ Các tài liệu chứng minh doanh nghiệp môi giới bảo hiểm đáp ứng các điều kiện theo quy định tại khoản 1, Điều 69 Nghị định 46/2023/NĐ-CP ;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 4
+      },
+      {
+        "name": "+++ Tóm tắt nội dung chính của sản phẩm bảo hiểm hưu trí dự kiến triển khai, bao gồm các thông tin về thị trường mục tiêu của sản phẩm, các quyền lợi bảo hiểm dự kiến cung cấp; phương pháp, cơ sở tính phí; tài liệu giới thiệu sản phẩm; tài liệu minh họa bán hàng, mẫu giấy yêu cầu bảo hiểm; mẫu giấy chứng nhận bảo hiểm và các loại giấy tờ khác mà khách hàng phải kê khai và ký khi mua bảo hiểm hoặc điều chỉnh hợp đồng bảo hiểm;",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 4
+      },
+      {
+        "name": "+++ Cam kết bằng văn bản kèm theo giải trình chi tiết về việc doanh nghiệp bảo hiểm đáp ứng các điều kiện quy định tại các điểm c, d khoản 1 Điều 21 Nghị định 46/2023/NĐ-CP.",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 5
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "20 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": 5
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "20 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "20 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": 5
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 5
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 5
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Nghị định quy định chi tiết thi hành một số điều của Luật Kinh doanh bảo hiểm",
+      "document_number": "46/2023/NĐ-CP",
+      "source_page": 5
+    },
+    {
+      "title": "- Điều 136 Luật Kinh doanh bảo hiểm;",
+      "document_number": "08/2022/QH15",
+      "source_page": 5
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Văn bản thông báo lý do từ chối của Bộ Tài chính",
+      "code": "KQ.G12.001161",
+      "source_page": 6
+    },
+    {
+      "title": "Giấy phép điều chỉnh trong lĩnh vực kinh doanh bảo hiểm",
+      "code": "KQ.G12.000032",
+      "source_page": 6
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "+ Bước 1: Doanh nghiệp bảo hiểm, doanh nghiệp tái bảo hiểm, chi nhánh nước ngoài tại Việt Nam, doanh nghiệp môi giới bảo hiểm muốn mở rộng nội dung, phạm vi, thời hạn hoạt động được quy định trong Giấy phép thành lập và hoạt động nộp hồ sơ đề nghị mở rộng nội dung, phạm vi và thời hạn hoạt động\n+ Trong thời hạn 20 ngày kể từ ngày nhận đủ hồ sơ hợp lệ, Bộ Tài chính cấp Giấy phép điều chỉnh theo mẫu quy định tại Phụ lục V ban hành kèm theo Nghị định 46/2023/NĐ-CP. Trường hợp từ chối chấp thuận, Bộ Tài chính có văn bản giải thích rõ lý do.\n+ Bước 1: Doanh nghiệp bảo hiểm, doanh nghiệp tái bảo hiểm, chi nhánh nước ngoài tại Việt Nam, doanh nghiệp môi giới bảo hiểm nộp hồ sơ đề nghị thu hẹp nội dung, phạm vi hoạt động\n+ Trong thời hạn 20 ngày kể từ ngày nhận đủ hồ sơ hợp lệ, Bộ Tài chính cấp Giấy phép điều chỉnh theo mẫu quy định tại Phụ lục V ban hành kèm theo Nghị định 46/2023/NĐ-CP. Trường hợp từ chối chấp thuận, Bộ Tài chính có văn bản giải thích rõ lý do.",
+    "THÀNH PHẦN HỒ SƠ": "+++ Giải trình cơ sở vật chất kỹ thuật bảo đảm cho việc triển khai sản phẩm bảo hiểm liên kết đầu tư, bao gồm: Hệ thống công nghệ thông tin; hệ thống kế toán, trong đó có mô tả chi tiết phương án xử lý của doanh nghiệp bảo hiểm đối với quỹ liên kết đầu tư trong các trường hợp: Khách hàng yêu cầu trả tiền bảo hiểm khi có sự kiện bảo hiểm; khách hàng yêu cầu chấm dứt hợp đồng bảo hiểm trước hạn; khách hàng yêu cầu rút một phần phí bảo hiểm, tạm ứng từ giá trị hoàn lại, đáo hạn hợp đồng bảo hiểm; khách hàng yêu cầu chuyển đổi quỹ liên kết đơn vị; quỹ liên kết đơn vị bị định giá sai trong trường hợp triển khai sản phẩm bảo hiểm liên kết đơn vị và các trường hợp khác theo quy định tại quy tắc, điều khoản sản phẩm dự kiến triển khai;\n+ Trường hợp mở rộng nội dung hoạt động để triển khai nghiệp vụ bảo hiểm liên kết đầu tư, bảo hiểm hưu trí, ngoài các tài liệu quy định tại các điểm a, b và c khoản này, doanh nghiệp bảo hiểm phải cung cấp thêm các tài liệu tại các khoản 4, 5 Điều 21 Nghị định 46/2023/NĐ-CP , cụ thể:\n+++ Quy trình tuyển chọn, đào tạo, quản lý đại lý phân phối sản phẩm bảo hiểm liên kết đầu tư; nội dung và chương trình đào tạo đại lý bảo hiểm về sản phẩm bảo hiểm liên kết đầu tư; kênh phân phối và cách thức quản lý các đại lý thực hiện tư vấn, giới thiệu, chào bán và thu xếp việc giao kết sản phẩm bảo hiểm liên kết đầu tư đảm bảo tuân thủ quy định của pháp luật;\n+ Văn bản của cấp có thẩm quyền theo quy định tại Điều lệ công ty (đối với doanh nghiệp bảo hiểm, doanh nghiệp tái bảo hiểm, doanh nghiệp môi giới bảo hiểm) hoặc Quy chế tổ chức và hoạt động (đối với chi nhánh nước ngoài tại Việt Nam) về việc thay đổi nội dung, phạm vi và thời hạn hoạt động;\n+++ Cam kết bằng văn bản kèm theo giải trình chi tiết về việc doanh nghiệp bảo hiểm đáp ứng các điều kiện quy định tại điểm c khoản 1 Điều 21 Nghị định 46/2023/NĐ-CP .\n+++ Chi tiết phương án xử lý và các tài liệu cung cấp cho khách hàng của doanh nghiệp bảo hiểm đối với việc triển khai sản phẩm bảo hiểm hưu trí trong các trường hợp: Khách hàng yêu cầu trả tiền bảo hiểm khi có sự kiện bảo hiểm; khách hàng yêu cầu chuyển giao tài khoản bảo hiểm hưu trí; đáo hạn hợp đồng bảo hiểm và các trường hợp khác theo quy định tại quy tắc, điều khoản;\n++ Trường hợp mở rộng nội dung hoạt động để triển khai nghiệp vụ bảo hiểm hưu trí, ngoài các tài liệu quy định tại các điểm a, b và c khoản 3 Điều 21 Nghị định 46/2023/NĐ-CP , doanh nghiệp bảo hiểm cung cấp các tài liệu sau:\n+++ Đối với trường hợp mở rộng triển khai sản phẩm bảo hiểm liên kết đơn vị thuộc nghiệp vụ bảo hiểm liên kết đầu tư, doanh nghiệp bảo hiểm phải cung cấp thêm các tài liệu sau: Danh sách quỹ liên kết đơn vị, chính sách đầu tư mà doanh nghiệp bảo hiểm dự kiến áp dụng đối với các tài sản thuộc từng quỹ liên kết đơn vị; cơ sở phân bổ các khoản phí bảo hiểm và chi phí giữa các quỹ liên kết đơn vị; phương pháp định giá các đơn vị quỹ liên kết đơn vị; văn bằng chứng minh trình độ, năng lực, kinh nghiệm chuyên môn của các thành viên Hội đồng đầu tư đáp ứng các điều kiện quy định tại Điều 112 Nghị định này; tài liệu chứng minh việc Công ty quản lý quỹ đáp ứng các điều kiện quy định tại Điều 100 Nghị định 46/2023/NĐ-CP;\n++ Trường hợp mở rộng nội dung hoạt động để triển khai nghiệp vụ bảo hiểm liên kết đầu tư, ngoài các tài liệu quy định tại các điểm a, b và c khoản 3 Điều 21 Nghị định 46/2023/NĐ-CP , doanh nghiệp bảo hiểm phải cung cấp các tài liệu sau:\n+ Các tài liệu chứng minh doanh nghiệp, chi nhánh đáp ứng các điều kiện quy định tại khoản 1 Điều 21 Nghị định 46/2023/NĐ-CP trừ tài liệu quy định tại điểm b khoản 1 Điều 21 Nghị định 46/2023/NĐ-CP ;\n+ Văn bản đề nghị mở rộng nội dung, phạm vi và thời hạn hoạt động theo mẫu quy định tại Phụ lục III ban hành kèm theo Nghị định này;\n+++ Giải trình cơ sở vật chất kỹ thuật bảo đảm cho việc triển khai sản phẩm bảo hiểm hưu trí, bao gồm: Hệ thống công nghệ thông tin; hệ thống kế toán; quy trình tuyển chọn, đào tạo, quản lý đại lý phân phối sản phẩm; nội dung và chương trình đào tạo đại lý bảo hiểm hưu trí;\n+++ Tóm tắt nội dung chính của sản phẩm bảo hiểm liên kết đầu tư dự kiến triển khai; chính sách đầu tư của quỹ liên kết đầu tư; phương pháp, cơ sở tính phí; tài liệu giới thiệu sản phẩm; tài liệu minh họa bán hàng, mẫu giấy yêu cầu bảo hiểm; mẫu giấy chứng nhận bảo hiểm; bảng phân tích nhu cầu tham gia bảo hiểm của khách hàng và các loại giấy tờ khác mà khách hàng phải kê khai và ký vào khi mua bảo hiểm hoặc khi điều chỉnh hợp đồng bảo hiểm;\n+ Các tài liệu chứng minh doanh nghiệp môi giới bảo hiểm đáp ứng các điều kiện theo quy định tại khoản 1, Điều 69 Nghị định 46/2023/NĐ-CP ;\n+++ Tóm tắt nội dung chính của sản phẩm bảo hiểm hưu trí dự kiến triển khai, bao gồm các thông tin về thị trường mục tiêu của sản phẩm, các quyền lợi bảo hiểm dự kiến cung cấp; phương pháp, cơ sở tính phí; tài liệu giới thiệu sản phẩm; tài liệu minh họa bán hàng, mẫu giấy yêu cầu bảo hiểm; mẫu giấy chứng nhận bảo hiểm và các loại giấy tờ khác mà khách hàng phải kê khai và ký khi mua bảo hiểm hoặc điều chỉnh hợp đồng bảo hiểm;\n+++ Cam kết bằng văn bản kèm theo giải trình chi tiết về việc doanh nghiệp bảo hiểm đáp ứng các điều kiện quy định tại các điểm c, d khoản 1 Điều 21 Nghị định 46/2023/NĐ-CP.",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 20 ngày\nQua dịch vụ bưu chính: 20 ngày\nTrực tiếp: 20 ngày",
+    "CĂN CỨ PHÁP LÝ": "Nghị định quy định chi tiết thi hành một số điều của Luật Kinh doanh bảo hiểm - 46/2023/NĐ-CP\n- Điều 136 Luật Kinh doanh bảo hiểm; - 08/2022/QH15",
+    "CƠ QUAN THỰC HIỆN": "Bộ Tài chính",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Văn bản thông báo lý do từ chối của Bộ Tài chính - KQ.G12.001161\nGiấy phép điều chỉnh trong lĩnh vực kinh doanh bảo hiểm - KQ.G12.000032",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Bảo hiểm",
+      "slug": "bao-hiem"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Bộ Tài chính",
+        "slug": "bo-tai-chinh"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

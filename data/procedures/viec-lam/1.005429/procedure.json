@@ -1,0 +1,172 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfb-df70-748e-89c5-7c3fe7606330",
+  "procedure_code": "1.005429",
+  "title": "Thanh toán chi phí có liên quan đến việc xử lý tài sản công",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfb-df70-748e-89c5-7c3fe7606330",
+    "source_file": "chi-tiet-thu-tuc-1.005429.pdf",
+    "source_path": "procedures/viec-lam/1.005429/chi-tiet-thu-tuc-1.005429.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T05:00:13.208592+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "f8d86fef9139a6e31fdccdc46f15dcfb2130196ab3dc3fe9d8b9ecd360026eee"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "209/QĐ-BTC",
+  "implementation_level": "Cấp bộ, Cấp tỉnh",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Quản lý công sản",
+  "target_users": [
+    "Doanh nghiệp",
+    "Tổ chức (không bao gồm doanh nghiệp, HTX)"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Ủy ban Nhân dân tỉnh và thành phố trực thuộc trung ương., Bộ, cơ quan ngang Bộ, cơ quan thuộc Chính phủ"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1: Trong thời hạn 30 ngày, kể từ ngày nộp tiền vào tài khoản tạm giữ, cơ quan được giao nhiệm vụ tổ chức bán, thanh lý tài sản có trách nhiệm lập 01 bộ hồ sơ đề nghị thanh toán gửi chủ tài khoản tạm giữ để chi trả chi phí xử lý tài sản. \nGhi chú: Người đứng đầu cơ quan được giao nhiệm vụ tổ chức bán, thanh lý tài sản chịu trách nhiệm trước pháp luật về tính chính xác của khoản chi đề nghị thanh toán.\n\nBước 2: Trong thời hạn 30 ngày, kể từ ngày nhận được đầy đủ hồ sơ hợp lệ, chủ tài khoản tạm giữ có trách nhiệm cấp tiền cho cơ quan được giao nhiệm vụ tổ chức bán, thanh lý tài sản để thực hiện chi trả các khoản chi phí có liên quan đến việc xử lý tài sản công.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "- Văn bản đề nghị thanh toán của cơ quan được giao nhiệm vụ tổ chức xử lý tài sản (trong đó nêu rõ số tiền thu được từ việc xử lý tài sản, tổng chi phí xử lý tài sản, thông tin về tài khoản tiếp nhận thanh toán) kèm theo bảng kê chi tiết các khoản chi: 01 bản chính;",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Quyết định xử lý tài sản của cơ quan, người có thẩm quyền: 01 bản sao;",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": null
+      },
+      {
+        "name": "- Các hồ sơ, giấy tờ chứng minh cho các khoản chi như: Dự toán chi được duyệt; Hợp đồng thuê dịch vụ thẩm định giá, đấu giá, phá dỡ; hóa đơn, phiếu thu tiền (nếu có): 01 bản sao.",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "30 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "30 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "NGHỊ ĐỊNH  QUY ĐỊNH CHI TIẾT MỘT SỐ ĐIỀU CỦA LUẬT QUẢN LÝ, SỬ DỤNG TÀI SẢN CÔNG",
+      "document_number": "Số: 151/2017/NĐ-CP",
+      "source_page": 2
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Quyết định thanh toán các khoản cho phí liên quan đến việc xử lý tài sản công",
+      "code": "KQ.G12.000021",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1: Trong thời hạn 30 ngày, kể từ ngày nộp tiền vào tài khoản tạm giữ, cơ quan được giao nhiệm vụ tổ chức bán, thanh lý tài sản có trách nhiệm lập 01 bộ hồ sơ đề nghị thanh toán gửi chủ tài khoản tạm giữ để chi trả chi phí xử lý tài sản. \nGhi chú: Người đứng đầu cơ quan được giao nhiệm vụ tổ chức bán, thanh lý tài sản chịu trách nhiệm trước pháp luật về tính chính xác của khoản chi đề nghị thanh toán.\n\nBước 2: Trong thời hạn 30 ngày, kể từ ngày nhận được đầy đủ hồ sơ hợp lệ, chủ tài khoản tạm giữ có trách nhiệm cấp tiền cho cơ quan được giao nhiệm vụ tổ chức bán, thanh lý tài sản để thực hiện chi trả các khoản chi phí có liên quan đến việc xử lý tài sản công.",
+    "THÀNH PHẦN HỒ SƠ": "- Văn bản đề nghị thanh toán của cơ quan được giao nhiệm vụ tổ chức xử lý tài sản (trong đó nêu rõ số tiền thu được từ việc xử lý tài sản, tổng chi phí xử lý tài sản, thông tin về tài khoản tiếp nhận thanh toán) kèm theo bảng kê chi tiết các khoản chi: 01 bản chính;\n- Quyết định xử lý tài sản của cơ quan, người có thẩm quyền: 01 bản sao;\n- Các hồ sơ, giấy tờ chứng minh cho các khoản chi như: Dự toán chi được duyệt; Hợp đồng thuê dịch vụ thẩm định giá, đấu giá, phá dỡ; hóa đơn, phiếu thu tiền (nếu có): 01 bản sao.",
+    "CÁCH THỨC THỰC HIỆN": "Qua dịch vụ bưu chính: 30 ngày\nTrực tiếp: 30 ngày",
+    "CĂN CỨ PHÁP LÝ": "NGHỊ ĐỊNH  QUY ĐỊNH CHI TIẾT MỘT SỐ ĐIỀU CỦA LUẬT QUẢN LÝ, SỬ DỤNG TÀI SẢN CÔNG - Số: 151/2017/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Ủy ban Nhân dân tỉnh và thành phố trực thuộc trung ương., Bộ, cơ quan ngang Bộ, cơ quan thuộc Chính phủ",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Quyết định thanh toán các khoản cho phí liên quan đến việc xử lý tài sản công - KQ.G12.000021",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Quản lý công sản",
+      "slug": "quan-ly-cong-san"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      },
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      },
+      {
+        "name": "Tổ chức (không bao gồm doanh nghiệp, HTX)",
+        "slug": "to-chuc-khong-bao-gom-doanh-nghiep-htx"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Ủy ban Nhân dân tỉnh và thành phố trực thuộc trung ương.",
+        "slug": "uy-ban-nhan-dan-tinh-va-thanh-pho-truc-thuoc-trung-uong"
+      },
+      {
+        "name": "Bộ, cơ quan ngang Bộ, cơ quan thuộc Chính phủ",
+        "slug": "bo-co-quan-ngang-bo-co-quan-thuoc-chinh-phu"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfc-f966-724e-8cc8-f8620dbf2135",
+  "procedure_code": "3.000044",
+  "title": "Thủ tục cấp bù lãi suất do thực hiện chính sách cho vay ưu đãi lãi suất theo chương trình hỗ trợ các huyện nghèo tại Nghị quyết số 30a/2008/NQ-CP ngày 27/12/2008 của Chính phủ",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfc-f966-724e-8cc8-f8620dbf2135",
+    "source_file": "chi-tiet-thu-tuc-3.000044.pdf",
+    "source_path": "procedures/viec-lam/3.000044/chi-tiet-thu-tuc-3.000044.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T05:02:32.467566+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "64f85f5c9172d2b06fd0750208d35cd7f92b06b1dd037e7b9d028cfa7108d2d3"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1853/QĐ-BTC",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "OTHER",
+  "sector": "Tài chính ngân hàng",
+  "target_users": [
+    "Doanh nghiệp"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Bộ Tài chính"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "1. Lập kế hoạch cấp bù lãi suất.",
+      "description": "a) Các ngân hàng thương mại lập kế hoạch cấp bù lãi suất năm theo quy định.\nb) Hàng năm, chậm nhất vào tháng 8, các ngân hàng thương mại lập kế hoạch cấp bù lãi suất cả năm kế hoạch (có chia ra từng quý) để tổng hợp vào dự toán ngân sách nhà nước.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 2,
+      "title": "2. Tạm cấp bù lãi suất hàng quý.",
+      "description": "a) Tối đa 30 ngày kể từ ngày nhận được báo cáo quý về tình hình thực hiện cho vay và văn bản đề nghị tạm cấp bù lãi suất quý của các ngân hàng thương mại, Bộ Tài chính sẽ thực hiện tạm cấp bù lãi suất.\nb) Số tiền tạm cấp bù lãi suất trong quý bằng 90% số tiền cấp bù lãi suất phát sinh quý trước.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 3,
+      "title": "3. Quyết toán cấp bù lãi suất.",
+      "description": "Bộ Tài chính xác định số tiền lãi thực tế trong kỳ đề nghị ngân sách nhà nước cấp bù dựa trên Hồ sơ quyết toán cấp bù lãi suất do các ngân hàng cung cấp.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 4,
+      "title": "4. Thẩm tra số liệu đề nghị quyết toán cấp bù lãi suất.",
+      "description": "a) Thực hiện thẩm tra số liệu đề nghị quyết toán cấp bù lãi suất.\nb) Xử lý chênh lệch số liệu nếu có.\nc) Xử lý trong trường hợp khách hàng vay vốn sử dụng vốn vay sai mục đích nếu có",
+      "example": null,
+      "source_page": 2
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "+ Các tài liệu (bản chính hoặc bản sao do ngân hàng thương mại đóng dấu sao y) bao gồm: hợp đồng tín dụng, khế ước hoặc các giấy tờ tương đương để xác định đối tượng khách hàng vay vốn, tình hình thực hiện cho vay, dư nợ, thu nợ; bảng kê tích số để xác định số tiền cấp bù lãi suất; hợp đồng đóng mới, nâng cấp tàu. Các tài liệu này được ngân hàng thương mại lưu trữ tại trụ sở chính của ngân hàng để phục vụ cho công tác thẩm tra quyết toán trong trường hợp cần thiết.",
+        "quantity": "1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Báo cáo quý về tình hình thực hiện cho vay và văn bản đề nghị tạm cấp bù lãi suất quý của các ngân hàng thương mại",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 1
+      },
+      {
+        "name": "- Hồ sơ quyết toán cấp bù lãi suất:",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 1
+      },
+      {
+        "name": "- Kế hoạch cấp bù lãi suất cả năm kế hoạch (có chia ra từng quý) do các ngân hàng thương mại lập",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "+ Báo cáo tổng hợp số liệu đề nghị quyết toán cấp bù lãi suất của từng khoản cho vay đã được kiểm toán bởi kiểm toán độc lập hoặc Kiểm toán Nhà nước.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "+ Công văn đề nghị Bộ Tài chính quyết toán cấp bù lãi suất trong đó số đề nghị quyết toán không vượt quá số liệu đã được cơ quan kiểm toán xác nhận.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "20 ngày",
+      "fee": "0",
+      "description": "",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "về chương trình hỗ trợ giảm nghèo nhanh và bền vững đối với 61 huyện nghèo",
+      "document_number": "Nghị quyết số 30a/2008/NQ-CP",
+      "source_page": 3
+    }
+  ],
+  "conditions": "",
+  "results": [
+    {
+      "title": "Bộ Tài chính tạm cấp cho các ngân hàng/thực hiện việc thẩm tra quyết toán và cấp số chênh lệch lãi suất cho các ngân hàng theo quy định",
+      "code": "KQ.G12.000309",
+      "source_page": 3
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "a) Các ngân hàng thương mại lập kế hoạch cấp bù lãi suất năm theo quy định.\nb) Hàng năm, chậm nhất vào tháng 8, các ngân hàng thương mại lập kế hoạch cấp bù lãi suất cả năm kế hoạch (có chia ra từng quý) để tổng hợp vào dự toán ngân sách nhà nước.\na) Tối đa 30 ngày kể từ ngày nhận được báo cáo quý về tình hình thực hiện cho vay và văn bản đề nghị tạm cấp bù lãi suất quý của các ngân hàng thương mại, Bộ Tài chính sẽ thực hiện tạm cấp bù lãi suất.\nb) Số tiền tạm cấp bù lãi suất trong quý bằng 90% số tiền cấp bù lãi suất phát sinh quý trước.\nBộ Tài chính xác định số tiền lãi thực tế trong kỳ đề nghị ngân sách nhà nước cấp bù dựa trên Hồ sơ quyết toán cấp bù lãi suất do các ngân hàng cung cấp.\na) Thực hiện thẩm tra số liệu đề nghị quyết toán cấp bù lãi suất.\nb) Xử lý chênh lệch số liệu nếu có.\nc) Xử lý trong trường hợp khách hàng vay vốn sử dụng vốn vay sai mục đích nếu có",
+    "THÀNH PHẦN HỒ SƠ": "+ Các tài liệu (bản chính hoặc bản sao do ngân hàng thương mại đóng dấu sao y) bao gồm: hợp đồng tín dụng, khế ước hoặc các giấy tờ tương đương để xác định đối tượng khách hàng vay vốn, tình hình thực hiện cho vay, dư nợ, thu nợ; bảng kê tích số để xác định số tiền cấp bù lãi suất; hợp đồng đóng mới, nâng cấp tàu. Các tài liệu này được ngân hàng thương mại lưu trữ tại trụ sở chính của ngân hàng để phục vụ cho công tác thẩm tra quyết toán trong trường hợp cần thiết.\n- Báo cáo quý về tình hình thực hiện cho vay và văn bản đề nghị tạm cấp bù lãi suất quý của các ngân hàng thương mại\n- Hồ sơ quyết toán cấp bù lãi suất:\n- Kế hoạch cấp bù lãi suất cả năm kế hoạch (có chia ra từng quý) do các ngân hàng thương mại lập\n+ Báo cáo tổng hợp số liệu đề nghị quyết toán cấp bù lãi suất của từng khoản cho vay đã được kiểm toán bởi kiểm toán độc lập hoặc Kiểm toán Nhà nước.\n+ Công văn đề nghị Bộ Tài chính quyết toán cấp bù lãi suất trong đó số đề nghị quyết toán không vượt quá số liệu đã được cơ quan kiểm toán xác nhận.",
+    "CÁCH THỨC THỰC HIỆN": "Trực tiếp: 20 ngày",
+    "CĂN CỨ PHÁP LÝ": "về chương trình hỗ trợ giảm nghèo nhanh và bền vững đối với 61 huyện nghèo - Nghị quyết số 30a/2008/NQ-CP",
+    "CƠ QUAN THỰC HIỆN": "Bộ Tài chính",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "",
+    "KẾT QUẢ XỬ LÝ": "Bộ Tài chính tạm cấp cho các ngân hàng/thực hiện việc thẩm tra quyết toán và cấp số chênh lệch lãi suất cho các ngân hàng theo quy định - KQ.G12.000309",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": ""
+  },
+  "classification": {
+    "sector": {
+      "name": "Tài chính ngân hàng",
+      "slug": "tai-chinh-ngan-hang"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Bộ Tài chính",
+        "slug": "bo-tai-chinh"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

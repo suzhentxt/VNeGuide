@@ -1,0 +1,197 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfb-2368-7249-ba0e-736f3bcd4303",
+  "procedure_code": "1.014173",
+  "title": "HƯỞNG BẢO HIỂM XÃ HỘI MỘT LẦN.",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfb-2368-7249-ba0e-736f3bcd4303",
+    "source_file": "chi-tiet-thu-tuc-1.014173.pdf",
+    "source_path": "procedures/viec-lam/1.014173/chi-tiet-thu-tuc-1.014173.pdf",
+    "page_count": 4,
+    "extracted_at": "2026-07-18T05:01:29.207871+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "fb2a452797314c32e8c134784cc001f956835936a7580bcfd7d1fa8e02a150fe"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "863/QĐ-BNV",
+  "implementation_level": "Cấp tỉnh, Cơ quan ngành dọc",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Bảo hiểm xã hội",
+  "target_users": [
+    "Công dân Việt Nam"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Bảo hiểm xã hội tỉnh"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Bước 1:  \nNgười lao động khi đủ điều kiện hưởng bảo hiểm xã hội một lần nộp hồ sơ cho cơ quan bảo hiểm xã hội.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "Bước 2: \nTrong thời hạn 07 ngày làm việc kể từ ngày nhận đủ hồ sơ theo quy định, cơ quan bảo hiểm xã hội có trách nhiệm giải quyết.\nTrường hợp không giải quyết thì phải trả lời bằng văn bản và nêu rõ lý do.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "- Sổ bảo hiểm xã hội  .",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Trường hợp người có mức suy giảm khả năng lao động từ 81% trở lên; người khuyết tật đặc biệt nặng thì có thêm biên bản giám định mức suy giảm khả năng lao động của Hội đồng giám định y khoa hoặc bản sao giấy xác nhận mức độ khuyết tật đặc biệt nặng.",
+        "quantity": "1 bản chính, 1 bản sao",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Đối với trường hợp người lao động ra nước ngoài để định cư, thì có thêm bản sao giấy xác nhận của cơ quan có thẩm quyền về việc thôi quốc tịch Việt Nam hoặc bản dịch tiếng Việt được chứng thực hoặc công chứng một trong các giấy tờ sau đây: + Hộ chiếu do nước ngoài cấp; + Thị thực của cơ quan nước ngoài có thẩm quyền cấp có xác nhận việc cho phép nhập cảnh để định cư ở nước ngoài; + Thẻ thường trú dài hạn ở nước ngoài của cơ quan nước ngoài có thẩm quyền cấp; + Giấy tờ hợp pháp khác thể hiện việc định cư ở nước ngoài theo quy định của Chính phủ.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Văn bản đề nghị hưởng bảo hiểm xã hội một lần của người lao động",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "- Trường hợp người đang mắc một trong những bệnh ung thư, bại liệt, xơ gan mất bù, lao nặng, AIDS thì có thêm bản tóm tắt hồ sơ bệnh án hoặc bản chính hoặc bản sao giấy ra viện.",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "7 ngày làm việc",
+      "fee": "0",
+      "description": "Trong thời hạn 20 ngày, không bao gồm ngày nghỉ lễ, tết, kể từ ngày nhận đủ hồ sơ theo quy định\nTrực tiếp, trực tuyến hoặc qua dịch vụ bưu chính",
+      "source_page": 3
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "7 ngày làm việc",
+      "fee": "0",
+      "description": "Trong thời hạn 20 ngày, không bao gồm ngày nghỉ lễ, tết, kể từ ngày nhận đủ hồ sơ theo quy định\nTrực tiếp, trực tuyến hoặc qua dịch vụ bưu chính",
+      "source_page": 3
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "7 ngày làm việc",
+      "fee": "0",
+      "description": "Trong thời hạn 20 ngày, không bao gồm ngày nghỉ lễ, tết, kể từ ngày nhận đủ hồ sơ theo quy định\nTrực tiếp, trực tuyến hoặc qua dịch vụ bưu chính",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 3
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Luật Bảo hiểm xã hội",
+      "document_number": "41/2024/QH15",
+      "source_page": 4
+    }
+  ],
+  "conditions": "- Người lao động đủ tuổi nghỉ hưu theo quy định tại khoản 2 Điều 169 của Bộ luật Lao động và có thời gian đóng bảo hiểm xã hội từ đủ 15 năm trở lên.\n- Người bắt đầu tham gia bảo hiểm xã hội tự nguyện trước ngày 01 tháng 01 năm 2021 và có từ đủ 20 năm đóng bảo hiểm xã hội tự nguyện trở lên và đủ 60 tuổi đối với nam, đủ 55 tuổi đối với nữ.",
+  "results": [
+    {
+      "title": "Quyết định về việc hưởng bảo hiểm xã hội một lần",
+      "code": "KQ.G09.000490",
+      "source_page": 4
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Bước 1:  \nNgười lao động khi đủ điều kiện hưởng bảo hiểm xã hội một lần nộp hồ sơ cho cơ quan bảo hiểm xã hội.\nBước 2: \nTrong thời hạn 07 ngày làm việc kể từ ngày nhận đủ hồ sơ theo quy định, cơ quan bảo hiểm xã hội có trách nhiệm giải quyết.\nTrường hợp không giải quyết thì phải trả lời bằng văn bản và nêu rõ lý do.",
+    "THÀNH PHẦN HỒ SƠ": "- Sổ bảo hiểm xã hội  .\n- Trường hợp người có mức suy giảm khả năng lao động từ 81% trở lên; người khuyết tật đặc biệt nặng thì có thêm biên bản giám định mức suy giảm khả năng lao động của Hội đồng giám định y khoa hoặc bản sao giấy xác nhận mức độ khuyết tật đặc biệt nặng.\n- Đối với trường hợp người lao động ra nước ngoài để định cư, thì có thêm bản sao giấy xác nhận của cơ quan có thẩm quyền về việc thôi quốc tịch Việt Nam hoặc bản dịch tiếng Việt được chứng thực hoặc công chứng một trong các giấy tờ sau đây: + Hộ chiếu do nước ngoài cấp; + Thị thực của cơ quan nước ngoài có thẩm quyền cấp có xác nhận việc cho phép nhập cảnh để định cư ở nước ngoài; + Thẻ thường trú dài hạn ở nước ngoài của cơ quan nước ngoài có thẩm quyền cấp; + Giấy tờ hợp pháp khác thể hiện việc định cư ở nước ngoài theo quy định của Chính phủ.\n- Văn bản đề nghị hưởng bảo hiểm xã hội một lần của người lao động\n- Trường hợp người đang mắc một trong những bệnh ung thư, bại liệt, xơ gan mất bù, lao nặng, AIDS thì có thêm bản tóm tắt hồ sơ bệnh án hoặc bản chính hoặc bản sao giấy ra viện.",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 7 ngày làm việc\nQua dịch vụ bưu chính: 7 ngày làm việc\nTrực tiếp: 7 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Luật Bảo hiểm xã hội - 41/2024/QH15",
+    "CƠ QUAN THỰC HIỆN": "Bảo hiểm xã hội tỉnh",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "- Người lao động đủ tuổi nghỉ hưu theo quy định tại khoản 2 Điều 169 của Bộ luật Lao động và có thời gian đóng bảo hiểm xã hội từ đủ 15 năm trở lên.\n- Người bắt đầu tham gia bảo hiểm xã hội tự nguyện trước ngày 01 tháng 01 năm 2021 và có từ đủ 20 năm đóng bảo hiểm xã hội tự nguyện trở lên và đủ 60 tuổi đối với nam, đủ 55 tuổi đối với nữ.",
+    "KẾT QUẢ XỬ LÝ": "Quyết định về việc hưởng bảo hiểm xã hội một lần - KQ.G09.000490",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "- Người lao động đủ tuổi nghỉ hưu theo quy định tại khoản 2 Điều 169 của Bộ luật Lao động và có thời gian đóng bảo hiểm xã hội từ đủ 15 năm trở lên.\n- Người bắt đầu tham gia bảo hiểm xã hội tự nguyện trước ngày 01 tháng 01 năm 2021 và có từ đủ 20 năm đóng bảo hiểm xã hội tự nguyện trở lên và đủ 60 tuổi đối với nam, đủ 55 tuổi đối với nữ."
+  },
+  "classification": {
+    "sector": {
+      "name": "Bảo hiểm xã hội",
+      "slug": "bao-hiem-xa-hoi"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp tỉnh",
+        "slug": "cap-tinh"
+      },
+      {
+        "name": "Cơ quan ngành dọc",
+        "slug": "co-quan-nganh-doc"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Công dân Việt Nam",
+        "slug": "cong-dan-viet-nam"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Bảo hiểm xã hội tỉnh",
+        "slug": "bao-hiem-xa-hoi-tinh"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

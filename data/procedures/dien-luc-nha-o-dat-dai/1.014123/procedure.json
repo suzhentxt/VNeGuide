@@ -1,0 +1,189 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bf8-0bf4-767d-95df-9161ae372ff1",
+  "procedure_code": "1.014123",
+  "title": "Thẩm định xếp loại mỏ hầm lò theo mức độ nguy hiểm do khí mêtan cháy, nổ gây ra thuộc thẩm quyền giải quyết của Bộ Công Thương",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bf8-0bf4-767d-95df-9161ae372ff1",
+    "source_file": "chi-tiet-thu-tuc-1.014123.pdf",
+    "source_path": "procedures/dien-luc-nha-o-dat-dai/1.014123/chi-tiet-thu-tuc-1.014123.pdf",
+    "page_count": 7,
+    "extracted_at": "2026-07-18T04:56:09.117932+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "4418084ffb972ccf86452522904ee3ea9ee02ba987d92f927365c3135ee29545"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1213/QĐ-BCT",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Khoáng sản",
+  "target_users": [
+    "Doanh nghiệp"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Cục Kỹ thuật an toàn và Môi trường công nghiệp"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "+ Bước 1: Trước ngày 15 tháng 01 hàng năm, tổ chức, cá nhân khai thác khoáng sản hầm lò có khí mêtan phải lập 01 bộ hồ sơ xếp loại mỏ hầm lò theo mức độ nguy hiểm do khí mêtan cháy, nổ gây ra theo quy định tại khoản 1 Điều này nộp về Cục Kỹ thuật an toàn và Môi trường công nghiệp bằng một trong các phương thức quy định tại mục 2.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 2,
+      "title": "Bước 2",
+      "description": "+ Bước 2: Trong thời hạn 03 (ba) ngày làm việc kể từ ngày nhận được đủ tài liệu hợp lệ Cục Kỹ thuật an toàn và Môi trường công nghiệp phải tổ chức kiểm tra; trường hợp hồ sơ không đầy đủ, hợp lệ, trong thời hạn 02 (hai) ngày làm việc kể từ ngày nhận được hồ sơ phải trả lời bằng văn bản và nêu rõ lý do.",
+      "example": null,
+      "source_page": 1
+    },
+    {
+      "order": 3,
+      "title": "Bước 3",
+      "description": "+ Bước 3: Trong thời hạn 03 (ba) ngày làm việc kể từ ngày có kết quả kiểm tra, Cục Kỹ thuật an toàn và Môi trường công nghiệp ban hành Quyết định xếp loại mỏ hầm lò theo mức độ nguy hiểm do khí mêtan cháy, nổ gây ra theo Mẫu số 08 của Phụ lục kèm theo Thông tư này.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Văn bản đề nghị theo Mẫu số 07 của Phụ lục kèm theo Thông tư số 43/2025/TT-BCT",
+        "quantity": "1 bản chính",
+        "attachment": "Mus07.docx",
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Sơ đồ vị trí các điểm lấy mẫu than hoặc quặng, mẫu khí từng đợt",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Sổ cập nhật kết quả đo của hệ thống giám sát khí mỏ tập trung tự động đối với mỏ sử dụng hệ thống giám sát khí mỏ tập trung tự động",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Kết quả phân tích mẫu than hoặc quặng, mẫu khí",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Tính toán xếp loại mỏ theo độ thoát khí mêtan tương đối và độ chứa khí mêtan tự nhiên",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "3 ngày làm việc",
+      "fee": null,
+      "description": "Trong thời hạn 03 (ba) ngày làm việc kể từ ngày nhận được đủ tài liệu hợp lệ Cục Kỹ thuật an toàn và Môi trường công nghiệp phải tổ chức kiểm tra; trường hợp hồ sơ không đầy đủ, hợp lệ, trong thời hạn 02 (hai) ngày làm việc kể từ ngày nhận được hồ sơ phải trả lời bằng văn bản và nêu rõ lý do.\nTrong thời hạn 03 (ba) ngày làm việc kể từ ngày có kết quả kiểm tra, Cục Kỹ thuật an toàn và Môi trường công nghiệp ban hành Quyết định xếp loại mỏ hầm lò theo mức độ nguy hiểm do khí mêtan cháy, nổ gây ra theo Mẫu số 08 của Phụ lục kèm theo Thông tư 43/2025/TT-BCT.",
+      "source_page": 3
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "3 ngày làm việc",
+      "fee": null,
+      "description": "Trong thời hạn 03 (ba) ngày làm việc kể từ ngày nhận được đủ tài liệu hợp lệ Cục Kỹ thuật an toàn và Môi trường công nghiệp phải tổ chức kiểm tra; trường hợp hồ sơ không đầy đủ, hợp lệ, trong thời hạn 02 (hai) ngày làm việc kể từ ngày nhận được hồ sơ phải trả lời bằng văn bản và nêu rõ lý do.\nTrong thời hạn 03 (ba) ngày làm việc kể từ ngày có kết quả kiểm tra, Cục Kỹ thuật an toàn và Môi trường công nghiệp ban hành Quyết định xếp loại mỏ hầm lò theo mức độ nguy hiểm do khí mêtan cháy, nổ gây ra theo Mẫu số 08 của Phụ lục kèm theo Thông tư 43/2025/TT-BCT.",
+      "source_page": 3
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "3 ngày làm việc",
+      "fee": null,
+      "description": "Trong thời hạn 03 (ba) ngày làm việc kể từ ngày nhận được đủ tài liệu hợp lệ Cục Kỹ thuật an toàn và Môi trường công nghiệp phải tổ chức kiểm tra; trường hợp hồ sơ không đầy đủ, hợp lệ, trong thời hạn 02 (hai) ngày làm việc kể từ ngày nhận được hồ sơ phải trả lời bằng văn bản và nêu rõ lý do.\nTrong thời hạn 03 (ba) ngày làm việc kể từ ngày có kết quả kiểm tra, Cục Kỹ thuật an toàn và Môi trường công nghiệp ban hành Quyết định xếp loại mỏ hầm lò theo mức độ nguy hiểm do khí mêtan cháy, nổ gây ra theo Mẫu số 08 của Phụ lục kèm theo Thông tư 43/2025/TT-BCT.",
+      "source_page": 3
+    }
+  ],
+  "fees": {
+    "summary": "",
+    "status": "not_specified",
+    "currency": "VND",
+    "items": []
+  },
+  "legal_bases": [
+    {
+      "title": "Thông tư số 26/2026/TT-BCT ngày 20 tháng 5 năm 2026 của Bộ trưởng Bộ Công Thương sửa đổi bổ sung một số quy định về phân cấp, cắt giảm, đơn giản hóa thủ tục hành chính trong các lĩnh vực thuộc phạm vi quản lý của Bộ Công Thương.",
+      "document_number": "26/2026/TT-BCT",
+      "source_page": 6
+    },
+    {
+      "title": "Luật Địa chất và Khoáng sản",
+      "document_number": "54/2024/QH15",
+      "source_page": 6
+    },
+    {
+      "title": "Thông tư số 43/2025/TT-BCT ngày 04  tháng 7 năm 2025 của Bộ trưởng Bộ Công Thương quy định về kỹ thuật an toàn trong khai thác khoáng sản.",
+      "document_number": "43/2025/TT-BCT",
+      "source_page": 6
+    }
+  ],
+  "conditions": "Không quy định",
+  "results": [
+    {
+      "title": "Quyết định xếp loại mỏ hầm lò theo mức độ nguy hiểm do khí mêtan cháy, nổ gây ra",
+      "code": "KQ.G02.000385",
+      "source_page": 1
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "+ Bước 1: Trước ngày 15 tháng 01 hàng năm, tổ chức, cá nhân khai thác khoáng sản hầm lò có khí mêtan phải lập 01 bộ hồ sơ xếp loại mỏ hầm lò theo mức độ nguy hiểm do khí mêtan cháy, nổ gây ra theo quy định tại khoản 1 Điều này nộp về Cục Kỹ thuật an toàn và Môi trường công nghiệp bằng một trong các phương thức quy định tại mục 2.\n+ Bước 2: Trong thời hạn 03 (ba) ngày làm việc kể từ ngày nhận được đủ tài liệu hợp lệ Cục Kỹ thuật an toàn và Môi trường công nghiệp phải tổ chức kiểm tra; trường hợp hồ sơ không đầy đủ, hợp lệ, trong thời hạn 02 (hai) ngày làm việc kể từ ngày nhận được hồ sơ phải trả lời bằng văn bản và nêu rõ lý do.\n+ Bước 3: Trong thời hạn 03 (ba) ngày làm việc kể từ ngày có kết quả kiểm tra, Cục Kỹ thuật an toàn và Môi trường công nghiệp ban hành Quyết định xếp loại mỏ hầm lò theo mức độ nguy hiểm do khí mêtan cháy, nổ gây ra theo Mẫu số 08 của Phụ lục kèm theo Thông tư này.",
+    "THÀNH PHẦN HỒ SƠ": "Văn bản đề nghị theo Mẫu số 07 của Phụ lục kèm theo Thông tư số 43/2025/TT-BCT\nSơ đồ vị trí các điểm lấy mẫu than hoặc quặng, mẫu khí từng đợt\nSổ cập nhật kết quả đo của hệ thống giám sát khí mỏ tập trung tự động đối với mỏ sử dụng hệ thống giám sát khí mỏ tập trung tự động\nKết quả phân tích mẫu than hoặc quặng, mẫu khí\nTính toán xếp loại mỏ theo độ thoát khí mêtan tương đối và độ chứa khí mêtan tự nhiên",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 3 ngày làm việc\nQua dịch vụ bưu chính: 3 ngày làm việc\nTrực tiếp: 3 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Thông tư số 26/2026/TT-BCT ngày 20 tháng 5 năm 2026 của Bộ trưởng Bộ Công Thương sửa đổi bổ sung một số quy định về phân cấp, cắt giảm, đơn giản hóa thủ tục hành chính trong các lĩnh vực thuộc phạm vi quản lý của Bộ Công Thương. - 26/2026/TT-BCT\nLuật Địa chất và Khoáng sản - 54/2024/QH15\nThông tư số 43/2025/TT-BCT ngày 04  tháng 7 năm 2025 của Bộ trưởng Bộ Công Thương quy định về kỹ thuật an toàn trong khai thác khoáng sản. - 43/2025/TT-BCT",
+    "CƠ QUAN THỰC HIỆN": "Cục Kỹ thuật an toàn và Môi trường công nghiệp",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "Không quy định",
+    "KẾT QUẢ XỬ LÝ": "Quyết định xếp loại mỏ hầm lò theo mức độ nguy hiểm do khí mêtan cháy, nổ gây ra - KQ.G02.000385",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "Không quy định"
+  },
+  "classification": {
+    "sector": {
+      "name": "Khoáng sản",
+      "slug": "khoang-san"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Doanh nghiệp",
+        "slug": "doanh-nghiep"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Cục Kỹ thuật an toàn và Môi trường công nghiệp",
+        "slug": "cuc-ky-thuat-an-toan-va-moi-truong-cong-nghiep"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "schema_version": "3.0-pdf",
+  "record_type": "public_service_procedure_knowledge",
+  "id": "019d2bfd-5ef8-7638-9d7b-bc80524c88bf",
+  "procedure_code": "1.002649",
+  "title": "Chuyển đổi công ty luật nước ngoài thành công ty luật Việt Nam",
+  "language": "vi",
+  "status": "extracted_pending_review",
+  "source": {
+    "publisher": "Cổng Dịch vụ công Quốc gia",
+    "source_url": "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfd-5ef8-7638-9d7b-bc80524c88bf",
+    "source_file": "chi-tiet-thu-tuc-1.002649.pdf",
+    "source_path": "procedures/giai-quyet-khieu-kien/1.002649/chi-tiet-thu-tuc-1.002649.pdf",
+    "page_count": 3,
+    "extracted_at": "2026-07-18T04:58:02.095536+00:00",
+    "extraction_method": "official_api_plus_pypdf_text_layer",
+    "source_sha256": "126ec53b30569e49dece221b25de6755314fd96cbc305bb38761e58650ea08e9"
+  },
+  "governance": {
+    "review_status": "pending",
+    "reviewed_at": null,
+    "reviewer": null,
+    "freshness_days": 30
+  },
+  "decision_number": "1852/QĐ-BTP",
+  "implementation_level": "Cấp bộ",
+  "procedure_type": "ASSIGNED_REGULATION",
+  "sector": "Luật sư",
+  "target_users": [
+    "Tổ chức nước ngoài"
+  ],
+  "agency": {
+    "competent_agency": "",
+    "executing_agency": "Cục Bổ trợ tư pháp"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": "Bước 1",
+      "description": "Công ty luật trách nhiệm hữu hạn 100% vốn nước ngoài, công ty luật trách nhiệm hữu hạn dưới hình thức liên doanh và công ty luật hợp danh giữa tổ chức hành nghề luật sư nước ngoài và công ty luật hợp danh Việt Nam (sau đây gọi chung là công ty luật nước ngoài) có thể chuyển đổi thành công ty luật Việt Nam trên cơ sở kế thừa toàn bộ quyền, nghĩa vụ của công ty luật nước ngoài.\nTrong thời hạn 25 ngày làm việc kể từ ngày nhận đủ hồ sơ hợp lệ, Cục trưởng Cục Bổ trợ tư pháp có văn bản chấp thuận việc chuyển đổi công ty luật nước ngoài thành công ty luật Việt Nam, trường hợp từ chối phải thông báo bằng văn bản và nêu rõ lý do.",
+      "example": null,
+      "source_page": 1
+    }
+  ],
+  "documents": {
+    "forms": [
+      {
+        "name": "Văn bản đề nghị chuyển đổi của công ty luật nước ngoài",
+        "quantity": "1 bản chính",
+        "attachment": "Mẫu số 14-PLIII-LS.docx",
+        "source_page": 2
+      }
+    ],
+    "normally_required": [],
+    "conditional": [
+      {
+        "name": "Bản chính Giấy phép thành lập của công ty luật nước ngoài được chuyển đổi",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Dự thảo Điều lệ của công ty luật Việt Nam",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      },
+      {
+        "name": "Bản chính văn bản thỏa thuận chuyển đổi giữa công ty luật nước ngoài và bên Việt Nam, trong đó nêu rõ cam kết của bên Việt Nam về việc kế thừa toàn bộ quyền, nghĩa vụ của công ty luật nước ngoài được chuyển đổi",
+        "quantity": "1 bản chính",
+        "attachment": null,
+        "source_page": 2
+      }
+    ]
+  },
+  "submission_methods": [
+    {
+      "code": "ONLINE",
+      "label": "Trực tuyến",
+      "processing_time": "25 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    },
+    {
+      "code": "POSTAL",
+      "label": "Qua dịch vụ bưu chính",
+      "processing_time": "25 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": null
+    },
+    {
+      "code": "DIRECT",
+      "label": "Trực tiếp",
+      "processing_time": "25 ngày làm việc",
+      "fee": "0",
+      "description": "",
+      "source_page": 2
+    }
+  ],
+  "fees": {
+    "summary": "0",
+    "status": "free",
+    "currency": "VND",
+    "items": [
+      {
+        "submission_method_code": "ONLINE",
+        "submission_method": "Trực tuyến",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      },
+      {
+        "submission_method_code": "POSTAL",
+        "submission_method": "Qua dịch vụ bưu chính",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": null
+      },
+      {
+        "submission_method_code": "DIRECT",
+        "submission_method": "Trực tiếp",
+        "amount_text": "0",
+        "is_free": true,
+        "source_page": 2
+      }
+    ]
+  },
+  "legal_bases": [
+    {
+      "title": "Thông tư số 08/2025/TT-BTP ngày 12/6/2025 của Bộ trưởng Bộ Tư pháp quy định về phân định thẩm quyền của chính quyền địa phương 02 cấp và phân cấp trong lĩnh vực quản lý nhà nước của Bộ Tư pháp",
+      "document_number": "08/2025/TT-BTP",
+      "source_page": 2
+    },
+    {
+      "title": "Luật 65/2006/QH11",
+      "document_number": "65/2006/QH11",
+      "source_page": 2
+    },
+    {
+      "title": "Nghị định 123/2013/NĐ-CP",
+      "document_number": "123/2013/NĐ-CP",
+      "source_page": 3
+    }
+  ],
+  "conditions": "Tên của công ty luật Việt Nam chuyển đổi phải tuân thủ quy định tại khoản 5 Điều 34 của Luật Luật sư và không được trùng với tên của công ty luật nước ngoài đã chuyển đổi.",
+  "results": [
+    {
+      "title": "Văn bản chấp thuận việc chuyển đổi công ty luật nước ngoài thành công ty luật Việt Nam",
+      "code": "KQ.G15.000111",
+      "source_page": 1
+    }
+  ],
+  "raw_sections": {
+    "TRÌNH TỰ THỰC HIỆN": "Công ty luật trách nhiệm hữu hạn 100% vốn nước ngoài, công ty luật trách nhiệm hữu hạn dưới hình thức liên doanh và công ty luật hợp danh giữa tổ chức hành nghề luật sư nước ngoài và công ty luật hợp danh Việt Nam (sau đây gọi chung là công ty luật nước ngoài) có thể chuyển đổi thành công ty luật Việt Nam trên cơ sở kế thừa toàn bộ quyền, nghĩa vụ của công ty luật nước ngoài.\nTrong thời hạn 25 ngày làm việc kể từ ngày nhận đủ hồ sơ hợp lệ, Cục trưởng Cục Bổ trợ tư pháp có văn bản chấp thuận việc chuyển đổi công ty luật nước ngoài thành công ty luật Việt Nam, trường hợp từ chối phải thông báo bằng văn bản và nêu rõ lý do.",
+    "THÀNH PHẦN HỒ SƠ": "Văn bản đề nghị chuyển đổi của công ty luật nước ngoài\nBản chính Giấy phép thành lập của công ty luật nước ngoài được chuyển đổi\nDự thảo Điều lệ của công ty luật Việt Nam\nBản chính văn bản thỏa thuận chuyển đổi giữa công ty luật nước ngoài và bên Việt Nam, trong đó nêu rõ cam kết của bên Việt Nam về việc kế thừa toàn bộ quyền, nghĩa vụ của công ty luật nước ngoài được chuyển đổi",
+    "CÁCH THỨC THỰC HIỆN": "Trực tuyến: 25 ngày làm việc\nQua dịch vụ bưu chính: 25 ngày làm việc\nTrực tiếp: 25 ngày làm việc",
+    "CĂN CỨ PHÁP LÝ": "Thông tư số 08/2025/TT-BTP ngày 12/6/2025 của Bộ trưởng Bộ Tư pháp quy định về phân định thẩm quyền của chính quyền địa phương 02 cấp và phân cấp trong lĩnh vực quản lý nhà nước của Bộ Tư pháp - 08/2025/TT-BTP\nLuật 65/2006/QH11 - 65/2006/QH11\nNghị định 123/2013/NĐ-CP - 123/2013/NĐ-CP",
+    "CƠ QUAN THỰC HIỆN": "Cục Bổ trợ tư pháp",
+    "YÊU CẦU, ĐIỀU KIỆN THỰC HIỆN": "Tên của công ty luật Việt Nam chuyển đổi phải tuân thủ quy định tại khoản 5 Điều 34 của Luật Luật sư và không được trùng với tên của công ty luật nước ngoài đã chuyển đổi.",
+    "KẾT QUẢ XỬ LÝ": "Văn bản chấp thuận việc chuyển đổi công ty luật nước ngoài thành công ty luật Việt Nam - KQ.G15.000111",
+    "TỪ KHÓA": "",
+    "MÔ TẢ": "Tên của công ty luật Việt Nam chuyển đổi phải tuân thủ quy định tại khoản 5 Điều 34 của Luật Luật sư và không được trùng với tên của công ty luật nước ngoài đã chuyển đổi."
+  },
+  "classification": {
+    "sector": {
+      "name": "Luật sư",
+      "slug": "luat-su"
+    },
+    "implementation_levels": [
+      {
+        "name": "Cấp bộ",
+        "slug": "cap-bo"
+      }
+    ],
+    "target_users": [
+      {
+        "name": "Tổ chức nước ngoài",
+        "slug": "to-chuc-nuoc-ngoai"
+      }
+    ],
+    "agencies": [
+      {
+        "name": "Cục Bổ trợ tư pháp",
+        "slug": "cuc-bo-tro-tu-phap"
+      }
+    ],
+    "administrative_scope": "not_specified"
+  }
+}
