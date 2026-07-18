@@ -722,7 +722,7 @@ def test_route_scoped_session_bypasses_confirmation_and_nlg_is_allowlisted(
     assert unsafe not in unsafe_result.reply
 
 
-def test_initial_faq_sets_pending_without_mutating_draft_then_confirms(
+def test_initial_faq_answers_without_bridge_or_draft_mutation(
     repository: ProcedureRepository,
 ) -> None:
     extractor = StubExtractor(
@@ -737,16 +737,16 @@ def test_initial_faq_sets_pending_without_mutating_draft_then_confirms(
     faq = session.send("Đăng ký tạm trú mất bao lâu?")
     confirmed = session.send("Đúng")
 
-    assert faq.next_action is NextAction.CONFIRM_PROCEDURE
+    assert faq.next_action is NextAction.PRESENT_GUIDANCE
     assert faq.state.draft.values == {}
     assert faq.state.draft.revision == 0
     assert faq.state.draft.procedure_code is None
     assert faq.state.pending_procedure_code is not None
     assert faq.state.pending_procedure_code.value == "1.004194"
     assert faq.source_ids == ("SRC-DVC-1004194",)
+    assert "Đúng" not in faq.reply
     assert confirmed.state.draft.procedure_code is not None
     assert confirmed.state.draft.procedure_code.value == "1.004194"
-    assert confirmed.state.draft.revision == 0
     assert len(extractor.calls) == 1
 
 

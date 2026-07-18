@@ -691,15 +691,10 @@ class ConversationSession:
         if active_code is None:
             if pending_code is not code:
                 self._state = replace(self._state, pending_procedure_code=code)
-            procedure_name = self._questions.procedure_label(code)
-            reply = (
-                f"{reply_text}\n\nAnh/chị có muốn em hỗ trợ thực hiện thủ tục "
-                f'{procedure_name} không ạ? Anh/chị trả lời "Đúng" hoặc "Không phải" giúp em.'
-            )
             return self._finish_turn(
                 message,
-                reply,
-                NextAction.CONFIRM_PROCEDURE,
+                reply_text,
+                NextAction.PRESENT_GUIDANCE,
                 source_ids=reply_sources,
             )
 

@@ -137,8 +137,8 @@ def test_informational_uses_grounded_reply(repository: ProcedureRepository) -> N
     result = session.send("giấy khai sinh cần những thông tin nào")
 
     assert result.source_ids
-    assert result.next_action is NextAction.CONFIRM_PROCEDURE
-    assert "Đúng" in result.reply
+    assert result.next_action is NextAction.PRESENT_GUIDANCE
+    assert "Đúng" not in result.reply
 
 
 def test_greeting_falls_back_to_deterministic_when_provider_fails(

@@ -336,7 +336,7 @@ async def test_chat_api_faq_returns_sources_without_mutating_pre_form_draft() ->
 
     assert faq.status_code == 200
     body = faq.json()
-    assert body["next_action"] == "confirm_procedure"
+    assert body["next_action"] == "present_guidance"
     assert body["procedure"] is None
     assert body["draft"] == {
         "values": {},
