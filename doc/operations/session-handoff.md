@@ -159,3 +159,38 @@ Rollback bằng `git revert`; không dùng reset hoặc force-push trên branch 
 - Không chạy transcript hoặc hồ sơ thật qua gateway HTTP; chỉ dùng dữ liệu tổng hợp cho tới khi có HTTPS.
 - Python `3.11.9` user-level đã được khôi phục đúng đường dẫn trong `.venv/pyvenv.cfg`; không cần tạo lại
   `.venv` trên máy này.
+- Xác minh trên được thực hiện ngoài sandbox. Sandbox mặc định không được đọc executable Python trong
+  user profile nên có thể báo nhầm `.venv` hỏng; terminal người dùng vẫn chạy `.venv` bình thường.
+
+## Bàn giao grounded Q&A trên `agent/senior-conversation-v2`
+
+- Base vẫn là `6d0194ac`; worktree chưa commit chứa Q&A deterministic cho đúng ba procedure, pack
+  `2.1.0`, UI status mapper và synthetic evaluation. Không push.
+- `informational` không được mang form field mutation. Core trả lời bằng source đã duyệt, đặt pending
+  trước form, giữ nguyên state form khi đang active và chỉ cho tham khảo khi hỏi procedure khác.
+- `recent_information_procedure_code`/`recent_information_topics` chỉ là conversation memory, không
+  thuộc draft và không tăng revision. Reset/`Không phải` xóa pending Q&A memory.
+- Gate đã có bằng chứng: renderer+conversation 91 test trước regression cuối, Chat API 5, form-sync
+  15, Mypy 90 source file trước regression cuối, Ruff lint/format 93 file và frontend `npm run check`
+  đạt 36 test + production build 25 route. Fixture Q&A 15 dòng parse/checksum đúng.
+- Chưa được coi là hoàn tất cho tới khi chạy lại full Python gate sau regression/evaluation cuối,
+  chạy live Q&A bằng GLM-5.2 với dữ liệu giả và tạo một commit follow-up. Next production build cuối
+  đã đạt. Gateway là HTTP nên tuyệt đối không gửi PII/transcript thật.
+- Blocker hiện tại là hạn mức chạy ngoài sandbox của phiên coding agent; không phải cần tạo lại `.venv`.
+
+Lệnh tiếp theo cụ thể:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+python -m ruff check src tests deployment
+python -m ruff format --check src tests deployment
+python -m mypy
+python -m pytest --cov=vneguide --cov-report=term-missing
+python -m vneguide.ai.smoke --env-file .env --confirm-live
+Set-Location demoweb
+npm.cmd run check
+```
+
+Sau gate, chạy một probe synthetic qua `StructuredExtractor` cho các câu “Đăng ký tạm trú cần giấy
+gì và phí bao nhiêu?” và “Theo danh sách tức là gì?”, ghi model/version/timestamp nhưng không ghi raw
+prompt, evidence hoặc secret. Chỉ khi pass mới commit; không push nếu chưa có yêu cầu mới.

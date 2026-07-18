@@ -20,9 +20,20 @@ import {
   shouldRebindChatSession,
 } from "@/data/chat-scope";
 import { useProcedureWorkspace } from "@/components/workspace/ProcedureWorkspaceProvider";
+import {
+  getChatStatusPresentation,
+  getReviewedSourceHref,
+} from "@/lib/chat-status-presentation";
 
 import { SuggestionCard } from "./SuggestionCard";
 import { useChatSession } from "./useChatSession";
+
+const CHAT_STATUS_TONE_CLASSES = {
+  danger: "border-[#efb4b4] bg-[#fff1f1] text-[#8b1e1e]",
+  warning: "border-[#f0c36a] bg-[#fff8df] text-[#704d09]",
+  info: "border-[#b9cde5] bg-[#f2f7fc] text-[#24496f]",
+  success: "border-[#b9d8c4] bg-[#f1f8f3] text-[#28543a]",
+} as const;
 
 export function ChatWidget() {
   const pathname = usePathname();
@@ -66,6 +77,9 @@ export function ChatWidget() {
   const sessionReady = Boolean(session) && !contextChanged;
   const visibleTurn = sessionReady ? turn : null;
   const visibleMessages = sessionReady ? messages : [];
+  const statusPresentation = visibleTurn
+    ? getChatStatusPresentation(visibleTurn)
+    : null;
   const formSyncing = Object.values(workspace.state.fields).some(
     (field) => field.sync_status === "saving",
   );
@@ -278,21 +292,25 @@ export function ChatWidget() {
               </details>
             ) : null}
 
-            {visibleTurn?.validation ? (
-              <div className="rounded-lg border border-[#b9d8c4] bg-[#f1f8f3] p-3 text-sm text-[#28543a]">
-                <p className="font-bold">Trạng thái: {visibleTurn.validation.status}</p>
-                {visibleTurn.validation.readiness_score !== null ? (
-                  <p className="mt-1">Mức độ sẵn sàng: {visibleTurn.validation.readiness_score}%</p>
+            {statusPresentation && visibleTurn ? (
+              <div
+                className={`rounded-lg border p-3 text-sm ${CHAT_STATUS_TONE_CLASSES[statusPresentation.tone]}`}
+              >
+                <p className="font-bold">Trạng thái: {statusPresentation.label}</p>
+                {statusPresentation.readinessScore !== null ? (
+                  <p className="mt-1">
+                    Mức độ sẵn sàng: {statusPresentation.readinessScore}%
+                  </p>
                 ) : null}
-                {visibleTurn.validation.issues.length ? (
-                  <ul className="mt-2 list-disc space-y-1 pl-5">
-                    {visibleTurn.validation.issues.map((issue) => (
-                      <li key={issue.rule_id}>
-                        {issue.message}
-                        {issue.field_id ? ` — ${issue.field_id}` : ""}
-                      </li>
-                    ))}
-                  </ul>
+                {visibleTurn.validation?.issues.length ? (
+                  <div className="mt-2">
+                    <p className="font-semibold">Kết quả kiểm tra</p>
+                    <ul className="mt-1 list-disc space-y-1 pl-5">
+                      {visibleTurn.validation.issues.map((issue) => (
+                        <li key={issue.rule_id}>{issue.message}</li>
+                      ))}
+                    </ul>
+                  </div>
                 ) : null}
               </div>
             ) : null}
@@ -303,21 +321,30 @@ export function ChatWidget() {
                   Căn cứ tham khảo ({visibleTurn.sources.length})
                 </summary>
                 <ul className="mt-2 space-y-2 text-[#5b6573]">
-                  {visibleTurn.sources.map((source) => (
-                    <li key={source.id}>
-                      <a
-                        className="font-semibold text-[#903938] underline decoration-[#ce7a58] underline-offset-2"
-                        href={source.url}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        {source.title}
-                      </a>
-                      <span className="block text-xs">
-                        {source.publisher} · kiểm chứng {source.verified_at}
-                      </span>
-                    </li>
-                  ))}
+                  {visibleTurn.sources.map((source) => {
+                    const href = getReviewedSourceHref(source.url);
+                    return (
+                      <li key={source.id}>
+                        {href ? (
+                          <a
+                            className="font-semibold text-[#903938] underline decoration-[#ce7a58] underline-offset-2"
+                            href={href}
+                            rel="noreferrer"
+                            target="_blank"
+                          >
+                            {source.title}
+                          </a>
+                        ) : (
+                          <span className="font-semibold text-[#903938]">
+                            {source.title}
+                          </span>
+                        )}
+                        <span className="block text-xs">
+                          {source.publisher} · kiểm chứng {source.verified_at}
+                        </span>
+                      </li>
+                    );
+                  })}
                 </ul>
               </details>
             ) : null}

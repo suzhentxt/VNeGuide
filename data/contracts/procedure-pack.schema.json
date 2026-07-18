@@ -16,6 +16,7 @@
     "scope",
     "routing",
     "service_info",
+    "service_info_sources",
     "forms",
     "checklist",
     "fields",
@@ -26,16 +27,23 @@
   ],
   "properties": {
     "pack_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "procedure_code": {
-      "type": "string"
+      "enum": [
+        "2.000635",
+        "1.013314",
+        "1.004194"
+      ]
     },
     "procedure_name": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "jurisdiction": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "version": {
       "type": "string",
@@ -57,10 +65,12 @@
       ]
     },
     "verified_at": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "next_review_at": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "scope": {
       "type": "object"
@@ -69,31 +79,341 @@
       "type": "object"
     },
     "service_info": {
-      "type": "object"
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority",
+        "channels",
+        "processing_time_display",
+        "fee",
+        "result"
+      ],
+      "properties": {
+        "authority": {
+          "type": "string",
+          "minLength": 1
+        },
+        "channels": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "processing_time_display": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fee": {
+          "type": "object"
+        },
+        "result": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "service_info_sources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority",
+        "channels",
+        "processing_time_display",
+        "fee",
+        "result"
+      ],
+      "properties": {
+        "authority": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "channels": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "processing_time_display": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "fee": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "result": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
     },
     "forms": {
-      "type": "array"
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "form_id",
+          "name",
+          "channel",
+          "source_ids"
+        ],
+        "properties": {
+          "form_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "channel": {
+            "type": "string"
+          },
+          "source_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
     },
     "checklist": {
-      "type": "array"
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "item_id",
+          "name",
+          "requirement",
+          "condition",
+          "source_ids"
+        ],
+        "properties": {
+          "item_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "requirement": {
+            "type": "string"
+          },
+          "condition": {
+            "type": "string"
+          },
+          "source_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
     },
     "fields": {
-      "type": "array"
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "field_id",
+          "label",
+          "type",
+          "requirement",
+          "source_ids"
+        ],
+        "properties": {
+          "field_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "enum": [
+              "string",
+              "integer",
+              "number",
+              "boolean",
+              "date",
+              "enum"
+            ]
+          },
+          "requirement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "values": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "pattern": {
+            "type": "string"
+          },
+          "minimum": {
+            "type": "number"
+          },
+          "help_text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "choice_help": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
     },
     "validation_rules": {
-      "type": "array"
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "rule_id",
+          "applies_to",
+          "condition",
+          "severity",
+          "message",
+          "suggestion",
+          "source_ids"
+        ],
+        "properties": {
+          "rule_id": {
+            "type": "string"
+          },
+          "applies_to": {
+            "enum": [
+              "2.000635",
+              "1.013314",
+              "1.004194"
+            ]
+          },
+          "condition": {
+            "type": "string"
+          },
+          "severity": {
+            "enum": [
+              "error",
+              "needs_review",
+              "info"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "suggestion": {
+            "type": "string"
+          },
+          "source_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
     },
     "guidance_steps": {
-      "type": "array"
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "step",
+          "text",
+          "source_ids"
+        ],
+        "properties": {
+          "step": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "text": {
+            "type": "string"
+          },
+          "source_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
     },
     "source_ids": {
       "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
       "items": {
-        "type": "string"
+        "type": "string",
+        "minLength": 1
       }
     },
     "approval": {
-      "type": "object"
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owner",
+        "reviewers",
+        "approved_at"
+      ],
+      "properties": {
+        "owner": {
+          "type": "string"
+        },
+        "reviewers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "approved_at": {
+          "type": "string"
+        }
+      }
     }
   }
 }

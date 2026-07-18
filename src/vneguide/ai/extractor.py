@@ -21,11 +21,13 @@ from vneguide.ai.providers.base import (
 from vneguide.ai.schemas import (
     ExtractionCatalog,
     ExtractionSchemaError,
+    InformationRequest,
     JsonScalar,
     build_extraction_json_schema,
     decode_provider_payload,
     validate_extraction_payload,
 )
+from vneguide.domain import QATopic
 
 
 def _empty_mapping() -> Mapping[str, JsonScalar]:
@@ -56,6 +58,7 @@ class ExtractionOutcome:
     context_signals: Mapping[str, JsonScalar] = field(default_factory=_empty_mapping)
     context_evidence: Mapping[str, str] = field(default_factory=_empty_text_mapping)
     context_origins: Mapping[str, str] = field(default_factory=_empty_text_mapping)
+    information_request: InformationRequest | None = None
 
     @property
     def succeeded(self) -> bool:
@@ -69,6 +72,8 @@ class ExtractionTurnContext:
     active_procedure_code: str
     expected_field_id: str | None = None
     confirmation_required: bool = False
+    recent_information_topics: tuple[QATopic, ...] = ()
+    recent_information_procedure_code: str | None = None
 
     def __post_init__(self) -> None:
         if (
@@ -87,6 +92,24 @@ class ExtractionTurnContext:
             raise ValueError("confirmation_required must be a boolean")
         if self.confirmation_required and self.expected_field_id is not None:
             raise ValueError("confirmation_required context cannot include an expected field")
+        if not isinstance(self.recent_information_topics, tuple):
+            raise ValueError("recent_information_topics must be a tuple")
+        if (
+            len(self.recent_information_topics) > 3
+            or len(set(self.recent_information_topics)) != len(self.recent_information_topics)
+            or any(not isinstance(topic, QATopic) for topic in self.recent_information_topics)
+        ):
+            raise ValueError(
+                "recent_information_topics must contain at most three unique QATopic values"
+            )
+        if self.recent_information_procedure_code is not None and (
+            not isinstance(self.recent_information_procedure_code, str)
+            or not self.recent_information_procedure_code.strip()
+            or len(self.recent_information_procedure_code) > 64
+        ):
+            raise ValueError(
+                "recent_information_procedure_code must be a short non-empty string or None"
+            )
 
 
 class StructuredExtractor:
@@ -178,6 +201,7 @@ class StructuredExtractor:
                     clarification_question=validated.clarification_question,
                     attempts=attempt,
                     reply=validated.reply,
+                    information_request=validated.information_request,
                 )
             except ProviderConfigurationError:
                 return self._fallback(attempts=attempt, error_code="provider_configuration")
@@ -200,6 +224,11 @@ class StructuredExtractor:
     def _context_is_valid(self, context: ExtractionTurnContext) -> bool:
         if context.active_procedure_code not in self._catalog.procedure_codes:
             return False
+        if (
+            context.recent_information_procedure_code is not None
+            and context.recent_information_procedure_code not in self._catalog.procedure_codes
+        ):
+            return False
         if context.expected_field_id is None:
             return True
         try:
@@ -219,6 +248,10 @@ class StructuredExtractor:
                 "active_procedure_code": context.active_procedure_code,
                 "expected_field_id": context.expected_field_id,
                 "confirmation_required": context.confirmation_required,
+                "recent_information_topics": [
+                    topic.value for topic in context.recent_information_topics
+                ],
+                "recent_information_procedure_code": (context.recent_information_procedure_code),
             }
         return json.dumps(envelope, ensure_ascii=False, separators=(",", ":"))
 
@@ -237,6 +270,7 @@ class StructuredExtractor:
             context_signals=MappingProxyType({}),
             context_evidence=MappingProxyType({}),
             context_origins=MappingProxyType({}),
+            information_request=None,
         )
 
 

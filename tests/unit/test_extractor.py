@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import ClassVar, cast
 from urllib.request import Request as HTTPRequest
 
+from vneguide.ai import InformationRequest
 from vneguide.ai.config import LLMConfig, build_llm_provider, load_llm_config
 from vneguide.ai.extractor import ExtractionTurnContext, StructuredExtractor
 from vneguide.ai.providers import (
@@ -28,6 +29,7 @@ from vneguide.ai.schemas import (
     build_extraction_json_schema,
     decode_provider_payload,
 )
+from vneguide.domain import QATopic
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 
@@ -40,6 +42,7 @@ def _payload(
     context_signals: list[dict[str, object]] | None = None,
     clarification_question: str | None = None,
     reply: str | None = None,
+    information_request: dict[str, object] | None = None,
 ) -> dict[str, object]:
     return {
         "classification": classification,
@@ -48,6 +51,7 @@ def _payload(
         "clarification_question": clarification_question,
         "fields": [] if fields is None else fields,
         "context_signals": [] if context_signals is None else context_signals,
+        "information_request": information_request,
     }
 
 
@@ -66,7 +70,7 @@ class StructuredExtractorTests(unittest.TestCase):
         self.assertGreaterEqual(len(cases), 12)
         self.assertEqual(
             {case["expected_classification"] for case in cases},
-            {"supported", "unsupported", "ambiguous"},
+            {"supported", "unsupported", "ambiguous", "informational"},
         )
 
         for case in cases:
@@ -80,6 +84,24 @@ class StructuredExtractorTests(unittest.TestCase):
                 clarification = (
                     "Bạn cần thực hiện thủ tục nào?" if classification == "ambiguous" else None
                 )
+                expected_topics = case.get("expected_topics", [])
+                expected_references = case.get("expected_reference_fields", {})
+                information_request = (
+                    {
+                        "topics": expected_topics,
+                        "target_field_id": case.get("expected_target_field_id"),
+                        "reference_fields": [
+                            {
+                                "field_id": field_id,
+                                "value": value,
+                                "evidence": message,
+                            }
+                            for field_id, value in expected_references.items()
+                        ],
+                    }
+                    if classification == "informational"
+                    else None
+                )
                 provider = MockLLMProvider(
                     [
                         _payload(
@@ -87,6 +109,7 @@ class StructuredExtractorTests(unittest.TestCase):
                             procedure_code=case["expected_procedure_code"],
                             fields=fields,
                             clarification_question=clarification,
+                            information_request=information_request,
                         )
                     ]
                 )
@@ -96,6 +119,18 @@ class StructuredExtractorTests(unittest.TestCase):
                 self.assertEqual(outcome.classification, classification)
                 self.assertEqual(outcome.procedure_code, case["expected_procedure_code"])
                 self.assertEqual(dict(outcome.fields), case["expected_fields"])
+                if classification == "informational":
+                    assert outcome.information_request is not None
+                    self.assertEqual(
+                        tuple(topic.value for topic in outcome.information_request.topics),
+                        tuple(expected_topics),
+                    )
+                    self.assertEqual(
+                        dict(outcome.information_request.reference_fields),
+                        expected_references,
+                    )
+                else:
+                    self.assertIsNone(outcome.information_request)
 
     def test_every_call_receives_strict_catalog_schema(self) -> None:
         provider = MockLLMProvider([_payload()])
@@ -117,6 +152,7 @@ class StructuredExtractorTests(unittest.TestCase):
                 "clarification_question",
                 "fields",
                 "context_signals",
+                "information_request",
             },
         )
         self.assertEqual(request.schema_name, "vneguide_extraction")
@@ -160,6 +196,8 @@ class StructuredExtractorTests(unittest.TestCase):
                 "active_procedure_code": "1.004194",
                 "expected_field_id": "registration_mode",
                 "confirmation_required": False,
+                "recent_information_topics": [],
+                "recent_information_procedure_code": None,
             },
         )
         self.assertNotIn("messages", envelope)
@@ -300,6 +338,7 @@ class StructuredExtractorTests(unittest.TestCase):
         invalid_contexts = (
             ExtractionTurnContext("9.999999"),
             ExtractionTurnContext("1.004194", "unknown_field"),
+            ExtractionTurnContext("1.004194", recent_information_procedure_code="9.999999"),
         )
 
         for context in invalid_contexts:
@@ -327,6 +366,11 @@ class StructuredExtractorTests(unittest.TestCase):
                 "1.004194",
                 "registration_mode",
                 confirmation_required=True,
+            )
+        with self.assertRaisesRegex(ValueError, "recent_information_procedure_code"):
+            ExtractionTurnContext(
+                "1.004194",
+                recent_information_procedure_code="",
             )
 
     def test_catalog_locks_three_codes_and_separates_rule_context_origins(self) -> None:
@@ -384,6 +428,8 @@ class StructuredExtractorTests(unittest.TestCase):
                 "active_procedure_code": "1.004194",
                 "expected_field_id": "registration_mode",
                 "confirmation_required": False,
+                "recent_information_topics": [],
+                "recent_information_procedure_code": None,
             },
         )
         self.assertNotIn("messages", envelope)
@@ -421,8 +467,388 @@ class StructuredExtractorTests(unittest.TestCase):
                 "active_procedure_code": "1.004194",
                 "expected_field_id": None,
                 "confirmation_required": True,
+                "recent_information_topics": [],
+                "recent_information_procedure_code": None,
             },
         )
+
+    def test_informational_request_routes_topics_and_grounded_enum_references(self) -> None:
+        message = "Đăng ký tạm trú theo danh sách cần giấy gì và phí bao nhiêu?"
+        provider = MockLLMProvider(
+            [
+                _payload(
+                    classification="informational",
+                    procedure_code="1.004194",
+                    information_request={
+                        "topics": ["documents", "fee"],
+                        "target_field_id": None,
+                        "reference_fields": [
+                            {
+                                "field_id": "registration_mode",
+                                "value": "by_list",
+                                "evidence": "theo danh sách",
+                            }
+                        ],
+                    },
+                )
+            ]
+        )
+
+        outcome = StructuredExtractor(provider, self.catalog).extract(message)
+
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(outcome.classification, "informational")
+        self.assertEqual(outcome.procedure_code, "1.004194")
+        self.assertEqual(dict(outcome.fields), {})
+        self.assertEqual(dict(outcome.context_signals), {})
+        self.assertIsInstance(outcome.information_request, InformationRequest)
+        assert outcome.information_request is not None
+        self.assertEqual(
+            outcome.information_request.topics,
+            (QATopic.DOCUMENTS, QATopic.FEE),
+        )
+        self.assertEqual(
+            dict(outcome.information_request.reference_fields),
+            {"registration_mode": "by_list"},
+        )
+        self.assertEqual(
+            dict(outcome.information_request.evidence),
+            {"registration_mode": "theo danh sách"},
+        )
+        with self.assertRaises(TypeError):
+            outcome.information_request.reference_fields["registration_mode"] = "x"  # type: ignore[index]
+
+    def test_field_help_question_is_distinct_from_plain_enum_answer(self) -> None:
+        question_provider = MockLLMProvider(
+            [
+                _payload(
+                    classification="informational",
+                    procedure_code="1.004194",
+                    information_request={
+                        "topics": ["field_help"],
+                        "target_field_id": "registration_mode",
+                        "reference_fields": [
+                            {
+                                "field_id": "registration_mode",
+                                "value": "by_list",
+                                "evidence": "theo danh sách",
+                            }
+                        ],
+                    },
+                )
+            ]
+        )
+        answer_provider = MockLLMProvider(
+            [
+                _payload(
+                    procedure_code="1.004194",
+                    fields=[
+                        {
+                            "field_id": "registration_mode",
+                            "value": "by_list",
+                            "evidence": "theo danh sách",
+                        }
+                    ],
+                )
+            ]
+        )
+        context = ExtractionTurnContext("1.004194", "registration_mode")
+
+        question = StructuredExtractor(question_provider, self.catalog).extract(
+            "Theo danh sách tức là gì?", context=context
+        )
+        answer = StructuredExtractor(answer_provider, self.catalog).extract(
+            "Theo danh sách", context=context
+        )
+
+        self.assertEqual(question.classification, "informational")
+        assert question.information_request is not None
+        self.assertEqual(question.information_request.target_field_id, "registration_mode")
+        self.assertEqual(answer.classification, "supported")
+        self.assertEqual(answer.fields["registration_mode"], "by_list")
+        self.assertIsNone(answer.information_request)
+
+    def test_unscoped_information_request_keeps_field_references_empty(self) -> None:
+        provider = MockLLMProvider(
+            [
+                _payload(
+                    classification="informational",
+                    procedure_code=None,
+                    information_request={
+                        "topics": ["fee"],
+                        "target_field_id": None,
+                        "reference_fields": [],
+                    },
+                )
+            ]
+        )
+
+        outcome = StructuredExtractor(provider, self.catalog).extract("Phí bao nhiêu?")
+
+        self.assertTrue(outcome.succeeded)
+        self.assertIsNone(outcome.procedure_code)
+        assert outcome.information_request is not None
+        self.assertEqual(outcome.information_request.topics, (QATopic.FEE,))
+
+    def test_recent_information_topics_are_bounded_context_not_evidence(self) -> None:
+        provider = MockLLMProvider(
+            [
+                _payload(
+                    classification="informational",
+                    procedure_code="2.000635",
+                    information_request={
+                        "topics": ["fee"],
+                        "target_field_id": None,
+                        "reference_fields": [
+                            {
+                                "field_id": "submission_channel",
+                                "value": "direct",
+                                "evidence": "trực tiếp",
+                            }
+                        ],
+                    },
+                )
+            ]
+        )
+        context = ExtractionTurnContext(
+            "1.004194",
+            recent_information_topics=(QATopic.FEE,),
+            recent_information_procedure_code="2.000635",
+        )
+
+        outcome = StructuredExtractor(provider, self.catalog).extract(
+            "Còn trực tiếp thì sao?", context=context
+        )
+
+        self.assertTrue(outcome.succeeded)
+        self.assertEqual(outcome.procedure_code, "2.000635")
+        envelope = json.loads(provider.calls[0].user_prompt)
+        self.assertEqual(envelope["conversation_context"]["recent_information_topics"], ["fee"])
+        self.assertEqual(
+            envelope["conversation_context"]["recent_information_procedure_code"],
+            "2.000635",
+        )
+        assert outcome.information_request is not None
+        self.assertEqual(
+            dict(outcome.information_request.reference_fields),
+            {"submission_channel": "direct"},
+        )
+
+    def test_information_request_rejects_unsafe_shapes_and_ungrounded_references(self) -> None:
+        cases = (
+            _payload(
+                classification="informational",
+                procedure_code="1.004194",
+                information_request={
+                    "topics": [],
+                    "target_field_id": None,
+                    "reference_fields": [],
+                },
+            ),
+            _payload(
+                classification="informational",
+                procedure_code="1.004194",
+                information_request={
+                    "topics": ["fee", "fee"],
+                    "target_field_id": None,
+                    "reference_fields": [],
+                },
+            ),
+            _payload(
+                classification="informational",
+                procedure_code="1.004194",
+                information_request={
+                    "topics": ["fee", "documents", "steps", "authority"],
+                    "target_field_id": None,
+                    "reference_fields": [],
+                },
+            ),
+            _payload(
+                classification="informational",
+                procedure_code="1.004194",
+                information_request={
+                    "topics": ["unknown_topic"],
+                    "target_field_id": None,
+                    "reference_fields": [],
+                },
+            ),
+            _payload(
+                classification="informational",
+                procedure_code="1.004194",
+                information_request=None,
+            ),
+            _payload(
+                classification="informational",
+                procedure_code="1.004194",
+                information_request={
+                    "topics": ["fee"],
+                    "target_field_id": "registration_mode",
+                    "reference_fields": [],
+                },
+            ),
+            _payload(
+                classification="informational",
+                procedure_code="1.004194",
+                information_request={
+                    "topics": ["field_help"],
+                    "target_field_id": None,
+                    "reference_fields": [],
+                },
+            ),
+            _payload(
+                classification="informational",
+                procedure_code=None,
+                information_request={
+                    "topics": ["fee"],
+                    "target_field_id": None,
+                    "reference_fields": [
+                        {
+                            "field_id": "submission_channel",
+                            "value": "direct",
+                            "evidence": "trực tiếp",
+                        }
+                    ],
+                },
+            ),
+            _payload(
+                classification="informational",
+                procedure_code="1.004194",
+                information_request={
+                    "topics": ["fee"],
+                    "target_field_id": None,
+                    "reference_fields": [
+                        {
+                            "field_id": "applicant_full_name",
+                            "value": "Người Mẫu",
+                            "evidence": "Người Mẫu",
+                        }
+                    ],
+                },
+            ),
+            _payload(
+                classification="informational",
+                procedure_code="1.004194",
+                information_request={
+                    "topics": ["fee"],
+                    "target_field_id": None,
+                    "reference_fields": [
+                        {
+                            "field_id": "submission_channel",
+                            "value": "direct",
+                            "evidence": "trực tiếp",
+                        }
+                    ],
+                },
+            ),
+            _payload(
+                classification="informational",
+                procedure_code="1.004194",
+                fields=[
+                    {
+                        "field_id": "submission_channel",
+                        "value": "direct",
+                        "evidence": "trực tiếp",
+                    }
+                ],
+                information_request={
+                    "topics": ["fee"],
+                    "target_field_id": None,
+                    "reference_fields": [],
+                },
+            ),
+            _payload(
+                information_request={
+                    "topics": ["fee"],
+                    "target_field_id": None,
+                    "reference_fields": [],
+                }
+            ),
+        )
+        messages = (
+            "Phí đăng ký tạm trú là bao nhiêu?",
+            "Phí đăng ký tạm trú là bao nhiêu?",
+            "Phí đăng ký tạm trú là bao nhiêu?",
+            "Phí đăng ký tạm trú là bao nhiêu?",
+            "Phí đăng ký tạm trú là bao nhiêu?",
+            "Phí đăng ký tạm trú là bao nhiêu?",
+            "Hình thức đăng ký tạm trú là gì?",
+            "Phí bao nhiêu nếu nộp trực tiếp?",
+            "Phí đăng ký tạm trú của Người Mẫu?",
+            "Phí đăng ký tạm trú là bao nhiêu?",
+            "Phí bao nhiêu nếu nộp trực tiếp?",
+            "Tôi muốn đăng ký tạm trú.",
+        )
+        for payload, message in zip(cases, messages, strict=True):
+            with self.subTest(payload=payload):
+                provider = MockLLMProvider([payload, payload])
+                outcome = StructuredExtractor(provider, self.catalog).extract(message)
+                self.assertFalse(outcome.succeeded)
+                self.assertEqual(outcome.error_code, "malformed_output")
+
+    def test_recent_information_topic_context_rejects_invalid_values(self) -> None:
+        for topics in (
+            cast(tuple[QATopic, ...], [QATopic.FEE]),
+            (QATopic.FEE, QATopic.FEE),
+            cast(tuple[QATopic, ...], ("fee",)),
+            (QATopic.FEE, QATopic.DOCUMENTS, QATopic.CHANNELS, QATopic.RESULT),
+        ):
+            with (
+                self.subTest(topics=topics),
+                self.assertRaisesRegex(ValueError, "recent_information_topics"),
+            ):
+                ExtractionTurnContext("1.004194", recent_information_topics=topics)
+
+    def test_information_references_reject_cross_procedure_and_duplicates(self) -> None:
+        unsafe_cases = (
+            (
+                _payload(
+                    classification="informational",
+                    procedure_code="2.000635",
+                    information_request={
+                        "topics": ["fee"],
+                        "target_field_id": None,
+                        "reference_fields": [
+                            {
+                                "field_id": "registration_mode",
+                                "value": "by_list",
+                                "evidence": "theo danh sách",
+                            }
+                        ],
+                    },
+                ),
+                "Phí bản sao giấy khai sinh theo danh sách là bao nhiêu?",
+            ),
+            (
+                _payload(
+                    classification="informational",
+                    procedure_code="1.004194",
+                    information_request={
+                        "topics": ["fee"],
+                        "target_field_id": None,
+                        "reference_fields": [
+                            {
+                                "field_id": "submission_channel",
+                                "value": "direct",
+                                "evidence": "trực tiếp",
+                            },
+                            {
+                                "field_id": "submission_channel",
+                                "value": "direct",
+                                "evidence": "trực tiếp",
+                            },
+                        ],
+                    },
+                ),
+                "Nếu nộp trực tiếp thì phí bao nhiêu?",
+            ),
+        )
+
+        for payload, message in unsafe_cases:
+            with self.subTest(message=message):
+                provider = MockLLMProvider([payload, payload])
+                outcome = StructuredExtractor(provider, self.catalog).extract(message)
+                self.assertFalse(outcome.succeeded)
+                self.assertEqual(outcome.error_code, "malformed_output")
 
     def test_context_cannot_be_reused_as_field_evidence(self) -> None:
         unsafe = _payload(
@@ -1298,6 +1724,10 @@ class OpenAIResponsesProviderTests(unittest.TestCase):
         schema = build_extraction_json_schema(catalog)
         procedure_enum = schema["properties"]["procedure_code"]["enum"]
         self.assertEqual(set(procedure_enum), {"2.000635", "1.013314", "1.004194", None})
+        self.assertEqual(
+            set(schema["properties"]["classification"]["enum"]),
+            {"supported", "unsupported", "ambiguous", "informational"},
+        )
         field_enum = schema["properties"]["fields"]["items"]["properties"]["field_id"]["enum"]
         expected_field_ids = {
             field.field_id for code in catalog.procedure_codes for field in catalog.fields_for(code)
@@ -1312,6 +1742,21 @@ class OpenAIResponsesProviderTests(unittest.TestCase):
             for item in catalog.extractable_rule_contexts_for(code)
         }
         self.assertEqual(set(context_enum), expected_context_ids)
+        information_schema = schema["properties"]["information_request"]
+        self.assertEqual(
+            set(information_schema["properties"]["topics"]["items"]["enum"]),
+            {topic.value for topic in QATopic},
+        )
+        reference_enum = information_schema["properties"]["reference_fields"]["items"][
+            "properties"
+        ]["field_id"]["enum"]
+        expected_enum_field_ids = {
+            field.field_id
+            for code in catalog.procedure_codes
+            for field in catalog.fields_for(code)
+            if field.field_type == "enum"
+        }
+        self.assertEqual(set(reference_enum), expected_enum_field_ids)
         self.assertNotIn("marriage_extract", json.dumps(schema))
         self.assertNotIn("death_extract", json.dumps(schema))
         schema_text = json.dumps(schema)

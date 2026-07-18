@@ -103,7 +103,7 @@ async def test_create_session_returns_seeded_initial_draft_snapshot() -> None:
         "revision": 0,
         "confirmed_fields": [],
         "dirty_fields": [],
-        "pack_version": "2.0.0",
+        "pack_version": "2.1.0",
     }
 
 
@@ -128,7 +128,7 @@ async def test_supported_session_context_seeds_core_and_manual_edit_contract() -
         "revision": 1,
         "confirmed_fields": ["temporary_address"],
         "dirty_fields": ["temporary_address"],
-        "pack_version": "2.0.0",
+        "pack_version": "2.1.0",
     }
 
 

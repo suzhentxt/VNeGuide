@@ -12,7 +12,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --test src/lib/procedure-workspace-reducer.test.ts src/lib/global-chat-layout.test.ts src/lib/chat-session-client.test.ts",
+    "test": "node --test src/lib/procedure-workspace-reducer.test.ts src/lib/global-chat-layout.test.ts src/lib/chat-session-client.test.ts src/lib/chat-status-presentation.test.ts",
     "typecheck": "tsc --noEmit",
     "check": "npm run lint && npm run typecheck && npm run test && npm run build"
   },

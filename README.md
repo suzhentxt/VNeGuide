@@ -92,6 +92,13 @@ Demoweb hiện chỉ hiển thị đúng ba thủ tục đã khóa trong `data/R
 shared workspace với chat. BFF `/api/chat/field` gọi endpoint backend revisioned; manual edit được
 kiểm tra stale revision và đánh dấu field đã xác nhận/dirty.
 
+Chatbot hỗ trợ hai luồng trên cùng một API: hỏi–đáp thông tin thủ tục và hỗ trợ điền form. Model chỉ
+route mã thủ tục, topic và enum tham chiếu; `ProcedureQAResponder` dựng câu trả lời từ procedure pack
+đã duyệt, không gọi model lần hai và không cho câu hỏi FAQ tự ghi vào form. FAQ đầu phiên sẽ trả lời,
+sau đó hỏi người dùng có muốn thực hiện thủ tục hay không. Trong lúc điền form, FAQ giữ nguyên draft,
+revision, suggestion và bước đang làm. Các topic hiện có gồm phí, thời gian, giấy tờ, thông tin cần
+khai, cơ quan, kênh nộp, kết quả, các bước, căn cứ, điều kiện giới hạn và giải thích field.
+
 ## OCR CT01 (candidate-only)
 
 Module `vneguide.ocr` chỉ xử lý fixture hoặc tài liệu CT01 của thủ tục `1.004194` và chỉ trả candidate;

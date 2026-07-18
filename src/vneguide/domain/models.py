@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from types import MappingProxyType
 from typing import TypeAlias
 
@@ -52,6 +52,11 @@ def _require_source_ids(source_ids: tuple[str, ...], owner: str) -> None:
         raise ValueError(f"{owner} contains an empty source_id")
 
 
+_SERVICE_INFO_KEYS = frozenset(
+    {"authority", "channels", "processing_time_display", "fee", "result"}
+)
+
+
 @dataclass(frozen=True, slots=True)
 class FormDefinition:
     form_id: str
@@ -92,6 +97,8 @@ class FieldDefinition:
     values: tuple[JSONScalar, ...] = ()
     pattern: str | None = None
     minimum: int | float | None = None
+    help_text: str | None = None
+    choice_help: Mapping[str, str] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         _require_text(self.field_id, "field_id")
@@ -100,6 +107,24 @@ class FieldDefinition:
         _require_source_ids(self.source_ids, self.field_id)
         if self.field_type is FieldType.ENUM and not self.values:
             raise ValueError(f"enum field {self.field_id} must define values")
+        if self.help_text is not None:
+            _require_text(self.help_text, f"{self.field_id}.help_text")
+        if not isinstance(self.choice_help, Mapping):
+            raise ValueError(f"{self.field_id}.choice_help must be a mapping")
+        choice_help = dict(self.choice_help)
+        if any(not isinstance(key, str) or not key.strip() for key in choice_help):
+            raise ValueError(f"{self.field_id}.choice_help keys must be non-empty strings")
+        if any(not isinstance(text, str) or not text.strip() for text in choice_help.values()):
+            raise ValueError(f"{self.field_id}.choice_help values must be non-empty strings")
+        if choice_help and self.field_type is not FieldType.ENUM:
+            raise ValueError(f"non-enum field {self.field_id} cannot define choice_help")
+        enum_values = {value for value in self.values if isinstance(value, str)}
+        unknown_choices = set(choice_help) - enum_values
+        if unknown_choices:
+            raise ValueError(
+                f"{self.field_id}.choice_help references unknown choices: {sorted(unknown_choices)}"
+            )
+        object.__setattr__(self, "choice_help", MappingProxyType(choice_help))
 
 
 @dataclass(frozen=True, slots=True)
@@ -180,6 +205,7 @@ class ProcedurePack:
     scope: Mapping[str, JSONValue]
     routing: Mapping[str, JSONValue]
     service_info: Mapping[str, JSONValue]
+    service_info_sources: Mapping[str, tuple[str, ...]]
     forms: tuple[FormDefinition, ...]
     checklist: tuple[ChecklistItem, ...]
     fields: tuple[FieldDefinition, ...]
@@ -193,9 +219,34 @@ class ProcedurePack:
         _require_text(self.procedure_name, "procedure_name")
         _require_text(self.version, "version")
         _require_source_ids(self.source_ids, self.pack_id)
+        if set(self.service_info) != _SERVICE_INFO_KEYS:
+            raise ValueError(
+                f"{self.pack_id}.service_info must contain exactly {sorted(_SERVICE_INFO_KEYS)}"
+            )
+        if set(self.service_info_sources) != _SERVICE_INFO_KEYS:
+            raise ValueError(
+                f"{self.pack_id}.service_info_sources must contain exactly "
+                f"{sorted(_SERVICE_INFO_KEYS)}"
+            )
+        frozen_service_sources: dict[str, tuple[str, ...]] = {}
+        for key, source_ids in self.service_info_sources.items():
+            if not isinstance(source_ids, (list, tuple)) or any(
+                not isinstance(source_id, str) for source_id in source_ids
+            ):
+                raise ValueError(
+                    f"{self.pack_id}.service_info_sources.{key} must be a sequence of strings"
+                )
+            source_ids = tuple(source_ids)
+            _require_source_ids(source_ids, f"{self.pack_id}.service_info_sources.{key}")
+            frozen_service_sources[key] = source_ids
         object.__setattr__(self, "scope", freeze_mapping(self.scope))
         object.__setattr__(self, "routing", freeze_mapping(self.routing))
         object.__setattr__(self, "service_info", freeze_mapping(self.service_info))
+        object.__setattr__(
+            self,
+            "service_info_sources",
+            MappingProxyType(frozen_service_sources),
+        )
 
 
 @dataclass(frozen=True, slots=True)

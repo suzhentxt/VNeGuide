@@ -6,7 +6,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass, field
 from types import MappingProxyType
 
-from .enums import MessageRole, NextAction, ProcedureCode
+from .enums import MessageRole, NextAction, ProcedureCode, QATopic
 from .models import FieldSuggestion, JSONValue, ValidationResult, freeze_mapping
 
 
@@ -58,6 +58,8 @@ class ConversationState:
     clarification_attempts: Mapping[str, int] = field(default_factory=dict)
     suggestions: tuple[FieldSuggestion, ...] = ()
     asked_question_ids: tuple[str, ...] = ()
+    recent_information_procedure_code: ProcedureCode | None = None
+    recent_information_topics: tuple[QATopic, ...] = ()
 
     def __post_init__(self) -> None:
         if self.turn_number < 0:
@@ -70,6 +72,16 @@ class ConversationState:
             raise ValueError("asked question IDs must not be empty")
         if len(set(self.asked_question_ids)) != len(self.asked_question_ids):
             raise ValueError("asked question IDs must be unique")
+        if (
+            len(self.recent_information_topics) > 3
+            or len(set(self.recent_information_topics)) != len(self.recent_information_topics)
+            or any(not isinstance(topic, QATopic) for topic in self.recent_information_topics)
+        ):
+            raise ValueError(
+                "recent information topics must contain at most three unique QATopic values"
+            )
+        if (self.recent_information_procedure_code is None) != (not self.recent_information_topics):
+            raise ValueError("recent information procedure and topics must be recorded together")
         object.__setattr__(self, "messages", tuple(self.messages))
         object.__setattr__(
             self,
@@ -78,6 +90,11 @@ class ConversationState:
         )
         object.__setattr__(self, "suggestions", tuple(self.suggestions))
         object.__setattr__(self, "asked_question_ids", tuple(self.asked_question_ids))
+        object.__setattr__(
+            self,
+            "recent_information_topics",
+            tuple(self.recent_information_topics),
+        )
 
 
 @dataclass(frozen=True, slots=True)

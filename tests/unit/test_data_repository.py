@@ -1,7 +1,14 @@
 """Contract and integrity tests against the checked-in data package."""
 
+import json
+import operator
+import shutil
 import unittest
+from collections.abc import MutableMapping
+from dataclasses import replace
 from pathlib import Path
+from tempfile import TemporaryDirectory
+from typing import cast
 
 from vneguide.data import (
     DataIntegrityError,
@@ -33,6 +40,58 @@ class ProcedureRepositoryTests(unittest.TestCase):
         for pack in self.repository.list_procedures():
             self.assertEqual(self.repository.fields_for(pack.procedure_code), pack.fields)
             self.assertEqual(self.repository.rules_for(pack.procedure_code), pack.validation_rules)
+
+    def test_all_packs_expose_traceable_service_info_at_version_2_1(self) -> None:
+        expected_keys = {
+            "authority",
+            "channels",
+            "processing_time_display",
+            "fee",
+            "result",
+        }
+        for pack in self.repository.list_procedures():
+            self.assertEqual(pack.version, "2.1.0")
+            self.assertEqual(set(pack.service_info), expected_keys)
+            self.assertEqual(set(pack.service_info_sources), expected_keys)
+            with self.assertRaises(TypeError):
+                operator.setitem(
+                    cast(MutableMapping[str, tuple[str, ...]], pack.service_info_sources),
+                    "authority",
+                    ("UNKNOWN",),
+                )
+            for source_ids in pack.service_info_sources.values():
+                self.assertTrue(source_ids)
+                self.assertTrue(set(source_ids).issubset(pack.source_ids))
+                for source_id in source_ids:
+                    source = self.repository.get_source(source_id)
+                    self.assertIs(source.status, SourceStatus.APPROVED)
+                    self.assertIn(
+                        source.procedure_code,
+                        (None, pack.procedure_code.value),
+                    )
+
+    def test_registration_mode_help_is_reviewed_complete_and_immutable(self) -> None:
+        field = next(
+            item
+            for item in self.repository.fields_for(ProcedureCode.TEMPORARY_RESIDENCE_REGISTRATION)
+            if item.field_id == "registration_mode"
+        )
+        self.assertIsNotNone(field.help_text)
+        self.assertEqual(set(field.choice_help), set(field.values))
+        self.assertIn("CT01", field.choice_help["by_list"])
+        self.assertIn("kiểm tra chính thức", field.choice_help["by_list"])
+        self.assertIn("nhà ở công vụ", field.choice_help["armed_forces"])
+        self.assertIn("kiểm tra chính thức", field.choice_help["armed_forces"])
+        with self.assertRaises(TypeError):
+            operator.setitem(
+                cast(MutableMapping[str, str], field.choice_help),
+                "by_list",
+                "changed",
+            )
+        with self.assertRaisesRegex(ValueError, "unknown choices"):
+            replace(field, choice_help={"unsupported": "Không hợp lệ"})
+        with self.assertRaisesRegex(ValueError, "non-empty strings"):
+            replace(field, choice_help={"by_list": ""})
 
     def test_full_data_package_audit_passes(self) -> None:
         self.assertEqual(self.repository.audit(), ())
@@ -66,6 +125,40 @@ class ProcedureRepositoryTests(unittest.TestCase):
             sources = self.repository.resolve_sources(pack.source_ids)
             self.assertEqual({source.source_id for source in sources}, set(pack.source_ids))
             self.assertTrue(all(source.status is SourceStatus.APPROVED for source in sources))
+
+    def test_service_info_source_must_match_its_procedure(self) -> None:
+        with TemporaryDirectory() as directory:
+            data_root = Path(directory) / "data"
+            shutil.copytree(self.paths.root, data_root)
+            pack_path = data_root / "catalog/procedure_packs/birth_certificate_copy.json"
+            raw = json.loads(pack_path.read_text(encoding="utf-8"))
+            raw["service_info_sources"]["authority"] = ["SRC-DVC-1013314"]
+            pack_path.write_text(
+                json.dumps(raw, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                DataIntegrityError,
+                "service_info:authority references source_id SRC-DVC-1013314 "
+                "for procedure 1.013314",
+            ):
+                ProcedureRepository(DataPackagePaths.from_root(data_root))
+
+    def test_service_info_sources_must_cover_exact_service_info_keys(self) -> None:
+        with TemporaryDirectory() as directory:
+            data_root = Path(directory) / "data"
+            shutil.copytree(self.paths.root, data_root)
+            pack_path = data_root / "catalog/procedure_packs/birth_certificate_copy.json"
+            raw = json.loads(pack_path.read_text(encoding="utf-8"))
+            del raw["service_info_sources"]["result"]
+            pack_path.write_text(
+                json.dumps(raw, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                SchemaValidationError, "missing required property 'result'"
+            ):
+                ProcedureRepository(DataPackagePaths.from_root(data_root))
 
     def test_registered_local_sources_exist_inside_data_package(self) -> None:
         for pack in self.repository.list_procedures():

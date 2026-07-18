@@ -3,7 +3,7 @@
   "procedure_code": "1.013314",
   "procedure_name": "Xác nhận về điều kiện diện tích bình quân nhà ở để đăng ký thường trú vào chỗ ở do thuê, mượn, ở nhờ; nhà ở, đất ở không có tranh chấp quyền sở hữu nhà ở, quyền sử dụng đất ở, không thuộc địa điểm không được đăng ký thường trú mới",
   "jurisdiction": "Hà Nội pilot",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "status": "approved",
   "effective_from": null,
   "verified_at": "2026-07-17",
@@ -50,6 +50,23 @@
       "display": "Không thu phí"
     },
     "result": "Xác nhận tình trạng chỗ ở hợp pháp, diện tích nhà ở tối thiểu để đăng ký thường trú, đăng ký tạm trú"
+  },
+  "service_info_sources": {
+    "authority": [
+      "SRC-DVC-1013314"
+    ],
+    "channels": [
+      "SRC-DVC-1013314"
+    ],
+    "processing_time_display": [
+      "SRC-DVC-1013314"
+    ],
+    "fee": [
+      "SRC-DVC-1013314"
+    ],
+    "result": [
+      "SRC-DVC-1013314"
+    ]
   },
   "forms": [
     {

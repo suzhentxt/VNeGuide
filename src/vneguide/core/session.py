@@ -25,7 +25,7 @@ from vneguide.domain import (
     ValidationResult,
     ValidationStatus,
 )
-from vneguide.rules import QuestionSelector, RuleEngine
+from vneguide.rules import ProcedureQAResponder, QuestionSelector, RuleEngine
 
 _AFFIRMATIVE_CONFIRMATIONS = frozenset(
     {
@@ -97,6 +97,7 @@ class ConversationSession:
         self._repository = repository
         self._rules = RuleEngine(repository)
         self._questions = QuestionSelector(repository)
+        self._qa = ProcedureQAResponder(repository)
         self._state = ConversationState()
         self._closed = False
 
@@ -141,15 +142,25 @@ class ConversationSession:
             else ()
         )
         context = None
+        recent_topics = self._state.recent_information_topics
+        recent_code = self._state.recent_information_procedure_code
+        recent_code_value = None if recent_code is None else recent_code.value
         if active_code is not None:
             expected_field = (
                 previous_missing[0] if previous_missing and not self._pending() else None
             )
-            context = ExtractionTurnContext(active_code.value, expected_field)
+            context = ExtractionTurnContext(
+                active_code.value,
+                expected_field,
+                recent_information_topics=recent_topics,
+                recent_information_procedure_code=recent_code_value,
+            )
         elif pending_code is not None:
             context = ExtractionTurnContext(
                 pending_code.value,
                 confirmation_required=True,
+                recent_information_topics=recent_topics,
+                recent_information_procedure_code=recent_code_value,
             )
         outcome = self._extractor.extract(message, context=context)
         if not outcome.succeeded:
@@ -157,6 +168,8 @@ class ConversationSession:
                 return self._reject_pending_procedure(message)
             return self._technical_fallback(message, outcome.error_code or "provider_error")
         self._clear_technical_failures()
+        if outcome.classification == "informational":
+            return self._informational(message, outcome)
         if pending_code is not None and rejects_pending:
             selects_different_procedure = (
                 outcome.classification == "supported"
@@ -192,6 +205,12 @@ class ConversationSession:
                 NextAction.ASK_CLARIFICATION,
             )
 
+        if outcome.classification == "supported" and self._state.recent_information_topics:
+            self._state = replace(
+                self._state,
+                recent_information_procedure_code=None,
+                recent_information_topics=(),
+            )
         code = ProcedureCode(outcome.procedure_code)
         current_code = self._state.draft.procedure_code
         pending_code = self._state.pending_procedure_code
@@ -247,14 +266,10 @@ class ConversationSession:
         if previous_missing and not valid_fields:
             field_id = previous_missing[0]
             attempts[field_id] = attempts.get(field_id, 0) + 1
-        self._state = ConversationState(
-            draft=draft,
-            pending_procedure_code=self._state.pending_procedure_code,
-            messages=self._state.messages,
-            turn_number=self._state.turn_number,
+        self._state = replace(
+            self._state,
             clarification_attempts=attempts,
             suggestions=tuple(suggestions),
-            asked_question_ids=self._state.asked_question_ids,
         )
         pending = self._pending()
         if pending:
@@ -430,22 +445,28 @@ class ConversationSession:
         reply, action = self._next_prompt(code)
         return self._finish_action(f"{prefix} {reply}", action)
 
-    def _next_prompt(self, code: ProcedureCode) -> tuple[str, NextAction]:
+    def _next_prompt(
+        self,
+        code: ProcedureCode,
+        *,
+        record_question: bool = True,
+    ) -> tuple[str, NextAction]:
         missing = self._rules.missing_fields(code, self._state.draft.values)
         if missing:
             field_id = missing[0]
             attempts = self._state.clarification_attempts.get(field_id, 0)
             question_id = self._question_id(code, field_id)
-            if attempts >= 2 or question_id in self._state.asked_question_ids:
+            if attempts >= 2 or (record_question and question_id in self._state.asked_question_ids):
                 label = self._field_label(code, field_id)
                 return (
                     f"Anh/chị vui lòng nhập trực tiếp mục {label} trên biểu mẫu giúp em ạ.",
                     NextAction.MANUAL_INPUT,
                 )
-            self._state = replace(
-                self._state,
-                asked_question_ids=self._state.asked_question_ids + (question_id,),
-            )
+            if record_question:
+                self._state = replace(
+                    self._state,
+                    asked_question_ids=self._state.asked_question_ids + (question_id,),
+                )
             return self._questions.question_for(code, field_id), NextAction.ASK_CLARIFICATION
 
         validation = self._rules.validate(code, self._state.draft.values)
@@ -466,7 +487,12 @@ class ConversationSession:
             NextAction.COMPLETE,
         )
 
-    def _resume_prompt(self, code: ProcedureCode) -> tuple[str, NextAction]:
+    def _resume_prompt(
+        self,
+        code: ProcedureCode,
+        *,
+        record_question: bool = True,
+    ) -> tuple[str, NextAction]:
         pending = self._pending()
         if pending:
             return (
@@ -474,7 +500,7 @@ class ConversationSession:
                 "khi đi tiếp ạ.",
                 NextAction.CONFIRM_SUGGESTION,
             )
-        return self._next_prompt(code)
+        return self._next_prompt(code, record_question=record_question)
 
     def _finish_turn(
         self,
@@ -483,6 +509,7 @@ class ConversationSession:
         action: NextAction,
         *,
         extracted_fields: Mapping[str, JSONValue] | None = None,
+        source_ids: tuple[str, ...] | None = None,
     ) -> TurnResult:
         messages = self._state.messages + (
             ChatMessage(MessageRole.USER, user_message),
@@ -493,7 +520,12 @@ class ConversationSession:
             messages=messages,
             turn_number=self._state.turn_number + 1,
         )
-        return self._build_result(reply, action, extracted_fields=extracted_fields)
+        return self._build_result(
+            reply,
+            action,
+            extracted_fields=extracted_fields,
+            source_ids=source_ids,
+        )
 
     def _finish_action(self, reply: str, action: NextAction) -> TurnResult:
         """Record the assistant response generated by a form/suggestion mutation."""
@@ -510,23 +542,107 @@ class ConversationSession:
         action: NextAction,
         *,
         extracted_fields: Mapping[str, JSONValue] | None = None,
+        source_ids: tuple[str, ...] | None = None,
     ) -> TurnResult:
         code = self._state.draft.procedure_code
         validation: ValidationResult | None = None
         missing: tuple[str, ...] = ()
-        source_ids: tuple[str, ...] = ()
+        resolved_source_ids: tuple[str, ...] = ()
         if code is not None:
             validation = self._rules.validate(code, self._state.draft.values)
             missing = self._rules.missing_fields(code, self._state.draft.values)
-            source_ids = self._repository.get_by_code(code).source_ids
+            resolved_source_ids = self._repository.get_by_code(code).source_ids
+        if source_ids is not None:
+            resolved_source_ids = tuple(dict.fromkeys(source_ids))
         return TurnResult(
             reply=reply,
             state=self._state,
             next_action=action,
-            source_ids=source_ids,
+            source_ids=resolved_source_ids,
             missing_fields=missing,
             validation=validation,
             extracted_fields={} if extracted_fields is None else extracted_fields,
+        )
+
+    def _informational(
+        self,
+        message: str,
+        outcome: ExtractionOutcome,
+    ) -> TurnResult:
+        """Answer a reviewed FAQ without mutating form workflow state."""
+
+        request = outcome.information_request
+        if request is None:
+            return self._finish_turn(
+                message,
+                "Dạ, để trả lời đúng nguồn, em cần biết anh/chị đang hỏi về thủ tục nào. "
+                + self._procedure_choice_prompt(),
+                NextAction.ASK_CLARIFICATION,
+            )
+        resolved_code = outcome.procedure_code
+        if resolved_code is None:
+            known_code = (
+                self._state.draft.procedure_code
+                or self._state.pending_procedure_code
+                or self._state.recent_information_procedure_code
+            )
+            resolved_code = None if known_code is None else known_code.value
+        if resolved_code is None:
+            return self._finish_turn(
+                message,
+                "Dạ, để trả lời đúng nguồn, em cần biết anh/chị đang hỏi về thủ tục nào. "
+                + self._procedure_choice_prompt(),
+                NextAction.ASK_CLARIFICATION,
+            )
+        try:
+            code = ProcedureCode(resolved_code)
+        except ValueError:
+            return self._finish_turn(
+                message,
+                self._procedure_choice_prompt(),
+                NextAction.ASK_CLARIFICATION,
+            )
+
+        active_code = self._state.draft.procedure_code
+        pending_code = self._state.pending_procedure_code
+        draft_values = self._state.draft.values if active_code is code else {}
+        answer = self._qa.answer(code, request, draft_values=draft_values)
+        self._state = replace(
+            self._state,
+            recent_information_procedure_code=code,
+            recent_information_topics=request.topics,
+        )
+
+        if active_code is None:
+            if pending_code is not code:
+                self._state = replace(self._state, pending_procedure_code=code)
+            procedure_name = self._questions.procedure_label(code)
+            reply = (
+                f"{answer.text}\n\nAnh/chị có muốn em hỗ trợ thực hiện thủ tục "
+                f'{procedure_name} không ạ? Anh/chị trả lời "Đúng" hoặc "Không phải" giúp em.'
+            )
+            return self._finish_turn(
+                message,
+                reply,
+                NextAction.CONFIRM_PROCEDURE,
+                source_ids=answer.source_ids,
+            )
+
+        prompt, action = self._resume_prompt(active_code, record_question=False)
+        if active_code is code:
+            reply = f"{answer.text}\n\n{prompt}"
+        else:
+            current_name = self._questions.procedure_label(active_code)
+            reply = (
+                f"{answer.text}\n\nThông tin trên chỉ để tham khảo. Phiên hiện tại vẫn đang "
+                f"hỗ trợ thủ tục {current_name}; nếu muốn chuyển thủ tục, anh/chị cần đặt lại "
+                f"phiên trước ạ. {prompt}"
+            )
+        return self._finish_turn(
+            message,
+            reply,
+            action,
+            source_ids=answer.source_ids,
         )
 
     def _technical_fallback(self, message: str, error_code: str) -> TurnResult:
@@ -595,7 +711,12 @@ class ConversationSession:
         )
 
     def _reject_pending_procedure(self, message: str) -> TurnResult:
-        self._state = replace(self._state, pending_procedure_code=None)
+        self._state = replace(
+            self._state,
+            pending_procedure_code=None,
+            recent_information_procedure_code=None,
+            recent_information_topics=(),
+        )
         self._clear_technical_failures()
         return self._finish_turn(
             message,
