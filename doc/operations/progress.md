@@ -42,6 +42,11 @@ Người 4 nối hành động Accept/Reject/Edit vào UI/web adapter và cấu 
 - Proxy cơ quan có timeout, kiểm tra/chuẩn hóa dữ liệu, loại trùng, giới hạn 500 bản ghi và phản hồi lỗi có kiểm soát.
 - Xác minh: `npm run check` pass; 12 HTTP assertion production pass cho catalog, tìm kiếm, lựa chọn, redirect và API validation.
 
+### 2026-07-18 — Cảnh báo minh bạch bản mô phỏng
+
+- Thêm banner cảnh báo toàn cục trên mọi route: đây không phải website Chính phủ, chỉ là bản mô phỏng Hackathon và không tiếp nhận hồ sơ/dữ liệu cá nhân thật.
+- Đổi application name, title, description và author sang ngữ cảnh Hackathon; cấu hình robots thành `noindex`, `nofollow`, `nocache` để tránh bị hiểu nhầm là dịch vụ chính thức.
+
 ### 2026-07-17 — Chuẩn hóa repository
 
 - Tạo cấu trúc `src/vneguide/` và `tests/` theo ranh giới bốn người.
