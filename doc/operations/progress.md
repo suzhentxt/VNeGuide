@@ -309,11 +309,18 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
 - `VNEGUIDE_API_BASE_URL` production đã trỏ tới API preview ngrok; biến này không chứa secret. API
   `/health` trả `200 {"status":"ok"}` ngay trước lần deploy.
 - Frontend gate đạt: ESLint, TypeScript, 21/21 test và Next production build 25 route.
-- Lần upload đầu dừng ở bước detect Next.js vì Root Directory còn ở repo root. Cấu hình project đã
-  được sửa nhưng môi trường agent chặn lần upload lại tới dịch vụ ngoài; chưa có production deployment
-  `READY` và chưa smoke-test được `https://vneguide.vercel.app/`.
+- Lần upload đầu dừng ở bước detect Next.js vì Root Directory còn ở repo root; cấu hình project sau
+  đó đã được sửa và giữ lại như evidence của lần phát hành lỗi.
 - Redeploy source cũ sau khi sửa Root Directory đã nhận đúng Next.js 16.2.10 nhưng thất bại vì archive
   không có `demoweb/src`: mẫu `.vercelignore` `src` không neo ở root đã loại cả frontend source.
   Pattern đã đổi thành `/src`; các data directory được loại tường minh để giữ duy nhất
   `data/catalog/field_catalog.json`. Vercel dry-run xác nhận có frontend app và field catalog, không có
-  `src/vneguide` hoặc catalog khác. Cần fresh deploy; redeploy archive cũ sẽ tiếp tục thất bại.
+  `src/vneguide` hoặc catalog khác. Redeploy archive cũ sẽ tiếp tục thất bại.
+- Fresh production deployment `HGBB73U7JGdaQay1V8DcU8tvNKGc` đã `READY`; alias công khai là
+  `https://vneguide.vercel.app/`. SSO Protection đã tắt sau xác nhận rõ của chủ project.
+- Smoke 2026-07-18 23:29 ICT: trang chủ và ba procedure route trả `200`; backend ngrok `/health`
+  trả `200`; tạo phiên qua production BFF trả `201`. `/api/portal-options` thiếu query bắt buộc trả
+  `400` đúng validation contract.
+- Kiểm tra lại 23:34 ICT xác nhận tunnel đã dừng: ngrok trả HTML `404 ERR_NGROK_3200`, production
+  BFF trả JSON `invalid_backend_response`. Vì vậy public frontend đã bền vững nhưng chatbot chưa có
+  backend hosting bền vững; smoke trước đó chỉ hợp lệ trong lúc FastAPI và ngrok cùng chạy.

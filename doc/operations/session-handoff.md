@@ -153,17 +153,15 @@ Rollback bằng `git revert`; không dùng reset hoặc force-push trên branch 
 
 - Project đã sẵn sàng tại `trinhs-projects-e6e09c31/vneguide`; Root Directory là `demoweb`, framework
   Next.js và production env `VNEGUIDE_API_BASE_URL` đã được cấu hình.
-- Chưa có deployment `READY`: lần đầu lỗi Root Directory; sau khi sửa, policy của execution
-  environment không cho agent upload lại private source ra ngoài.
-- Người có terminal chạy từ repo root:
-
-```bash
-npm exec --yes vercel@latest -- deploy --yes --prod --logs
-```
+- Production deployment `HGBB73U7JGdaQay1V8DcU8tvNKGc` đã `READY` tại
+  `https://vneguide.vercel.app/`; SSO Protection đã tắt theo xác nhận của chủ project.
 
 Không dùng `vercel redeploy` với deployment `dpl_3McXuEUTANRxvYnBLGnQ1n1LXa8U`: source archive đó
 thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit mới là bắt buộc.
 
-- Sau khi build `READY`, xác minh `https://vneguide.vercel.app/`, ba procedure route,
-  `/api/portal-options` và một lượt chatbot. Preview hiện phụ thuộc FastAPI `127.0.0.1:18000` cùng
-  tunnel ngrok; tunnel hoặc máy local dừng thì chatbot trên Vercel cũng dừng.
+- Smoke công khai đạt: trang chủ/ba procedure `200`, backend health `200`, tạo chat session qua BFF
+  `201`; portal-options thiếu query trả `400` đúng thiết kế. Preview vẫn phụ thuộc FastAPI
+  `127.0.0.1:18000` cùng tunnel ngrok; tunnel hoặc máy local dừng thì chatbot trên Vercel cũng dừng.
+- Bằng chứng sau smoke: ngrok `ERR_NGROK_3200` khi process local kết thúc; BFF hiển thị
+  `invalid_backend_response` vì endpoint offline trả HTML thay vì JSON. Phải deploy FastAPI lên host
+  bền vững hoặc giữ đồng thời process API/ngrok trên máy demo.
