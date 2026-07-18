@@ -171,9 +171,11 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
 - `render.yaml` đã sẵn sàng cho Python service `vneguide-api` trên Free plan/Singapore, dùng
   constraint lock hiện hành, một API process và health check `/health`.
 - Targeted API gate đạt `29 passed`; image local build thành công và container health `200`.
-- Render credential chưa có trong phiên và dashboard browser không khả dụng. Bước tiếp theo: push
-  branch `experiment/chat-core-v2`, tạo New Blueprint từ `suzhentxt/VNeGuide`, chọn `render.yaml`,
-  nhập `VNEGUIDE_API_KEY`, đợi deploy `Live` rồi ghi URL `onrender.com`.
-- Sau đó thay production env `VNEGUIDE_API_BASE_URL` trên Vercel, redeploy frontend và smoke
-  `/health`, create session, message flow. Render Free sleep sau 15 phút idle và restart làm mất
-  session in-memory; nâng plan hoặc thêm shared store trước demo tải cao.
+- Service `srv-d9dqule1a83c73b989s0`, deploy `dep-d9dr0nf41pts73docp7g` đang `live` tại
+  `https://vneguide-api.onrender.com`; direct model smoke đạt health `200`, session `201`, message
+  `200`. Secret chỉ tồn tại trong Render Environment.
+- Vercel production env đã trỏ sang Render; deployment `8tf1DLcUwfYtJFw18UyALrUn4zEW` `READY` và
+  alias `https://vneguide.vercel.app` giữ nguyên. E2E create `201`/1.178 giây, message
+  `200`/5.039 giây.
+- Render Free sleep sau 15 phút idle và restart làm mất session in-memory; nâng plan hoặc thêm shared
+  store trước demo tải cao. Lần gọi đầu sau sleep có thể cần retry do cold start.

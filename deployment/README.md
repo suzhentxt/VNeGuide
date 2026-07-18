@@ -118,15 +118,15 @@ Blueprint từ GitHub branch `experiment/chat-core-v2`, sau đó nhập duy nh�
 session store đang nằm trong memory.
 
 Render Free phù hợp preview nhưng không phải hosting bền vững: service sleep sau thời gian idle và
-restart làm mất session in-memory. Khi URL `https://<service>.onrender.com` trả health thành công,
-cập nhật `VNEGUIDE_API_BASE_URL` của Vercel production sang URL đó rồi redeploy frontend. Không đặt
-model key trong Vercel hoặc biến `NEXT_PUBLIC_*`.
+restart làm mất session in-memory. Service hiện hành là `https://vneguide-api.onrender.com`; Vercel
+production đã trỏ `VNEGUIDE_API_BASE_URL` tới URL này. Không đặt model key trong Vercel hoặc biến
+`NEXT_PUBLIC_*`.
 
 Smoke không gửi PII hoặc gọi model:
 
 ```bash
 python deployment/scripts/smoke.py \
-  --api-url https://<service>.onrender.com \
+  --api-url https://vneguide-api.onrender.com \
   --web-url https://vneguide.vercel.app \
   --provider openai \
   --model gpt-4o-mini

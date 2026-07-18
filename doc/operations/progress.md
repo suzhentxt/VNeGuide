@@ -325,7 +325,7 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
   BFF trả JSON `invalid_backend_response`. Vì vậy public frontend đã bền vững nhưng chatbot chưa có
   backend hosting bền vững; smoke trước đó chỉ hợp lệ trong lúc FastAPI và ngrok cùng chạy.
 
-### 2026-07-18 — Chuẩn bị Render FastAPI
+### 2026-07-18 — Deploy Render FastAPI
 
 - Thêm Blueprint `render.yaml` cho Python web service `vneguide-api`: Free plan, region Singapore,
   branch `experiment/chat-core-v2`, health check `/health`, auto-deploy sau khi CI pass.
@@ -334,5 +334,9 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
 - Render CLI Blueprint validation trả `valid: true` với một create action; API targeted gate
   `29 passed`. Image `vneguide-api:render-test` build từ
   `deployment/api.Dockerfile` và container health trả `200 {"status":"ok"}` trên cổng 18001.
-- Chưa tạo được service vì phiên không có Render API token và browser dashboard không khả dụng.
-  Cần chủ project tạo Blueprint từ GitHub, nhập secret, rồi mới cập nhật Vercel backend URL.
+- Render service `srv-d9dqule1a83c73b989s0`, deploy `dep-d9dr0nf41pts73docp7g` đã `live` tại
+  `https://vneguide-api.onrender.com` với secret nhập qua Dashboard; không ghi hoặc in key.
+- Direct live smoke: health `200`, create session `201`, message model thật `200`. Vercel production
+  đã đổi backend URL sang Render và deployment `8tf1DLcUwfYtJFw18UyALrUn4zEW` đã `READY`.
+- E2E Vercel → Render → OpenAI bằng dữ liệu tổng hợp: create session `201`/1.178 giây, message
+  `200`/5.039 giây; reply hỏi đúng `requester_type` và không còn phụ thuộc ngrok.
