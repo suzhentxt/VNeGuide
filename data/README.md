@@ -8,6 +8,11 @@ VNeGuide chỉ hỗ trợ ba thủ tục:
 
 Không còn procedure pack cho trích lục kết hôn, trích lục khai tử hoặc các thủ tục trước đây.
 
+Trong hội thoại, cụm đời thường **“đăng ký thường trú”** được hiểu là yêu cầu hỗ trợ thủ tục
+`1.013314` về xác nhận điều kiện diện tích/tình trạng chỗ ở. Đây chỉ là routing shorthand để đưa
+người dùng tới đúng bước xác nhận Mẫu số 02; VNeGuide vẫn không thực hiện thủ tục đăng ký thường trú
+`1.004222` và phải yêu cầu người dùng xác nhận đúng dịch vụ trước khi điều hướng.
+
 ## Quyết định nghiệp vụ chính
 - Mọi checklist/rule phải truy ngược tới `source_id`.
 - Dataset Hugging Face chỉ dùng discovery và RAG seed.

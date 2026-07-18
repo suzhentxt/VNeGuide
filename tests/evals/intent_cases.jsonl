@@ -10,7 +10,7 @@
 {"case_id":"INT-TEMP-004","message":"Tôi đăng ký tạm trú theo diện cá nhân tại nhà ở nhờ và nộp trực tiếp.","expected_classification":"supported","expected_procedure_code":"1.004194","expected_fields":{"registration_mode":"individual_or_household","dwelling_basis":"accommodated","submission_channel":"direct"}}
 {"case_id":"INT-UNSUPPORTED-001","message":"Tôi muốn đăng ký khai sinh cho con mới sinh.","expected_classification":"unsupported","expected_procedure_code":null,"expected_fields":{}}
 {"case_id":"INT-UNSUPPORTED-002","message":"Tôi cần bản sao trích lục kết hôn.","expected_classification":"unsupported","expected_procedure_code":null,"expected_fields":{}}
-{"case_id":"INT-UNSUPPORTED-003","message":"Tôi muốn thực hiện thủ tục đăng ký thường trú.","expected_classification":"unsupported","expected_procedure_code":null,"expected_fields":{}}
+{"case_id":"INT-HOUSE-004","message":"Tôi muốn thực hiện thủ tục đăng ký thường trú.","expected_classification":"supported","expected_procedure_code":"1.013314","expected_fields":{}}
 {"case_id":"INT-AMBIGUOUS-001","message":"Tôi muốn xin giấy khai sinh.","expected_classification":"ambiguous","expected_procedure_code":null,"expected_fields":{}}
 {"case_id":"INT-AMBIGUOUS-002","message":"Tôi cần làm giấy tờ về chỗ ở tại nhà thuê.","expected_classification":"ambiguous","expected_procedure_code":null,"expected_fields":{}}
 {"case_id":"INT-AMBIGUOUS-003","message":"Tôi cần làm thủ tục cư trú ở Hà Nội.","expected_classification":"ambiguous","expected_procedure_code":null,"expected_fields":{}}

@@ -394,3 +394,15 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
 - Production Branch là setting cấp project, không nằm trong `vercel.json`. Vercel REST API v9 từ chối
   trường `productionBranch` với `400`; browser tích hợp không khả dụng trong phiên này. Chủ project
   cần đổi một lần tại `Settings → Environments → Production → Branch Tracking` từ `main` sang `dev`.
+
+### 2026-07-19 — Routing “đăng ký thường trú” vào xác nhận diện tích nhà ở
+
+- Theo quyết định sản phẩm, cách nói đời thường “đăng ký thường trú” được route tới thủ tục được hỗ
+  trợ `1.013314` về xác nhận Mẫu số 02/điều kiện diện tích nhà ở. Hệ thống vẫn không tuyên bố thực
+  hiện thủ tục đăng ký thường trú `1.004222` và vẫn yêu cầu xác nhận dịch vụ trước khi điều hướng.
+- Procedure pack nhà ở tăng version `2.0.1`, bổ sung hai alias đúng transcript và thông báo xác nhận
+  nêu rõ ranh giới hỗ trợ. Evaluation cũ đánh dấu cụm này unsupported đã được đổi thành supported.
+- Regression bao phủ hai lượt “đăng ký thường trú” → “xác nhận diện tích nhà ở để đăng ký thường
+  trú”; cả hai giữ procedure `1.013314`, không quay lại menu ba thủ tục và không báo ngoài phạm vi.
+- Gate đạt: compileall, Ruff lint/format, mypy 95 source; `287 passed`, `2 skipped`, coverage `80.60%`;
+  checksum procedure pack khớp data package.

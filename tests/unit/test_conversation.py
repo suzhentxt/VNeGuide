@@ -454,6 +454,12 @@ def test_explicit_birth_requests_still_reach_extraction(
         ("tôi muốn cấp bản sao Giấy khai sinh", "unsupported", "2.000635"),
         ("Tôi muốn đăng ký tạm trú", "unsupported", "1.004194"),
         ("Tôi cần xin xác nhận diện tích nhà ở", "ambiguous", "1.013314"),
+        ("Tôi muốn đăng ký thường trú", "ambiguous", "1.013314"),
+        (
+            "Tôi muốn xác nhận diện tích nhà ở để đăng ký thường trú",
+            "unsupported",
+            "1.013314",
+        ),
     ],
 )
 def test_reviewed_alias_rescues_incorrect_model_routing(
@@ -473,6 +479,28 @@ def test_reviewed_alias_rescues_incorrect_model_routing(
     assert result.next_action is NextAction.ASK_CLARIFICATION
     assert "ngoài ba thủ tục" not in result.reply.lower()
     assert extractor.calls == [(message, None)]
+
+
+def test_permanent_residence_shorthand_keeps_housing_confirmation_context(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor(
+        outcome(classification="ambiguous", procedure_code=None),
+        outcome(classification="ambiguous", procedure_code=None),
+    )
+    session = ConversationSession(extractor, repository)
+
+    first = session.send("tôi muốn đăng ký thường trú")
+    clarified = session.send("tôi muốn xác nhận diện tích nhà ở để đăng ký thường trú")
+
+    assert first.state.draft.procedure_code is ProcedureCode.HOUSING_CONDITION_CONFIRMATION
+    assert clarified.state.draft.procedure_code is ProcedureCode.HOUSING_CONDITION_CONFIRMATION
+    assert first.next_action is NextAction.ASK_CLARIFICATION
+    assert clarified.next_action is NextAction.ASK_CLARIFICATION
+    assert "Bạn cần hỗ trợ đăng ký tạm trú" not in first.reply
+    assert "Bạn cần hỗ trợ đăng ký tạm trú" not in clarified.reply
+    assert "ngoài ba thủ tục" not in first.reply.lower()
+    assert "ngoài ba thủ tục" not in clarified.reply.lower()
 
 
 def test_birth_copy_confirmation_never_falls_out_of_scope_after_ambiguous_turn(

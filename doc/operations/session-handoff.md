@@ -224,3 +224,13 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
   `vneguide` trên Vercel, vào `Settings → Environments → Production → Branch Tracking`, nhập `dev`
   và Save. Sau đó push một commit mới vào `dev` để xác minh deployment có target `production` và
   alias `vneguide.vercel.app` được cập nhật.
+
+## Bàn giao routing thường trú 2026-07-19
+
+- `data/catalog/procedure_packs/housing_condition_confirmation.json` version `2.0.1` coi “đăng ký
+  thường trú” là routing shorthand của `1.013314`; đây không phải việc mở phạm vi sang thủ tục
+  đăng ký thường trú `1.004222`.
+- Regression exact transcript nằm trong `tests/unit/test_conversation.py`; full Python gate đạt
+  `287 passed`, `2 skipped`, coverage `80.60%`.
+- Bước tiếp theo sau khi push/redeploy: tạo session production mới và smoke hai lượt đúng transcript;
+  Render restart làm mất session in-memory nên không tái sử dụng cookie cũ.
