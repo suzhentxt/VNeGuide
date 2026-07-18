@@ -9,13 +9,16 @@
 - Route-scoped pure guidance hiện bypass model bằng whole-message allowlist; mixed/form input vẫn qua
   structured extraction. Context guard chặn dùng nhầm fact của route cũ sau out-of-scope, ambiguous,
   procedure switch hoặc provider failure.
-- Guided reply layer đạt full Python `265 passed, 2 skipped` với coverage `80.27%`, và A/B `12/12`
-  fact/topic/source;
+- Câu mơ hồ “làm/xin giấy khai sinh” giờ được hỏi rõ giữa cấp bản sao được hỗ trợ và đăng ký khai
+  sinh mới ngoài phạm vi, kể cả khi route tạm trú đang hoạt động. UI hiển thị “Hồ sơ chưa đủ thông
+  tin” thay cho `ready_to_submit` khi còn missing field; backend rule status được giữ nguyên vì
+  completeness là contract tách biệt.
+- Guided reply layer đạt full Python `268 passed, 2 skipped`, và A/B `12/12` fact/topic/source;
   dùng `VNEGUIDE_CHAT_CORE_VARIANT=baseline` để rollback tức thì.
 - Provider/BFF smoke mới nhất dùng OpenAI/gpt-5.6-luna và xác nhận cả guidance lẫn structured field
   suggestion hoạt động bằng dữ liệu tổng hợp. Local demo đang chạy tại `http://127.0.0.1:13000`, API
   tại `http://127.0.0.1:18000`; process phải có network egress tới OpenAI API.
-- Npm gate đạt `0 vulnerabilities`, 9 reducer tests và build 25 route. Bước tiếp theo là review nhánh,
+- Npm gate đạt `0 vulnerabilities`, 11 unit tests và build 25 route. Bước tiếp theo là review nhánh,
   sau đó chỉ cân nhắc merge khi A/B và public deployment được chấp thuận; không thay coverage
   threshold, dataset checksum hoặc source data.
 

@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import math
+import re
+import unicodedata
 from collections.abc import Mapping
 from dataclasses import replace
 from typing import Protocol
@@ -96,6 +98,20 @@ class ConversationSession:
     def send(self, message: str) -> TurnResult:
         self._ensure_open()
         active_code = self._state.draft.procedure_code
+        if self._needs_birth_scope_clarification(message):
+            self._contextual_reference_trusted = False
+            active_note = ""
+            if active_code is not None:
+                title = self._repository.get_by_code(active_code).procedure_name
+                active_note = f" Phiên “{title}” hiện tại vẫn được giữ nguyên."
+            return self._reply_without_draft_change(
+                message,
+                "“Làm giấy khai sinh” có thể là hai việc khác nhau. VNeGuide chỉ hỗ trợ "
+                "cấp bản sao Trích lục hộ tịch (bản sao Giấy khai sinh), không hỗ trợ "
+                "đăng ký khai sinh mới. Bạn muốn xin bản sao hay đăng ký khai sinh mới?"
+                f"{active_note}",
+                NextAction.ASK_CLARIFICATION,
+            )
         if active_code is not None:
             contextual_reply = self._compose_contextual_grounded_reply(active_code, message)
             if contextual_reply is not None:
@@ -636,6 +652,41 @@ class ConversationSession:
     @staticmethod
     def _question_id(code: ProcedureCode, field_id: str) -> str:
         return f"{code.value}:{field_id}"
+
+    @staticmethod
+    def _needs_birth_scope_clarification(message: str) -> bool:
+        """Fail closed for the common phrase that names two different services."""
+
+        normalized = unicodedata.normalize("NFD", message.casefold())
+        normalized = "".join(
+            character for character in normalized if unicodedata.category(character) != "Mn"
+        ).replace("đ", "d")
+        normalized = re.sub(r"[^a-z0-9]+", " ", normalized).strip()
+
+        explicit_copy_markers = (
+            "ban sao",
+            "trich luc",
+            "xin lai",
+            "cap lai",
+            "mat giay khai sinh",
+        )
+        explicit_new_registration_markers = (
+            "dang ky khai sinh",
+            "moi sinh",
+            "so sinh",
+        )
+        explicit_markers = (*explicit_copy_markers, *explicit_new_registration_markers)
+        if any(marker in normalized for marker in explicit_markers):
+            return False
+
+        generic_birth_request = re.fullmatch(
+            r"(?:(?:toi|minh|em|anh|chi|chung toi|gia dinh toi)\s+)?"
+            r"(?:(?:dang\s+)?(?:muon|can)\s+)?"
+            r"(?:lam|xin|cap)?\s*giay khai sinh"
+            r"(?:\s+cho\s+(?:toi|ban than|con|con toi|be|be nha toi))?",
+            normalized,
+        )
+        return generic_birth_request is not None
 
     def _ensure_open(self) -> None:
         if self._closed:

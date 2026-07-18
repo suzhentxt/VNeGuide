@@ -1,5 +1,23 @@
 # Nhật ký tiến độ VNeGuide
 
+## 2026-07-18 — Sửa phân loại “làm giấy khai sinh” và trạng thái hồ sơ
+
+- Tái hiện trên phiên route `1.004194`: câu “tôi muốn làm giấy khai sinh” từng bị model gán
+  `unsupported`, dù cụm từ này có thể chỉ cấp bản sao Giấy khai sinh trong phạm vi hoặc đăng ký khai
+  sinh mới ngoài phạm vi.
+- Thêm guard deterministic, fail-closed cho đúng nhóm câu mơ hồ này trước extractor. Chatbot hỏi rõ
+  người dùng muốn bản sao hay đăng ký mới, nêu đúng giới hạn hỗ trợ và giữ nguyên draft/procedure
+  hiện tại; các câu rõ nghĩa như “bản sao/trích lục” hoặc “đăng ký khai sinh” vẫn đi qua extractor.
+- UI không còn hiển thị `ready_to_submit` như trạng thái hoàn tất khi `missing_fields` còn phần tử.
+  Trường hợp rule không có issue nhưng draft còn thiếu được trình bày là “Hồ sơ chưa đủ thông tin” và
+  không hiện readiness score; contract rule/completeness hiện hành không bị thay đổi.
+- Full Python gate đạt `268 passed, 2 skipped`; compile, Ruff lint/format và mypy đều đạt. Next lint,
+  typecheck, 11 unit test và production build 25 route đạt.
+- BFF smoke qua `http://127.0.0.1:13000` trả `ask_clarification`, giữ procedure `1.004194`, draft
+  revision `0`, đủ 11 missing field và câu trả lời phân biệt hai ý định. Trình duyệt tích hợp không
+  khả dụng trong phiên, nên visual regression được bảo vệ bằng presentation unit test thay vì bằng
+  chứng click/screenshot.
+
 ## 2026-07-18 — Chuyển chatbot local sang OpenAI
 
 - Tái hiện lỗi cấu hình trước thay đổi: provider vẫn là LiteLLM/Qwen nhưng key mới có định dạng

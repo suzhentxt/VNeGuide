@@ -327,6 +327,45 @@ def test_active_procedure_context_survives_an_unsupported_turn(
     assert continued.suggestions[-1].field_id == "submission_channel"
 
 
+def test_generic_birth_certificate_request_is_clarified_before_extraction(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor()
+    session = ConversationSession(extractor, repository)
+    session.initialize_procedure("1.004194")
+
+    result = session.send("tôi muốn làm giấy khai sinh")
+
+    assert result.next_action is NextAction.ASK_CLARIFICATION
+    assert "bản sao Giấy khai sinh" in result.reply
+    assert "đăng ký khai sinh mới" in result.reply
+    assert "ngoài ba thủ tục" not in result.reply
+    assert "Đăng ký tạm trú" in result.reply
+    assert result.state.draft.procedure_code is not None
+    assert result.state.draft.procedure_code.value == "1.004194"
+    assert result.draft == {}
+    assert extractor.calls == []
+
+
+@pytest.mark.parametrize(
+    "message",
+    [
+        "Tôi muốn xin bản sao Giấy khai sinh",
+        "Tôi cần đăng ký khai sinh cho con mới sinh",
+    ],
+)
+def test_explicit_birth_requests_still_reach_extraction(
+    repository: ProcedureRepository,
+    message: str,
+) -> None:
+    extractor = StubExtractor(outcome(classification="unsupported", procedure_code=None))
+    session = ConversationSession(extractor, repository)
+
+    session.send(message)
+
+    assert extractor.calls == [(message, None)]
+
+
 def test_active_ambiguous_turn_uses_the_deterministic_pending_question(
     repository: ProcedureRepository,
 ) -> None:

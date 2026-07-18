@@ -16,6 +16,7 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
 import { getChatSessionContext } from "@/data/chat-scope";
 import { useProcedureWorkspace } from "@/components/workspace/ProcedureWorkspaceProvider";
+import { getChatValidationPresentation } from "@/lib/chat-presentation";
 
 import { SuggestionCard } from "./SuggestionCard";
 import { useChatSession } from "./useChatSession";
@@ -76,6 +77,13 @@ export function ChatWidget() {
       context.procedure_code &&
       session.context.procedure_code !== context.procedure_code,
   );
+  const validationPresentation = getChatValidationPresentation(turn);
+  const validationToneClass = {
+    danger: "border-[#efb4b4] bg-[#fff1f1] text-[#8b1e1e]",
+    incomplete: "border-[#f0c36a] bg-[#fff8df] text-[#704d09]",
+    success: "border-[#b9d8c4] bg-[#f1f8f3] text-[#28543a]",
+    warning: "border-[#b9cde5] bg-[#f2f7fc] text-[#24496f]",
+  }[validationPresentation?.tone ?? "warning"];
 
   return (
     <>
@@ -221,10 +229,11 @@ export function ChatWidget() {
               </details>
             ) : null}
 
-            {turn?.validation ? (
-              <div className="rounded-lg border border-[#b9d8c4] bg-[#f1f8f3] p-3 text-sm text-[#28543a]">
-                <p className="font-bold">Trạng thái: {turn.validation.status}</p>
-                {turn.validation.readiness_score !== null ? (
+            {turn?.validation && validationPresentation ? (
+              <div className={`rounded-lg border p-3 text-sm ${validationToneClass}`}>
+                <p className="font-bold">Trạng thái hồ sơ: {validationPresentation.label}</p>
+                {validationPresentation.showReadinessScore &&
+                turn.validation.readiness_score !== null ? (
                   <p className="mt-1">Mức độ sẵn sàng: {turn.validation.readiness_score}%</p>
                 ) : null}
                 {turn.validation.issues.length ? (
