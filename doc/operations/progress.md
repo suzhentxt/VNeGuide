@@ -465,3 +465,21 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
   `@emnapi/core@1.11.2` và `@emnapi/runtime@1.11.2` chưa được khóa bởi npm 11.6.2 local.
 - Regenerate `demoweb/package-lock.json` bằng đúng npm 11.16.0; clean install cùng phiên bản đạt,
   595 package và 0 vulnerability. Không đổi dependency trực tiếp hoặc application code.
+
+### 2026-07-19 — OpenAI local wiring, phương ngữ và xác nhận dịch vụ
+
+- Sửa composition root tự đọc `.env` bị Git ignore khi chạy local; process environment vẫn ghi đè,
+  nên Render tiếp tục dùng secret/config managed. Trước thay đổi, chạy API mà không đặt
+  `VNEGUIDE_LLM_ENV_FILE=.env` âm thầm rơi về provider `mock` dù key có trong file.
+- Provider-only live smoke bằng dữ liệu tổng hợp đạt
+  `MODEL_SMOKE_OK provider=openai model=gpt-4o-mini structured_output=true`. FastAPI local được khởi
+  động không truyền env-file và ba lượt transcript tổng hợp đều trả HTTP 200 qua model thật.
+- Glossary deterministic hiểu “Tui ưng mần tạm trú” thành “Tôi muốn đăng ký tạm trú”; dataset tăng
+  lên 16 fixture. Reference classifier raw `31.25%`, normalized `100%`, exact normalization `100%`,
+  protected preservation `100%`, unsafe inference `0`; đây vẫn là offline synthetic baseline.
+- Core không hỏi field ngay ở lượt vừa xác định procedure. Nó trả `confirmation_message` đã review,
+  giữ `suggestions=0`, rồi UI yêu cầu xác nhận trước khi mở trang chọn nơi nộp. Transcript “xin giấy
+  tờ thường trú” → “đăng ký thường trú” chọn `1.013314`, trả xác nhận Mẫu số 02 và không hỏi họ tên.
+- Gate đạt: Ruff lint/format, mypy strict; `309 passed`, `2 skipped`, coverage `80.61%`; frontend
+  ESLint/TypeScript, `22/22` unit test và Next production build 25 route đạt. In-app Browser không có
+  instance trong phiên; manual public click-through và GitHub browser E2E phải kiểm tra sau deploy.

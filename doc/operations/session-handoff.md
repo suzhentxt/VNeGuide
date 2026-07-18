@@ -275,3 +275,18 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
   bằng session mới rồi mới cập nhật evidence deployment.
 - GitHub runner hiện dùng npm 11.16.0; khi đổi Playwright/Next dependency phải regenerate và kiểm
   `npm ci` bằng cùng major/minor để tránh optional peer bị thiếu trong lockfile.
+
+## Bàn giao OpenAI + routing phương ngữ 2026-07-19
+
+- Local API giờ tự đọc `.env` nếu file tồn tại; không cần nhớ đặt
+  `VNEGUIDE_LLM_ENV_FILE=.env`. Environment của Render vẫn có ưu tiên cao hơn và `.env` không được
+  stage/commit.
+- Live provider smoke và FastAPI transcript đã chứng minh key gọi được OpenAI Responses API với
+  `gpt-4o-mini`. Grounded FAQ/small talk có thể bypass model theo thiết kế; intent và structured field
+  extraction vẫn gọi provider.
+- “Tui ưng mần tạm trú” route tới `1.004194`. “tôi muốn xin giấy tờ thường trú” được hỏi làm rõ;
+  lượt tiếp “tôi muốn đăng ký thường trú” route tới `1.013314` và chỉ trả xác nhận Mẫu số 02, chưa tạo
+  suggestion hoặc hỏi field.
+- Full Python gate đạt `309 passed`, `2 skipped`, coverage `80.61%`; npm gate đạt 22 test và build 25
+  route. Bước tiếp theo sau push là chờ CI xanh, chờ Render deploy đúng SHA rồi public smoke bằng
+  session mới; in-app Browser không khả dụng trong phiên này.

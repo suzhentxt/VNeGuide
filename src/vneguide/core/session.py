@@ -280,6 +280,18 @@ class ConversationSession:
         if current_code is None:
             pack = self._repository.get_by_code(code)
             draft = replace(draft, procedure_code=code, pack_version=pack.version)
+            self._state = replace(self._state, draft=draft)
+            confirmation = pack.routing.get("confirmation_message")
+            reply = (
+                confirmation
+                if isinstance(confirmation, str) and confirmation.strip()
+                else f"Bạn muốn thực hiện thủ tục “{pack.procedure_name}”, đúng không?"
+            )
+            return self._finish_turn(
+                message,
+                reply,
+                NextAction.ASK_CLARIFICATION,
+            )
 
         grounded_reply = self._compose_grounded_reply(code, message)
 

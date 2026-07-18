@@ -183,7 +183,10 @@ async def test_chat_api_accepts_a_pending_suggestion() -> None:
 
     app = create_app(session_factory=session_factory, repository=repository)
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
-        created = await client.post("/v1/chat/sessions", json={})
+        created = await client.post(
+            "/v1/chat/sessions",
+            json={"context": {"procedure_code": "2.000635"}},
+        )
         session_id = created.headers["X-VNeGuide-Session"]
         turn = (
             await client.post(
@@ -236,7 +239,10 @@ async def test_chat_api_presents_grounded_guidance_without_mutating_draft() -> N
 
     app = create_app(session_factory=session_factory, repository=repository)
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
-        created = await client.post("/v1/chat/sessions", json={})
+        created = await client.post(
+            "/v1/chat/sessions",
+            json={"context": {"procedure_code": "1.004194"}},
+        )
         session_id = created.headers["X-VNeGuide-Session"]
         turn = await client.post(
             f"/v1/chat/sessions/{session_id}/messages",

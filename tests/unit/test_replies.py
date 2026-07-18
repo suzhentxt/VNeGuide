@@ -503,6 +503,7 @@ def test_optional_composer_failure_falls_back_to_existing_flow(
         repository,
         reply_composer=composer,
     )
+    session.initialize_procedure("1.004194")
 
     result = session.send("Lệ phí bao nhiêu?")
 
@@ -519,7 +520,6 @@ def test_unsupported_classification_cannot_be_overridden_by_guidance(
         repository,
         reply_composer=CatalogReplyComposer(repository),
     )
-
     result = session.send("Lệ phí đăng ký kết hôn bao nhiêu?")
 
     assert result.next_action is NextAction.OUT_OF_SCOPE
@@ -539,6 +539,7 @@ def test_pending_suggestions_remain_the_priority_after_out_of_scope_turn(
         repository,
         reply_composer=CatalogReplyComposer(repository),
     )
+    session.initialize_procedure("2.000635")
     first = session.send("Tôi xin một bản")
 
     result = session.send("Phí đăng ký kết hôn bao nhiêu?")
@@ -620,6 +621,7 @@ def test_build_session_keeps_the_optional_reply_composer(
         repository,
         reply_composer=CatalogReplyComposer(repository),
     )
+    session.initialize_procedure("1.004194")
 
     assert session.send("Mất bao lâu?").next_action is NextAction.PRESENT_GUIDANCE
 

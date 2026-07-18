@@ -140,6 +140,7 @@ def test_short_answer_receives_compact_context(
         ),
     )
     session = ConversationSession(extractor, repository)
+    session.initialize_procedure(scenario.code)
 
     first = session.send(scenario.intro)
     result = session.send(scenario.short_answer)
@@ -147,7 +148,10 @@ def test_short_answer_receives_compact_context(
     assert first.next_action is NextAction.ASK_CLARIFICATION
     assert first.state.asked_question_ids == (scenario.question_id,)
     assert extractor.calls == [
-        (scenario.intro, None),
+        (
+            scenario.intro,
+            ExtractionTurnContext(scenario.code, scenario.expected_field),
+        ),
         (
             scenario.short_answer,
             ExtractionTurnContext(scenario.code, scenario.expected_field),
@@ -194,6 +198,7 @@ def test_ambiguous_turn_keeps_the_guided_field_available(
         ),
         repository,
     )
+    session.initialize_procedure(scenario.code)
 
     session.send(scenario.intro)
     result = session.send("Tôi chưa rõ.")
@@ -217,6 +222,7 @@ def test_supported_empty_follow_up_repeats_contextual_guidance(
 ) -> None:
     extractor = StubExtractor(outcome(scenario.code), outcome(scenario.code))
     session = ConversationSession(extractor, repository)
+    session.initialize_procedure(scenario.code)
 
     first = session.send(scenario.intro)
     result = session.send("Vâng, tiếp tục đi.")
@@ -243,6 +249,7 @@ def test_valid_other_field_becomes_suggestion_without_losing_expected_field(
         ),
     )
     session = ConversationSession(extractor, repository)
+    session.initialize_procedure(scenario.code)
 
     session.send(scenario.intro)
     result = session.send("Tôi bổ sung một thông tin khác trước.")
@@ -274,6 +281,7 @@ def test_confirmed_value_is_not_overwritten_by_later_extraction(
         ),
     )
     session = ConversationSession(extractor, repository)
+    session.initialize_procedure(scenario.code)
 
     proposed = session.send("Tôi cung cấp thông tin ban đầu.")
     confirmed = session.accept_suggestion(
@@ -338,6 +346,7 @@ def test_close_clears_conversation_memory_and_blocks_reuse(
     repository: ProcedureRepository,
 ) -> None:
     session = ConversationSession(StubExtractor(outcome("1.004194")), repository)
+    session.initialize_procedure("1.004194")
     session.send("Tôi muốn đăng ký tạm trú.")
     assert session.state.asked_question_ids == ("1.004194:registration_mode",)
 

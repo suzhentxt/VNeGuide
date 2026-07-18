@@ -25,6 +25,7 @@ ROOT = Path(__file__).resolve().parents[2]
     ("raw_text", "expected"),
     (
         ("tui muốn làm tạm chú", "tôi muốn đăng ký tạm trú"),
+        ("Tui ưng mần tạm trú", "Tôi muốn đăng ký tạm trú"),
         ("hộ khẩu photo có được hông", "bản sao sổ hộ khẩu có được không"),
         ("Chừ tôi nỏ biết ở mô", "Bây giờ tôi không biết ở đâu"),
         ("Tôi muốn xin bảo sao khai sanh", "Tôi muốn xin bản sao khai sinh"),
@@ -193,7 +194,7 @@ def test_conversation_shows_grounded_language_ambiguity_options() -> None:
     assert "Giấy xác nhận chỗ ở" in result.reply
 
 
-def test_reviewed_route_alias_uses_normalized_message() -> None:
+def test_reviewed_route_alias_uses_normalized_message_and_calls_provider() -> None:
     repository = ProcedureRepository.discover(ROOT)
     catalog = ExtractionCatalog.from_data_package(ROOT / "data")
     provider = MockLLMProvider(
@@ -209,7 +210,10 @@ def test_reviewed_route_alias_uses_normalized_message() -> None:
     )
     session = ConversationSession(StructuredExtractor(provider, catalog), repository)
 
-    result = session.send("tui muốn làm tạm chú")
+    result = session.send("Tui ưng mần tạm trú")
 
     assert result.state.draft.procedure_code is ProcedureCode.TEMPORARY_RESIDENCE_REGISTRATION
     assert result.next_action is NextAction.ASK_CLARIFICATION
+    assert "đúng không" in result.reply.lower()
+    assert provider.remaining == 0
+    assert len(provider.calls) == 1

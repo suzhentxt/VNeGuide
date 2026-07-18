@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from vneguide.core import CatalogReplyComposer
-from vneguide.core.factory import create_session
+from vneguide.core.factory import _llm_env_file, create_session
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -49,3 +49,27 @@ def test_factory_rejects_unknown_chat_core_variant(
 
     with pytest.raises(ValueError, match="baseline or guided"):
         create_session()
+
+
+def test_factory_discovers_ignored_local_env_file(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("VNEGUIDE_LLM_ENV_FILE", raising=False)
+
+    assert _llm_env_file() is None
+    (tmp_path / ".env").write_text("VNEGUIDE_LLM_PROVIDER=mock\n", encoding="utf-8")
+
+    assert _llm_env_file() == Path(".env")
+
+
+def test_factory_explicit_env_file_wins_over_local_default(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / ".env").write_text("VNEGUIDE_LLM_PROVIDER=mock\n", encoding="utf-8")
+    monkeypatch.setenv("VNEGUIDE_LLM_ENV_FILE", "/run/secrets/vneguide.env")
+
+    assert _llm_env_file() == "/run/secrets/vneguide.env"

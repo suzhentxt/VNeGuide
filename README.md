@@ -9,7 +9,7 @@
 VNeGuide là AI copilot chạy song song với biểu mẫu dịch vụ công. Sản phẩm giúp người dân đi từ câu
 nói đời thường đến đúng dịch vụ, hiểu từng trường cần điền, nhận đề xuất có bằng chứng và hoàn thiện
 bản nháp mà vẫn giữ toàn bộ quyền quyết định. Điểm khác biệt quan trọng là hệ thống có lớp **chuẩn
-hóa phương ngữ tiếng Việt và lỗi nhận dạng giọng nói**: các cách nói như “tui muốn làm tạm chú” được
+hóa phương ngữ tiếng Việt và lỗi nhận dạng giọng nói**: các cách nói như “tui ưng mần tạm trú” được
 hiểu là “tôi muốn đăng ký tạm trú”, nhưng họ tên, CCCD, ngày sinh, địa chỉ, số điện thoại và mã hồ sơ
 được bảo vệ để không bị sửa sai trong quá trình chuẩn hóa.
 
@@ -81,8 +81,8 @@ Audit khoảng trống và mức độ phủ evidence hiện tại được khó
 
 ### Kịch bản chấm nhanh trong 5 phút
 
-1. Mở [demo công khai](https://vneguide.vercel.app), bấm biểu tượng trợ lý và nhập “Tui muốn làm tạm
-   chú”. Kiểm tra hệ thống hiểu phương ngữ/lỗi ASR thành nhu cầu đăng ký tạm trú, sau đó xác nhận đúng
+1. Mở [demo công khai](https://vneguide.vercel.app), bấm biểu tượng trợ lý và nhập “Tui ưng mần tạm
+   trú”. Kiểm tra hệ thống hiểu phương ngữ/lỗi ASR thành nhu cầu đăng ký tạm trú, sau đó xác nhận đúng
    dịch vụ trước khi VNeGuide điều hướng sang trang thủ tục.
 2. Chọn nơi tiếp nhận, mở luồng nộp hồ sơ và bấm **Nhờ trợ giúp** ở một bước. Prompt hướng dẫn được
    gửi ẩn; người dùng vẫn thấy câu trả lời và lựa chọn phù hợp với trường hiện tại.
@@ -147,7 +147,7 @@ smoke toàn tuyến trước khi deploy.
 | Dependency | `npm audit --audit-level=moderate` không có vulnerability ở lần release | Xem [release evidence](doc/operations/release-evidence.md) |
 | Data contract | 44 field: tạm trú 15, nhà ở 16, bản sao khai sinh 13 | `jq 'group_by(.procedure_code)' data/catalog/field_catalog.json` |
 | Rule contract | 27 rule: tạm trú 10, nhà ở 8, bản sao khai sinh 9 | `jq 'group_by(.procedure_code)' data/catalog/validation_rules.json` |
-| Evaluation data | 73 ca JSONL tổng hợp, gồm 15 ca phương ngữ/ASR/protected span | [`data/evaluation/`](data/evaluation/), [`tests/evals/`](tests/evals/) |
+| Evaluation data | 74 ca JSONL tổng hợp, gồm 16 ca phương ngữ/ASR/protected span | [`data/evaluation/`](data/evaluation/), [`tests/evals/`](tests/evals/) |
 | CI | Python, web, container smoke và Vercel đều pass trên PR release | [progress 2026-07-19](doc/operations/progress.md) |
 | Public E2E | Tạo session `201`; message qua Vercel → Render → OpenAI `200` | [release evidence](doc/operations/release-evidence.md) |
 
@@ -205,7 +205,7 @@ flowchart LR
 
 | Raw input tổng hợp | Kết quả mong đợi | Kiểm soát an toàn |
 | --- | --- | --- |
-| “tui muốn làm tạm chú” | “tôi muốn đăng ký tạm trú” | Chỉ chuẩn hóa intent, chưa tự chọn/điền field nếu người dùng chưa xác nhận. |
+| “tui ưng mần tạm trú” | “tôi muốn đăng ký tạm trú” | Chỉ chuẩn hóa intent, chưa tự chọn/điền field nếu người dùng chưa xác nhận. |
 | “hộ khẩu photo có được hông” | “bản sao sổ hộ khẩu có được không” | Dùng cho hiểu câu hỏi; fact trả lời vẫn phải đến từ source/rule đã review. |
 | “tui tên Nguyễn Thị Bảy” | Giữ nguyên “Nguyễn Thị Bảy” | Họ tên là protected span; không đổi “Bảy” thành số hoặc từ khác. |
 | “Tôi cần giấy nhà” | Không tự đoán | Trả lựa chọn “Giấy chứng nhận quyền sử dụng đất / Giấy xác nhận chỗ ở / Khác”. |
@@ -216,8 +216,8 @@ bước làm rõ. Sau extraction, mỗi evidence span trên câu normalized đư
 giải thích được dữ liệu lấy từ câu nào của người dùng. Production không log raw/normalized text vì
 chúng có thể chứa PII.
 
-Evaluation phương ngữ hiện có 15 fixture tổng hợp Bắc/Trung/Nam, lỗi ASR và ambiguity. Reference
-classifier đạt intent accuracy raw `33,33%` và sau normalization `100%`; exact normalization `100%`,
+Evaluation phương ngữ hiện có 16 fixture tổng hợp Bắc/Trung/Nam, lỗi ASR và ambiguity. Reference
+classifier đạt intent accuracy raw `31,25%` và sau normalization `100%`; exact normalization `100%`,
 protected-span preservation `100%`, unsafe inference `0`. Đây là **offline synthetic baseline**, không
 phải kết quả người dùng thật hoặc cam kết accuracy production. Lệnh kiểm tra:
 
@@ -225,6 +225,23 @@ phải kết quả người dùng thật hoặc cam kết accuracy production. L
 python -m pytest tests/evals/test_dialect_normalization.py \
   tests/unit/test_language_normalizer.py
 ```
+
+### Xác minh chatbot thực sự gọi OpenAI
+
+Khi chạy local, factory tự đọc file `.env` đã được Git ignore nếu file tồn tại; biến môi trường của
+process vẫn có độ ưu tiên cao hơn để Render/Vercel không bị cấu hình local ghi đè. Vì vậy lệnh chạy
+API thông thường không còn âm thầm rơi về `mock` chỉ vì thiếu `VNEGUIDE_LLM_ENV_FILE=.env`.
+
+Kiểm tra trực tiếp provider bằng một request tổng hợp, không chứa PII:
+
+```bash
+python -m vneguide.ai.smoke --env-file .env --confirm-live
+# MODEL_SMOKE_OK provider=openai model=gpt-4o-mini structured_output=true
+```
+
+Các lượt xác định dịch vụ và trích xuất field gọi provider qua OpenAI Responses API. Chào hỏi, câu
+hỏi phí/thời hạn/checklist đã khớp catalog và validation deterministic có thể không gọi model theo
+thiết kế; điều này giảm chi phí và không phải dấu hiệu API key bị bỏ qua.
 
 ### Phân chia quyết định giữa AI và code
 

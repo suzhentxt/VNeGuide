@@ -27,7 +27,7 @@ def test_dialect_dataset_meets_safety_and_accuracy_gates() -> None:
 
     metrics = evaluate_normalizer(LanguageNormalizer(), samples, _fixed_intent_classifier)
 
-    assert metrics.sample_count == 15
+    assert metrics.sample_count == 16
     assert metrics.exact_normalization_rate == 1.0
     assert metrics.intent_accuracy_non_decreasing
     assert metrics.normalized_intent_accuracy == 1.0

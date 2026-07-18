@@ -64,6 +64,7 @@ def test_fields_remain_pending_until_accept_and_edit(repository: ProcedureReposi
         )
     )
     session = ConversationSession(extractor, repository)
+    session.initialize_procedure("2.000635")
     result = session.send("Tôi xin 2 bản trực tuyến")
 
     assert result.next_action is NextAction.CONFIRM_SUGGESTION
@@ -113,6 +114,7 @@ def test_reject_does_not_change_draft_and_caps_retries(
     session = ConversationSession(
         StubExtractor(outcome(fields={"copies_requested": 1})), repository
     )
+    session.initialize_procedure("2.000635")
     result = session.send("Một bản")
     rejected = session.reject_suggestion(
         result.suggestions[0].suggestion_id,
@@ -133,6 +135,7 @@ def test_uncertain_birth_request_keeps_safe_plain_language_choices(
         ),
         repository,
     )
+    session.initialize_procedure("2.000635")
     initial = session.send("Xin một bản")
     session.accept_suggestion(
         initial.suggestions[0].suggestion_id,
@@ -167,6 +170,7 @@ def test_confirmed_field_is_never_overwritten(repository: ProcedureRepository) -
         ),
         repository,
     )
+    session.initialize_procedure("2.000635")
     first = session.send("Một bản")
     session.accept_suggestion(first.suggestions[0].suggestion_id, expected_revision=0)
     conflict = session.send("Đổi thành ba bản")
@@ -256,6 +260,7 @@ def test_reject_increments_revision_and_rebases_other_pending_suggestions(
         ),
         repository,
     )
+    session.initialize_procedure("2.000635")
     turn = session.send("Tôi xin 2 bản trực tuyến")
     rejected_id = turn.suggestions[0].suggestion_id
 
@@ -345,7 +350,7 @@ def test_active_procedure_context_survives_an_unsupported_turn(
     continued = session.send("Tôi đăng ký trực tuyến")
 
     assert initial.next_action is NextAction.ASK_CLARIFICATION
-    assert "hình thức đăng ký" in initial.reply.lower()
+    assert "đúng không" in initial.reply.lower()
     assert extractor.calls[0][1] is None
     for _, context in extractor.calls[1:]:
         assert context is not None
@@ -518,6 +523,31 @@ def test_permanent_residence_shorthand_keeps_housing_confirmation_context(
     assert "Bạn cần hỗ trợ đăng ký tạm trú" not in clarified.reply
     assert "ngoài ba thủ tục" not in first.reply.lower()
     assert "ngoài ba thủ tục" not in clarified.reply.lower()
+
+
+def test_permanent_residence_clarification_confirms_service_before_asking_fields(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor(
+        outcome(classification="ambiguous", procedure_code=None),
+        outcome(classification="ambiguous", procedure_code=None),
+    )
+    session = ConversationSession(extractor, repository)
+
+    unclear = session.send("tôi muốn xin giấy tờ thường trú")
+    selected = session.send("tôi muốn đăng ký thường trú")
+
+    assert unclear.state.draft.procedure_code is None
+    assert "đăng ký tạm trú" in unclear.reply
+    assert selected.state.draft.procedure_code is ProcedureCode.HOUSING_CONDITION_CONFIRMATION
+    assert selected.next_action is NextAction.ASK_CLARIFICATION
+    assert "xác nhận Mẫu số 02" in selected.reply
+    assert "Họ tên người đề nghị" not in selected.reply
+    assert selected.suggestions == ()
+    assert extractor.calls == [
+        ("tôi muốn xin giấy tờ thường trú", None),
+        ("tôi muốn đăng ký thường trú", None),
+    ]
 
 
 def test_birth_copy_confirmation_never_falls_out_of_scope_after_ambiguous_turn(
