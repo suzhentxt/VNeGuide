@@ -41,6 +41,7 @@ class ChatSession(Protocol):
         value: JSONValue,
         *,
         expected_revision: int,
+        user_message: str | None = None,
     ) -> TurnResult: ...
 
     def close(self) -> None: ...

@@ -367,6 +367,7 @@ class ConversationSession:
         value: JSONValue,
         *,
         expected_revision: int,
+        user_message: str | None = None,
     ) -> TurnResult:
         """Apply a validated manual form edit as confirmed and user-owned data."""
 
@@ -405,7 +406,11 @@ class ConversationSession:
             clarification_attempts=attempts,
         )
         label = self._field_label(code, field_id)
-        return self._result_after_action(f"Dạ, em đã cập nhật mục {label} từ biểu mẫu.")
+        prefix = f"Dạ, em đã cập nhật mục {label} từ biểu mẫu."
+        if user_message is None:
+            return self._result_after_action(prefix)
+        reply, action = self._reply_after_action(prefix)
+        return self._finish_turn(user_message, reply, action)
 
     def close(self) -> None:
         self._state = ConversationState()
@@ -461,17 +466,21 @@ class ConversationSession:
         return self._result_after_action(f"Dạ, em {verb} mục {label}.")
 
     def _result_after_action(self, prefix: str) -> TurnResult:
+        reply, action = self._reply_after_action(prefix)
+        return self._finish_action(reply, action)
+
+    def _reply_after_action(self, prefix: str) -> tuple[str, NextAction]:
         code = self._state.draft.procedure_code
         if code is None:
             raise RuntimeError("Conversation has no active procedure")
         pending = self._pending()
         if pending:
-            return self._finish_action(
+            return (
                 f"{prefix} Anh/chị còn {len(pending)} đề xuất cần kiểm tra ạ.",
                 NextAction.CONFIRM_SUGGESTION,
             )
         reply, action = self._next_prompt(code)
-        return self._finish_action(f"{prefix} {reply}", action)
+        return f"{prefix} {reply}", action
 
     def _next_prompt(
         self,

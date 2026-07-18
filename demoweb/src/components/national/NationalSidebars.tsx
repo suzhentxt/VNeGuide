@@ -14,6 +14,7 @@ import { marriageRoutes, popularProcedures } from "@/data/marriage";
 interface AgencySidebarProps {
   actionLabel?: "Đồng ý" | "Nộp hồ sơ";
   actionHref?: string;
+  serviceId?: string;
 }
 
 type Jurisdiction = "province" | "ministry";
@@ -25,6 +26,7 @@ const LOCAL_OPTIONS_TIMEOUT_MS = 12_000;
 export function AgencySidebar({
   actionLabel = "Đồng ý",
   actionHref = marriageRoutes.apply,
+  serviceId,
 }: AgencySidebarProps) {
   const [jurisdiction, setJurisdiction] =
     useState<Jurisdiction>("province");
@@ -98,6 +100,14 @@ export function AgencySidebar({
 
   const jurisdictionOptions =
     jurisdiction === "province" ? provinceOptions : ministryOptions;
+  const jurisdictionLabel = jurisdictionOptions.find(
+    (option) => option.id === jurisdictionValue,
+  )?.label;
+  const localAuthorityLabel = localOptions.find(
+    (option) => option.id === localAuthorityValue,
+  )?.label;
+  const receptionUnit =
+    jurisdiction === "province" ? localAuthorityLabel : jurisdictionLabel;
 
   return (
     <aside
@@ -111,6 +121,10 @@ export function AgencySidebar({
         Chọn cơ quan thực hiện
       </h2>
       <form action={actionHref} className="space-y-4 p-4" method="get">
+        {serviceId ? <input name="service" type="hidden" value={serviceId} /> : null}
+        <input name="confirmed" type="hidden" value="1" />
+        <input name="province" type="hidden" value={jurisdictionLabel ?? ""} />
+        <input name="receptionUnit" type="hidden" value={receptionUnit ?? ""} />
         <fieldset>
           <legend className="sr-only">Cấp cơ quan thực hiện</legend>
           <div className="flex flex-wrap gap-x-6 gap-y-3">
@@ -228,6 +242,7 @@ export function AgencySidebar({
                   aria-hidden="true"
                 />
                 <select
+                  required
                   value={localAuthorityValue}
                   name="co-quan"
                   aria-busy={localOptionsStatus === "loading"}
@@ -286,7 +301,8 @@ export function AgencySidebar({
 
         <button
           type="submit"
-          className="flex h-11 w-full cursor-pointer items-center justify-center rounded bg-[#ce7a58] px-4 font-semibold text-white shadow-sm hover:bg-[#b96749] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#903938]"
+          disabled={!jurisdictionValue || (jurisdiction === "province" && !localAuthorityValue)}
+          className="flex h-11 w-full cursor-pointer items-center justify-center rounded bg-[#ce7a58] px-4 font-semibold text-white shadow-sm hover:bg-[#b96749] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#903938] disabled:cursor-not-allowed disabled:bg-[#c4c8ce]"
         >
           {actionLabel}
         </button>

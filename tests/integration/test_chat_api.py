@@ -73,6 +73,7 @@ class FakeChatSession:
         _value: JSONValue,
         *,
         expected_revision: int,
+        user_message: str | None = None,
     ) -> TurnResult:
         raise ValueError("no suggestion")
 

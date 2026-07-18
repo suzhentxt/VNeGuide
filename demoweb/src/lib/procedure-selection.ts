@@ -44,6 +44,12 @@ export function getSelectedReceptionUnit(
   return receptionUnits.find((unit) => unit === receptionUnit);
 }
 
+export function getReceptionUnitLabel(value: SearchParamValue): string | undefined {
+  const label = getSingleSearchParam(value)?.trim();
+  if (!label || label.length > 200 || /[\u0000-\u001f\u007f]/.test(label)) return undefined;
+  return label;
+}
+
 export function withProcedureSelection(
   route: string,
   selection: ProcedureSelection,
