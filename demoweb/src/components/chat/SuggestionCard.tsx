@@ -72,11 +72,11 @@ export function SuggestionCard({
       </div>
 
       {editing ? (
-        <textarea
-          aria-label={`Sửa ${suggestion.label}`}
-          className="mt-3 min-h-20 w-full resize-y rounded-md border border-[#c9cdcf] bg-white px-3 py-2 text-sm focus:border-[#ce7a58] focus:outline-none focus:ring-2 focus:ring-[#ce7a58]/25"
+        <SuggestionEditor
           disabled={disabled}
-          onChange={(event) => setValue(event.target.value)}
+          label={suggestion.label}
+          onChange={setValue}
+          originalValue={suggestion.suggested_value}
           value={value}
         />
       ) : (
@@ -159,5 +159,89 @@ export function SuggestionCard({
         </div>
       ) : null}
     </article>
+  );
+}
+
+interface SuggestionEditorProps {
+  disabled: boolean;
+  label: string;
+  onChange: (value: string) => void;
+  originalValue: JsonValue;
+  value: string;
+}
+
+function SuggestionEditor({
+  disabled,
+  label,
+  onChange,
+  originalValue,
+  value,
+}: SuggestionEditorProps) {
+  const isBoolean = typeof originalValue === "boolean";
+  const isNumber = typeof originalValue === "number";
+  const isObject = typeof originalValue === "object" && originalValue !== null;
+  const isLongText = !isBoolean && !isNumber && !isObject && value.length > 60;
+
+  if (isBoolean) {
+    return (
+      <div className="mt-3 flex gap-2">
+        {[
+          { label: "Có", val: "true" },
+          { label: "Không", val: "false" },
+        ].map((opt) => (
+          <button
+            aria-pressed={value.toLowerCase() === opt.val}
+            className={`inline-flex min-h-10 flex-1 items-center justify-center rounded-md border-2 px-3 text-sm font-bold transition-colors disabled:opacity-50 ${
+              value.toLowerCase() === opt.val
+                ? "border-[#903938] bg-[#903938] text-white"
+                : "border-[#ce7a58] bg-white text-[#762b2b] hover:bg-[#fff4ef]"
+            }`}
+            disabled={disabled}
+            key={opt.val}
+            onClick={() => onChange(opt.val)}
+            type="button"
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
+    );
+  }
+
+  if (isNumber) {
+    return (
+      <input
+        aria-label={`Sửa ${label}`}
+        className="mt-3 min-h-10 w-full rounded-md border border-[#c9cdcf] bg-white px-3 py-2 text-sm focus:border-[#ce7a58] focus:outline-none focus:ring-2 focus:ring-[#ce7a58]/25"
+        disabled={disabled}
+        inputMode="decimal"
+        onChange={(event) => onChange(event.target.value)}
+        type="number"
+        value={value}
+      />
+    );
+  }
+
+  if (isLongText || isObject) {
+    return (
+      <textarea
+        aria-label={`Sửa ${label}`}
+        className="mt-3 min-h-20 w-full resize-y rounded-md border border-[#c9cdcf] bg-white px-3 py-2 text-sm focus:border-[#ce7a58] focus:outline-none focus:ring-2 focus:ring-[#ce7a58]/25"
+        disabled={disabled}
+        onChange={(event) => onChange(event.target.value)}
+        value={value}
+      />
+    );
+  }
+
+  return (
+    <input
+      aria-label={`Sửa ${label}`}
+      className="mt-3 min-h-10 w-full rounded-md border border-[#c9cdcf] bg-white px-3 py-2 text-sm focus:border-[#ce7a58] focus:outline-none focus:ring-2 focus:ring-[#ce7a58]/25"
+      disabled={disabled}
+      onChange={(event) => onChange(event.target.value)}
+      type="text"
+      value={value}
+    />
   );
 }

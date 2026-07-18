@@ -43,6 +43,11 @@ function errorMessage(error: unknown, fallback: string) {
   return error instanceof Error ? error.message : fallback;
 }
 
+function stampMessages(messages: ChatMessage[]): ChatMessage[] {
+  const now = new Date().toISOString();
+  return messages.map((message) => (message.created_at ? message : { ...message, created_at: now }));
+}
+
 export function useChatSession(context: ChatSessionContext) {
   const [session, setSession] = useState<ChatSession | null>(null);
   const [turn, setTurn] = useState<ChatTurn | null>(null);
@@ -52,6 +57,7 @@ export function useChatSession(context: ChatSessionContext) {
   const initializing = useRef<Promise<void> | null>(null);
   const latestMessageRequest = useRef<string | null>(null);
   const hiddenMessages = useRef(new Set<string>());
+  const [lastUserMessage, setLastUserMessage] = useState<string | null>(null);
   const workspace = useProcedureWorkspace();
 
   const applySession = useCallback(
@@ -60,8 +66,10 @@ export function useChatSession(context: ChatSessionContext) {
       if (nextSession.turn && workspace.applyTurn(nextSession.turn)) {
         setTurn(nextSession.turn);
         setMessages(
-          nextSession.turn.messages.filter(
-            (message) => message.role !== "user" || !hiddenMessages.current.has(message.content),
+          stampMessages(
+            nextSession.turn.messages.filter(
+              (message) => message.role !== "user" || !hiddenMessages.current.has(message.content),
+            ),
           ),
         );
       } else if (!nextSession.turn) {
@@ -118,11 +126,15 @@ export function useChatSession(context: ChatSessionContext) {
       const requestId = crypto.randomUUID();
       let expectedRevision = workspace.state.revision;
       latestMessageRequest.current = requestId;
+      setLastUserMessage(normalized);
       if (options.hidden) hiddenMessages.current.add(normalized);
       setBusy(true);
       setError(null);
       if (!options.hidden) {
-        setMessages((current) => [...current, { role: "user", content: normalized }]);
+        setMessages((current) => [
+          ...current,
+          { role: "user", content: normalized, created_at: new Date().toISOString() },
+        ]);
       }
       try {
         const payload = JSON.stringify({ message: normalized, client_turn_id: requestId });
@@ -148,8 +160,10 @@ export function useChatSession(context: ChatSessionContext) {
         }
         setTurn(nextTurn);
         setMessages(
-          nextTurn.messages.filter(
-            (item) => item.role !== "user" || !hiddenMessages.current.has(item.content),
+          stampMessages(
+            nextTurn.messages.filter(
+              (item) => item.role !== "user" || !hiddenMessages.current.has(item.content),
+            ),
           ),
         );
       } catch (requestError) {
@@ -181,8 +195,10 @@ export function useChatSession(context: ChatSessionContext) {
         if (!nextTurn) return;
         setTurn(nextTurn);
         setMessages(
-          nextTurn.messages.filter(
-            (item) => item.role !== "user" || !hiddenMessages.current.has(item.content),
+          stampMessages(
+            nextTurn.messages.filter(
+              (item) => item.role !== "user" || !hiddenMessages.current.has(item.content),
+            ),
           ),
         );
       } finally {
@@ -219,7 +235,7 @@ export function useChatSession(context: ChatSessionContext) {
         const nextTurn = await readJson<ChatTurn>(response);
         workspace.applySuggestion(suggestion, action, nextTurn, value);
         setTurn(nextTurn);
-        setMessages(nextTurn.messages);
+        setMessages(stampMessages(nextTurn.messages));
       } catch (requestError) {
         if (requestError instanceof ChatRequestError && requestError.status === 409) {
           workspace.markStale();
@@ -238,6 +254,7 @@ export function useChatSession(context: ChatSessionContext) {
     setError(null);
     latestMessageRequest.current = null;
     hiddenMessages.current.clear();
+    setLastUserMessage(null);
     try {
       await fetch("/api/chat/session", { method: "DELETE" });
       workspace.resetWorkspace();
@@ -252,17 +269,24 @@ export function useChatSession(context: ChatSessionContext) {
     }
   }, [createSession, workspace]);
 
+  const retryLastMessage = useCallback(() => {
+    if (!lastUserMessage || busy) return;
+    void sendMessage(lastUserMessage);
+  }, [busy, lastUserMessage, sendMessage]);
+
   return {
     session,
     turn,
     messages,
     error,
     busy,
+    lastUserMessage,
     ensureSession,
     sendMessage,
     sendHiddenMessage,
     chooseFieldValue,
     resolveSuggestion,
     resetSession,
+    retryLastMessage,
   };
 }

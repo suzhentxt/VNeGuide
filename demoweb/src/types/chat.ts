@@ -15,6 +15,7 @@ export interface ChatSessionContext {
 export interface ChatMessage {
   role: "user" | "assistant" | "system";
   content: string;
+  created_at?: string;
 }
 
 export interface ChatSuggestion {
@@ -60,13 +61,15 @@ export interface ChatTurn {
       source_ids: string[];
     }>;
   } | null;
-  sources: Array<{
-    id: string;
-    title: string;
-    publisher: string;
-    url: string;
-    verified_at: string;
-  }>;
+  sources: ChatSource[];
+}
+
+export interface ChatSource {
+  id: string;
+  title: string;
+  publisher: string;
+  url: string;
+  verified_at: string;
 }
 
 export interface ChatSession {

@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { ProcedureWorkspaceProvider } from "@/components/workspace/ProcedureWorkspaceProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
 
@@ -99,6 +100,7 @@ export default function RootLayout({
         <ProcedureWorkspaceProvider>
           {children}
           <ChatWidget />
+          <Toaster />
         </ProcedureWorkspaceProvider>
       </body>
     </html>
