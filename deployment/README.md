@@ -78,30 +78,127 @@ GPU endpoint phải dùng HTTPS hợp lệ trong production. Tạo secret thành
 `10001` là user không đặc quyền của web container. Không đưa key vào YAML, `.env`, biến
 `NEXT_PUBLIC_*`, image hoặc command line:
 
-Các lệnh dưới đây dành cho VPS hiện tại. Overlay `docker-compose.vps.yml` và env file dùng chung là
-bắt buộc để giữ port `9000/13000/18000`, data mount và dịch vụ translator đang chạy; khi deploy sang
-máy khác, thay chúng bằng overlay/secret manager tương ứng của môi trường đó.
+Các lệnh dưới đây dành cho VPS hiện tại. Overlay tracked `docker-compose.vps.yml` khóa API/web/gateway
+lần lượt ở `127.0.0.1:18000`, `127.0.0.1:13000` và `0.0.0.0:9000`, đồng thời giữ data mount chỉ đọc
+và shared Nginx config. Luôn ghép Compose theo đúng thứ tự `base -> VPS -> STT`; không chạy riêng base
+Compose vì port `8000` đang thuộc translator.
+
+Giữ cấu hình STT không bí mật trong một env file riêng, root-owned. Việc tách file này khỏi
+`vneguide.env` giúp rollback chắc chắn đưa `VNEGUIDE_STT_ENABLED` về mặc định `0`:
+
+```bash
+sudo install -o root -g root -m 0600 /dev/null /opt/vneguide/shared/stt.env
+sudoedit /opt/vneguide/shared/stt.env
+```
+
+Nội dung `/opt/vneguide/shared/stt.env`:
+
+```dotenv
+VNEGUIDE_STT_ENABLED=1
+VNEGUIDE_STT_BASE_URL=https://stt-gpu.example/v1
+VNEGUIDE_STT_MODEL=Qwen/Qwen3-ASR-1.7B
+VNEGUIDE_STT_LANGUAGE=
+VNEGUIDE_STT_API_KEY_SOURCE=/opt/vneguide/shared/stt_api_key
+VNEGUIDE_STT_ALLOW_INSECURE_HTTP=0
+VNEGUIDE_STT_TIMEOUT_SECONDS=180
+VNEGUIDE_STT_MAX_BYTES=10485760
+VNEGUIDE_STT_MAX_DURATION_SECONDS=60
+```
+
+Với OpenAI transcription, thay ba dòng provider bằng cấu hình sau; `vi` là mã ISO-639-1 và được gửi
+server-side để giảm độ trễ/nhầm ngôn ngữ:
+
+```dotenv
+VNEGUIDE_STT_BASE_URL=https://api.openai.com/v1
+VNEGUIDE_STT_MODEL=gpt-4o-mini-transcribe
+VNEGUIDE_STT_LANGUAGE=vi
+```
+
+API key nằm trong file riêng, không nằm trong `stt.env`. Giữ owner số `10001` vì Compose file-secret
+được bind vào container chạy bằng UID đó:
 
 ```bash
 sudo install -o 10001 -g 10001 -m 0400 /dev/null /opt/vneguide/shared/stt_api_key
 sudoedit /opt/vneguide/shared/stt_api_key
-
-export VNEGUIDE_STT_BASE_URL='https://stt-gpu.example/v1'
-export VNEGUIDE_STT_API_KEY_SOURCE='/opt/vneguide/shared/stt_api_key'
-export VNEGUIDE_STT_MODEL='Qwen/Qwen3-ASR-1.7B'
-docker compose \
-  --env-file /opt/vneguide/shared/vneguide.env \
-  -f deployment/docker-compose.yml \
-  -f deployment/docker-compose.vps.yml \
-  -f deployment/docker-compose.stt-remote.yml \
-  config --quiet
-docker compose \
-  --env-file /opt/vneguide/shared/vneguide.env \
-  -f deployment/docker-compose.yml \
-  -f deployment/docker-compose.vps.yml \
-  -f deployment/docker-compose.stt-remote.yml \
-  up --build --detach --wait
+sudo stat -c '%n mode=%a uid=%u gid=%g size=%s' /opt/vneguide/shared/stt_api_key
+sudo test -s /opt/vneguide/shared/stt_api_key
 ```
+
+### Preflight và kích hoạt trên VPS hiện tại
+
+Chạy từ release mà symlink `current` đang trỏ tới. Dùng `sudo docker compose` vì user vận hành không
+có quyền trực tiếp với Docker socket:
+
+```bash
+cd "$(readlink -f /opt/vneguide/current)"
+
+COMPOSE=(
+  sudo docker compose
+  --env-file /opt/vneguide/shared/vneguide.env
+  --env-file /opt/vneguide/shared/stt.env
+  -f deployment/docker-compose.yml
+  -f deployment/docker-compose.vps.yml
+  -f deployment/docker-compose.stt-remote.yml
+)
+
+"${COMPOSE[@]}" config --quiet
+sudo docker exec vneguide-gateway-1 nginx -t
+sudo ss -ltnp | grep -E ':(8000|9000|13000|18000)([[:space:]]|$)'
+curl -fsS http://127.0.0.1:9000/health
+
+TRANSLATOR_ID_BEFORE="$(
+  sudo docker inspect -f '{{.Id}}' vn-en-translator-translator-1
+)"
+CADDY_ID_BEFORE="$(
+  sudo docker inspect -f '{{.Id}}' vn-en-translator-caddy-1
+)"
+```
+
+App-side STT đã nằm trong web image của release này. Chỉ recreate `web`; không build lại, không kéo
+theo dependency và không chạy `down`/`remove-orphans`:
+
+```bash
+"${COMPOSE[@]}" up \
+  --detach \
+  --no-deps \
+  --no-build \
+  --force-recreate \
+  --wait \
+  --wait-timeout 200 \
+  web
+
+curl -fsS http://127.0.0.1:9000/health
+curl -fsS http://127.0.0.1:9000/api/stt/transcribe
+test "$TRANSLATOR_ID_BEFORE" = "$(
+  sudo docker inspect -f '{{.Id}}' vn-en-translator-translator-1
+)"
+test "$CADDY_ID_BEFORE" = "$(
+  sudo docker inspect -f '{{.Id}}' vn-en-translator-caddy-1
+)"
+```
+
+Status STT phải đổi thành `enabled=true`; hai phép `test` cuối phải thoát `0`, chứng minh translator và
+Caddy không bị recreate. Sau đó chỉ dùng audio tiếng Việt tổng hợp, không PII, để thử transcription.
+
+### Demo microphone riêng qua SSH tunnel
+
+Khi chưa có domain HTTPS, chạy lệnh sau trên máy người kiểm thử rồi mở `http://localhost:19000`.
+`localhost` là secure context được browser cho phép dùng microphone; không cần mở port `9000` ở cloud
+firewall cho máy người kiểm thử:
+
+```bash
+ssh -N \
+  -p 22 \
+  -i <private-key> \
+  -L 19000:127.0.0.1:9000 \
+  aiadmin@85.211.245.209
+```
+
+Caddy của translator hiện giữ port `80/443` và dùng TLS nội bộ cho địa chỉ IP. Không sửa/recreate
+Caddy, không bind thêm service vào `443`, và không trỏ VNeGuide qua Caddy cho tới khi có hostname mới,
+DNS/certificate hợp lệ cùng kế hoạch edge-network/trusted-proxy rõ ràng. Khi có kế hoạch đó, phải giữ
+route translator hiện tại và kiểm tra lại `X-Forwarded-Proto`, secure cookie, real client IP và rate
+limit ở edge.
 
 `VNEGUIDE_STT_ALLOW_INSECURE_HTTP=0` là mặc định. Chỉ đặt thành `1` khi endpoint HTTP nằm trên mạng
 dev cô lập, dùng audio tổng hợp và chấp nhận rủi ro nghe lén. Microphone của trình duyệt cũng chỉ hoạt
@@ -117,28 +214,43 @@ Kiểm tra sau khi bật:
 1. `/health` và chat văn bản vẫn đạt khi GPU endpoint bị tắt hoặc timeout.
 2. `GET /api/stt/transcribe` báo STT đã bật nhưng không làm lộ base URL hoặc key.
 3. Một audio tiếng Việt ngắn trả transcript vào ô nhập; transcript không được tự gửi.
-4. File quá 10 MiB, audio quá 60 giây và MIME không hỗ trợ bị từ chối có kiểm soát.
+4. File quá 10 MiB, audio quá 60 giây, media không đọc được và MIME không hỗ trợ bị từ chối có kiểm
+   soát; thời lượng phải được đo từ chính media thay vì tin header của browser.
 5. Secret không xuất hiện trong `docker compose config`, `docker inspect`, log hoặc browser bundle.
-6. GPU ingress tự đo thời lượng thật, chặn audio trên 60 giây và áp quota/concurrency trước inference.
+6. BFF tự đo thời lượng thật trước khi gọi provider; GPU ingress tự quản lý quota/concurrency trước
+   inference nếu dùng provider tự host.
 
 Nếu HTTPS được đặt trước gateway bằng Caddy/reverse proxy, phải áp rate limit tại proxy đó hoặc cấu
 hình `real_ip` chỉ tin đúng địa chỉ proxy nội bộ. Không tin `X-Forwarded-For` trực tiếp từ Internet;
 nếu không, mọi người dùng có thể bị gom vào một IP hoặc client có thể giả IP.
 
-Rollback STT không cần rollback cả release: chạy lại base Compose mà không kèm overlay rồi xóa
-container cũ của web. Chat văn bản vẫn giữ nguyên:
+Rollback STT không cần rollback cả release. Bỏ cả STT overlay lẫn `stt.env`, giữ VPS overlay và chỉ
+recreate `web`; API, gateway, translator và Caddy tiếp tục chạy:
 
 ```bash
-docker compose \
-  --env-file /opt/vneguide/shared/vneguide.env \
-  -f deployment/docker-compose.yml \
-  -f deployment/docker-compose.vps.yml \
-  up --detach --wait --remove-orphans
+BASE=(
+  sudo docker compose
+  --env-file /opt/vneguide/shared/vneguide.env
+  -f deployment/docker-compose.yml
+  -f deployment/docker-compose.vps.yml
+)
+
+"${BASE[@]}" config --quiet
+"${BASE[@]}" up \
+  --detach \
+  --no-deps \
+  --no-build \
+  --force-recreate \
+  --wait \
+  --wait-timeout 120 \
+  web
+
+curl -fsS http://127.0.0.1:9000/api/stt/transcribe
 ```
 
-Sau khi xác nhận STT đã tắt, có thể thu hồi key ở GPU provider và xóa file secret theo quy trình vận
-hành của máy chủ. Nếu rollback toàn release, dùng lại image/tag bất biến trước đó như phần “Deploy
-bền vững”.
+Status phải trở lại `enabled=false`. Chỉ sau đó mới thu hồi key ở GPU provider và xử lý file secret
+theo quy trình vận hành của máy chủ. Nếu rollback toàn release, dùng lại image/tag bất biến trước đó
+như phần “Deploy bền vững”.
 
 ## Public preview bằng ngrok
 

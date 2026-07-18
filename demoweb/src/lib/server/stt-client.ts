@@ -82,6 +82,7 @@ export async function transcribeAudio(
   const ownedAudio = new Uint8Array(audio);
   form.append("file", new Blob([ownedAudio.buffer], { type: mimeType }), filename);
   form.append("model", config.model);
+  if (config.language) form.append("language", config.language);
 
   let response: Response;
   try {

@@ -12,6 +12,7 @@ const MAX_SECRET_BYTES = 8 * 1024;
 export interface SttConfig {
   apiKey?: string;
   endpoint: URL;
+  language?: string;
   maxBytes: number;
   maxDurationSeconds: number;
   model: string;
@@ -119,6 +120,11 @@ export async function getSttConfig(): Promise<SttConfig> {
     throw new SttConfigurationError("VNEGUIDE_STT_MODEL is invalid");
   }
 
+  const rawLanguage = process.env.VNEGUIDE_STT_LANGUAGE?.trim().toLowerCase();
+  if (rawLanguage && !/^[a-z]{2}$/.test(rawLanguage)) {
+    throw new SttConfigurationError("VNEGUIDE_STT_LANGUAGE must be an ISO-639-1 code");
+  }
+
   const timeoutSeconds = boundedInteger(
     "VNEGUIDE_STT_TIMEOUT_SECONDS",
     process.env.VNEGUIDE_STT_TIMEOUT_SECONDS,
@@ -147,6 +153,7 @@ export async function getSttConfig(): Promise<SttConfig> {
       rawBaseUrl,
       enabled(process.env.VNEGUIDE_STT_ALLOW_INSECURE_HTTP),
     ),
+    ...(rawLanguage ? { language: rawLanguage } : {}),
     maxBytes,
     maxDurationSeconds,
     model,

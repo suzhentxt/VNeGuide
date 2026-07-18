@@ -20,11 +20,13 @@ test("forwards audio as an authenticated OpenAI-compatible transcription request
   let capturedAuthorization = "";
   let capturedModel = "";
   let capturedFilename = "";
+  let capturedLanguage = "";
 
   globalThis.fetch = async (_input, init) => {
     capturedAuthorization = new Headers(init?.headers).get("authorization") ?? "";
     const form = init?.body as FormData;
     capturedModel = String(form.get("model"));
+    capturedLanguage = String(form.get("language") ?? "");
     const file = form.get("file") as File;
     capturedFilename = file.name;
     return Response.json({ text: "  Xin chào\u0000  ", language: "Vietnamese" });
@@ -35,7 +37,7 @@ test("forwards audio as an authenticated OpenAI-compatible transcription request
       new Uint8Array([1, 2, 3]),
       "audio/webm",
       "recording.webm",
-      config({ apiKey: "test-secret" }),
+      config({ apiKey: "test-secret", language: "vi" }),
     );
 
     assert.deepEqual(result, {
@@ -46,6 +48,7 @@ test("forwards audio as an authenticated OpenAI-compatible transcription request
     assert.equal(capturedAuthorization, "Bearer test-secret");
     assert.equal(capturedModel, "Qwen/Qwen3-ASR-1.7B");
     assert.equal(capturedFilename, "recording.webm");
+    assert.equal(capturedLanguage, "vi");
   } finally {
     globalThis.fetch = originalFetch;
   }

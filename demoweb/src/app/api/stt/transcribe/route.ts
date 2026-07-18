@@ -6,6 +6,10 @@ import {
   SttConfigurationError,
   sttPublicDefaults,
 } from "@/lib/server/stt-config";
+import {
+  SttAudioValidationError,
+  validateAudioDuration,
+} from "@/lib/server/stt-audio";
 import { SttProviderError, transcribeAudio } from "@/lib/server/stt-client";
 
 export const runtime = "nodejs";
@@ -133,11 +137,7 @@ export async function POST(request: NextRequest) {
 
   const durationHeader = request.headers.get("x-vneguide-audio-duration-ms")?.trim();
   const durationMs = durationHeader ? Number(durationHeader) : Number.NaN;
-  if (
-    !Number.isSafeInteger(durationMs) ||
-    durationMs <= 0 ||
-    durationMs > config.maxDurationSeconds * 1000
-  ) {
+  if (Number.isFinite(durationMs) && durationMs > config.maxDurationSeconds * 1000) {
     return errorResponse(
       "invalid_audio_duration",
       `Bản ghi phải dài không quá ${config.maxDurationSeconds} giây.`,
@@ -158,6 +158,23 @@ export async function POST(request: NextRequest) {
       return errorResponse("audio_too_large", "Tệp âm thanh vượt quá dung lượng cho phép.", 413);
     }
     return errorResponse("empty_audio", "Không nhận được dữ liệu âm thanh.", 400);
+  }
+
+  try {
+    await validateAudioDuration(audio, config.maxDurationSeconds);
+  } catch (error) {
+    if (error instanceof SttAudioValidationError && error.kind === "too_long") {
+      return errorResponse(
+        "invalid_audio_duration",
+        `Bản ghi phải dài không quá ${config.maxDurationSeconds} giây.`,
+        400,
+      );
+    }
+    return errorResponse(
+      "invalid_audio",
+      "Không thể xác minh định dạng hoặc thời lượng của tệp âm thanh.",
+      422,
+    );
   }
 
   try {

@@ -1,0 +1,16 @@
+services:
+  api:
+    ports: !override
+      - "127.0.0.1:${VNEGUIDE_API_PORT:-18000}:8000"
+    volumes:
+      - ../data:/app/data:ro
+
+  web:
+    ports: !override
+      - "127.0.0.1:${VNEGUIDE_WEB_PORT:-13000}:3000"
+
+  gateway:
+    ports: !override
+      - "0.0.0.0:${VNEGUIDE_GATEWAY_PORT:-9000}:8080"
+    volumes: !override
+      - /opt/vneguide/shared/nginx-http.conf:/etc/nginx/nginx.conf:ro
