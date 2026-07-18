@@ -201,3 +201,14 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
   video dự phòng chưa hoàn tất.
 - Bước trình bày tiếp theo: chạy preflight public URL, record video theo
   `doc/operations/demo-and-pitch.md` và để hai người review offline trước giờ chấm.
+
+## Bàn giao lỗi routing alias 2026-07-19
+
+- Local `dev` có fallback routing từ procedure pack: nếu model trả sai `ambiguous`/`unsupported` cho
+  một tên hoặc alias duy nhất đã review, core chọn đúng procedure thay vì báo ngoài phạm vi.
+- Transcript “làm bản sao giấy khai sinh” → “cấp bản sao Giấy khai sinh” được khóa bằng regression;
+  alias của `1.004194` và `1.013314` cũng được kiểm tra. Câu “làm giấy khai sinh” không có từ “bản
+  sao/trích lục” vẫn đi qua clarification an toàn.
+- Full Python gate đạt `284 passed`, `2 skipped`, coverage `80.65%`; Ruff, format và mypy đạt.
+- Bước tiếp theo: review diff, commit trên `dev`, push khi được chủ repo yêu cầu, sau đó cấu hình
+  Render theo `dev`, redeploy và smoke lại transcript trên `https://vneguide.vercel.app`.

@@ -199,6 +199,28 @@ class ConversationSession:
             )
             context = ExtractionTurnContext(active_code.value, expected_field)
         outcome = self._extractor.extract(message, context=context)
+        reviewed_match = self._reviewed_procedure_match(normalized)
+        if (
+            outcome.succeeded
+            and reviewed_match is not None
+            and (
+                outcome.classification in {"ambiguous", "unsupported"}
+                or outcome.procedure_code is None
+            )
+        ):
+            # A reviewed catalog alias is stronger routing evidence than an LLM
+            # fallback classification. Keep extraction first so mixed turns can
+            # still produce field suggestions, but never present an exact alias
+            # of one of the three supported procedures as out of scope.
+            outcome = ExtractionOutcome(
+                status="success",
+                classification="supported",
+                procedure_code=reviewed_match.value,
+                fields={},
+                evidence={},
+                clarification_question=None,
+                attempts=outcome.attempts,
+            )
         if not outcome.succeeded:
             return self._technical_fallback(message, outcome.error_code or "provider_error")
         self._clear_technical_failures()
@@ -900,6 +922,29 @@ class ConversationSession:
                 " lam ",
             )
         )
+
+    def _reviewed_procedure_match(self, normalized: str) -> ProcedureCode | None:
+        """Resolve an explicit reviewed procedure alias without inventing new scope."""
+
+        padded_message = f" {normalized} "
+        matches: set[ProcedureCode] = set()
+        for pack in self._repository.list_procedures():
+            raw_aliases = pack.routing.get("aliases")
+            aliases = (
+                tuple(alias for alias in raw_aliases if isinstance(alias, str))
+                if isinstance(raw_aliases, tuple)
+                else ()
+            )
+            for candidate in (pack.procedure_name, *aliases):
+                normalized_candidate = self._normalize_message(candidate)
+                variants = {normalized_candidate}
+                if normalized_candidate.startswith("xin "):
+                    remainder = normalized_candidate.removeprefix("xin ")
+                    variants.update({f"cap {remainder}", f"lam {remainder}"})
+                if any(f" {variant} " in padded_message for variant in variants if variant):
+                    matches.add(pack.procedure_code)
+                    break
+        return next(iter(matches)) if len(matches) == 1 else None
 
     @staticmethod
     def _needs_birth_scope_clarification(message: str) -> bool:

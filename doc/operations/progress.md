@@ -363,3 +363,17 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
 - Lộ trình pilot 12 tuần, KPI và mô hình B2G/B2B2G được ghi rõ là đề xuất/mục tiêu; không trình bày
   như kết quả thị trường đã đạt. README giữ nguyên cảnh báo demo, giới hạn Render Free, session
   in-memory, OCR candidate-only và browser E2E/video chưa hoàn tất.
+
+### 2026-07-19 — Chặn false out-of-scope cho alias đã review
+
+- Tái hiện production: “tôi muốn làm bản sao giấy khai sinh” bị phân loại mơ hồ; lượt xác nhận
+  “tôi muốn cấp bản sao Giấy khai sinh” bị model phân loại `unsupported` dù mã `2.000635` nằm trong
+  phạm vi.
+- Core vẫn gọi structured extractor trước để giữ khả năng lấy field trong mixed turn. Chỉ khi model
+  trả `ambiguous`/`unsupported` hoặc thiếu procedure code, tên/alias duy nhất từ procedure pack mới
+  được dùng làm routing evidence xác định; không mở rộng ngoài ba pack đã review.
+- Alias bắt đầu bằng “xin” chấp nhận hai cách diễn đạt hành động tương đương “cấp” và “làm”; nếu câu
+  khớp nhiều thủ tục thì không tự chọn. Regression bao phủ đúng transcript lỗi và alias của cả ba
+  thủ tục.
+- Gate đạt: compileall, Ruff lint/format, mypy strict; `284 passed`, `2 skipped`, coverage `80.65%`.
+  Public Render/Vercel vẫn cần deploy commit mới trước khi hành vi production thay đổi.

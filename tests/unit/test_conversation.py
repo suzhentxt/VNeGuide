@@ -447,6 +447,52 @@ def test_explicit_birth_requests_still_reach_extraction(
     assert extractor.calls == [(message, None)]
 
 
+@pytest.mark.parametrize(
+    ("message", "classification", "expected_code"),
+    [
+        ("tôi muốn làm bản sao giấy khai sinh", "ambiguous", "2.000635"),
+        ("tôi muốn cấp bản sao Giấy khai sinh", "unsupported", "2.000635"),
+        ("Tôi muốn đăng ký tạm trú", "unsupported", "1.004194"),
+        ("Tôi cần xin xác nhận diện tích nhà ở", "ambiguous", "1.013314"),
+    ],
+)
+def test_reviewed_alias_rescues_incorrect_model_routing(
+    repository: ProcedureRepository,
+    message: str,
+    classification: str,
+    expected_code: str,
+) -> None:
+    extractor = StubExtractor(
+        outcome(classification=classification, procedure_code=None),
+    )
+    session = ConversationSession(extractor, repository)
+
+    result = session.send(message)
+
+    assert result.state.draft.procedure_code is ProcedureCode(expected_code)
+    assert result.next_action is NextAction.ASK_CLARIFICATION
+    assert "ngoài ba thủ tục" not in result.reply.lower()
+    assert extractor.calls == [(message, None)]
+
+
+def test_birth_copy_confirmation_never_falls_out_of_scope_after_ambiguous_turn(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor(
+        outcome(classification="ambiguous", procedure_code=None),
+        outcome(classification="unsupported", procedure_code=None),
+    )
+    session = ConversationSession(extractor, repository)
+
+    first = session.send("tôi muốn làm bản sao giấy khai sinh")
+    confirmed = session.send("tôi muốn cấp bản sao Giấy khai sinh")
+
+    assert first.state.draft.procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+    assert confirmed.state.draft.procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+    assert confirmed.next_action is NextAction.ASK_CLARIFICATION
+    assert "ngoài ba thủ tục" not in confirmed.reply.lower()
+
+
 def test_active_ambiguous_turn_uses_the_deterministic_pending_question(
     repository: ProcedureRepository,
 ) -> None:
