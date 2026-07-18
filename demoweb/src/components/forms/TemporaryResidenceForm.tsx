@@ -150,7 +150,7 @@ export function TemporaryResidenceForm({
     setSubmitted(false);
     workspace.setField(fieldId, value);
   };
-  const commit = (fieldId: string) => void workspace.commitField(fieldId, values[fieldId]);
+  const commit = (fieldId: string) => void workspace.commitField(fieldId);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

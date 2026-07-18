@@ -6,21 +6,13 @@ import {
   safeResponseBody,
   unavailableResponse,
 } from "@/lib/server/chat-api";
+import { guardSessionContext } from "@/lib/server/chat-session-context";
 
 interface FieldPayload {
   field_id?: unknown;
   value?: unknown;
   expected_revision?: unknown;
   context?: unknown;
-}
-
-function cookieOptions() {
-  return {
-    httpOnly: true,
-    sameSite: "lax" as const,
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-  };
 }
 
 export async function POST(request: NextRequest) {
@@ -45,32 +37,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    let sessionId = request.cookies.get(CHAT_SESSION_COOKIE)?.value;
-    let createdSession = false;
-    if (!sessionId) {
-      const created = await callChatApi("/v1/chat/sessions", {
-        method: "POST",
-        body: JSON.stringify({ context: payload.context ?? null }),
-      });
-      if (!created.ok) {
-        return NextResponse.json(await safeResponseBody(created), { status: created.status });
-      }
-      sessionId = created.headers.get("X-VNeGuide-Session") ?? undefined;
-      createdSession = Boolean(sessionId);
-    }
-
+    const sessionId = request.cookies.get(CHAT_SESSION_COOKIE)?.value;
     if (!sessionId) {
       return NextResponse.json(
         {
           error: {
             code: "session_not_found",
-            message: "Chưa thể khởi tạo phiên đồng bộ biểu mẫu.",
+            message: "Chưa có phiên đồng bộ biểu mẫu.",
             retryable: true,
           },
         },
-        { status: 503 },
+        { status: 404 },
       );
     }
+
+    const contextMismatch = await guardSessionContext(sessionId, payload.context);
+    if (contextMismatch) return contextMismatch;
 
     const backend = await callChatApi(
       `/v1/chat/sessions/${encodeURIComponent(sessionId)}/draft/fields/${encodeURIComponent(payload.field_id)}`,
@@ -82,11 +64,9 @@ export async function POST(request: NextRequest) {
         }),
       },
     );
-    const response = NextResponse.json(await safeResponseBody(backend), {
+    return NextResponse.json(await safeResponseBody(backend), {
       status: backend.status,
     });
-    if (createdSession) response.cookies.set(CHAT_SESSION_COOKIE, sessionId, cookieOptions());
-    return response;
   } catch (error) {
     return unavailableResponse(error);
   }

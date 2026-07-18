@@ -3,8 +3,19 @@ import test from "node:test";
 
 import {
   emptyWorkspace,
+  guardSuggestionForLocalField,
   procedureWorkspaceReducer,
 } from "./procedure-workspace-reducer.ts";
+import {
+  createWorkspaceRouteSnapshot,
+  getPendingFieldCommitIds,
+} from "./procedure-workspace-sync.ts";
+import {
+  getChatContextKey,
+  getChatSessionContext,
+  shouldRebindChatWorkspace,
+  shouldRebindChatSession,
+} from "../data/chat-scope.ts";
 import type { ChatSuggestion, ChatTurn, ProcedureWorkspaceState } from "../types/chat.ts";
 
 function workspace(overrides: Partial<ProcedureWorkspaceState> = {}): ProcedureWorkspaceState {
@@ -134,6 +145,83 @@ test("edit writes the chosen value and marks the field dirty", () => {
   assert.equal(next.fields.temporary_address.dirty, true);
 });
 
+test("edit applies when its request-start field guard is still current", () => {
+  const current = workspace({
+    fields: {
+      temporary_address: {
+        value: "value before request",
+        confirmed: false,
+        dirty: false,
+        sync_status: "idle",
+        error: null,
+      },
+    },
+  });
+  const guardedSuggestion = guardSuggestionForLocalField(
+    suggestion,
+    current.fields.temporary_address,
+  );
+  const responseTurn = turn(1, { temporary_address: "edited suggestion" });
+  responseTurn.draft.dirty_fields = ["temporary_address"];
+
+  const next = procedureWorkspaceReducer(current, {
+    type: "suggestion_resolved",
+    suggestion: guardedSuggestion,
+    action: "edit",
+    value: "edited suggestion",
+    turn: responseTurn,
+  });
+
+  assert.equal(next.fields.temporary_address.value, "edited suggestion");
+  assert.equal(next.fields.temporary_address.dirty, true);
+  assert.equal(next.recovery_notice, null);
+});
+
+test("pending accept and edit never overwrite a later manual change", () => {
+  for (const action of ["accept", "edit"] as const) {
+    const requestStart = workspace({
+      fields: {
+        temporary_address: {
+          value: "value before request",
+          confirmed: false,
+          dirty: false,
+          sync_status: "idle",
+          error: null,
+        },
+      },
+    });
+    const guardedSuggestion = guardSuggestionForLocalField(
+      suggestion,
+      requestStart.fields.temporary_address,
+    );
+    const manuallyChanged = procedureWorkspaceReducer(requestStart, {
+      type: "manual_change",
+      fieldId: "temporary_address",
+      value: "newer manual value",
+    });
+    const responseTurn = turn(1, {
+      temporary_address:
+        action === "edit" ? "late edited suggestion" : "late accepted suggestion",
+    });
+    if (action === "edit") {
+      responseTurn.draft.dirty_fields = ["temporary_address"];
+    }
+
+    const next = procedureWorkspaceReducer(manuallyChanged, {
+      type: "suggestion_resolved",
+      suggestion: guardedSuggestion,
+      action,
+      ...(action === "edit" ? { value: "late edited suggestion" } : {}),
+      turn: responseTurn,
+    });
+
+    assert.equal(next.fields.temporary_address.value, "newer manual value");
+    assert.equal(next.fields.temporary_address.dirty, true);
+    assert.equal(next.revision, 1);
+    assert.match(next.recovery_notice ?? "", /AI/);
+  }
+});
+
 test("reject leaves the form value untouched", () => {
   const current = workspace({
     fields: {
@@ -184,4 +272,181 @@ test("reset clears fields while keeping the active procedure", () => {
   assert.equal(next.procedure_code, "1.004194");
   assert.deepEqual(next.fields, {});
   assert.equal(next.revision, 0);
+});
+
+test("route snapshot requeues unsynced fields with their latest values", () => {
+  const current = workspace({
+    fields: {
+      dirty_field: {
+        value: "latest dirty value",
+        confirmed: true,
+        dirty: true,
+        sync_status: "dirty",
+        error: null,
+      },
+      saving_field: {
+        value: "latest saving value",
+        confirmed: true,
+        dirty: true,
+        sync_status: "saving",
+        error: null,
+      },
+      error_field: {
+        value: "latest error value",
+        confirmed: true,
+        dirty: true,
+        sync_status: "error",
+        error: "temporary failure",
+      },
+      saved_field: {
+        value: "already synced",
+        confirmed: true,
+        dirty: true,
+        sync_status: "saved",
+        error: null,
+      },
+    },
+  });
+
+  assert.deepEqual(getPendingFieldCommitIds(current), [
+    "dirty_field",
+    "saving_field",
+    "error_field",
+  ]);
+
+  const snapshot = createWorkspaceRouteSnapshot(current, "1.004194");
+  assert.ok(snapshot);
+  assert.deepEqual(snapshot.pendingFieldIds, [
+    "dirty_field",
+    "saving_field",
+    "error_field",
+  ]);
+  const persisted = JSON.parse(
+    snapshot.serializedState,
+  ) as ProcedureWorkspaceState;
+  assert.equal(persisted.fields.dirty_field.value, "latest dirty value");
+  assert.equal(persisted.fields.saving_field.value, "latest saving value");
+  assert.equal(persisted.fields.error_field.value, "latest error value");
+});
+
+test("reset snapshot has no pending fields to resurrect", () => {
+  const dirty = procedureWorkspaceReducer(workspace(), {
+    type: "manual_change",
+    fieldId: "temporary_address",
+    value: "must be cleared",
+  });
+  const reset = procedureWorkspaceReducer(dirty, {
+    type: "reset",
+    procedureCode: "1.004194",
+  });
+
+  const snapshot = createWorkspaceRouteSnapshot(reset, "1.004194");
+  assert.ok(snapshot);
+  assert.deepEqual(snapshot.pendingFieldIds, []);
+  const persisted = JSON.parse(
+    snapshot.serializedState,
+  ) as ProcedureWorkspaceState;
+  assert.deepEqual(persisted.fields, {});
+});
+
+test("chat scope resolves all supported procedures on nested routes", () => {
+  const cases = [
+    ["/hon-nhan-va-gia-dinh/dang-ky-tam-tru/to-khai", "1.004194"],
+    ["/hon-nhan-va-gia-dinh/cap-ban-sao-giay-khai-sinh/nop-ho-so", "2.000635"],
+    ["/hon-nhan-va-gia-dinh/xac-nhan-dieu-kien-nha-o/truc-tuyen", "1.013314"],
+  ] as const;
+
+  for (const [pathname, expectedCode] of cases) {
+    assert.equal(getChatSessionContext(pathname).procedure_code, expectedCode);
+  }
+});
+
+test("removed marriage and general pages use an unscoped chat context", () => {
+  assert.equal(getChatSessionContext("/").procedure_code, undefined);
+  assert.equal(
+    getChatSessionContext("/hon-nhan-va-gia-dinh/dang-ky-ket-hon").procedure_code,
+    undefined,
+  );
+});
+
+test("chat rebinds from general context or another procedure", () => {
+  const general = getChatSessionContext("/");
+  const temporaryResidence = getChatSessionContext(
+    "/hon-nhan-va-gia-dinh/dang-ky-tam-tru",
+  );
+  const birthCopy = getChatSessionContext(
+    "/hon-nhan-va-gia-dinh/cap-ban-sao-giay-khai-sinh",
+  );
+
+  assert.equal(shouldRebindChatSession(general, temporaryResidence), true);
+  assert.equal(shouldRebindChatSession(temporaryResidence, birthCopy), true);
+});
+
+test("chat keeps its session across subpages of the same procedure", () => {
+  const detail = getChatSessionContext("/hon-nhan-va-gia-dinh/dang-ky-tam-tru");
+  const form = getChatSessionContext(
+    "/hon-nhan-va-gia-dinh/dang-ky-tam-tru/to-khai",
+  );
+
+  assert.equal(shouldRebindChatSession(detail, form), false);
+});
+
+test("chat rebinds when leaving a procedure for general pages", () => {
+  const detail = getChatSessionContext("/hon-nhan-va-gia-dinh/dang-ky-tam-tru");
+  const general = getChatSessionContext("/");
+
+  assert.equal(shouldRebindChatSession(detail, general), true);
+  assert.equal(shouldRebindChatSession(null, detail), true);
+  assert.equal(shouldRebindChatSession(undefined, detail), false);
+  assert.equal(getChatContextKey(null), getChatContextKey(general));
+});
+
+test("chat rebinds when a hydrated procedure form differs from the backend draft", () => {
+  const temporaryResidence = getChatSessionContext(
+    "/hon-nhan-va-gia-dinh/dang-ky-tam-tru",
+  );
+
+  assert.equal(
+    shouldRebindChatWorkspace(
+      turn(1).draft,
+      temporaryResidence,
+      workspace({ revision: 5 }),
+    ),
+    true,
+  );
+  assert.equal(
+    shouldRebindChatWorkspace(
+      turn(5).draft,
+      temporaryResidence,
+      workspace({ revision: 5 }),
+    ),
+    false,
+  );
+  assert.equal(
+    shouldRebindChatWorkspace(
+      turn(1).draft,
+      temporaryResidence,
+      workspace({ revision: 5, hydrated: false }),
+    ),
+    false,
+  );
+  assert.equal(
+    shouldRebindChatWorkspace(
+      turn(1, { temporary_address: "Backend" }).draft,
+      temporaryResidence,
+      workspace({
+        revision: 1,
+        fields: {
+          temporary_address: {
+            value: "Form",
+            confirmed: true,
+            dirty: true,
+            sync_status: "saved",
+            error: null,
+          },
+        },
+      }),
+    ),
+    true,
+  );
 });

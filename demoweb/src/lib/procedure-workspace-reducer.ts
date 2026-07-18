@@ -15,6 +15,31 @@ export const emptyWorkspace: ProcedureWorkspaceState = {
   recovery_notice: null,
 };
 
+const localFieldGuardKey = "__vneguide_local_field_guard" as const;
+
+interface LocalFieldGuard {
+  value: JsonValue;
+  dirty: boolean;
+}
+
+type LocallyGuardedSuggestion = ChatSuggestion & {
+  [localFieldGuardKey]?: LocalFieldGuard;
+};
+
+export function guardSuggestionForLocalField(
+  suggestion: ChatSuggestion,
+  field: ProcedureFieldState | undefined,
+): ChatSuggestion {
+  const guardedSuggestion: LocallyGuardedSuggestion = {
+    ...suggestion,
+    [localFieldGuardKey]: {
+      value: field?.value ?? null,
+      dirty: field?.dirty ?? false,
+    },
+  };
+  return guardedSuggestion;
+}
+
 export type WorkspaceAction =
   | { type: "hydrate"; state: ProcedureWorkspaceState }
   | { type: "activate"; procedureCode: string | null }
@@ -41,6 +66,23 @@ function defaultField(value: JsonValue): ProcedureFieldState {
     sync_status: "idle",
     error: null,
   };
+}
+
+function jsonValuesEqual(left: JsonValue, right: JsonValue) {
+  return Object.is(left, right) || JSON.stringify(left) === JSON.stringify(right);
+}
+
+function localFieldChangedSinceRequest(
+  suggestion: ChatSuggestion,
+  current: ProcedureFieldState,
+) {
+  const guard = (suggestion as LocallyGuardedSuggestion)[localFieldGuardKey];
+  if (!guard) return current.dirty;
+  return (
+    current.dirty ||
+    current.dirty !== guard.dirty ||
+    !jsonValuesEqual(current.value, guard.value)
+  );
 }
 
 function metadataFromTurn(
@@ -148,11 +190,16 @@ export function procedureWorkspaceReducer(
       if (action.turn.draft.revision < state.revision) {
         return { ...state, recovery_notice: "Đề xuất đã hết hạn và không được áp dụng vào biểu mẫu." };
       }
+      const currentBeforeResponse =
+        state.fields[action.suggestion.field_id] ?? defaultField(null);
+      const preserveLocalField = localFieldChangedSinceRequest(
+        action.suggestion,
+        currentBeforeResponse,
+      );
       let next = metadataFromTurn(state, action.turn);
       if (action.action === "reject") return next;
 
-      const current = next.fields[action.suggestion.field_id] ?? defaultField(null);
-      if (current.dirty && action.action === "accept") {
+      if (preserveLocalField) {
         return {
           ...next,
           recovery_notice: "Giữ nguyên giá trị bạn đã sửa trực tiếp; AI không được ghi đè field này.",

@@ -2,7 +2,7 @@
 
 ## Trạng thái Git
 
-- Nhánh hiện tại: local `dev`.
+- Nhánh hiện tại: `agent/web-global-chatbot`, base `dev@f90b5e2`.
 - Integration đã fast-forward lên `dev@9960bf2` và tích hợp
   `origin/agent/memory-form-sync@83adb18`.
 - Conflict chỉ có ở `doc/operations/progress.md` và file này; nội dung được hợp nhất theo trạng thái
@@ -66,3 +66,19 @@ npm run check
 ```
 
 Rollback bằng `git revert`; không dùng reset hoặc force-push trên branch dùng chung.
+
+## Bàn giao chatbot toàn cục
+
+- Root layout mount đúng một `ProcedureWorkspaceProvider` và một `ChatWidget`; launcher có mặt trên mọi
+  trang, gồm trang chủ, danh mục và ba procedure.
+- Context/revision guard chặn session cũ, suggestion cũ và field response cũ làm thay đổi form khác
+  procedure. Form edits được serialize; session creation được single-flight trong một tab.
+- General-session và procedure-session được tách scope. Khi chuyển scope hoặc draft không khớp, UI yêu
+  cầu session mới, giữ form local rồi tuần tự đồng bộ field trước khi mở lại chat.
+- Field chưa sync được replay khi quay lại procedure; retry message dừng nếu replay chỉ thành công
+  một phần. Accept/Edit response cũ không ghi đè manual edit phát sinh trong lúc request chờ.
+- Gate cuối: `cd demoweb && npm run check` pass với 27/27 test và build 25 route.
+- HTTP smoke trên port tạm `3117`: năm route mục tiêu đều `200`, mỗi route có đúng một launcher; server
+  tạm đã được dừng sau smoke.
+- Việc tiếp theo: chạy browser E2E với backend/model thật cho open/close, general → procedure, A → B,
+  manual field blur nhanh, rebind và mobile focus. Multi-tab session identity chưa thuộc phạm vi MVP này.

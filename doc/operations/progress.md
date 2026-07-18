@@ -79,3 +79,21 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
 - Session store in-memory chỉ phù hợp một worker và mất memory khi restart/TTL; cần shared store trước
   khi scale.
 - Frontend có banner mô phỏng Hackathon và `noindex`; không tiếp nhận dữ liệu cá nhân thật.
+
+## 2026-07-18 — Chatbot toàn cục
+
+- Nhánh `agent/web-global-chatbot` được tạo từ `dev@f90b5e2`.
+- `ChatWidget` và `ProcedureWorkspaceProvider` được chuyển lên root layout; mọi route dùng đúng một
+  launcher, không còn mount lặp trong layout danh mục.
+- Khi đổi procedure, request cũ bị hủy và response/session sai context không được ghi vào form.
+  Message, suggestion và field BFF đều kiểm tra procedure context trước khi mutation.
+- Form mutation được serialize theo revision; tạo session dùng single-flight để form và chat không tạo
+  hai session cạnh tranh. Manual/dirty value tiếp tục thắng AI value.
+- Field `dirty/saving/error` được snapshot và tự replay khi quay lại procedure; replay phải đồng
+  bộ hết form mới cho phép retry message. Suggestion đang chờ không thể ghi đè manual edit mới hơn.
+- Khi chuyển giữa phạm vi tổng quát và một procedure, UI yêu cầu tạo session đúng scope; transcript cũ
+  không được trộn vào form. Rebind giữ form local và tuần tự đồng bộ các field sang session mới.
+- `npm run check` đạt: ESLint, TypeScript, 27 Node tests và Next production build 25 route.
+- HTTP production smoke đạt `200` và đúng một launcher trên `/`, trang danh mục và ba trang procedure.
+- Chưa có visual/browser interaction smoke vì phiên này không có in-app browser khả dụng; cần kiểm tra
+  responsive, focus và thao tác chat thật trong browser trước khi merge release.
