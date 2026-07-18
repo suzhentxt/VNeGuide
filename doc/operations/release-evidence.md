@@ -35,30 +35,30 @@ repo chưa có OCR upload/adapter nên chưa thể gọi đây là OCR E2E.
 
 ## Local gateway metrics
 
-Timestamp UTC: `2026-07-18T08:48:05.782797+00:00`; base revision `a8e182f5f574`, tracked tree dirty
-do staged merge/hardening changes; package `0.1.0`; provider/model label `mock/mock-scripted`; 5 mẫu
-mỗi endpoint. Runtime container được kiểm tra riêng và khớp `mock/mock-scripted`, nhưng smoke không
-gọi model nên đây không phải bằng chứng model connectivity hay accuracy.
+Timestamp UTC: `2026-07-18T08:50:23.102344+00:00`; base revision `44d399f0f421`, tracked tree clean,
+không có staged diff; package `0.1.0`; provider/model label `mock/mock-scripted`; 5 mẫu mỗi endpoint.
+Runtime container được kiểm tra riêng và khớp `mock/mock-scripted`, nhưng smoke không gọi model nên
+đây không phải bằng chứng model connectivity hay accuracy.
 Web probe yêu cầu HTML có marker `Bản mô phỏng Hackathon` và từ chối redirect khác origin.
 
 | Endpoint | Success | Median | p95 |
 | --- | ---: | ---: | ---: |
-| `http://127.0.0.1:8080/health` | 5/5 HTTP 200 | 3.94 ms | 4.69 ms |
-| `http://127.0.0.1:8080/` | 5/5 HTTP 200 | 6.43 ms | 7.74 ms |
+| `http://127.0.0.1:8080/health` | 5/5 HTTP 200 | 3.50 ms | 8.44 ms |
+| `http://127.0.0.1:8080/` | 5/5 HTTP 200 | 4.97 ms | 20.12 ms |
 
 ## Public preview metrics
 
 URL tạm thời: `https://moschate-terri-dereistically.ngrok-free.dev`. URL chỉ hoạt động khi ngrok và
 Docker trên máy release còn chạy; đây không phải hosting bền vững.
 
-Timestamp UTC: `2026-07-18T08:48:03.132143+00:00`; base revision `a8e182f5f574`, tracked tree dirty
-do staged merge/hardening changes; package `0.1.0`; provider/model label `mock/mock-scripted`; 5 mẫu
-mỗi endpoint; smoke không gọi model.
+Timestamp UTC: `2026-07-18T08:50:28.004246+00:00`; base revision `44d399f0f421`, tracked tree clean,
+không có staged diff; package `0.1.0`; provider/model label `mock/mock-scripted`; 5 mẫu mỗi endpoint;
+smoke không gọi model.
 
 | Endpoint | Success | Median | p95 |
 | --- | ---: | ---: | ---: |
-| `/health` | 5/5 HTTP 200 | 280.05 ms | 332.17 ms |
-| `/` | 5/5 HTTP 200 | 466.98 ms | 510.28 ms |
+| `/health` | 5/5 HTTP 200 | 277.84 ms | 326.07 ms |
+| `/` | 5/5 HTTP 200 | 461.02 ms | 729.74 ms |
 
 Image provenance của lần smoke:
 

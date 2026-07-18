@@ -4,8 +4,8 @@
 
 - Nhánh: `integration/release-dev`.
 - Merge `tuan`: `4865ceb`; tài liệu scope: `ff06998`; release baseline: `a8e182f`.
-- Đã merge `origin/dev` tại `e65b31b`; commit này nối model với web, tăng BFF timeout, tự phục hồi
-  session hết hạn và mang bản format `session_store.py` từ API owner.
+- Đã merge `origin/dev` tại `e65b31b` bằng merge commit `44d399f`; thay đổi nối model với web, tăng
+  BFF timeout, tự phục hồi session hết hạn và mang bản format `session_store.py` từ API owner.
 - Conflict được giới hạn và đã resolve ở `.env.example`, `progress.md` và `session-handoff.md`; giữ cả LiteLLM,
   FastAPI, Next.js và cấu hình Compose.
 - Repo đối thủ, DOCX, CSV, `.DS_Store` và `view_parquet.py` không được stage.
@@ -17,7 +17,8 @@ Docker/ngrok hiện phục vụ image đã rebuild sau merge `e65b31b`.
 
 - Docker Compose: API `8000`, web `3000`, gateway `8080`.
 - Ngrok preview: `https://moschate-terri-dereistically.ngrok-free.dev`.
-- Smoke `2026-07-18T08:48:03.132143Z`: public `/` và `/health` đều 5/5 HTTP 200.
+- Post-commit smoke `2026-07-18T08:50:28.004246Z` trên clean `44d399f`: public `/` và `/health`
+  đều 5/5 HTTP 200.
 - Runtime xác nhận `provider=mock`, `model=mock-scripted`; smoke không gọi model.
 - Image: API `sha256:c72a78e6a5b5...9e4f`, web `sha256:b87a68c910cf...c0b7`.
 - Preview là tunnel tạm, mất khi process/máy dừng và không được ghi là production.

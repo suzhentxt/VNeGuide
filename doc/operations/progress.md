@@ -5,7 +5,8 @@
 - Nhánh tích hợp: `integration/release-dev`, tạo từ `dev` tại `1d3e566`.
 - Đã merge `tuan` bằng `4865ceb`, cherry-pick tài liệu scope `709b795` thành `ff06998` và tạo
   release baseline `a8e182f`.
-- Đã hợp nhất `origin/dev` tại `e65b31b`, gồm merge web/API và sửa kết nối model với web.
+- Đã hợp nhất `origin/dev` tại `e65b31b` bằng merge commit `44d399f`, gồm merge web/API và sửa kết
+  nối model với web.
 - LiteLLM, FastAPI Chat API và Next.js cùng tồn tại trên cây tích hợp.
 - Backend/data chỉ có đúng `2.000635`, `1.013314`, `1.004194` theo `data/README.md`.
 - Frontend vẫn chỉ có route Hôn nhân và gia đình với bốn mã ngoài data package; release sản phẩm
@@ -56,10 +57,11 @@
 
 ## Metrics sau merge `e65b31b`
 
-- Local gateway, `2026-07-18T08:48:05.782797Z`, `mock/mock-scripted`, 5 mẫu: `/health` p95
-  4.69 ms, web p95 7.74 ms.
-- Public gateway, `2026-07-18T08:48:03.132143Z`, `mock/mock-scripted`, 5 mẫu: `/health` p95
-  332.17 ms, web p95 510.28 ms.
+- Post-commit smoke trên `44d399f` có `tracked_dirty=false`, không có staged diff.
+- Local gateway, `2026-07-18T08:50:23.102344Z`, `mock/mock-scripted`, 5 mẫu: `/health` p95
+  8.44 ms, web p95 20.12 ms.
+- Public gateway, `2026-07-18T08:50:28.004246Z`, `mock/mock-scripted`, 5 mẫu: `/health` p95
+  326.07 ms, web p95 729.74 ms.
 - Runtime container được kiểm tra riêng: `provider=mock`, `model=mock-scripted`; smoke không gọi model.
 - Image đã smoke: API `sha256:c72a78e6a5b5...9e4f`, web `sha256:b87a68c910cf...c0b7`.
 - URL preview: `https://moschate-terri-dereistically.ngrok-free.dev`; chỉ hoạt động khi Docker/ngrok
