@@ -9,6 +9,7 @@ from pydantic import JsonValue as PydanticJsonValue
 
 from vneguide.data import ProcedureRepository
 from vneguide.domain import CaseDraft, FieldType, JSONValue, ProcedureCode, TurnResult
+from vneguide.rules.questions import field_input_hint
 
 from .schemas import (
     ChatMessageResponse,
@@ -71,6 +72,8 @@ class TurnResultSerializer:
                 MissingFieldResponse(
                     field_id=field_id,
                     label=labels.get(field_id, field_id),
+                    field_type=fields[field_id].field_type.value,
+                    input_hint=field_input_hint(fields[field_id]),
                     choices=(
                         [json_value(value) for value in fields[field_id].values]
                         if fields[field_id].field_type is FieldType.ENUM

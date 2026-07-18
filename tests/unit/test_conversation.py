@@ -315,7 +315,6 @@ def test_active_procedure_context_survives_an_unsupported_turn(
 ) -> None:
     extractor = StubExtractor(
         outcome(procedure_code="1.004194", fields={}),
-        outcome(classification="unsupported", procedure_code=None),
         outcome(
             procedure_code="1.004194",
             fields={"submission_channel": "online"},
@@ -335,8 +334,9 @@ def test_active_procedure_context_survives_an_unsupported_turn(
         assert context is not None
         assert context.active_procedure_code == "1.004194"
         assert context.expected_field_id == "registration_mode"
-    assert unsupported.next_action is NextAction.OUT_OF_SCOPE
-    assert "vẫn được giữ nguyên" in unsupported.reply
+    assert unsupported.next_action is NextAction.ASK_CLARIFICATION
+    assert "ngoài" not in unsupported.reply.lower()
+    assert "vẫn đang cùng bạn" in unsupported.reply
     assert "hình thức đăng ký" in unsupported.reply.lower()
     assert "registration_mode" not in unsupported.reply
     assert continued.next_action is NextAction.CONFIRM_SUGGESTION
@@ -461,7 +461,7 @@ def test_active_ambiguous_turn_uses_the_deterministic_pending_question(
     result = session.send("Tôi chưa rõ")
     manual = session.send("Vẫn chưa rõ")
 
-    assert result.next_action is NextAction.MANUAL_INPUT
+    assert result.next_action is NextAction.ASK_CLARIFICATION
     assert "hình thức đăng ký" in result.reply.lower()
     assert "registration_mode" not in result.reply
     assert "Bạn muốn làm thủ tục nào?" not in result.reply
@@ -469,7 +469,7 @@ def test_active_ambiguous_turn_uses_the_deterministic_pending_question(
         active_procedure_code="1.004194",
         expected_field_id="registration_mode",
     )
-    assert manual.next_action is NextAction.MANUAL_INPUT
+    assert manual.next_action is NextAction.ASK_CLARIFICATION
     assert "hình thức đăng ký" in manual.reply.lower()
 
 
@@ -502,13 +502,46 @@ def test_birth_copy_follow_ups_keep_the_active_procedure_without_inference(
         channel.suggestions[-1].suggestion_id,
         expected_revision=0,
     )
-    assert accepted.next_action is NextAction.MANUAL_INPUT
-    assert "loại người yêu cầu" in accepted.reply.lower()
+    assert accepted.next_action is NextAction.ASK_CLARIFICATION
+    assert "người được ủy quyền" in accepted.reply.lower()
     assert "requester_type" not in accepted.reply
     assert [call[1] for call in extractor.calls] == [
         None,
         ExtractionTurnContext("2.000635", "requester_type"),
     ]
+
+
+def test_greeting_is_not_presented_as_an_out_of_scope_service(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor()
+    session = ConversationSession(extractor, repository)
+
+    result = session.send("Xin chào")
+
+    assert result.next_action is NextAction.ASK_CLARIFICATION
+    assert "xin chào" in result.reply.lower()
+    assert "ngoài" not in result.reply.lower()
+    assert extractor.calls == []
+
+
+def test_typo_guidance_request_explains_the_current_field_without_model(
+    repository: ProcedureRepository,
+) -> None:
+    extractor = StubExtractor()
+    session = ConversationSession(extractor, repository)
+    session.initialize_procedure("2.000635")
+    session.edit_field("requester_type", "authorized_person", expected_revision=0)
+    session.edit_field("requester_full_name", "Nguyễn Văn A", expected_revision=1)
+    session.edit_field("requester_personal_id", "000000000001", expected_revision=2)
+
+    result = session.send("hướng dẫn tôi điền nôis đi")
+
+    assert result.next_action is NextAction.ASK_CLARIFICATION
+    assert "họ tên người có sự kiện khai sinh" in result.reply.lower()
+    assert "nhập đầy đủ họ và tên" in result.reply.lower()
+    assert "ngoài" not in result.reply.lower()
+    assert extractor.calls == []
 
 
 def test_switching_procedure_requires_reset(repository: ProcedureRepository) -> None:

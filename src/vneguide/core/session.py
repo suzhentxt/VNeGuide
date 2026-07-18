@@ -116,6 +116,9 @@ class ConversationSession:
                 action,
             )
 
+        if self._is_small_talk(normalized):
+            return self._small_talk_reply(message, normalized, active_code)
+
         if self._pending_scope_clarification == "birth":
             scope_choice = self._birth_scope_choice(normalized)
             if scope_choice == "copy":
@@ -200,6 +203,8 @@ class ConversationSession:
             return self._technical_fallback(message, outcome.error_code or "provider_error")
         self._clear_technical_failures()
         if outcome.classification == "unsupported":
+            if not self._looks_like_service_request(normalized):
+                return self._small_talk_reply(message, normalized, active_code)
             return self._unsupported(message)
         if outcome.classification == "ambiguous" or outcome.procedure_code is None:
             self._contextual_reference_trusted = False
@@ -329,7 +334,12 @@ class ConversationSession:
             ),
             clarification_attempts=attempts,
         )
-        return self._result_after_action(f"Đã bỏ đề xuất cho {label}.")
+        result = self._result_after_action(f"Đã bỏ đề xuất cho {label}.")
+        return self._finish_turn(
+            f"Bỏ đề xuất: {label}",
+            result.reply,
+            result.next_action,
+        )
 
     def edit_suggestion(
         self,
@@ -452,7 +462,13 @@ class ConversationSession:
         )
         verb = "Đã sửa và xác nhận" if status is SuggestionStatus.EDITED else "Đã chấp nhận"
         label = self._field_label(code, suggestion.field_id).lower()
-        return self._result_after_action(f"{verb} {label}.")
+        result = self._result_after_action(f"{verb} {label}.")
+        user_action = "Sửa và xác nhận" if status is SuggestionStatus.EDITED else "Xác nhận"
+        return self._finish_turn(
+            f"{user_action}: {label}",
+            result.reply,
+            result.next_action,
+        )
 
     def _result_after_action(self, prefix: str) -> TurnResult:
         code = self._state.draft.procedure_code
@@ -472,19 +488,12 @@ class ConversationSession:
         missing = self._rules.missing_fields(code, self._state.draft.values)
         if missing:
             field_id = missing[0]
-            attempts = self._state.clarification_attempts.get(field_id, 0)
             question_id = self._question_id(code, field_id)
-            if attempts >= 2 or question_id in self._state.asked_question_ids:
-                label = self._field_label(code, field_id)
-                return (
-                    f"Bạn có thể nhập mục “{label}” trên biểu mẫu. "
-                    "Nếu muốn tiếp tục trong chat, hãy trả lời bằng một câu ngắn.",
-                    NextAction.MANUAL_INPUT,
+            if question_id not in self._state.asked_question_ids:
+                self._state = replace(
+                    self._state,
+                    asked_question_ids=self._state.asked_question_ids + (question_id,),
                 )
-            self._state = replace(
-                self._state,
-                asked_question_ids=self._state.asked_question_ids + (question_id,),
-            )
             return self._questions.question_for(code, field_id), NextAction.ASK_CLARIFICATION
 
         validation = self._rules.validate(code, self._state.draft.values)
@@ -603,6 +612,31 @@ class ConversationSession:
         self, message: str, reply: str, action: NextAction
     ) -> TurnResult:
         return self._finish_turn(message, reply, action)
+
+    def _small_talk_reply(
+        self,
+        message: str,
+        normalized: str,
+        active_code: ProcedureCode | None,
+    ) -> TurnResult:
+        if "cam on" in normalized:
+            opening = "Rất vui được hỗ trợ bạn."
+        else:
+            opening = "Xin chào! Tôi đang ở đây để hỗ trợ bạn."
+        if active_code is None:
+            return self._reply_without_draft_change(
+                message,
+                f"{opening} Bạn cần đăng ký tạm trú, xác nhận điều kiện nhà ở "
+                "hay xin bản sao Giấy khai sinh?",
+                NextAction.ASK_CLARIFICATION,
+            )
+        title = self._repository.get_by_code(active_code).procedure_name
+        prompt, action = self._resume_prompt(active_code)
+        return self._reply_without_draft_change(
+            message,
+            f"{opening} Tôi vẫn đang cùng bạn hoàn thành thủ tục “{title}”. {prompt}",
+            action,
+        )
 
     def _compose_grounded_reply(
         self,
@@ -818,7 +852,54 @@ class ConversationSession:
 
     @staticmethod
     def _is_guided_form_help_request(normalized: str) -> bool:
-        return normalized == "hay huong dan toi dien ho so tung buoc"
+        guidance_markers = (
+            "huong dan",
+            "giup toi dien",
+            "giup minh dien",
+            "khong biet dien",
+            "khong biet nhap",
+            "nho tro giup",
+        )
+        input_markers = ("dien", "nhap", "muc", "o ", "ho so", "tiep")
+        return any(marker in normalized for marker in guidance_markers) and any(
+            marker in normalized for marker in input_markers
+        )
+
+    @staticmethod
+    def _is_small_talk(normalized: str) -> bool:
+        return normalized in {
+            "alo",
+            "cam on",
+            "cam on ban",
+            "chao",
+            "chao ban",
+            "hello",
+            "hi",
+            "xin cam on",
+            "xin chao",
+            "ban an com chua",
+            "ban co khoe khong",
+            "ban khoe khong",
+        }
+
+    @staticmethod
+    def _looks_like_service_request(normalized: str) -> bool:
+        return any(
+            marker in f" {normalized} "
+            for marker in (
+                " thu tuc ",
+                " ho so ",
+                " giay ",
+                " trich luc ",
+                " dang ky ",
+                " xac nhan ",
+                " xin ",
+                " cap ",
+                " nop ",
+                " doi ",
+                " lam ",
+            )
+        )
 
     @staticmethod
     def _needs_birth_scope_clarification(message: str) -> bool:

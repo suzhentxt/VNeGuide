@@ -160,34 +160,30 @@ def test_short_answer_receives_compact_context(
 
 
 @pytest.mark.parametrize("scenario", SCENARIOS)
-def test_unsupported_turn_preserves_context_without_reasking(
+def test_small_talk_preserves_context_and_repeats_guided_field(
     repository: ProcedureRepository,
     scenario: ProcedureScenario,
 ) -> None:
     extractor = StubExtractor(
         outcome(scenario.code),
-        outcome(None, classification="unsupported"),
     )
     session = ConversationSession(extractor, repository)
 
-    first = session.send(scenario.intro)
+    session.send(scenario.intro)
     result = session.send("Bạn ăn cơm chưa?")
 
-    assert result.next_action is NextAction.OUT_OF_SCOPE
+    assert result.next_action is NextAction.ASK_CLARIFICATION
     assert result.state.draft.procedure_code is not None
     assert result.state.draft.procedure_code.value == scenario.code
     assert result.state.asked_question_ids == (scenario.question_id,)
-    assert first.reply not in result.reply
-    assert "bạn có thể nhập mục" in result.reply.lower()
+    assert "ngoài" not in result.reply.lower()
+    assert "vẫn đang cùng bạn" in result.reply.lower()
     assert scenario.expected_field not in result.reply
-    assert extractor.calls[-1][1] == ExtractionTurnContext(
-        scenario.code,
-        scenario.expected_field,
-    )
+    assert extractor.calls == [(scenario.intro, None)]
 
 
 @pytest.mark.parametrize("scenario", SCENARIOS)
-def test_ambiguous_turn_switches_previously_asked_field_to_manual_input(
+def test_ambiguous_turn_keeps_the_guided_field_available(
     repository: ProcedureRepository,
     scenario: ProcedureScenario,
 ) -> None:
@@ -199,23 +195,23 @@ def test_ambiguous_turn_switches_previously_asked_field_to_manual_input(
         repository,
     )
 
-    first = session.send(scenario.intro)
+    session.send(scenario.intro)
     result = session.send("Tôi chưa rõ.")
 
-    expected_action = (
-        NextAction.ASK_CLARIFICATION if scenario.code == "2.000635" else NextAction.MANUAL_INPUT
-    )
-    assert result.next_action is expected_action
+    assert result.next_action is NextAction.ASK_CLARIFICATION
     assert result.state.asked_question_ids == (scenario.question_id,)
-    assert first.reply not in result.reply
-    expected_phrase = "ba lựa chọn" if scenario.code == "2.000635" else "bạn có thể nhập mục"
+    if scenario.code == "2.000635":
+        assert result.reply.startswith("Không sao")
+    else:
+        assert result.reply.startswith("Tôi chưa hiểu câu trả lời")
+    expected_phrase = "chọn một phương án" if scenario.code == "2.000635" else "tiếp theo là mục"
     assert expected_phrase in result.reply.lower()
     assert scenario.expected_field not in result.reply
     assert "Câu hỏi tự do từ model" not in result.reply
 
 
 @pytest.mark.parametrize("scenario", SCENARIOS)
-def test_supported_empty_follow_up_does_not_repeat_question(
+def test_supported_empty_follow_up_repeats_contextual_guidance(
     repository: ProcedureRepository,
     scenario: ProcedureScenario,
 ) -> None:
@@ -225,8 +221,8 @@ def test_supported_empty_follow_up_does_not_repeat_question(
     first = session.send(scenario.intro)
     result = session.send("Vâng, tiếp tục đi.")
 
-    assert result.next_action is NextAction.MANUAL_INPUT
-    assert first.reply not in result.reply
+    assert result.next_action is NextAction.ASK_CLARIFICATION
+    assert result.reply == first.reply
     assert result.state.asked_question_ids == (scenario.question_id,)
     assert extractor.calls[-1][1] == ExtractionTurnContext(
         scenario.code,
@@ -321,7 +317,7 @@ def test_dirty_value_is_not_overwritten_by_later_extraction(
     )
     result = session.send("Model lại đề xuất một giá trị khác.")
 
-    assert edited.next_action is NextAction.MANUAL_INPUT
+    assert edited.next_action is NextAction.ASK_CLARIFICATION
     assert result.draft[scenario.protected_field] == scenario.protected_value
     assert scenario.protected_field in result.state.draft.confirmed_fields
     assert scenario.protected_field in result.state.draft.dirty_fields

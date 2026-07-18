@@ -75,6 +75,8 @@ class SuggestionResponse(StrictModel):
 class MissingFieldResponse(StrictModel):
     field_id: str
     label: str
+    field_type: Literal["string", "date", "integer", "number", "boolean", "enum"]
+    input_hint: str
     choices: list[JsonValue] = Field(default_factory=list)
 
 

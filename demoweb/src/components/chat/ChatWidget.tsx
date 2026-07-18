@@ -61,6 +61,8 @@ export function ChatWidget() {
     }
   });
   const [walletNotice, setWalletNotice] = useState<string | null>(null);
+  const [declarationCompleted, setDeclarationCompleted] = useState(false);
+  const [fieldEntry, setFieldEntry] = useState({ fieldId: "", value: "" });
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const {
@@ -119,6 +121,16 @@ export function ChatWidget() {
     return () => window.removeEventListener("vneguide:open-assistant", openForStep);
   }, [ensureSession, sendHiddenMessage]);
 
+  useEffect(() => {
+    const onDeclarationCompleted = () => {
+      setDeclarationCompleted(true);
+      setWalletNotice(null);
+      setOpen(true);
+    };
+    window.addEventListener("vneguide:declaration-completed", onDeclarationCompleted);
+    return () => window.removeEventListener("vneguide:declaration-completed", onDeclarationCompleted);
+  }, []);
+
   async function confirmProcedure() {
     if (!selectedProcedure) return;
     const route = getConfirmedProcedureRoute(selectedProcedure.code);
@@ -127,7 +139,14 @@ export function ChatWidget() {
     await closeSession();
     setSelectedProcedureCode(null);
     setChoosingProcedure(false);
+    setDeclarationCompleted(false);
     router.push(route);
+  }
+
+  async function restartSession() {
+    setDeclarationCompleted(false);
+    setWalletNotice(null);
+    await resetSession();
   }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -149,10 +168,23 @@ export function ChatWidget() {
   );
   const validationPresentation = getChatValidationPresentation(turn);
   const replyOptions = getChatReplyOptions(turn);
-  const fixedChoiceField =
-    replyOptions.length === 0 && turn?.missing_fields[0]?.choices.length
-      ? turn.missing_fields[0]
+  const activeMissingField =
+    !declarationCompleted && !pendingSuggestions?.length && replyOptions.length === 0
+      ? turn?.missing_fields[0] ?? null
       : null;
+  const fixedChoiceField =
+    activeMissingField?.choices.length
+      ? activeMissingField
+      : null;
+  const freeEntryField =
+    activeMissingField && activeMissingField.choices.length === 0
+      ? activeMissingField
+      : null;
+  const fieldDraft =
+    freeEntryField && fieldEntry.fieldId === freeEntryField.field_id
+      ? fieldEntry.value
+      : "";
+
   const walletCandidate = createWallet(workspace.state.fields);
   const walletAutofill = wallet
     ? walletValuesForProcedure(
@@ -161,7 +193,10 @@ export function ChatWidget() {
       )
     : {};
   const canOfferWalletSave =
-    !wallet && Object.keys(walletCandidate).length > 0 && Boolean(turn?.procedure);
+    declarationCompleted &&
+    !wallet &&
+    Object.keys(walletCandidate).length > 0 &&
+    Boolean(turn?.procedure);
   const canOfferWalletAutofill = Object.keys(walletAutofill).length > 0;
 
   const saveSuggestedWallet = () => {
@@ -175,6 +210,24 @@ export function ChatWidget() {
     setWalletNotice(
       `Tôi đã điền ${Object.keys(walletAutofill).length} mục từ ví. Hãy kiểm tra trên biểu mẫu và bấm xác nhận trước khi đi tiếp.`,
     );
+  };
+
+  const submitGuidedField = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!freeEntryField || !fieldDraft.trim() || busy) return;
+    const raw = fieldDraft.trim();
+    let value: JsonValue = raw;
+    if (freeEntryField.field_type === "integer") {
+      const parsed = Number(raw);
+      if (!Number.isInteger(parsed)) return;
+      value = parsed;
+    } else if (freeEntryField.field_type === "number") {
+      const parsed = Number(raw);
+      if (!Number.isFinite(parsed)) return;
+      value = parsed;
+    }
+    setFieldEntry({ fieldId: "", value: "" });
+    await chooseFieldValue(freeEntryField.field_id, value, raw);
   };
   const validationToneClass = {
     danger: "border-[#efb4b4] bg-[#fff1f1] text-[#8b1e1e]",
@@ -218,7 +271,7 @@ export function ChatWidget() {
                 aria-label="Bắt đầu lại phiên trò chuyện"
                 className="flex size-10 items-center justify-center rounded-full hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-white disabled:opacity-50"
                 disabled={busy}
-                onClick={() => void resetSession()}
+                onClick={() => void restartSession()}
                 title="Bắt đầu lại"
                 type="button"
               >
@@ -262,7 +315,7 @@ export function ChatWidget() {
                 <button
                   className="mt-2 min-h-10 rounded-md bg-[#24496f] px-3 font-bold text-white hover:bg-[#183653] disabled:opacity-50"
                   disabled={busy}
-                  onClick={() => void resetSession()}
+                  onClick={() => void restartSession()}
                   type="button"
                 >
                   Bắt đầu phiên cho trang này
@@ -398,6 +451,9 @@ export function ChatWidget() {
                 <p className="mb-2 text-sm font-bold text-[#334155]">
                   Chọn {fixedChoiceField.label.toLocaleLowerCase("vi")}
                 </p>
+                <p className="mb-3 text-sm leading-6 text-[#5b6573]">
+                  {fixedChoiceField.input_hint}
+                </p>
                 <div className="grid gap-2">
                   {fixedChoiceField.choices.map((choice) => {
                     const label = choiceLabel(choice);
@@ -415,6 +471,57 @@ export function ChatWidget() {
                   })}
                 </div>
               </div>
+            ) : null}
+
+            {!needsServiceConfirmation && !choosingProcedure && freeEntryField ? (
+              <form
+                className="rounded-xl border-2 border-[#b9cde5] bg-white p-4"
+                onSubmit={submitGuidedField}
+              >
+                <p className="text-xs font-extrabold tracking-wide text-[#24496f] uppercase">
+                  Mục đang điền
+                </p>
+                <label
+                  className="mt-1 block text-base font-extrabold text-[#1e2f41]"
+                  htmlFor={`chat-field-${freeEntryField.field_id}`}
+                >
+                  {freeEntryField.label}
+                </label>
+                <p className="mt-2 text-sm leading-6 text-[#52606d]">
+                  {freeEntryField.input_hint}
+                </p>
+                <input
+                  autoComplete="off"
+                  className="mt-3 min-h-12 w-full rounded-lg border-2 border-[#cbd5df] bg-white px-3 text-base text-[#1e2f41] outline-none focus:border-[#ce7a58] focus:ring-4 focus:ring-[#ce7a58]/15"
+                  disabled={busy}
+                  id={`chat-field-${freeEntryField.field_id}`}
+                  inputMode={
+                    freeEntryField.field_type === "integer" || freeEntryField.field_type === "number"
+                      ? "decimal"
+                      : undefined
+                  }
+                  onChange={(event) => setFieldEntry({
+                    fieldId: freeEntryField.field_id,
+                    value: event.target.value,
+                  })}
+                  step={freeEntryField.field_type === "integer" ? 1 : freeEntryField.field_type === "number" ? "any" : undefined}
+                  type={
+                    freeEntryField.field_type === "date"
+                      ? "date"
+                      : freeEntryField.field_type === "integer" || freeEntryField.field_type === "number"
+                        ? "number"
+                        : "text"
+                  }
+                  value={fieldDraft}
+                />
+                <button
+                  className="mt-3 min-h-12 w-full rounded-lg bg-[#903938] px-4 font-extrabold text-white hover:bg-[#762b2b] disabled:opacity-50"
+                  disabled={busy || !fieldDraft.trim()}
+                  type="submit"
+                >
+                  Xác nhận và điền mục này
+                </button>
+              </form>
             ) : null}
 
             {!needsServiceConfirmation && !choosingProcedure ? pendingSuggestions?.map((suggestion) => (

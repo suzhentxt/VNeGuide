@@ -219,6 +219,7 @@ export function MarriageApplication({
     if (!canAdvance) return;
     if (currentStep === 1) {
       markDeclarationSaved(experience, { receptionUnit: selectedReceptionUnit, serviceId: selectedService.id });
+      window.dispatchEvent(new CustomEvent("vneguide:declaration-completed"));
     }
     if (currentStep < 4) moveToStep((currentStep + 1) as WizardStep);
     else setSubmitted(true);

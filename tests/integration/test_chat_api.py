@@ -205,6 +205,10 @@ async def test_chat_api_accepts_a_pending_suggestion() -> None:
     assert accepted.status_code == 200
     assert accepted.json()["draft"]["revision"] == 1
     assert accepted.json()["suggestions"][0]["status"] == "accepted"
+    assert accepted.json()["messages"][-2]["role"] == "user"
+    assert accepted.json()["messages"][-2]["content"].startswith("Xác nhận:")
+    assert accepted.json()["messages"][-1]["role"] == "assistant"
+    assert "người được ủy quyền" in accepted.json()["messages"][-1]["content"].lower()
     assert stale.status_code == 409
     assert stale.json()["error"]["code"] == "stale_suggestion"
 
@@ -306,15 +310,6 @@ async def test_chat_api_keeps_compact_memory_across_multiple_turns() -> None:
         ),
         ExtractionOutcome(
             status="success",
-            classification="unsupported",
-            procedure_code=None,
-            fields={},
-            evidence={},
-            clarification_question=None,
-            attempts=1,
-        ),
-        ExtractionOutcome(
-            status="success",
             classification="supported",
             procedure_code="1.004194",
             fields={"submission_channel": "online"},
@@ -345,14 +340,14 @@ async def test_chat_api_keeps_compact_memory_across_multiple_turns() -> None:
         )
 
     assert first.status_code == 200
-    assert off_topic.json()["next_action"] == "out_of_scope"
+    assert off_topic.json()["next_action"] == "ask_clarification"
+    assert "ngoài" not in off_topic.json()["reply"].lower()
     assert continued.status_code == 200
     assert continued.json()["procedure"]["code"] == "1.004194"
     assert continued.json()["next_action"] == "confirm_suggestion"
     assert continued.json()["suggestions"][-1]["field_id"] == "submission_channel"
     assert [call[1] for call in extractor.calls] == [
         None,
-        ExtractionTurnContext("1.004194", "registration_mode"),
         ExtractionTurnContext("1.004194", "registration_mode"),
     ]
 
@@ -417,6 +412,10 @@ async def test_guided_help_returns_catalog_choices_without_calling_model() -> No
     assert response.json()["missing_fields"][0] == {
         "field_id": "registration_mode",
         "label": "Hình thức đăng ký",
+        "field_type": "enum",
+        "input_hint": (
+            "Hãy chọn một phương án bên dưới; tôi sẽ điền vào biểu mẫu sau khi bạn chọn."
+        ),
         "choices": ["individual_or_household", "by_list", "armed_forces"],
     }
     assert extractor.calls == []

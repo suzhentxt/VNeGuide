@@ -1,5 +1,27 @@
 # Nhật ký tiến độ VNeGuide
 
+## 2026-07-18 — Hội thoại thân thiện và điền từng trường ngay trong chat
+
+- Lời chào, cảm ơn và hội thoại xã giao không còn bị trình bày là dịch vụ ngoài MVP. Core chỉ dùng
+  thông báo ngoài phạm vi khi câu hiện tại nêu rõ một dịch vụ/thủ tục không thuộc ba procedure pack;
+  nếu đang làm hồ sơ, small talk giữ nguyên procedure và đưa người dùng trở lại trường đang điền.
+- Nhận các cách yêu cầu trợ giúp tự nhiên và có lỗi gõ như `hướng dẫn tôi điền nôis đi`. Agent không
+  gọi model cho intent trợ giúp mà tiếp tục đúng field còn thiếu, nêu nhãn field và hướng dẫn nhập từ
+  type/pattern/minimum đã review. Cơ chế chống hỏi lặp không còn đẩy người dùng ra biểu mẫu quá sớm.
+- API missing-field trả thêm `field_type` và `input_hint`. Chat chỉ hiển thị một field card mỗi lần:
+  enum/boolean dùng nút lớn; text/date/integer/number dùng input phù hợp. Nút xác nhận ghi field thật
+  qua revision guard và agent hỏi field tiếp theo. Chấp nhận/sửa/bỏ suggestion cũng được ghi thành
+  lượt hội thoại và hiện ngay lời hướng dẫn kế tiếp.
+- Agent chỉ đề xuất lưu thông tin dùng lại sau khi gate kê khai đã đạt và wizard chuyển khỏi bước 1.
+  Trước thời điểm đó, card lưu bị ẩn; autofill từ ví cũ vẫn cần người dùng đồng ý và xác nhận lại.
+- Gate đạt: full Python `277 passed, 2 skipped`, coverage `80.55%`; mypy strict trên 94 source;
+  frontend lint/typecheck và `21` unit test; Next production build 25 route. BFF smoke bằng dữ liệu
+  tổng hợp xác nhận greeting
+  không out-of-scope, help trả field metadata, chọn requester type và nhập họ tên tăng revision
+  `0 → 1 → 2`, rồi câu help có lỗi gõ tiếp tục đúng field số định danh. API `/health` trả `ok`.
+- In-app Browser vẫn không khả dụng; chưa có click/keyboard/screenshot tự động. BFF smoke, build và
+  test contract không thay thế browser E2E.
+
 ## 2026-07-18 — Chọn nơi tiếp nhận trước khi vào hồ sơ và trợ lý điền thực tế
 
 - Luồng xác nhận dịch vụ trong chat giờ mở trang chi tiết thủ tục thay vì nhảy thẳng vào wizard.

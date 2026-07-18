@@ -3,7 +3,16 @@
 ## Nhánh thử nghiệm chat core
 
 - `experiment/chat-core-v2` đang tách từ `dev@48f9c1f` trong worktree riêng.
-- Working tree có redesign chưa commit: chat xác nhận dịch vụ rồi mở trang chi tiết để chọn tỉnh và
+- Core mới phân biệt small talk với yêu cầu dịch vụ ngoài phạm vi: greeting/cảm ơn không báo ngoài
+  MVP và vẫn giữ field đang điền. Chỉ một dịch vụ/thủ tục rõ ràng ngoài ba pack mới trả out-of-scope.
+- Guided mode nhận câu hướng dẫn linh hoạt/kể cả lỗi gõ, giải thích từng field từ metadata đã review.
+  API trả `field_type`/`input_hint`; chat render lần lượt nút enum/boolean hoặc input text/date/number,
+  ghi field thật qua revision guard và tự hiện câu hỏi tiếp theo sau mọi thao tác xác nhận.
+- Đề xuất lưu ví chỉ bật sau event hoàn tất bước kê khai và chuyển bước. Gate mới nhất: Python
+  `277 passed, 2 skipped`, coverage `80.55%`, mypy 94 source; frontend lint/typecheck, 21 test và
+  build 25 route đạt.
+  BFF smoke greeting → help → requester type → họ tên → typo-help đạt, revision `0 → 1 → 2`.
+- Nhánh đã có redesign: chat xác nhận dịch vụ rồi mở trang chi tiết để chọn tỉnh và
   phường/xã/cơ quan tiếp nhận; chỉ sau đó người dùng bấm `Nộp hồ sơ`. Wizard nhận nơi tiếp nhận từ URL
   đã xác nhận và không lặp lại bước chọn địa điểm.
 - Nút nhờ trợ giúp tự gửi prompt ẩn; core hỏi tuần tự theo field catalog. Enum/boolean có lựa chọn ngay

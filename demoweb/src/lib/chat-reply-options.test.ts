@@ -39,18 +39,19 @@ test("offers two plain-language choices for the remembered birth scope question"
   ]);
 });
 
-test("offers requester choices without exposing internal enum values", () => {
+test("leaves requester enum choices to the catalog-driven field card", () => {
   const options = getChatReplyOptions(
     turn({
       procedure: { code: "2.000635", name: "Cấp bản sao Giấy khai sinh" },
-      missing_fields: [{ field_id: "requester_type", label: "Loại người yêu cầu", choices: ["self", "authorized_person", "organization"] }],
+      missing_fields: [{
+        field_id: "requester_type",
+        label: "Loại người yêu cầu",
+        field_type: "enum",
+        input_hint: "Chọn một phương án.",
+        choices: ["self", "authorized_person", "organization"],
+      }],
     }),
   );
 
-  assert.deepEqual(options, [
-    "Xin cho bản thân tôi",
-    "Tôi là người được ủy quyền",
-    "Tôi đại diện cơ quan/tổ chức",
-    "Tôi chưa rõ",
-  ]);
+  assert.deepEqual(options, []);
 });
