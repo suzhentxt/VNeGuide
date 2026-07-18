@@ -22,7 +22,7 @@ Windows PowerShell:
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
-python -m pip install -e ".[dev]"
+python -m pip install -e ".[dev,api]"
 Copy-Item .env.example .env
 ```
 
@@ -32,7 +32,7 @@ macOS/Linux:
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install -e '.[dev]'
+python -m pip install -e '.[dev,api]'
 cp .env.example .env
 ```
 
@@ -58,6 +58,33 @@ Các lệnh trong phiên:
 Mỗi lượt hiển thị câu trả lời, thủ tục nhận diện, dữ liệu trích xuất, hồ sơ nháp, trường còn thiếu, lỗi validation, nguồn tham khảo và bước tiếp theo. Các field định danh phổ biến như `cccd` được che trước khi hiển thị.
 
 Hook mặc định `vneguide.core:create_session` đã được triển khai. Với mock provider không có response dựng sẵn, core trả fallback an toàn; để hội thoại bằng model thật cần cấu hình provider/model/key theo phần bên dưới. CLI không chứa business logic của core.
+
+## Chạy HTTP API và demoweb
+
+Chatbox chỉ được mount trong các route `/hon-nhan-va-gia-dinh/**`. Browser gọi Next.js BFF tại `/api/chat/*`; BFF giữ session ID trong cookie `HttpOnly` và gọi Python API ở phía server. API key model không được đưa vào biến `NEXT_PUBLIC_*`.
+
+Terminal 1 — chạy Python Chat API:
+
+```powershell
+.venv\Scripts\Activate.ps1
+$env:VNEGUIDE_LLM_PROVIDER="openai"
+$env:VNEGUIDE_MODEL="<model>"
+$env:VNEGUIDE_API_KEY="<secret>"
+python -m vneguide.api
+```
+
+Terminal 2 — chạy Next.js:
+
+```powershell
+Copy-Item demoweb\.env.local.example demoweb\.env.local
+Set-Location demoweb
+npm ci
+npm run dev
+```
+
+Mặc định BFF gọi `http://127.0.0.1:8000`. Có thể đổi bằng `VNEGUIDE_API_BASE_URL` trong `demoweb/.env.local`. Kiểm tra API bằng `GET /health`.
+
+Data package hiện hành vẫn chỉ khóa ba thủ tục trong `data/README.md`. Bốn mã thủ tục đang hiển thị trong mục Hôn nhân và gia đình chưa có procedure pack backend tương ứng; chatbox hiển thị cảnh báo phạm vi thay vì tự suy đoán checklist hoặc căn cứ nghiệp vụ cho các mã này.
 
 ## Cấu hình provider
 
