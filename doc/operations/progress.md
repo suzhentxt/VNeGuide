@@ -331,7 +331,8 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
   branch `experiment/chat-core-v2`, health check `/health`, auto-deploy sau khi CI pass.
 - Blueprint chỉ khai báo tên secret `VNEGUIDE_API_KEY` với `sync: false`; provider/model công khai là
   `openai`/`gpt-4o-mini`. Không commit `.env`, key hoặc dữ liệu cá nhân.
-- YAML parse pass; API targeted gate `29 passed`. Image `vneguide-api:render-test` build từ
+- Render CLI Blueprint validation trả `valid: true` với một create action; API targeted gate
+  `29 passed`. Image `vneguide-api:render-test` build từ
   `deployment/api.Dockerfile` và container health trả `200 {"status":"ok"}` trên cổng 18001.
 - Chưa tạo được service vì phiên không có Render API token và browser dashboard không khả dụng.
   Cần chủ project tạo Blueprint từ GitHub, nhập secret, rồi mới cập nhật Vercel backend URL.

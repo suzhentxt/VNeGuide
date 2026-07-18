@@ -81,7 +81,7 @@ Image provenance của lần smoke:
 
 | Hạng mục | Bằng chứng | Kết quả |
 | --- | --- | --- |
-| Blueprint | Ruby/Psych parse `render.yaml` | Pass; secret chỉ có tên, `sync: false` |
+| Blueprint | `render blueprints validate render.yaml --output json` | `valid: true`, một create action; secret chỉ có tên, `sync: false` |
 | API targeted | `pytest` API main/store/chat/form sync | `29 passed` |
 | Docker build | `docker build -f deployment/api.Dockerfile -t vneguide-api:render-test .` | Pass; manifest list `sha256:4e51b133bd7015466376f038d9ca0865cc64bed272bce965985390c3483d5dec` |
 | Container health | `GET http://127.0.0.1:18001/health` | `200 {"status":"ok"}` |
