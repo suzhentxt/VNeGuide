@@ -95,14 +95,22 @@ export function useChatSession(context: ChatSessionContext) {
     setError(null);
     setMessages((current) => [...current, { role: "user", content: normalized }]);
     try {
-      const response = await fetch("/api/chat/message", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: normalized,
-          client_turn_id: crypto.randomUUID(),
-        }),
+      const payload = JSON.stringify({
+        message: normalized,
+        client_turn_id: crypto.randomUUID(),
       });
+      const postMessage = () =>
+        fetch("/api/chat/message", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: payload,
+        });
+
+      let response = await postMessage();
+      if (response.status === 404 || response.status === 410) {
+        await createSession();
+        response = await postMessage();
+      }
       const nextTurn = await readJson<ChatTurn>(response);
       setTurn(nextTurn);
       setMessages(nextTurn.messages);
@@ -115,7 +123,7 @@ export function useChatSession(context: ChatSessionContext) {
     } finally {
       setBusy(false);
     }
-  }, []);
+  }, [createSession]);
 
   const resolveSuggestion = useCallback(
     async (

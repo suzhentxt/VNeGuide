@@ -36,8 +36,8 @@ python -m pip install -e '.[dev,api]'
 cp .env.example .env
 ```
 
-`.env` đã được Git bỏ qua. Runtime không đọc secret lúc import. Lệnh smoke provider bên dưới chỉ
-đọc file được chỉ định rõ bằng `--env-file`; các luồng khác vẫn nhận cấu hình từ environment.
+`.env` đã được Git bỏ qua. Runtime không đọc secret lúc import. Lệnh smoke provider và HTTP API chỉ
+đọc file khi được chỉ định rõ bằng `--env-file`; các luồng khác vẫn nhận cấu hình từ environment.
 
 ## Chạy chatbot
 
@@ -67,11 +67,12 @@ Terminal 1 — chạy Python Chat API:
 
 ```powershell
 .venv\Scripts\Activate.ps1
-$env:VNEGUIDE_LLM_PROVIDER="openai"
-$env:VNEGUIDE_MODEL="<model>"
-$env:VNEGUIDE_API_KEY="<secret>"
-python -m vneguide.api
+python -m vneguide.api --env-file .env
 ```
+
+`--env-file` là opt-in tường minh cho local development; file chỉ được đọc các khóa LLM trong danh
+sách cho phép. Có thể bỏ tùy chọn này khi provider/model/key đã được đặt trực tiếp trong process
+environment.
 
 Terminal 2 — chạy Next.js:
 

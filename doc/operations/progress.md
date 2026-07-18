@@ -36,6 +36,31 @@ liệu hành chính thật qua gateway HTTP; cần HTTPS trước khi dùng tran
 
 ## Nhật ký phiên
 
+### 2026-07-18 — Kết nối lại model thật với chatbot web
+
+- Xác định lỗi trực tiếp là FastAPI cổng `8000` đã dừng; web cổng `3000` vẫn chạy nhưng BFF trả
+  `503 chat_api_unavailable`, nên tin nhắn chưa tới model.
+- Thêm tùy chọn khởi động `python -m vneguide.api --env-file .env`; composition root chỉ đọc file
+  LLM khi người chạy opt-in tường minh, không tự nạp secret lúc import.
+- Nâng timeout BFF từ 25 lên 60 giây để bao phủ tối đa hai lượt provider, mỗi lượt 20 giây; widget tự
+  tạo lại session và gửi lại một lần khi cookie trỏ tới session backend đã mất/hết hạn.
+- Live BFF smoke bằng dữ liệu giả: API health `ok`, tạo session `201`, message `200` trong 1,34 giây;
+  model nhận diện `1.004194`, trả `ask_clarification`, 11 field thiếu, 5 nguồn và 1 assistant message.
+- Gate sau sửa: Ruff/format pass, Mypy pass, Pytest `94 passed, 1 skipped`, coverage `80.97%`;
+  `npm run check` pass với ESLint, TypeScript và Next.js production build đủ 29 route.
+- Giới hạn xác minh: không có tab in-app browser được gắn vào phiên, nên thao tác click trực quan chưa
+  được tự động hóa; live smoke đã đi qua cùng `/api/chat/session` và `/api/chat/message` mà browser dùng.
+
+### 2026-07-18 — Giảm nhiễu hydration do extension trình duyệt
+
+- Xác nhận HTML gốc của demoweb không chứa `mdl-js`, `data-qb-installed` hoặc script sửa
+  `document.documentElement`; các thuộc tính này được extension trình duyệt chèn trước khi React hydrate.
+- Thêm `suppressHydrationWarning` trực tiếp trên thẻ `<html>` của root layout để extension sửa thuộc tính
+  root không làm Next.js hiện development error overlay; các mismatch bên trong cây ứng dụng vẫn được báo.
+- Gate sau sửa: `npm run check` pass; ESLint, TypeScript và Next.js production build đủ 29 route.
+- Giới hạn: thay đổi này không ngăn extension sửa DOM. Khi chẩn đoán hydration thật, tắt extension trên
+  localhost hoặc dùng profile sạch/Incognito rồi hard reload.
+
 ### 2026-07-18 — Hợp nhất HTTP API/demoweb vào dev
 
 - Merge source `main` tại `d5921ca` vào `dev`, giữ đồng thời LiteLLM/core/rules và FastAPI/BFF/web.

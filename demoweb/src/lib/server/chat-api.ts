@@ -2,7 +2,9 @@ import "server-only";
 
 export const CHAT_SESSION_COOKIE = "vneguide_chat_session";
 
-const REQUEST_TIMEOUT_MS = 25_000;
+// The extractor can make two provider attempts of up to 20 seconds each.
+// Keep the BFF alive long enough for the bounded retry path to finish.
+const REQUEST_TIMEOUT_MS = 60_000;
 
 function getApiBaseUrl() {
   const configured = process.env.VNEGUIDE_API_BASE_URL?.trim();

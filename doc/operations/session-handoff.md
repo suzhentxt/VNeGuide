@@ -9,7 +9,8 @@
 - `vneguide.core:create_session` là factory mặc định của CLI; core/rules hỗ trợ suggestion,
   Accept/Reject/Edit, validation và question selection.
 - AI hỗ trợ mock, OpenAI Responses và LiteLLM Chat Completions. Provider-only smoke đọc `.env` được
-  chỉ định; composition root của CLI chỉ đọc process environment và không tự nạp `.env`.
+  chỉ định; HTTP API hỗ trợ opt-in `--env-file .env`, còn các luồng khác chỉ đọc process environment
+  trừ khi `VNEGUIDE_LLM_ENV_FILE` được đặt tường minh.
 - Repo có FastAPI Chat API, Next.js BFF và chatbox chỉ mount trong
   `/hon-nhan-va-gia-dinh/**`.
 - Repo có thêm `demoweb/`, một giao diện Next.js độc lập; thư mục này không phụ thuộc tool clone hoặc dữ liệu capture ban đầu.
@@ -30,6 +31,8 @@
   request chỉ chứa schema tổng hợp, không chứa catalog hoặc PII.
 - Bằng chứng trên nhánh nguồn: local web → BFF → Python API pass với mock rỗng; 12 HTTP assertion
   production cho catalog, tìm kiếm, lựa chọn, redirect và API validation đều pass.
+- Live web BFF → Python API → LiteLLM pass bằng dữ liệu giả: session `201`, message `200`, nhận diện
+  `1.004194` và có assistant response; không gửi PII hoặc hồ sơ thật.
 
 ## Rủi ro
 
@@ -62,7 +65,8 @@ hoặc hồ sơ thật trước khi gateway có HTTPS.
 ## Lệnh
 
 - Cài Python API: `python -m pip install -e ".[dev,api]"`
-- Chạy API: `python -m vneguide.api`
+- Chạy API với model trong `.env`: `python -m vneguide.api --env-file .env`
+- Chạy API bằng process environment/mock: `python -m vneguide.api`
 - Chạy web: `cd demoweb`, `npm ci`, `npm run dev -- --hostname 0.0.0.0 -p 3000`
 - Kiểm tra web: `cd demoweb`, `npm run check`
 - Audit dependency production: `cd demoweb`, `npm audit --omit=dev`
