@@ -3,8 +3,8 @@
 ## Trạng thái Git
 
 - Nhánh hiện tại: local `dev`, nền `origin/dev@f90b5e2`.
-- Rules/AI đã merge bằng `43ed537` từ `origin/agent/rules-ai-eval@4a7aac3`; OCR đang chốt merge từ
-  `origin/agent/ocr-hero@2a155a0`.
+- Rules/AI đã merge bằng `43ed537` từ `origin/agent/rules-ai-eval@4a7aac3`; OCR đã merge bằng
+  `299cc69` từ `origin/agent/ocr-hero@2a155a0`. Đích push là `origin/dev`.
 - Phạm vi runtime vẫn khóa đúng ba mã trong `data/README.md`: `2.000635`, `1.013314` và `1.004194`.
 - BFF được nối sang contract backend bằng
   `PATCH /v1/chat/sessions/{session_id}/draft/fields/{field_id}`.
@@ -66,7 +66,7 @@
 
 ## Việc cần làm tiếp
 
-1. Commit merge result và push `dev`, sau đó xác minh SHA remote.
+1. Push `dev`, sau đó xác minh SHA remote trỏ tới commit tài liệu bàn giao mới nhất.
 2. Thiết kế state/API nội bộ để persist, confirm và promote `context_signals`; không nhận cờ
    confirmation/trust trực tiếp từ browser client.
 3. Triển khai `OcrCandidateSink` qua suggestion pending/revision guard và nối upload API/UI; không cho

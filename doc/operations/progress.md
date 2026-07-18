@@ -5,8 +5,8 @@
 - Remote baseline của lượt tích hợp: `origin/dev@f90b5e2`.
 - Đã merge `origin/agent/rules-ai-eval@4a7aac3` vào local `dev` bằng `43ed537` sau khi hợp nhất
   contract context hiện hành và chạy targeted gate.
-- Đang chốt merge `origin/agent/ocr-hero@2a155a0`; thay đổi dependency/CI/config thuộc Release
-  Captain được đưa vào cùng merge result.
+- Đã merge `origin/agent/ocr-hero@2a155a0` bằng `299cc69`; thay đổi dependency/CI/config thuộc
+  Release Captain nằm trong cùng merge result. Đích push là `origin/dev`.
 - LiteLLM, FastAPI Chat API và Next.js cùng tồn tại; backend/data và frontend chỉ hỗ trợ đúng ba mã
   `2.000635`, `1.013314`, `1.004194`.
 - `.DS_Store`, `procedures.csv` và `view_parquet.py` là file local ngoài scope, không được stage.
