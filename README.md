@@ -4,9 +4,38 @@
 > xuất dữ liệu cho biểu mẫu và chờ người dùng xác nhận. AI không tự quyết định điều kiện hành chính,
 > không tự ghi đè dữ liệu và không tự nộp hồ sơ.
 
-VNeGuide là AI copilot chạy song song với biểu mẫu dịch vụ công, được thiết kế trước hết cho người
-lớn tuổi, người ít am hiểu công nghệ và người lần đầu làm thủ tục trực tuyến. Phạm vi runtime hiện
-hành được khóa bởi [`data/README.md`](data/README.md) và chỉ gồm:
+## Tóm tắt giải pháp
+
+VNeGuide là AI copilot chạy song song với biểu mẫu dịch vụ công. Sản phẩm giúp người dân đi từ câu
+nói đời thường đến đúng dịch vụ, hiểu từng trường cần điền, nhận đề xuất có bằng chứng và hoàn thiện
+bản nháp mà vẫn giữ toàn bộ quyền quyết định. Điểm khác biệt quan trọng là hệ thống có lớp **chuẩn
+hóa phương ngữ tiếng Việt và lỗi nhận dạng giọng nói**: các cách nói như “tui muốn làm tạm chú” được
+hiểu là “tôi muốn đăng ký tạm trú”, nhưng họ tên, CCCD, ngày sinh, địa chỉ, số điện thoại và mã hồ sơ
+được bảo vệ để không bị sửa sai trong quá trình chuẩn hóa.
+
+| Câu hỏi | Trả lời ngắn |
+| --- | --- |
+| Vấn đề | Người dân khó chọn đúng thủ tục, khó hiểu ngôn ngữ biểu mẫu và thường phát hiện thiếu hồ sơ quá muộn. |
+| Người dùng ưu tiên | Người lớn tuổi, người ít am hiểu công nghệ và người lần đầu làm thủ tục trực tuyến. |
+| AI làm gì? | Hiểu nhu cầu/phương ngữ, routing có xác nhận, trích xuất field có evidence và giải thích từng bước. |
+| AI không làm gì? | Không quyết định điều kiện pháp lý, không tự ghi dữ liệu, không tự nộp hoặc phê duyệt hồ sơ. |
+| Nguồn quyết định nghiệp vụ | Procedure pack, field catalog, 27 rule deterministic và 13 source entry đã review. |
+| Phạm vi MVP | Đúng ba thủ tục: bản sao Giấy khai sinh, xác nhận điều kiện nhà ở và đăng ký tạm trú. |
+| Bằng chứng chạy được | Public Vercel + Render, Python/frontend gates, browser E2E hero 5/5 và public model smoke. |
+| Mức sẵn sàng | MVP đủ để trình diễn; chưa production/pilot-ready vì session chưa durable, chưa có DPIA/user validation/video backup. |
+
+### Giá trị AI-Native trong một luồng
+
+1. Người dân mô tả nhu cầu bằng tiếng Việt tự nhiên, phương ngữ, từ rút gọn hoặc transcript speech.
+2. Lớp ngôn ngữ bảo vệ dữ liệu định danh, chuẩn hóa phần còn lại và giữ ánh xạ về câu gốc.
+3. Agent đề xuất đúng một dịch vụ trong phạm vi và **bắt buộc người dùng xác nhận** trước điều hướng.
+4. Trên trang nộp hồ sơ, người dùng có thể tự điền hoặc nhờ agent hỏi/hướng dẫn từng trường.
+5. Giá trị do AI tìm thấy chỉ là suggestion; người dùng Accept, Edit hoặc Reject trước khi vào draft.
+6. Rule engine kiểm tra field bắt buộc, điều kiện, nguồn và trạng thái; LLM không được tự nhớ luật.
+7. Khi model timeout hoặc session stale, biểu mẫu và dữ liệu local vẫn tiếp tục sử dụng được; OCR
+   hiện mới ở chế độ candidate-only và luôn phải có fallback nhập tay.
+
+Phạm vi runtime hiện hành được khóa bởi [`data/README.md`](data/README.md) và chỉ gồm:
 
 - `2.000635`: Cấp bản sao Trích lục hộ tịch — bản sao Giấy khai sinh.
 - `1.013314`: Xác nhận điều kiện diện tích bình quân nhà ở và tình trạng chỗ ở.
@@ -52,8 +81,9 @@ Audit khoảng trống và mức độ phủ evidence hiện tại được khó
 
 ### Kịch bản chấm nhanh trong 5 phút
 
-1. Mở [demo công khai](https://vneguide.vercel.app), bấm biểu tượng trợ lý và nhập “Tôi muốn đăng
-   ký tạm trú”. Xác nhận đúng dịch vụ trước khi VNeGuide điều hướng sang trang thủ tục.
+1. Mở [demo công khai](https://vneguide.vercel.app), bấm biểu tượng trợ lý và nhập “Tui muốn làm tạm
+   chú”. Kiểm tra hệ thống hiểu phương ngữ/lỗi ASR thành nhu cầu đăng ký tạm trú, sau đó xác nhận đúng
+   dịch vụ trước khi VNeGuide điều hướng sang trang thủ tục.
 2. Chọn nơi tiếp nhận, mở luồng nộp hồ sơ và bấm **Nhờ trợ giúp** ở một bước. Prompt hướng dẫn được
    gửi ẩn; người dùng vẫn thấy câu trả lời và lựa chọn phù hợp với trường hiện tại.
 3. Trả lời một trường lựa chọn trong chat. Kiểm tra rằng AI chỉ tạo đề xuất; biểu mẫu chỉ thay đổi sau
@@ -150,6 +180,51 @@ dữ liệu cuối cùng.
    rõ, không tự suy luận field. Tầng model-assisted là tùy chọn và chỉ nhận placeholder thay cho dữ
    liệu định danh; bảng phương ngữ không nằm trong prompt. Xem [`language/`](src/vneguide/language/)
    và [dialect evaluation](data/evaluation/dialect/README.md).
+
+### Pipeline phương ngữ, ASR và bảo toàn evidence
+
+Lớp chuẩn hóa nằm trước structured extraction, thay vì nhúng toàn bộ bảng phương ngữ vào prompt. Cách
+tách này giúp hành vi phổ biến có thể kiểm thử deterministic, giảm token và tránh để model tùy ý sửa
+dữ liệu định danh.
+
+```mermaid
+flowchart LR
+    RAW[Raw text / speech transcript] --> PROTECT[Detect protected spans]
+    PROTECT --> MASK[Replace protected values by placeholders]
+    MASK --> DETERMINISTIC[Dialect + ASR + abbreviation glossary]
+    DETERMINISTIC --> CHECK{Còn dấu hiệu chưa chuẩn?}
+    CHECK -- Không --> RESTORE[Restore protected values]
+    CHECK -- Có, feature flag bật --> MODEL[Model-assisted strict JSON]
+    MODEL --> RESTORE
+    RESTORE --> MAP[Raw ↔ normalized span mapping]
+    MAP --> EXTRACT[Structured extraction + evidence validation]
+    EXTRACT --> CLARIFY{Có ambiguity?}
+    CLARIFY -- Có --> OPTIONS[Hỏi lại bằng lựa chọn rõ ràng]
+    CLARIFY -- Không --> SUGGEST[Suggestion chờ xác nhận]
+```
+
+| Raw input tổng hợp | Kết quả mong đợi | Kiểm soát an toàn |
+| --- | --- | --- |
+| “tui muốn làm tạm chú” | “tôi muốn đăng ký tạm trú” | Chỉ chuẩn hóa intent, chưa tự chọn/điền field nếu người dùng chưa xác nhận. |
+| “hộ khẩu photo có được hông” | “bản sao sổ hộ khẩu có được không” | Dùng cho hiểu câu hỏi; fact trả lời vẫn phải đến từ source/rule đã review. |
+| “tui tên Nguyễn Thị Bảy” | Giữ nguyên “Nguyễn Thị Bảy” | Họ tên là protected span; không đổi “Bảy” thành số hoặc từ khác. |
+| “Tôi cần giấy nhà” | Không tự đoán | Trả lựa chọn “Giấy chứng nhận quyền sử dụng đất / Giấy xác nhận chỗ ở / Khác”. |
+
+Contract của tầng model-assisted chỉ nhận text đã thay protected value bằng placeholder và phải trả
+`normalized_text`, `changed_spans`, `confidence`, `ambiguities`. Nếu có ambiguity, pipeline dừng ở
+bước làm rõ. Sau extraction, mỗi evidence span trên câu normalized được remap về raw span để UI vẫn
+giải thích được dữ liệu lấy từ câu nào của người dùng. Production không log raw/normalized text vì
+chúng có thể chứa PII.
+
+Evaluation phương ngữ hiện có 15 fixture tổng hợp Bắc/Trung/Nam, lỗi ASR và ambiguity. Reference
+classifier đạt intent accuracy raw `33,33%` và sau normalization `100%`; exact normalization `100%`,
+protected-span preservation `100%`, unsafe inference `0`. Đây là **offline synthetic baseline**, không
+phải kết quả người dùng thật hoặc cam kết accuracy production. Lệnh kiểm tra:
+
+```bash
+python -m pytest tests/evals/test_dialect_normalization.py \
+  tests/unit/test_language_normalizer.py
+```
 
 ### Phân chia quyết định giữa AI và code
 
