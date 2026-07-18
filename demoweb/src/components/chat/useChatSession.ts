@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useProcedureWorkspace } from "@/components/workspace/ProcedureWorkspaceProvider";
+import { guardSuggestionForLocalField } from "@/lib/procedure-workspace-reducer";
 import type {
   ChatApiError,
   ChatMessage,
@@ -53,12 +54,23 @@ export function useChatSession(context: ChatSessionContext) {
   const [turn, setTurn] = useState<ChatTurn | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [retryAction, setRetryAction] = useState<(() => Promise<void>) | null>(null);
   const [busy, setBusy] = useState(false);
   const initializing = useRef<Promise<void> | null>(null);
   const latestMessageRequest = useRef<string | null>(null);
   const hiddenMessages = useRef(new Set<string>());
   const [lastUserMessage, setLastUserMessage] = useState<string | null>(null);
   const workspace = useProcedureWorkspace();
+
+  const fail = useCallback((message: string, retryFn: (() => Promise<void>) | null) => {
+    setError(message);
+    setRetryAction(() => retryFn);
+  }, []);
+
+  const clearError = useCallback(() => {
+    setError(null);
+    setRetryAction(null);
+  }, []);
 
   const applySession = useCallback(
     (nextSession: ChatSession) => {
@@ -96,18 +108,19 @@ export function useChatSession(context: ChatSessionContext) {
     return true;
   }, [applySession]);
 
+  const ensureSessionRef = useRef<() => Promise<void>>(async () => {});
   const ensureSession = useCallback(async () => {
     if (session || initializing.current) return initializing.current ?? Promise.resolve();
 
     const task = (async () => {
       setBusy(true);
-      setError(null);
+      clearError();
       try {
         const response = await fetch("/api/chat/session", { cache: "no-store" });
         if (response.status === 404 || response.status === 410) await createSession();
         else applySession(await readJson<ChatSession>(response));
       } catch (requestError) {
-        setError(errorMessage(requestError, "Chưa thể kết nối tới trợ lý."));
+        fail(errorMessage(requestError, "Chưa thể kết nối tới trợ lý."), () => ensureSessionRef.current());
       } finally {
         setBusy(false);
         initializing.current = null;
@@ -116,8 +129,14 @@ export function useChatSession(context: ChatSessionContext) {
 
     initializing.current = task;
     return task;
-  }, [applySession, createSession, session]);
+  }, [applySession, clearError, createSession, fail, session]);
+  useEffect(() => {
+    ensureSessionRef.current = ensureSession;
+  }, [ensureSession]);
 
+  const sendMessageRef = useRef<
+    (message: string, options: { hidden?: boolean }) => Promise<void>
+  >(async () => {});
   const sendMessage = useCallback(
     async (message: string, options: { hidden?: boolean } = {}) => {
       const normalized = message.trim();
@@ -129,7 +148,7 @@ export function useChatSession(context: ChatSessionContext) {
       setLastUserMessage(normalized);
       if (options.hidden) hiddenMessages.current.add(normalized);
       setBusy(true);
-      setError(null);
+      clearError();
       if (!options.hidden) {
         setMessages((current) => [
           ...current,
@@ -168,31 +187,45 @@ export function useChatSession(context: ChatSessionContext) {
         );
       } catch (requestError) {
         if (latestMessageRequest.current === requestId) {
-          setError(errorMessage(requestError, "Không thể gửi tin nhắn."));
+          fail(errorMessage(requestError, "Không thể gửi tin nhắn."), () =>
+            sendMessageRef.current(normalized, options),
+          );
         }
       } finally {
         if (latestMessageRequest.current === requestId) setBusy(false);
       }
     },
-    [createSession, recoverSession, workspace],
+    [clearError, createSession, fail, recoverSession, workspace],
   );
+  useEffect(() => {
+    sendMessageRef.current = sendMessage;
+  }, [sendMessage]);
 
   const sendHiddenMessage = useCallback(
     (message: string) => sendMessage(message, { hidden: true }),
     [sendMessage],
   );
 
+  const chooseFieldValueRef = useRef<
+    (fieldId: string, value: JsonValue, visibleLabel: string) => Promise<void>
+  >(async () => {});
   const chooseFieldValue = useCallback(
     async (fieldId: string, value: JsonValue, visibleLabel: string) => {
       setBusy(true);
-      setError(null);
+      clearError();
       workspace.setField(fieldId, value);
       try {
         const nextTurn = await workspace.commitField(fieldId, value, {
           interaction: "chat_choice",
           displayLabel: visibleLabel,
         });
-        if (!nextTurn) return;
+        if (!nextTurn) {
+          fail(
+            "Không thể đồng bộ giá trị này với trợ lý. Bạn vẫn có thể chỉnh tiếp trên form.",
+            () => chooseFieldValueRef.current(fieldId, value, visibleLabel),
+          );
+          return;
+        }
         setTurn(nextTurn);
         setMessages(
           stampMessages(
@@ -205,9 +238,15 @@ export function useChatSession(context: ChatSessionContext) {
         setBusy(false);
       }
     },
-    [workspace],
+    [clearError, fail, workspace],
   );
+  useEffect(() => {
+    chooseFieldValueRef.current = chooseFieldValue;
+  }, [chooseFieldValue]);
 
+  const resolveSuggestionRef = useRef<
+    (suggestion: ChatSuggestion, action: "accept" | "reject" | "edit", value?: JsonValue) => Promise<void>
+  >(async () => {});
   const resolveSuggestion = useCallback(
     async (
       suggestion: ChatSuggestion,
@@ -215,12 +254,16 @@ export function useChatSession(context: ChatSessionContext) {
       value?: JsonValue,
     ) => {
       if (action !== "reject" && workspace.isDirty(suggestion.field_id)) {
-        setError("Field này đã được bạn sửa trực tiếp trên form. AI không được ghi đè giá trị đó.");
+        fail("Field này đã được bạn sửa trực tiếp trên form. AI không được ghi đè giá trị đó.", null);
         return;
       }
 
       setBusy(true);
-      setError(null);
+      clearError();
+      const guardedSuggestion = guardSuggestionForLocalField(
+        suggestion,
+        workspace.state.fields[suggestion.field_id],
+      );
       try {
         const response = await fetch("/api/chat/suggestion", {
           method: "POST",
@@ -233,7 +276,7 @@ export function useChatSession(context: ChatSessionContext) {
           }),
         });
         const nextTurn = await readJson<ChatTurn>(response);
-        workspace.applySuggestion(suggestion, action, nextTurn, value);
+        workspace.applySuggestion(guardedSuggestion, action, nextTurn, value);
         setTurn(nextTurn);
         setMessages(stampMessages(nextTurn.messages));
       } catch (requestError) {
@@ -241,17 +284,23 @@ export function useChatSession(context: ChatSessionContext) {
           workspace.markStale();
           await recoverSession();
         }
-        setError(errorMessage(requestError, "Không thể cập nhật đề xuất."));
+        fail(errorMessage(requestError, "Không thể cập nhật đề xuất."), () =>
+          resolveSuggestionRef.current(suggestion, action, value),
+        );
       } finally {
         setBusy(false);
       }
     },
-    [recoverSession, workspace],
+    [clearError, fail, recoverSession, workspace],
   );
+  useEffect(() => {
+    resolveSuggestionRef.current = resolveSuggestion;
+  }, [resolveSuggestion]);
 
+  const resetSessionRef = useRef<() => Promise<void>>(async () => {});
   const resetSession = useCallback(async () => {
     setBusy(true);
-    setError(null);
+    clearError();
     latestMessageRequest.current = null;
     hiddenMessages.current.clear();
     setLastUserMessage(null);
@@ -263,16 +312,21 @@ export function useChatSession(context: ChatSessionContext) {
       setMessages([]);
       await createSession();
     } catch (requestError) {
-      setError(errorMessage(requestError, "Không thể bắt đầu lại phiên trò chuyện."));
+      fail(errorMessage(requestError, "Không thể bắt đầu lại phiên trò chuyện."), () =>
+        resetSessionRef.current(),
+      );
     } finally {
       setBusy(false);
     }
-  }, [createSession, workspace]);
+  }, [clearError, createSession, fail, workspace]);
+  useEffect(() => {
+    resetSessionRef.current = resetSession;
+  }, [resetSession]);
 
-  const retryLastMessage = useCallback(() => {
-    if (!lastUserMessage || busy) return;
-    void sendMessage(lastUserMessage);
-  }, [busy, lastUserMessage, sendMessage]);
+  const retry = useCallback(() => {
+    if (busy || !retryAction) return;
+    void retryAction();
+  }, [busy, retryAction]);
 
   return {
     session,
@@ -281,12 +335,12 @@ export function useChatSession(context: ChatSessionContext) {
     error,
     busy,
     lastUserMessage,
+    retry,
     ensureSession,
     sendMessage,
     sendHiddenMessage,
     chooseFieldValue,
     resolveSuggestion,
     resetSession,
-    retryLastMessage,
   };
 }

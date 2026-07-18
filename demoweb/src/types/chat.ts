@@ -107,4 +107,5 @@ export interface ProcedureWorkspaceState {
   validation_issues: NonNullable<ChatTurn["validation"]>["issues"];
   hydrated: boolean;
   recovery_notice: string | null;
+  pending_suggestion_fields: string[];
 }

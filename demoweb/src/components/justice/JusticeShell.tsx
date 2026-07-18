@@ -73,9 +73,9 @@ export function JusticeShell({
 
         <div className="relative mx-auto flex min-h-[138px] w-full max-w-[1440px] items-center justify-between gap-6 px-4 py-5 sm:px-8 lg:px-12">
           <Link
-            aria-label="Hệ thống mô phỏng chuẩn bị thủ tục VNeGuide"
+            aria-label="VNeGuide - Về trang chủ"
             className="flex min-w-0 items-center gap-3 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ce7a58] sm:gap-6"
-            href="/hon-nhan-va-gia-dinh/dang-ky-tam-tru/truc-tuyen"
+            href="/"
           >
             <Image
               alt="Quốc huy Việt Nam"

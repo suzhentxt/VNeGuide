@@ -17,6 +17,7 @@ import {
   type PortalOption,
   provinceOptions,
 } from "@/data/portal-authorities";
+import { toast } from "sonner";
 
 const serviceLinks = [
   {
@@ -204,9 +205,10 @@ export function HeroSearch() {
 
     setAnnouncement(
       submittedKeyword
-        ? `Đã gửi tìm kiếm cho “${submittedKeyword}”.`
+        ? `Đã gửi tìm kiếm cho "${submittedKeyword}".`
         : "Đã gửi tìm kiếm dịch vụ công.",
     );
+    toast.info("Đang chuyển sang Cổng Dịch vụ công Quốc gia để hiển thị kết quả.");
     window.location.assign(`${SEARCH_RESULTS_URL}?${searchParams.toString()}`);
   };
 

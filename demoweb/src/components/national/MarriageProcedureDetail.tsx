@@ -171,15 +171,14 @@ export function MarriageProcedureDetail({
           <div className="mt-4 flex flex-col justify-between gap-4 border-b border-[#d1d5db] pb-4 sm:flex-row sm:items-start">
             <div className="space-y-2">
               <a
-                id="phan-anh-kien-nghi"
-                href="#phan-anh-kien-nghi"
+                href="https://dichvucong.gov.vn/phan-anh-kien-nghi"
                 className="group flex items-center gap-2 font-semibold hover:text-[#ce7a58] focus-visible:outline-2 focus-visible:outline-[#ce7a58]"
               >
                 <ChevronRight className="size-4 text-[#ce7a58]" aria-hidden="true" />
                 Gửi phản ánh kiến nghị
               </a>
               <a
-                href="#tham-van"
+                href="https://dichvucong.gov.vn/tham-van-thu-tuc-hanh-chinh"
                 className="group flex items-center gap-2 font-semibold hover:text-[#ce7a58] focus-visible:outline-2 focus-visible:outline-[#ce7a58]"
               >
                 <ChevronRight className="size-4 text-[#ce7a58]" aria-hidden="true" />

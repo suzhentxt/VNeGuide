@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertTriangle, CheckCircle2, CloudOff, Save, ShieldCheck } from "lucide-react";
+import { AlertTriangle, CheckCircle2, CloudOff, Save, ShieldCheck, Sparkles } from "lucide-react";
 import { cloneElement, type FormEvent, type ReactElement, useMemo, useState } from "react";
 
 import { useProcedureWorkspace } from "@/components/workspace/ProcedureWorkspaceProvider";
@@ -41,16 +41,30 @@ function Field({
 }) {
   const { state } = useProcedureWorkspace();
   const field = state.fields[fieldId];
+  const hasPendingSuggestion = state.pending_suggestion_fields.includes(fieldId);
   const describedBy = [hint ? `${fieldId}-hint` : null, errors.length ? `${fieldId}-error` : null]
     .filter(Boolean)
     .join(" ") || undefined;
 
   return (
-    <div className="space-y-2" data-field-id={fieldId}>
-      <label className="block font-semibold text-[#334155]" htmlFor={fieldId}>
-        {label}
-        {required ? <span className="text-[#b42318]"> *</span> : null}
-      </label>
+    <div
+      className={`space-y-2 rounded-lg p-2 transition-colors ${
+        hasPendingSuggestion ? "bg-[#fff8f5] ring-1 ring-[#ce7a58]" : ""
+      }`}
+      data-field-id={fieldId}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <label className="block font-semibold text-[#334155]" htmlFor={fieldId}>
+          {label}
+          {required ? <span className="text-[#b42318]"> *</span> : null}
+        </label>
+        {hasPendingSuggestion ? (
+          <span className="inline-flex items-center gap-1 rounded-full bg-[#fff4e5] px-2 py-0.5 text-xs font-semibold text-[#7a4b00]">
+            <Sparkles className="size-3" aria-hidden="true" />
+            Có đề xuất
+          </span>
+        ) : null}
+      </div>
       <div>{cloneElement(children, { "aria-describedby": describedBy })}</div>
       {hint ? <p className="text-sm text-[#667085]" id={`${fieldId}-hint`}>{hint}</p> : null}
       {errors.length ? (

@@ -57,10 +57,10 @@ export default async function ProcedureEFormPage({
 
   if (!selectedService || !selectedReceptionUnit) {
     redirect(
-      withProcedureSelection(experience.routes.apply, {
+      `${withProcedureSelection(experience.routes.apply, {
         receptionUnit: selectedReceptionUnit,
         serviceId: selectedService?.id,
-      }),
+      })}?canh_bao=chua_chon_dich_vu`,
     );
   }
 

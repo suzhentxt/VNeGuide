@@ -27,9 +27,9 @@ interface NationalPortalShellProps {
 
 const navItems = [
   { label: "Thông tin và dịch vụ", href: marriageRoutes.category },
-  { label: "Thanh toán trực tuyến", href: "#thanh-toan-truc-tuyen" },
-  { label: "Phản ánh kiến nghị", href: "#phan-anh-kien-nghi" },
-  { label: "Hỗ trợ", href: "#ho-tro" },
+  { label: "Thanh toán trực tuyến", href: "https://dichvucong.gov.vn/thanh-toan-truc-tuyen" },
+  { label: "Phản ánh kiến nghị", href: "https://dichvucong.gov.vn/phan-anh-kien-nghi" },
+  { label: "Hỗ trợ", href: "https://dichvucong.gov.vn/ho-tro" },
 ] as const;
 
 function PortalLogo() {
@@ -83,7 +83,7 @@ function MobileMenu() {
           </ul>
         </nav>
         <a
-          href="#dang-nhap"
+          href="https://sso.dancuquocgia.gov.vn/auth?response_type=code&client_id=sso-c12-dvc-web&redirect_uri=https%3A%2F%2Fdichvucong.gov.vn%2Fsso&scope=openid"
           className="mt-3 flex items-center gap-3 rounded-lg bg-[#f5f5f5] px-3 py-3 font-semibold hover:text-[#ce7a58] focus-visible:outline-2 focus-visible:outline-[#ce7a58]"
         >
           <CircleUserRound className="size-7 text-[#ce7a58]" aria-hidden="true" />
@@ -102,7 +102,7 @@ function NationalHeader() {
           <PortalLogo />
           <a
             id="dang-nhap"
-            href="#dang-nhap"
+            href="https://sso.dancuquocgia.gov.vn/auth?response_type=code&client_id=sso-c12-dvc-web&redirect_uri=https%3A%2F%2Fdichvucong.gov.vn%2Fsso&scope=openid"
             className="hidden shrink-0 items-center gap-3 rounded-lg px-4 py-2 text-lg font-semibold text-[#374151] hover:bg-[#f5f5f5] hover:text-[#ce7a58] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ce7a58] lg:flex"
           >
             <span className="flex size-10 items-center justify-center rounded-full bg-[#ce7a58] text-white">
@@ -188,12 +188,12 @@ function SupportStrip() {
   const items = [
     {
       label: "Câu hỏi thường gặp",
-      href: "#cau-hoi-thuong-gap",
+      href: "https://dichvucong.gov.vn/ho-tro",
       icon: HelpCircle,
     },
     {
       label: "Hướng dẫn sử dụng",
-      href: "#huong-dan-su-dung",
+      href: "https://dichvucong.gov.vn/huong-dan",
       icon: BookOpen,
     },
   ] as const;

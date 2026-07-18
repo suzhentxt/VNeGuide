@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
+import { Suspense } from "react";
 
 import { JusticeShell } from "@/components/justice/JusticeShell";
 import { MarriageApplication } from "@/components/justice/MarriageApplication";
+import { RedirectNotice } from "@/components/RedirectNotice";
 import {
   additionalProcedureExperiences,
   getProcedureExperience,
@@ -56,7 +58,7 @@ export default async function ProcedureApplicationPage({
   const serviceConfirmed = query.confirmed === "1";
 
   if (!selectedService || !selectedReceptionUnit || !serviceConfirmed) {
-    redirect(experience.routes.detail);
+    redirect(`${experience.routes.detail}?canh_bao=chua_chon_dich_vu`);
   }
 
   const initialStep = query.step === "3" ? 3 : 1;
@@ -64,6 +66,9 @@ export default async function ProcedureApplicationPage({
 
   return (
     <JusticeShell activeNav="procedures">
+      <Suspense fallback={null}>
+        <RedirectNotice />
+      </Suspense>
       <MarriageApplication
         experience={experience}
         guidedFields={guidedFields}

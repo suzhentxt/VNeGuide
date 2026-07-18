@@ -45,7 +45,7 @@ test("stale revision giữ local edit, rebase và cho phép retry", async ({ pag
   await expect(fieldContainer(page, "temporary_address")).toContainText(
     "Đã lưu trên form; chờ đồng bộ",
   );
-  await expect(page.getByText(/Giá trị bạn vừa sửa vẫn được giữ/)).toBeVisible();
+  await expect(page.getByRole("status")).toContainText(/Giá trị bạn vừa sửa vẫn được giữ/);
 
   const retryResponsePromise = page.waitForResponse(
     (response) => response.url().endsWith("/api/chat/field"),

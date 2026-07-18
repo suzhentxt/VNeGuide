@@ -147,7 +147,7 @@ export function NewsCarousel() {
                       {item.title}
                     </a>
                     {item.shortDescription ? (
-                      <p className="line-clamp-2 text-xs leading-5 text-[#6C757D]">
+                      <p className="line-clamp-2 text-xs leading-5 text-[#5b6573]">
                         {item.shortDescription}
                       </p>
                     ) : null}

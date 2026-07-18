@@ -13,6 +13,7 @@ export const emptyWorkspace: ProcedureWorkspaceState = {
   validation_issues: [],
   hydrated: false,
   recovery_notice: null,
+  pending_suggestion_fields: [],
 };
 
 const localFieldGuardKey = "__vneguide_local_field_guard" as const;
@@ -126,6 +127,9 @@ function metadataFromTurn(
     revision: Math.max(state.revision, turn.draft.revision),
     fields,
     validation_issues: turn.validation?.issues ?? [],
+    pending_suggestion_fields: turn.suggestions
+      .filter((s) => s.status === "pending")
+      .map((s) => s.field_id),
     recovery_notice: Object.values(fields).some(
       (field) => field.sync_status === "dirty" || field.sync_status === "error",
     )
@@ -140,7 +144,11 @@ export function procedureWorkspaceReducer(
 ): ProcedureWorkspaceState {
   switch (action.type) {
     case "hydrate":
-      return { ...action.state, hydrated: true };
+      return {
+        ...action.state,
+        pending_suggestion_fields: action.state.pending_suggestion_fields ?? [],
+        hydrated: true,
+      };
     case "activate":
       if (state.procedure_code === action.procedureCode && state.hydrated) return state;
       return { ...emptyWorkspace, procedure_code: action.procedureCode, hydrated: true };

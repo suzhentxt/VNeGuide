@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 import { MarriageProcedureDetail } from "@/components/national/MarriageProcedureDetail";
 import { NationalPortalShell } from "@/components/national/NationalPortalShell";
+import { RedirectNotice } from "@/components/RedirectNotice";
 import {
   additionalProcedureExperiences,
   getProcedureExperience,
@@ -49,6 +51,9 @@ export default async function ProcedurePage({ params }: ProcedurePageProps) {
         { label: "Chi tiết thủ tục" },
       ]}
     >
+      <Suspense fallback={null}>
+        <RedirectNotice />
+      </Suspense>
       <MarriageProcedureDetail experience={experience} />
     </NationalPortalShell>
   );

@@ -4,7 +4,7 @@ export function PortalFooter() {
       <div className="mx-auto w-full max-w-[1200px] px-[15px]">
         <p className="mx-[15px] my-[5px]">
           Cơ quan chủ quản: Trung tâm dữ liệu quốc gia - Bộ Công an. Tổng
-          đài hỗ trợ: 18001096
+          đài hỗ trợ: <a href="tel:18001096" className="font-semibold underline hover:no-underline">18001096</a>
         </p>
       </div>
     </footer>

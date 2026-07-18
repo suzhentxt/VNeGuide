@@ -138,7 +138,7 @@ export function SuggestionCard({
               </button>
               <button
                 className="inline-flex min-h-10 items-center gap-1.5 rounded-md border border-[#ce7a58] bg-white px-3 text-sm font-semibold text-[#903938] hover:bg-[#fff4ef] disabled:opacity-50"
-                disabled={disabled}
+                disabled={disabled || fieldLocked}
                 onClick={() => setEditing(true)}
                 type="button"
               >

@@ -465,7 +465,7 @@ export function PortalHeader() {
         aria-controls="portal-mobile-navigation"
         aria-expanded={drawerOpen}
         aria-label={drawerOpen ? "Đóng trình đơn" : "Mở trình đơn"}
-        className={`${focusRing} fixed top-0 right-0 z-[110] hidden size-9 items-center justify-center bg-[#CE7A58] text-white transition-colors hover:bg-[#BC5D37] max-[991px]:flex`}
+        className={`${focusRing} fixed top-0 right-0 z-[1100] hidden size-9 items-center justify-center bg-[#CE7A58] text-white transition-colors hover:bg-[#BC5D37] max-[991px]:flex`}
         onClick={() => {
           if (drawerOpen) {
             closeDrawer();
@@ -486,7 +486,7 @@ export function PortalHeader() {
       <button
         aria-hidden={!drawerOpen}
         aria-label="Đóng trình đơn"
-        className={`fixed inset-0 z-[90] hidden bg-black/20 transition-opacity duration-300 max-[991px]:block ${
+        className={`fixed inset-0 z-[1080] hidden bg-black/20 transition-opacity duration-300 max-[991px]:block ${
           drawerOpen
             ? "pointer-events-auto opacity-100"
             : "pointer-events-none opacity-0"
@@ -499,7 +499,7 @@ export function PortalHeader() {
       <nav
         aria-hidden={!drawerOpen}
         aria-label="Điều hướng chính trên thiết bị di động"
-        className={`fixed top-0 bottom-0 left-0 z-[100] hidden w-[260px] overflow-y-auto bg-[#F5F5F5] text-[#1E2F41] transition-transform duration-300 ease-in-out max-[991px]:block ${
+        className={`fixed top-0 bottom-0 left-0 z-[1090] hidden w-[260px] overflow-y-auto bg-[#F5F5F5] text-[#1E2F41] transition-transform duration-300 ease-in-out max-[991px]:block ${
           drawerOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         id="portal-mobile-navigation"

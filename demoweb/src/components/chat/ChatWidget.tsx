@@ -97,14 +97,13 @@ export function ChatWidget() {
     messages,
     error,
     busy,
-    lastUserMessage,
+    retry,
     ensureSession,
     sendMessage,
     sendHiddenMessage,
     chooseFieldValue,
     resolveSuggestion,
     resetSession,
-    retryLastMessage,
   } = useChatSession(context);
 
   const inferredProcedure = turn?.procedure
@@ -330,7 +329,7 @@ export function ChatWidget() {
           onOpenChange={(next) => {
             if (!next) closePanel();
           }}
-          modal="trap-focus"
+          modal={false}
           disablePointerDismissal
         >
           <Dialog.Portal>
@@ -440,6 +439,13 @@ export function ChatWidget() {
                       minute: "2-digit",
                     })
                   : null;
+                const isLastAssistant =
+                  message.role === "assistant" &&
+                  index ===
+                    messages.reduce(
+                      (last, msg, i) => (msg.role === "assistant" ? i : last),
+                      -1,
+                    );
                 return (
                   <div
                     className={`flex animate-in fade-in slide-in-from-bottom-1 duration-200 flex-col ${message.role === "user" ? "items-end" : "items-start"}`}
@@ -450,7 +456,10 @@ export function ChatWidget() {
                         {message.content}
                       </div>
                     ) : (
-                      <BotMessage content={message.content} sources={turn?.sources} />
+                      <BotMessage
+                        content={message.content}
+                        sources={isLastAssistant ? turn?.sources : undefined}
+                      />
                     )}
                     {time ? (
                       <time className="mt-0.5 px-1 text-[10px] text-[#9299a2]">{time}</time>
@@ -710,11 +719,11 @@ export function ChatWidget() {
                 <AlertTriangle className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
                 <div className="flex-1">
                   <p>{error}</p>
-                  {lastUserMessage ? (
+                  {retry ? (
                     <button
                       className="mt-2 inline-flex min-h-9 items-center gap-1.5 rounded-md border border-[#efb4b4] bg-white px-3 text-sm font-bold text-[#8b1e1e] hover:bg-[#fff8f8] focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[#ffc251] disabled:opacity-50"
                       disabled={busy}
-                      onClick={() => retryLastMessage()}
+                      onClick={() => retry()}
                       type="button"
                     >
                       <RotateCw className="size-4" aria-hidden="true" />

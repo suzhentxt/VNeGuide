@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { ChevronRight, Landmark, MapPin, Search } from "lucide-react";
 
 import {
@@ -326,8 +327,8 @@ export function PopularProcedures() {
       <ul className="divide-y divide-[#e5e7eb] px-4">
         {popularProcedures.map((procedure) => (
           <li key={procedure}>
-            <a
-              href="#tim-kiem-nhieu-nhat"
+            <Link
+              href="/"
               className="group flex gap-3 py-3 text-sm leading-[1.35] font-semibold hover:text-[#ce7a58] focus-visible:outline-2 focus-visible:outline-[#ce7a58]"
             >
               <ChevronRight
@@ -335,18 +336,18 @@ export function PopularProcedures() {
                 aria-hidden="true"
               />
               <span className="line-clamp-3">{procedure}</span>
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
       <div className="border-t border-[#e5e7eb] p-3">
-        <a
-          href="#tim-kiem"
+        <Link
+          href="/"
           className="flex items-center justify-center gap-2 rounded border border-[#ce7a58] px-3 py-2 text-sm font-semibold text-[#ce7a58] hover:bg-[#ce7a58] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#903938]"
         >
           <Search className="size-4" aria-hidden="true" />
           Tìm thủ tục khác
-        </a>
+        </Link>
       </div>
     </aside>
   );
