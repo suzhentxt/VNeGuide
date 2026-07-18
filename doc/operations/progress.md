@@ -2,10 +2,12 @@
 
 ## Trạng thái release
 
-- Baseline dùng chung: `origin/dev@9960bf2`.
+- Remote baseline trước merge: `origin/dev@9960bf2`; local `dev` đã nhận merge result bằng
+  `55d13cd`, chưa push.
 - `integration/release-dev` đã fast-forward từ `0cb4d6b` lên `9960bf2` ngày 2026-07-18.
 - Đã tích hợp `origin/agent/memory-form-sync@83adb18` trên `integration/release-dev`; full gate và
   release audit trên cây hợp nhất đạt trước khi chốt merge commit local.
+- Đã merge `integration/release-dev@7695039` vào local `dev` bằng `55d13cd`.
 - LiteLLM, FastAPI Chat API và Next.js cùng tồn tại; backend/data và frontend chỉ hỗ trợ đúng ba mã
   `2.000635`, `1.013314`, `1.004194`.
 - `.DS_Store`, `procedures.csv` và `view_parquet.py` là file local ngoài scope, không được stage.

@@ -2,15 +2,16 @@
 
 ## Trạng thái Git
 
-- Nhánh hiện tại: `integration/release-dev`.
+- Nhánh hiện tại: local `dev`.
 - Integration đã fast-forward lên `dev@9960bf2` và tích hợp
   `origin/agent/memory-form-sync@83adb18`.
 - Conflict chỉ có ở `doc/operations/progress.md` và file này; nội dung được hợp nhất theo trạng thái
   Release Captain hiện tại, không giữ mô tả web bốn thủ tục/dependency cũ của branch nguồn.
 - BFF được nối sang contract backend mới bằng
   `PATCH /v1/chat/sessions/{session_id}/draft/fields/{field_id}`.
-- Full Python/npm gate, BFF → backend smoke và release audit đã đạt; integration sẵn sàng merge vào
-  `dev` nhưng chưa push/merge tiếp.
+- Full Python/npm gate, BFF → backend smoke và release audit đã đạt trên integration result.
+- Đã merge `integration/release-dev@7695039` vào local `dev` bằng `55d13cd`; chưa push
+  `origin/dev`.
 - `.DS_Store`, `procedures.csv` và `view_parquet.py` không thuộc release và không được stage.
 
 ## Thay đổi từ Người 2
@@ -36,7 +37,7 @@
 
 ## Việc cần làm tiếp
 
-1. Merge/push integration vào `dev` khi Release Captain được yêu cầu.
+1. Push local `dev` lên `origin/dev` khi Release Captain được yêu cầu.
 2. Browser manual-edit E2E cho hero tạm trú, gồm stale recovery và session recreation.
 3. Rebuild Docker; smoke local/public URL và ghi lại image digest, model/version, timestamp.
 
