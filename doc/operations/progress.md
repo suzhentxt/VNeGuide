@@ -312,3 +312,8 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
 - Lần upload đầu dừng ở bước detect Next.js vì Root Directory còn ở repo root. Cấu hình project đã
   được sửa nhưng môi trường agent chặn lần upload lại tới dịch vụ ngoài; chưa có production deployment
   `READY` và chưa smoke-test được `https://vneguide.vercel.app/`.
+- Redeploy source cũ sau khi sửa Root Directory đã nhận đúng Next.js 16.2.10 nhưng thất bại vì archive
+  không có `demoweb/src`: mẫu `.vercelignore` `src` không neo ở root đã loại cả frontend source.
+  Pattern đã đổi thành `/src`; các data directory được loại tường minh để giữ duy nhất
+  `data/catalog/field_catalog.json`. Vercel dry-run xác nhận có frontend app và field catalog, không có
+  `src/vneguide` hoặc catalog khác. Cần fresh deploy; redeploy archive cũ sẽ tiếp tục thất bại.

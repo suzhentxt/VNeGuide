@@ -161,6 +161,9 @@ Rollback bằng `git revert`; không dùng reset hoặc force-push trên branch 
 npm exec --yes vercel@latest -- deploy --yes --prod --logs
 ```
 
+Không dùng `vercel redeploy` với deployment `dpl_3McXuEUTANRxvYnBLGnQ1n1LXa8U`: source archive đó
+thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit mới là bắt buộc.
+
 - Sau khi build `READY`, xác minh `https://vneguide.vercel.app/`, ba procedure route,
   `/api/portal-options` và một lượt chatbot. Preview hiện phụ thuộc FastAPI `127.0.0.1:18000` cùng
   tunnel ngrok; tunnel hoặc máy local dừng thì chatbot trên Vercel cũng dừng.
