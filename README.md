@@ -60,6 +60,12 @@ Mỗi lượt hiển thị câu trả lời, thủ tục nhận diện, dữ li�
 
 Hook mặc định `vneguide.core:create_session` đã được triển khai. Với mock provider không có response dựng sẵn, core trả fallback an toàn; để hội thoại bằng model thật cần cấu hình provider/model/key theo phần bên dưới. CLI không chứa business logic của core.
 
+Core mặc định dùng biến thể `guided`: sau khi structured extractor khóa đúng một trong ba mã thủ tục,
+chatbot có thể trả lời câu hỏi về lệ phí, thời gian giải quyết, hồ sơ, các bước, cơ quan, kênh nộp
+và kết quả. Nội dung được render trực tiếp từ procedure pack đã review và giữ `source_id`; lớp này
+không gọi thêm model, không đọc transcript/draft và không được thay đổi rule, revision hoặc suggestion.
+Đặt `VNEGUIDE_CHAT_CORE_VARIANT=baseline` để rollback/A-B mà không đổi API.
+
 ## Chạy HTTP API và demoweb
 
 Browser gọi Next.js BFF tại `/api/chat/*`; BFF giữ session ID trong cookie `HttpOnly` và gọi Python
@@ -114,6 +120,7 @@ VNEGUIDE_LITELLM_ALLOW_INSECURE_HTTP=0
 VNEGUIDE_LITELLM_DISABLE_THINKING=1
 VNEGUIDE_API_KEY=
 VNEGUIDE_SESSION_FACTORY=vneguide.core:create_session
+VNEGUIDE_CHAT_CORE_VARIANT=guided
 VNEGUIDE_RUN_LIVE_SMOKE=0
 VNEGUIDE_OCR_ENABLED=0
 VNEGUIDE_OCR_WORKER_TOKEN=
@@ -147,6 +154,15 @@ Chạy coverage:
 ```powershell
 python -m pytest --cov=vneguide --cov-report=term-missing
 ```
+
+Đánh giá A/B deterministic cho câu trả lời nghiệp vụ của đúng ba thủ tục:
+
+```powershell
+python -m tests.evals.run_chat_core_ab
+```
+
+Lệnh chỉ in metrics tổng hợp, model là `null` vì reply layer không gọi model và không ghi tin nhắn,
+draft hoặc dữ liệu cá nhân vào report.
 
 Smoke trực tiếp provider, không phụ thuộc `core` hoặc CLI, bằng đúng một câu tổng hợp không có PII:
 

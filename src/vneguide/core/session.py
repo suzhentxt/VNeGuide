@@ -25,6 +25,8 @@ from vneguide.domain import (
 )
 from vneguide.rules import QuestionSelector, RuleEngine
 
+from .replies import GroundedReply, ReplyComposer
+
 
 class Extractor(Protocol):
     def extract(
@@ -50,11 +52,18 @@ class ProcedureConflictError(ValueError):
 class ConversationSession:
     """Own one ephemeral conversation and its confirmed draft."""
 
-    def __init__(self, extractor: Extractor, repository: ProcedureRepository) -> None:
+    def __init__(
+        self,
+        extractor: Extractor,
+        repository: ProcedureRepository,
+        *,
+        reply_composer: ReplyComposer | None = None,
+    ) -> None:
         self._extractor = extractor
         self._repository = repository
         self._rules = RuleEngine(repository)
         self._questions = QuestionSelector(repository)
+        self._reply_composer = reply_composer
         self._state = ConversationState()
         self._closed = False
 
@@ -136,6 +145,8 @@ class ConversationSession:
             pack = self._repository.get_by_code(code)
             draft = replace(draft, procedure_code=code, pack_version=pack.version)
 
+        grounded_reply = self._compose_grounded_reply(code, message)
+
         suggestions = list(self._state.suggestions)
         valid_fields: dict[str, JSONValue] = {}
         for field_id, value in outcome.fields.items():
@@ -164,7 +175,7 @@ class ConversationSession:
             )
 
         attempts = dict(self._state.clarification_attempts)
-        if previous_missing and not valid_fields:
+        if previous_missing and not valid_fields and grounded_reply is None:
             field_id = previous_missing[0]
             attempts[field_id] = attempts.get(field_id, 0) + 1
         self._state = ConversationState(
@@ -177,14 +188,28 @@ class ConversationSession:
         )
         pending = self._pending()
         if pending:
-            reply = (
+            confirmation = (
                 f"Tôi đã tạo {len(pending)} đề xuất. "
                 "Hãy Accept, Reject hoặc Edit từng đề xuất trước khi đi tiếp."
             )
+            reply = (
+                f"{grounded_reply.text}\n\n{confirmation}"
+                if grounded_reply is not None
+                else confirmation
+            )
             action = NextAction.CONFIRM_SUGGESTION
+        elif grounded_reply is not None:
+            reply = grounded_reply.text
+            action = NextAction.PRESENT_GUIDANCE
         else:
             reply, action = self._next_prompt(code)
-        return self._finish_turn(message, reply, action, extracted_fields=valid_fields)
+        return self._finish_turn(
+            message,
+            reply,
+            action,
+            extracted_fields=valid_fields,
+            source_ids=(grounded_reply.source_ids if grounded_reply is not None else None),
+        )
 
     def accept_suggestion(self, suggestion_id: str, *, expected_revision: int) -> TurnResult:
         return self._resolve_suggestion(
@@ -381,6 +406,7 @@ class ConversationSession:
         action: NextAction,
         *,
         extracted_fields: Mapping[str, JSONValue] | None = None,
+        source_ids: tuple[str, ...] | None = None,
     ) -> TurnResult:
         messages = self._state.messages + (
             ChatMessage(MessageRole.USER, user_message),
@@ -391,7 +417,12 @@ class ConversationSession:
             messages=messages,
             turn_number=self._state.turn_number + 1,
         )
-        return self._build_result(reply, action, extracted_fields=extracted_fields)
+        return self._build_result(
+            reply,
+            action,
+            extracted_fields=extracted_fields,
+            source_ids=source_ids,
+        )
 
     def _build_result(
         self,
@@ -399,20 +430,23 @@ class ConversationSession:
         action: NextAction,
         *,
         extracted_fields: Mapping[str, JSONValue] | None = None,
+        source_ids: tuple[str, ...] | None = None,
     ) -> TurnResult:
         code = self._state.draft.procedure_code
         validation: ValidationResult | None = None
         missing: tuple[str, ...] = ()
-        source_ids: tuple[str, ...] = ()
+        resolved_source_ids: tuple[str, ...] = ()
         if code is not None:
             validation = self._rules.validate(code, self._state.draft.values)
             missing = self._rules.missing_fields(code, self._state.draft.values)
-            source_ids = self._repository.get_by_code(code).source_ids
+            resolved_source_ids = self._repository.get_by_code(code).source_ids
+        if source_ids is not None:
+            resolved_source_ids = source_ids
         return TurnResult(
             reply=reply,
             state=self._state,
             next_action=action,
-            source_ids=source_ids,
+            source_ids=resolved_source_ids,
             missing_fields=missing,
             validation=validation,
             extracted_fields={} if extracted_fields is None else extracted_fields,
@@ -458,6 +492,29 @@ class ConversationSession:
         self, message: str, reply: str, action: NextAction
     ) -> TurnResult:
         return self._finish_turn(message, reply, action)
+
+    def _compose_grounded_reply(
+        self,
+        procedure_code: ProcedureCode,
+        message: str,
+    ) -> GroundedReply | None:
+        if self._reply_composer is None:
+            return None
+        try:
+            reply = self._reply_composer.compose(
+                procedure_code=procedure_code,
+                message=message,
+            )
+            if reply is None:
+                return None
+            reviewed_sources = set(self._repository.get_by_code(procedure_code).source_ids)
+            if not set(reply.source_ids).issubset(reviewed_sources):
+                return None
+            return reply
+        except Exception:
+            # Reply composition is optional. Extraction and the deterministic
+            # state machine remain available if the presentation layer fails.
+            return None
 
     def _pending(self) -> tuple[FieldSuggestion, ...]:
         return tuple(
@@ -530,6 +587,9 @@ class ConversationSession:
 
 
 def build_session(
-    extractor: StructuredExtractor | Extractor, repository: ProcedureRepository
+    extractor: StructuredExtractor | Extractor,
+    repository: ProcedureRepository,
+    *,
+    reply_composer: ReplyComposer | None = None,
 ) -> ConversationSession:
-    return ConversationSession(extractor, repository)
+    return ConversationSession(extractor, repository, reply_composer=reply_composer)

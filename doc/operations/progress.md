@@ -1,5 +1,28 @@
 # Nhật ký tiến độ VNeGuide
 
+## 2026-07-18 — Thử nghiệm grounded conversational core
+
+- Tạo nhánh `experiment/chat-core-v2` từ `dev@48f9c1f`; mọi thay đổi nằm trong worktree riêng, không
+  chạm nhánh `agent/browser-e2e` hoặc ba file local ngoài scope.
+- Thêm `CatalogReplyComposer` deterministic cho phí, thời gian, hồ sơ, các bước, cơ quan, kênh nộp
+  và kết quả. Composer chỉ render procedure pack đã review sau khi extractor khóa procedure code.
+- Guidance-only dùng `present_guidance`, không tăng clarification attempt hoặc đổi draft/revision;
+  mixed turn vẫn tạo suggestion. Source ngoài pack, lỗi composer, unsupported/ambiguous và procedure
+  switch đều fail closed về flow hiện hành.
+- Factory mặc định `VNEGUIDE_CHAT_CORE_VARIANT=guided`; đặt `baseline` để A/B/rollback, không đổi
+  FastAPI/Next.js wire contract và không thêm model call.
+- A/B deterministic 12 case tổng hợp: baseline fact coverage `0/12`, guided `12/12`, topic accuracy
+  `12/12`, source grounding `12/12`; reply layer chạy khoảng `0.928 ms/12 case` tại timestamp
+  `2026-07-18T11:10:35Z`, engine `catalog-deterministic`, model `none`.
+- Targeted core/API/release/eval đạt `92 passed`. Full pytest đạt `243 passed, 2 skipped`, coverage
+  `80.04%`; repository-state test chạy với LFS filter tắt cục bộ chỉ cho subprocess status, không
+  stage các binary LFS giả-dirty. Compile, Ruff lint/format và mypy strict đều đạt.
+- `npm ci`, `npm audit --audit-level=moderate` đạt `0 vulnerabilities`; `npm run check` đạt lint,
+  typecheck, 9 reducer tests và production build 25 route. Turbopack build cần chạy ngoài sandbox vì
+  worker nội bộ phải bind cổng; không có thay đổi frontend/dependency.
+- Staged release audit đạt `RELEASE_AUDIT_OK index_files=370 text_files=224`; không có secret, PII
+  ngoài fixture tổng hợp, conflict marker hoặc file ngoài scope trong commit.
+
 ## Trạng thái release
 
 - Remote baseline của lượt tích hợp: `origin/dev@f90b5e2`.

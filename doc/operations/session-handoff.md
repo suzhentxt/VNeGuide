@@ -1,5 +1,16 @@
 # Bàn giao phiên release
 
+## Nhánh thử nghiệm chat core
+
+- `experiment/chat-core-v2` đang tách từ `dev@48f9c1f` trong worktree riêng.
+- Guided reply layer đã đạt targeted core/API/release/eval `92 passed`, full Python
+  `243 passed, 2 skipped` với coverage `80.04%`, và A/B `12/12` fact/source;
+  dùng `VNEGUIDE_CHAT_CORE_VARIANT=baseline` để rollback tức thì.
+- Npm gate đạt `0 vulnerabilities`, 9 reducer tests và build 25 route; staged release audit đạt
+  `370` index file/`224` text file. Bước tiếp theo là thử UI/provider thật bằng dữ liệu tổng hợp nếu
+  có endpoint, sau đó chỉ cân nhắc merge khi review A/B; không thay coverage threshold, dataset
+  checksum hoặc source data.
+
 ## Trạng thái Git
 
 - Nhánh hiện tại: local `dev`, nền `origin/dev@f90b5e2`.

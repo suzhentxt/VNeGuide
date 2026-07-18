@@ -7,7 +7,7 @@ from httpx import ASGITransport, AsyncClient
 
 from vneguide.ai import ExtractionOutcome, ExtractionTurnContext
 from vneguide.api import create_app
-from vneguide.core import ConversationSession
+from vneguide.core import CatalogReplyComposer, ConversationSession
 from vneguide.data import ProcedureRepository
 from vneguide.domain import (
     CaseDraft,
@@ -206,6 +206,47 @@ async def test_chat_api_accepts_a_pending_suggestion() -> None:
     assert accepted.json()["suggestions"][0]["status"] == "accepted"
     assert stale.status_code == 409
     assert stale.json()["error"]["code"] == "stale_suggestion"
+
+
+@pytest.mark.anyio
+async def test_chat_api_presents_grounded_guidance_without_mutating_draft() -> None:
+    repository = ProcedureRepository.discover()
+
+    def session_factory() -> ConversationSession:
+        return ConversationSession(
+            StubExtractor(
+                ExtractionOutcome(
+                    status="success",
+                    classification="supported",
+                    procedure_code="1.004194",
+                    fields={},
+                    evidence={},
+                    clarification_question=None,
+                    attempts=1,
+                )
+            ),
+            repository,
+            reply_composer=CatalogReplyComposer(repository),
+        )
+
+    app = create_app(session_factory=session_factory, repository=repository)
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        created = await client.post("/v1/chat/sessions", json={})
+        session_id = created.headers["X-VNeGuide-Session"]
+        turn = await client.post(
+            f"/v1/chat/sessions/{session_id}/messages",
+            json={"message": "Lệ phí bao nhiêu?"},
+        )
+
+    assert turn.status_code == 200
+    payload = turn.json()
+    assert payload["next_action"] == "present_guidance"
+    assert "7.000 đồng" in payload["reply"]
+    assert payload["draft"]["values"] == {}
+    assert payload["draft"]["revision"] == 0
+    assert {source["id"] for source in payload["sources"]} <= set(
+        repository.get_by_code("1.004194").source_ids
+    )
 
 
 @pytest.mark.anyio
