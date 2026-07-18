@@ -1,15 +1,17 @@
 "use client";
 
+import { Dialog } from "@base-ui/react/dialog";
 import {
   AlertTriangle,
   Bot,
   ChevronDown,
   FolderHeart,
-  LoaderCircle,
   MessageCircle,
   RefreshCw,
+  RotateCw,
   Send,
   ShieldCheck,
+  Sparkles,
   X,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
@@ -33,8 +35,21 @@ import {
 } from "@/lib/information-wallet";
 import type { JsonValue } from "@/types/chat";
 
+import { BotMessage } from "./BotMessage";
+import { ChatSection } from "./ChatSection";
 import { SuggestionCard } from "./SuggestionCard";
+import { TypingIndicator } from "./TypingIndicator";
 import { useChatSession } from "./useChatSession";
+import { toast } from "@/components/ui/sonner";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const QUICK_START_CHIPS = [
+  "Tôi muốn tra cứu thủ tục",
+  "Hỏi căn cứ pháp lý và lệ phí",
+  "Kiểm tra hồ sơ cần chuẩn bị",
+];
+
+const CHAT_OPEN_KEY = "vneguide:chat-open";
 
 function choiceLabel(value: JsonValue) {
   if (typeof value === "boolean") return value ? "Có" : "Không";
@@ -47,7 +62,15 @@ export function ChatWidget() {
   const router = useRouter();
   const context = useMemo(() => getChatSessionContext(pathname), [pathname]);
   const workspace = useProcedureWorkspace();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      return window.sessionStorage.getItem(CHAT_OPEN_KEY) === "1";
+    } catch {
+      return false;
+    }
+  });
+  const [closing, setClosing] = useState(false);
   const [draft, setDraft] = useState("");
   const [selectedProcedureCode, setSelectedProcedureCode] = useState<string | null>(null);
   const [choosingProcedure, setChoosingProcedure] = useState(false);
@@ -60,7 +83,6 @@ export function ChatWidget() {
       return null;
     }
   });
-  const [walletNotice, setWalletNotice] = useState<string | null>(null);
   const [declarationCompleted, setDeclarationCompleted] = useState(false);
   const [fieldEntry, setFieldEntry] = useState({ fieldId: "", value: "" });
   const listRef = useRef<HTMLDivElement>(null);
@@ -71,12 +93,14 @@ export function ChatWidget() {
     messages,
     error,
     busy,
+    lastUserMessage,
     ensureSession,
     sendMessage,
     sendHiddenMessage,
     chooseFieldValue,
     resolveSuggestion,
     resetSession,
+    retryLastMessage,
   } = useChatSession(context);
 
   const inferredProcedure = turn?.procedure
@@ -96,17 +120,59 @@ export function ChatWidget() {
   }, [ensureSession, open]);
 
   useEffect(() => {
-    if (!open) return;
-    listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
-  }, [messages, open, turn?.suggestions]);
+    try {
+      if (open) window.sessionStorage.setItem(CHAT_OPEN_KEY, "1");
+      else window.sessionStorage.removeItem(CHAT_OPEN_KEY);
+    } catch {
+      // sessionStorage có thể bị chặn (riêng tư) — bỏ qua.
+    }
+  }, [open]);
+
+  const [showJumpToNew, setShowJumpToNew] = useState(false);
+  const isNearBottomRef = useRef(true);
 
   useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") setOpen(false);
+    if (!open) return;
+    const list = listRef.current;
+    if (!list) return;
+    if (isNearBottomRef.current) {
+      list.scrollTo({ top: list.scrollHeight, behavior: "smooth" });
+      setShowJumpToNew(false);
+    } else {
+      setShowJumpToNew(true);
     }
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, []);
+  }, [messages, open, turn?.suggestions]);
+
+  function handleListScroll() {
+    const list = listRef.current;
+    if (!list) return;
+    const distanceFromBottom = list.scrollHeight - list.scrollTop - list.clientHeight;
+    const nearBottom = distanceFromBottom < 80;
+    isNearBottomRef.current = nearBottom;
+    if (nearBottom) setShowJumpToNew(false);
+  }
+
+  function jumpToNew() {
+    const list = listRef.current;
+    if (!list) return;
+    isNearBottomRef.current = true;
+    list.scrollTo({ top: list.scrollHeight, behavior: "smooth" });
+    setShowJumpToNew(false);
+  }
+
+  function closePanel() {
+    if (closing || !open) return;
+    setClosing(true);
+    window.setTimeout(() => {
+      setOpen(false);
+      setClosing(false);
+    }, 200);
+  }
+
+  useEffect(() => {
+    const notice = workspace.state.recovery_notice;
+    if (notice) toast.info(notice, { duration: 4000 });
+  }, [workspace.state.recovery_notice]);
 
   useEffect(() => {
     const openForStep = (event: Event) => {
@@ -123,7 +189,6 @@ export function ChatWidget() {
   useEffect(() => {
     const onDeclarationCompleted = () => {
       setDeclarationCompleted(true);
-      setWalletNotice(null);
       setOpen(true);
     };
     window.addEventListener("vneguide:declaration-completed", onDeclarationCompleted);
@@ -143,7 +208,6 @@ export function ChatWidget() {
 
   async function restartSession() {
     setDeclarationCompleted(false);
-    setWalletNotice(null);
     await resetSession();
   }
 
@@ -195,12 +259,12 @@ export function ChatWidget() {
   const saveSuggestedWallet = () => {
     window.sessionStorage.setItem(INFORMATION_WALLET_KEY, JSON.stringify(walletCandidate));
     setWallet(walletCandidate);
-    setWalletNotice("Đã lưu trong phiên trình duyệt này. Tôi sẽ đề xuất điền lại khi gặp mục tương ứng.");
+    toast.success("Đã lưu trong phiên trình duyệt này. Tôi sẽ đề xuất điền lại khi gặp mục tương ứng.");
   };
 
   const applySuggestedWallet = () => {
     workspace.prefillFromWallet(walletAutofill);
-    setWalletNotice(
+    toast.success(
       `Tôi đã điền ${Object.keys(walletAutofill).length} mục từ ví. Hãy kiểm tra trên biểu mẫu và bấm xác nhận trước khi đi tiếp.`,
     );
   };
@@ -231,24 +295,41 @@ export function ChatWidget() {
 
   return (
     <>
-      {!open ? (
+      {!open && !closing ? (
         <button
           aria-label="Mở trợ lý VNeGuide"
-          className="fixed right-4 bottom-4 z-[1000] flex size-16 items-center justify-center rounded-full border-4 border-white bg-[#903938] text-white shadow-[0_10px_30px_rgba(54,20,20,0.3)] transition-transform hover:scale-105 hover:bg-[#762b2b] focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[#ffc251] sm:right-7 sm:bottom-7"
+          className="fixed right-4 bottom-4 z-[1000] flex size-16 animate-in fade-in zoom-in-50 items-center justify-center rounded-full border-4 border-white bg-[#903938] text-white shadow-[0_10px_30px_rgba(54,20,20,0.3)] transition-transform hover:scale-105 hover:bg-[#762b2b] focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[#ffc251] sm:right-7 sm:bottom-7"
           onClick={() => setOpen(true)}
           type="button"
         >
           <MessageCircle className="size-7" aria-hidden="true" />
+          {pendingSuggestions?.length ? (
+            <span className="absolute -top-1 -right-1 flex size-6 animate-in zoom-in-50 items-center justify-center rounded-full border-2 border-white bg-[#ffc251] text-xs font-extrabold text-[#1e2f41]">
+              {pendingSuggestions.length}
+            </span>
+          ) : null}
         </button>
       ) : null}
 
       {open ? (
-        <section
-          aria-label="Trợ lý VNeGuide"
-          aria-modal="false"
-          className="fixed inset-x-0 bottom-0 z-[1000] flex h-[calc(100dvh-3.5rem)] flex-col overflow-hidden border border-[#d9b2a3] bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:bottom-6 sm:h-[min(680px,calc(100dvh-3rem))] sm:w-[420px] sm:rounded-xl"
-          role="dialog"
+        <Dialog.Root
+          open={open}
+          onOpenChange={(next) => {
+            if (!next) closePanel();
+          }}
+          modal="trap-focus"
+          disablePointerDismissal
         >
+          <Dialog.Portal>
+          <Dialog.Popup
+            aria-label="Trợ lý VNeGuide"
+            className={`fixed inset-x-0 bottom-0 z-[1000] flex h-[calc(100dvh-3.5rem)] flex-col overflow-hidden border border-[#d9b2a3] bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:bottom-6 sm:h-[min(700px,calc(100dvh-3rem))] sm:w-[460px] sm:rounded-xl md:w-[500px] lg:h-[min(760px,calc(100dvh-3rem))] lg:w-[540px] xl:w-[580px] ${
+              closing
+                ? "animate-out slide-out-to-bottom-full sm:fade-out sm:zoom-out-95"
+                : "animate-in slide-in-from-bottom-full sm:fade-in sm:zoom-in-95"
+            }`}
+            initialFocus={inputRef}
+          >
           <header className="flex items-center justify-between gap-3 bg-[#903938] px-4 py-3 text-white">
             <div className="flex min-w-0 items-center gap-3">
               <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white/15">
@@ -273,7 +354,7 @@ export function ChatWidget() {
               <button
                 aria-label="Thu nhỏ trợ lý"
                 className="flex size-10 items-center justify-center rounded-full hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-white"
-                onClick={() => setOpen(false)}
+                onClick={() => closePanel()}
                 type="button"
               >
                 <ChevronDown className="size-6 sm:hidden" aria-hidden="true" />
@@ -282,15 +363,18 @@ export function ChatWidget() {
             </div>
           </header>
 
-          <div className="border-b border-[#ead8d0] bg-[#fff8f5] px-4 py-2 text-xs leading-5 text-[#704238]">
-            <p className="flex items-start gap-2">
-              <ShieldCheck className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-              Không nhập CCCD, số điện thoại hoặc dữ liệu cá nhân thật vào bản demo.
-            </p>
-          </div>
+          {messages.length === 0 ? (
+            <div className="border-b border-[#ead8d0] bg-[#fff8f5] px-4 py-2 text-xs leading-5 text-[#704238]">
+              <p className="flex items-start gap-2">
+                <ShieldCheck className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+                Không nhập CCCD, số điện thoại hoặc dữ liệu cá nhân thật vào bản demo.
+              </p>
+            </div>
+          ) : null}
 
           <div
             className="flex-1 space-y-3 overflow-y-auto bg-[#f7f8fa] px-4 py-4"
+            onScroll={handleListScroll}
             ref={listRef}
           >
             {session?.scope_warning ? (
@@ -300,38 +384,67 @@ export function ChatWidget() {
               </div>
             ) : null}
 
-            {workspace.state.recovery_notice ? (
-              <div className="rounded-lg border border-[#b9cde5] bg-[#f2f7fc] p-3 text-sm text-[#24496f]" role="status">
-                {workspace.state.recovery_notice}
+            {busy && !session && messages.length === 0 ? (
+              <div className="space-y-3" aria-busy="true" aria-label="Đang kết nối trợ lý">
+                <div className="max-w-[92%] space-y-2 rounded-2xl rounded-tl-sm border border-[#e2e6ea] bg-white px-4 py-3 shadow-sm">
+                  <Skeleton className="h-3 w-20" />
+                  <Skeleton className="h-3 w-full" />
+                  <Skeleton className="h-3 w-3/4" />
+                </div>
               </div>
             ) : null}
 
-            {messages.length === 0 ? (
-              <div className="max-w-[92%] rounded-2xl rounded-tl-sm border border-[#e2e6ea] bg-white px-4 py-3 text-base leading-7 text-[#334155] shadow-sm">
-                <p className="font-bold text-[#903938]">Xin chào!</p>
-                <p className="mt-1">
-                  Tôi có thể giúp bạn kiểm tra thông tin và chuẩn bị hồ sơ trong phạm vi đã được xác minh. Bạn đang cần hỗ trợ việc gì?
-                </p>
+            {!busy && messages.length === 0 ? (
+              <div className="space-y-3">
+                <div className="max-w-[92%] rounded-2xl rounded-tl-sm border border-[#e2e6ea] bg-white px-4 py-3 text-base leading-7 text-[#334155] shadow-sm">
+                  <p className="font-bold text-[#903938]">Xin chào!</p>
+                  <p className="mt-1">
+                    Tôi có thể giúp bạn kiểm tra thông tin và chuẩn bị hồ sơ trong phạm vi đã được xác minh. Bạn đang cần hỗ trợ việc gì?
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {QUICK_START_CHIPS.map((chip) => (
+                    <button
+                      className="inline-flex min-h-9 items-center gap-1.5 rounded-full border-2 border-[#ce7a58] bg-[#fff8f5] px-3 py-1.5 text-sm font-bold text-[#762b2b] shadow-sm transition-colors hover:bg-[#ffede5] focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[#ffc251] disabled:opacity-50"
+                      disabled={busy}
+                      key={chip}
+                      onClick={() => void sendMessage(chip)}
+                      type="button"
+                    >
+                      <Sparkles className="size-3.5" aria-hidden="true" />
+                      {chip}
+                    </button>
+                  ))}
+                </div>
               </div>
             ) : null}
 
             <div aria-live="polite" className="space-y-3">
-              {messages.map((message, index) => (
-                <div
-                  className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
-                  key={`${message.role}-${index}-${message.content.slice(0, 20)}`}
-                >
+              {messages.map((message, index) => {
+                const time = message.created_at
+                  ? new Date(message.created_at).toLocaleTimeString("vi", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })
+                  : null;
+                return (
                   <div
-                    className={`max-w-[92%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-base leading-7 shadow-sm ${
-                      message.role === "user"
-                        ? "rounded-tr-sm bg-[#903938] text-white"
-                        : "rounded-tl-sm border border-[#e2e6ea] bg-white text-[#334155]"
-                    }`}
+                    className={`flex animate-in fade-in slide-in-from-bottom-1 duration-200 flex-col ${message.role === "user" ? "items-end" : "items-start"}`}
+                    key={`${message.role}-${index}`}
                   >
-                    {message.content}
+                    {message.role === "user" ? (
+                      <div className="max-w-[92%] whitespace-pre-wrap rounded-2xl rounded-tr-sm bg-[#903938] px-4 py-3 text-base leading-7 text-white shadow-sm">
+                        {message.content}
+                      </div>
+                    ) : (
+                      <BotMessage content={message.content} sources={turn?.sources} />
+                    )}
+                    {time ? (
+                      <time className="mt-0.5 px-1 text-[10px] text-[#9299a2]">{time}</time>
+                    ) : null}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {needsServiceConfirmation && selectedProcedure ? (
@@ -374,8 +487,7 @@ export function ChatWidget() {
             ) : null}
 
             {choosingProcedure ? (
-              <section className="rounded-xl border border-[#d9e2ec] bg-white p-3" aria-label="Chọn thủ tục khác">
-                <p className="mb-2 font-extrabold text-[#334155]">Bạn muốn làm thủ tục nào?</p>
+              <ChatSection ariaLabel="Chọn thủ tục khác" label="Bạn muốn làm thủ tục nào?">
                 <div className="grid gap-2">
                   {procedureContexts.map((procedure) => (
                     <button
@@ -391,18 +503,11 @@ export function ChatWidget() {
                     </button>
                   ))}
                 </div>
-              </section>
+              </ChatSection>
             ) : null}
 
             {!needsServiceConfirmation && !choosingProcedure && replyOptions.length ? (
-              <div
-                aria-label="Câu trả lời gợi ý"
-                className="rounded-xl border border-[#d9e2ec] bg-white p-3"
-                role="group"
-              >
-                <p className="mb-2 text-sm font-bold text-[#334155]">
-                  Chọn nhanh một câu trả lời
-                </p>
+              <ChatSection ariaLabel="Câu trả lời gợi ý" label="Chọn nhanh một câu trả lời">
                 <div className="grid gap-2">
                   {replyOptions.map((option) => (
                     <button
@@ -416,19 +521,15 @@ export function ChatWidget() {
                     </button>
                   ))}
                 </div>
-              </div>
+              </ChatSection>
             ) : null}
 
             {!needsServiceConfirmation && !choosingProcedure && fixedChoiceField ? (
-              <div
-                aria-label={`Chọn ${fixedChoiceField.label}`}
-                className="rounded-xl border border-[#d9e2ec] bg-white p-3"
-                role="group"
+              <ChatSection
+                ariaLabel={`Chọn ${fixedChoiceField.label}`}
+                label={`Chọn ${fixedChoiceField.label.toLocaleLowerCase("vi")}`}
               >
-                <p className="mb-2 text-sm font-bold text-[#334155]">
-                  Chọn {fixedChoiceField.label.toLocaleLowerCase("vi")}
-                </p>
-                <p className="mb-3 text-sm leading-6 text-[#5b6573]">
+                <p className="text-sm leading-6 text-[#52606d]">
                   {fixedChoiceField.input_hint}
                 </p>
                 <div className="grid gap-2">
@@ -447,7 +548,7 @@ export function ChatWidget() {
                     );
                   })}
                 </div>
-              </div>
+              </ChatSection>
             ) : null}
 
             {!needsServiceConfirmation && !choosingProcedure && freeEntryField ? (
@@ -536,12 +637,6 @@ export function ChatWidget() {
               </section>
             ) : null}
 
-            {walletNotice ? (
-              <div className="rounded-lg border border-[#b9d8c4] bg-[#f1f8f3] p-3 text-sm text-[#28543a]" role="status">
-                {walletNotice}
-              </div>
-            ) : null}
-
             {!needsServiceConfirmation && !choosingProcedure && turn?.missing_fields.length ? (
               <details className="rounded-lg border border-[#d9e2ec] bg-white p-3 text-sm">
                 <summary className="cursor-pointer font-bold text-[#1e2f41]">
@@ -560,7 +655,18 @@ export function ChatWidget() {
                 <p className="font-bold">Trạng thái hồ sơ: {validationPresentation.label}</p>
                 {validationPresentation.showReadinessScore &&
                 turn.validation.readiness_score !== null ? (
-                  <p className="mt-1">Mức độ sẵn sàng: {turn.validation.readiness_score}%</p>
+                  <div className="mt-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <span>Mức độ sẵn sàng</span>
+                      <span className="font-bold">{turn.validation.readiness_score}%</span>
+                    </div>
+                    <div className="mt-1 h-2 overflow-hidden rounded-full bg-[#e2e6ea]">
+                      <div
+                        className="h-2 rounded-full bg-[#ce7a58] transition-all duration-300"
+                        style={{ width: `${turn.validation.readiness_score}%` }}
+                      />
+                    </div>
+                  </div>
                 ) : null}
                 {turn.validation.issues.length ? (
                   <ul className="mt-2 list-disc space-y-1 pl-5">
@@ -575,43 +681,37 @@ export function ChatWidget() {
               </div>
             ) : null}
 
-            {turn?.sources.length ? (
-              <details className="rounded-lg border border-[#d9e2ec] bg-white p-3 text-sm">
-                <summary className="cursor-pointer font-bold text-[#1e2f41]">
-                  Căn cứ tham khảo ({turn.sources.length})
-                </summary>
-                <ul className="mt-2 space-y-2 text-[#5b6573]">
-                  {turn.sources.map((source) => (
-                    <li key={source.id}>
-                      <a
-                        className="font-semibold text-[#903938] underline decoration-[#ce7a58] underline-offset-2"
-                        href={source.url}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        {source.title}
-                      </a>
-                      <span className="block text-xs">
-                        {source.publisher} · kiểm chứng {source.verified_at}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            ) : null}
-
             {error ? (
               <div className="flex items-start gap-2 rounded-lg border border-[#efb4b4] bg-[#fff1f1] p-3 text-sm text-[#8b1e1e]" role="alert">
                 <AlertTriangle className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
-                <p>{error}</p>
+                <div className="flex-1">
+                  <p>{error}</p>
+                  {lastUserMessage ? (
+                    <button
+                      className="mt-2 inline-flex min-h-9 items-center gap-1.5 rounded-md border border-[#efb4b4] bg-white px-3 text-sm font-bold text-[#8b1e1e] hover:bg-[#fff8f8] focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[#ffc251] disabled:opacity-50"
+                      disabled={busy}
+                      onClick={() => retryLastMessage()}
+                      type="button"
+                    >
+                      <RotateCw className="size-4" aria-hidden="true" />
+                      Thử lại
+                    </button>
+                  ) : null}
+                </div>
               </div>
             ) : null}
 
-            {busy ? (
-              <div className="flex items-center gap-2 text-sm text-[#667085]">
-                <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
-                Trợ lý đang xử lý…
-              </div>
+            {busy ? <TypingIndicator /> : null}
+
+            {showJumpToNew ? (
+              <button
+                className="sticky bottom-2 mx-auto flex min-h-9 animate-in fade-in slide-in-from-bottom-2 items-center gap-1.5 rounded-full border border-[#d9b2a3] bg-[#903938] px-4 text-sm font-bold text-white shadow-lg hover:bg-[#762b2b] focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[#ffc251]"
+                onClick={jumpToNew}
+                type="button"
+              >
+                <ChevronDown className="size-4 animate-bounce" aria-hidden="true" />
+                Tin mới
+              </button>
             ) : null}
           </div>
 
@@ -646,8 +746,15 @@ export function ChatWidget() {
                 <Send className="size-5" aria-hidden="true" />
               </button>
             </div>
+            {draft.length > 0 ? (
+              <p className={`mt-1 text-right text-xs ${draft.length > 3500 ? "text-[#8b1e1e]" : "text-[#9299a2]"}`}>
+                {draft.length}/4000
+              </p>
+            ) : null}
           </form>
-        </section>
+          </Dialog.Popup>
+          </Dialog.Portal>
+        </Dialog.Root>
       ) : null}
     </>
   );
