@@ -165,3 +165,15 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
 - Bằng chứng sau smoke: ngrok `ERR_NGROK_3200` khi process local kết thúc; BFF hiển thị
   `invalid_backend_response` vì endpoint offline trả HTML thay vì JSON. Phải deploy FastAPI lên host
   bền vững hoặc giữ đồng thời process API/ngrok trên máy demo.
+
+## Bàn giao Render API 2026-07-18
+
+- `render.yaml` đã sẵn sàng cho service `vneguide-api` trên Free plan/Singapore, dùng Dockerfile API
+  hiện hành và health check `/health`.
+- Targeted API gate đạt `29 passed`; image local build thành công và container health `200`.
+- Render credential chưa có trong phiên và dashboard browser không khả dụng. Bước tiếp theo: push
+  branch `experiment/chat-core-v2`, tạo New Blueprint từ `suzhentxt/VNeGuide`, chọn `render.yaml`,
+  nhập `VNEGUIDE_API_KEY`, đợi deploy `Live` rồi ghi URL `onrender.com`.
+- Sau đó thay production env `VNEGUIDE_API_BASE_URL` trên Vercel, redeploy frontend và smoke
+  `/health`, create session, message flow. Render Free sleep sau 15 phút idle và restart làm mất
+  session in-memory; nâng plan hoặc thêm shared store trước demo tải cao.

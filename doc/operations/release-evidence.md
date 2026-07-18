@@ -76,3 +76,16 @@ Image provenance của lần smoke:
 - Không có browser tab trong phiên nên chưa chụp screenshot/video. Video backup chỉ có runbook và
   phải được record lại sau khi UI đúng scope được merge.
 - Không có cloud credential/target để tạo URL lâu dài; ngrok URL là preview tạm thời.
+
+## Render API candidate 2026-07-18
+
+| Hạng mục | Bằng chứng | Kết quả |
+| --- | --- | --- |
+| Blueprint | Ruby/Psych parse `render.yaml` | Pass; secret chỉ có tên, `sync: false` |
+| API targeted | `pytest` API main/store/chat/form sync | `29 passed` |
+| Docker build | `docker build -f deployment/api.Dockerfile -t vneguide-api:render-test .` | Pass; manifest list `sha256:4e51b133bd7015466376f038d9ca0865cc64bed272bce965985390c3483d5dec` |
+| Container health | `GET http://127.0.0.1:18001/health` | `200 {"status":"ok"}` |
+
+Đây mới là deploy candidate local, chưa phải Render evidence. Chưa có service ID, public URL, deploy
+ID hoặc Render image digest vì phiên không có Render credential/dashboard. Không ghi API key vào
+report; live-model smoke chỉ chạy sau khi secret được nhập trong Render secret manager.

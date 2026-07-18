@@ -281,7 +281,7 @@ Smoke chỉ dùng dữ liệu giả và provider mock, không gửi PII hoặc g
 - [x] Full Python/npm gate đạt trên merge result Rules/AI + OCR.
 - [x] BFF gọi đúng revisioned backend field-edit contract bằng production server smoke.
 - [ ] Manual edit sync được browser E2E xác minh qua BFF và backend.
-- [ ] Rebuild/smoke container từ merge result mới.
+- [x] Rebuild/smoke API container từ merge result mới.
 - [x] OCR adapter/worker candidate-only và synthetic gate.
 - [ ] OCR API/UI sink và browser E2E thật.
 - [ ] Public hosting bền vững thay tunnel tạm.
@@ -324,3 +324,14 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
 - Kiểm tra lại 23:34 ICT xác nhận tunnel đã dừng: ngrok trả HTML `404 ERR_NGROK_3200`, production
   BFF trả JSON `invalid_backend_response`. Vì vậy public frontend đã bền vững nhưng chatbot chưa có
   backend hosting bền vững; smoke trước đó chỉ hợp lệ trong lúc FastAPI và ngrok cùng chạy.
+
+### 2026-07-18 — Chuẩn bị Render FastAPI
+
+- Thêm Blueprint `render.yaml` cho Docker web service `vneguide-api`: Free plan, region Singapore,
+  branch `experiment/chat-core-v2`, health check `/health`, auto-deploy sau khi CI pass.
+- Blueprint chỉ khai báo tên secret `VNEGUIDE_API_KEY` với `sync: false`; provider/model công khai là
+  `openai`/`gpt-4o-mini`. Không commit `.env`, key hoặc dữ liệu cá nhân.
+- YAML parse pass; API targeted gate `29 passed`. Image `vneguide-api:render-test` build từ
+  `deployment/api.Dockerfile` và container health trả `200 {"status":"ok"}` trên cổng 18001.
+- Chưa tạo được service vì phiên không có Render API token và browser dashboard không khả dụng.
+  Cần chủ project tạo Blueprint từ GitHub, nhập secret, rồi mới cập nhật Vercel backend URL.
