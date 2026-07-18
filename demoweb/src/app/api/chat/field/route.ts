@@ -73,9 +73,9 @@ export async function POST(request: NextRequest) {
     }
 
     const backend = await callChatApi(
-      `/v1/chat/sessions/${encodeURIComponent(sessionId)}/fields/${encodeURIComponent(payload.field_id)}`,
+      `/v1/chat/sessions/${encodeURIComponent(sessionId)}/draft/fields/${encodeURIComponent(payload.field_id)}`,
       {
-        method: "POST",
+        method: "PATCH",
         body: JSON.stringify({
           value: payload.value ?? null,
           expected_revision: payload.expected_revision,

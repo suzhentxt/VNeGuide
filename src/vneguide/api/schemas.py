@@ -29,13 +29,18 @@ class MessageRequest(StrictModel):
 class SuggestionActionRequest(StrictModel):
     action: Literal["accept", "reject", "edit"]
     value: JsonValue = None
-    expected_revision: int = Field(ge=0)
+    expected_revision: int = Field(ge=0, strict=True)
 
     @model_validator(mode="after")
     def require_edit_value(self) -> SuggestionActionRequest:
         if self.action == "edit" and "value" not in self.model_fields_set:
             raise ValueError("value is required when action is edit")
         return self
+
+
+class FieldEditRequest(StrictModel):
+    value: JsonValue
+    expected_revision: int = Field(ge=0, strict=True)
 
 
 class ChatMessageResponse(StrictModel):
@@ -88,9 +93,11 @@ class SourceResponse(StrictModel):
 
 
 class DraftResponse(StrictModel):
+    values: dict[str, JsonValue]
     revision: int
     confirmed_fields: list[str]
     dirty_fields: list[str]
+    pack_version: str | None
 
 
 class ChatTurnResponse(StrictModel):
@@ -110,6 +117,7 @@ class SessionResponse(StrictModel):
     context: SessionContext | None
     context_supported: bool
     scope_warning: str | None
+    draft: DraftResponse
     turn: ChatTurnResponse | None
 
 

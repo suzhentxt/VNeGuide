@@ -40,6 +40,13 @@ class DraftContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "dirty fields"):
             CaseDraft(dirty_fields=frozenset({"missing"}))
 
+    def test_dirty_fields_must_also_be_confirmed(self) -> None:
+        with self.assertRaisesRegex(ValueError, "not confirmed"):
+            CaseDraft(
+                values={"field": "value"},
+                dirty_fields=frozenset({"field"}),
+            )
+
     def test_valid_draft_supports_generic_procedure_fields(self) -> None:
         mutable_values: dict[str, JSONValue] = {
             "allocated_area_m2": 30,
@@ -74,6 +81,12 @@ class TurnContractTests(unittest.TestCase):
             ConversationState(turn_number=-1)
         with self.assertRaisesRegex(ValueError, "clarification"):
             ConversationState(clarification_attempts={"field": -1})
+
+    def test_asked_question_ids_must_be_non_empty_and_unique(self) -> None:
+        with self.assertRaisesRegex(ValueError, "empty"):
+            ConversationState(asked_question_ids=("",))
+        with self.assertRaisesRegex(ValueError, "unique"):
+            ConversationState(asked_question_ids=("procedure:field", "procedure:field"))
 
 
 class ValidationResultTests(unittest.TestCase):

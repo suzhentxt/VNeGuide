@@ -11,6 +11,7 @@ from httpx import ASGITransport, AsyncClient
 from vneguide.ai import (
     ExtractionCatalog,
     ExtractionOutcome,
+    ExtractionTurnContext,
     MockLLMProvider,
     ProviderTimeout,
     StructuredExtractor,
@@ -75,7 +76,13 @@ class StubExtractor:
     def __init__(self, *outcomes: ExtractionOutcome) -> None:
         self._outcomes = deque(outcomes)
 
-    def extract(self, _message: str) -> ExtractionOutcome:
+    def extract(
+        self,
+        _message: str,
+        *,
+        context: ExtractionTurnContext | None = None,
+    ) -> ExtractionOutcome:
+        del context
         return self._outcomes.popleft()
 
 

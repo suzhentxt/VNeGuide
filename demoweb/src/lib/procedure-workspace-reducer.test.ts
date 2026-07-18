@@ -26,6 +26,7 @@ function turn(revision: number, values: Record<string, string> = {}): ChatTurn {
       confirmed_fields: Object.keys(values),
       dirty_fields: [],
       values,
+      pack_version: "2.0.0",
     },
     messages: [],
     suggestions: [],

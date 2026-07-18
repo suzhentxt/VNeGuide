@@ -2,79 +2,78 @@
 
 ## Trạng thái release
 
-- Nhánh tích hợp: `integration/release-dev`, tạo từ `dev` tại `1d3e566`.
-- Đã merge `tuan` bằng `4865ceb`, tài liệu scope bằng `ff06998`, release baseline bằng `a8e182f`
-  và `origin/dev@e65b31b` bằng `44d399f`.
-- Đã tích hợp `origin/agent/web-three-procedures@7646399` bằng `0cb4d6b`, sau đó merge cây đã kiểm
-  chứng vào local `dev` bằng `829c6fa`; chưa push remote.
-- LiteLLM, FastAPI Chat API và Next.js cùng tồn tại trên cây tích hợp.
-- Backend/data và frontend catalog/route đều chỉ còn đúng `2.000635`, `1.013314`, `1.004194`.
+- Baseline dùng chung: `origin/dev@9960bf2`.
+- `integration/release-dev` đã fast-forward từ `0cb4d6b` lên `9960bf2` ngày 2026-07-18.
+- Đã tích hợp `origin/agent/memory-form-sync@83adb18` trên `integration/release-dev`; full gate và
+  release audit trên cây hợp nhất đạt trước khi chốt merge commit local.
+- LiteLLM, FastAPI Chat API và Next.js cùng tồn tại; backend/data và frontend chỉ hỗ trợ đúng ba mã
+  `2.000635`, `1.013314`, `1.004194`.
+- `.DS_Store`, `procedures.csv` và `view_parquet.py` là file local ngoài scope, không được stage.
 
-## 2026-07-18 — Web đúng ba thủ tục
+## 2026-07-18 — Conversation memory và form sync
 
-- Loại route và dữ liệu đăng ký kết hôn cũ; static params chỉ generate ba procedure slug được hỗ trợ.
-- Thêm form CT01 mô phỏng cho hero `1.004194` và shared workspace giữa form/chat.
-- Workspace giữ dirty/confirmed field, revision, stale-response guard và state theo browser session.
-- Accept/Edit cập nhật field sạch; Reject giữ nguyên; AI không được ghi đè field người dùng đã sửa.
-- Giữ retry session 404/410 từ `dev`; khi backend session bị tạo lại, workspace rebase revision nhưng
-  vẫn giữ giá trị form và đánh dấu cần đồng bộ lại.
-- Thêm BFF `/api/chat/field`. Backend chưa có endpoint field-update và `DraftResponse.values`, nên
-  manual-edit sync end-to-end vẫn là blocker được ghi rõ.
-- Giữ Next `16.2.10`, shadcn `4.13.1`, ESLint config `16.2.10` và PostCSS `8.5.16` từ release branch;
-  không nhận dependency cũ có 12 advisory từ branch UI.
+- Extractor nhận compact context gồm procedure đang hoạt động và field đang chờ; không gửi transcript
+  hoặc draft chứa PII sang model.
+- Procedure hợp lệ trong session context khởi tạo core ngay khi tạo phiên. Create/GET session trả draft
+  snapshot gồm `values`, `revision`, `confirmed_fields`, `dirty_fields` và `pack_version`.
+- Backend thêm `PATCH /v1/chat/sessions/{session_id}/draft/fields/{field_id}` với optimistic revision,
+  catalog/rule validation và typed `409 stale_revision`/`422 invalid_field_value`.
+- Manual edit được đánh dấu confirmed và dirty, tăng revision một lần, loại pending suggestion cùng
+  field và không cho extractor ghi đè field người dùng đã xác nhận.
+- Core lưu `asked_question_ids`, giữ procedure qua small talk/câu trả lời ngắn và giới hạn hỏi lặp.
+- Store giữ per-session lock xuyên suốt request để tránh DELETE/TTL cleanup đua với model/form mutation.
+- Khi tích hợp, BFF `/api/chat/field` được đổi sang gọi đúng backend bằng `PATCH` và TypeScript contract
+  được mở rộng với `draft.values`, `pack_version` và top-level session draft.
 
-## QA, release và deploy baseline
+## Web và release baseline đã có
 
-- Python cài bằng `python -m pip install -e ".[api,dev]"`; web cài bằng `npm ci`.
-- Có API integration test cho đúng ba mã, out-of-scope, hero 5/5, stale revision, suggestion edit,
-  reset, typed provider timeout và generic OCR fallback.
-- Có GitHub Actions, Dependabot, Dockerfile API/web, Compose, Nginx gateway, smoke metrics, limited
-  staged-text audit, rollback runbook, pitch và shot list video.
-- Docker context chặn root/nested `.env*`; Python API runtime dependency khóa version; gateway có
-  timeout 75 giây trên BFF timeout 60 giây.
+- Catalog, static route và form chỉ còn ba thủ tục được review; route đăng ký kết hôn cũ trả 404.
+- Hero `1.004194` có form CT01 và shared workspace với chat; reducer bảo vệ dirty field, stale response,
+  reset và session recreation.
+- GitHub Actions, Dependabot, Dockerfile API/web, Compose, Nginx gateway, smoke metrics, staged-text
+  audit, rollback runbook và pitch checklist đã có.
+- Next `16.2.10`, shadcn `4.13.1`, ESLint config `16.2.10` và PostCSS `8.5.16` được giữ từ release
+  baseline; không nhận dependency cũ có advisory từ branch nguồn.
 
-## Quality gate sau merge UI
+## Quality gate sau merge Người 2
 
 | Gate | Kết quả |
 | --- | --- |
-| Ruff lint/format | Pass, 65 Python file formatted |
-| Mypy strict | Pass, 63 source files |
-| Pytest/coverage | 106 passed, 1 skipped; coverage 81.93% |
+| Compileall | Pass |
+| Ruff lint/format | Pass, 67 Python file formatted |
+| Mypy strict | Pass, 65 source files |
+| Pytest/coverage | 166 passed, 1 skipped; coverage 82.87% |
 | `npm ci` / audit | Pass; 0 vulnerability |
-| Reducer tests | 9 passed, gồm session recreation giữ form data |
+| Reducer tests | 9 passed |
 | Next production build | Pass, 25 route; chỉ generate ba procedure slug |
-| HTTP route smoke | Ba route 200; hero tạm trú 5/5; route kết hôn cũ 404 |
-| Limited staged-text audit | Pass: 333 index file, 188 text file |
+| BFF → backend field smoke | 200; revision 0 → 1; values/confirmed/dirty/pack_version đúng |
+| Limited staged-text audit | Pass: 335 index file, 190 text file |
 
-## Metrics gần nhất trước merge UI
-
-- Clean revision `44d399f`, local gateway `2026-07-18T08:50:23.102344Z`: `/health` p95 8.44 ms,
-  web p95 20.12 ms.
-- Public gateway `2026-07-18T08:50:28.004246Z`: `/health` p95 326.07 ms, web p95 729.74 ms.
-- Runtime `provider=mock`, `model=mock-scripted`; smoke không gọi model.
-- Image: API `sha256:c72a78e6a5b5...9e4f`, web `sha256:b87a68c910cf...c0b7`.
-- Preview ngrok chỉ hoạt động khi Docker/ngrok trên máy release còn chạy.
+Next build lần đầu bị Turbopack từ chối bind cổng nội bộ trong sandbox; chạy lại ngoài sandbox đạt.
+Smoke chỉ dùng dữ liệu giả và provider mock, không gửi PII hoặc gọi model ngoài.
 
 ## Definition of Done
 
 - [x] Backend/data đúng ba thủ tục.
 - [x] Frontend catalog/route đúng ba thủ tục.
 - [x] Hero orchestration API chạy độc lập 5/5 bằng scripted extractor.
-- [x] Python/npm gate và route smoke đạt sau merge UI.
-- [ ] Rebuild/smoke container sau merge UI.
-- [ ] Manual edit sync end-to-end qua backend field-update contract.
-- [ ] Browser E2E/visual/keyboard QA cho hero tạm trú.
+- [x] Backend có revisioned form-edit contract và draft snapshot.
+- [x] Full Python/npm gate đạt trên merge result `agent/memory-form-sync`.
+- [x] BFF gọi đúng revisioned backend field-edit contract bằng production server smoke.
+- [ ] Manual edit sync được browser E2E xác minh qua BFF và backend.
+- [ ] Rebuild/smoke container từ merge result mới.
 - [ ] OCR implementation và OCR E2E thật.
 - [ ] Public hosting bền vững thay tunnel tạm.
 - [ ] Video dự phòng đã record và được hai người review offline.
 
-Không push `dev` với nhãn release hoàn thành cho tới khi các mục chưa đạt được xử lý.
+Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt được xử lý.
 
-## Lịch sử kỹ thuật cần giữ
+## Giới hạn kỹ thuật cần giữ
 
-- LLM chỉ phân loại/trích xuất; required field, rule, phí, thời hạn và nguồn do code/data package
-  đã review quyết định.
-- Core/rules có Accept/Reject/Edit, revision guard, retry cap và deterministic validation.
-- FastAPI dùng session ID ngẫu nhiên, TTL/capacity/per-session lock; store in-memory chỉ phù hợp một
-  worker. Next BFF giữ session ID trong cookie `HttpOnly` và không đưa model key ra browser.
+- LLM chỉ phân loại/trích xuất; required field, rule, phí, thời hạn và nguồn do code/data package đã
+  review quyết định.
+- `draft.revision` chỉ bảo vệ mutation form/suggestion; retry message dùng `client_turn_id`, không dùng
+  revision của form làm transcript token.
+- Session store in-memory chỉ phù hợp một worker và mất memory khi restart/TTL; cần shared store trước
+  khi scale.
 - Frontend có banner mô phỏng Hackathon và `noindex`; không tiếp nhận dữ liệu cá nhân thật.

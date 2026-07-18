@@ -31,6 +31,9 @@ class CaseDraft:
             raise ValueError(f"confirmed fields have no value: {sorted(unknown_confirmed)}")
         if unknown_dirty:
             raise ValueError(f"dirty fields have no value: {sorted(unknown_dirty)}")
+        unconfirmed_dirty = self.dirty_fields - self.confirmed_fields
+        if unconfirmed_dirty:
+            raise ValueError(f"dirty fields are not confirmed: {sorted(unconfirmed_dirty)}")
         object.__setattr__(self, "values", freeze_mapping(self.values))
         object.__setattr__(self, "confirmed_fields", frozenset(self.confirmed_fields))
         object.__setattr__(self, "dirty_fields", frozenset(self.dirty_fields))
@@ -53,12 +56,17 @@ class ConversationState:
     turn_number: int = 0
     clarification_attempts: Mapping[str, int] = field(default_factory=dict)
     suggestions: tuple[FieldSuggestion, ...] = ()
+    asked_question_ids: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         if self.turn_number < 0:
             raise ValueError("turn_number must not be negative")
         if any(attempts < 0 for attempts in self.clarification_attempts.values()):
             raise ValueError("clarification attempts must not be negative")
+        if any(not question_id.strip() for question_id in self.asked_question_ids):
+            raise ValueError("asked question IDs must not be empty")
+        if len(set(self.asked_question_ids)) != len(self.asked_question_ids):
+            raise ValueError("asked question IDs must be unique")
         object.__setattr__(self, "messages", tuple(self.messages))
         object.__setattr__(
             self,
@@ -66,6 +74,7 @@ class ConversationState:
             MappingProxyType(dict(self.clarification_attempts)),
         )
         object.__setattr__(self, "suggestions", tuple(self.suggestions))
+        object.__setattr__(self, "asked_question_ids", tuple(self.asked_question_ids))
 
 
 @dataclass(frozen=True, slots=True)

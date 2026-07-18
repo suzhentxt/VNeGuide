@@ -33,10 +33,11 @@ export interface ChatTurn {
   next_action: string;
   procedure: { code: string; name: string } | null;
   draft: {
+    values: Record<string, JsonValue>;
     revision: number;
     confirmed_fields: string[];
     dirty_fields: string[];
-    values?: Record<string, JsonValue>;
+    pack_version: string | null;
   };
   messages: ChatMessage[];
   suggestions: ChatSuggestion[];
@@ -67,6 +68,7 @@ export interface ChatSession {
   context: ChatSessionContext | null;
   context_supported: boolean;
   scope_warning: string | null;
+  draft: ChatTurn["draft"];
   turn: ChatTurn | null;
 }
 
