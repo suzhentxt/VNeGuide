@@ -263,3 +263,13 @@ thiếu toàn bộ `demoweb/src` do ignore pattern cũ. Fresh deploy từ commit
 - Bước tiếp theo cụ thể: commit/push thay đổi này lên `dev`, chờ CI xanh, xác minh Vercel/Render deploy
   đúng SHA mới rồi append deployment ID/timestamp vào `release-evidence.md`. Sau đó record video; không
   đưa video, PII hoặc secret vào Git.
+
+## Bàn giao README chi tiết 2026-07-19
+
+- Phần đầu README hiện có executive summary và value flow, trong đó phương ngữ/ASR là năng lực sản
+  phẩm nhìn thấy ngay thay vì chỉ nằm sâu trong mục kiến trúc.
+- Mục AI-Native có pipeline và ví dụ synthetic cho normalization, protected spans, ambiguity và raw
+  evidence mapping. Giữ nguyên nhãn offline baseline, không trình bày `100%` fixture như accuracy
+  production.
+- Sau khi merge/push `dev`, chờ GitHub Actions E2E và Vercel/Render deploy đúng SHA mới; public smoke
+  bằng session mới rồi mới cập nhật evidence deployment.

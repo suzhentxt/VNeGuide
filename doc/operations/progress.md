@@ -447,3 +447,14 @@ Không gắn nhãn release hoàn thành cho tới khi các mục chưa đạt đ
   `https://vneguide-api.onrender.com/health` đều HTTP 200; synthetic message phương ngữ đi qua
   Vercel → Render → OpenAI trả 200 và route đúng `1.004194`. Cần push/redeploy commit mới trước khi
   dùng public URL làm evidence cho các sửa session/readiness ở trên.
+
+### 2026-07-19 — Mở rộng README và đưa phương ngữ vào tóm tắt
+
+- Thêm phần tóm tắt giải pháp cho ban giám khảo: vấn đề, người dùng mục tiêu, ranh giới AI, đúng ba
+  thủ tục, bằng chứng chạy được và giới hạn pilot/production.
+- Đưa phương ngữ/ASR vào elevator pitch và kịch bản chấm nhanh với ví dụ tổng hợp “tui muốn làm tạm
+  chú”; không biến fixture offline thành claim người dùng thật.
+- Bổ sung pipeline protected spans → deterministic/model-assisted normalization → evidence remap →
+  ambiguity clarification → suggestion. README nêu rõ họ tên/CCCD/ngày sinh/địa chỉ không được sửa,
+  raw/normalized text không được log production và fact nghiệp vụ vẫn do source/rule quyết định.
+- Chỉ thay tài liệu; `git diff --check` và release audit staged là gate bắt buộc trước merge/push.
