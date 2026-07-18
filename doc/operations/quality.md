@@ -10,7 +10,7 @@ D chưa triển khai hoặc baseline hỏng.
 | Procedure catalog | A | Repository audit, schema và checksum | Chưa kiểm tra freshness tự động |
 | Source grounding | A | Source/status/procedure/local-path gate có unit test | Chưa tự refresh nguồn online |
 | Structured extraction | B | Mock/OpenAI/LiteLLM, strict schema, unit test và provider smoke | Chưa đo live accuracy |
-| Conversation flow | B | Suggestion lifecycle, revision guard và retry cap có unit test | Chưa có web adapter |
+| Conversation flow | B | Suggestion lifecycle, revision guard, retry cap và web BFF | Chưa có browser E2E/manual form đúng scope |
 | Rule validation | B | Đủ 27 handler; 12 gold case pass và kích hoạt 10 rule | 17 rule chưa có positive gold case; context chưa đi từ hội thoại vào core |
 | Terminal chatbot | C | CLI nạp core factory và mock smoke pass | Chưa render/gọi Accept/Reject/Edit nên có thể kẹt ở suggestion |
 
@@ -28,11 +28,13 @@ D chưa triển khai hoặc baseline hỏng.
 
 ## Quality gate
 
-- Working tree kết hợp: compileall, Ruff, formatter và Mypy pass; Pytest
-  `87 passed, 1 skipped`; coverage `80.82%`.
-- Gate LiteLLM trước merge: Pytest `74 passed, 1 skipped`; Ruff/format/Mypy pass cho AI và test
-  liên quan; provider-only live smoke pass.
-- Gate core/rules trên nhánh nguồn: Ruff/Mypy pass; Pytest `75 passed, 1 skipped`; coverage `82.64%`.
+- Cây integration sau khi nhận `origin/dev@e65b31b`: Ruff lint/format và Mypy strict pass; Pytest
+  `106 passed, 1 skipped`; coverage `81.93%`.
+- Release API integration: `12 passed`, gồm đúng ba mã, out-of-scope, hero 5/5, stale revision,
+  edit/reset, typed timeout và generic OCR fallback.
+- Web: `npm run check` pass với 29 page; `npm audit --audit-level=moderate` báo 0 vulnerability.
+- Provider-only live smoke ở commit nguồn đã pass bằng fixture tổng hợp; chưa phải accuracy gate của
+  artifact release và không thay thế browser E2E.
 
 Terminal mock smoke đã nạp `vneguide.core:create_session` và xử lý `/quit` an toàn. Provider
 connectivity smoke không được coi là bằng chứng accuracy model hoặc hội thoại nghiệp vụ end-to-end.

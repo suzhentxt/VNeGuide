@@ -1,0 +1,127 @@
+"""Validated HTTP request and response shapes."""
+
+from __future__ import annotations
+
+from typing import Literal
+
+from pydantic import BaseModel, ConfigDict, Field, JsonValue, model_validator
+
+
+class StrictModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
+class SessionContext(StrictModel):
+    procedure_code: str | None = Field(default=None, max_length=32)
+    procedure_title: str | None = Field(default=None, max_length=200)
+    route: str | None = Field(default=None, max_length=500)
+
+
+class CreateSessionRequest(StrictModel):
+    context: SessionContext | None = None
+
+
+class MessageRequest(StrictModel):
+    message: str = Field(min_length=1, max_length=4_000)
+    client_turn_id: str | None = Field(default=None, min_length=1, max_length=100)
+
+
+class SuggestionActionRequest(StrictModel):
+    action: Literal["accept", "reject", "edit"]
+    value: JsonValue = None
+    expected_revision: int = Field(ge=0)
+
+    @model_validator(mode="after")
+    def require_edit_value(self) -> SuggestionActionRequest:
+        if self.action == "edit" and "value" not in self.model_fields_set:
+            raise ValueError("value is required when action is edit")
+        return self
+
+
+class ChatMessageResponse(StrictModel):
+    role: str
+    content: str
+
+
+class ProcedureResponse(StrictModel):
+    code: str
+    name: str
+
+
+class SuggestionResponse(StrictModel):
+    id: str
+    field_id: str
+    label: str
+    current_value: JsonValue
+    suggested_value: JsonValue
+    evidence: str
+    status: str
+    revision: int
+
+
+class MissingFieldResponse(StrictModel):
+    field_id: str
+    label: str
+
+
+class ValidationIssueResponse(StrictModel):
+    rule_id: str
+    severity: str
+    message: str
+    field_id: str | None
+    suggestion: str
+    source_ids: list[str]
+
+
+class ValidationResponse(StrictModel):
+    status: str
+    readiness_score: int | None
+    issues: list[ValidationIssueResponse]
+
+
+class SourceResponse(StrictModel):
+    id: str
+    title: str
+    publisher: str
+    url: str
+    verified_at: str
+
+
+class DraftResponse(StrictModel):
+    revision: int
+    confirmed_fields: list[str]
+    dirty_fields: list[str]
+
+
+class ChatTurnResponse(StrictModel):
+    reply: str
+    next_action: str
+    procedure: ProcedureResponse | None
+    draft: DraftResponse
+    messages: list[ChatMessageResponse]
+    suggestions: list[SuggestionResponse]
+    missing_fields: list[MissingFieldResponse]
+    validation: ValidationResponse | None
+    sources: list[SourceResponse]
+
+
+class SessionResponse(StrictModel):
+    expires_in_seconds: int
+    context: SessionContext | None
+    context_supported: bool
+    scope_warning: str | None
+    turn: ChatTurnResponse | None
+
+
+class HealthResponse(StrictModel):
+    status: Literal["ok"] = "ok"
+
+
+class ErrorDetail(StrictModel):
+    code: str
+    message: str
+    retryable: bool = False
+
+
+class ErrorResponse(StrictModel):
+    error: ErrorDetail

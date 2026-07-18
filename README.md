@@ -12,7 +12,7 @@ Các tài liệu sản phẩm cũ trong `doc/` phải được đối chiếu v�
 
 - Python 3.11 trở lên.
 - Không cần API key khi dùng mock provider và chạy test mặc định.
-- API key chỉ cần cho smoke test provider thật, được bật chủ động.
+- API key cần cho mọi luồng dùng provider thật, gồm CLI, HTTP API và live smoke chủ động.
 
 ## Cài đặt
 
@@ -22,7 +22,7 @@ Windows PowerShell:
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
-python -m pip install -e ".[dev]"
+python -m pip install -e ".[dev,api]"
 Copy-Item .env.example .env
 ```
 
@@ -32,12 +32,13 @@ macOS/Linux:
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install -e '.[dev]'
+python -m pip install -e '.[dev,api]'
 cp .env.example .env
 ```
 
-`.env` đã được Git bỏ qua. Runtime không đọc secret lúc import. Lệnh smoke provider bên dưới chỉ
-đọc file được chỉ định rõ bằng `--env-file`; các luồng khác vẫn nhận cấu hình từ environment.
+`.env` đã được Git bỏ qua. Runtime không đọc secret lúc import. Lệnh smoke provider và HTTP API chỉ
+đọc file khi được chỉ định rõ bằng `--env-file`; các luồng khác vẫn nhận cấu hình từ environment.
+File mẫu mặc định dùng `mock`; chỉ đổi sang LiteLLM/OpenAI khi đã có endpoint HTTPS và secret hợp lệ.
 
 ## Chạy chatbot
 
@@ -59,14 +60,46 @@ Mỗi lượt hiển thị câu trả lời, thủ tục nhận diện, dữ li�
 
 Hook mặc định `vneguide.core:create_session` đã được triển khai. Với mock provider không có response dựng sẵn, core trả fallback an toàn; để hội thoại bằng model thật cần cấu hình provider/model/key theo phần bên dưới. CLI không chứa business logic của core.
 
+## Chạy HTTP API và demoweb
+
+Browser gọi Next.js BFF tại `/api/chat/*`; BFF giữ session ID trong cookie `HttpOnly` và gọi Python
+API ở phía server. API key model không được đưa vào biến `NEXT_PUBLIC_*`.
+
+Terminal 1 — chạy Python Chat API:
+
+```powershell
+.venv\Scripts\Activate.ps1
+python -m vneguide.api --env-file .env
+```
+
+`--env-file` là opt-in tường minh cho local development; file chỉ được đọc các khóa LLM trong danh
+sách cho phép. Có thể bỏ tùy chọn này khi provider/model/key đã được đặt trực tiếp trong process
+environment.
+
+Terminal 2 — chạy Next.js:
+
+```powershell
+Copy-Item demoweb\.env.local.example demoweb\.env.local
+Set-Location demoweb
+npm ci
+npm run dev
+```
+
+Mặc định BFF gọi `http://127.0.0.1:8000`. Có thể đổi bằng `VNEGUIDE_API_BASE_URL` trong `demoweb/.env.local`. Kiểm tra API bằng `GET /health`.
+
+Demoweb hiện chỉ hiển thị đúng ba thủ tục đã khóa trong `data/README.md`: `2.000635`, `1.013314` và
+`1.004194`. Luồng đăng ký kết hôn cũ đã bị loại khỏi route hỗ trợ. Form sâu của `1.004194` dùng
+shared workspace với chat. BFF `/api/chat/field` đã có contract, nhưng backend chưa có endpoint cập
+nhật field trực tiếp nên manual-edit sync end-to-end vẫn là release blocker.
+
 ## Cấu hình provider
 
 Các biến mẫu nằm trong `.env.example`:
 
 ```text
-VNEGUIDE_LLM_PROVIDER=litellm
-VNEGUIDE_MODEL=Qwen/Qwen3.5-9B
-VNEGUIDE_LITELLM_BASE_URL=http://127.0.0.1:9207
+VNEGUIDE_LLM_PROVIDER=mock
+VNEGUIDE_MODEL=mock-scripted
+VNEGUIDE_LITELLM_BASE_URL=https://litellm.example.invalid
 VNEGUIDE_LITELLM_API_KEY=
 VNEGUIDE_LITELLM_ALLOW_INSECURE_HTTP=0
 VNEGUIDE_LITELLM_DISABLE_THINKING=1
@@ -78,6 +111,7 @@ VNEGUIDE_RUN_LIVE_SMOKE=0
 Không commit `.env`, API key, dữ liệu cá nhân thật hoặc transcript chứa số định danh đầy đủ. Dữ liệu test trong repo phải là dữ liệu giả.
 
 `VNEGUIDE_LLM_PROVIDER` là tên provider (`mock`, `openai` hoặc `litellm`), không phải URL.
+Để dùng LiteLLM, đổi provider thành `litellm`, đặt model ID đã deploy và cung cấp endpoint/key hợp lệ.
 `openai` tiếp tục dùng endpoint HTTPS chính thức đã khóa cứng. `litellm` dùng base URL riêng và
 tự nối `/v1/chat/completions`. HTTP bị từ chối mặc định; chỉ bật
 `VNEGUIDE_LITELLM_ALLOW_INSECURE_HTTP=1` cho gateway dev tin cậy và dữ liệu tổng hợp. Bearer key,
@@ -86,10 +120,15 @@ prompt và phản hồi đều không được mã hóa khi đi qua HTTP; dữ l
 ## Quality gates
 
 ```powershell
-python -m ruff check .
-python -m ruff format --check src/vneguide/cli tests/integration tests/evals
+python -m ruff check src tests deployment
+python -m ruff format --check src tests deployment
 python -m mypy
 python -m pytest
+python deployment/scripts/release_audit.py
+Set-Location demoweb
+npm ci
+npm audit --audit-level=moderate
+npm run check
 ```
 
 Chạy coverage:
@@ -107,15 +146,36 @@ python -m vneguide.ai.smoke --env-file .env --confirm-live
 Kết quả thành công có prefix `MODEL_SMOKE_OK`; lệnh không in prompt, raw response, evidence hoặc
 API key. `--confirm-live` là bắt buộc để tránh vô tình gửi request mạng.
 
-Live session test cũ vẫn là gate end-to-end và chỉ dùng được sau khi
-`vneguide.core:create_session` được triển khai. Khi đó cấu hình provider, model và key trong
-environment rồi chạy:
+Live-model integration test là gate chủ động, không chạy mặc định. Hook
+`vneguide.core:create_session` đã được triển khai; cấu hình provider, model và key trong environment
+rồi chạy:
 
 ```powershell
 $env:VNEGUIDE_RUN_LIVE_SMOKE="1"
 $env:VNEGUIDE_LITELLM_API_KEY="<secret>" # hoặc VNEGUIDE_API_KEY với provider openai
 python -m pytest tests/integration/test_live_smoke.py -m live
 ```
+
+## Container, public smoke và rollback
+
+Stack release giữ đồng thời LiteLLM/OpenAI/mock provider, FastAPI, Next.js và một gateway chung:
+
+```powershell
+$env:VNEGUIDE_LLM_PROVIDER="mock"
+$env:VNEGUIDE_MODEL="mock-scripted"
+docker compose -f deployment/docker-compose.yml up --build --detach --wait
+python deployment/scripts/smoke.py `
+  --api-url http://127.0.0.1:8080 `
+  --web-url http://127.0.0.1:8080 `
+  --samples 5 `
+  --provider mock `
+  --model mock-scripted
+```
+
+API demo chạy một worker vì session store nằm trong memory. Hướng dẫn public preview, model secret,
+metrics và deploy bền vững nằm trong [`deployment/README.md`](deployment/README.md). Quy trình phục
+hồi không force-push nằm trong [`doc/operations/rollback.md`](doc/operations/rollback.md); kịch bản
+pitch/video nằm trong [`doc/operations/demo-and-pitch.md`](doc/operations/demo-and-pitch.md).
 
 ## Cấu trúc repository
 

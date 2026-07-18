@@ -1,70 +1,79 @@
 # Nhật ký tiến độ VNeGuide
 
-## Trạng thái hiện tại
+## Trạng thái release
 
-- Repository: `D:\VAIC_UET`, nhánh `dev`.
-- Phạm vi nghiệp vụ là ba procedure pack trong `data/README.md`.
-- Domain/data foundation, structured extraction, LiteLLM provider, deterministic rule engine,
-  suggestion-aware conversation core và CLI harness đều đã có source.
-- `python -m vneguide.cli` đã nạp được composition root `vneguide.core:create_session`.
-- Provider trực tiếp hỗ trợ `mock`, OpenAI Responses và LiteLLM Chat Completions.
-- Merge hiện tại kết hợp core/rules từ `origin/dev` với LiteLLM support cục bộ; quality gate của
-  trạng thái hợp nhất được ghi ở phần xác minh bên dưới.
+- Nhánh tích hợp: `integration/release-dev`, tạo từ `dev` tại `1d3e566`.
+- Đã merge `tuan` bằng `4865ceb`, tài liệu scope bằng `ff06998`, release baseline bằng `a8e182f`
+  và `origin/dev@e65b31b` bằng `44d399f`.
+- Đã tích hợp `origin/agent/web-three-procedures@7646399`; merge commit đang chờ chốt sau audit.
+- LiteLLM, FastAPI Chat API và Next.js cùng tồn tại trên cây tích hợp.
+- Backend/data và frontend catalog/route đều chỉ còn đúng `2.000635`, `1.013314`, `1.004194`.
 
-## Ưu tiên tiếp theo
+## 2026-07-18 — Web đúng ba thủ tục
 
-Trước khi nối web, bổ sung interaction Accept/Reject/Edit cho terminal hoặc adapter dùng chung và
-đưa các rule-context signal đã review vào luồng extraction/core. Sau đó chạy demo end-to-end bằng
-dữ liệu tổng hợp. Không gửi dữ liệu hành chính thật qua gateway HTTP; cần HTTPS trước khi dùng
-transcript thật.
+- Loại route và dữ liệu đăng ký kết hôn cũ; static params chỉ generate ba procedure slug được hỗ trợ.
+- Thêm form CT01 mô phỏng cho hero `1.004194` và shared workspace giữa form/chat.
+- Workspace giữ dirty/confirmed field, revision, stale-response guard và state theo browser session.
+- Accept/Edit cập nhật field sạch; Reject giữ nguyên; AI không được ghi đè field người dùng đã sửa.
+- Giữ retry session 404/410 từ `dev`; khi backend session bị tạo lại, workspace rebase revision nhưng
+  vẫn giữ giá trị form và đánh dấu cần đồng bộ lại.
+- Thêm BFF `/api/chat/field`. Backend chưa có endpoint field-update và `DraftResponse.values`, nên
+  manual-edit sync end-to-end vẫn là blocker được ghi rõ.
+- Giữ Next `16.2.10`, shadcn `4.13.1`, ESLint config `16.2.10` và PostCSS `8.5.16` từ release branch;
+  không nhận dependency cũ có 12 advisory từ branch UI.
 
-## Xác minh trạng thái hợp nhất
+## QA, release và deploy baseline
 
-- Compileall, Ruff, formatter và Mypy đều pass trên working tree kết hợp.
-- Pytest: `87 passed, 1 skipped`; coverage `80.82%`, vượt gate `80%`.
-- Terminal mock smoke khởi tạo `vneguide.core:create_session` và `/quit` an toàn.
-- Provider-only smoke trước merge đã gọi thật `Qwen/Qwen3.5-9B` và trả
-  `MODEL_SMOKE_OK ... structured_output=true` với schema tổng hợp `{ok: boolean}`.
+- Python cài bằng `python -m pip install -e ".[api,dev]"`; web cài bằng `npm ci`.
+- Có API integration test cho đúng ba mã, out-of-scope, hero 5/5, stale revision, suggestion edit,
+  reset, typed provider timeout và generic OCR fallback.
+- Có GitHub Actions, Dependabot, Dockerfile API/web, Compose, Nginx gateway, smoke metrics, limited
+  staged-text audit, rollback runbook, pitch và shot list video.
+- Docker context chặn root/nested `.env*`; Python API runtime dependency khóa version; gateway có
+  timeout 75 giây trên BFF timeout 60 giây.
 
-## Nhật ký phiên
+## Quality gate sau merge UI
 
-### 2026-07-17 — Hợp nhất core/rules và LiteLLM
+| Gate | Kết quả |
+| --- | --- |
+| Ruff lint/format | Pass, 65 Python file formatted |
+| Mypy strict | Pass, 63 source files |
+| Pytest/coverage | 106 passed, 1 skipped; coverage 81.93% |
+| `npm ci` / audit | Pass; 0 vulnerability |
+| Reducer tests | 9 passed, gồm session recreation giữ form data |
+| Next production build | Pass, 25 route; chỉ generate ba procedure slug |
+| HTTP route smoke | Ba route 200; hero tạm trú 5/5; route kết hôn cũ 404 |
+| Limited staged-text audit | Pass: 333 index file, 188 text file |
 
-- Nhập conversation core, 27 deterministic rule handler, question selector và
-  `vneguide.core:create_session` từ `origin/dev`.
-- Giữ provider LiteLLM, loader `.env` có chỉ định, Qwen `enable_thinking=false` và smoke command.
-- Source/tests được Git hợp nhất tự động; conflict chỉ nằm trong ba tài liệu vận hành.
-- Gate kết hợp: Ruff/format/Mypy pass; Pytest `87 passed, 1 skipped`; coverage `80.82%`.
+## Metrics gần nhất trước merge UI
 
-### 2026-07-17 — LiteLLM self-hosted provider
+- Clean revision `44d399f`, local gateway `2026-07-18T08:50:23.102344Z`: `/health` p95 8.44 ms,
+  web p95 20.12 ms.
+- Public gateway `2026-07-18T08:50:28.004246Z`: `/health` p95 326.07 ms, web p95 729.74 ms.
+- Runtime `provider=mock`, `model=mock-scripted`; smoke không gọi model.
+- Image: API `sha256:c72a78e6a5b5...9e4f`, web `sha256:b87a68c910cf...c0b7`.
+- Preview ngrok chỉ hoạt động khi Docker/ngrok trên máy release còn chạy.
 
-- Thêm `LiteLLMChatCompletionsProvider` với strict JSON Schema, response-size/timeout gate, typed
-  error và chặn redirect.
-- Tách provider selector `litellm`, base URL và key riêng; HTTP yêu cầu insecure opt-in rõ ràng.
-- Thêm `python -m vneguide.ai.smoke --env-file .env --confirm-live`; request chỉ dùng dữ liệu tổng
-  hợp và không in prompt, raw response hoặc key.
-- Pytest tại thời điểm triển khai: `74 passed, 1 skipped`; Ruff/format/Mypy pass cho AI và test
-  liên quan.
-- Live provider smoke với `Qwen/Qwen3.5-9B` đã pass structured output tối thiểu.
+## Definition of Done
 
-### 2026-07-17 — Conversation engine, rules và validation (Người 3)
+- [x] Backend/data đúng ba thủ tục.
+- [x] Frontend catalog/route đúng ba thủ tục.
+- [x] Hero orchestration API chạy độc lập 5/5 bằng scripted extractor.
+- [x] Python/npm gate và route smoke đạt sau merge UI.
+- [ ] Rebuild/smoke container sau merge UI.
+- [ ] Manual edit sync end-to-end qua backend field-update contract.
+- [ ] Browser E2E/visual/keyboard QA cho hero tạm trú.
+- [ ] OCR implementation và OCR E2E thật.
+- [ ] Public hosting bền vững thay tunnel tạm.
+- [ ] Video dự phòng đã record và được hai người review offline.
 
-- Thêm handler xác định cho 27 rule, field validation, missing-field resolver và question selector.
-- Thêm state machine suggestion `pending/accepted/rejected/edited`, revision guard và retry cap.
-- Cung cấp `vneguide.core:create_session`; CLI với mock rỗng trả fallback an toàn.
-- Bằng chứng trên nhánh nguồn: Ruff/Mypy pass; Pytest `75 passed, 1 skipped`; coverage `82.64%`.
+Không push `dev` với nhãn release hoàn thành cho tới khi các mục chưa đạt được xử lý.
 
-### 2026-07-17 — Domain và data foundation (Người 1)
+## Lịch sử kỹ thuật cần giữ
 
-- Thêm enum/model/contract dùng chung cho ba mã thủ tục data package v2.
-- Thêm loader, dependency-free JSON Schema validator và `ProcedureRepository`.
-- Audit catalog, nguồn approved, local path, rule input, guidance step và checksum chuẩn LF.
-- Khóa OD-004: rule engine dùng handler theo `rule_id`, không `eval/exec` condition.
-- Bằng chứng trên nhánh nguồn: 25 unit test pass.
-
-### 2026-07-17 — CLI và LLM structured extraction
-
-- Thêm terminal loop, `/status`, `/reset`, `/quit`, renderer và integration port cho core.
-- Thêm provider-neutral interface, mock/OpenAI adapter, strict schema, bounded retry và fallback.
-- LLM chỉ phân loại/trích xuất; required field, rule, phí, thời hạn và nguồn do code xác định xử lý.
-- Bằng chứng trước khi tích hợp domain/data: Pytest `37 passed, 1 skipped`.
+- LLM chỉ phân loại/trích xuất; required field, rule, phí, thời hạn và nguồn do code/data package
+  đã review quyết định.
+- Core/rules có Accept/Reject/Edit, revision guard, retry cap và deterministic validation.
+- FastAPI dùng session ID ngẫu nhiên, TTL/capacity/per-session lock; store in-memory chỉ phù hợp một
+  worker. Next BFF giữ session ID trong cookie `HttpOnly` và không đưa model key ra browser.
+- Frontend có banner mô phỏng Hackathon và `noindex`; không tiếp nhận dữ liệu cá nhân thật.
