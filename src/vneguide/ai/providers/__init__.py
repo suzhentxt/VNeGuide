@@ -9,12 +9,14 @@ from .base import (
     StructuredRequest,
 )
 from .litellm import LiteLLMChatCompletionsProvider
+from .logging import LoggingProvider
 from .mock import MockLLMProvider
 from .openai import OPENAI_RESPONSES_URL, OpenAIResponsesProvider
 
 __all__ = [
     "LLMProvider",
     "LiteLLMChatCompletionsProvider",
+    "LoggingProvider",
     "MockLLMProvider",
     "OPENAI_RESPONSES_URL",
     "OpenAIResponsesProvider",

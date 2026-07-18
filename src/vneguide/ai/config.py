@@ -10,6 +10,7 @@ from pathlib import Path
 from .providers import (
     LiteLLMChatCompletionsProvider,
     LLMProvider,
+    LoggingProvider,
     MockLLMProvider,
     OpenAIResponsesProvider,
     ProviderConfigurationError,
@@ -23,10 +24,14 @@ _ENV_FILE_KEYS = frozenset(
         "VNEGUIDE_LITELLM_API_KEY",
         "VNEGUIDE_LITELLM_BASE_URL",
         "VNEGUIDE_LITELLM_DISABLE_THINKING",
+        "VNEGUIDE_LLM_LOG",
+        "VNEGUIDE_LLM_LOG_PATH",
         "VNEGUIDE_LLM_PROVIDER",
         "VNEGUIDE_MODEL",
     }
 )
+
+_DEFAULT_LLM_LOG_PATH = "logs/llm_calls.jsonl"
 
 
 @dataclass(frozen=True)
@@ -39,6 +44,8 @@ class LLMConfig:
     litellm_base_url: str | None = None
     litellm_allow_insecure_http: bool = False
     litellm_disable_thinking: bool = True
+    llm_log_enabled: bool = False
+    llm_log_path: str = _DEFAULT_LLM_LOG_PATH
 
 
 def load_llm_config(
@@ -70,6 +77,12 @@ def load_llm_config(
         "VNEGUIDE_LITELLM_DISABLE_THINKING",
         default=True,
     )
+    llm_log_enabled = _read_boolean(
+        source,
+        "VNEGUIDE_LLM_LOG",
+        default=False,
+    )
+    llm_log_path = source.get("VNEGUIDE_LLM_LOG_PATH", "").strip() or _DEFAULT_LLM_LOG_PATH
     return LLMConfig(
         provider=provider,
         model=model,
@@ -77,6 +90,8 @@ def load_llm_config(
         litellm_base_url=base_url,
         litellm_allow_insecure_http=allow_insecure_http,
         litellm_disable_thinking=disable_thinking,
+        llm_log_enabled=llm_log_enabled,
+        llm_log_path=llm_log_path,
     )
 
 
@@ -84,26 +99,30 @@ def build_llm_provider(config: LLMConfig, *, mock_responses: Iterable[object] = 
     """Build the configured provider without reading environment state again."""
 
     if config.provider == "mock":
-        return MockLLMProvider(mock_responses)
-    if config.provider == "openai":
+        provider: LLMProvider = MockLLMProvider(mock_responses)
+    elif config.provider == "openai":
         if config.model is None or config.api_key is None:
             raise ProviderConfigurationError(
                 "OpenAI provider requires VNEGUIDE_MODEL and VNEGUIDE_API_KEY"
             )
-        return OpenAIResponsesProvider(api_key=config.api_key, model=config.model)
-    if config.provider == "litellm":
+        provider = OpenAIResponsesProvider(api_key=config.api_key, model=config.model)
+    elif config.provider == "litellm":
         if config.model is None or config.litellm_base_url is None:
             raise ProviderConfigurationError(
                 "LiteLLM provider requires VNEGUIDE_MODEL and VNEGUIDE_LITELLM_BASE_URL"
             )
-        return LiteLLMChatCompletionsProvider(
+        provider = LiteLLMChatCompletionsProvider(
             api_key=config.api_key,
             base_url=config.litellm_base_url,
             model=config.model,
             allow_insecure_http=config.litellm_allow_insecure_http,
             disable_thinking=config.litellm_disable_thinking,
         )
-    raise ProviderConfigurationError(f"Unknown LLM provider: {config.provider!r}")
+    else:
+        raise ProviderConfigurationError(f"Unknown LLM provider: {config.provider!r}")
+    if config.llm_log_enabled:
+        provider = LoggingProvider(provider, log_path=config.llm_log_path, model=config.model)
+    return provider
 
 
 def _read_boolean(source: Mapping[str, str], name: str, *, default: bool) -> bool:

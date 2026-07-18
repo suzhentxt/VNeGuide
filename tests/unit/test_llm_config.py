@@ -114,6 +114,35 @@ class LLMConfigTests(unittest.TestCase):
             with self.subTest(config=config), self.assertRaises(ProviderConfigurationError):
                 build_llm_provider(config)
 
+    def test_logging_wrapper_applied_when_enabled(self) -> None:
+        from vneguide.ai.providers import LoggingProvider
+
+        config = LLMConfig(
+            provider="mock",
+            model="test-model",
+            api_key=None,
+            llm_log_enabled=True,
+            llm_log_path="logs/test.jsonl",
+        )
+        provider = build_llm_provider(config)
+        self.assertIsInstance(provider, LoggingProvider)
+
+    def test_logging_disabled_by_default(self) -> None:
+        config = LLMConfig(provider="mock", model="test-model", api_key=None)
+        provider = build_llm_provider(config)
+        self.assertIsInstance(provider, MockLLMProvider)
+
+    def test_reads_log_env_vars(self) -> None:
+        config = load_llm_config(
+            {
+                "VNEGUIDE_LLM_PROVIDER": "mock",
+                "VNEGUIDE_LLM_LOG": "1",
+                "VNEGUIDE_LLM_LOG_PATH": "custom/path.jsonl",
+            }
+        )
+        self.assertTrue(config.llm_log_enabled)
+        self.assertEqual(config.llm_log_path, "custom/path.jsonl")
+
 
 if __name__ == "__main__":
     unittest.main()
