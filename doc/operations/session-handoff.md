@@ -16,6 +16,8 @@
 - Repo có thêm `demoweb/`, một giao diện Next.js độc lập; thư mục này không phụ thuộc tool clone hoặc dữ liệu capture ban đầu.
 - Luồng Hôn nhân và gia đình trong `demoweb` đã sửa catalog, lựa chọn dịch vụ/đơn vị, form không điền sẵn PII và tải cơ quan có timeout/thử lại.
 - Session web dùng cookie `HttpOnly`; Python store hiện là in-memory single-process với TTL/capacity/per-session lock.
+- Nhánh Người 4 có adapter/worker Qwen OCR cho CT01 tại `src/vneguide/ocr/`; output chỉ là candidate
+  `USER_UPLOAD`, chưa nối trực tiếp vào core/api/demoweb để giữ đúng module owner.
 
 ## Việc đã xác minh
 
@@ -33,6 +35,9 @@
   production cho catalog, tìm kiếm, lựa chọn, redirect và API validation đều pass.
 - Live web BFF → Python API → LiteLLM pass bằng dữ liệu giả: session `201`, message `200`, nhận diện
   `1.004194` và có assistant response; không gửi PII hoặc hồ sơ thật.
+- OCR gate: Ruff/format/Mypy pass; toàn repo `127 passed, 1 skipped`. Live OCR smoke 3 lượt fixture
+  CT01 giả đạt field recall `0.75`, latency trung bình `6,688` giây và cố ý báo không đạt vì chưa ổn
+  định 4/4 field.
 
 ## Rủi ro
 
@@ -51,6 +56,8 @@
 - Danh sách Phường/Xã và Sở phụ thuộc upstream `vpcp.dichvucong.gov.vn`; khi upstream lỗi hoặc quá hạn, UI hiển thị lỗi và cho phép thử lại thay vì dùng dữ liệu giả.
 - Bốn mã đang hoạt động trên web (`1.000894`, `2.000806`, `1.004859`, `2.000748`) chưa có procedure pack backend; chat hiển thị scope warning và chưa thể kết luận nghiệp vụ cho các mã này.
 - In-memory session store chỉ phù hợp một API worker; cần Redis hoặc store dùng chung trước khi scale nhiều worker.
+- Gateway trong `.env` dùng HTTP nên ảnh không được mã hóa trên đường truyền; tuyệt đối không gửi CT01
+  hoặc PII thật cho tới khi có HTTPS. Qwen OCR hiện chưa ổn định 4/4 field và phải luôn có nhập tay.
 - `npm audit --omit=dev` hiện báo 12 advisory production, gồm 4 mức high (trong đó có Next.js và
   dependency gián tiếp). Không deploy Internet trước khi nâng dependency có review và chạy lại gate.
 
@@ -61,6 +68,10 @@ theo, review/bổ sung data package cho bốn thủ tục Hôn nhân và gia đ�
 extraction/core và hoàn thiện CLI để hiển thị suggestion ID, gọi đúng Accept/Reject/Edit. Chạy E2E
 terminal/API/web bằng dữ liệu tổng hợp. Chỉ dùng LiteLLM HTTP cho smoke dữ liệu giả; không gửi PII
 hoặc hồ sơ thật trước khi gateway có HTTPS.
+
+Với OCR, bước tích hợp cụ thể là để Người 2/5 triển khai `OcrCandidateSink`, đưa candidate vào
+suggestion `pending` kèm revision guard rồi hiển thị bằng Accept/Reject/Edit hiện có; không gọi method
+ghi draft từ OCR. Người 5 cần thêm extra dependency Pillow/pypdfium2 trước khi merge.
 
 ## Lệnh
 
@@ -76,4 +87,6 @@ hoặc hồ sơ thật trước khi gateway có HTTPS.
 - Type check: `python -m mypy`
 - Test: `python -m pytest`
 - Provider smoke: `python -m vneguide.ai.smoke --env-file .env --confirm-live`
+- OCR unit/eval: `python -m pytest tests/unit/test_ocr*.py tests/evals/test_ocr_ct01_acceptance.py`
+- OCR live fixture: `python -m vneguide.ocr.smoke --env-file .env --runs 3 --confirm-live`
 - CLI: `python -m vneguide.cli`

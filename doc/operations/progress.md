@@ -36,6 +36,24 @@ liệu hành chính thật qua gateway HTTP; cần HTTPS trước khi dùng tran
 
 ## Nhật ký phiên
 
+### 2026-07-18 — Qwen OCR CT01 (Người 4)
+
+- Thêm module biệt lập `vneguide.ocr` cho hero CT01 của thủ tục `1.004194`; model
+  `Qwen/Qwen3.5-9B` đọc từ `.env` qua LiteLLM multimodal, không dùng MinerU/vLLM.
+- Upload được kiểm tra magic MIME, giới hạn 8 MiB/2 trang/20 MP, chuẩn hóa trong memory và không log
+  raw image. Worker chỉ bind localhost, có bearer token, queue một inference, TTL và fallback nhập tay.
+- Mapper chỉ tạo candidate `USER_UPLOAD` gồm field/value/confidence/evidence, kiểm tra field bằng rule
+  engine đã review và không có đường ghi draft. `OcrCandidateSink` là port để Core/API nối candidate
+  vào suggestion pipeline trong PR tích hợp riêng.
+- Fixture hoàn toàn tổng hợp bao phủ clear, blurred, rotated, wrong-document, MIME spoof, PDF quá số
+  trang, timeout và output model lỗi; không commit ảnh giấy tờ hoặc PII thật.
+- Gate: Ruff, Ruff format, Mypy strict pass; Pytest toàn repo `127 passed, 1 skipped`.
+- Live smoke ngày 2026-07-18, 3 lượt ảnh CT01 tổng hợp: field recall `0.75` (9/12), latency trung bình
+  `6,688` giây, lớn nhất `8,407` giây. Lệnh cố ý trả exit code `1` vì chưa đạt 4/4 mọi lượt; đây là
+  baseline thật và fallback nhập tay vẫn bắt buộc.
+- Chưa thêm Pillow/pypdfium2 vào `pyproject.toml` vì file dependency thuộc Người 5; lệnh cài và lệnh
+  smoke đã ghi trong `src/vneguide/ocr/README.md`.
+
 ### 2026-07-18 — Kết nối lại model thật với chatbot web
 
 - Xác định lỗi trực tiếp là FastAPI cổng `8000` đã dừng; web cổng `3000` vẫn chạy nhưng BFF trả
