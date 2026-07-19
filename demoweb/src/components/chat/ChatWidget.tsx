@@ -29,6 +29,7 @@ import { useProcedureWorkspace } from "@/components/workspace/ProcedureWorkspace
 import { getChatValidationPresentation } from "@/lib/chat-presentation";
 import { getChatReplyOptions } from "@/lib/chat-reply-options";
 import { AUDIO_FILE_ACCEPT, mergeTranscriptIntoDraft } from "@/lib/stt";
+import { getAssistantMessageOrdinals } from "@/lib/tts";
 import {
   createWallet,
   INFORMATION_WALLET_KEY,
@@ -37,9 +38,11 @@ import {
 } from "@/lib/information-wallet";
 import type { JsonValue } from "@/types/chat";
 
+import { MessageSpeechControls } from "./MessageSpeechControls";
 import { SuggestionCard } from "./SuggestionCard";
 import { useChatSession } from "./useChatSession";
 import { useSpeechToText } from "./useSpeechToText";
+import { useTextToSpeech } from "./useTextToSpeech";
 
 function choiceLabel(value: JsonValue) {
   if (typeof value === "boolean") return value ? "Có" : "Không";
@@ -89,6 +92,15 @@ export function ChatWidget() {
     window.requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
   const speech = useSpeechToText({ active: open, onTranscript: applyTranscript });
+  const textToSpeech = useTextToSpeech({
+    active: open,
+    disabled: busy || speech.phase !== "idle",
+  });
+  const stopSpeaking = textToSpeech.stop;
+  const assistantIndexes = useMemo(
+    () => getAssistantMessageOrdinals(messages),
+    [messages],
+  );
 
   const inferredProcedure = turn?.procedure
     ? getProcedureContextByCode(turn.procedure.code)
@@ -113,11 +125,26 @@ export function ChatWidget() {
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        stopSpeaking();
+        setOpen(false);
+      }
     }
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, []);
+  }, [stopSpeaking]);
+
+  useEffect(() => {
+    stopSpeaking();
+  }, [pathname, stopSpeaking]);
+
+  useEffect(() => {
+    if (busy) stopSpeaking();
+  }, [busy, stopSpeaking]);
+
+  useEffect(() => {
+    stopSpeaking();
+  }, [messages, stopSpeaking]);
 
   useEffect(() => {
     const openForStep = (event: Event) => {
@@ -145,6 +172,7 @@ export function ChatWidget() {
     if (!selectedProcedure) return;
     const route = getConfirmedProcedureRoute(selectedProcedure.code);
     if (!route) return;
+    textToSpeech.stop();
     setOpen(false);
     setSelectedProcedureCode(null);
     setChoosingProcedure(false);
@@ -153,6 +181,7 @@ export function ChatWidget() {
   }
 
   async function restartSession() {
+    textToSpeech.stop();
     setDeclarationCompleted(false);
     setWalletNotice(null);
     await resetSession();
@@ -162,6 +191,7 @@ export function ChatWidget() {
     event.preventDefault();
     const message = draft.trim();
     if (!message || busy || speech.phase !== "idle") return;
+    textToSpeech.stop();
     setDraft("");
     await sendMessage(message);
     inputRef.current?.focus();
@@ -284,7 +314,10 @@ export function ChatWidget() {
               <button
                 aria-label="Thu nhỏ trợ lý"
                 className="flex size-10 items-center justify-center rounded-full hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-white"
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  textToSpeech.stop();
+                  setOpen(false);
+                }}
                 type="button"
               >
                 <ChevronDown className="size-6 sm:hidden" aria-hidden="true" />
@@ -333,13 +366,20 @@ export function ChatWidget() {
                   key={`${message.role}-${index}-${message.content.slice(0, 20)}`}
                 >
                   <div
-                    className={`max-w-[92%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-base leading-7 shadow-sm ${
+                    className={`max-w-[92%] rounded-2xl px-4 py-3 text-base leading-7 shadow-sm ${
                       message.role === "user"
                         ? "rounded-tr-sm bg-[#903938] text-white"
                         : "rounded-tl-sm border border-[#e2e6ea] bg-white text-[#334155]"
                     }`}
                   >
-                    {message.content}
+                    <div className="whitespace-pre-wrap">{message.content}</div>
+                    {assistantIndexes[index] !== null ? (
+                      <MessageSpeechControls
+                        assistantIndex={assistantIndexes[index]}
+                        disabled={busy || speech.phase !== "idle"}
+                        speech={textToSpeech}
+                      />
+                    ) : null}
                   </div>
                 </div>
               ))}
@@ -638,7 +678,10 @@ export function ChatWidget() {
               onChange={(event) => {
                 const file = event.currentTarget.files?.[0];
                 event.currentTarget.value = "";
-                if (file) void speech.transcribeFile(file);
+                if (file) {
+                  textToSpeech.stop();
+                  void speech.transcribeFile(file);
+                }
               }}
               ref={audioFileInputRef}
               tabIndex={-1}
@@ -680,7 +723,10 @@ export function ChatWidget() {
                   aria-label="Bắt đầu nhập bằng giọng nói"
                   className="flex size-11 shrink-0 items-center justify-center rounded-lg border border-[#c9cdcf] bg-white text-[#704238] hover:border-[#ce7a58] hover:bg-[#fff8f5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#903938] disabled:cursor-not-allowed disabled:opacity-50"
                   disabled={busy || speech.phase !== "idle"}
-                  onClick={() => void speech.startRecording()}
+                  onClick={() => {
+                    textToSpeech.stop();
+                    void speech.startRecording();
+                  }}
                   title="Nhập bằng giọng nói"
                   type="button"
                 >
@@ -693,7 +739,10 @@ export function ChatWidget() {
                   aria-label="Chọn tệp âm thanh để chuyển thành văn bản"
                   className="flex size-11 shrink-0 items-center justify-center rounded-lg border border-[#c9cdcf] bg-white text-[#704238] hover:border-[#ce7a58] hover:bg-[#fff8f5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#903938] disabled:cursor-not-allowed disabled:opacity-50"
                   disabled={busy || speech.phase !== "idle"}
-                  onClick={() => audioFileInputRef.current?.click()}
+                  onClick={() => {
+                    textToSpeech.stop();
+                    audioFileInputRef.current?.click();
+                  }}
                   title="Chọn tệp âm thanh"
                   type="button"
                 >

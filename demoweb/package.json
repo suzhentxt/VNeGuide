@@ -12,7 +12,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --test src/lib/procedure-workspace-reducer.test.ts src/lib/chat-presentation.test.ts src/lib/chat-reply-options.test.ts src/lib/guided-application.test.ts src/lib/procedure-selection.test.ts src/lib/stt.test.ts src/lib/server/stt-audio.test.ts src/lib/server/stt-client.test.ts src/data/chat-scope.test.ts",
+    "test": "node --test src/lib/procedure-workspace-reducer.test.ts src/lib/chat-presentation.test.ts src/lib/chat-reply-options.test.ts src/lib/guided-application.test.ts src/lib/procedure-selection.test.ts src/lib/stt.test.ts src/lib/tts.test.ts src/lib/server/stt-audio.test.ts src/lib/server/stt-client.test.ts src/lib/server/tts-client.test.ts src/lib/server/tts-text.test.ts src/data/chat-scope.test.ts",
     "typecheck": "tsc --noEmit",
     "check": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
