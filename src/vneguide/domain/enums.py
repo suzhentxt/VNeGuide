@@ -90,6 +90,15 @@ class NextAction(StrEnum):
 
     # Python compatibility aliases.  The wire values above are the only values
     # emitted by the refactored conversation core.
+    #
+    # WARNING: aliases share the same enum member, so ``is`` and ``in`` checks
+    # cannot distinguish an alias from its target.  For example
+    # ``NextAction.COMPLETE is NextAction.PRESENT_GUIDANCE`` is True, and a
+    # ``frozenset({NextAction.PRESENT_GUIDANCE})`` also contains ``COMPLETE``.
+    # When a branch must treat aliases differently (e.g. the deep-agent adapter
+    # re-composing informational replies but not form-complete turns), use a
+    # structural discriminator (state flags, missing fields) rather than the
+    # action alone — see ``_is_form_complete`` in ``agent/session_adapter.py``.
     ASK_CLARIFICATION = FILL_MISSING_FIELD
     PRESENT_GUIDANCE = READY_TO_CONTINUE
     VALIDATE_DRAFT = READY_TO_CONTINUE

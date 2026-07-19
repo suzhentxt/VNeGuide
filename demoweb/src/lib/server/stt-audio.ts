@@ -2,6 +2,8 @@ import { spawn } from "node:child_process";
 
 const DURATION_PROBE_TIMEOUT_MS = 10_000;
 const MAX_PROBE_RESPONSE_BYTES = 1024 * 1024;
+const CONVERT_TIMEOUT_MS = 30_000;
+const MAX_CONVERT_OUTPUT_BYTES = 32 * 1024 * 1024;
 
 export class SttAudioValidationError extends Error {
   readonly kind: "unreadable" | "too_long";
@@ -10,6 +12,13 @@ export class SttAudioValidationError extends Error {
     super(kind);
     this.name = "SttAudioValidationError";
     this.kind = kind;
+  }
+}
+
+export class SttAudioConversionError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "SttAudioConversionError";
   }
 }
 
@@ -136,4 +145,92 @@ export async function validateAudioDuration(
     throw new SttAudioValidationError("too_long");
   }
   return durationSeconds;
+}
+
+/**
+ * Convert any audio container ffmpeg can decode into 16 kHz mono PCM WAV.
+ *
+ * Local ASR providers (e.g. Qwen3-ASR served by vLLM) typically accept only WAV
+ * PCM input, while browsers record in WebM/Opus. OpenAI-compatible endpoints
+ * accept many containers, so conversion is opt-in via ``VNEGUIDE_STT_CONVERT_TO_WAV``.
+ */
+export function convertToWav(
+  audio: Uint8Array,
+  runFfmpeg: (input: Uint8Array) => Promise<Uint8Array> = runFfmpegConvert,
+): Promise<Uint8Array> {
+  return runFfmpeg(audio);
+}
+
+function runFfmpegConvert(input: Uint8Array): Promise<Uint8Array> {
+  return new Promise<Uint8Array>((resolve, reject) => {
+    const child = spawn(
+      "ffmpeg",
+      [
+        "-hide_banner",
+        "-loglevel",
+        "error",
+        "-protocol_whitelist",
+        "pipe",
+        "-i",
+        "pipe:0",
+        "-vn",
+        "-acodec",
+        "pcm_s16le",
+        "-ar",
+        "16000",
+        "-ac",
+        "1",
+        "-f",
+        "wav",
+        "pipe:1",
+      ],
+      { stdio: ["pipe", "pipe", "pipe"], windowsHide: true },
+    );
+    const chunks: Buffer[] = [];
+    let total = 0;
+    let settled = false;
+    let stderrText = "";
+
+    const finish = (error?: Error, output?: Uint8Array) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeout);
+      if (error) reject(error);
+      else resolve(output ?? new Uint8Array(0));
+    };
+    const timeout = setTimeout(() => {
+      child.kill("SIGKILL");
+      finish(new SttAudioConversionError("ffmpeg conversion timed out"));
+    }, CONVERT_TIMEOUT_MS);
+    timeout.unref?.();
+
+    child.once("error", () =>
+      finish(new SttAudioConversionError("ffmpeg is not available")),
+    );
+    child.stdout.on("data", (chunk: Buffer) => {
+      total += chunk.byteLength;
+      if (total > MAX_CONVERT_OUTPUT_BYTES) {
+        child.kill("SIGKILL");
+        finish(new SttAudioConversionError("converted audio exceeds size limit"));
+        return;
+      }
+      chunks.push(chunk);
+    });
+    child.stderr?.on("data", (chunk: Buffer) => {
+      stderrText += chunk.toString("utf8");
+    });
+    child.once("close", (code) => {
+      if (code !== 0) {
+        finish(
+          new SttAudioConversionError(
+            stderrText.trim() || `ffmpeg exited with code ${code}`,
+          ),
+        );
+        return;
+      }
+      finish(undefined, Buffer.concat(chunks, total));
+    });
+    child.stdin.on("error", () => undefined);
+    child.stdin.end(Buffer.from(input.buffer, input.byteOffset, input.byteLength));
+  });
 }

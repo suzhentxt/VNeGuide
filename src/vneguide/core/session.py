@@ -210,7 +210,7 @@ class ConversationSession:
             )
         self._clear_technical_failures()
         if outcome.classification == "informational":
-            return self._informational(message, outcome)
+            return self._informational(message, outcome, suppress_pending=rejects_pending)
         if pending_code is not None and rejects_pending:
             selects_different_procedure = (
                 outcome.classification == "supported"
@@ -263,6 +263,10 @@ class ConversationSession:
                     self._confirmation_prompt(code),
                     NextAction.CONFIRM_PROCEDURE,
                 )
+            # The extractor re-routed to the same pending procedure (the user
+            # restated the procedure name). Treat that as an implicit confirmation:
+            # clear technical failures so the form-filling loop runs cleanly.
+            self._clear_technical_failures()
             self._activate_pending_procedure(code)
             current_code = code
 
@@ -661,8 +665,16 @@ class ConversationSession:
         self,
         message: str,
         outcome: ExtractionOutcome,
+        *,
+        suppress_pending: bool = False,
     ) -> TurnResult:
-        """Answer a reviewed FAQ without mutating form workflow state."""
+        """Answer a reviewed FAQ without mutating form workflow state.
+
+        When ``suppress_pending`` is set (the user's message both asked a
+        question and signalled rejection of the pending procedure), do not
+        re-arm a pending procedure from the informational outcome — the user
+        has explicitly disavowed it.
+        """
 
         request = outcome.information_request
         if request is None:
@@ -719,8 +731,17 @@ class ConversationSession:
             reply_text, _off_domain, reply_sources = grounded
 
         if active_code is None:
-            if pending_code is not code:
+            if suppress_pending:
+                self._state = replace(self._state, pending_procedure_code=None)
+            elif pending_code is not code:
                 self._state = replace(self._state, pending_procedure_code=code)
+            if suppress_pending:
+                return self._finish_turn(
+                    message,
+                    reply_text,
+                    NextAction.PRESENT_GUIDANCE,
+                    source_ids=reply_sources,
+                )
             return self._finish_turn(
                 message,
                 f"{reply_text}\n\n{self._confirmation_prompt(code)}",
@@ -757,8 +778,12 @@ class ConversationSession:
         attempts = dict(self._state.clarification_attempts)
         attempts[key] = attempts.get(key, 0) + 1
         self._state = replace(self._state, clarification_attempts=attempts)
+        active_code = self._state.draft.procedure_code
         pending_code = self._state.pending_procedure_code
-        if pending_code is not None:
+        # Only re-ask the pending confirmation when there is no active procedure
+        # in progress. Mid-form extraction failures should keep the user on the
+        # current field rather than yanking them back to a pending confirmation.
+        if pending_code is not None and active_code is None:
             return self._finish_turn(
                 message,
                 self._confirmation_prompt(pending_code, heard_clearly=False),
@@ -769,11 +794,21 @@ class ConversationSession:
         if error_code == "invalid_value" and invalid_field_id is not None:
             reply = self._invalid_value_reply(invalid_field_id)
             return self._finish_turn(message, reply, action)
-        reply = (
-            "Dạ, em chưa đọc được thông tin. Anh/chị nhập trực tiếp trên biểu mẫu giúp em ạ."
-            if use_manual_input
-            else "Dạ, em chưa nghe rõ. Anh/chị nói lại theo cách khác giúp em được không ạ?"
-        )
+        if error_code == "provider_configuration":
+            # A misconfigured provider (missing API key, wrong base URL) is not
+            # something the user can fix by rephrasing. Direct them to the form
+            # so they are not stuck retrying against a broken backend.
+            reply = (
+                "Dạ, hệ thống đang tạm thời không kết nối được với dịch vụ tư vấn. "
+                "Anh/chị nhập trực tiếp trên biểu mẫu giúp em ạ."
+            )
+            return self._finish_turn(message, reply, action)
+        if active_code is not None and use_manual_input:
+            reply = (
+                "Dạ, em chưa đọc được thông tin. Anh/chị nhập trực tiếp trên biểu mẫu giúp em ạ."
+            )
+            return self._finish_turn(message, reply, action)
+        reply = "Dạ, em chưa nghe rõ. Anh/chị nói lại theo cách khác giúp em được không ạ?"
         return self._finish_turn(message, reply, action)
 
     def _invalid_value_reply(self, field_id: str) -> str:

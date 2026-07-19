@@ -7,7 +7,9 @@ import {
   sttPublicDefaults,
 } from "@/lib/server/stt-config";
 import {
+  SttAudioConversionError,
   SttAudioValidationError,
+  convertToWav,
   validateAudioDuration,
 } from "@/lib/server/stt-audio";
 import { SttProviderError, transcribeAudio } from "@/lib/server/stt-client";
@@ -177,8 +179,33 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  let sttAudio = audio;
+  let sttMimeType = mimeType;
+  let sttFilename = filename;
+  if (config.convertToWav) {
+    try {
+      sttAudio = await convertToWav(audio);
+    } catch (error) {
+      if (error instanceof SttAudioConversionError) {
+        return errorResponse(
+          "audio_conversion_failed",
+          "Không thể xử lý định dạng âm thanh. Hãy thử ghi âm lại hoặc dùng tệp WAV.",
+          422,
+        );
+      }
+      return errorResponse(
+        "stt_unavailable",
+        "Chưa thể xử lý âm thanh lúc này. Nội dung đã nhập vẫn được giữ nguyên.",
+        502,
+        true,
+      );
+    }
+    sttMimeType = "audio/wav";
+    sttFilename = "recording.wav";
+  }
+
   try {
-    const result = await transcribeAudio(audio, mimeType, filename, config);
+    const result = await transcribeAudio(sttAudio, sttMimeType, sttFilename, config);
     return json(result);
   } catch (error) {
     if (error instanceof SttProviderError) {
@@ -187,6 +214,13 @@ export async function POST(request: NextRequest) {
           "speech_not_recognized",
           "Không nhận dạng được lời nói trong bản ghi. Hãy thử nói gần mic hơn.",
           422,
+        );
+      }
+      if (error.kind === "format_rejected") {
+        return errorResponse(
+          "unsupported_audio_type",
+          "Định dạng âm thanh chưa được nhà cung cấp hỗ trợ. Hãy thử ghi âm lại hoặc dùng tệp WAV.",
+          415,
         );
       }
       if (error.kind === "rate_limited") {

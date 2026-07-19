@@ -12,12 +12,14 @@ const MAX_PROMPT_CHARACTERS = 1_000;
 
 export interface SttConfig {
   apiKey?: string;
+  convertToWav: boolean;
   endpoint: URL;
   language?: string;
   maxBytes: number;
   maxDurationSeconds: number;
   model: string;
   prompt?: string;
+  sendLanguage: boolean;
   timeoutMs: number;
 }
 
@@ -159,6 +161,7 @@ export async function getSttConfig(): Promise<SttConfig> {
 
   return {
     apiKey: await readApiKey(process.env.VNEGUIDE_STT_API_KEY_FILE),
+    convertToWav: enabled(process.env.VNEGUIDE_STT_CONVERT_TO_WAV),
     endpoint: transcriptionEndpoint(
       rawBaseUrl,
       enabled(process.env.VNEGUIDE_STT_ALLOW_INSECURE_HTTP),
@@ -168,6 +171,7 @@ export async function getSttConfig(): Promise<SttConfig> {
     maxDurationSeconds,
     model,
     ...(prompt ? { prompt } : {}),
+    sendLanguage: enabled(process.env.VNEGUIDE_STT_SEND_LANGUAGE),
     timeoutMs: timeoutSeconds * 1000,
   };
 }

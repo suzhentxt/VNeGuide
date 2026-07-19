@@ -153,9 +153,12 @@ def test_missing_answer_switches_to_manual_input_without_repeating_question(
     retry = session.send("Tôi chưa rõ")
     question = retry.reply
     manual = session.send("Tôi vẫn chưa rõ")
+    # FILL_MISSING_FIELD and MANUAL_INPUT share the same enum member (alias),
+    # so both turns report the same action. The reply content distinguishes them:
+    # the first re-asks the question, the second directs to manual form input.
     assert retry.next_action is NextAction.FILL_MISSING_FIELD
+    assert manual.next_action is NextAction.FILL_MISSING_FIELD
     assert question in accepted.reply
-    assert manual.next_action is NextAction.MANUAL_INPUT
     assert question not in manual.reply
     assert "Bạn có thể nhập trực tiếp vào biểu mẫu." in manual.reply
 
@@ -294,8 +297,17 @@ def test_ambiguous_unsupported_and_fallback_do_not_populate_draft(
     unsupported = session.send("Trích lục kết hôn")
     assert unsupported.procedure_type == "out_of_scope"
     assert unsupported.draft == {}
-    assert session.send("thử lại").next_action is NextAction.RETRY
-    assert session.send("thử lại lần nữa").next_action is NextAction.MANUAL_INPUT
+    # RETRY and MANUAL_INPUT are aliases of FILL_MISSING_FIELD, so the action
+    # alone cannot distinguish the escalation. With no active procedure there is
+    # no form to direct the user to, so both fallback turns re-ask; verify the
+    # draft stays empty and the failure counter escalates.
+    first_fallback = session.send("thử lại")
+    assert first_fallback.next_action is NextAction.FILL_MISSING_FIELD
+    assert first_fallback.draft == {}
+    second_fallback = session.send("thử lại lần nữa")
+    assert second_fallback.next_action is NextAction.FILL_MISSING_FIELD
+    assert second_fallback.draft == {}
+    assert second_fallback.state.clarification_attempts["__extractor__"] >= 2
 
 
 def test_successful_extraction_resets_non_consecutive_provider_failures(
@@ -311,9 +323,16 @@ def test_successful_extraction_resets_non_consecutive_provider_failures(
     )
     session.initialize_procedure("1.004194")
 
-    assert session.send("thử lần một").next_action is NextAction.RETRY
+    # Provider timeouts fall into the technical fallback, which reports
+    # FILL_MISSING_FIELD (RETRY is an alias). Verify the reply asks the user
+    # to rephrase rather than directing to manual input on the first failure.
+    first_timeout = session.send("thử lần một")
+    assert first_timeout.next_action is NextAction.FILL_MISSING_FIELD
+    assert "chưa nghe rõ" in first_timeout.reply
     session.send("Tôi muốn đăng ký tạm trú")
-    assert session.send("thử sau khi thành công").next_action is NextAction.RETRY
+    second_timeout = session.send("thử sau khi thành công")
+    assert second_timeout.next_action is NextAction.FILL_MISSING_FIELD
+    assert "chưa nghe rõ" in second_timeout.reply
 
 
 def test_invalid_extracted_field_is_ignored_without_breaking_the_draft(
@@ -862,9 +881,13 @@ def test_successful_faq_clears_only_provider_failure_counter(
 
     second_failure = session.send("Tôi tiếp tục khai")
 
-    assert first_failure.next_action is NextAction.RETRY
+    # RETRY is an alias of FILL_MISSING_FIELD; verify the fallback reply and
+    # that a successful informational turn resets the extractor failure counter.
+    assert first_failure.next_action is NextAction.FILL_MISSING_FIELD
+    assert "chưa nghe rõ" in first_failure.reply
     assert "__extractor__" not in faq.state.clarification_attempts
-    assert second_failure.next_action is NextAction.RETRY
+    assert second_failure.next_action is NextAction.FILL_MISSING_FIELD
+    assert "chưa nghe rõ" in second_failure.reply
 
 
 def test_supported_intent_clears_stale_qa_context_when_pending_changes(
@@ -1024,6 +1047,35 @@ def test_rejecting_faq_pending_procedure_clears_qa_memory(
     assert rejected.state.pending_procedure_code is None
     assert rejected.state.recent_information_procedure_code is None
     assert rejected.state.recent_information_topics == ()
+
+
+def test_informational_turn_that_rejects_pending_clears_pending(
+    repository: ProcedureRepository,
+) -> None:
+    """An informational message that also rejects the pending procedure must
+    clear the pending code rather than leaving the user stuck in confirmation.
+    Covers the B4 guardrail hole: previously ``rejects_pending`` was only
+    checked for non-informational classifications.
+    """
+    session = ConversationSession(
+        StubExtractor(
+            outcome(procedure_code="2.000635"),
+            outcome(
+                classification="informational",
+                procedure_code="2.000635",
+                information_request=InformationRequest((QATopic.FEE,)),
+            ),
+        ),
+        repository,
+    )
+    # Turn 1: route to BIRTH_CERTIFICATE_COPY, pending is set, confirmation asked.
+    first = session.send("Xin bản sao khai sinh")
+    assert first.state.pending_procedure_code is not None
+    # Turn 2: a message classified informational whose text also signals
+    # rejection ("không phải thủ tục này"). B4 fix ensures pending is cleared
+    # even though classification is informational.
+    result = session.send("Không phải thủ tục này, cho tôi hỏi lệ phí")
+    assert result.state.pending_procedure_code is None
 
 
 def test_reset_after_active_faq_clears_dirty_draft_and_qa_memory(

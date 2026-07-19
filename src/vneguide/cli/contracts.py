@@ -16,4 +16,11 @@ class ConversationSession(Protocol):
         """Process one user message and return a domain ``TurnResult``."""
 
 
-SessionFactory = Callable[[], ConversationSession]
+# A factory returns a fresh session. The default ``create_session`` accepts an
+# optional ``mock_responses`` keyword (used by integration tests to script the
+# mock provider); production callers invoke it with no arguments. ``Callable[...]``
+# keeps the port open without forcing every factory to accept that keyword.
+SessionFactory = Callable[..., ConversationSession]
+
+
+__all__ = ["ConversationSession", "SessionFactory"]

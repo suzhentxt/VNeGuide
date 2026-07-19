@@ -8,6 +8,20 @@ from vneguide.cli.runtime import load_session_factory
 from vneguide.domain import NextAction, ProcedureCode
 
 
+def _birth_certificate_payload() -> dict[str, object]:
+    """Scripted extraction outcome routing to BIRTH_CERTIFICATE_COPY."""
+
+    return {
+        "classification": "supported",
+        "procedure_code": "2.000635",
+        "reply": None,
+        "clarification_question": None,
+        "fields": [],
+        "context_signals": [],
+        "information_request": None,
+    }
+
+
 def test_default_core_factory_is_loadable_without_api_key(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -17,10 +31,13 @@ def test_default_core_factory_is_loadable_without_api_key(
     monkeypatch.delenv("VNEGUIDE_API_KEY", raising=False)
     monkeypatch.delenv("VNEGUIDE_LITELLM_API_KEY", raising=False)
     factory = load_session_factory()
-    session = factory()
+    session = factory(mock_responses=[_birth_certificate_payload()])
     result = session.send("Tôi cần xin lại giấy khai sinh")
-    assert result.next_action is NextAction.ASK_CLARIFICATION
-    assert result.state.draft.procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+    # Turn 1 routes to the pending procedure and asks for confirmation;
+    # draft.procedure_code is only set after the user confirms.
+    assert result.next_action is NextAction.CONFIRM_PROCEDURE
+    assert result.state.pending_procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+    assert result.state.draft.procedure_code is None
     close = getattr(session, "close", None)
     assert callable(close)
     close()
@@ -44,11 +61,12 @@ def test_default_core_factory_loads_an_explicit_llm_env_file(
         monkeypatch.delenv(name, raising=False)
     monkeypatch.setenv("VNEGUIDE_LLM_ENV_FILE", str(env_file))
 
-    session = load_session_factory()()
+    session = load_session_factory()(mock_responses=[_birth_certificate_payload()])
     result = session.send("Tôi cần xin lại giấy khai sinh")
 
-    assert result.next_action is NextAction.ASK_CLARIFICATION
-    assert result.state.draft.procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+    assert result.next_action is NextAction.CONFIRM_PROCEDURE
+    assert result.state.pending_procedure_code is ProcedureCode.BIRTH_CERTIFICATE_COPY
+    assert result.state.draft.procedure_code is None
     close = getattr(session, "close", None)
     assert callable(close)
     close()

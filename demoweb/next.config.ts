@@ -5,7 +5,7 @@ import { resolve } from "node:path";
 const repositoryRoot = resolve(process.cwd(), "..");
 
 function getAllowedDevOrigins() {
-  const addresses = new Set<string>();
+  const addresses = new Set<string>(["localhost", "127.0.0.1"]);
 
   for (const network of Object.values(networkInterfaces())) {
     for (const address of network ?? []) {

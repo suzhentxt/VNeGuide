@@ -10,9 +10,21 @@ export interface SttResult {
 }
 
 export class SttProviderError extends Error {
-  readonly kind: "bad_audio" | "rate_limited" | "timeout" | "unavailable";
+  readonly kind:
+    | "bad_audio"
+    | "format_rejected"
+    | "rate_limited"
+    | "timeout"
+    | "unavailable";
 
-  constructor(kind: "bad_audio" | "rate_limited" | "timeout" | "unavailable") {
+  constructor(
+    kind:
+      | "bad_audio"
+      | "format_rejected"
+      | "rate_limited"
+      | "timeout"
+      | "unavailable",
+  ) {
     super(kind);
     this.name = "SttProviderError";
     this.kind = kind;
@@ -82,7 +94,7 @@ export async function transcribeAudio(
   const ownedAudio = new Uint8Array(audio);
   form.append("file", new Blob([ownedAudio.buffer], { type: mimeType }), filename);
   form.append("model", config.model);
-  if (config.language) form.append("language", config.language);
+  if (config.sendLanguage && config.language) form.append("language", config.language);
   if (config.prompt) form.append("prompt", config.prompt);
 
   let response: Response;
@@ -105,7 +117,7 @@ export async function transcribeAudio(
   if (!response.ok) {
     if (response.status === 429) throw new SttProviderError("rate_limited");
     if ([400, 413, 415, 422].includes(response.status)) {
-      throw new SttProviderError("bad_audio");
+      throw new SttProviderError("format_rejected");
     }
     throw new SttProviderError("unavailable");
   }

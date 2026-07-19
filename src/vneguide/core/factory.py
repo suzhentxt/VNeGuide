@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+from collections.abc import Iterable
 from pathlib import Path
 
 from vneguide.ai import (
@@ -52,11 +53,11 @@ def _try_build_deep_session(
     )
 
 
-def create_session() -> ConversationSession:
+def create_session(*, mock_responses: Iterable[object] = ()) -> ConversationSession:
     repository = ProcedureRepository.discover()
     catalog = ExtractionCatalog.from_data_package(repository.paths.root)
     llm_config = load_llm_config(env_file=_llm_env_file())
-    provider = build_llm_provider(llm_config)
+    provider = build_llm_provider(llm_config, mock_responses=mock_responses)
     model_normalizer = (
         ProviderModelNormalizer(provider) if llm_config.language_model_assisted else None
     )

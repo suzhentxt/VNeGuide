@@ -11,6 +11,8 @@ function config(overrides: Partial<SttConfig> = {}): SttConfig {
     maxDurationSeconds: 60,
     model: "Qwen/Qwen3-ASR-1.7B",
     timeoutMs: 180_000,
+    convertToWav: false,
+    sendLanguage: true,
     ...overrides,
   };
 }
@@ -61,6 +63,29 @@ test("forwards audio as an authenticated OpenAI-compatible transcription request
   }
 });
 
+test("omits the language field when sendLanguage is disabled", async () => {
+  const originalFetch = globalThis.fetch;
+  let sawLanguage = false;
+
+  globalThis.fetch = async (_input, init) => {
+    const form = init?.body as FormData;
+    sawLanguage = form.get("language") !== null;
+    return Response.json({ text: "ok" });
+  };
+
+  try {
+    await transcribeAudio(
+      new Uint8Array([1]),
+      "audio/wav",
+      "recording.wav",
+      config({ language: "vi", sendLanguage: false }),
+    );
+    assert.equal(sawLanguage, false);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test("bounds transcripts to the chat input contract", async () => {
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async () => Response.json({ text: "a".repeat(4_001) });
@@ -84,6 +109,15 @@ test("maps invalid audio, rate limiting, and timeouts without exposing provider 
 
   await t.test("invalid audio", async () => {
     globalThis.fetch = async () => new Response("provider detail", { status: 415 });
+    await assert.rejects(
+      () => transcribeAudio(new Uint8Array([1]), "audio/wav", "recording.wav", config()),
+      (error: unknown) =>
+        error instanceof SttProviderError && error.kind === "format_rejected",
+    );
+  });
+
+  await t.test("empty transcript", async () => {
+    globalThis.fetch = async () => Response.json({ text: "   " });
     await assert.rejects(
       () => transcribeAudio(new Uint8Array([1]), "audio/wav", "recording.wav", config()),
       (error: unknown) => error instanceof SttProviderError && error.kind === "bad_audio",

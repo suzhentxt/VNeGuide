@@ -2,7 +2,9 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  convertToWav,
   durationFromFfprobeJson,
+  SttAudioConversionError,
   SttAudioValidationError,
   validateAudioDuration,
 } from "./stt-audio.ts";
@@ -56,5 +58,23 @@ test("rejects a container duration when no audio packets were selected", () => {
     () => durationFromFfprobeJson(JSON.stringify({ format: { duration: "10.0" } })),
     (error: unknown) =>
       error instanceof SttAudioValidationError && error.kind === "unreadable",
+  );
+});
+
+test("convertToWav returns the converter output on success", async () => {
+  const fakeWav = new Uint8Array([82, 73, 70, 70]);
+  const result = await convertToWav(new Uint8Array([1, 2, 3]), async () => fakeWav);
+  assert.equal(result, fakeWav);
+});
+
+test("convertToWav surfaces converter failures as SttAudioConversionError", async () => {
+  await assert.rejects(
+    () =>
+      convertToWav(new Uint8Array([1]), async () => {
+        throw new SttAudioConversionError("ffmpeg exited with code 1");
+      }),
+    (error: unknown) =>
+      error instanceof SttAudioConversionError &&
+      /ffmpeg exited/.test(error.message),
   );
 });

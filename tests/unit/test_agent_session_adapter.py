@@ -183,3 +183,48 @@ def test_non_informational_skips_agent(repository: ProcedureRepository) -> None:
     assert result.next_action is not NextAction.PRESENT_GUIDANCE
     assert model.remaining == 0
     session.close()
+
+
+def test_form_complete_turn_is_not_recomposed_by_agent(
+    repository: ProcedureRepository,
+) -> None:
+    """A COMPLETE turn must not be re-composed — PRESENT_GUIDANCE is its alias.
+
+    ``NextAction.COMPLETE`` shares the same enum member as ``PRESENT_GUIDANCE``
+    (both alias ``READY_TO_CONTINUE``). Without the ``_is_form_complete`` guard
+    in the adapter, the deep agent would re-compose the deterministic "form
+    complete" reply, wasting a model call and potentially rewriting it.
+    """
+
+    from vneguide.agent.session_adapter import _is_form_complete
+    from vneguide.domain import CaseDraft, ConversationState, ProcedureCode, TurnResult
+
+    draft = CaseDraft(
+        procedure_code=ProcedureCode.BIRTH_CERTIFICATE_COPY,
+        pack_version="1",
+    )
+    state = ConversationState(
+        draft=draft,
+        turn_number=1,
+    )
+    complete_result = TurnResult(
+        reply="Em đã gom đủ thông tin. Anh/chị kiểm tra lại một lượt trước khi nộp nhé ạ.",
+        state=state,
+        next_action=NextAction.COMPLETE,
+    )
+    assert _is_form_complete(complete_result) is True
+
+    # A PRESENT_GUIDANCE turn WITH informational topics must NOT be flagged as
+    # form-complete (it should still be re-composed by the agent).
+    informational_state = ConversationState(
+        draft=draft,
+        turn_number=1,
+        recent_information_procedure_code=ProcedureCode.BIRTH_CERTIFICATE_COPY,
+        recent_information_topics=(QATopic.FEE,),
+    )
+    informational_result = TurnResult(
+        reply="Lệ phí là 7.000đ.",
+        state=informational_state,
+        next_action=NextAction.PRESENT_GUIDANCE,
+    )
+    assert _is_form_complete(informational_result) is False

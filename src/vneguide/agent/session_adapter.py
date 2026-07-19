@@ -33,6 +33,25 @@ from .tools import ToolContext, build_tools
 _PRESENTATION_ACTIONS = frozenset({NextAction.PRESENT_GUIDANCE, NextAction.ASK_CLARIFICATION})
 
 
+def _is_form_complete(result: TurnResult) -> bool:
+    """Detect the ``NextAction.COMPLETE`` turn without relying on the alias.
+
+    ``COMPLETE`` is a compatibility alias for ``READY_TO_CONTINUE`` (itself aliased
+    to ``PRESENT_GUIDANCE``), so a membership check against
+    ``_PRESENTATION_ACTIONS`` cannot distinguish "form complete" from
+    "informational guidance". A complete form has no missing fields, no active
+    informational topic, and a committed procedure — the informational and
+    clarification turns that *should* be re-composed fail at least one of those.
+    """
+
+    return (
+        result.next_action is NextAction.COMPLETE
+        and not result.missing_fields
+        and not result.state.recent_information_topics
+        and result.state.draft.procedure_code is not None
+    )
+
+
 def _message_text(msg: AIMessage) -> str:
     """Extract plain text from an AIMessage whose content may be a list."""
 
@@ -90,7 +109,11 @@ class DeepAgentSession(ConversationSession):
         fallback_or_manual_input = "__extractor__" in attempts or any(
             count >= 2 for count in attempts.values()
         )
-        presentation = result.next_action in _PRESENTATION_ACTIONS and not fallback_or_manual_input
+        presentation = (
+            result.next_action in _PRESENTATION_ACTIONS
+            and not fallback_or_manual_input
+            and not _is_form_complete(result)
+        )
         if presentation or informational_confirmation:
             return self._recompose_with_agent(message, result)
         return result
