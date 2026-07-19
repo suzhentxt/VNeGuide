@@ -14,6 +14,9 @@ venv/
 .env.*
 !.env.example
 !**/.env.local.example
+
+# Local secret files (API keys read via *_API_KEY_FILE) — never commit
+.secrets/
 .idea/
 .vscode/
 *.log
@@ -28,7 +31,16 @@ logs/
 # Local-only Claude Code / MCP config and Playwright MCP artifacts
 .mcp.json
 
+# Private SSH keys — never commit
+ai-training.txt
+*-private-key*
+*.pem
+
 # Local UI test screenshots
 *-check.png
 *-full.png
 chatbot-upload-panel.png
+
+# Local test artifacts (audio fixtures, Playwright MCP debug)
+test-audio.wav
+.playwright-mcp/

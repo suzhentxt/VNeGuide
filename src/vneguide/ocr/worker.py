@@ -34,12 +34,8 @@ from .service import OcrService
 JobStatus = Literal["queued", "running", "pass", "needs_review", "fail"]
 _DOCUMENT_KINDS = frozenset({"legal_dwelling", "minor_consent"})
 _CHECK_MESSAGES = {
-    "document_type_match": "Tài liệu có nội dung phù hợp với nhóm đã chọn.",
-    "readable_content": "Nội dung chính có thể đọc được.",
-    "dwelling_location_present": "Có tín hiệu về địa điểm chỗ ở.",
-    "dwelling_relationship_present": "Có tín hiệu về căn cứ sử dụng chỗ ở.",
-    "consent_statement_present": "Có tín hiệu về nội dung đồng ý.",
-    "parent_guardian_role_present": "Có tín hiệu về vai trò cha, mẹ hoặc người giám hộ.",
+    "name_valid": "Tài liệu có họ tên người liên quan hợp lệ.",
+    "date_valid": "Tài liệu có ngày tháng hợp lệ.",
 }
 
 

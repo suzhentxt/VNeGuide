@@ -17,18 +17,8 @@ OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses"
 _MAX_RESPONSE_BYTES = 1_000_000
 _RETRYABLE_HTTP_STATUSES = {408, 409, 425, 429}
 _CHECK_CODES: dict[DocumentKind, tuple[str, ...]] = {
-    "legal_dwelling": (
-        "document_type_match",
-        "readable_content",
-        "dwelling_location_present",
-        "dwelling_relationship_present",
-    ),
-    "minor_consent": (
-        "document_type_match",
-        "readable_content",
-        "consent_statement_present",
-        "parent_guardian_role_present",
-    ),
+    "legal_dwelling": ("name_valid", "date_valid"),
+    "minor_consent": ("name_valid", "date_valid"),
 }
 
 _SYSTEM_PROMPT = """You validate synthetic Vietnamese administrative demo documents.
@@ -40,14 +30,16 @@ check cannot be established from visible content."""
 
 _KIND_PROMPTS: dict[DocumentKind, str] = {
     "legal_dwelling": (
-        "Check whether this appears to be a readable document about a lawful dwelling and whether "
-        "it visibly contains a dwelling location plus a relationship such as ownership, use, "
-        "rental, borrowing, or accommodation. Do not decide whether those claims are legally true."
+        "Check whether this document visibly contains a person's full name that looks valid "
+        "(present, non-placeholder, plausible Vietnamese name) and a date that looks valid "
+        "(proper format, plausible, not obviously fabricated). Do not transcribe the actual "
+        "name or date values, and do not decide whether the claims are legally true."
     ),
     "minor_consent": (
-        "Check whether this appears to be a readable written consent concerning a minor "
-        "and whether it visibly contains an agreement statement plus a father, mother, "
-        "or guardian role. Do not verify identities or signatures."
+        "Check whether this document visibly contains a person's full name that looks valid "
+        "(present, non-placeholder, plausible Vietnamese name) and a date that looks valid "
+        "(proper format, plausible, not obviously fabricated). Do not transcribe the actual "
+        "name or date values, and do not verify identities or signatures."
     ),
 }
 

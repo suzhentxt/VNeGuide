@@ -6,8 +6,9 @@ cho thủ tục `1.004194`:
 - `legal_dwelling`: giấy tờ chứng minh chỗ ở hợp pháp khi CSDL không khai thác được;
 - `minor_consent`: ý kiến đồng ý của cha, mẹ hoặc người giám hộ.
 
-OCR không xác minh chữ ký, danh tính, quyền sở hữu hay giá trị pháp lý. Kết quả chỉ là `pass`,
-`needs_review` hoặc `fail`; không có raw text và không tự điền draft.
+OCR không xác minh chữ ký, danh tính, quyền sở hữu hay giá trị pháp lý. Mỗi tài liệu chỉ kiểm tra
+hai tiêu chí: họ tên người liên quan hợp lệ (`name_valid`) và ngày tháng hợp lệ (`date_valid`).
+Kết quả chỉ là `pass`, `needs_review` hoặc `fail`; không có raw text và không tự điền draft.
 
 `pass` yêu cầu confidence tổng thể và từng tiêu chí bắt buộc đều đạt ít nhất `0.80`. Web chỉ trình bày
 hai kết quả cuối cho người dùng: `Không hợp lệ` khi không đạt/nghi ngờ/lỗi, hoặc

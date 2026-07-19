@@ -18,22 +18,8 @@ PASS_CONFIDENCE = 0.80
 CLEAR_MISMATCH_CONFIDENCE = 0.90
 
 _REQUIRED_CHECKS: dict[DocumentKind, frozenset[str]] = {
-    "legal_dwelling": frozenset(
-        {
-            "document_type_match",
-            "readable_content",
-            "dwelling_location_present",
-            "dwelling_relationship_present",
-        }
-    ),
-    "minor_consent": frozenset(
-        {
-            "document_type_match",
-            "readable_content",
-            "consent_statement_present",
-            "parent_guardian_role_present",
-        }
-    ),
+    "legal_dwelling": frozenset({"name_valid", "date_valid"}),
+    "minor_consent": frozenset({"name_valid", "date_valid"}),
 }
 
 
@@ -65,14 +51,14 @@ class OcrService:
             )
 
         checks = {check.code: check for check in assessment.checks}
-        type_check = checks.get("document_type_match")
-        if (
-            type_check is not None
-            and type_check.result == "fail"
-            and type_check.confidence >= CLEAR_MISMATCH_CONFIDENCE
-        ):
+        clear_fail = any(
+            checks[code].result == "fail" and checks[code].confidence >= CLEAR_MISMATCH_CONFIDENCE
+            for code in _REQUIRED_CHECKS[document_kind]
+            if code in checks
+        )
+        if clear_fail:
             decision: OcrStatus = "fail"
-            warnings: tuple[str, ...] = ("replace_wrong_document",)
+            warnings: tuple[str, ...] = ("replace_invalid_document",)
         elif (
             assessment.overall_confidence >= PASS_CONFIDENCE
             and _REQUIRED_CHECKS[document_kind].issubset(checks)

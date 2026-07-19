@@ -36,21 +36,7 @@ def assessment(
     result: str = "pass",
     confidence: float = 0.95,
 ) -> ModelAssessment:
-    codes = (
-        (
-            "document_type_match",
-            "readable_content",
-            "dwelling_location_present",
-            "dwelling_relationship_present",
-        )
-        if kind == "legal_dwelling"
-        else (
-            "document_type_match",
-            "readable_content",
-            "consent_statement_present",
-            "parent_guardian_role_present",
-        )
-    )
+    codes = ("name_valid", "date_valid")
     return ModelAssessment(
         tuple(DocumentCheck(code, result, confidence) for code in codes),  # type: ignore[arg-type]
         confidence,
@@ -83,7 +69,7 @@ def test_document_at_strict_confidence_threshold_passes() -> None:
 def test_clear_wrong_document_fails() -> None:
     wrong = assessment("minor_consent")
     checks = list(wrong.checks)
-    checks[0] = DocumentCheck("document_type_match", "fail", 0.95)
+    checks[0] = DocumentCheck("name_valid", "fail", 0.95)
     service = OcrService(StubPreprocessor(), StubBackend(ModelAssessment(tuple(checks), 0.95)))
     result = service.validate_document("minor_consent", OcrDocument(b"x", "image/png"))
     assert result.status == "fail"

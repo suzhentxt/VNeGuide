@@ -29,12 +29,7 @@ def completed(payload: dict[str, object]) -> bytes:
 
 def test_openai_vision_request_is_non_storing_and_returns_no_raw_text() -> None:
     captured: dict[str, Any] = {}
-    codes = (
-        "document_type_match",
-        "readable_content",
-        "dwelling_location_present",
-        "dwelling_relationship_present",
-    )
+    codes = ("name_valid", "date_valid")
 
     def opener(request: Any, *, timeout: float) -> Response:
         captured["payload"] = json.loads(request.data)

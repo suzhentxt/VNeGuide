@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 
 from vneguide.ocr.config import load_ocr_config
@@ -34,7 +36,7 @@ def test_ocr_reuses_the_generic_api_key_when_no_dedicated_key_exists() -> None:
     assert config.api_key == "shared-synthetic-key"
 
 
-def test_ocr_loads_worker_configuration_from_env_file(tmp_path) -> None:
+def test_ocr_loads_worker_configuration_from_env_file(tmp_path: Path) -> None:
     env_file = tmp_path / ".env"
     env_file.write_text(
         "VNEGUIDE_OCR_ENABLED=true\n"

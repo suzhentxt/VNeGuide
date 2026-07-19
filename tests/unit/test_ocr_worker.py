@@ -14,7 +14,7 @@ class ImmediateService:
         return OcrResult(
             status="pass",
             document_kind=document_kind,
-            checks=(DocumentCheck("document_type_match", "pass", 0.95),),
+            checks=(DocumentCheck("name_valid", "pass", 0.95),),
         )
 
 
@@ -76,9 +76,9 @@ def test_worker_creates_and_polls_pii_safe_result() -> None:
         assert payload["document_kind"] == "legal_dwelling"
         assert payload["checks"] == [
             {
-                "code": "document_type_match",
+                "code": "name_valid",
                 "result": "pass",
-                "message": "Tài liệu có nội dung phù hợp với nhóm đã chọn.",
+                "message": "Tài liệu có họ tên người liên quan hợp lệ.",
             }
         ]
         assert "content" not in payload

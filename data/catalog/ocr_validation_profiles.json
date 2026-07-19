@@ -7,10 +7,8 @@
       "label": "Giấy tờ chứng minh chỗ ở hợp pháp",
       "applicability": "legal_dwelling_data_retrievable == false",
       "required_checks": [
-        "document_type_match",
-        "readable_content",
-        "dwelling_location_present",
-        "dwelling_relationship_present"
+        "name_valid",
+        "date_valid"
       ],
       "excluded_conclusions": [
         "signature_authenticity",
@@ -25,10 +23,8 @@
       "label": "Ý kiến đồng ý của cha, mẹ hoặc người giám hộ",
       "applicability": "applicant_is_minor == true and minor_consent_present != true",
       "required_checks": [
-        "document_type_match",
-        "readable_content",
-        "consent_statement_present",
-        "parent_guardian_role_present"
+        "name_valid",
+        "date_valid"
       ],
       "excluded_conclusions": [
         "signature_authenticity",
