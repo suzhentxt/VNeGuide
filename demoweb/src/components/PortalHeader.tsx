@@ -240,19 +240,15 @@ function DesktopNavigation() {
               {item.children ? (
                 <details className="group/menu">
                   <summary
-                    className={`${focusRing} box-border flex h-[42px] cursor-pointer list-none items-center gap-1 whitespace-nowrap px-[12px] py-[10px] font-medium transition-colors group-hover/menu:bg-[#CE7A58] group-hover/menu:text-white group-open/menu:bg-[#CE7A58] group-open/menu:text-white [&::-webkit-details-marker]:hidden`}
+                    className={`${focusRing} box-border flex h-[42px] cursor-pointer list-none items-center whitespace-nowrap px-[12px] py-[10px] font-medium transition-colors group-hover/menu:bg-[#CE7A58] group-hover/menu:text-white group-open/menu:bg-[#CE7A58] group-open/menu:text-white [&::-webkit-details-marker]:hidden`}
                   >
                     <span>{item.label}</span>
-                    <ChevronRightIcon
-                      aria-hidden="true"
-                      className="size-3 rotate-90 transition-transform group-open/menu:-rotate-90"
-                    />
                   </summary>
                   <DesktopMenuItems items={item.children} />
                 </details>
               ) : (
                 <a
-                  className={`${focusRing} box-border block h-[42px] whitespace-nowrap px-[12px] py-[10px] font-medium transition-colors hover:bg-[#CE7A58] hover:text-white`}
+                  className={`${focusRing} box-border flex h-[42px] items-center whitespace-nowrap px-[12px] py-[10px] font-medium transition-colors hover:bg-[#CE7A58] hover:text-white`}
                   href={item.href}
                 >
                   {item.label}
