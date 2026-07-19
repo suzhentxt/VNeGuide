@@ -33,6 +33,7 @@ import { useProcedureWorkspace } from "@/components/workspace/ProcedureWorkspace
 import { getChatValidationPresentation } from "@/lib/chat-presentation";
 import { getChatReplyOptions } from "@/lib/chat-reply-options";
 import { AUDIO_FILE_ACCEPT, mergeTranscriptIntoDraft } from "@/lib/stt";
+import { getAssistantMessageOrdinals } from "@/lib/tts";
 import {
   createWallet,
   INFORMATION_WALLET_KEY,
@@ -43,10 +44,12 @@ import type { JsonValue } from "@/types/chat";
 
 import { BotMessage } from "./BotMessage";
 import { ChatSection } from "./ChatSection";
+import { MessageSpeechControls } from "./MessageSpeechControls";
 import { SuggestionCard } from "./SuggestionCard";
 import { TypingIndicator } from "./TypingIndicator";
 import { useChatSession } from "./useChatSession";
 import { useSpeechToText } from "./useSpeechToText";
+import { useTextToSpeech } from "./useTextToSpeech";
 import { toast } from "@/components/ui/sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -116,6 +119,15 @@ export function ChatWidget() {
     window.requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
   const speech = useSpeechToText({ active: open, onTranscript: applyTranscript });
+  const textToSpeech = useTextToSpeech({
+    active: open,
+    disabled: busy || speech.phase !== "idle",
+  });
+  const stopSpeaking = textToSpeech.stop;
+  const assistantIndexes = useMemo(
+    () => getAssistantMessageOrdinals(messages),
+    [messages],
+  );
 
   const replyOptions = getChatReplyOptions(turn);
 
@@ -181,12 +193,25 @@ export function ChatWidget() {
 
   function closePanel() {
     if (closing || !open) return;
+    textToSpeech.stop();
     setClosing(true);
     window.setTimeout(() => {
       setOpen(false);
       setClosing(false);
     }, 200);
   }
+
+  useEffect(() => {
+    stopSpeaking();
+  }, [pathname, stopSpeaking]);
+
+  useEffect(() => {
+    if (busy) stopSpeaking();
+  }, [busy, stopSpeaking]);
+
+  useEffect(() => {
+    stopSpeaking();
+  }, [messages, stopSpeaking]);
 
   useEffect(() => {
     const notice = workspace.state.recovery_notice;
@@ -228,6 +253,7 @@ export function ChatWidget() {
     const route = getConfirmedProcedureRoute(selectedProcedure.code);
     if (!route) return;
     if (!(await bindProcedure(selectedProcedure.code))) return;
+    textToSpeech.stop();
     setOpen(false);
     setSelectedProcedureCode(null);
     setChoosingProcedure(false);
@@ -236,6 +262,7 @@ export function ChatWidget() {
   }
 
   async function restartSession() {
+    textToSpeech.stop();
     setDeclarationCompleted(false);
     await resetSession();
   }
@@ -244,6 +271,7 @@ export function ChatWidget() {
     event.preventDefault();
     const message = draft.trim();
     if (!message || busy || speech.phase !== "idle") return;
+    textToSpeech.stop();
     setDraft("");
     await sendMessage(message);
     inputRef.current?.focus();
@@ -462,6 +490,7 @@ export function ChatWidget() {
                       (last, msg, i) => (msg.role === "assistant" ? i : last),
                       -1,
                     );
+                const assistantOrdinal = assistantIndexes[index];
                 return (
                   <div
                     className={`flex animate-in fade-in slide-in-from-bottom-1 duration-200 flex-col ${message.role === "user" ? "items-end" : "items-start"}`}
@@ -477,6 +506,15 @@ export function ChatWidget() {
                         sources={isLastAssistant ? turn?.sources : undefined}
                       />
                     )}
+                    {assistantOrdinal !== null ? (
+                      <div className="w-full max-w-[92%]">
+                        <MessageSpeechControls
+                          assistantIndex={assistantOrdinal}
+                          disabled={busy || speech.phase !== "idle"}
+                          speech={textToSpeech}
+                        />
+                      </div>
+                    ) : null}
                     {time ? (
                       <time className="mt-0.5 px-1 text-[10px] text-[#9299a2]">{time}</time>
                     ) : null}

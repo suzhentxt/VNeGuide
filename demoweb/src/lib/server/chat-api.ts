@@ -21,6 +21,7 @@ function getApiBaseUrl() {
 
 export async function callChatApi(path: string, init: RequestInit = {}) {
   const target = new URL(path, getApiBaseUrl());
+  const timeoutSignal = AbortSignal.timeout(REQUEST_TIMEOUT_MS);
   return fetch(target, {
     ...init,
     cache: "no-store",
@@ -29,7 +30,7 @@ export async function callChatApi(path: string, init: RequestInit = {}) {
       ...(init.body ? { "Content-Type": "application/json" } : {}),
       ...init.headers,
     },
-    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    signal: init.signal ? AbortSignal.any([init.signal, timeoutSignal]) : timeoutSignal,
   });
 }
 
