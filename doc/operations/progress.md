@@ -602,3 +602,28 @@ chưa tạo commit follow-up. Không công bố metric accuracy model từ fixtu
 - PyYAML parse đạt cho base, STT và TTS overlay; `git diff --check` đạt. Máy local không có executable Docker,
   nên `docker compose config` và `nginx -t` phải được chạy trên VPS trước khi reload/deploy. Chưa commit hoặc
   deploy từ phần việc hạ tầng này.
+
+## 2026-07-19 — TTS tiếng Việt đã triển khai trên VPS
+
+- Nhánh riêng `agent/tts-integration` có các commit ứng dụng/vận hành `a0a0c0be`, `1d59905b` và bản vá
+  giữ hotfix cookie preview `e2f4f38a`; không merge hoặc push. Full gate sau review đạt ESLint, TypeScript,
+  `71/71` test và Next.js production build. Review độc lập không còn blocker/high cho controlled demo.
+- Release `/opt/vneguide/releases/1d59905b-tts` được dựng từ release STT ổn định; symlink
+  `/opt/vneguide/current` đã chuyển nguyên tử sang release này. Web image đang chạy là
+  `sha256:21e997d8f7deb217288822c732a4fa2810dfb329d4ea5072d7b90c69cfb64587` và healthy. Image trước TTS
+  được giữ bằng tag `vneguide-web:rollback-before-tts-1d59905b` trỏ tới
+  `sha256:f568f52b592bae01e23e5dfd3c6a0270ff8c375d2d844f97200266344f290310`.
+- Candidate Compose merge và container web không publish port đều đạt; `GET /api/tts/speech` trả
+  `enabled=true`. Nginx runtime được diff trước khi cập nhật, giữ nguyên
+  `proxy_cookie_flags vneguide_chat_session nosecure`, syntax-test trong gateway rồi reload tại chỗ. Backup
+  bất biến nằm ở `/opt/vneguide/shared/nginx-http.conf.before-tts-e2f4f38a`.
+- Chỉ web container được recreate. ID API, gateway, translator và Caddy giữ nguyên; các listener vẫn là
+  `80/443/8000/9000/13000/18000`. Health, root, STT và TTS status đều đạt sau cutover.
+- Smoke thật với câu tổng hợp không PII đạt: tạo session `201`, chat `200`, một assistant message, TTS `200`
+  tạo MP3 `81.024` byte, STT round-trip `200` và nhận dạng được câu tiếng Việt. Log web/gateway sau smoke
+  không có lỗi runtime hoặc secret.
+- Secret TTS nằm riêng tại `/opt/vneguide/shared/tts_api_key` (UID/GID `10001`, mode `0400`), cấu hình ở
+  `/opt/vneguide/shared/tts.env` (root, mode `0600`). Để kích hoạt ngay, file TTS hiện sao chép cùng credential
+  đang dùng cho STT; cần thay bằng key TTS chuyên dụng để tách quota/thu hồi trước khi mở production rộng.
+- UI không autoplay, luôn công bố giọng AI và việc gửi nội dung tới dịch vụ tạo giọng nói; lần phát đầu mỗi
+  tab yêu cầu xác nhận. Hủy xác nhận không tạo POST. Dừng/đóng/đổi câu truyền abort tới Chat API và provider.

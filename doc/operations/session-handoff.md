@@ -320,3 +320,20 @@ prompt, evidence hoặc secret. Chỉ khi pass mới commit; không push nếu c
 - Static YAML parse và `git diff --check` đạt; Docker không có trên máy local nên chưa chạy Compose merge hoặc
   Nginx syntax test. Bước tiếp theo cụ thể là chạy `docker compose ... config --quiet` và `nginx -t` trên VPS,
   sau đó chỉ deploy web nếu app-side TTS gate đã đạt; không commit/push secret hoặc file `.env` thật.
+
+## Bàn giao TTS đang chạy — 2026-07-19
+
+- Controlled preview hiện phục vụ tại `http://85.211.245.209:9000`; TTS và STT đều báo `enabled=true`.
+  Release hiện tại là `/opt/vneguide/releases/1d59905b-tts`, marker `e2f4f38a`, web healthy. Nhánh source là
+  `agent/tts-integration`; chưa merge/push.
+- Trong chatbot, mỗi câu assistant có nút `Nghe`; hỗ trợ tạm dừng, tiếp tục, dừng và nghe lại. Lần đầu bấm
+  trong mỗi tab có hộp xác nhận việc gửi nội dung câu trả lời tới dịch vụ giọng nói; UI luôn hiện disclosure
+  giọng AI. TTS dừng trước STT và khi chat gửi/đổi câu/đóng.
+- Full gate đạt `71/71` test và production build. Smoke thật không PII tạo MP3 `81.024` byte rồi STT nhận lại
+  tiếng Việt. API/gateway/translator/Caddy không bị recreate; port giữ nguyên.
+- Rollback app dùng `vneguide-web:rollback-before-tts-1d59905b`; rollback Nginx dùng
+  `/opt/vneguide/shared/nginx-http.conf.before-tts-e2f4f38a`. Bỏ `tts.env`/overlay TTS rồi chỉ recreate web như
+  runbook; không dùng `down` hoặc `--remove-orphans`.
+- Việc còn lại trước production công khai: cấp credential TTS riêng thay cho bản sao key STT, hoàn thiện
+  privacy policy/DPA/retention review với provider, và cân nhắc quota theo session vì gateway hiện rate-limit
+  theo IP. Preview port `9000` là HTTP nên không dùng hồ sơ/PII thật.
