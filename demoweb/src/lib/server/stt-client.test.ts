@@ -12,6 +12,7 @@ function config(overrides: Partial<SttConfig> = {}): SttConfig {
     model: "Qwen/Qwen3-ASR-1.7B",
     timeoutMs: 180_000,
     convertToWav: false,
+    providerValidatesMedia: false,
     sendLanguage: true,
     ...overrides,
   };

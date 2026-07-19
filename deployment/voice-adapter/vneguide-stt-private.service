@@ -1,0 +1,16 @@
+[Unit]
+Description=Block the legacy public VNeGuide STT port
+After=docker.service network-online.target
+PartOf=docker.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+# Delete one identical rule first so restart is idempotent.
+ExecStart=-/usr/sbin/iptables -D DOCKER-USER -i eth0 -p tcp --dport 9208 -j DROP
+ExecStart=/usr/sbin/iptables -I DOCKER-USER 1 -i eth0 -p tcp --dport 9208 -j DROP
+ExecStop=-/usr/sbin/iptables -D DOCKER-USER -i eth0 -p tcp --dport 9208 -j DROP
+
+[Install]
+WantedBy=multi-user.target

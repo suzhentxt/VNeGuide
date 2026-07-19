@@ -139,13 +139,20 @@ async function readApiKeyFile(path: string) {
 async function resolveApiKey() {
   const filePath = process.env.VNEGUIDE_TTS_API_KEY_FILE?.trim();
   if (filePath) return readApiKeyFile(filePath);
-  const directKey = (
-    process.env.VNEGUIDE_TTS_API_KEY?.trim()
-    || process.env.VNEGUIDE_API_KEY?.trim()
-  );
-  if (directKey) return directKey;
+  const directKey = process.env.VNEGUIDE_TTS_API_KEY || process.env.VNEGUIDE_API_KEY;
+  if (directKey) {
+    const normalizedKey = directKey.trim();
+    if (
+      !normalizedKey ||
+      Buffer.byteLength(normalizedKey, "utf8") > MAX_SECRET_BYTES ||
+      /[\r\n\0]/.test(normalizedKey)
+    ) {
+      throw new TtsConfigurationError("The TTS API key environment value is invalid");
+    }
+    return normalizedKey;
+  }
   throw new TtsConfigurationError(
-    "VNEGUIDE_TTS_API_KEY_FILE (absolute path) or VNEGUIDE_API_KEY must be configured when TTS is enabled",
+    "VNEGUIDE_TTS_API_KEY_FILE (absolute path), VNEGUIDE_TTS_API_KEY, or VNEGUIDE_API_KEY must be configured when TTS is enabled",
   );
 }
 

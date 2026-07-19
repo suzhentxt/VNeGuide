@@ -15,6 +15,7 @@ import {
 import { SttProviderError, transcribeAudio } from "@/lib/server/stt-client";
 
 export const runtime = "nodejs";
+export const maxDuration = 60;
 
 const MIME_TYPES = new Map<string, string>([
   ["audio/webm", "recording.webm"],
@@ -162,21 +163,23 @@ export async function POST(request: NextRequest) {
     return errorResponse("empty_audio", "Không nhận được dữ liệu âm thanh.", 400);
   }
 
-  try {
-    await validateAudioDuration(audio, config.maxDurationSeconds);
-  } catch (error) {
-    if (error instanceof SttAudioValidationError && error.kind === "too_long") {
+  if (!config.providerValidatesMedia) {
+    try {
+      await validateAudioDuration(audio, config.maxDurationSeconds);
+    } catch (error) {
+      if (error instanceof SttAudioValidationError && error.kind === "too_long") {
+        return errorResponse(
+          "invalid_audio_duration",
+          `Bản ghi phải dài không quá ${config.maxDurationSeconds} giây.`,
+          400,
+        );
+      }
       return errorResponse(
-        "invalid_audio_duration",
-        `Bản ghi phải dài không quá ${config.maxDurationSeconds} giây.`,
-        400,
+        "invalid_audio",
+        "Không thể xác minh định dạng hoặc thời lượng của tệp âm thanh.",
+        422,
       );
     }
-    return errorResponse(
-      "invalid_audio",
-      "Không thể xác minh định dạng hoặc thời lượng của tệp âm thanh.",
-      422,
-    );
   }
 
   let sttAudio = audio;

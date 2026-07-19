@@ -19,6 +19,7 @@ export interface SttConfig {
   maxDurationSeconds: number;
   model: string;
   prompt?: string;
+  providerValidatesMedia: boolean;
   sendLanguage: boolean;
   timeoutMs: number;
 }
@@ -82,9 +83,20 @@ function transcriptionEndpoint(rawBaseUrl: string, allowInsecureHttp: boolean) {
   return new URL("audio/transcriptions", baseUrl);
 }
 
-async function readApiKey(path: string | undefined) {
-  const normalizedPath = path?.trim();
-  if (!normalizedPath) return undefined;
+function normalizeApiKey(value: string | undefined, source: string) {
+  const apiKey = value?.trim();
+  if (!apiKey) return undefined;
+  if (
+    Buffer.byteLength(apiKey, "utf8") > MAX_SECRET_BYTES ||
+    /[\r\n\0]/.test(apiKey)
+  ) {
+    throw new SttConfigurationError(`The STT API key ${source} is invalid`);
+  }
+  return apiKey;
+}
+
+async function readApiKeyFile(path: string) {
+  const normalizedPath = path.trim();
   if (!isAbsolute(normalizedPath)) {
     throw new SttConfigurationError("VNEGUIDE_STT_API_KEY_FILE must be an absolute path");
   }
@@ -94,8 +106,8 @@ async function readApiKey(path: string | undefined) {
     if (!metadata.isFile() || metadata.size === 0 || metadata.size > MAX_SECRET_BYTES) {
       throw new SttConfigurationError("The STT API key file is empty or too large");
     }
-    const apiKey = (await readFile(normalizedPath, "utf8")).trim();
-    if (!apiKey || /[\r\n]/.test(apiKey)) {
+    const apiKey = normalizeApiKey(await readFile(normalizedPath, "utf8"), "file");
+    if (!apiKey) {
       throw new SttConfigurationError("The STT API key file is invalid");
     }
     return apiKey;
@@ -103,6 +115,12 @@ async function readApiKey(path: string | undefined) {
     if (error instanceof SttConfigurationError) throw error;
     throw new SttConfigurationError("The STT API key file cannot be read");
   }
+}
+
+async function resolveApiKey() {
+  const filePath = process.env.VNEGUIDE_STT_API_KEY_FILE?.trim();
+  if (filePath) return readApiKeyFile(filePath);
+  return normalizeApiKey(process.env.VNEGUIDE_STT_API_KEY, "environment value");
 }
 
 export function isSttRequested() {
@@ -158,10 +176,19 @@ export async function getSttConfig(): Promise<SttConfig> {
     1,
     DEFAULT_MAX_DURATION_SECONDS,
   );
+  const convertToWav = enabled(process.env.VNEGUIDE_STT_CONVERT_TO_WAV);
+  const providerValidatesMedia = enabled(
+    process.env.VNEGUIDE_STT_PROVIDER_VALIDATES_MEDIA,
+  );
+  if (convertToWav && providerValidatesMedia) {
+    throw new SttConfigurationError(
+      "VNEGUIDE_STT_CONVERT_TO_WAV and VNEGUIDE_STT_PROVIDER_VALIDATES_MEDIA cannot both be enabled",
+    );
+  }
 
   return {
-    apiKey: await readApiKey(process.env.VNEGUIDE_STT_API_KEY_FILE),
-    convertToWav: enabled(process.env.VNEGUIDE_STT_CONVERT_TO_WAV),
+    apiKey: await resolveApiKey(),
+    convertToWav,
     endpoint: transcriptionEndpoint(
       rawBaseUrl,
       enabled(process.env.VNEGUIDE_STT_ALLOW_INSECURE_HTTP),
@@ -171,6 +198,7 @@ export async function getSttConfig(): Promise<SttConfig> {
     maxDurationSeconds,
     model,
     ...(prompt ? { prompt } : {}),
+    providerValidatesMedia,
     sendLanguage: enabled(process.env.VNEGUIDE_STT_SEND_LANGUAGE),
     timeoutMs: timeoutSeconds * 1000,
   };

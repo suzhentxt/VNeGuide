@@ -1,0 +1,44 @@
+name: vneguide-voice-adapter
+
+services:
+  voice-adapter:
+    build:
+      context: ..
+      dockerfile: deployment/voice-adapter/Dockerfile
+    environment:
+      VNEGUIDE_VOICE_ADAPTER_API_KEY_FILE: /run/secrets/vneguide_voice_adapter_api_key
+      VNEGUIDE_VOICE_ADAPTER_UPSTREAM_URL: ${VNEGUIDE_VOICE_ADAPTER_UPSTREAM_URL:-http://vneguide-stt:9208/v1/audio/transcriptions}
+      VNEGUIDE_VOICE_ADAPTER_UPSTREAM_MODEL: ${VNEGUIDE_VOICE_ADAPTER_UPSTREAM_MODEL:-Qwen/Qwen3-ASR-0.6B-hf}
+      VNEGUIDE_VOICE_ADAPTER_MAX_BYTES: ${VNEGUIDE_VOICE_ADAPTER_MAX_BYTES:-4000000}
+      VNEGUIDE_VOICE_ADAPTER_MAX_DURATION_SECONDS: ${VNEGUIDE_VOICE_ADAPTER_MAX_DURATION_SECONDS:-60}
+      VNEGUIDE_VOICE_ADAPTER_TIMEOUT_SECONDS: ${VNEGUIDE_VOICE_ADAPTER_TIMEOUT_SECONDS:-60}
+      VNEGUIDE_VOICE_ADAPTER_MAX_CONCURRENCY: ${VNEGUIDE_VOICE_ADAPTER_MAX_CONCURRENCY:-1}
+      VNEGUIDE_VOICE_ADAPTER_MAX_RESPONSE_BYTES: ${VNEGUIDE_VOICE_ADAPTER_MAX_RESPONSE_BYTES:-65536}
+    # Compose file secrets are bind mounts and ignore uid/gid/mode outside Swarm.
+    # Keep the image UID non-root and use GID 0 to read a root:root 0440 secret.
+    user: "10001:0"
+    secrets:
+      - source: vneguide_voice_adapter_api_key
+        target: vneguide_voice_adapter_api_key
+    networks:
+      - translator
+    expose:
+      - "9210"
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1700,uid=10001,gid=10001
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 128
+    restart: unless-stopped
+
+secrets:
+  vneguide_voice_adapter_api_key:
+    file: ${VNEGUIDE_VOICE_ADAPTER_API_KEY_SOURCE:?Set a root-owned 0440 bearer-secret file}
+
+networks:
+  translator:
+    external: true
+    name: ${VNEGUIDE_TRANSLATOR_NETWORK:-vn-en-translator_default}

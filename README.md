@@ -591,7 +591,7 @@ có provider (STT GPU/OpenAI transcribe, TTS OpenAI).
 flowchart LR
     U[Người dân] --> UI[ChatWidget: mic / upload]
     UI -->|raw audio body| BFF[BFF /api/stt/transcribe]
-    BFF --> CHECK[ffprobe: duration & size]
+    BFF --> CHECK[ffprobe locally or trusted VPS adapter]
     CHECK --> PROVIDER[STT provider: /audio/transcriptions]
     PROVIDER -->|transcript| MERGE[Ghép transcript vào chat]
     MERGE --> CORE[Core + Dialect/ASR normalization]
@@ -621,8 +621,8 @@ trả trạng thái enabled và giới hạn công khai. Audio hỗ trợ webm, 
 - Duration check bằng `ffprobe`; mặc định tối đa 60 giây và 10 MB, vượt trả lỗi an toàn thay vì gọi provider.
 - Endpoint STT bắt buộc HTTPS ngoài loopback; `VNEGUIDE_STT_ALLOW_INSECURE_HTTP=1` chỉ cho gateway dev
   tin cậy ([`stt-config.ts:64-75`](demoweb/src/lib/server/stt-config.ts#L64-L75)).
-- API key STT đọc từ file tuyệt đối (`VNEGUIDE_STT_API_KEY_FILE`), không phải env var hay
-  `NEXT_PUBLIC_*`; key STT tách biệt với key model (`VNEGUIDE_API_KEY`).
+- API key STT ưu tiên file tuyệt đối (`VNEGUIDE_STT_API_KEY_FILE`); Vercel serverless dùng fallback
+  `VNEGUIDE_STT_API_KEY`. Không dùng `NEXT_PUBLIC_*`; key STT phải tách biệt với key model.
 - Transcript bị truncate khi vượt `4_000` ký tự ([`stt-client.ts:3`](demoweb/src/lib/server/stt-client.ts#L3));
   response provider bị cap `64 * 1024` byte; lỗi được ánh xạ thành `bad_audio`, `rate_limited`,
   `timeout`, `unavailable` thay vì raw output.
@@ -635,6 +635,9 @@ trả trạng thái enabled và giới hạn công khai. Audio hỗ trợ webm, 
 **Biến môi trường:** STT dùng các biến `VNEGUIDE_STT_*` (server-side). Không liệt kê giá trị trong
 README; xem danh sách và mặc định tại [`demoweb/.env.local.example`](demoweb/.env.local.example). Không
 commit `.env` hoặc giá trị key thật.
+
+Profile Vercel BFF → VPS voice adapter, giới hạn serverless và runbook rollback nằm tại
+[`doc/operations/vercel-voice.md`](doc/operations/vercel-voice.md).
 
 **Test:** [`stt.test.ts`](demoweb/src/lib/stt.test.ts), [`stt-audio.test.ts`](demoweb/src/lib/server/stt-audio.test.ts),
 [`stt-client.test.ts`](demoweb/src/lib/server/stt-client.test.ts) — chạy trong `npm run test` của demoweb.

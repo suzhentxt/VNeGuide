@@ -10,6 +10,7 @@ import { synthesizeSpeech, TtsProviderError } from "@/lib/server/tts-client";
 import { assistantSpeechSegments, TtsTextError } from "@/lib/server/tts-text";
 
 export const runtime = "nodejs";
+export const maxDuration = 60;
 
 const MAX_REQUEST_BYTES = 1_024;
 const MAX_SESSION_RESPONSE_BYTES = 256 * 1024;
