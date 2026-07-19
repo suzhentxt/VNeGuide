@@ -585,3 +585,20 @@ chưa tạo commit follow-up. Không công bố metric accuracy model từ fixtu
   `proxy_request_buffering off`. Cấu hình trước deploy được giữ tại
   `/opt/vneguide/shared/nginx-http.conf.before-stt-20260719`; web rollback image giữ tag
   `vneguide-web:rollback-df97f0321f25`. Hai file upload tạm đã xóa khỏi `/tmp`.
+
+## 2026-07-19 — Hạ tầng TTS tiếng Việt tách biệt
+
+- Base Compose khai báo toàn bộ cấu hình TTS trên `web` nhưng giữ `VNEGUIDE_TTS_ENABLED=0`; TTS không là
+  dependency/healthcheck và không mở port mới. Overlay `docker-compose.tts-remote.yml` chỉ bật TTS, mount
+  secret file riêng vào UID/GID `10001` với mode `0400` và không sửa service API/gateway.
+- Contract vận hành khớp BFF: model/voice/instructions/MP3/speed, timeout 60 giây, message tối đa 4.000 ký tự,
+  segment 600 ký tự và response tối đa 8 MiB. Instructions mặc định yêu cầu đọc tiếng Việt rõ, tự nhiên và
+  giữ nguyên tên riêng, mã thủ tục, số liệu; ngôn ngữ vẫn được quyết định bởi nội dung assistant.
+- Gateway có exact route `/api/tts/speech`: JSON tối đa 8 KiB, POST 10/phút/IP với burst 3, một request đồng
+  thời/IP, timeout 130 giây và chuyển tiếp audio không buffer xuống đĩa. Rate/concurrency zone TTS tách khỏi STT.
+- Runbook khóa thứ tự Compose `base -> VPS -> STT -> TTS`, chỉ recreate web, backup/test/reload shared Nginx
+  tại chỗ và kiểm tra invariant các port `80/443/8000/9000/13000/18000` cùng container translator/Caddy.
+  Rollback bỏ riêng overlay/env TTS, giữ STT và không recreate API/gateway/translator/Caddy.
+- PyYAML parse đạt cho base, STT và TTS overlay; `git diff --check` đạt. Máy local không có executable Docker,
+  nên `docker compose config` và `nginx -t` phải được chạy trên VPS trước khi reload/deploy. Chưa commit hoặc
+  deploy từ phần việc hạ tầng này.

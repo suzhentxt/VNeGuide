@@ -306,3 +306,17 @@ prompt, evidence hoặc secret. Chỉ khi pass mới commit; không push nếu c
 - Bước tiếp theo cụ thể: người vận hành cung cấp GPU URL/key và HTTPS domain; xác minh GPU ingress tự
   probe duration/quota, bật overlay STT cùng overlay VPS, chạy audio tiếng Việt tổng hợp, kiểm tra
   transcript chỉ nằm trong textarea và thử actual-duration trên 60 giây.
+
+## Bàn giao hạ tầng TTS tiếng Việt — 2026-07-19
+
+- Worktree `vneguide-tts` có base config TTS mặc định tắt và overlay
+  `deployment/docker-compose.tts-remote.yml`; secret TTS là file riêng, mount read-only cho UID/GID `10001`,
+  mode `0400`. Không có port hoặc container TTS mới.
+- Shared Nginx config thêm exact route `/api/tts/speech`, body 8 KiB, rate 10 POST/phút/IP, burst 3 và một
+  request đồng thời/IP; timeout 130 giây, zone tách khỏi STT. GET status không tiêu thụ quota POST.
+- Runbook đầy đủ ở `deployment/README.md`: tạo `tts.env`/`tts_api_key`, Compose theo thứ tự
+  `base -> VPS -> STT -> TTS`, chỉ recreate web, `nginx -t` rồi reload tại chỗ, xác minh port/container ID và
+  rollback TTS độc lập.
+- Static YAML parse và `git diff --check` đạt; Docker không có trên máy local nên chưa chạy Compose merge hoặc
+  Nginx syntax test. Bước tiếp theo cụ thể là chạy `docker compose ... config --quiet` và `nginx -t` trên VPS,
+  sau đó chỉ deploy web nếu app-side TTS gate đã đạt; không commit/push secret hoặc file `.env` thật.

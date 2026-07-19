@@ -1,0 +1,26 @@
+services:
+  web:
+    environment:
+      VNEGUIDE_TTS_ENABLED: ${VNEGUIDE_TTS_ENABLED:-1}
+      VNEGUIDE_TTS_BASE_URL: ${VNEGUIDE_TTS_BASE_URL:?Set the HTTPS URL of the remote TTS provider, including /v1}
+      VNEGUIDE_TTS_MODEL: ${VNEGUIDE_TTS_MODEL:-gpt-4o-mini-tts}
+      VNEGUIDE_TTS_VOICE: ${VNEGUIDE_TTS_VOICE:-marin}
+      VNEGUIDE_TTS_INSTRUCTIONS: ${VNEGUIDE_TTS_INSTRUCTIONS:-Nói tiếng Việt tự nhiên, rõ ràng, với nhịp độ vừa phải. Giữ nguyên tên riêng, mã thủ tục và số liệu.}
+      VNEGUIDE_TTS_FORMAT: ${VNEGUIDE_TTS_FORMAT:-mp3}
+      VNEGUIDE_TTS_SPEED: ${VNEGUIDE_TTS_SPEED:-1}
+      VNEGUIDE_TTS_API_KEY_FILE: /run/secrets/vneguide_tts_api_key
+      VNEGUIDE_TTS_ALLOW_INSECURE_HTTP: ${VNEGUIDE_TTS_ALLOW_INSECURE_HTTP:-0}
+      VNEGUIDE_TTS_TIMEOUT_SECONDS: ${VNEGUIDE_TTS_TIMEOUT_SECONDS:-60}
+      VNEGUIDE_TTS_MAX_MESSAGE_CHARACTERS: ${VNEGUIDE_TTS_MAX_MESSAGE_CHARACTERS:-4000}
+      VNEGUIDE_TTS_SEGMENT_CHARACTERS: ${VNEGUIDE_TTS_SEGMENT_CHARACTERS:-600}
+      VNEGUIDE_TTS_MAX_RESPONSE_BYTES: ${VNEGUIDE_TTS_MAX_RESPONSE_BYTES:-8388608}
+    secrets:
+      - source: vneguide_tts_api_key
+        target: vneguide_tts_api_key
+        uid: "10001"
+        gid: "10001"
+        mode: 0400
+
+secrets:
+  vneguide_tts_api_key:
+    file: ${VNEGUIDE_TTS_API_KEY_SOURCE:?Set the host path of the TTS API-key file}
