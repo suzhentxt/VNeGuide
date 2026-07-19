@@ -26,7 +26,9 @@ hiểu là “tôi muốn đăng ký tạm trú”, nhưng họ tên, CCCD, ngà
 
 ### Giá trị AI-Native trong một luồng
 
-1. Người dân mô tả nhu cầu bằng tiếng Việt tự nhiên, phương ngữ, từ rút gọn hoặc transcript speech.
+1. Người dân mô tả nhu cầu bằng tiếng Việt tự nhiên, phương ngữ, từ rút gọn hoặc transcript speech
+   từ nút mic/upload (STT); câu trả lời trợ lý có thể nghe bằng giọng đọc AI (TTS). Cả STT/TTS mặc định
+   tắt, bật khi có provider — xem phần [Speech](#speech-speech-to-text--text-to-speech) dưới đây.
 2. Lớp ngôn ngữ bảo vệ dữ liệu định danh, chuẩn hóa phần còn lại và giữ ánh xạ về câu gốc.
 3. Agent đề xuất đúng một dịch vụ trong phạm vi và **bắt buộc người dùng xác nhận** trước điều hướng.
    Câu hỏi làm rõ và đổi dịch vụ có nút chọn lớn; người dùng không phải nhớ hoặc gõ câu lệnh.
@@ -78,8 +80,8 @@ Audit khoảng trống và mức độ phủ evidence hiện tại được khó
 | Chất lượng triển khai kỹ thuật | 20 | Next.js BFF, FastAPI, core độc lập UI, state revisioned, CI và container smoke | [`src/vneguide/`](src/vneguide/), [`demoweb/`](demoweb/), [release evidence](doc/operations/release-evidence.md) |
 | Kiến trúc AI-Native & đổi mới | 20 | Structured extraction, suggestion-first, chat–form shared state, deterministic guidance, multi-provider | [`src/vneguide/ai/`](src/vneguide/ai/), [`src/vneguide/core/`](src/vneguide/core/), [AI design](doc/AI%20%26%20Evaluation.md) |
 | Khả thi kinh doanh & pilot | 20 | Bài toán, bên hưởng lợi, mô hình triển khai, pilot 12 tuần, KPI và điều kiện go/no-go | Mục 3 bên dưới |
-| UX AI-Native & design thinking | 15 | Xác nhận dịch vụ, hỏi từng trường, lựa chọn lớn, Accept/Edit/Reject, fallback nhập tay | [`ChatWidget.tsx`](demoweb/src/components/chat/ChatWidget.tsx), [Product & UX](doc/Product%20and%20UX.md) |
-| An toàn AI, grounding & tin cậy | 15 | 13 nguồn, 27 rule deterministic, strict schema, evidence, revision guard, PII/secret audit | [`data/catalog/`](data/catalog/), [`rules/`](src/vneguide/rules/), [`release_audit.py`](deployment/scripts/release_audit.py) |
+| UX AI-Native & design thinking | 15 | Xác nhận dịch vụ, hỏi từng trường, lựa chọn lớn, Accept/Edit/Reject, fallback nhập tay, nút mic/upload giọng nói (STT) và nút Nghe câu trả lời (TTS) | [`ChatWidget.tsx`](demoweb/src/components/chat/ChatWidget.tsx), [`stt-config.ts`](demoweb/src/lib/server/stt-config.ts), [`tts-config.ts`](demoweb/src/lib/server/tts-config.ts), [Product & UX](doc/Product%20and%20UX.md) |
+| An toàn AI, grounding & tin cậy | 15 | 13 nguồn, 27 rule deterministic, strict schema, evidence, revision guard, PII/secret audit, STT/TTS duration/HTTPS/key-file controls | [`data/catalog/`](data/catalog/), [`rules/`](src/vneguide/rules/), [`stt-client.ts`](demoweb/src/lib/server/stt-client.ts), [`tts-client.ts`](demoweb/src/lib/server/tts-client.ts), [`release_audit.py`](deployment/scripts/release_audit.py) |
 | Trình bày & bảo vệ giải pháp | 10 | Demo công khai, hero flow, failure demo, số liệu, giới hạn và pitch 3 phút | [Demo & pitch](doc/operations/demo-and-pitch.md), [progress](doc/operations/progress.md) |
 
 ### Kịch bản chấm nhanh trong 5 phút
@@ -105,6 +107,10 @@ Audit khoảng trống và mức độ phủ evidence hiện tại được khó
 ```mermaid
 flowchart LR
     U[Người dân] --> UI[Next.js: trang thủ tục + chat]
+    UI -->|mic/upload audio| STT[BFF /api/stt/transcribe]
+    STT -->|transcript| UI
+    UI -->|bấm Nghe| TTS[BFF /api/tts/speech]
+    TTS -->|MP3| UI
     UI --> BFF[BFF /api/chat/*]
     BFF --> API[FastAPI /v1/chat/*]
     API --> CORE[Conversation Core]
@@ -189,7 +195,8 @@ dữ liệu cuối cùng.
 
 Lớp chuẩn hóa nằm trước structured extraction, thay vì nhúng toàn bộ bảng phương ngữ vào prompt. Cách
 tách này giúp hành vi phổ biến có thể kiểm thử deterministic, giảm token và tránh để model tùy ý sửa
-dữ liệu định danh.
+dữ liệu định danh. Transcript từ nút mic/upload (STT) cũng đi vào pipeline này qua `InputSource.SPEECH`
+và được bảo vệ định danh như văn bản gõ tay.
 
 ```mermaid
 flowchart LR
@@ -371,6 +378,8 @@ Thiết kế ưu tiên người lần đầu làm thủ tục, người lớn tu
 - Chat full-height trên mobile, panel cố định trên desktop; nút thao tác có chiều cao tối thiểu.
 - `aria-label`, `aria-live`, focus-visible và phím `Escape`; lỗi/trạng thái không chỉ truyền bằng màu.
 - Font và khoảng cách đọc được, câu trả lời ngắn, button thay cho yêu cầu ghi nhớ cú pháp.
+- Nút mic/upload (STT) cho người lớn tuổi hoặc khó gõ phím; nút Nghe (TTS) cho người khó đọc; transcript
+  đi qua cùng pipeline bảo vệ định danh với văn bản gõ. STT/TTS mặc định tắt, bật khi có provider.
 - Banner nhắc không nhập CCCD/số điện thoại thật trong demo và disclaimer luôn tách khỏi nội dung AI.
 
 ## 5. An toàn AI, Grounding & độ tin cậy — 15 điểm
@@ -401,6 +410,8 @@ nghiệp vụ. Mỗi procedure pack có version, ngày kiểm chứng, `source_i
 | Response cũ | `expected_revision` + stale `409`; `client_turn_id` chống gửi trùng | Re-fetch session và rebase form |
 | Case ngoài thẩm quyền | Scope chỉ ba thủ tục; rule status `out_of_scope`/`needs_official_review` | Điều hướng tới cơ quan/kênh chính thức, không tự phán quyết |
 | Provider timeout/refusal | Typed timeout, retry có giới hạn, safe error không raw output | Form tiếp tục hoạt động và cho nhập tay |
+| STT audio PII / lạm dụng duration / provider leak | ffprobe cap 60s/10MB, HTTPS-only ngoài loopback, API key từ file tách biệt key model, truncate transcript 4000 ký tự, cap response 64KB | STT tắt mặc định; nhập tay vẫn hoạt động |
+| TTS text PII / lạm dụng độ dài / provider leak | Cap 4000 ký tự/tin nhắn + 600 ký tự/đoạn, 8MB response, 60s timeout, HTTPS-only, key từ file/env tách biệt, disclaimer "nội dung sẽ được gửi tới dịch vụ tạo giọng nói" | TTS tắt mặc định; nút Nghe không render, đọc text tay |
 | PII/secret leakage | Demo warning, server-only secret, `HttpOnly` cookie, HTTPS, release audit | Không log prompt/raw response/key; reset/xóa session tạm |
 | Prompt injection | User text là untrusted input; model output chỉ đi qua schema/allowlist | Rule và source không thể bị user/model sửa |
 
@@ -449,6 +460,7 @@ môi trường production.
 - Public URL là production preview, không có SLA và không nhận dữ liệu cá nhân thật.
 - OCR CT01 mới ở candidate worker; chưa có end-to-end upload trong web.
 - OCR upload E2E và video dự phòng vẫn là Definition of Done chưa hoàn thành.
+- STT đã triển khai nhưng mặc định tắt trên demo công khai; cần provider STT (GPU `Qwen/Qwen3-ASR-1.7B` hoặc OpenAI `gpt-4o-mini-transcribe`) để bật.
 - Cơ quan có thẩm quyền mới được xác minh tranh chấp, quyền sở hữu/sử dụng và quyết định hồ sơ.
 
 Chi tiết runbook, rollback và evidence: [`doc/operations/`](doc/operations/).
@@ -565,6 +577,122 @@ không đi xuống browser. OCR chỉ trả `pass`, `needs_review` hoặc `fail`
 điền draft và không kết luận giá trị pháp lý. Bản demo chỉ nhận tài liệu tổng hợp hoặc đã ẩn danh.
 Xem contract, lệnh chạy và hai ảnh test tại
 [`src/vneguide/ocr/README.md`](src/vneguide/ocr/README.md).
+
+## Speech (Speech-to-Text / Text-to-Speech)
+
+VNeGuide hỗ trợ giọng nói hai chiều: **Speech-to-Text** cho phép bấm mic hoặc tải file audio lên, audio
+được chuyển lời và ghép vào ô nhập chat như văn bản gõ tay; **Text-to-Speech** thêm nút **Nghe** bên
+cạnh mỗi câu trả lời trợ lý để phát giọng đọc tiếng Việt. Cả hai mặc định **tắt** và bật theo opt-in khi
+có provider (STT GPU/OpenAI transcribe, TTS OpenAI).
+
+### Speech-to-Text — đã triển khai
+
+```mermaid
+flowchart LR
+    U[Người dân] --> UI[ChatWidget: mic / upload]
+    UI -->|raw audio body| BFF[BFF /api/stt/transcribe]
+    BFF --> CHECK[ffprobe: duration & size]
+    CHECK --> PROVIDER[STT provider: /audio/transcriptions]
+    PROVIDER -->|transcript| MERGE[Ghép transcript vào chat]
+    MERGE --> CORE[Core + Dialect/ASR normalization]
+```
+
+Luồng STT nằm hoàn toàn trong [`demoweb/`](demoweb/). Trình duyệt chỉ gửi raw audio body tới Next.js
+BFF, không gọi GPU provider trực tiếp và không giữ API key STT. Provider dùng API tương thích OpenAI
+`/v1/audio/transcriptions`; model mặc định `Qwen/Qwen3-ASR-1.7B` ([`stt-config.ts:6`](demoweb/src/lib/server/stt-config.ts#L6)),
+đổi được bằng `VNEGUIDE_STT_MODEL`. STT mặc định **tắt**, bật theo opt-in khi có endpoint HTTPS và key
+hợp lệ (xem [`demoweb/.env.local.example`](demoweb/.env.local.example)).
+
+| Thành phần | Vai trò | Vị trí |
+| --- | --- | --- |
+| Client utils | Chọn MIME ghi âm, giải mã loại file, ghép transcript vào draft | [`stt.ts`](demoweb/src/lib/stt.ts) |
+| React hook | `MediaRecorder` ghi âm, upload file, POST tới BFF | [`useSpeechToText.ts`](demoweb/src/components/chat/useSpeechToText.ts) |
+| UI | Nút mic, nút upload, status `chat-stt-status` | [`ChatWidget.tsx`](demoweb/src/components/chat/ChatWidget.tsx) |
+| BFF route | `GET` trả status/giới hạn, `POST` nhận audio và gọi provider | [`api/stt/transcribe/route.ts`](demoweb/src/app/api/stt/transcribe/route.ts) |
+| Server config | Đọc env, dựng endpoint, validate model/language/prompt | [`stt-config.ts`](demoweb/src/lib/server/stt-config.ts) |
+| Audio check | `ffprobe` lấy duration, reject nếu quá dài | [`stt-audio.ts`](demoweb/src/lib/server/stt-audio.ts) |
+| Provider client | Gọi `/audio/transcriptions`, normalize transcript | [`stt-client.ts`](demoweb/src/lib/server/stt-client.ts) |
+
+**Endpoint:** `POST /api/stt/transcribe` nhận raw audio body kèm `Content-Type`; `GET /api/stt/transcribe`
+trả trạng thái enabled và giới hạn công khai. Audio hỗ trợ webm, ogg, wav, mp3, m4a, aac, flac.
+
+**Kiểm soát an toàn:**
+
+- Duration check bằng `ffprobe`; mặc định tối đa 60 giây và 10 MB, vượt trả lỗi an toàn thay vì gọi provider.
+- Endpoint STT bắt buộc HTTPS ngoài loopback; `VNEGUIDE_STT_ALLOW_INSECURE_HTTP=1` chỉ cho gateway dev
+  tin cậy ([`stt-config.ts:64-75`](demoweb/src/lib/server/stt-config.ts#L64-L75)).
+- API key STT đọc từ file tuyệt đối (`VNEGUIDE_STT_API_KEY_FILE`), không phải env var hay
+  `NEXT_PUBLIC_*`; key STT tách biệt với key model (`VNEGUIDE_API_KEY`).
+- Transcript bị truncate khi vượt `4_000` ký tự ([`stt-client.ts:3`](demoweb/src/lib/server/stt-client.ts#L3));
+  response provider bị cap `64 * 1024` byte; lỗi được ánh xạ thành `bad_audio`, `rate_limited`,
+  `timeout`, `unavailable` thay vì raw output.
+- Transcript đi vào chat và khi gửi đi qua cùng pipeline chuẩn hóa phương ngữ + bảo vệ dữ liệu định
+  danh như văn bản gõ tay. Enum `InputSource.SPEECH`
+  ([`language/models.py:13`](src/vneguide/language/models.py#L13)) được normalizer dùng cho speech
+  transcript ([`language/README.md:21`](src/vneguide/language/README.md#L21)); họ tên, CCCD, ngày sinh,
+  địa chỉ vẫn được bảo vệ để ASR không sửa sai định danh.
+
+**Biến môi trường:** STT dùng các biến `VNEGUIDE_STT_*` (server-side). Không liệt kê giá trị trong
+README; xem danh sách và mặc định tại [`demoweb/.env.local.example`](demoweb/.env.local.example). Không
+commit `.env` hoặc giá trị key thật.
+
+**Test:** [`stt.test.ts`](demoweb/src/lib/stt.test.ts), [`stt-audio.test.ts`](demoweb/src/lib/server/stt-audio.test.ts),
+[`stt-client.test.ts`](demoweb/src/lib/server/stt-client.test.ts) — chạy trong `npm run test` của demoweb.
+
+### Text-to-Speech — đã triển khai
+
+Tin nhắn trợ lý có nút **Nghe**; người dùng bấm để phát giọng đọc tiếng Việt, có tạm dừng/tiếp tục/dừng
+và nghe lại. TTS mặc định **tắt**, bật theo opt-in khi có provider TTS (xem
+[`demoweb/.env.local.example`](demoweb/.env.local.example)).
+
+```mermaid
+flowchart LR
+    U[Người dân] -->|bấm Nghe| UI[MessageSpeechControls]
+    UI -->|segment index| BFF[BFF /api/tts/speech]
+    BFF --> SPLIT[Chia tin nhắn thành đoạn ~600 ký tự]
+    SPLIT --> PROVIDER[TTS provider: /audio/speech]
+    PROVIDER -->|MP3| UI[Phát tuần tự: play/pause/stop]
+```
+
+Luồng TTS nằm trong [`demoweb/`](demoweb/). Trình duyệt chỉ gửi vị trí đoạn tin nhắn (segment index) tới
+BFF, không gọi provider trực tiếp và không giữ API key. Provider dùng API tương thích OpenAI
+`/v1/audio/speech`; model mặc định `gpt-4o-mini-tts`, giọng `marin`, instructions tiếng Việt mặc định
+giữ nguyên tên riêng, mã thủ tục, ngày tháng và số liệu ([`tts-config.ts:6-15`](demoweb/src/lib/server/tts-config.ts#L6-L15)).
+
+| Thành phần | Vai trò | Vị trí |
+| --- | --- | --- |
+| React hook | Quản lý play/pause/stop/resume, fetch từng đoạn tuần tự | [`useTextToSpeech.ts`](demoweb/src/components/chat/useTextToSpeech.ts) |
+| UI controls | Nút Nghe/Tạm dừng/Tiếp tục/Dừng/Nghe lại, `aria-live`, `aria-pressed` | [`MessageSpeechControls.tsx`](demoweb/src/components/chat/MessageSpeechControls.tsx) |
+| BFF route | `GET` trả status, `POST` nhận segment index và gọi provider | [`api/tts/speech/route.ts`](demoweb/src/app/api/tts/speech/route.ts) |
+| Server config | Đọc env, dựng endpoint, validate model/voice/instructions | [`tts-config.ts`](demoweb/src/lib/server/tts-config.ts) |
+| Text splitter | Chia tin nhắn assistant thành đoạn ~600 ký tự | [`tts-text.ts`](demoweb/src/lib/server/tts-text.ts) |
+| Provider client | Gọi `/audio/speech`, trả MP3 | [`tts-client.ts`](demoweb/src/lib/server/tts-client.ts) |
+
+**Endpoint:** `POST /api/tts/speech` nhận segment index của tin nhắn assistant, trả audio MP3 kèm header
+`X-VNeGuide-TTS-Segment-Index`/`X-VNeGuide-TTS-Segment-Count`; `GET /api/tts/speech` trả trạng thái
+enabled và giới hạn công khai.
+
+**Kiểm soát an toàn:**
+
+- Tin nhắn tối đa `4_000` ký tự, chia đoạn `600` ký tự; response cap `8 * 1024 * 1024` byte (8 MB);
+  timeout 60 giây — vượt trả lỗi an toàn thay vì gọi provider.
+- Endpoint TTS bắt buộc HTTPS ngoài loopback; `VNEGUIDE_TTS_ALLOW_INSECURE_HTTP=1` chỉ cho gateway dev
+  tin cậy ([`tts-config.ts:100-111`](demoweb/src/lib/server/tts-config.ts#L100-L111)).
+- API key TTS đọc theo thứ tự `VNEGUIDE_TTS_API_KEY_FILE` (file tuyệt đối, production) →
+  `VNEGUIDE_TTS_API_KEY` → `VNEGUIDE_API_KEY` (dev dùng chung key OpenAI)
+  ([`tts-config.ts:139-150`](demoweb/src/lib/server/tts-config.ts#L139-L150)).
+- UI hiển thị disclaimer "Giọng đọc do AI tạo; nội dung sẽ được gửi tới dịch vụ tạo giọng nói."
+  ([`MessageSpeechControls.tsx:88`](demoweb/src/components/chat/MessageSpeechControls.tsx#L88)) để người
+  dùng biết text lời đáp có thể chứa PII sẽ đi tới provider TTS.
+- Nút TTS chỉ render khi `speech.enabled` ([`MessageSpeechControls.tsx:18`](demoweb/src/components/chat/MessageSpeechControls.tsx#L18));
+  khi TTS tắt, không có nút Nghe và không có request nào tới provider.
+
+**Biến môi trường:** TTS dùng các biến `VNEGUIDE_TTS_*` (server-side). Không liệt kê giá trị trong
+README; xem danh sách và mặc định tại [`demoweb/.env.local.example`](demoweb/.env.local.example). Không
+commit `.env` hoặc giá trị key thật.
+
+**Test:** [`tts.test.ts`](demoweb/src/lib/tts.test.ts), [`tts-client.test.ts`](demoweb/src/lib/server/tts-client.test.ts),
+[`tts-text.test.ts`](demoweb/src/lib/server/tts-text.test.ts) — chạy trong `npm run test` của demoweb.
 
 ## Cấu hình provider
 
