@@ -2,6 +2,7 @@
 
 import {
   ArrowLeft,
+  ArrowRight,
   Bot,
   Check,
   CheckCircle2,
@@ -9,7 +10,7 @@ import {
   Info,
   ShieldCheck,
 } from "lucide-react";
-import { type FormEvent, type ReactNode, useEffect, useState } from "react";
+import { type FormEvent, type ReactNode, useEffect, useRef, useState } from "react";
 
 import { DocumentUploadCard } from "@/components/ocr/DocumentUploadCard";
 import { useDocumentValidation } from "@/components/ocr/DocumentValidationProvider";
@@ -108,7 +109,7 @@ function AssistantPanel({ step, missing }: { step: WizardStep; missing: string[]
   );
 }
 
-function GuidedField({ definition, showError }: { definition: GuidedFieldDefinition; showError: boolean }) {
+function GuidedField({ definition, showError, spotlighted }: { definition: GuidedFieldDefinition; showError: boolean; spotlighted: boolean }) {
   const workspace = useProcedureWorkspace();
   const field = workspace.state.fields[definition.field_id];
   const value = field?.value;
@@ -116,9 +117,23 @@ function GuidedField({ definition, showError }: { definition: GuidedFieldDefinit
   const missing = required && (value === undefined || value === null || value === "");
   const set = (next: JsonValue) => workspace.setField(definition.field_id, next);
   const commit = () => void workspace.commitField(definition.field_id);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (spotlighted && containerRef.current) {
+      containerRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [spotlighted]);
+
+  const spotlightClass = spotlighted
+    ? "rounded-2xl border-2 border-[#ce7a58] bg-[#fff8f5] p-4 shadow-[0_0_0_4px_rgba(206,122,88,0.18)]"
+    : "";
+  const controlClass = spotlighted
+    ? `${inputClass} ring-4 ring-[#ce7a58]/30 border-[#ce7a58]`
+    : inputClass;
   const common = {
     "aria-invalid": showError && missing,
-    className: inputClass,
+    className: controlClass,
     id: definition.field_id,
     onBlur: commit,
   };
@@ -154,9 +169,18 @@ function GuidedField({ definition, showError }: { definition: GuidedFieldDefinit
   }
 
   return (
-    <div data-field-id={definition.field_id}>
+    <div className={spotlightClass} data-field-id={definition.field_id} ref={containerRef}>
+      {spotlighted ? (
+        <div className="mb-2 flex items-center gap-1.5 rounded-lg bg-[#903938] px-2 py-1 text-xs font-extrabold text-white">
+          <ArrowRight className="size-3.5" aria-hidden="true" />
+          Điền mục này trước nhé
+        </div>
+      ) : null}
       <label htmlFor={definition.field_id}><FieldLabel required={required}>{definition.label}</FieldLabel></label>
       {control}
+      {spotlighted && definition.hint ? (
+        <p className="mt-2 text-sm leading-5 text-[#704238]">{definition.hint}</p>
+      ) : null}
       {field?.source === "wallet" && !field.confirmed ? <p className="mt-2 text-sm font-bold text-[#9a6700]">Ví thông tin đã điền · cần bạn xác nhận</p> : null}
       {field?.source === "assistant" && field.confirmed ? <p className="mt-2 text-sm font-bold text-[#28543a]">Đề xuất của trợ lý đã được bạn xác nhận</p> : null}
       {showError && missing ? <p className="mt-2 text-sm font-bold text-[#b42318]">Vui lòng hoàn thành mục này.</p> : null}
@@ -191,6 +215,10 @@ export function MarriageApplication({
   if (!selectedService) throw new Error("Dịch vụ công được chọn không hợp lệ.");
 
   const declaration = declarationGate(definitions, workspace.state.fields);
+  const spotlightFieldId =
+    currentStep === 1
+      ? (declaration.missing[0]?.field_id ?? declaration.unconfirmed[0]?.field_id ?? null)
+      : null;
   const stepMissing = {
     1: [...declaration.missing, ...declaration.unconfirmed].map((field) => field.label),
     2: documentValidation.blockingMessages,
@@ -241,7 +269,7 @@ export function MarriageApplication({
             <button className="mt-4 min-h-12 rounded-xl bg-[#903938] px-5 font-extrabold text-white" onClick={() => void confirmAssistedFields()} type="button">Tôi đã kiểm tra, thông tin chính xác</button>
           </section>
         ) : null}
-        <div className="grid gap-6 sm:grid-cols-2">{definitions.map((definition) => <GuidedField definition={definition} key={definition.field_id} showError={attemptedStep === 1} />)}</div>
+        <div className="grid gap-6 sm:grid-cols-2">{definitions.map((definition) => <GuidedField definition={definition} key={definition.field_id} showError={attemptedStep === 1} spotlighted={definition.field_id === spotlightFieldId} />)}</div>
       </div>
     ),
     2: (

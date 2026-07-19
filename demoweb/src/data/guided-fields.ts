@@ -7,6 +7,7 @@ export interface GuidedFieldDefinition {
   values?: string[];
   minimum?: number;
   pattern?: string;
+  hint?: string;
 }
 
 const enumLabels: Record<string, string> = {

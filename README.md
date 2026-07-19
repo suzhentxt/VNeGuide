@@ -310,6 +310,21 @@ sequenceDiagram
 - **Chưa tuyên bố doanh thu hoặc tiết kiệm:** MVP chưa có dữ liệu người dùng thật. Unit economics,
   token/session và chi phí hỗ trợ giảm được là đầu ra phải đo trong pilot.
 
+### Lộ trình mở rộng thủ tục
+
+MVP cố ý giới hạn ở ba thủ tục để kiểm chứng contract AI–form và rule framework. Trong tương lai
+VNeGuide mở rộng thêm nhiều thủ tục hành chính khác theo cùng cơ chế: mỗi thủ tục mới chỉ cần thêm
+một `procedure pack` (data/field/rule) đã review thay vì viết lại prompt hay UI từ đầu.
+
+| Giai đoạn | Phạm vi mở rộng | Điều kiện tiến |
+| --- | --- | --- |
+| MVP (hiện tại) | 3 thủ tục: bản sao Giấy khai sinh, xác nhận điều kiện nhà ở, đăng ký tạm trú | Contract chống mất đồng bộ chat–form + regression gate đã chạy |
+| Mở rộng theo cụm cư trú | Thêm các thủ tục cư trú, hộ tịch liên quan cùng nhóm nghiệp vụ | Pilot đạt KPI; procedure pack mới có source đã duyệt và checksum |
+| Mở rộng đa lĩnh vực | Thủ tục đất đai, xây dựng, kinh doanh... ngoài nhóm cư trú/hộ tịch | Rule engine và data package tổng quát hoá được cho field type mới; accessibility pass |
+
+Việc mở rộng không thay đổi luồng xác nhận và điều hướng đã duyệt: mọi thủ tục mới vẫn phải đi qua
+`confirmation_required` trước khi điều hướng, vẫn tuân thủ source_id và không auto-submit.
+
 ### Pilot 12 tuần đề xuất
 
 | Giai đoạn | Thời gian | Phạm vi | Điều kiện hoàn thành |

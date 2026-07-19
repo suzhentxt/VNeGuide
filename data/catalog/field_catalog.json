@@ -164,7 +164,8 @@
     "requirement": "required",
     "source_ids": [
       "SRC-FORM-M02"
-    ]
+    ],
+    "hint": "Gõ họ và tên đầy đủ có dấu, ví dụ: Nguyễn Văn A."
   },
   {
     "procedure_code": "1.013314",
@@ -174,7 +175,8 @@
     "requirement": "required",
     "source_ids": [
       "SRC-FORM-M02"
-    ]
+    ],
+    "hint": "Chọn ngày/tháng/năm sinh, ví dụ: 15/03/1985."
   },
   {
     "procedure_code": "1.013314",
@@ -185,7 +187,8 @@
     "source_ids": [
       "SRC-FORM-M02"
     ],
-    "pattern": "^\\d{12}$"
+    "pattern": "^\\d{12}$",
+    "hint": "Gõ đúng 12 chữ số trên thẻ Căn cước, ví dụ: 001080123456."
   },
   {
     "procedure_code": "1.013314",
@@ -195,7 +198,8 @@
     "requirement": "required",
     "source_ids": [
       "SRC-FORM-M02"
-    ]
+    ],
+    "hint": "Gõ địa chỉ nơi anh/chị đang cư trú, ví dụ: số 12 phố Lê Lợi, phường Hàng Bài, quận Hoàn Kiếm, Hà Nội."
   },
   {
     "procedure_code": "1.013314",
@@ -205,7 +209,8 @@
     "requirement": "required",
     "source_ids": [
       "SRC-FORM-M02"
-    ]
+    ],
+    "hint": "Gõ địa chỉ chỗ ở hợp pháp (nhà thuê/mượn/ở nhờ), ví dụ: số 8 ngõ 42 Trần Thái Tông, phường Dịch Vọng Hậu, Cầu Giấy, Hà Nội."
   },
   {
     "procedure_code": "1.013314",
@@ -216,7 +221,8 @@
     "source_ids": [
       "SRC-FORM-M02"
     ],
-    "minimum": 0
+    "minimum": 0,
+    "hint": "Gõ diện tích thửa đất theo giấy tờ, tính bằng m². Bỏ qua nếu không rõ."
   },
   {
     "procedure_code": "1.013314",
@@ -227,7 +233,8 @@
     "source_ids": [
       "SRC-FORM-M02"
     ],
-    "minimum": 0
+    "minimum": 0,
+    "hint": "Gõ diện tích xây dựng của nhà, tính bằng m². Bỏ qua nếu không rõ."
   },
   {
     "procedure_code": "1.013314",
@@ -238,7 +245,8 @@
     "source_ids": [
       "SRC-FORM-M02"
     ],
-    "minimum": 0
+    "minimum": 0,
+    "hint": "Gõ tổng diện tích sàn sử dụng, tính bằng m², ví dụ: 45."
   },
   {
     "procedure_code": "1.013314",
@@ -249,7 +257,8 @@
     "source_ids": [
       "SRC-FORM-M02"
     ],
-    "minimum": 0
+    "minimum": 0,
+    "hint": "Đếm số người đã đăng ký thường trú tại chỗ ở này, ví dụ: 3."
   },
   {
     "procedure_code": "1.013314",
@@ -260,7 +269,8 @@
     "source_ids": [
       "SRC-FORM-M02"
     ],
-    "minimum": 0
+    "minimum": 0,
+    "hint": "Gõ diện tích sàn còn trống có thể đăng ký thêm, tính bằng m², ví dụ: 20."
   },
   {
     "procedure_code": "1.013314",
@@ -271,7 +281,8 @@
     "source_ids": [
       "SRC-FORM-M02"
     ],
-    "minimum": 1
+    "minimum": 1,
+    "hint": "Gõ số người thuê, mượn, ở nhờ đề nghị đăng ký, ví dụ: 2."
   },
   {
     "procedure_code": "1.013314",
@@ -282,7 +293,8 @@
     "source_ids": [
       "SRC-FORM-M02"
     ],
-    "minimum": 0
+    "minimum": 0,
+    "hint": "Gõ tổng diện tích chỗ ở dành cho những người đó, tính bằng m², ví dụ: 30."
   },
   {
     "procedure_code": "1.013314",
@@ -296,7 +308,8 @@
     "values": [
       "inner_city",
       "suburban"
-    ]
+    ],
+    "hint": "Chọn khu vực: nội thành nếu ở trong các quận nội đô, ngoại thành nếu ở huyện/xã."
   },
   {
     "procedure_code": "1.013314",
@@ -306,7 +319,8 @@
     "requirement": "required_declaration",
     "source_ids": [
       "SRC-FORM-M02"
-    ]
+    ],
+    "hint": "Chọn Có nếu chỗ ở đang dùng ổn định, Không nếu chưa."
   },
   {
     "procedure_code": "1.013314",
@@ -316,7 +330,8 @@
     "requirement": "required_declaration",
     "source_ids": [
       "SRC-FORM-M02"
-    ]
+    ],
+    "hint": "Chọn Có nếu nhà/đất không tranh chấp, Không nếu có tranh chấp."
   },
   {
     "procedure_code": "1.013314",
@@ -326,7 +341,8 @@
     "requirement": "required_declaration",
     "source_ids": [
       "SRC-FORM-M02"
-    ]
+    ],
+    "hint": "Chọn Có nếu nơi này không thuộc địa điểm cấm đăng ký thường trú, Không nếu thuộc."
   },
   {
     "procedure_code": "1.004194",
