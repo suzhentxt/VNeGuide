@@ -29,13 +29,13 @@ agent = [
 memory = [
     "mem0ai>=2,<3",
     # NumPy 2.5 stubs use syntax incompatible with this project's Python 3.11 gate.
-    "numpy>=1.26,<2.3",
+    "numpy>=1.26,<2.5",
 ]
 dev = [
     "httpx>=0.28,<1",
-    "mypy>=1.10,<2",
-    "pytest>=8.2,<9",
-    "pytest-cov>=5,<7",
+    "mypy>=1.10,<3",
+    "pytest>=8.2,<10",
+    "pytest-cov>=5,<8",
     "ruff>=0.5,<1",
 ]
 
